@@ -7,7 +7,8 @@ public class Main {
   public static void main(String[] args) {
     DBInitializer init = new DBInitializer();
     init.createTables();
-    // init.populateLocationTable();
+    init.populateLocationTable();
+    init.populateMedicalEquipmentTable();
     // init.populateReqTable();
     App.launch(App.class, args);
   }

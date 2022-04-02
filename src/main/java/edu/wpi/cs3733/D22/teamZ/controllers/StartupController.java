@@ -1,10 +1,9 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.*;
-import java.io.IOException;
-
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -81,13 +80,20 @@ public class StartupController {
     longname.setCellValueFactory(new PropertyValueFactory<Location, String>("longName"));
     shortname.setCellValueFactory(new PropertyValueFactory<Location, String>("shortName"));
 
-    requestIDCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("requestID"));
-    statusCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("status"));
-    issuerCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("issuer"));
-    handlerCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("handler"));
-    equipmentCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("equipment"));
-    currentLocCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("currentLoc"));
-    targetLocCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("targetLoc"));
+    requestIDCol.setCellValueFactory(
+        new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("requestID"));
+    statusCol.setCellValueFactory(
+        new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("status"));
+    issuerCol.setCellValueFactory(
+        new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("issuer"));
+    handlerCol.setCellValueFactory(
+        new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("handler"));
+    equipmentCol.setCellValueFactory(
+        new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("equipment"));
+    currentLocCol.setCellValueFactory(
+        new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("currentLoc"));
+    targetLocCol.setCellValueFactory(
+        new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("targetLoc"));
 
     // load data into tableView
 

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +28,8 @@ public class MedEqReqControlCSV extends ControlCSV {
 
     for (List<String> a : data) {
       ret.add(
-          new MedicalEquipmentDeliveryRequest(a.get(0), a.get(1), a.get(2), a.get(3), a.get(4), a.get(5), a.get(6)));
+          new MedicalEquipmentDeliveryRequest(
+              a.get(0), a.get(1), a.get(2), a.get(3), a.get(4), a.get(5), a.get(6)));
     }
     return ret;
   }

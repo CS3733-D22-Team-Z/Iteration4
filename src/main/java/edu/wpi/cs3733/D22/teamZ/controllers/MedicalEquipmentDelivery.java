@@ -2,10 +2,10 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D22.teamZ.*;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

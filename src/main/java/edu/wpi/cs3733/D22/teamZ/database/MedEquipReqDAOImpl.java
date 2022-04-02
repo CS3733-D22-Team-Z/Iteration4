@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
-
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -36,7 +35,8 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
 
         // make new temp to put into list
         MedicalEquipmentDeliveryRequest temp =
-            new MedicalEquipmentDeliveryRequest(reqID, status, issuer, handler, equipment, currentLoc, targetLoc);
+            new MedicalEquipmentDeliveryRequest(
+                reqID, status, issuer, handler, equipment, currentLoc, targetLoc);
 
         // if not in the list already, add it
         if (!list.contains(temp)) {

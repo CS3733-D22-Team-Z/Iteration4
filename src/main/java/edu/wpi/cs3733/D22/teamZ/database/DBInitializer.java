@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
-
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
@@ -10,6 +10,7 @@ import java.util.List;
 public class DBInitializer {
   private LocationControlCSV locCSV;
   private MedEqReqControlCSV medEqReqCSV;
+  private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
 
   static Connection connection = DatabaseConnection.getConnection();
 
@@ -24,8 +25,14 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "MedEquipReq.csv");
+    File medicalEquipmentData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "MedicalEquipment.csv");
     locCSV = new LocationControlCSV(locData);
     medEqReqCSV = new MedEqReqControlCSV(medEquipReqData);
+    medicalEquipmentControlCSV = new MedicalEquipmentControlCSV(medicalEquipmentData);
   }
 
   public boolean createTables() {
@@ -51,7 +58,7 @@ public class DBInitializer {
     dropExistingTable("LABRESULT");
     dropExistingTable("MEALSERVICE");
     dropExistingTable("MEDICALEQUIPMENT");
-    dropExistingTable("SERVICE"); //Comment out later
+    dropExistingTable("SERVICE"); // Comment out later
     dropExistingTable("LOCATION");
 
     try {
@@ -66,8 +73,12 @@ public class DBInitializer {
               + "nodeType VARCHAR(5),"
               + "longName VARCHAR(50),"
               + "shortName Varchar(50),"
-              + "constraint LOCATION_PK Primary Key (nodeID))"
-      );
+              + "constraint LOCATION_PK Primary Key (nodeID))");
+
+      stmt.execute(
+          "CREATE TABLE Service ("
+              + "itemID VARCHAR(50),"
+              + "constraint SERVICE_PK PRIMARY KEY (itemID))");
 
       stmt.execute(
           "CREATE TABLE MEDICALEQUIPMENT ("
@@ -77,8 +88,7 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint MEDEQUIPMENT_PK Primary Key (itemID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))"
-      );
+              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
 
       stmt.execute(
           "CREATE TABLE MEALSERVICE ("
@@ -88,8 +98,7 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint MEALSERVICE_PK Primary Key (itemID),"
               + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint mealStatusVal check (status in ('In-Use', 'Available')))"
-      );
+              + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
 
       stmt.execute(
           "CREATE TABLE LABRESULT ("
@@ -99,8 +108,7 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint LABRESULTS_PK Primary Key (itemID),"
               + "constraint LABRESULTS_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint labResultsStatusVal check (status in ('In-Use', 'Available')))"
-      );
+              + "constraint labResultsStatusVal check (status in ('In-Use', 'Available')))");
 
       stmt.execute(
           "CREATE TABLE EMPLOYEES("
@@ -110,32 +118,29 @@ public class DBInitializer {
               + "username VARCHAR(20),"
               + "password VARCHAR(20),"
               + "CONSTRAINT EMPLOYEES_PK PRIMARY KEY (employeeID),"
-              + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('ADMIN', 'DOCTOR', 'NURSE')))"
-      );
+              + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('ADMIN', 'DOCTOR', 'NURSE')))");
 
       stmt.execute(
-           "CREATE TABLE PATIENTS("
-               + "patientID VARCHAR(15),"
-               + "name VARCHAR(50),"
-               + "location VARCHAR(15),"
-               + "CONSTRAINT PATIENTS_PK PRIMARY KEY (patientID),"
-               + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))"
-      );
+          "CREATE TABLE PATIENTS("
+              + "patientID VARCHAR(15),"
+              + "name VARCHAR(50),"
+              + "location VARCHAR(15),"
+              + "CONSTRAINT PATIENTS_PK PRIMARY KEY (patientID),"
+              + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))");
 
       stmt.execute(
-              "CREATE TABLE SERVICEREQUEST ("
-                      + "requestID VARCHAR(15),"
-                      + "type VARCHAR(50),"
-                      + "itemID VARCHAR(50),"
-                      + "status VARCHAR(20),"
-                      + "issuer VARCHAR(50),"
-                      + "handler VARCHAR(50),"
-                      + "targetLocation Varchar(15),"
-                      + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
-                      + "constraint ITEM_FK Foreign Key (itemID) References SERVICE(itemID),"
-                      + "constraint TARGETLOC_FK Foreign Key (targetLocation) References LOCATION(nodeID),"
-                      + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))"
-      );
+          "CREATE TABLE SERVICEREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "type VARCHAR(50),"
+              + "itemID VARCHAR(50),"
+              + "status VARCHAR(20),"
+              + "issuer VARCHAR(50),"
+              + "handler VARCHAR(50),"
+              + "targetLocation Varchar(15),"
+              + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
+              + "constraint ITEM_FK Foreign Key (itemID) References SERVICE(itemID),"
+              + "constraint TARGETLOC_FK Foreign Key (targetLocation) References LOCATION(nodeID),"
+              + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
@@ -180,6 +185,31 @@ public class DBInitializer {
       return false;
     } catch (IOException e) {
       System.out.println("Failed to read CSV");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateMedicalEquipmentTable() {
+    try {
+      List<MedicalEquipment> tempMedicalEquipment =
+          medicalEquipmentControlCSV.readMedicalEquipmentCSV();
+
+      for (MedicalEquipment info : tempMedicalEquipment) {
+        PreparedStatement pstmt =
+            connection.prepareStatement(
+                "INSERT INTO MEDICALEQUIPMENT (ITEMID, TYPE, STATUS, CURRENTLOCATION) "
+                    + "values (?, ?, ?, ?)");
+        pstmt.setString(1, info.getItemID());
+        pstmt.setString(2, info.getType());
+        pstmt.setString(3, info.getStatus());
+        pstmt.setString(4, info.getCurrentLocation().getNodeID());
+
+        // insert it
+        pstmt.executeUpdate();
+      }
+    } catch (IOException | SQLException e) {
+      System.out.println("Failed to populate MedicalEquipment table");
       return false;
     }
     return true;

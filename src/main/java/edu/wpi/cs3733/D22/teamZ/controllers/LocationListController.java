@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

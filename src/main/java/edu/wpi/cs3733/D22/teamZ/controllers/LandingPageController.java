@@ -26,7 +26,8 @@ public class LandingPageController {
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
   private final String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
   private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
-  private final String toMedicalEquipmentRequestURL = "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
+  private final String toMedicalEquipmentRequestURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private final String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   @FXML
