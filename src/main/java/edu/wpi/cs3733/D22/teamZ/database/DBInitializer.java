@@ -45,6 +45,8 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("PATIENTS");
+    dropExistingTable("EMPLOYEES");
     dropExistingTable("SERVICEREQUEST");
     dropExistingTable("LABRESULT");
     dropExistingTable("MEALSERVICE");
@@ -64,7 +66,8 @@ public class DBInitializer {
               + "nodeType VARCHAR(5),"
               + "longName VARCHAR(50),"
               + "shortName Varchar(50),"
-              + "constraint LOCATION_PK Primary Key (nodeID))");
+              + "constraint LOCATION_PK Primary Key (nodeID))"
+      );
 
       stmt.execute(
           "CREATE TABLE MEDICALEQUIPMENT ("
@@ -74,7 +77,8 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint MEDEQUIPMENT_PK Primary Key (itemID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))"
+      );
 
       stmt.execute(
           "CREATE TABLE MEALSERVICE ("
@@ -84,7 +88,8 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint MEALSERVICE_PK Primary Key (itemID),"
               + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint mealStatusVal check (status in ('In-Use', 'Available')))"
+      );
 
       stmt.execute(
           "CREATE TABLE LABRESULT ("
@@ -94,7 +99,8 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint LABRESULTS_PK Primary Key (itemID),"
               + "constraint LABRESULTS_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint labResultsStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint labResultsStatusVal check (status in ('In-Use', 'Available')))"
+      );
 
       stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
@@ -108,7 +114,28 @@ public class DBInitializer {
               + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
               + "constraint ITEM_FK Foreign Key (itemID) References SERVICE(itemID),"
               + "constraint TARGETLOC_FK Foreign Key (targetLocation) References LOCATION(nodeID),"
-              + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
+              + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))"
+      );
+
+      stmt.execute(
+          "CREATE TABLE EMPLOYEES("
+              + "employeeID VARCHAR(15),"
+              + "name VARCHAR(50),"
+              + "accessType VARCHAR(15),"
+              + "username VARCHAR(20),"
+              + "password VARCHAR(20),"
+              + "CONSTRAINT EMPLOYEES_PK PRIMARY KEY (employeeID),"
+              + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('Admin', 'Doctor', 'Nurse')))"
+      );
+
+      stmt.execute(
+              "CREATE TABLE PATIENTS("
+              + "patientID VARCHAR(15),"
+              + "name VARCHAR(50),"
+              + "location VARCHAR(15),"
+              + "CONSTRAINT PATIENTS_PK PRIMARY KEY (patientID),"
+              + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))"
+      );
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
