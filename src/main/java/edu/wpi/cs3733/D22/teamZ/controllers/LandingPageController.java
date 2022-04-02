@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class AppController {
+public class LandingPageController {
 
   @FXML private Button exitButton; // ??????
 
