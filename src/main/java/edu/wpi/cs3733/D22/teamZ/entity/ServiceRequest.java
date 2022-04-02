@@ -48,7 +48,7 @@ public class ServiceRequest {
 	 * Gets the requestID for this ServiceRequest
 	 * @return A String representing the requestID
 	 */
-	public String getRequestID() {
+	public final String getRequestID() {
 		return this.requestID;
 	}
 
@@ -56,7 +56,7 @@ public class ServiceRequest {
 	 * Gets the type of ServiceRequest that this is
 	 * @return The RequestType of this object
 	 */
-	public RequestType getType() {
+	public final RequestType getType() {
 		return this.type;
 	}
 
@@ -64,7 +64,7 @@ public class ServiceRequest {
 	 * Gets the itemID of the item assigned to this service request
 	 * @return A String representing the itemID
 	 */
-	public String getItemID() {
+	public final String getItemID() {
 		return itemID;
 	}
 
@@ -74,7 +74,7 @@ public class ServiceRequest {
 	 * @param itemID A String representing the itemID of the item
 	 *                  assigned
 	 */
-	public void setItemID(String itemID) {
+	public final void setItemID(String itemID) {
 		this.itemID = itemID;
 	}
 
@@ -82,7 +82,7 @@ public class ServiceRequest {
 	 * Gets the current status of this service request
 	 * @return The RequestStatus associated with this service request
 	 */
-	public RequestStatus getStatus() {
+	public final RequestStatus getStatus() {
 		return status;
 	}
 
@@ -90,7 +90,7 @@ public class ServiceRequest {
 	 * Sets the current status of this service request
 	 * @param status The status that this request should be set to
 	 */
-	public void setStatus(RequestStatus status) {
+	public final void setStatus(RequestStatus status) {
 		this.status = status;
 	}
 
@@ -98,7 +98,7 @@ public class ServiceRequest {
 	 * Gets the Employee who issued this service request
 	 * @return The Employee who issued this service request
 	 */
-	public Employee getIssuer() {
+	public final Employee getIssuer() {
 		return issuer;
 	}
 
@@ -106,7 +106,7 @@ public class ServiceRequest {
 	 * Gets the Employee who is assigned to this service request
 	 * @return The Employee who is assigned to this service request
 	 */
-	public Employee getHandler() {
+	public final Employee getHandler() {
 		return handler;
 	}
 
@@ -114,7 +114,7 @@ public class ServiceRequest {
 	 * Sets the Employee who will be assigned to this service request
 	 * @param handler The Employee who will handle this request
 	 */
-	public void setHandler(Employee handler) {
+	public final void setHandler(Employee handler) {
 		this.handler = handler;
 	}
 
@@ -122,7 +122,7 @@ public class ServiceRequest {
 	 * Gets the Location where this service request will occur
 	 * @return The Location that this service request is assigned to
 	 */
-	public Location getTargetLocation() {
+	public final Location getTargetLocation() {
 		return targetLocation;
 	}
 
@@ -131,7 +131,7 @@ public class ServiceRequest {
 	 * @param targetLocation The Location that this request will take
 	 *                          place
 	 */
-	public void setTargetLocation(Location targetLocation) {
+	public final void setTargetLocation(Location targetLocation) {
 		this.targetLocation = targetLocation;
 	}
 }
