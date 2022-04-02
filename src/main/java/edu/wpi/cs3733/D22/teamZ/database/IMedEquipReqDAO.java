@@ -1,17 +1,19 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+
 import java.util.List;
 
 public interface IMedEquipReqDAO {
-  List<MedEquipReq> getAllMedEquipReq();
+  List<MedicalEquipmentDeliveryRequest> getAllMedEquipReq();
 
-  MedEquipReq getMedEquipReqByID(String requestID);
+  MedicalEquipmentDeliveryRequest getMedEquipReqByID(String requestID);
 
-  void addMedEquipReq(MedEquipReq req);
+  void addMedEquipReq(MedicalEquipmentDeliveryRequest req);
 
-  void updateMedEquipReq(MedEquipReq req);
+  void updateMedEquipReq(MedicalEquipmentDeliveryRequest req);
 
-  void deleteMedEquipReq(MedEquipReq req);
+  void deleteMedEquipReq(MedicalEquipmentDeliveryRequest req);
 
   boolean exportToMedEquipReqCSV();
 }

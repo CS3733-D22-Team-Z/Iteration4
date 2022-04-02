@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.D22.teamZ.database;
+package edu.wpi.cs3733.D22.teamZ.entity;
 
 public class MedicalEquipment {
   private String itemID;

@@ -2,6 +2,9 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.*;
 import java.io.IOException;
+
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,14 +34,14 @@ public class StartupController {
   @FXML private Button loadData;
 
   // init ui components
-  @FXML private TableView<MedEquipReq> MedRequestsTable;
-  @FXML private TableColumn<MedEquipReq, String> requestIDCol;
-  @FXML private TableColumn<MedEquipReq, String> statusCol;
-  @FXML private TableColumn<MedEquipReq, String> issuerCol;
-  @FXML private TableColumn<MedEquipReq, String> handlerCol;
-  @FXML private TableColumn<MedEquipReq, String> equipmentCol;
-  @FXML private TableColumn<MedEquipReq, String> currentLocCol;
-  @FXML private TableColumn<MedEquipReq, String> targetLocCol;
+  @FXML private TableView<MedicalEquipmentDeliveryRequest> MedRequestsTable;
+  @FXML private TableColumn<MedicalEquipmentDeliveryRequest, String> requestIDCol;
+  @FXML private TableColumn<MedicalEquipmentDeliveryRequest, String> statusCol;
+  @FXML private TableColumn<MedicalEquipmentDeliveryRequest, String> issuerCol;
+  @FXML private TableColumn<MedicalEquipmentDeliveryRequest, String> handlerCol;
+  @FXML private TableColumn<MedicalEquipmentDeliveryRequest, String> equipmentCol;
+  @FXML private TableColumn<MedicalEquipmentDeliveryRequest, String> currentLocCol;
+  @FXML private TableColumn<MedicalEquipmentDeliveryRequest, String> targetLocCol;
 
   // URL for Homepage
   private String homepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
@@ -53,7 +56,7 @@ public class StartupController {
   IMedEquipReqDAO medDAO = new MedEquipReqDAOImpl();
 
   // create ObservableList to load MedEquipDAO into tableView
-  private ObservableList<MedEquipReq> dataMed;
+  private ObservableList<MedicalEquipmentDeliveryRequest> dataMed;
 
   // loadDataFromDatabase when button loadData is clicked
   @FXML
@@ -78,13 +81,13 @@ public class StartupController {
     longname.setCellValueFactory(new PropertyValueFactory<Location, String>("longName"));
     shortname.setCellValueFactory(new PropertyValueFactory<Location, String>("shortName"));
 
-    requestIDCol.setCellValueFactory(new PropertyValueFactory<MedEquipReq, String>("requestID"));
-    statusCol.setCellValueFactory(new PropertyValueFactory<MedEquipReq, String>("status"));
-    issuerCol.setCellValueFactory(new PropertyValueFactory<MedEquipReq, String>("issuer"));
-    handlerCol.setCellValueFactory(new PropertyValueFactory<MedEquipReq, String>("handler"));
-    equipmentCol.setCellValueFactory(new PropertyValueFactory<MedEquipReq, String>("equipment"));
-    currentLocCol.setCellValueFactory(new PropertyValueFactory<MedEquipReq, String>("currentLoc"));
-    targetLocCol.setCellValueFactory(new PropertyValueFactory<MedEquipReq, String>("targetLoc"));
+    requestIDCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("requestID"));
+    statusCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("status"));
+    issuerCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("issuer"));
+    handlerCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("handler"));
+    equipmentCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("equipment"));
+    currentLocCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("currentLoc"));
+    targetLocCol.setCellValueFactory(new PropertyValueFactory<MedicalEquipmentDeliveryRequest, String>("targetLoc"));
 
     // load data into tableView
 

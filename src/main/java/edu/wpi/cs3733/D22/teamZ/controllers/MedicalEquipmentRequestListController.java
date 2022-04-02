@@ -3,7 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.cs3733.D22.teamZ.App;
-import edu.wpi.cs3733.D22.teamZ.database.MedEquipReq;
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
 import java.io.IOException;
 import java.net.URL;
@@ -63,7 +63,7 @@ public class MedicalEquipmentRequestListController implements Initializable {
   };
 
   // List of MedEquipReq that represents raw data
-  private List<MedEquipReq> rawRequests;
+  private List<MedicalEquipmentDeliveryRequest> rawRequests;
 
   // List of RequestRows currently being displayed on the table
   private ObservableList<RequestRow> requests;
@@ -160,7 +160,7 @@ public class MedicalEquipmentRequestListController implements Initializable {
     requests.clear();
 
     // Iterate through each MedEquipReq in entity and create RequestRow for each
-    for (MedEquipReq MERequest : rawRequests) {
+    for (MedicalEquipmentDeliveryRequest MERequest : rawRequests) {
       requests.add(
           new RequestRow(
               MERequest.getRequestID(),
@@ -181,7 +181,7 @@ public class MedicalEquipmentRequestListController implements Initializable {
     dataList.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
-    MedEquipReq selectedReq = getRequestFromID(MeqID);
+    MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(MeqID);
 
     // "ID", "Device", "Assignee", "Handler", "Status", "Current Location", "Target Location"
     // Add and fill labels with relevant information.
@@ -220,7 +220,7 @@ public class MedicalEquipmentRequestListController implements Initializable {
     rawRequests = database.getAllMedEquipReq();
   }
 
-  public MedEquipReq getRequestFromID(String MeqID) {
+  public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) {
     return database.getMedEquipReqByID(MeqID);
   }
 

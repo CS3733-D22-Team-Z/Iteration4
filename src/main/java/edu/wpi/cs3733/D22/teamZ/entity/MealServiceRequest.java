@@ -1,26 +1,26 @@
-package edu.wpi.cs3733.D22.teamZ;
+package edu.wpi.cs3733.D22.teamZ.entity;
 
-public class MedicineRequest {
+public class MealServiceRequest {
   private String patientName;
   private int patientID;
   private String roomNumber;
-  private String medicine;
+  private String mealServiceOption;
   private String status;
   private String staffAssigned;
 
-  public MedicineRequest() {}
+  public MealServiceRequest() {}
 
-  public MedicineRequest(
+  public MealServiceRequest(
       String patientName,
       int patientID,
       String roomNumber,
-      String medicine,
+      String mealServiceOption,
       String status,
       String staffAssigned) {
     this.patientName = patientName;
     this.patientID = patientID;
     this.roomNumber = roomNumber;
-    this.medicine = medicine;
+    this.mealServiceOption = mealServiceOption;
     this.status = status;
     this.staffAssigned = staffAssigned;
   }
@@ -38,8 +38,8 @@ public class MedicineRequest {
     return this.roomNumber;
   }
 
-  public String getMedicine() {
-    return this.medicine;
+  public String getMealServiceOption() {
+    return this.mealServiceOption;
   }
 
   public String getStatus() {
@@ -50,7 +50,7 @@ public class MedicineRequest {
     return this.staffAssigned;
   }
 
-  // SetterFunctions
+  // SetterFunction
   public void setPatientName(String patientName) {
     this.patientName = patientName;
   }
@@ -63,8 +63,8 @@ public class MedicineRequest {
     this.roomNumber = roomNumber;
   }
 
-  public void setMedicine(String medicine) {
-    this.medicine = medicine;
+  public void setMealServiceOption(String mealServiceOption) {
+    this.mealServiceOption = mealServiceOption;
   }
 
   public void setStatus(String status) {

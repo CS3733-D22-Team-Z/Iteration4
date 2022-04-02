@@ -1,14 +1,14 @@
-package edu.wpi.cs3733.D22.teamZ.database;
+package edu.wpi.cs3733.D22.teamZ.entity;
 
-public class MedicalEquipmentDeliveryRequest {
+public class MedicalEquipmentDeliveryRequest_Delete {
   private String roomNumber;
   private String equipment;
   private String status;
   private String staffAssigned;
 
-  public MedicalEquipmentDeliveryRequest() {}
+  public MedicalEquipmentDeliveryRequest_Delete() {}
 
-  public MedicalEquipmentDeliveryRequest(
+  public MedicalEquipmentDeliveryRequest_Delete(
       String roomNumber, String equipment, String status, String staffAssigned) {
     this.roomNumber = roomNumber;
     this.equipment = equipment;

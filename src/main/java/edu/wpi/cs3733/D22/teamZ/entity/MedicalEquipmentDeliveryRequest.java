@@ -1,6 +1,6 @@
-package edu.wpi.cs3733.D22.teamZ.database;
+package edu.wpi.cs3733.D22.teamZ.entity;
 
-public class MedEquipReq {
+public class MedicalEquipmentDeliveryRequest {
   private String requestID;
   private String status;
   private String issuer;
@@ -9,13 +9,13 @@ public class MedEquipReq {
   private String currentLoc;
   private String targetLoc;
 
-  public MedEquipReq() {}
+  public MedicalEquipmentDeliveryRequest() {}
 
-  public MedEquipReq(String requestID) {
+  public MedicalEquipmentDeliveryRequest(String requestID) {
     this.requestID = requestID;
   }
 
-  public MedEquipReq(
+  public MedicalEquipmentDeliveryRequest(
       String requestID,
       String status,
       String issuer,

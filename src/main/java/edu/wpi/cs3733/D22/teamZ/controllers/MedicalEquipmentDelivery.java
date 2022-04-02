@@ -2,9 +2,9 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D22.teamZ.*;
-import edu.wpi.cs3733.D22.teamZ.database.Location;
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.MedEquipReq;
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
 import java.io.IOException;
 import javafx.collections.FXCollections;
@@ -41,7 +41,7 @@ public class MedicalEquipmentDelivery {
 
   // Lists
   private ObservableList<Location> locationList;
-  private ObservableList<MedEquipReq> equipmentList;
+  private ObservableList<MedicalEquipmentDeliveryRequest> equipmentList;
 
   //  MedicalEquipmentDeliveryRequest oneRequest =
 
@@ -99,10 +99,10 @@ public class MedicalEquipmentDelivery {
     System.out.println("nodeType: " + enterNodeType.getText());
     System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
-    MedEquipReq lastestReq = equipmentList.get(equipmentList.size() - 1);
+    MedicalEquipmentDeliveryRequest lastestReq = equipmentList.get(equipmentList.size() - 1);
     String id = lastestReq.getRequestID();
     int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-    MedEquipReq temp = new MedEquipReq();
+    MedicalEquipmentDeliveryRequest temp = new MedicalEquipmentDeliveryRequest();
     temp.setRequestID("REQ" + num);
 
     temp.setStatus("Processing"); // default

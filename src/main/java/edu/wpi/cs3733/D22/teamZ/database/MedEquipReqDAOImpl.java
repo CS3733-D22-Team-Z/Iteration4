@@ -1,12 +1,14 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
-  private List<MedEquipReq> list;
+  private List<MedicalEquipmentDeliveryRequest> list;
   private MedEqReqControlCSV reqCSV;
 
   static Connection connection = DatabaseConnection.getConnection();
@@ -15,7 +17,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     list = new ArrayList<>();
   }
 
-  public List<MedEquipReq> getAllMedEquipReq() {
+  public List<MedicalEquipmentDeliveryRequest> getAllMedEquipReq() {
     try {
       PreparedStatement pstmt =
           connection.prepareStatement(
@@ -33,8 +35,8 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
         String targetLoc = rset.getString("targetLoc");
 
         // make new temp to put into list
-        MedEquipReq temp =
-            new MedEquipReq(reqID, status, issuer, handler, equipment, currentLoc, targetLoc);
+        MedicalEquipmentDeliveryRequest temp =
+            new MedicalEquipmentDeliveryRequest(reqID, status, issuer, handler, equipment, currentLoc, targetLoc);
 
         // if not in the list already, add it
         if (!list.contains(temp)) {
@@ -47,8 +49,8 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     return list;
   }
 
-  public MedEquipReq getMedEquipReqByID(String id) {
-    MedEquipReq temp = new MedEquipReq();
+  public MedicalEquipmentDeliveryRequest getMedEquipReqByID(String id) {
+    MedicalEquipmentDeliveryRequest temp = new MedicalEquipmentDeliveryRequest();
 
     try {
       // query to get information of request by ID
@@ -81,7 +83,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     return temp;
   }
 
-  public void addMedEquipReq(MedEquipReq req) {
+  public void addMedEquipReq(MedicalEquipmentDeliveryRequest req) {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
@@ -103,7 +105,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     list.add(req);
   }
 
-  public void updateMedEquipReq(MedEquipReq req) {
+  public void updateMedEquipReq(MedicalEquipmentDeliveryRequest req) {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
@@ -121,7 +123,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     list.add(req);
   }
 
-  public void deleteMedEquipReq(MedEquipReq req) {
+  public void deleteMedEquipReq(MedicalEquipmentDeliveryRequest req) {
     try {
       PreparedStatement stmt =
           connection.prepareStatement("DELETE FROM MEDEQUIPREQ WHERE RequestID=?");

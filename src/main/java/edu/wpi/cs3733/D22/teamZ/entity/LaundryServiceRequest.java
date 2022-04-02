@@ -1,45 +1,45 @@
-package edu.wpi.cs3733.D22.teamZ;
+package edu.wpi.cs3733.D22.teamZ.entity;
 
-public class LanguageInterpreterRequest {
+public class LaundryServiceRequest {
   private String patientName;
-  private String patientID;
+  private int patientID;
   private String roomNumber;
-  private String language;
+  private String linenType;
   private String status;
   private String staffAssigned;
 
-  public LanguageInterpreterRequest() {}
+  public LaundryServiceRequest() {}
 
-  public LanguageInterpreterRequest(
+  public LaundryServiceRequest(
       String patientName,
-      String patientID,
+      int patientID,
       String roomNumber,
-      String language,
+      String linenType,
       String status,
       String staffAssigned) {
     this.patientName = patientName;
     this.patientID = patientID;
     this.roomNumber = roomNumber;
-    this.language = language;
+    this.linenType = linenType;
     this.status = status;
     this.staffAssigned = staffAssigned;
   }
 
   // GetterFunctions
   public String getPatientName() {
-    return patientName;
+    return this.patientName;
   }
 
-  public String getPatientID() {
-    return patientID;
+  public int getPatientID() {
+    return this.patientID;
   }
 
   public String getRoomNumber() {
-    return roomNumber;
+    return this.roomNumber;
   }
 
-  public String getLanguage() {
-    return language;
+  public String getLinenType() {
+    return this.linenType;
   }
 
   public String getStatus() {
@@ -47,7 +47,7 @@ public class LanguageInterpreterRequest {
   }
 
   public String getStaffAssigned() {
-    return staffAssigned;
+    return this.staffAssigned;
   }
 
   // SetterFunctions
@@ -55,7 +55,7 @@ public class LanguageInterpreterRequest {
     this.patientName = patientName;
   }
 
-  public void setPatientID(String patientID) {
+  public void setPatientID(int patientID) {
     this.patientID = patientID;
   }
 
@@ -63,8 +63,8 @@ public class LanguageInterpreterRequest {
     this.roomNumber = roomNumber;
   }
 
-  public void setLanguage(String language) {
-    this.language = language;
+  public void setLinenType(String linenType) {
+    this.linenType = linenType;
   }
 
   public void setStatus(String status) {
