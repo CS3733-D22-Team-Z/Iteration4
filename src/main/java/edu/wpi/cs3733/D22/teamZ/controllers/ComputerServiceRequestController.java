@@ -17,10 +17,12 @@ public class ComputerServiceRequestController {
   @FXML private TextField roomNumberField;
   @FXML private TextArea descriptionArea;
 
+  private final String toDashboardURL = "views/LandingPage.fxml";
+
   @FXML
   void backToDashboard() throws IOException {
     Stage primaryStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/app.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource(toDashboardURL));
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
   }
