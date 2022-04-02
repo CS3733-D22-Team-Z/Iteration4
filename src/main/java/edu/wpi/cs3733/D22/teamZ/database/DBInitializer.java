@@ -1,0 +1,179 @@
+package edu.wpi.cs3733.D22.teamZ.database;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.*;
+import java.util.List;
+
+public class DBInitializer {
+  private LocationControlCSV locCSV;
+  private MedEqReqControlCSV medEqReqCSV;
+
+  static Connection connection = DatabaseConnection.getConnection();
+
+  public DBInitializer() {
+    File locData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "TowerLocations.csv");
+    File medEquipReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "MedEquipReq.csv");
+    locCSV = new LocationControlCSV(locData);
+    medEqReqCSV = new MedEqReqControlCSV(medEquipReqData);
+  }
+
+  public boolean createTables() {
+    try {
+      Statement stmt = connection.createStatement();
+
+      // if you drop tables, drop them in the order from last created to first created
+      // stmt.execute("DROP TABLE SERVICEREQUEST");
+      // stmt.execute("DROP TABLE MEALSERVICE");
+      // stmt.execute("DROP TABLE LABRESULT");
+      // stmt.execute("DROP TABLE MEDICALEQUIPMENT");
+      // stmt.execute("DROP TABLE SERVICE");
+      // stmt.execute("DROP TABLE  LOCATION");
+
+      // Now recreate in the opposite order
+      stmt.execute(
+          "CREATE TABLE Location ("
+              + "nodeID VARCHAR(15),"
+              + "xcoord INTEGER,"
+              + "ycoord INTEGER ,"
+              + "floor VARCHAR(10),"
+              + "building VARCHAR(20),"
+              + "nodeType VARCHAR(5),"
+              + "longName VARCHAR(50),"
+              + "shortName Varchar(50),"
+              + "constraint LOCATION_PK Primary Key (nodeID))");
+
+      stmt.execute(
+          "CREATE TABLE SERVICE ("
+              + "itemID VARCHAR(50),"
+              + "serviceType VARCHAR(50),"
+              + "constraint SERVICE_PK Primary Key (itemID))");
+
+      stmt.execute(
+          "CREATE TABLE MEDICALEQUIPMENT ("
+              + "itemID VARCHAR(50),"
+              + "type VARCHAR(50),"
+              + "status VARCHAR(50) DEFAULT 'Available',"
+              + "currentLocation VARCHAR(15),"
+              + "constraint MEDEQUIPMENT_PK Primary Key (itemID),"
+              + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
+              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
+
+      stmt.execute(
+          "CREATE TABLE MEALSERVICE ("
+              + "itemID VARCHAR(50),"
+              + "type VARCHAR(50),"
+              + "status VARCHAR(50) DEFAULT 'Available',"
+              + "currentLocation VARCHAR(15),"
+              + "constraint MEALSERVICE_PK Primary Key (itemID),"
+              + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
+              + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
+
+      stmt.execute(
+          "CREATE TABLE LABRESULT ("
+              + "itemID VARCHAR(50),"
+              + "type VARCHAR(50),"
+              + "status VARCHAR(50) DEFAULT 'Available',"
+              + "currentLocation VARCHAR(15),"
+              + "constraint LABRESULTS_PK Primary Key (itemID),"
+              + "constraint LABRESULTS_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
+              + "constraint labResultsStatusVal check (status in ('In-Use', 'Available')))");
+
+      stmt.execute(
+          "CREATE TABLE SERVICEREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "status VARCHAR(20),"
+              + "issuer VARCHAR(50),"
+              + "handler VARCHAR(50),"
+              + "type VARCHAR(50),"
+              + "PatientID VARCHAR(50),"
+              + "itemID VARCHAR(50),"
+              + "currentLocation VARCHAR(15),"
+              + "targetLocation Varchar(15),"
+              + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
+              + "constraint ITEM_FK Foreign Key (itemID) References SERVICE(itemID),"
+              + "constraint CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
+              + "constraint TARGETLOC_FK Foreign Key (targetLocation) References LOCATION(nodeID),"
+              + "constraint statusVal check (status in ('Processing', 'Done', 'Blank')))");
+
+    } catch (SQLException e) {
+      System.out.println("Failed to drop and create tables");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateLocationTable() {
+    try {
+      List<Location> tempLoc = locCSV.readLocCSV();
+
+      for (Location info : tempLoc) {
+        PreparedStatement pstmt =
+            connection.prepareStatement(
+                "INSERT INTO Location (nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) values (?, ?, ?, ?, ?, ?, ?, ?)");
+        pstmt.setString(1, info.getNodeID());
+        pstmt.setInt(2, info.getXcoord());
+        pstmt.setInt(3, info.getYcoord());
+        pstmt.setString(4, info.getFloor());
+        pstmt.setString(5, info.getBuilding());
+        pstmt.setString(6, info.getNodeType());
+        pstmt.setString(7, info.getLongName());
+        pstmt.setString(8, info.getShortName());
+
+        // insert it
+        pstmt.executeUpdate();
+        connection.commit();
+      }
+
+    } catch (SQLException e) {
+      System.out.println("Failed to populate tables");
+      return false;
+    } catch (IOException e) {
+      System.out.println("Failed to read CSV");
+      return false;
+    }
+    return true;
+  }
+
+  /*public boolean populateReqTable() {
+    Connection connection = null;
+    try {
+      connection = DriverManager.getConnection("jdbc:derby:myDB");
+      List<MedEquipReq> tempReq = medEqReqCSV.readMedReqCSV();
+
+      for (MedEquipReq info : tempReq) {
+        PreparedStatement pstmt =
+            connection.prepareStatement(
+                "INSERT INTO MEDEQUIPREQ (requestid, status, issuer, handler, equipment, currentloc, targetloc) "
+                    + "values (?, ?, ?, ?, ?, ?, ?)");
+        pstmt.setString(1, info.getRequestID());
+        pstmt.setString(2, info.getStatus());
+        pstmt.setString(3, info.getIssuer());
+        pstmt.setString(4, info.getHandler());
+        pstmt.setString(5, info.getEquipment());
+        pstmt.setString(6, info.getCurrentLoc());
+        pstmt.setString(7, info.getTargetLoc());
+
+        // insert it
+        pstmt.executeUpdate();
+        connection.commit();
+      }
+
+    } catch (SQLException e) {
+      System.out.println("Failed to populate tables");
+      return false;
+    } catch (IOException e) {
+      System.out.println("Failed to read CSV");
+      return false;
+    }
+    return true;
+  }*/
+}

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MERLController">
+    <children>
+        <Label layoutX="-71.0" layoutY="36.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="List of Medical Equipment Requests">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+        <JFXTreeTableView fx:id="requestTable" layoutX="9.0" layoutY="72.0" prefHeight="310.0" prefWidth="395.0" style="-fx-background-radius: 10;">
+            <columns>
+                <JFXTreeTableColumn fx:id="idColumn" editable="false" prefWidth="30.4000244140625" reorderable="false" resizable="false" sortable="false" text="ID" />
+                <JFXTreeTableColumn fx:id="deviceColumn" editable="false" prefWidth="166.39996337890625" reorderable="false" resizable="false" sortable="false" text="Device" />
+                <JFXTreeTableColumn fx:id="assigneeColumn" editable="false" prefWidth="101.5999755859375" reorderable="false" resizable="false" sortable="false" text="Assignee" />
+                <JFXTreeTableColumn fx:id="statusColumn" editable="false" prefWidth="99.20001220703125" reorderable="false" resizable="false" sortable="false" text="Status" />
+            </columns>
+        </JFXTreeTableView>
+        <JFXButton fx:id="refreshButton" layoutX="341.0" layoutY="66.0" onAction="#refreshClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Refresh" textFill="WHITE">
+            <font>
+                <Font name="Segoe UI Bold" size="10.0" />
+            </font>
+        </JFXButton>
+        <HBox layoutX="414.0" layoutY="131.0">
+            <children>
+                <JFXButton fx:id="idButton" onAction="#filterClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-pref-width: 25; -fx-pref-height: 26; -fx-background-color: #FFFFFF; -fx-font-family: &quot;Segoe UI&quot;;" text="ID">
+                    <font>
+                        <Font name="Segoe UI Bold" size="10.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton fx:id="deviceButton" onAction="#filterClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-pref-width: 45; -fx-pref-height: 26; -fx-background-color: #FFFFFF; -fx-font-family: &quot;Segoe UI&quot;;" text="Device">
+                    <font>
+                        <Font name="Segoe UI Bold" size="10.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton fx:id="assigneeButton" onAction="#filterClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-pref-width: 60; -fx-pref-height: 26; -fx-background-color: #FFFFFF; -fx-font-family: &quot;Segoe UI&quot;;" text="Assignee">
+                    <font>
+                        <Font name="Segoe UI Bold" size="10.0" />
+                    </font>
+                </JFXButton>
+                <JFXButton fx:id="statusButton" onAction="#filterClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-pref-width: 45; -fx-pref-height: 26; -fx-background-color: #FFFFFF; -fx-font-family: &quot;Segoe UI&quot;;" text="Status">
+                    <font>
+                        <Font name="Segoe UI Bold" size="10.0" />
+                    </font>
+                </JFXButton>
+            </children>
+        </HBox>
+        <Label layoutX="342.0" layoutY="103.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Filter &amp; Sort">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <JFXComboBox fx:id="filterCBox" layoutX="415.0" layoutY="169.0" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" promptText="Filter by..." style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+        <Label layoutX="289.0" layoutY="203.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Details">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <HBox layoutX="414.0" layoutY="235.0" prefHeight="150.0" prefWidth="175.0" style="-fx-background-radius: 10;">
+            <children>
+                <JFXListView fx:id="identifierList" />
+                <JFXListView fx:id="dataList" />
+            </children>
+        </HBox>
+        <JFXButton fx:id="backButton" layoutX="-112.0" layoutY="1.0" onAction="#backClicked" prefWidth="88.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Go Back" textFill="WHITE">
+            <font>
+                <Font name="Segoe UI Bold" size="10.0" />
+            </font>
+        </JFXButton>
+    </children>
+</AnchorPane>
