@@ -12,11 +12,13 @@ import javafx.stage.Stage;
 
 public class LanguageInterpreterController {
 
+  private final String toLandingPageURL = "views/LandingPage.fxml";
+
   // navDefault: navigates back to default page when back button is pressed
   @FXML
   public void navDefault(ActionEvent event) throws IOException {
     System.out.println("navigating to default from language interpreter");
-    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
