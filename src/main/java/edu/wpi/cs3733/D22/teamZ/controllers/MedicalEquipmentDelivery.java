@@ -36,10 +36,10 @@ public class MedicalEquipmentDelivery {
   @FXML private TextField enterNodeType;
   @FXML private ChoiceBox equipmentDropDown;
 
-  //URLs
+  // URLs
   private final String toLandingPageURL = "views/LandingPage.fxml";
 
-  //Lists
+  // Lists
   private ObservableList<Location> locationList;
   private ObservableList<MedEquipReq> equipmentList;
 

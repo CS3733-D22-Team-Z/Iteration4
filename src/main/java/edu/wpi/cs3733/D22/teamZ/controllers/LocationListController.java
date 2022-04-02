@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 // work?
 
 // LocationController controls Location.fxml, loads location data into a tableView on page
-public class LocationController {
+public class LocationListController {
 
   // init ui components
   @FXML private TableView<Location> Locations;
@@ -35,7 +35,7 @@ public class LocationController {
   @FXML private TableColumn<Location, String> shortname;
   @FXML private Button loadData;
 
-  private final String toHomepageURL = "views/Homepage.fxml";
+  private final String toHomepageURL = "edu/wpi/cs3733/D22/teamZ/views/HomePage.fxml";
 
   // init LocationDAOImpl to getAllLocations from db
   LocationDAOImpl locDAO = new LocationDAOImpl();
