@@ -49,4 +49,11 @@ public interface ILocationDAO {
    * @return True if successful, false if not
    */
   boolean exportToLocationCSV();
+
+  /**
+   * Gets all locations on the given floor
+   * @param floor
+   * @return list of locations
+   */
+  List<Location> getAllLocationsByFloor(String floor);
 }
