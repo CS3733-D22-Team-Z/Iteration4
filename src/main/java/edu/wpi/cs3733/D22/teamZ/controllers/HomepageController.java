@@ -17,7 +17,7 @@ public class HomepageController {
 
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
-  private String toMedicalEquipmentRequestURL = "edu/wpi/cs3733/D22/teamZ/views/MERL.fxml";
+  private String toMedicalEquipmentRequestURL = "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   @FXML
