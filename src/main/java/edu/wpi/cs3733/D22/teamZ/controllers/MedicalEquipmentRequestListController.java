@@ -25,7 +25,7 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class MERLController implements Initializable {
+public class MedicalEquipmentRequestListController implements Initializable {
 
   // Each column on the main request list.
   @FXML private JFXTreeTableColumn<RequestRow, String> deviceColumn;
@@ -55,6 +55,8 @@ public class MERLController implements Initializable {
   @FXML private JFXListView<Label> identifierList;
   @FXML private JFXListView dataList;
 
+  private final String toHomepageURL = "views/Homepage.fxml";
+
   // List of identifiers for each
   private String[] identifiers = {
     "ID", "Device", "Assignee", "Handler", "Status", "Current Location", "Target Location"
@@ -69,7 +71,7 @@ public class MERLController implements Initializable {
   // Database object
   private MedEquipReqDAOImpl database;
 
-  public MERLController() {
+  public MedicalEquipmentRequestListController() {
     // Create new database object
     database = new MedEquipReqDAOImpl();
 
@@ -148,7 +150,7 @@ public class MERLController implements Initializable {
   // Called whenever the back button is clicked.
   public void backClicked() throws IOException {
     Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/Homepage.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource(toHomepageURL));
     Scene scene = new Scene(root);
     mainStage.setScene(scene);
   }
