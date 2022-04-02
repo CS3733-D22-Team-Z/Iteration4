@@ -69,7 +69,7 @@ public class LocationListController {
 
   @FXML
   public void writeExcel(ActionEvent event) throws Exception {
-    System.out.println("exporting CSV of LocationData");
+    System.out.println("exporting CSV of Location Data");
     data = FXCollections.observableList(locDAO.getAllLocations());
   }
 
