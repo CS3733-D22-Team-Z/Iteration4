@@ -7,11 +7,11 @@ public interface ILocationDAO {
 
   Location getLocationByID(String nodeID);
 
-  void addLocation(Location loc);
+  boolean addLocation(Location loc);
 
-  void updateLocation(Location loc);
+  boolean updateLocation(Location loc);
 
-  void deleteLocation(Location loc);
+  boolean deleteLocation(Location loc);
 
   boolean exportToLocationCSV();
 }
