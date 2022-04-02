@@ -16,9 +16,9 @@ public class HomepageController {
   @FXML private Button exitButton; // ??????
 
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
-  private String toLandingPage = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
-  private String toMedicalEquipmentRequest = "edu/wpi/cs3733/D22/teamZ/views/MERL.fxml";
-  private String toHome = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
+  private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+  private String toMedicalEquipmentRequestURL = "edu/wpi/cs3733/D22/teamZ/views/MERL.fxml";
+  private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   @FXML
   private void toLocations(ActionEvent event) throws IOException {
@@ -33,7 +33,7 @@ public class HomepageController {
   @FXML
   private void toLandingPage(ActionEvent event) throws IOException {
     System.out.println("navigating to landing page from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLandingPage));
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLandingPageURL));
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
@@ -44,7 +44,7 @@ public class HomepageController {
   private void toMedicalEquipmentRequest(ActionEvent event) throws IOException {
     System.out.println("navigating to Medical Equipment Request page from home");
     Parent root =
-        FXMLLoader.load(getClass().getClassLoader().getResource(toMedicalEquipmentRequest));
+        FXMLLoader.load(getClass().getClassLoader().getResource(toMedicalEquipmentRequestURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
@@ -54,7 +54,7 @@ public class HomepageController {
   @FXML
   private void toHome(ActionEvent event) throws IOException {
     System.out.println("navigating to home using home button on sidebar");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHome));
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomeURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
