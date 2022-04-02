@@ -122,7 +122,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       oldEquipment = getMedicalEquipmentByID(equipment.getItemID());
       PreparedStatement pstmt =
           connection.prepareStatement(
-              "" + "UPDATE MEDICALEQUIPMENT SET status = ?, currentLocation = ? WHERE itemID = ?)");
+              "" + "UPDATE MEDICALEQUIPMENT SET status = ?, currentLocation = ? WHERE itemID = ?");
       pstmt.setString(1, equipment.getStatus());
       pstmt.setString(2, equipment.getCurrentLocation().getNodeID());
       pstmt.setString(3, equipment.getItemID());
@@ -147,7 +147,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
   public boolean deleteMedicalEquipment(MedicalEquipment equipment) {
     try {
       PreparedStatement pstmt =
-          connection.prepareStatement("" + "DELETE FROM MEDICALEQUIPMENT WHERE itemID = ?)");
+          connection.prepareStatement("" + "DELETE FROM MEDICALEQUIPMENT WHERE itemID = ?");
       pstmt.setString(1, equipment.getItemID());
 
       pstmt.executeUpdate();

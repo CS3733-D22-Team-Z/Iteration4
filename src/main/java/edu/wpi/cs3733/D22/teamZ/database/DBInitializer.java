@@ -45,9 +45,9 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("SERVICEREQUEST");
     dropExistingTable("PATIENTS");
     dropExistingTable("EMPLOYEES");
-    dropExistingTable("SERVICEREQUEST");
     dropExistingTable("LABRESULT");
     dropExistingTable("MEALSERVICE");
     dropExistingTable("MEDICALEQUIPMENT");
@@ -103,21 +103,6 @@ public class DBInitializer {
       );
 
       stmt.execute(
-          "CREATE TABLE SERVICEREQUEST ("
-              + "requestID VARCHAR(15),"
-              + "type VARCHAR(50),"
-              + "itemID VARCHAR(50),"
-              + "status VARCHAR(20),"
-              + "issuer VARCHAR(50),"
-              + "handler VARCHAR(50),"
-              + "targetLocation Varchar(15),"
-              + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
-              + "constraint ITEM_FK Foreign Key (itemID) References SERVICE(itemID),"
-              + "constraint TARGETLOC_FK Foreign Key (targetLocation) References LOCATION(nodeID),"
-              + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))"
-      );
-
-      stmt.execute(
           "CREATE TABLE EMPLOYEES("
               + "employeeID VARCHAR(15),"
               + "name VARCHAR(50),"
@@ -125,7 +110,7 @@ public class DBInitializer {
               + "username VARCHAR(20),"
               + "password VARCHAR(20),"
               + "CONSTRAINT EMPLOYEES_PK PRIMARY KEY (employeeID),"
-              + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('Admin', 'Doctor', 'Nurse')))"
+              + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('ADMIN', 'DOCTOR', 'NURSE')))"
       );
 
       stmt.execute(
@@ -135,6 +120,21 @@ public class DBInitializer {
                + "location VARCHAR(15),"
                + "CONSTRAINT PATIENTS_PK PRIMARY KEY (patientID),"
                + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))"
+      );
+
+      stmt.execute(
+              "CREATE TABLE SERVICEREQUEST ("
+                      + "requestID VARCHAR(15),"
+                      + "type VARCHAR(50),"
+                      + "itemID VARCHAR(50),"
+                      + "status VARCHAR(20),"
+                      + "issuer VARCHAR(50),"
+                      + "handler VARCHAR(50),"
+                      + "targetLocation Varchar(15),"
+                      + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
+                      + "constraint ITEM_FK Foreign Key (itemID) References SERVICE(itemID),"
+                      + "constraint TARGETLOC_FK Foreign Key (targetLocation) References LOCATION(nodeID),"
+                      + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))"
       );
 
     } catch (SQLException e) {
