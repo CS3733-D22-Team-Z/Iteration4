@@ -10,19 +10,73 @@ public class ServiceRequest {
 	protected Location targetLocation;
 
 	public enum RequestType {
-		MEDEQUIP,
-		MEDIC,
-		LABS,
-		MEAL,
-		COMP,
-		LAUNDRY,
-		LANG
+		MEDEQUIP("MEDEQUIP"),
+		MEDIC("MEDIC"),
+		LABS("LABS"),
+		MEAL("MEAL"),
+		COMP("COMP"),
+		LAUNDRY("LAUNDRY"),
+		LANG("LANG");
+
+		private final String typeStr;
+
+		RequestType(String typeStr) {
+			this.typeStr = typeStr;
+		}
+
+		public String toString() {
+			return this.typeStr;
+		}
+
+		public static RequestType getRequestTypeByString(String typeStr) {
+			switch(typeStr) {
+				case "MEDEQUIP":
+					return MEDEQUIP;
+				case "MEDIC":
+					return MEDIC;
+				case "LABS":
+					return LABS;
+				case "MEAL":
+					return MEAL;
+				case "COMP":
+					return COMP;
+				case "LAUNDRY":
+					return LAUNDRY;
+				case "LANG":
+					return LANG;
+				default:
+					return null;
+			}
+		}
 	}
 
 	public enum RequestStatus {
-		UNASSIGNED,
-		PROCESSING,
-		DONE
+		UNASSIGNED("UNASSIGNED"),
+		PROCESSING("PROCESSING"),
+		DONE("DONE");
+
+		private final String statusStr;
+
+		RequestStatus(String statusStr) {
+			this.statusStr = statusStr;
+		}
+
+		public String toString() {
+			return this.statusStr;
+		}
+
+		public static RequestStatus getRequestStatusByString(String statusStr) {
+			switch(statusStr) {
+				case "UNASSIGNED":
+					return UNASSIGNED;
+				case "PROCESSING":
+					return PROCESSING;
+				case "DONE":
+					return DONE;
+				default:
+					return null;
+			}
+		}
 	}
 
 	/**
