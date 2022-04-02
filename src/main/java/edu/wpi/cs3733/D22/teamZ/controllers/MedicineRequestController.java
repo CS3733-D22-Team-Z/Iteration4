@@ -14,9 +14,11 @@ import javafx.stage.Stage;
 public class MedicineRequestController {
   @FXML private Label label;
 
+  private final String toLandingPageURL = "views/LandingPage.fxml";
+
   @FXML
   private void backToDashboard(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
