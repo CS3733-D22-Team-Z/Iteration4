@@ -35,6 +35,8 @@ public class LocationController {
   @FXML private TableColumn<Location, String> shortname;
   @FXML private Button loadData;
 
+  private final String toHomepageURL = "views/Homepage.fxml";
+
   // init LocationDAOImpl to getAllLocations from db
   LocationDAOImpl locDAO = new LocationDAOImpl();
 
@@ -74,7 +76,7 @@ public class LocationController {
   @FXML
   public void navHome(ActionEvent event) throws IOException {
     System.out.println("navigating to home from locations");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/Homepage.fxml"));
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomepageURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
