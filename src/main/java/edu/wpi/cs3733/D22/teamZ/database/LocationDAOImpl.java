@@ -73,7 +73,7 @@ public class LocationDAOImpl implements ILocationDAO {
     return loc;
   }
 
-  public void addLocation(Location loc) {
+  public boolean addLocation(Location loc) {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
@@ -92,11 +92,13 @@ public class LocationDAOImpl implements ILocationDAO {
       connection.commit();
     } catch (SQLException e) {
       System.out.println("Statement failed");
+      return false;
     }
     locations.add(loc);
+    return true;
   }
 
-  public void updateLocation(Location loc) {
+  public boolean updateLocation(Location loc) {
     try {
       PreparedStatement stmt =
           connection.prepareStatement("UPDATE Location SET floor=?, nodeTYPE =? WHERE nodeID =?");
@@ -105,24 +107,26 @@ public class LocationDAOImpl implements ILocationDAO {
       stmt.setString(3, loc.getNodeID());
 
       stmt.executeUpdate();
-      connection.commit();
     } catch (SQLException e) {
       System.out.println("Statement failed");
+      return false;
     }
-    locations.remove(loc);
+    locations.remove(getLocationByID(loc.getNodeID()));
     locations.add(loc);
+    return true;
   }
 
-  public void deleteLocation(Location loc) {
+  public boolean deleteLocation(Location loc) {
     try {
       PreparedStatement stmt3 = connection.prepareStatement("DELETE FROM Location WHERE Nodeid=?");
       stmt3.setString(1, loc.getNodeID());
-      stmt3.execute();
-      connection.commit();
+      stmt3.executeUpdate();
     } catch (SQLException e) {
       System.out.println("Statement failed");
+      return false;
     }
     locations.remove(loc);
+    return true;
   }
 
   public boolean exportToLocationCSV() {
