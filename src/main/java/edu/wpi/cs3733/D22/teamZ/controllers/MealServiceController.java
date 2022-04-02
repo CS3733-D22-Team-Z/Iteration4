@@ -13,10 +13,12 @@ public class MealServiceController {
   @FXML private Button backButton;
   @FXML private Button mealButton;
 
+  private String toLandingPageURL = "views/LandingPage.fxml";
+
   @FXML
-  void backToDashboard() throws IOException {
+  private void toLandingPage() throws IOException {
     Stage primaryStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
   }
