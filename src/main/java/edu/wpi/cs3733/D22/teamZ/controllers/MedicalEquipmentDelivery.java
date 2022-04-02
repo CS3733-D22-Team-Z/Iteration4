@@ -36,6 +36,10 @@ public class MedicalEquipmentDelivery {
   @FXML private TextField enterNodeType;
   @FXML private ChoiceBox equipmentDropDown;
 
+  //URLs
+  private final String toLandingPageURL = "views/LandingPage.fxml";
+
+  //Lists
   private ObservableList<Location> locationList;
   private ObservableList<MedEquipReq> equipmentList;
 
@@ -73,15 +77,15 @@ public class MedicalEquipmentDelivery {
   }
 
   @FXML
-  public void onBackButtonClicked(ActionEvent event) throws IOException {
+  private void onBackButtonClicked(ActionEvent event) throws IOException {
     Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
     Scene scene = new Scene(root);
     mainStage.setScene(scene);
   }
 
   @FXML
-  public void onResetButtonClicked(ActionEvent event) throws IOException {
+  private void onResetButtonClicked(ActionEvent event) throws IOException {
     enterRoomNumber.clear();
     enterFloorNumber.clear();
     enterNodeType.clear();
@@ -89,7 +93,7 @@ public class MedicalEquipmentDelivery {
   }
 
   @FXML
-  public void onSubmitButtonClicked(ActionEvent actionEvent) {
+  private void onSubmitButtonClicked(ActionEvent actionEvent) {
     System.out.println("Room Number: " + enterRoomNumber.getText());
     System.out.println("Floor Number: " + enterFloorNumber.getText());
     System.out.println("nodeType: " + enterNodeType.getText());
