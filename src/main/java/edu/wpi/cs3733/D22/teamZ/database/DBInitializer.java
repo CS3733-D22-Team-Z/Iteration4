@@ -27,17 +27,30 @@ public class DBInitializer {
   }
 
   public boolean createTables() {
+    Statement stmt = null;
+
+    if (connection == null) {
+      System.out.println("Connection is null.");
+      return false;
+    }
+
     try {
-      Statement stmt = connection.createStatement();
+      stmt = connection.createStatement();
+    } catch (SQLException e) {
+      System.out.println("Failed to access database.");
+      return false;
+    }
 
-      // if you drop tables, drop them in the order from last created to first created
-      // stmt.execute("DROP TABLE SERVICEREQUEST");
-      // stmt.execute("DROP TABLE MEALSERVICE");
-      // stmt.execute("DROP TABLE LABRESULT");
-      // stmt.execute("DROP TABLE MEDICALEQUIPMENT");
-      // stmt.execute("DROP TABLE SERVICE");
-      // stmt.execute("DROP TABLE  LOCATION");
+    // if you drop tables, drop them in the order from last created to first created
+    // Drop tables
+    dropExistingTable("SERVICEREQUEST");
+    dropExistingTable("LABRESULT");
+    dropExistingTable("MEALSERVICE");
+    dropExistingTable("MEDICALEQUIPMENT");
+    dropExistingTable("SERVICE");
+    dropExistingTable("LOCATION");
 
+    try {
       // Now recreate in the opposite order
       stmt.execute(
           "CREATE TABLE Location ("
@@ -105,10 +118,19 @@ public class DBInitializer {
               + "constraint statusVal check (status in ('Processing', 'Done', 'Blank')))");
 
     } catch (SQLException e) {
-      System.out.println("Failed to drop and create tables");
+      System.out.println("Failed to create tables");
       return false;
     }
     return true;
+  }
+
+  private void dropExistingTable(String tableName) {
+    try {
+      Statement stmt = connection.createStatement();
+      stmt.execute("DROP TABLE " + tableName);
+    } catch (SQLException e) {
+      System.out.println("Failed to drop " + tableName + " as it does not exist.");
+    }
   }
 
   public boolean populateLocationTable() {
