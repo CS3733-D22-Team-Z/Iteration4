@@ -105,7 +105,7 @@ public class LandingPageController {
 
   public void toLandingPage(ActionEvent event) throws IOException {
 
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/app.fxml"));
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/LandingPage.fxml"));
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);

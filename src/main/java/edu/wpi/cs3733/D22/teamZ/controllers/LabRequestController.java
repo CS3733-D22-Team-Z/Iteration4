@@ -17,7 +17,7 @@ public class LabRequestController {
   public void backToDashboard(ActionEvent event) throws IOException {
     // Load the default FXML file and set that scene to the main stage.
     Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/app.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
     Scene scene = new Scene(root);
     mainStage.setScene(scene);
   }
