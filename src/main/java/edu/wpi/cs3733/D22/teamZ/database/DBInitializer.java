@@ -49,7 +49,7 @@ public class DBInitializer {
     dropExistingTable("LABRESULT");
     dropExistingTable("MEALSERVICE");
     dropExistingTable("MEDICALEQUIPMENT");
-    dropExistingTable("SERVICE");
+    dropExistingTable("SERVICE"); //Comment out later
     dropExistingTable("LOCATION");
 
     try {
@@ -65,12 +65,6 @@ public class DBInitializer {
               + "longName VARCHAR(50),"
               + "shortName Varchar(50),"
               + "constraint LOCATION_PK Primary Key (nodeID))");
-
-      stmt.execute(
-          "CREATE TABLE SERVICE ("
-              + "itemID VARCHAR(50),"
-              + "serviceType VARCHAR(50),"
-              + "constraint SERVICE_PK Primary Key (itemID))");
 
       stmt.execute(
           "CREATE TABLE MEDICALEQUIPMENT ("
@@ -105,19 +99,16 @@ public class DBInitializer {
       stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
               + "requestID VARCHAR(15),"
+              + "type VARCHAR(50),"
+              + "itemID VARCHAR(50),"
               + "status VARCHAR(20),"
               + "issuer VARCHAR(50),"
               + "handler VARCHAR(50),"
-              + "type VARCHAR(50),"
-              + "PatientID VARCHAR(50),"
-              + "itemID VARCHAR(50),"
-              + "currentLocation VARCHAR(15),"
               + "targetLocation Varchar(15),"
               + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
               + "constraint ITEM_FK Foreign Key (itemID) References SERVICE(itemID),"
-              + "constraint CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
               + "constraint TARGETLOC_FK Foreign Key (targetLocation) References LOCATION(nodeID),"
-              + "constraint statusVal check (status in ('Processing', 'Done', 'Blank')))");
+              + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
