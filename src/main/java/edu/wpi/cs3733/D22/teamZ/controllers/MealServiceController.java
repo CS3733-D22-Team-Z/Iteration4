@@ -16,7 +16,7 @@ public class MealServiceController {
   @FXML
   void backToDashboard() throws IOException {
     Stage primaryStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/app.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
   }

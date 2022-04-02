@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class LaundryServiceController {
 
   public void navDefault(javafx.event.ActionEvent actionEvent) throws IOException {
-    Parent root = FXMLLoader.load(App.class.getResource("views/app.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);

@@ -75,7 +75,7 @@ public class MedicalEquipmentDelivery {
   @FXML
   public void onBackButtonClicked(ActionEvent event) throws IOException {
     Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/app.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
     Scene scene = new Scene(root);
     mainStage.setScene(scene);
   }

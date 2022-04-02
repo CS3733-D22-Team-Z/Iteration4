@@ -16,7 +16,7 @@ public class LanguageInterpreterController {
   @FXML
   public void navDefault(ActionEvent event) throws IOException {
     System.out.println("navigating to default from language interpreter");
-    Parent root = FXMLLoader.load(App.class.getResource("views/app.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);

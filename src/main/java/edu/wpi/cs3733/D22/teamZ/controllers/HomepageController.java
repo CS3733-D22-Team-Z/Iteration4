@@ -15,15 +15,15 @@ public class HomepageController {
   @FXML private Label label;
   @FXML private Button exitButton; // ??????
 
-  private String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
-  private String toLandingPage = "edu/wpi/cs3733/D22/teamZ/views/app.fxml";
+  private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
+  private String toLandingPage = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private String toMedicalEquipmentRequest = "edu/wpi/cs3733/D22/teamZ/views/MERL.fxml";
   private String toHome = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   @FXML
   private void toLocations(ActionEvent event) throws IOException {
     System.out.println("navigating to locations from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLocationURL));
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLocationsURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
