@@ -129,12 +129,12 @@ public class DBInitializer {
       );
 
       stmt.execute(
-              "CREATE TABLE PATIENTS("
-              + "patientID VARCHAR(15),"
-              + "name VARCHAR(50),"
-              + "location VARCHAR(15),"
-              + "CONSTRAINT PATIENTS_PK PRIMARY KEY (patientID),"
-              + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))"
+           "CREATE TABLE PATIENTS("
+               + "patientID VARCHAR(15),"
+               + "name VARCHAR(50),"
+               + "location VARCHAR(15),"
+               + "CONSTRAINT PATIENTS_PK PRIMARY KEY (patientID),"
+               + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))"
       );
 
     } catch (SQLException e) {
