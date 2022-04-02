@@ -39,6 +39,7 @@ public class ServiceRequestControlCSV extends ControlCSV {
                             ServiceRequest.RequestType.getRequestTypeByString(a.get(1)),
                             a.get(2),
                             ServiceRequest.RequestStatus.getRequestStatusByString(a.get(3)),
+                            //change later
                             null,
                             null,
                             locationDAO.getLocationByID(a.get(6))
@@ -59,6 +60,7 @@ public class ServiceRequestControlCSV extends ControlCSV {
                                             a.getType().toString(),
                                             a.getItemID(),
                                             a.getStatus().toString(),
+                                            //change later
                                             null,
                                             null,
                                             a.getTargetLocation().getNodeID()
