@@ -18,6 +18,10 @@ public class LocationDAOImpl implements ILocationDAO {
     locations = new ArrayList<Location>();
   }
 
+  /**
+   * Gets all of the locations in the database
+   * @return List of locations
+   */
   public List<Location> getAllLocations() {
     try {
       PreparedStatement pstmt = connection.prepareStatement("Select * From Location");
@@ -44,6 +48,11 @@ public class LocationDAOImpl implements ILocationDAO {
     return locations;
   }
 
+  /**
+   * Gets ONE lcoation from the database based on the provided nodeID
+   * @param nodeID
+   * @return Location object with provided nodeID
+   */
   public Location getLocationByID(String nodeID) { // implement
     Location loc = new Location();
     try {
@@ -75,6 +84,11 @@ public class LocationDAOImpl implements ILocationDAO {
     return loc;
   }
 
+  /**
+   * Adds a new location to database. Will automatically check if already in database
+   * @param loc
+   * @return True if successful, false if not
+   */
   public boolean addLocation(Location loc) {
     try {
       PreparedStatement stmt =
@@ -100,6 +114,11 @@ public class LocationDAOImpl implements ILocationDAO {
     return true;
   }
 
+  /**
+   * Updates a location in the database. Will automatically check if exists in database
+   * @param loc
+   * @return True if successful, false if not
+   */
   public boolean updateLocation(Location loc) {
     try {
       PreparedStatement stmt =
@@ -118,6 +137,11 @@ public class LocationDAOImpl implements ILocationDAO {
     return true;
   }
 
+  /**
+   * Deletes a location from database. Will automatically check if exists in database already
+   * @param loc
+   * @return True if successful, false if not
+   */
   public boolean deleteLocation(Location loc) {
     try {
       PreparedStatement stmt3 = connection.prepareStatement("DELETE FROM Location WHERE Nodeid=?");
@@ -131,6 +155,10 @@ public class LocationDAOImpl implements ILocationDAO {
     return true;
   }
 
+  /**
+   * Exports the Location table into a csv file to the working directory
+   * @return True if successful, false if not
+   */
   public boolean exportToLocationCSV() {
 
     File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");

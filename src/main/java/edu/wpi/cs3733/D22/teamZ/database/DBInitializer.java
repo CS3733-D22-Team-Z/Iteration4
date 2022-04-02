@@ -125,7 +125,7 @@ public class DBInitializer {
               + "username VARCHAR(20),"
               + "password VARCHAR(20),"
               + "CONSTRAINT EMPLOYEES_PK PRIMARY KEY (employeeID),"
-              + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('Admin', 'Doctor', 'Nurse')))"
+              + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('ADMIN', 'DOCTOR', 'NURSE')))"
       );
 
       stmt.execute(
