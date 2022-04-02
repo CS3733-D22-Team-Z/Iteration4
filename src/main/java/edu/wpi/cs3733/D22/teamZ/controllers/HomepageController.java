@@ -16,10 +16,13 @@ public class HomepageController {
   @FXML private Button exitButton; // ??????
 
   private String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
+  private String toLandingPage = "edu/wpi/cs3733/D22/teamZ/views/app.fxml";
+  private String toMedicalEquipmentRequest = "edu/wpi/cs3733/D22/teamZ/views/MERL.fxml";
+  private String toHome = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   @FXML
-  public void toLocations(ActionEvent event) throws IOException {
-    System.out.println("navigating to location from home");
+  private void toLocations(ActionEvent event) throws IOException {
+    System.out.println("navigating to locations from home");
     Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLocationURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
@@ -27,34 +30,40 @@ public class HomepageController {
     stage.show();
   }
 
-  public void toLandingPage(ActionEvent event) throws IOException {
-
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/app.fxml"));
+  @FXML
+  private void toLandingPage(ActionEvent event) throws IOException {
+    System.out.println("navigating to landing page from home");
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLandingPage));
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
     primaryStage.show();
   }
 
-  public void toMedicalEquipmentRequest(ActionEvent event) throws IOException {
-    System.out.println("navigating to location from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/MERL.fxml"));
+  @FXML
+  private void toMedicalEquipmentRequest(ActionEvent event) throws IOException {
+    System.out.println("navigating to Medical Equipment Request page from home");
+    Parent root =
+        FXMLLoader.load(getClass().getClassLoader().getResource(toMedicalEquipmentRequest));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
   }
 
-  public void toHome(ActionEvent event) throws IOException {
-    System.out.println("navigating to location from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/Homepage.fxml"));
+  @FXML
+  private void toHome(ActionEvent event) throws IOException {
+    System.out.println("navigating to home using home button on sidebar");
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHome));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
   }
 
-  public void toExit(ActionEvent event) {
+  @FXML
+  private void toExit(ActionEvent event) {
+    System.out.println("exit the app using exit button bottom left");
     Stage stage = (Stage) exitButton.getScene().getWindow();
     stage.close();
   }
