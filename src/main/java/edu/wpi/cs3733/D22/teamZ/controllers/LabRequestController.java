@@ -13,11 +13,13 @@ import javafx.stage.Stage;
 public class LabRequestController {
   @FXML private Button backButton;
 
+  private final String toDashboardURL = "views/LandingPage.fxml";
+
   @FXML
   public void backToDashboard(ActionEvent event) throws IOException {
     // Load the default FXML file and set that scene to the main stage.
     Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/LandingPage.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource(toDashboardURL));
     Scene scene = new Scene(root);
     mainStage.setScene(scene);
   }
