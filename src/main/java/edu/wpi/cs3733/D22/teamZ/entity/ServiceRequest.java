@@ -24,10 +24,20 @@ public class ServiceRequest {
 			this.typeStr = typeStr;
 		}
 
+		/**
+		 * Converts this RequestType into a String
+		 * @return A String representing this RequestType
+		 */
 		public String toString() {
 			return this.typeStr;
 		}
 
+		/**
+		 * Returns a RequestType based on the String provided
+		 * @param typeStr The String used to base the RequestType on
+		 * @return The RequestType associated with the String provided
+		 * or null if no RequestType is found
+		 */
 		public static RequestType getRequestTypeByString(String typeStr) {
 			switch(typeStr) {
 				case "MEDEQUIP":
@@ -61,10 +71,20 @@ public class ServiceRequest {
 			this.statusStr = statusStr;
 		}
 
+		/**
+		 * Converts this RequestStatus into a String
+		 * @return A String representing this RequestStatus
+		 */
 		public String toString() {
 			return this.statusStr;
 		}
 
+		/**
+		 * Returns a RequestStatus based on the String provided
+		 * @param statusStr The String used to base the RequestStatus on
+		 * @return The RequestStatus associated with the String provided
+		 * or null if no RequestStatus is found
+		 */
 		public static RequestStatus getRequestStatusByString(String statusStr) {
 			switch(statusStr) {
 				case "UNASSIGNED":
