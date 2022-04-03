@@ -136,8 +136,8 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     list.remove(req);
   }
 
-  public boolean exportToMedEquipReqCSV() {
-    File reqData = new File(System.getProperty("user.dir") + "\\MedEquipReq.csv");
+  public boolean exportToMedEquipReqCSV(File reqData) {
+    // reqData = new File(System.getProperty("user.dir") + "\\MedEquipReq.csv");
     reqCSV = new MedEqReqControlCSV(reqData);
 
     reqCSV.writeMedReqCSV(getAllMedEquipReq());

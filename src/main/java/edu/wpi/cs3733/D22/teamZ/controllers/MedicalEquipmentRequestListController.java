@@ -5,6 +5,7 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.cs3733.D22.teamZ.App;
 import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -17,11 +18,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -222,6 +225,19 @@ public class MedicalEquipmentRequestListController implements Initializable {
 
   public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) {
     return database.getMedEquipReqByID(MeqID);
+  }
+
+  public void exportToCSV(ActionEvent actionEvent) {
+
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File file = fileChooser.showSaveDialog(stage);
+    database.exportToMedEquipReqCSV(file);
   }
 
   // Data structure to represent a row in the request list.

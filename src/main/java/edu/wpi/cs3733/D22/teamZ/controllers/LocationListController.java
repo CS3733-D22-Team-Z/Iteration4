@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import java.io.File;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 // issues: getAllLocations doesn't work if the DB is disconnected, is this how it's supposed to
@@ -24,7 +26,7 @@ import javafx.stage.Stage;
 public class LocationListController {
 
   // init ui components
-  @FXML private TableView<Location> Locations;
+  @FXML private TableView<Location> locations;
   @FXML private TableColumn<Location, String> nodeID;
   @FXML private TableColumn<Location, Integer> xCoord;
   @FXML private TableColumn<Location, Integer> yCoord;
@@ -47,7 +49,7 @@ public class LocationListController {
   @FXML
   private void loadDataFromDatabase(ActionEvent event) {
     System.out.println("loading data");
-    Locations.setItems(null);
+    locations.setItems(null);
 
     // get list of locations from db and transfer into ObservableList
     data = FXCollections.observableList(locDAO.getAllLocations());
@@ -64,13 +66,28 @@ public class LocationListController {
 
     // load data into tableView
 
-    Locations.setItems(data);
+    locations.setItems(data);
   }
 
   @FXML
   public void writeExcel(ActionEvent event) throws Exception {
     System.out.println("exporting CSV of LocationData");
     data = FXCollections.observableList(locDAO.getAllLocations());
+
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File file = fileChooser.showSaveDialog(stage);
+
+    // ControlCSV writer = new LocationControlCSV(file);
+    LocationDAOImpl writer = new LocationDAOImpl();
+    writer.exportToLocationCSV(file);
+
+    // System.out.println(a.getAbsolutePath());
   }
 
   @FXML
