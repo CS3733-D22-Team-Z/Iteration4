@@ -10,6 +10,6 @@ public class Main {
     init.populateLocationTable();
     init.populateMedicalEquipmentTable();
     // init.populateReqTable();
-    App.launch(App.class, args);
+    // App.launch(App.class, args);
   }
 }
