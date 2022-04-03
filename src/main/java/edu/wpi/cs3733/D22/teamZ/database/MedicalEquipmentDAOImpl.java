@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -80,6 +81,12 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     return medicalEquipment;
   }
 
+  /**
+   * takes in a location and returns a list of the medical equipment at that location
+   *
+   * @param location
+   * @return list of medical equipment
+   */
   @Override
   public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location) {
     List<MedicalEquipment> medicalEquipmentLocationList = new ArrayList<>();
@@ -107,6 +114,24 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     }
     return medicalEquipmentLocationList;
   }
+
+  //  public void displayMedicalEquipmentIcon() {
+  //    LocationDAOImpl locationDAO = new LocationDAOImpl();
+  //    List<Location> locationList = locationDAO.getAllLocations();
+  //    for(int i = 0; i < locationList.size(); i++) {
+  //      Location tempLocation = locationList.get(i);
+  //      List<MedicalEquipment> medicalEquipmentAtLocation =
+  // getAllMedicalEquipmentByLocation(tempLocation);
+  //      int tempX = tempLocation.getXcoord();
+  //      int tempY = tempLocation.getYcoord() + 10;
+  //      JFXButton iconButton = new JFXButton();
+  //      iconButton.setLayoutX(tempX);
+  //      iconButton.setLayoutY(tempY);
+  //      if(!medicalEquipmentAtLocation.isEmpty()) {
+  //        iconButton.setVisible(false);
+  //      }
+  //    }
+  //  }
 
   /**
    * Adds new MedicalEquipment object to the database
