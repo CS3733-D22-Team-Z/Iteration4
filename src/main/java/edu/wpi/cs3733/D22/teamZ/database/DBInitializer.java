@@ -73,12 +73,8 @@ public class DBInitializer {
               + "nodeType VARCHAR(5),"
               + "longName VARCHAR(50),"
               + "shortName Varchar(50),"
-              + "constraint LOCATION_PK Primary Key (nodeID))");
-
-      stmt.execute(
-          "CREATE TABLE Service ("
-              + "itemID VARCHAR(50),"
-              + "constraint SERVICE_PK PRIMARY KEY (itemID))");
+              + "constraint LOCATION_PK Primary Key (nodeID))"
+      );
 
       stmt.execute(
           "CREATE TABLE MEDICALEQUIPMENT ("
@@ -88,7 +84,8 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint MEDEQUIPMENT_PK Primary Key (itemID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))"
+      );
 
       stmt.execute(
           "CREATE TABLE MEALSERVICE ("
@@ -98,7 +95,8 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint MEALSERVICE_PK Primary Key (itemID),"
               + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint mealStatusVal check (status in ('In-Use', 'Available')))"
+      );
 
       stmt.execute(
           "CREATE TABLE LABRESULT ("
@@ -108,7 +106,8 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint LABRESULTS_PK Primary Key (itemID),"
               + "constraint LABRESULTS_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint labResultsStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint labResultsStatusVal check (status in ('In-Use', 'Available')))"
+      );
 
       stmt.execute(
           "CREATE TABLE EMPLOYEES("
@@ -118,7 +117,8 @@ public class DBInitializer {
               + "username VARCHAR(20),"
               + "password VARCHAR(20),"
               + "CONSTRAINT EMPLOYEES_PK PRIMARY KEY (employeeID),"
-              + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('ADMIN', 'DOCTOR', 'NURSE')))");
+              + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('ADMIN', 'DOCTOR', 'NURSE')))"
+      );
 
       stmt.execute(
           "CREATE TABLE PATIENTS("
@@ -126,21 +126,33 @@ public class DBInitializer {
               + "name VARCHAR(50),"
               + "location VARCHAR(15),"
               + "CONSTRAINT PATIENTS_PK PRIMARY KEY (patientID),"
-              + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))");
+              + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))"
+      );
 
       stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
               + "requestID VARCHAR(15),"
-              + "type VARCHAR(50),"
-              + "itemID VARCHAR(50),"
+              + "type VARCHAR(20),"
               + "status VARCHAR(20),"
-              + "issuer VARCHAR(50),"
-              + "handler VARCHAR(50),"
-              + "targetLocation Varchar(15),"
+              + "issuerID VARCHAR(15),"
+              + "handlerID VARCHAR(15),"
+              + "targetLocationID Varchar(15),"
               + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
-              + "constraint ITEM_FK Foreign Key (itemID) References SERVICE(itemID),"
+              + "constraint ISSUER_FK Foreign Key (issuerID) References EMPLOYEES(employeeID),"
+              + "constraint HANDLER_FK Foreign Key (handlerID) References EMPLOYEES(employeeID),"
               + "constraint TARGETLOC_FK Foreign Key (targetLocation) References LOCATION(nodeID),"
-              + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
+              + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))"
+      );
+
+      stmt.execute(
+              "CREATE TABLE MEDEQUIPREQ ("
+              + "requestID VARCHAR(15),"
+              + "equipmentID VARCHAR(15)"
+              + "constraint MEDEQUIPREQ_PK Primary Key (requestID),"
+              + "constraint REQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
+              + "constraint ITEM_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(equipmentID))"
+      );
+
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
