@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 
 import java.io.File;
 import java.sql.*;
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class EmployeeDAOImpl implements IEmployeeDAO{
     List<Employee> employees;
-    //private EmployeeControlCSV locCSV;
+    private EmployeeControlCSV empCSV;
 
     static Connection connection = DatabaseConnection.getConnection();
 
@@ -153,9 +152,9 @@ public class EmployeeDAOImpl implements IEmployeeDAO{
      */
     public boolean exportToLocationCSV() {
 
-        /*File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
-        locCSV = new LocationControlCSV(locData);
-        locCSV.writeLocCSV(getAllLocations());*/
+        File empData = new File(System.getProperty("user.dir") + "\\employee.csv");
+        empCSV = new EmployeeControlCSV(empData);
+        empCSV.writeEmpCSV(getAllEmployees());
 
         return true;
     }

@@ -8,9 +8,32 @@ public class Employee {
   private String password;
 
   public enum AccessType {
-    ADMIN,
-    DOCTOR,
-    NURSE
+    ADMIN("ADMIN"),
+    DOCTOR("DOCTOR"),
+    NURSE("NURSE");
+
+    private String typeStr;
+
+    AccessType(String typeStr) {
+      this.typeStr = typeStr;
+    }
+
+    public String accessTypeToString() {
+      return this.typeStr;
+    }
+
+    public static AccessType getRequestTypeByString(String typeStr) {
+      switch (typeStr) {
+        case "ADMIN":
+          return ADMIN;
+        case "DOCTOR":
+          return DOCTOR;
+        case "NURSE":
+          return NURSE;
+        default:
+          return null;
+      }
+    }
   }
 
   public Employee(){}
@@ -28,6 +51,7 @@ public class Employee {
     this.username = username;
     this.password = password;
   }
+
 
   public String getEmployeeID() {
     return employeeID;
