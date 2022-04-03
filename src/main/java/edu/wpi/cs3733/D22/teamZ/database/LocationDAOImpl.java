@@ -54,7 +54,7 @@ public class LocationDAOImpl implements ILocationDAO {
    * @param nodeID
    * @return Location object with provided nodeID
    */
-  public Location getLocationByID(String nodeID) { // implement
+  public Location getLocationByID(String nodeID) {
     Location loc = new Location();
     try {
       PreparedStatement pstmt =
