@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -15,16 +16,18 @@
          <content>
             <Pane fx:id="mapContainer">
                <children>
-                  <ImageView fx:id="mapImage" disable="true" fitHeight="623.0" fitWidth="698.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="mapImage" disable="true" fitHeight="850.0" fitWidth="1021.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/01_thefirstfloorCROPPEDFIXED.png" />
+                        <Image url="@../images/01_firstfloorFIX2.png" />
                      </image>
                   </ImageView>
-                  <VBox fx:id="detailsPopup" prefHeight="200.0" prefWidth="100.0">
+                  <Canvas fx:id="mapCanvas" height="850.0" width="1021.0" />
+                  <HBox fx:id="detailsPopup">
                      <children>
-                        <Label style="-fx-background-color: #FFFFFF;" text="AAAAAAAAAAAAAA" />
+                        <VBox fx:id="detailsIdentifiers" />
+                        <VBox fx:id="detailsValues" />
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
             </Pane>
          </content>

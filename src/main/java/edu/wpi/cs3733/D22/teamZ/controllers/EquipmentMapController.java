@@ -18,6 +18,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -25,21 +26,15 @@ import javafx.scene.paint.Color;
 public class EquipmentMapController implements Initializable {
   @FXML private ImageView mapImage;
   @FXML private Pane mapContainer;
-  private Canvas mapCanvas;
+  @FXML private Canvas mapCanvas;
   private GraphicsContext mapCtx;
   private LocationDAOImpl locationDAO;
-  @FXML private VBox detailsPopup;
+  @FXML private HBox detailsPopup;
+  @FXML private VBox detailsIdentifiers;
+  @FXML private VBox detailsValues;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    // Make a Canvas with the exact dimensions as the ImageView
-    mapCanvas = new Canvas();
-    mapCanvas.setHeight(mapImage.getFitHeight());
-    mapCanvas.setWidth(mapImage.getFitWidth());
-
-    // Add to end of parent's children so it is rendered over ImageView
-    mapContainer.getChildren().add(mapCanvas);
-
     // Set mapCtx to newly created canvas' context
     mapCtx = mapCanvas.getGraphicsContext2D();
 
@@ -52,11 +47,11 @@ public class EquipmentMapController implements Initializable {
     // Draw dots
     for (Location loc : locations) {
       // Only draw dots from first floor
-      if (loc.getFloor().equals("3")) {
+      if (loc.getFloor().equals("1")) {
         if (loc.getNodeID().equals("zDEPT00101")) mapCtx.setFill(Color.RED);
         else mapCtx.setFill(Color.BLUE);
         int size = 10;
-        mapCtx.fillOval(loc.getXcoord() - size / 2 - 190, loc.getYcoord() - size / 2, size, size);
+        mapCtx.fillOval(loc.getXcoord() - size / 2, loc.getYcoord() - size / 2, size, size);
 
         // Draw icon
         // drawIcons(loc);
@@ -70,7 +65,7 @@ public class EquipmentMapController implements Initializable {
     mapContainer.getTransforms().add(scaleTransform);*/
   }
 
-  public void drawIcons(Location loc) {
+  public void drawIcon(Location loc) {
     // Create ImageView to hold icon
     ImageView iconImage = new ImageView();
     InputStream rsc = App.class.getResourceAsStream("images/home.png");
@@ -90,23 +85,39 @@ public class EquipmentMapController implements Initializable {
 
     // Move iconButton to Location
     iconButton.relocate(
-        loc.getXcoord() - img.getWidth() / 2 - 190, loc.getYcoord() - img.getHeight() * 2);
+        loc.getXcoord() - img.getWidth() / 2, loc.getYcoord() - img.getHeight() * 2);
 
     // Set iconButton clicked listener
-    iconButton.setOnMouseClicked(event -> showInfoDialog(loc));
+    iconButton.setOnMouseClicked(
+        event -> {
+          System.out.println(detailsIdentifiers.getWidth());
+          showInfoDialog(loc);
+        });
   }
 
   public void showInfoDialog(Location loc) {
     detailsPopup.setDisable(false);
-    detailsPopup.getChildren().clear();
+    detailsIdentifiers.getChildren().clear();
+    detailsValues.getChildren().clear();
 
     // Create popup with information about medical equipment
-    Label test = new Label();
-    test.setStyle("-fx-background-color: #00FF00");
-    test.setText("Huh");
+    for (int i = 1; i <= 2; i++) {
+      Label test = new Label();
+      test.setStyle("-fx-background-color: #00FF00");
+      test.setText(String.format("Item %d", i));
+      detailsIdentifiers.getChildren().add(test);
+    }
 
-    detailsPopup.getChildren().add(test);
-    detailsPopup.relocate(loc.getXcoord() - 190, loc.getYcoord());
+    for (int i = 1; i <= 2; i++) {
+      Label test = new Label();
+      test.setStyle("-fx-background-color: #FF0000");
+      test.setText(String.format("Item %d", i));
+      detailsValues.getChildren().add(test);
+    }
+
+    detailsPopup.relocate(
+        loc.getXcoord() - detailsIdentifiers.getBoundsInParent().getWidth(),
+        loc.getYcoord() - detailsIdentifiers.getBoundsInParent().getHeight() - 35);
   }
 
   public void displayMedicalEquipmentIcon() {
