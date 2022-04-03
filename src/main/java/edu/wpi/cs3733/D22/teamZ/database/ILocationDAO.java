@@ -52,6 +52,7 @@ public interface ILocationDAO {
 
   /**
    * Gets all locations on the given floor
+   *
    * @param floor
    * @return list of locations
    */

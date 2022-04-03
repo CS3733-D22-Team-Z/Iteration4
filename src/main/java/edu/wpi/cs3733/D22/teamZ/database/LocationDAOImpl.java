@@ -175,19 +175,21 @@ public class LocationDAOImpl implements ILocationDAO {
 
   /**
    * Gets all locations on the given floor
+   *
    * @param floor
    * @return list of locations
    */
   @Override
   public List<Location> getAllLocationsByFloor(String floor) {
     List<Location> temp = new ArrayList<>();
-    try{
-      PreparedStatement pstmt = connection.prepareStatement("Select * from LOCATION WHERE FLOOR = ?");
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement("Select * from LOCATION WHERE FLOOR = ?");
       pstmt.setString(1, floor);
 
       ResultSet rset = pstmt.executeQuery();
 
-      while(rset.next()){
+      while (rset.next()) {
         Location tempLoc = new Location();
         tempLoc.setNodeID(rset.getString("nodeID"));
         tempLoc.setXcoord(rset.getInt("xcoord"));
@@ -200,7 +202,7 @@ public class LocationDAOImpl implements ILocationDAO {
 
         temp.add(tempLoc);
       }
-    }catch (SQLException e){
+    } catch (SQLException e) {
       System.out.println("Failed to get locations");
     }
     return temp;
