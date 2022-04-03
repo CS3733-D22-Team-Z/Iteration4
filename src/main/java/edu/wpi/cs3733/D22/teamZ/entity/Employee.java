@@ -36,22 +36,16 @@ public class Employee {
     }
   }
 
-  public Employee(){}
+  public Employee() {}
 
   public Employee(
-          String employeeID,
-          String name,
-          AccessType accessType,
-          String username,
-          String password
-  ){
+      String employeeID, String name, AccessType accessType, String username, String password) {
     this.employeeID = employeeID;
     this.name = name;
     this.accesstype = accessType;
     this.username = username;
     this.password = password;
   }
-
 
   public String getEmployeeID() {
     return employeeID;
