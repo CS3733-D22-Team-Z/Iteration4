@@ -57,7 +57,8 @@ public class SearchControlTest {
   @Test
   public void filterListEmptyType() {
     assertArrayEquals(
-        control.filterList("type::").toArray(), control.getCurrentSearchable().toArray());
+        control.filterList("\"floor::\" \"r::\"").toArray(),
+        control.getCurrentSearchable().toArray());
   }
 
   @Test

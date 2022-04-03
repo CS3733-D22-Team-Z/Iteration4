@@ -80,7 +80,6 @@ public class SearchControl {
    * @return A list of matching searchables.
    */
   public List<ISearchable> filterList(String search) {
-    /*TODO: fix? possible mem leak? doesn't work if just assignment. Not real sure.*/
     filtered = new ArrayList<>(parentList); // reset the filtered list.
     search = search.toLowerCase(); // lowercase the search term for ease of processing
 
@@ -138,12 +137,13 @@ public class SearchControl {
         if (id.equalsIgnoreCase("f:")) { // case out floor because of weird matches
           // term is 1, l1,l2,etc
           String finalTerm = term; // fixes warn/error, dunno
-          filtered.removeIf(
-              n ->
-                  n.toSearchTerms().stream()
-                      .noneMatch(str -> str.equalsIgnoreCase("f:" + finalTerm)));
-          // removes if the term is not an exact match, unlike the usual regex match
-          // technically doesn't work with empty type, but I can't really be bothered
+          if (!term.equals("")) {//check if param is not null
+            filtered.removeIf(
+                n ->
+                    n.toSearchTerms().stream()
+                        .noneMatch(str -> str.equalsIgnoreCase("f:" + finalTerm)));
+            // removes if the term is not an exact match, unlike the usual regex match
+          }
         } else {
           removeItemsByID(id, term); // filter list by type id
         }
