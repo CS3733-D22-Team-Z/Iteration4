@@ -83,7 +83,8 @@ public class LocationDAOImpl implements ILocationDAO {
       System.out.println("Unable to find location");
     }
     return loc;
-  }/**
+  }
+  /**
    * Adds a new location to database. Will automatically check if already in database
    *
    * @param loc
@@ -92,9 +93,9 @@ public class LocationDAOImpl implements ILocationDAO {
   public boolean addLocation(Location loc) {
     try {
       PreparedStatement stmt =
-              connection.prepareStatement(
-                      "INSERT INTO Location (NODEID, XCOORD, YCOORD, FLOOR, BUILDING, NODETYPE, LONGNAME, SHORTNAME)"
-                              + "values (?, ?, ?, ?, ?, ?, ?, ?)");
+          connection.prepareStatement(
+              "INSERT INTO Location (NODEID, XCOORD, YCOORD, FLOOR, BUILDING, NODETYPE, LONGNAME, SHORTNAME)"
+                  + "values (?, ?, ?, ?, ?, ?, ?, ?)");
       stmt.setString(1, loc.getNodeID());
       stmt.setInt(2, loc.getXcoord());
       stmt.setInt(3, loc.getYcoord());
@@ -123,7 +124,7 @@ public class LocationDAOImpl implements ILocationDAO {
   public boolean updateLocation(Location loc) {
     try {
       PreparedStatement stmt =
-              connection.prepareStatement("UPDATE Location SET floor=?, nodeTYPE =? WHERE nodeID =?");
+          connection.prepareStatement("UPDATE Location SET floor=?, nodeTYPE =? WHERE nodeID =?");
       stmt.setString(1, loc.getFloor());
       stmt.setString(2, loc.getNodeType());
       stmt.setString(3, loc.getNodeID());
@@ -170,6 +171,4 @@ public class LocationDAOImpl implements ILocationDAO {
 
     return true;
   }
-
-
 }
