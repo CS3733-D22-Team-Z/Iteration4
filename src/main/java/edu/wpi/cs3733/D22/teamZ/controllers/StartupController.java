@@ -16,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class StartupController {
@@ -45,8 +44,6 @@ public class StartupController {
 
   // URL for Homepage
   private String homepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
-  // URL for Hospital-Logo
-  private String hospitalLogoURL = "edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png";
 
   // init LocationDAOImpl to getAllLocations from db
   LocationDAOImpl locDAO = new LocationDAOImpl();
@@ -119,10 +116,6 @@ public class StartupController {
     Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(homepageURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
-    // All Stages have this title, unless updated
-    stage.setTitle("Team Z - Brigham and Women's Hospital App");
-    // All Stages have this icon, unless updated
-    stage.getIcons().add(new Image(hospitalLogoURL));
     stage.setScene(scene);
     stage.show();
   }
