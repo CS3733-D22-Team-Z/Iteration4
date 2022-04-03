@@ -20,6 +20,8 @@ public class HomepageController {
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
+  private String toMealServiceRequestListURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MealServiceRequestList.fxml";
 
   @FXML
   private void toLocations(ActionEvent event) throws IOException {
@@ -46,6 +48,17 @@ public class HomepageController {
     System.out.println("navigating to Medical Equipment Request page from home");
     Parent root =
         FXMLLoader.load(getClass().getClassLoader().getResource(toMedicalEquipmentRequestURL));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  @FXML
+  public void toMealServiceRequestList(ActionEvent event) throws IOException {
+    System.out.println("navigating to Meal Service Request List page from landing page");
+    Parent root =
+        FXMLLoader.load(getClass().getClassLoader().getResource(toMealServiceRequestListURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);

@@ -99,6 +99,7 @@ public class StartupController {
 
     Locations.setItems(data);
     MedRequestsTable.setItems(dataMed);
+    // MealRequestTable.setItems(dataMeal); //to implement
   }
 
   @FXML
@@ -106,6 +107,7 @@ public class StartupController {
     System.out.println("exporting CSV of LocationData");
     data = FXCollections.observableList(locDAO.getAllLocations());
     dataMed = FXCollections.observableList(medDAO.getAllMedEquipReq());
+    // dataMeal
   }
 
   @FXML
