@@ -48,5 +48,5 @@ public interface IEmployeeDAO {
    *
    * @return True if successful, false if not
    */
-  boolean exportToLocationCSV();
+  boolean exportToEmployeeCSV();
 }
