@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.SearchController">
+   <children>
+      <TextField fx:id="testFocusField" layoutX="406.0" layoutY="47.0" />
+      <VBox fx:id="searchBox" layoutX="42.0" layoutY="47.0" prefHeight="200.0" prefWidth="300.0">
+         <children>
+            <TextField fx:id="textField" onKeyTyped="#search" promptText="Search..." />
+            <ListView fx:id="resultsList" onMouseClicked="#resultMouseClick" prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+      <Button fx:id="directoryTestButton" layoutX="444.0" layoutY="206.0" mnemonicParsing="false" onAction="#onButtonClick" text="Button" />
+   </children>
+</AnchorPane>

@@ -137,7 +137,7 @@ public class SearchControl {
         if (id.equalsIgnoreCase("f:")) { // case out floor because of weird matches
           // term is 1, l1,l2,etc
           String finalTerm = term; // fixes warn/error, dunno
-          if (!term.equals("")) {//check if param is not null
+          if (!term.equals("")) { // check if param is not null
             filtered.removeIf(
                 n ->
                     n.toSearchTerms().stream()

@@ -112,4 +112,9 @@ public class Location implements ISearchable {
   public Location getAssociatedLocation() {
     return this;
   }
+
+  @Override
+  public String getDisplayName() {
+    return this.longName;
+  }
 }

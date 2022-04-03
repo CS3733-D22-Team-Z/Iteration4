@@ -20,6 +20,11 @@ public class Employee implements ISearchable {
     return null; // this can be changed whenever employees get integrated with service requests.
   } // Just return an associated location whenever this happens.
 
+  @Override
+  public String getDisplayName() {
+    return this.name;
+  }
+
   public enum AccessType {
     ADMIN,
     DOCTOR,

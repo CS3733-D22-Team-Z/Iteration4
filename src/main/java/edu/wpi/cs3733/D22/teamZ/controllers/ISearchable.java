@@ -22,4 +22,6 @@ public interface ISearchable {
    * @return The location of the searched object.
    */
   Location getAssociatedLocation();
+
+  String getDisplayName();
 }
