@@ -80,6 +80,11 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     return medicalEquipment;
   }
 
+  @Override
+  public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location) {
+    return null;
+  }
+
   /**
    * Adds new MedicalEquipment object to the database
    *
