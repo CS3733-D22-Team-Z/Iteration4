@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.control.ListView?>
-<AnchorPane fx:id="MedicalEquipmentDeliveryMedicalEquipmentDelivery" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentDelivery">
+<AnchorPane fx:id="MedicalEquipmentDeliveryMedicalEquipmentDelivery" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestController">
     <children>
         <JFXButton fx:id="backButton" layoutX="23.0" onAction="#onBackButtonClicked" style="-fx-background-color: #0075FF; -fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 128; -fx-pref-height: 26;" text="Back to Dashboard" textFill="WHITE">
             <font>

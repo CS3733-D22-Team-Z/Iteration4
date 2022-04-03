@@ -19,7 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class MedicalEquipmentDelivery {
+public class MedicalEquipmentRequestController {
   private LocationDAOImpl il1 = new LocationDAOImpl();
   private MedEquipReqDAOImpl im1 = new MedEquipReqDAOImpl();
 
