@@ -98,4 +98,15 @@ public class Location {
   public void setShortName(String shortName) {
     this.shortName = shortName;
   }
+
+  public static String createNodeID(String nodeType, String roomNumber, String floor) {
+    String newNodeID = "z"
+            + nodeType
+            + "0".repeat(3 - roomNumber.length())
+            + roomNumber
+            + "0".repeat(2 - floor.length())
+            + floor;
+    return newNodeID;
+  }
+
 }

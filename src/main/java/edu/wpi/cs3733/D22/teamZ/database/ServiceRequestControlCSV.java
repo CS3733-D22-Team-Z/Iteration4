@@ -12,7 +12,7 @@ public class ServiceRequestControlCSV extends ControlCSV {
   private MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
   private String[] headers = {
-    "requestID", "type", "itemID", "status", "issuer", "handler", "targetLocation"
+    "requestID", "type", "status", "issuer", "handler", "targetLocation"
   };
 
   public ServiceRequestControlCSV(File path) {
@@ -34,12 +34,11 @@ public class ServiceRequestControlCSV extends ControlCSV {
           new ServiceRequest(
               a.get(0),
               ServiceRequest.RequestType.getRequestTypeByString(a.get(1)),
-              a.get(2),
-              ServiceRequest.RequestStatus.getRequestStatusByString(a.get(3)),
+              ServiceRequest.RequestStatus.getRequestStatusByString(a.get(2)),
               // change later
               null,
               null,
-              locationDAO.getLocationByID(a.get(6))));
+              locationDAO.getLocationByID(a.get(5))));
     }
     return ret;
   }
@@ -54,7 +53,6 @@ public class ServiceRequestControlCSV extends ControlCSV {
                   new String[] {
                     a.getRequestID(),
                     a.getType().toString(),
-                    a.getItemID(),
                     a.getStatus().toString(),
                     // change later
                     null,
