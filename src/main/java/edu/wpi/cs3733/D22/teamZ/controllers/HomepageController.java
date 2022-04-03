@@ -23,6 +23,11 @@ public class HomepageController {
   private String toMealServiceRequestListURL =
       "edu/wpi/cs3733/D22/teamZ/views/MealServiceRequestList.fxml";
 
+  //  public void initialize() {
+  //    stage.setTitle("Sample Application");
+  //
+  //  }
+
   @FXML
   private void toLocations(ActionEvent event) throws IOException {
     System.out.println("navigating to locations from home");
