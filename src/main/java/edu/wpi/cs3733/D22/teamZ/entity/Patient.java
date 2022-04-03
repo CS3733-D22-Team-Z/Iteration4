@@ -3,11 +3,11 @@ package edu.wpi.cs3733.D22.teamZ.entity;
 public class Patient {
     private String patientID;
     private String name;
-    private Location location;
+    private String location;
 
     public Patient(){}
 
-    public Patient(String patientID, String name, Location location){
+    public Patient(String patientID, String name, String location){
         this.patientID = patientID;
         this.name = name;
         this.location = location;
@@ -29,11 +29,11 @@ public class Patient {
         this.name = name;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 }

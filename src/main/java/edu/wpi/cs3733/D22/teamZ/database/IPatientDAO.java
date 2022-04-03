@@ -25,7 +25,7 @@ public interface IPatientDAO {
      * @param pat
      * @return True if successful, false if not
      */
-    boolean addPateint(Patient pat);
+    boolean addPatient(Patient pat);
 
     /**
      * Updates a patient in the database. Will automatically check if exists in database
