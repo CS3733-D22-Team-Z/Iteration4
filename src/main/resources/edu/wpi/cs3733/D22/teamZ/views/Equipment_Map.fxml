@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<SplitPane dividerPositions="0.7" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.EquipmentMapController">
+   <items>
+      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" pannable="true" vbarPolicy="NEVER">
+         <content>
+            <Pane fx:id="mapContainer">
+               <children>
+                  <ImageView fx:id="mapImage" disable="true" fitHeight="623.0" fitWidth="698.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/01_thefirstfloorCROPPEDFIXED.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <fx:define>
+            <Image fx:id="btnImage" url="@../images/home.png" />
+         </fx:define>
+         <children>
+            <JFXButton layoutY="174.0" />
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>
