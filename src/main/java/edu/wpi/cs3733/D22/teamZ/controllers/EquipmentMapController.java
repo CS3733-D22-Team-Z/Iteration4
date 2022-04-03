@@ -1,19 +1,24 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.D22.teamZ.App;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import java.awt.*;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.transform.Scale;
 
 public class EquipmentMapController implements Initializable {
   @FXML private ImageView mapImage;
@@ -21,10 +26,10 @@ public class EquipmentMapController implements Initializable {
   private Canvas mapCanvas;
   private GraphicsContext mapCtx;
   private LocationDAOImpl locationDAO;
+  @FXML private VBox detailsPopup;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-
     // Make a Canvas with the exact dimensions as the ImageView
     mapCanvas = new Canvas();
     mapCanvas.setHeight(mapImage.getFitHeight());
@@ -46,19 +51,57 @@ public class EquipmentMapController implements Initializable {
     for (Location loc : locations) {
       // Only draw dots from first floor
       if (loc.getFloor().equals("1")) {
-        if (loc.getNodeID().equals("zDEPT00301")) mapCtx.setFill(Color.RED);
+        if (loc.getNodeID().equals("zDEPT00101")) mapCtx.setFill(Color.RED);
         else mapCtx.setFill(Color.BLUE);
         int size = 10;
-        mapCtx.fillOval(loc.getXcoord() - size / 2, loc.getYcoord() - size / 2, size, size);
+        mapCtx.fillOval(loc.getXcoord() - size / 2 - 190, loc.getYcoord() - size / 2, size, size);
+
+        // Draw icon
+        drawIcons(loc);
       }
     }
 
-    // Zoom stuff
+    /* Zoom stuff
     Scale scaleTransform = new Scale(0.75, 0.75, 0, 0);
-    mapContainer.getTransforms().add(scaleTransform);
+    mapContainer.getTransforms().add(scaleTransform);*/
   }
 
-  public void drawIcons() {
-    // Image img = mapCtx.drawImage(App.class.getResource("images/home.png"), 20.0, 20.0);
+  public void drawIcons(Location loc) {
+    // Create ImageView to hold icon
+    ImageView iconImage = new ImageView();
+    InputStream rsc = App.class.getResourceAsStream("images/home.png");
+    Image img = new Image(rsc);
+    iconImage.setImage(img);
+
+    // Create the icon button
+    JFXButton iconButton = new JFXButton();
+    iconButton.setMaxWidth(img.getWidth());
+    iconButton.setMaxHeight(img.getHeight());
+    iconButton.setPadding(Insets.EMPTY);
+    iconButton.setText("");
+
+    // Add ImageView to the JFXButton and the JFXButton to the Pane.
+    iconButton.setGraphic(iconImage);
+    mapContainer.getChildren().add(iconButton);
+
+    // Move iconButton to Location
+    iconButton.relocate(
+        loc.getXcoord() - img.getWidth() / 2 - 190, loc.getYcoord() - img.getHeight() * 2);
+
+    // Set iconButton clicked listener
+    iconButton.setOnMouseClicked(event -> showInfoDialog(loc));
+  }
+
+  public void showInfoDialog(Location loc) {
+    detailsPopup.setDisable(false);
+    detailsPopup.getChildren().clear();
+
+    // Create popup with information about medical equipment
+    Label test = new Label();
+    test.setStyle("-fx-background-color: #00FF00");
+    test.setText("Huh");
+
+    detailsPopup.getChildren().add(test);
+    detailsPopup.relocate(loc.getXcoord() - 190, loc.getYcoord());
   }
 }
