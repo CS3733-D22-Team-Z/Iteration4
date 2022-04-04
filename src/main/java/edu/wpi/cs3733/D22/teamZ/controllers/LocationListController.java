@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -106,15 +107,33 @@ public class LocationListController {
       label.setGraphic(locationIcon);
 
       // call function when clicked to display information about that location label on side
-      label.setOnMouseClicked((e) -> displayLocationInformation(current, pane));
+      label.setOnMouseClicked((e) -> displayLocationInformation(current, pane, label));
 
       // place label at correct coords
       label.relocate(current.getXcoord() - 10, current.getYcoord() - 10);
       pane.getChildren().add(label);
     }
   }
+
+  // function to check if user has clicked outside of label
+  public static boolean inHierarchy(Node node, Node potentialHierarchyElement) {
+    if (potentialHierarchyElement == null) {
+      return true;
+    }
+    while (node != null) {
+      if (node == potentialHierarchyElement) {
+        return true;
+      }
+      node = node.getParent();
+    }
+    return false;
+  }
+
   // when a location label is clicked on map, information about that label is shown on the side
-  private void displayLocationInformation(Location clickedLocation, Pane pane) {
+  private void displayLocationInformation(Location clickedLocation, Pane pane, Label label) {
+
+    label.setScaleX(2);
+    label.setScaleY(2);
     // update labels to correct info
     floorLabel.setText("Floor: " + clickedLocation.getFloor());
     longnameLabel.setText("Long Name: " + clickedLocation.getLongName());
@@ -129,6 +148,25 @@ public class LocationListController {
 
     editLocation.setDisable(false);
     deleteLocation.setDisable(false);
+
+    // if user has clicked out of label, and on an empty part of the pane, disable buttons and unenlarge previous label
+    pane.addEventFilter(
+        MouseEvent.MOUSE_CLICKED,
+        evt -> {
+          if (!inHierarchy(evt.getPickResult().getIntersectedNode(), label)) {
+            pane.requestFocus();
+            label.setScaleX(1);
+            label.setScaleY(1);
+
+            editLocation.setDisable(true);
+            deleteLocation.setDisable(true);
+
+            floorLabel.setText("Floor: ");
+            longnameLabel.setText("Long Name: ");
+            xCoordLabel.setText("xCoord: ");
+            yCoordLabel.setText("yCoord: ");
+          }
+        });
   }
 
   // when locations menu button is clicked navigate to locations page
