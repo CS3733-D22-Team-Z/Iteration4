@@ -10,15 +10,15 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.EditLocationOverlayController">
    <children>
-      <Pane opacity="0.26" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" />
-      <Pane layoutX="108.0" layoutY="32.0" prefHeight="334.0" prefWidth="384.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;">
+      <Pane opacity="0.26" prefHeight="447.0" prefWidth="600.0" style="-fx-background-color: #000000;" />
+      <Pane layoutX="45.0" layoutY="-1.0" prefHeight="447.0" prefWidth="511.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;">
          <children>
             <Text layoutX="28.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Location">
                <font>
                   <Font name="Arial Bold" size="20.0" />
                </font>
             </Text>
-            <Text fill="#515151" layoutX="31.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select location to change">
+            <Text fill="#7b7b7b" layoutX="31.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select location to change">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -47,12 +47,12 @@
                </font>
             </Text>
             <TextField fx:id="changeNameTextField" layoutX="31.0" layoutY="224.0" prefHeight="25.0" prefWidth="149.0" promptText="Enter location name" />
-            <Button fx:id="clearButton" layoutX="117.0" layoutY="276.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="69.0" style="-fx-background-color: #FF4343;" text="Clear" textFill="WHITE">
+            <Button fx:id="clearButton" layoutX="117.0" layoutY="360.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="69.0" style="-fx-background-color: #FF4343;" text="Clear" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="submitButton" layoutX="32.0" layoutY="276.0" mnemonicParsing="false" onAction="#submitButtonClicked" prefHeight="32.0" prefWidth="69.0" style="-fx-background-color: #0075FF;" text="Submit" textFill="WHITE">
+            <Button fx:id="submitButton" layoutX="32.0" layoutY="360.0" mnemonicParsing="false" onAction="#submitButtonClicked" prefHeight="32.0" prefWidth="69.0" style="-fx-background-color: #0075FF;" text="Submit" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
