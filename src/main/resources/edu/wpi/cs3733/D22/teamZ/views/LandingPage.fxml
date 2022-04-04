@@ -28,7 +28,7 @@
          <children>
               <Group>
                   <children>
-                      <Button id="MedicalEquipmentButton" layoutX="9.0" layoutY="9.0" mnemonicParsing="false" onAction="#navSearchBarTest" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: &quot;LEFT&quot;; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Medical Equipment">
+                      <Button id="MedicalEquipmentButton" layoutX="9.0" layoutY="9.0" mnemonicParsing="false" onAction="#navMedicalEquipment" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: &quot;LEFT&quot;; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Medical Equipment">
                           <effect>
                               <DropShadow />
                           </effect>
