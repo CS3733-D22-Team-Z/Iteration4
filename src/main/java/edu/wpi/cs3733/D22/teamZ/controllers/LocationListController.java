@@ -2,14 +2,11 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -195,7 +192,8 @@ public class LocationListController {
     editLocation.setDisable(false);
     deleteLocation.setDisable(false);
 
-    // if user has clicked out of label, and on an empty part of the pane, disable buttons and unenlarge previous label
+    // if user has clicked out of label, and on an empty part of the pane, disable buttons and
+    // unenlarge previous label
     pane.addEventFilter(
         MouseEvent.MOUSE_CLICKED,
         evt -> {
