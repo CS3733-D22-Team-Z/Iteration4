@@ -22,5 +22,4 @@ public class MedicalEquipmentDeliveryRequest extends ServiceRequest {
   public void setEquipmentID(String equipmentID) {
     this.equipmentID = equipmentID;
   }
-
 }

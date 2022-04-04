@@ -8,10 +8,10 @@ import java.util.List;
 
 public class LocationDAOImpl implements ILocationDAO {
 
-  List<Location> locations;
+  private List<Location> locations;
   private LocationControlCSV locCSV;
 
-  static Connection connection = DatabaseConnection.getConnection();
+  private static Connection connection = DatabaseConnection.getConnection();
 
   public LocationDAOImpl() {
     locations = new ArrayList<Location>();

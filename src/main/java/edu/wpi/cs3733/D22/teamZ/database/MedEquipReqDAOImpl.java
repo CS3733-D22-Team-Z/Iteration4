@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
-
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,8 +22,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
 
     try {
       PreparedStatement pstmt =
-          connection.prepareStatement(
-              "SELECT * FROM SERVICEREQUEST WHERE TYPE = 'MEDEQUIP'");
+          connection.prepareStatement("SELECT * FROM SERVICEREQUEST WHERE TYPE = 'MEDEQUIP'");
       ResultSet rset = pstmt.executeQuery();
 
       while (rset.next()) {
@@ -37,13 +35,12 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
         // make new temp to put into list
         MedicalEquipmentDeliveryRequest temp =
             new MedicalEquipmentDeliveryRequest(
-                    requestID,
-                    request.getStatus(),
-                    request.getIssuer(),
-                    request.getHandler(),
-                    equipmentID,
-                    request.getTargetLocation()
-            );
+                requestID,
+                request.getStatus(),
+                request.getIssuer(),
+                request.getHandler(),
+                equipmentID,
+                request.getTargetLocation());
 
         // if not in the list already, add it
         if (!list.contains(temp)) {
@@ -57,7 +54,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
   }
 
   public MedicalEquipmentDeliveryRequest getMedEquipReqByID(String id) {
-    IServiceRequestDAO requestDAO = new ServicerequestDAOImpl();
+    IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
 
     MedicalEquipmentDeliveryRequest deliveryRequest = null;
 
@@ -72,16 +69,16 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
       String requestID = rset.getString("requestID");
       String equipmentID = rset.getString("equipmentID");
 
-      ServiceRequest request = requestDAO.getServicerequestByID(requestID);
+      ServiceRequest request = requestDAO.getServiceRequestByID(requestID);
 
-      deliveryRequest = new MedicalEquipmentDeliveryRequest(
+      deliveryRequest =
+          new MedicalEquipmentDeliveryRequest(
               requestID,
               request.getStatus(),
               request.getIssuer(),
               request.getHandler(),
               equipmentID,
-              request.getTargetLocation()
-      );
+              request.getTargetLocation());
 
     } catch (SQLException e) {
       System.out.println("Unable to find request with given ID");
@@ -92,13 +89,12 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
 
   public void addMedEquipReq(MedicalEquipmentDeliveryRequest request) {
     IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
-    requestDAO.addServceRequest(request);
+    requestDAO.addServiceRequest(request);
 
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "INSERT INTO MEDEQUIPREQ (REQUESTID, EQUIPMENTID) values (?, ?)"
-          );
+              "INSERT INTO MEDEQUIPREQ (REQUESTID, EQUIPMENTID) values (?, ?)");
       stmt.setString(1, request.getRequestID());
       stmt.setString(2, request.getEquipmentID());
 
@@ -114,8 +110,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "UPDATE MEDEQUIPREQ SET status =?, handler =? WHERE RequestID =?"
-          );
+              "UPDATE MEDEQUIPREQ SET status =?, handler =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
       stmt.setString(2, request.getHandler().toString());
       stmt.setString(3, request.getRequestID());

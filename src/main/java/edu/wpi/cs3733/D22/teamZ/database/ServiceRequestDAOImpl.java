@@ -1,4 +1,183 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
-public class ServiceRequestDAOImpl {
+import edu.wpi.cs3733.D22.teamZ.entity.Employee;
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ServiceRequestDAOImpl implements IServiceRequestDAO {
+  private List<ServiceRequest> serviceRequestList;
+  private ServiceRequestControlCSV csvController;
+
+  private static IEmployeeDAO employeeDAO = new EmployeeDAOImpl();
+  private static ILocationDAO locationDAO = new LocationDAOImpl();
+
+  private static Connection connection = DatabaseConnection.getConnection();
+
+  public ServiceRequestDAOImpl() {
+    File serviceRequestCSV = new File(System.getProperty("user.dir") + "\\ServiceRequest.csv");
+    csvController = new ServiceRequestControlCSV(serviceRequestCSV);
+
+    serviceRequestList = new ArrayList<ServiceRequest>();
+
+    try {
+      PreparedStatement pstmt = connection.prepareStatement("Select * From SERVICEREQUEST");
+      ResultSet rset = pstmt.executeQuery();
+
+      // Read through all of the ResultSet before calling another DAO to prevent conflicts
+      List<List<String>> data = new ArrayList<>();
+      while (rset.next()) {
+        List<String> fields = new ArrayList<>();
+        fields.add(rset.getString("requestID"));
+        fields.add(rset.getString("type"));
+        fields.add(rset.getString("status"));
+        fields.add(rset.getString("issuerID"));
+        fields.add(rset.getString("handlerID"));
+        fields.add(rset.getString("targetLocationID"));
+
+        data.add(fields);
+      }
+
+      for (List<String> fields : data) {
+        String requestID = fields.get(0);
+        ServiceRequest.RequestType type =
+            ServiceRequest.RequestType.getRequestTypeByString(fields.get(1));
+        ServiceRequest.RequestStatus status =
+            ServiceRequest.RequestStatus.getRequestStatusByString(fields.get(2));
+        Employee issuer = employeeDAO.getEmployeeByID(fields.get(3));
+        Employee handler = employeeDAO.getEmployeeByID(fields.get(4));
+        Location targetLocation = locationDAO.getLocationByID(fields.get(5));
+
+        serviceRequestList.add(
+            new ServiceRequest(requestID, type, status, issuer, handler, targetLocation));
+      }
+    } catch (SQLException e) {
+      System.out.println("Something went wrong with the database connection.");
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Returns all the service requests currently stored
+   *
+   * @return A List of all ServiceRequest objects in the database
+   */
+  @Override
+  public List<ServiceRequest> getAllServiceRequests() {
+    return this.serviceRequestList;
+  }
+
+  /**
+   * Returns a single ServiceRequest object that is stored in the database and has the id that is
+   * provided
+   *
+   * @param serviceRequestID The id of the service request with the given id in the database
+   * @return A ServiceRequest object representing the request in the database with the given
+   *     serviceRequestID
+   */
+  @Override
+  public ServiceRequest getServiceRequestByID(String serviceRequestID) {
+    ServiceRequest request = null;
+
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement("Select * From SERVICEREQUEST WHERE requestID = ?");
+      pstmt.setString(1, serviceRequestID);
+      ResultSet rset = pstmt.executeQuery();
+
+      if (rset.next()) {
+        request = serviceRequestFromResultSet(rset);
+      }
+    } catch (SQLException e) {
+      System.out.println("Something went wrong with the database connection.");
+      e.printStackTrace();
+    }
+
+    return request;
+  }
+
+  private ServiceRequest serviceRequestFromResultSet(ResultSet rset) throws SQLException {
+    String requestID = rset.getString("requestID");
+    String typeStr = rset.getString("type");
+    String statusStr = rset.getString("status");
+    String issuerID = rset.getString("issuerID");
+    String handlerID = rset.getString("handlerID");
+    String targetLocationID = rset.getString("targetLocationID");
+
+    ServiceRequest.RequestType type = ServiceRequest.RequestType.getRequestTypeByString(typeStr);
+    ServiceRequest.RequestStatus status =
+        ServiceRequest.RequestStatus.getRequestStatusByString(statusStr);
+    Employee issuer = employeeDAO.getEmployeeByID(issuerID);
+    Employee handler = employeeDAO.getEmployeeByID(handlerID);
+    Location targetLocation = locationDAO.getLocationByID(targetLocationID);
+
+    return new ServiceRequest(requestID, type, status, issuer, handler, targetLocation);
+  }
+
+  /**
+   * Adds the given ServiceRequest object to the database if there is not already one with the same
+   * serviceID
+   *
+   * @param request The request to be added
+   * @return true if successfully added, false otherwise
+   */
+  @Override
+  public boolean addServiceRequest(ServiceRequest request) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "INSERT INTO SERVICEREQUEST"
+                  + "(requestID, type, status, issuerID, handlerID, targetLocationID)"
+                  + "values (?, ?, ?, ?, ?, ?)");
+      stmt.setString(1, request.getRequestID());
+      stmt.setString(2, request.getType().toString());
+      stmt.setString(3, request.getStatus().toString());
+      stmt.setString(4, request.getIssuer().getEmployeeID());
+      stmt.setString(5, request.getHandler().getEmployeeID());
+      stmt.setString(6, request.getTargetLocation().getNodeID());
+
+      stmt.executeUpdate();
+      connection.commit();
+    } catch (SQLException e) {
+      System.out.println("Statement failed");
+      return false;
+    }
+
+    serviceRequestList.add(request);
+    return true;
+  }
+
+  /**
+   * Takes a ServiceRequest object and deletes the respective one from the database with the same
+   * requestID
+   *
+   * @param request The request to be deleted
+   * @return true if the deletion was successful, false otherwise
+   */
+  @Override
+  public boolean deleteServiceRequest(ServiceRequest request) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement("DELETE FROM SERVICEREQUEST WHERE requestID=?");
+      stmt.setString(1, request.getRequestID());
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("Failed to delete service request");
+      return false;
+    }
+    serviceRequestList.remove(request);
+    return true;
+  }
+
+  /** Writes the current database to a .csv file */
+  @Override
+  public void writeServiceRequestsToCSV() {
+    csvController.writeServiceRequestCSV(serviceRequestList);
+  }
 }

@@ -97,6 +97,7 @@ public class ServiceRequest {
         case "DONE":
           return DONE;
         default:
+          System.out.println("No RequestStatus found for the string: |" + statusStr + "|");
           return null;
       }
     }
@@ -205,5 +206,15 @@ public class ServiceRequest {
    */
   public final void setTargetLocation(Location targetLocation) {
     this.targetLocation = targetLocation;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ServiceRequest) {
+      ServiceRequest objectRequest = (ServiceRequest) o;
+      return (this.getRequestID() == objectRequest.getRequestID());
+    } else {
+      return false;
+    }
   }
 }

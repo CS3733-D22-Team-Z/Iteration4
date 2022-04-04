@@ -100,7 +100,8 @@ public class Location {
   }
 
   public static String createNodeID(String nodeType, String roomNumber, String floor) {
-    String newNodeID = "z"
+    String newNodeID =
+        "z"
             + nodeType
             + "0".repeat(3 - roomNumber.length())
             + roomNumber
@@ -108,5 +109,4 @@ public class Location {
             + floor;
     return newNodeID;
   }
-
 }

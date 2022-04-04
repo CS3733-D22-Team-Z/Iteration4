@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class MedEqReqControlCSV extends ControlCSV {
 
     writeCSV(objToData(in), headers);
     medicalEquipmentDAO.exportToMedicalEquipmentCSV();
-    requestDAO.writeMedEquipCSV();
+    requestDAO.writeServiceRequestsToCSV();
   }
 
   protected List<MedicalEquipmentDeliveryRequest> readMedReqCSV() throws IOException {
@@ -42,14 +41,12 @@ public class MedEqReqControlCSV extends ControlCSV {
 
       ret.add(
           new MedicalEquipmentDeliveryRequest(
-                  requestID,
-                  request.getStatus(),
-                  request.getIssuer(),
-                  request.getHandler(),
-                  equipmentID,
-                  request.getTargetLocation()
-          )
-      );
+              requestID,
+              request.getStatus(),
+              request.getIssuer(),
+              request.getHandler(),
+              equipmentID,
+              request.getTargetLocation()));
     }
     return ret;
   }
@@ -58,12 +55,7 @@ public class MedEqReqControlCSV extends ControlCSV {
     List<List<String>> ret = new ArrayList<>();
     for (MedicalEquipmentDeliveryRequest a : in) {
       List<String> entry =
-          new ArrayList<>(
-              List.of(
-                  new String[] {
-                    a.getRequestID(),
-                    a.getEquipmentID()
-                  }));
+          new ArrayList<>(List.of(new String[] {a.getRequestID(), a.getEquipmentID()}));
       ret.add(entry);
     }
     return ret;
