@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
@@ -9,33 +13,55 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.75" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.EquipmentMapController">
+<SplitPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.EquipmentMapController">
    <items>
-      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" pannable="true" vbarPolicy="NEVER">
-         <content>
-            <Pane fx:id="mapContainer">
-               <children>
-                  <ImageView fx:id="mapImage" disable="true" fitHeight="850.0" fitWidth="1021.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/01_firstfloorFIX2.png" />
-                     </image>
-                  </ImageView>
-                  <Canvas fx:id="mapCanvas" height="850.0" width="1021.0" />
-                  <HBox fx:id="detailsPopup">
+      <SplitPane dividerPositions="0.75" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <items>
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" pannable="true" vbarPolicy="NEVER">
+               <content>
+                  <Pane fx:id="mapContainer">
                      <children>
-                        <VBox fx:id="detailsIdentifiers" />
-                        <VBox fx:id="detailsValues" />
+                        <ImageView fx:id="mapImage" disable="true" fitHeight="850.0" fitWidth="1021.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/1.png" />
+                           </image>
+                        </ImageView>
+                        <Canvas fx:id="mapCanvas" height="850.0" width="1021.0" />
+                        <Pane fx:id="iconContainer" onMouseClicked="#iconContainerClicked" prefHeight="850.0" prefWidth="1021.0" />
+                        <VBox fx:id="detailsPopup" style="-fx-background-color: transparent;">
+                           <children>
+                              <HBox fx:id="equipmentNames" style="-fx-background-color: transparent;" />
+                              <HBox fx:id="equipmentQuantities" style="-fx-background-color: transparent;" />
+                           </children>
+                        </VBox>
                      </children>
-                  </HBox>
+                  </Pane>
+               </content>
+            </ScrollPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <fx:define>
+                  <Image fx:id="btnImage" url="@../images/home.png" />
+               </fx:define>
+               <children>
+                  <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="28.0" layoutY="359.0" onAction="#toLandingPage" prefHeight="27.0" prefWidth="92.0" style="-fx-background-color: #0075FF;" text="Back" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="23.0" layoutY="14.0" prefHeight="26.0" prefWidth="102.0" text="Change Floor" textAlignment="CENTER" textFill="#7b7b7b">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <JFXComboBox fx:id="changeFloor" layoutX="16.0" layoutY="46.0" onAction="#onFloorSelected" prefHeight="22.0" prefWidth="115.0" />
                </children>
-            </Pane>
-         </content>
-      </ScrollPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
-         <fx:define>
-            <Image fx:id="btnImage" url="@../images/home.png" />
-         </fx:define>
-      </AnchorPane>
+            </AnchorPane>
+         </items>
+      </SplitPane>
    </items>
 </SplitPane>
