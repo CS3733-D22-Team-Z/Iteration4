@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -29,7 +30,8 @@ public class App extends Application {
     text.setStrokeWidth(0.5);
     Parent root = FXMLLoader.load(App.class.getResource("views/EquipmentMap.fxml"));
     Scene scene = new Scene(root);
-    primaryStage.setTitle("Custom Font");
+    primaryStage.setTitle("Team Z - Brigham and Women's Hospital App");
+    primaryStage.getIcons().add(new Image("edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png"));
     primaryStage.setScene(scene);
     primaryStage.show();
   }
