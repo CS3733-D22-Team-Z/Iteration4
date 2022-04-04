@@ -59,7 +59,7 @@ public class MedicalEquipmentRequestListController implements Initializable {
 
   // List of identifiers for each
   private String[] identifiers = {
-    "ID", "Device", "Assignee", "Handler", "Status", "Current Location", "Target Location"
+    "ID", "Device", "Assignee", "Handler", "Status", "Target Location"
   };
 
   // List of MedEquipReq that represents raw data
@@ -160,13 +160,13 @@ public class MedicalEquipmentRequestListController implements Initializable {
     requests.clear();
 
     // Iterate through each MedEquipReq in entity and create RequestRow for each
-    for (MedicalEquipmentDeliveryRequest MERequest : rawRequests) {
+    for (MedicalEquipmentDeliveryRequest medicalEquipmentRequest : rawRequests) {
       requests.add(
           new RequestRow(
-              MERequest.getRequestID(),
-              MERequest.getEquipment(),
-              MERequest.getIssuer(),
-              MERequest.getStatus()));
+              medicalEquipmentRequest.getRequestID(),
+              medicalEquipmentRequest.getEquipmentID(),
+              medicalEquipmentRequest.getIssuer().getName(),
+              medicalEquipmentRequest.getStatus().toString()));
     }
 
     // Set root's children to requests, and add root to table.
@@ -192,22 +192,19 @@ public class MedicalEquipmentRequestListController implements Initializable {
           data.setText(selectedReq.getRequestID());
           break;
         case 1:
-          data.setText(selectedReq.getEquipment());
+          data.setText(selectedReq.getEquipmentID());
           break;
         case 2:
-          data.setText(selectedReq.getIssuer());
+          data.setText(selectedReq.getIssuer().getName());
           break;
         case 3:
-          data.setText(selectedReq.getHandler());
+          data.setText(selectedReq.getHandler().getName());
           break;
         case 4:
-          data.setText(selectedReq.getStatus());
+          data.setText(selectedReq.getStatus().toString());
           break;
         case 5:
-          data.setText(selectedReq.getCurrentLoc());
-          break;
-        case 6:
-          data.setText(selectedReq.getTargetLoc());
+          data.setText(selectedReq.getTargetLocation().getNodeID());
           break;
       }
 

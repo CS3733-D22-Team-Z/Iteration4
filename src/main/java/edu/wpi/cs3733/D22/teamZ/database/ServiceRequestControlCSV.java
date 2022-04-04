@@ -11,19 +11,17 @@ public class ServiceRequestControlCSV extends ControlCSV {
   private LocationDAOImpl locationDAO = new LocationDAOImpl();
   private MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
-  private String[] headers = {
-    "requestID", "type", "itemID", "status", "issuer", "handler", "targetLocation"
-  };
+  private String[] headers = {"requestID", "type", "status", "issuer", "handler", "targetLocation"};
 
   public ServiceRequestControlCSV(File path) {
     this.setPath(path);
   }
 
-  protected void writeLocCSV(List<ServiceRequest> in) {
+  protected void writeServiceRequestCSV(List<ServiceRequest> in) {
     writeCSV(objToData(in), headers);
   }
 
-  protected List<ServiceRequest> readLocCSV() throws IOException {
+  protected List<ServiceRequest> readServiceRequestCSV() throws IOException {
     return dataToObj(readCSV());
   }
 
@@ -34,12 +32,11 @@ public class ServiceRequestControlCSV extends ControlCSV {
           new ServiceRequest(
               a.get(0),
               ServiceRequest.RequestType.getRequestTypeByString(a.get(1)),
-              a.get(2),
-              ServiceRequest.RequestStatus.getRequestStatusByString(a.get(3)),
+              ServiceRequest.RequestStatus.getRequestStatusByString(a.get(2)),
               // change later
               null,
               null,
-              locationDAO.getLocationByID(a.get(6))));
+              locationDAO.getLocationByID(a.get(5))));
     }
     return ret;
   }
@@ -54,7 +51,6 @@ public class ServiceRequestControlCSV extends ControlCSV {
                   new String[] {
                     a.getRequestID(),
                     a.getType().toString(),
-                    a.getItemID(),
                     a.getStatus().toString(),
                     // change later
                     null,
