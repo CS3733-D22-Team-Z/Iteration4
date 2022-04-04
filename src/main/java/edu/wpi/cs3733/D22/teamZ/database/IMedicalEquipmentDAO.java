@@ -9,7 +9,7 @@ public interface IMedicalEquipmentDAO {
 
   MedicalEquipment getMedicalEquipmentByID(String itemID);
 
-  List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location);
+  public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location);
 
   boolean addMedicalEquipment(MedicalEquipment equipment);
 
