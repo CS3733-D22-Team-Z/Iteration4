@@ -88,6 +88,8 @@ public class LocationListController {
 
   // create ObservableList to load locations into map
   private ObservableList<Location> floorLocations = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Label> allLabels = FXCollections.observableList(new ArrayList<>());
 
   // initialize location labels to display on map
   @FXML
@@ -100,26 +102,25 @@ public class LocationListController {
     changeFloor.getItems().add("2");
     changeFloor.getItems().add("3");
 
-    floorLocations.remove(0, floorLocations.size());
-    floorLocations.addAll(FXCollections.observableList(locDAO.getAllLocationsByFloor("1")));
+    // floorLocations.remove(0, floorLocations.size());
+    totalLocations.addAll(FXCollections.observableList(locDAO.getAllLocations()));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
-    showLocations(floorLocations);
+    floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
+
+    initLabels();
+
+    showLocations("1");
 
     // change floor with dropdown
     changeFloor.setOnAction(
         (event) -> {
-          int selectedIndex = changeFloor.getSelectionModel().getSelectedIndex();
           String selectedItem = changeFloor.getSelectionModel().getSelectedItem().toString();
 
           // System.out.println("Selection made: [" + selectedIndex + "] " + selectedItem);
           // System.out.println("   ChoiceBox.getValue(): " + changeFloor.getValue());
           // get list of locations from db and transfer into ObservableList
-
-          floorLocations.remove(0, floorLocations.size());
-          floorLocations.addAll(
-              FXCollections.observableList(locDAO.getAllLocationsByFloor(selectedItem)));
-          map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + selectedItem + ".png"));
-          showLocations(floorLocations);
+          System.out.println(selectedItem);
+          changeToFloor(selectedItem);
         });
 
     // Andrew's stuff
@@ -185,45 +186,17 @@ public class LocationListController {
     this.displayResult.remove(5, this.displayResult.size());
   }
 
-  private void showLocations(ObservableList<Location> floor) {
+  private void showLocations(String floor) {
     pane.getChildren().clear();
-    for (int i = 0; i < floor.size(); i++) {
-      // styilize label icon
-      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
-      ImageView locationIcon = new ImageView(locationImg);
-      Location current = floor.get(i);
-      DropShadow dropShadow = new DropShadow();
-      dropShadow.setRadius(5.0);
-      dropShadow.setOffsetX(3.0);
-      dropShadow.setOffsetY(3.0);
-      dropShadow.setColor(Color.GRAY);
 
-      // create the label
-      Label label = new Label();
-      label.setEffect(dropShadow);
-      label.setGraphic(locationIcon);
-
-      // call function when clicked to display information about that location label on side
-      label.setOnMouseClicked(
-          (e) -> {
-            activeLocation = current;
-            activeLabel = label;
-            displayLocationInformation();
-          });
-      label
-          .focusedProperty()
-          .addListener(
-              (observable, oldValue, newValue) -> {
-                if (!newValue) {
-                  label.setScaleX(1);
-                  label.setScaleY(1);
-                }
-              });
-
-      // place label at correct coords
-      label.relocate(current.getXcoord() - 8, current.getYcoord() - 10);
-      pane.getChildren().add(label);
-    }
+    pane.getChildren()
+        .addAll(
+            allLabels.filtered(
+                label ->
+                    totalLocations
+                        .get(allLabels.indexOf(label))
+                        .getFloor()
+                        .equalsIgnoreCase(floor)));
   }
 
   // function to check if user has clicked outside of label
@@ -451,8 +424,60 @@ public class LocationListController {
     int theoreticalGenericIndex =
         longNames.indexOf(searchResultList.getSelectionModel().getSelectedItem());
 
-    activeLabel = (Label) pane.getChildren().get(theoreticalGenericIndex);
     activeLocation = parentDataList.get(theoreticalGenericIndex).getAssociatedLocation();
+
+    String selectedItem = activeLocation.getFloor();
+    changeToFloor(selectedItem);
+
+    activeLabel = allLabels.get(theoreticalGenericIndex);
+    searchField.setText(activeLocation.getLongName());
     displayLocationInformation();
+  }
+
+  private void changeToFloor(String nFloor) {
+    floorLocations.remove(0, floorLocations.size());
+    floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase(nFloor)));
+    map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + nFloor + ".png"));
+    showLocations(nFloor);
+  }
+
+  private void initLabels() {
+    for (int i = 0; i < totalLocations.size(); i++) {
+      // styilize label icon
+      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
+      ImageView locationIcon = new ImageView(locationImg);
+      Location current = totalLocations.get(i);
+      DropShadow dropShadow = new DropShadow();
+      dropShadow.setRadius(5.0);
+      dropShadow.setOffsetX(3.0);
+      dropShadow.setOffsetY(3.0);
+      dropShadow.setColor(Color.GRAY);
+
+      // create the label
+      Label label = new Label();
+      label.setEffect(dropShadow);
+      label.setGraphic(locationIcon);
+
+      // call function when clicked to display information about that location label on side
+      label.setOnMouseClicked(
+          (e) -> {
+            activeLocation = current;
+            activeLabel = label;
+            displayLocationInformation();
+          });
+      label
+          .focusedProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                if (!newValue) {
+                  label.setScaleX(1);
+                  label.setScaleY(1);
+                }
+              });
+
+      // place label at correct coords
+      label.relocate(current.getXcoord() - 8, current.getYcoord() - 10);
+      allLabels.add(label);
+    }
   }
 }
