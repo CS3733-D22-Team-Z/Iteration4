@@ -1,9 +1,15 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,12 +21,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 // issues: getAllLocations doesn't work if the DB is disconnected, is this how it's supposed to
@@ -41,6 +49,22 @@ public class LocationListController {
   @FXML private Button editLocation;
   @FXML private Button deleteLocation;
 
+  // Andrew's stuff
+  @FXML private TextField selectLocationTextField;
+  @FXML private ChoiceBox<String> typeChoiceTextField;
+  @FXML private ChoiceBox<String> floorChoiceTextField;
+  @FXML private TextField changeNumberTextField;
+  @FXML private TextField changeNameTextField;
+  @FXML private TextField abbreviationTextField;
+  @FXML private Text alreadyExistsText;
+  @FXML private Button submitButton;
+  @FXML private Button clearButton;
+  @FXML private Button editLocationExitButton;
+  @FXML private Pane editLocationPane;
+  @FXML private Pane locationChangeDarkenPane;
+  private Location activeLocation;
+  //
+
   // urls to other pages
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
@@ -50,6 +74,9 @@ public class LocationListController {
 
   // init LocationDAOImpl to use sql methods from db
   LocationDAOImpl locDAO = new LocationDAOImpl();
+
+  // init MedicalEquipmentDAOImpl
+  MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
   // create ObservableList to load locations into map
   private ObservableList<Location> firstFloorLocations =
@@ -86,6 +113,21 @@ public class LocationListController {
           map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + selectedItem + ".png"));
           showLocations(firstFloorLocations);
         });
+
+    // Andrew's stuff
+    typeChoiceTextField.setItems(
+        FXCollections.observableArrayList(
+            "DEPT", "HALL", "ELEV", "STOR", "EXIT", "INFO", "RETL", "SERV", "STAI", "BATH", "LABS",
+            "PATI"));
+    floorChoiceTextField.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
+
+    Location temp = locDAO.getLocationByID(selectLocationTextField.getText());
+    typeChoiceTextField.setValue(temp.getNodeType());
+
+    locationChangeDarkenPane.setVisible(false);
+    editLocationPane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    editLocationPane.setDisable(true);
   }
 
   private void showLocations(ObservableList<Location> floor) {
@@ -107,7 +149,11 @@ public class LocationListController {
       label.setGraphic(locationIcon);
 
       // call function when clicked to display information about that location label on side
-      label.setOnMouseClicked((e) -> displayLocationInformation(current, pane, label));
+      label.setOnMouseClicked(
+          (e) -> {
+            displayLocationInformation(current, pane, label);
+            activeLocation = current;
+          });
 
       // place label at correct coords
       label.relocate(current.getXcoord() - 10, current.getYcoord() - 10);
@@ -221,5 +267,94 @@ public class LocationListController {
     System.out.println("exit the app using exit button bottom left");
     Stage stage = (Stage) exitButton.getScene().getWindow();
     stage.close();
+  }
+
+  // Andrew's Stuff
+  /**
+   * Will update location data in database given text inputs on app
+   *
+   * @param event
+   * @throws IOException
+   */
+  @FXML
+  private void submitEditLocationButtonClicked(ActionEvent event) throws IOException {
+
+    if (Integer.parseInt(changeNumberTextField.getText()) > 0) {
+      // good do nothing
+    } else {
+      return;
+    }
+
+    // change later to Neha's nodeID info
+    Location tempLocation = locDAO.getLocationByID(selectLocationTextField.getText());
+
+    tempLocation.setNodeType(typeChoiceTextField.getValue());
+    tempLocation.setFloor(floorChoiceTextField.getValue());
+    tempLocation.setLongName(changeNameTextField.getText());
+    tempLocation.setShortName(abbreviationTextField.getText());
+
+    String newNodeID =
+        "z"
+            + typeChoiceTextField.getValue()
+            + "0".repeat(3 - changeNumberTextField.getText().length())
+            + changeNumberTextField.getText()
+            + "0".repeat(2 - floorChoiceTextField.getValue().length())
+            + floorChoiceTextField.getValue();
+
+    // check if already exists
+    if (locDAO.getLocationByID(newNodeID).getNodeID() == null) {
+      alreadyExistsText.setVisible(false);
+      List<MedicalEquipment> medicalEquipmentList =
+          medicalEquipmentDAO.getAllMedicalEquipmentByLocation(tempLocation);
+      // check if there are medical equipment stuff there
+      if (medicalEquipmentList.isEmpty()) {
+        // do nothing
+      }
+      // there is equipment so update to new location
+      else {
+        for (int i = 0; i < medicalEquipmentList.size(); i++) {
+          MedicalEquipment tempMedEquip = medicalEquipmentList.get(i);
+          tempMedEquip.setCurrentLocation(tempLocation);
+          medicalEquipmentDAO.updateMedicalEquipment(tempMedEquip);
+        }
+      }
+      if (locDAO.deleteLocation(tempLocation)) {
+        System.out.println("Delete location successful");
+      }
+      tempLocation.setNodeID(newNodeID);
+      if (locDAO.addLocation(tempLocation)) {
+        System.out.println("Added updated location successful");
+      }
+      editLocationPane.setVisible(false);
+      locationChangeDarkenPane.setVisible(false);
+    } else {
+      alreadyExistsText.setVisible(true);
+    }
+  }
+
+  @FXML
+  private void clearEditLocationButtonClicked(ActionEvent event) throws IOException {
+    typeChoiceTextField.setValue("DEPT");
+    floorChoiceTextField.setValue("1");
+    changeNumberTextField.setText("");
+    changeNameTextField.setText("");
+    abbreviationTextField.setText("");
+  }
+
+  @FXML
+  private void editLocationButtonClicked(ActionEvent event) throws IOException {
+    locationChangeDarkenPane.setVisible(true);
+    editLocationPane.setVisible(true);
+    locationChangeDarkenPane.setDisable(false);
+    editLocationPane.setDisable(false);
+    selectLocationTextField.setText(activeLocation.getNodeID());
+  }
+
+  @FXML
+  private void exitEditLocationButtonClicked(ActionEvent event) throws IOException {
+    locationChangeDarkenPane.setVisible(false);
+    editLocationPane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    editLocationPane.setDisable(true);
   }
 }

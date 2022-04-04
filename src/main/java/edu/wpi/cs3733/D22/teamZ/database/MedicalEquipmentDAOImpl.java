@@ -81,6 +81,40 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
   }
 
   /**
+   * takes in a location and returns a list of the medical equipment at that location
+   *
+   * @param location
+   * @return list of medical equipment
+   */
+  @Override
+  public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location) {
+    List<MedicalEquipment> medicalEquipmentLocationList = new ArrayList<>();
+    try {
+      PreparedStatement pstnt =
+          connection.prepareStatement("select * from MEDICALEQUIPMENT where currentLocation = ?");
+      pstnt.setString(1, location.getNodeID());
+      ResultSet rset = pstnt.executeQuery();
+      while (rset.next()) {
+        String tempItemID = rset.getString("ITEMID");
+        String tempType = rset.getString("TYPE");
+        String tempStatus = rset.getString("STATUS");
+        String tempCurrentLocation = rset.getString("CURRENTLOCATION");
+        LocationDAOImpl tempDAO = new LocationDAOImpl();
+        Location tempLocation = tempDAO.getLocationByID(tempCurrentLocation);
+        MedicalEquipment tempMedicalEquipment =
+            new MedicalEquipment(tempItemID, tempType, tempStatus, tempLocation);
+        medicalEquipmentLocationList.add(tempMedicalEquipment);
+      }
+    } catch (SQLException e) {
+      System.out.println("failed to get medical equipment by location");
+      for (int i = 0; i < medicalEquipmentLocationList.size(); i++) {
+        medicalEquipmentLocationList.remove(i);
+      }
+    }
+    return medicalEquipmentLocationList;
+  }
+
+  /**
    * Adds new MedicalEquipment object to the database
    *
    * @param equipment
