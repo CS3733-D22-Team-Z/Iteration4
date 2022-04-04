@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.Patient;
 import java.io.File;
 import java.sql.Connection;
@@ -32,7 +33,7 @@ public class PatientDAOImpl implements IPatientDAO {
       while (rset.next()) {
         String patientID = rset.getString("patientID");
         String name = rset.getString("name");
-        String location = rset.getString("location");
+        Location location = new Location(rset.getString("location"));
         Patient pat = new Patient(patientID, name, location);
         if (!patients.contains(pat)) {
           patients.add(pat);
@@ -60,7 +61,7 @@ public class PatientDAOImpl implements IPatientDAO {
 
       while (rset.next()) {
         String name = rset.getString("name");
-        String location = rset.getString("location");
+        Location location = new Location(rset.getString("location"));
         pat.setPatientID(patientID);
         pat.setName(name);
         pat.setLocation(location);
@@ -107,7 +108,7 @@ public class PatientDAOImpl implements IPatientDAO {
       PreparedStatement stmt =
           connection.prepareStatement("UPDATE PATIENT SET NAME=?, LOCATION =? WHERE PATIENTID =?");
       stmt.setString(1, pat.getName());
-      stmt.setString(2, pat.getLocation());
+      stmt.setString(2, pat.getLocation().getNodeID());
       stmt.setString(3, pat.getPatientID());
 
       stmt.executeUpdate();

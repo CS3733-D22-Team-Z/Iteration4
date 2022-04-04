@@ -25,10 +25,7 @@ public class PatientControlCSV extends ControlCSV {
     ILocationDAO loc = new LocationDAOImpl();
     List<Patient> ret = new ArrayList<>();
     for (List<String> a : data) {
-      ret.add(new Patient(
-              a.get(0),
-              a.get(1),
-              loc.getLocationByID(a.get(2))));
+      ret.add(new Patient(a.get(0), a.get(1), loc.getLocationByID(a.get(2))));
     }
     return ret;
   }
@@ -38,7 +35,8 @@ public class PatientControlCSV extends ControlCSV {
 
     for (Patient a : in) {
       List<String> entry =
-          new ArrayList<>(List.of(new String[] {a.getPatientID(), a.getName(), a.getLocation().getNodeID()}));
+          new ArrayList<>(
+              List.of(new String[] {a.getPatientID(), a.getName(), a.getLocation().getNodeID()}));
       ret.add(entry);
     }
     return ret;
