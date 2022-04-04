@@ -21,9 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import javax.swing.*;
 
-public class SearchController {
+public class LocationMapSearchControl {
 
   public VBox searchBox;
   public Button directoryTestButton;
