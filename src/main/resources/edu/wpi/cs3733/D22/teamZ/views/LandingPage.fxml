@@ -117,7 +117,19 @@
                       <Pane layoutX="205.0" layoutY="13.0" prefHeight="26.0" prefWidth="23.0" style="-fx-background-color: #0075FF; -fx-pref-height: 20; -fx-pref-width: 20; -fx-background-radius: 3;" />
                   </children>
               </Group>
-            <Group />
+            <Group>
+               <children>
+                  <Button id="ComputerServiceButton" fx:id="LoginPageButton" layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#navLogin" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: LEFT; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Login">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="9.0" />
+                     </font>
+                  </Button>
+                  <Pane layoutX="205.0" layoutY="13.0" prefHeight="26.0" prefWidth="23.0" style="-fx-background-color: #0075FF; -fx-pref-height: 20; -fx-pref-width: 20; -fx-background-radius: 3;" />
+               </children>
+            </Group>
          </children>
       </VBox>
       <VBox layoutX="-4.0" prefHeight="400.0" prefWidth="121.0" style="-fx-background-color: #FFFFFF;" />
