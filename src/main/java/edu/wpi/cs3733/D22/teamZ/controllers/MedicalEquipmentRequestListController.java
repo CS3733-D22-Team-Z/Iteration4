@@ -19,9 +19,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -51,9 +50,10 @@ public class MedicalEquipmentRequestListController implements Initializable {
   // Drop-down box that selects which data type to filter by.
   @FXML private JFXComboBox<String> filterCBox;
 
-  // Lists that display details about a selection.
-  @FXML private JFXListView<Label> identifierList;
-  @FXML private JFXListView dataList;
+  // Details Table
+  @FXML public TableView<TableColumnItems> statusTable;
+  @FXML private TableColumn<TableColumnItems, String> labelsColumn;
+  @FXML private TableColumn<TableColumnItems, String> detailsColumn;
 
   private final String toHomepageURL = "views/Homepage.fxml";
 
@@ -85,7 +85,6 @@ public class MedicalEquipmentRequestListController implements Initializable {
     for (int i = 0; i < identifiers.length; i++) {
       Label ID = new Label();
       ID.setText(identifiers[i]);
-      identifierList.getItems().add(ID);
     }
 
     // Fill the filter box with test data
@@ -178,38 +177,50 @@ public class MedicalEquipmentRequestListController implements Initializable {
   // Load a MedEquipReq into the Details row.
   public void loadRow(String MeqID) {
     // Clear out current details data
-    dataList.getItems().clear();
+    statusTable.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
     MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(MeqID);
 
-    // "ID", "Device", "Assignee", "Handler", "Status", "Current Location", "Target Location"
-    // Add and fill labels with relevant information.
-    for (int i = 0; i < identifiers.length; i++) {
-      Label data = new Label();
-      switch (i) {
-        case 0:
-          data.setText(selectedReq.getRequestID());
-          break;
-        case 1:
-          data.setText(selectedReq.getEquipmentID());
-          break;
-        case 2:
-          data.setText(selectedReq.getIssuer().getName());
-          break;
-        case 3:
-          data.setText(selectedReq.getHandler().getName());
-          break;
-        case 4:
-          data.setText(selectedReq.getStatus().toString());
-          break;
-        case 5:
-          data.setText(selectedReq.getTargetLocation().getNodeID());
-          break;
-      }
+    // statusTable.getColumns().add(labelsColumn);
+    // statusTable.getColumns().add(detailsColumn);
 
-      // Add label to dataList
-      dataList.getItems().add(data);
+    labelsColumn.setCellValueFactory(new PropertyValueFactory<>("label"));
+    detailsColumn.setCellValueFactory(new PropertyValueFactory<>("detail"));
+
+    statusTable.getItems().add(new TableColumnItems("ID", selectedReq.getRequestID()));
+    statusTable.getItems().add(new TableColumnItems("Type", selectedReq.getType().toString()));
+    statusTable.getItems().add(new TableColumnItems("Status", selectedReq.getStatus().toString()));
+    statusTable.getItems().add(new TableColumnItems("Issuer", selectedReq.getIssuer().getName()));
+    statusTable.getItems().add(new TableColumnItems("Handler", selectedReq.getHandler().getName()));
+    statusTable
+        .getItems()
+        .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
+  }
+
+  public class TableColumnItems {
+    String label = null;
+    String detail = null;
+
+    public TableColumnItems(String label, String detail) {
+      this.label = label;
+      this.detail = detail;
+    }
+
+    public String getLabel() {
+      return label;
+    }
+
+    public void setLabel(String label) {
+      this.label = label;
+    }
+
+    public String getDetail() {
+      return detail;
+    }
+
+    public void setDetail(String detail) {
+      this.detail = detail;
     }
   }
 

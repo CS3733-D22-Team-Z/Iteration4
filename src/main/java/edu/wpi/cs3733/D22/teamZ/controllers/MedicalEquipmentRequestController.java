@@ -2,14 +2,8 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D22.teamZ.*;
-import edu.wpi.cs3733.D22.teamZ.database.ILocationDAO;
-import edu.wpi.cs3733.D22.teamZ.database.IMedEquipReqDAO;
-import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.entity.Employee;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.database.*;
+import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -37,8 +31,9 @@ public class MedicalEquipmentRequestController {
   @FXML private Label equipmentLabel;
   @FXML private TextField enterRoomNumber;
   @FXML private TextField enterFloorNumber;
-  @FXML private TextField enterNodeType;
+  @FXML private ChoiceBox enterNodeType;
   @FXML private ChoiceBox equipmentDropDown;
+  @FXML private Label errorSavingLabel;
 
   // URLs
   private final String toLandingPageURL = "views/LandingPage.fxml";
@@ -56,8 +51,14 @@ public class MedicalEquipmentRequestController {
       System.out.println(model.getNodeID());
     }
 
-    equipmentDropDown.setItems(FXCollections.observableArrayList("Bed", "IV", "Pillow"));
+    equipmentDropDown.setItems(
+        FXCollections.observableArrayList("Bed", "Recliner", "X-Ray", "Infusion Pump"));
+    enterNodeType.setItems(
+        FXCollections.observableArrayList(
+            "DEPT", "EXIT", "HALL", "INFO", "LABS", "RETL", "SERV", "STAI", "ELEV", "BATH", "STOR",
+            "PATI"));
     // //example
+    errorSavingLabel.setVisible(false);
   }
 
   @FXML
@@ -72,7 +73,7 @@ public class MedicalEquipmentRequestController {
   private void onResetButtonClicked(ActionEvent event) throws IOException {
     enterRoomNumber.clear();
     enterFloorNumber.clear();
-    enterNodeType.clear();
+    enterNodeType.setValue(null);
     equipmentDropDown.setValue(null);
   }
 
@@ -80,12 +81,21 @@ public class MedicalEquipmentRequestController {
   private void onSubmitButtonClicked(ActionEvent actionEvent) {
     System.out.println("Room Number: " + enterRoomNumber.getText());
     System.out.println("Floor Number: " + enterFloorNumber.getText());
-    System.out.println("nodeType: " + enterNodeType.getText());
+    System.out.println("nodeType: " + enterNodeType.getValue());
     System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
-    MedicalEquipmentDeliveryRequest lastestReq =
-        equipmentRequestList.get(equipmentRequestList.size() - 1);
-    String id = lastestReq.getRequestID();
+    String id;
+    // Check for empty db and set first request (will appear as REQ1 in the db)
+
+    if (equipmentRequestList.isEmpty()) {
+      System.out.println("Equipment is empty");
+      id = "REQ0";
+    } else {
+      MedicalEquipmentDeliveryRequest lastestReq =
+          equipmentRequestList.get(equipmentRequestList.size() - 1);
+      id = lastestReq.getRequestID();
+    }
+
     int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
 
     String requestID = "REQ" + num;
@@ -96,26 +106,46 @@ public class MedicalEquipmentRequestController {
 
     // TODO add method to pick a free MedicalEquipment from the table of this type
     String equipmentID = equipmentDropDown.getValue().toString();
+    IMedicalEquipmentDAO medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
-    String nodeID =
-        Location.createNodeID(
-            enterNodeType.getText(), enterRoomNumber.getText(), enterFloorNumber.getText());
-    Location targetLoc = locationDAO.getLocationByID(nodeID);
+    equipmentID = medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipmentID);
+    if (equipmentID == null) {
+      // Implement red text and set to visible
+      errorSavingLabel.setVisible(true);
+      return;
+    } else {
 
-    MedicalEquipmentDeliveryRequest temp =
-        new MedicalEquipmentDeliveryRequest(
-            requestID, status, issuer, handler, equipmentID, targetLoc);
+      // update medical equipment table to show in use
+      String nodeID =
+          Location.createNodeID(
+              enterNodeType.getValue().toString(),
+              enterRoomNumber.getText(),
+              enterFloorNumber.getText());
+      Location targetLoc = locationDAO.getLocationByID(nodeID);
 
-    medicalEquipmentRequestDAO.addMedEquipReq(temp);
+      MedicalEquipmentDeliveryRequest temp =
+          new MedicalEquipmentDeliveryRequest(
+              requestID, status, issuer, handler, equipmentID, targetLoc);
+
+      medicalEquipmentRequestDAO.addMedEquipReq(temp);
+    }
+    errorSavingLabel.setVisible(false);
   }
 
   @FXML
   private void validateButton() {
     if (!enterRoomNumber.getText().trim().isEmpty()
         && !enterFloorNumber.getText().trim().isEmpty()
-        && !enterNodeType.getText().trim().isEmpty()
+        && !enterNodeType.getSelectionModel().isEmpty()
         && !equipmentDropDown.getSelectionModel().isEmpty()) {
       submitButton.setDisable(false);
     }
+  }
+
+  public void onNavigateToMedicalRequestList(ActionEvent actionEvent) throws IOException {
+    Stage mainStage = (Stage) backButton.getScene().getWindow();
+    Parent root = FXMLLoader.load(App.class.getResource("views/MedicalEquipmentRequestList.fxml"));
+    Scene scene = new Scene(root);
+    mainStage.setScene(scene);
   }
 }

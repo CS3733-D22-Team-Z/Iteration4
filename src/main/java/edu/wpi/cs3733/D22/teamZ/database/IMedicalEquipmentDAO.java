@@ -8,6 +8,8 @@ public interface IMedicalEquipmentDAO {
 
   MedicalEquipment getMedicalEquipmentByID(String itemID);
 
+  String getFirstAvailableEquipmentByType(String equipment);
+
   boolean addMedicalEquipment(MedicalEquipment equipment);
 
   boolean updateMedicalEquipment(MedicalEquipment equipment);

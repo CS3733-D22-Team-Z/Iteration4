@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.ListView?>
-<AnchorPane fx:id="MedicalEquipmentDeliveryMedicalEquipmentDelivery" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestController">
+<AnchorPane fx:id="MedicalEquipmentDeliveryMedicalEquipmentDelivery" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestController">
     <children>
         <JFXButton fx:id="backButton" layoutX="23.0" onAction="#onBackButtonClicked" style="-fx-background-color: #0075FF; -fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 128; -fx-pref-height: 26;" text="Back to Dashboard" textFill="WHITE">
             <font>
@@ -60,26 +57,6 @@
                 <Font name="Segoe UI Bold" size="10.0" />
             </font>
         </JFXButton>
-        <Label layoutX="275.0" layoutY="81.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Status" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <ChoiceBox layoutX="402.0" layoutY="112.0" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
-            <effect>
-                <DropShadow />
-            </effect>
-        </ChoiceBox>
-        <Label layoutX="277.0" layoutY="137.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Staff Assigned" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField layoutX="402.0" layoutY="170.0">
-            <effect>
-                <DropShadow />
-            </effect>
-        </TextField>
         <Label layoutX="24.0" layoutY="139.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Floor Number" textFill="#7b7b7b">
             <font>
                 <Font name="Segoe UI Bold" size="9.0" />
@@ -93,28 +70,33 @@
                 <Insets />
             </opaqueInsets>
         </TextField>
-        <Label layoutX="23.0" layoutY="198.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="nodeType" textFill="#7b7b7b">
+        <Label layoutX="23.0" layoutY="198.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Location Type" textFill="#7b7b7b">
             <font>
                 <Font name="Segoe UI Bold" size="9.0" />
             </font>
         </Label>
-        <TextField fx:id="enterNodeType" layoutX="148.0" layoutY="231.0" onKeyReleased="#validateButton" promptText="Enter nodeType">
+        <ChoiceBox fx:id="enterNodeType" layoutX="148.0" layoutY="231.0" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
             <effect>
                 <DropShadow />
             </effect>
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>
-        </TextField>
-        <ListView layoutX="399.0" layoutY="227.0" prefHeight="122.0" prefWidth="191.0">
-            <effect>
-                <DropShadow />
-            </effect>
-        </ListView>
-        <Label layoutX="277.0" layoutY="194.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Current Requests" textFill="#7b7b7b">
+        </ChoiceBox>
+        <Label layoutX="277.0" layoutY="194.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: -100;" text="Current Requests" textFill="#7b7b7b">
             <font>
                 <Font name="Segoe UI Bold" size="9.0" />
             </font>
         </Label>
+      <JFXButton fx:id="navigateToMedicalRequestList" layoutX="113.0" layoutY="332.0" onAction="#onNavigateToMedicalRequestList" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: -220; -fx-translate-x: 290; -fx-pref-width: 100; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="See Requests" textFill="WHITE">
+         <font>
+            <Font name="Segoe UI Bold" size="10.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="errorSavingLabel" layoutX="33.0" layoutY="262.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 118; -fx-translate-y: 100; -fx-pref-width: 200;" text="Error saving request, no equipment available" textFill="RED">
+         <font>
+            <Font name="Segoe UI Bold" size="9.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
