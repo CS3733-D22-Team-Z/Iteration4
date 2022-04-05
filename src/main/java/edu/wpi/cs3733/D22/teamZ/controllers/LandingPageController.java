@@ -28,6 +28,7 @@ public class LandingPageController {
   private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private final String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
+  private final String toSearchBarTest = "edu/wpi/cs3733/D22/teamZ/views/SearchBar.fxml";
   private final String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
   private final String toMedicalEquipmentMapURL =
       "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
@@ -162,5 +163,13 @@ public class LandingPageController {
     System.out.println("exit the app using exit button bottom left");
     Stage stage = (Stage) exitButton.getScene().getWindow();
     stage.close();
+  }
+
+  public void navSearchBarTest(ActionEvent actionEvent) throws IOException {
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toSearchBarTest));
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
   }
 }

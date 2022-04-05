@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
-public class Location {
+import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
+import java.util.List;
+
+public class Location implements ISearchable {
   private String nodeID;
   private int xcoord;
   private int ycoord;
@@ -99,14 +102,19 @@ public class Location {
     this.shortName = shortName;
   }
 
-  public static String createNodeID(String nodeType, String roomNumber, String floor) {
-    String newNodeID =
-        "z"
-            + nodeType
-            + "0".repeat(3 - roomNumber.length())
-            + roomNumber
-            + "0".repeat(2 - floor.length())
-            + floor;
-    return newNodeID;
+  @Override
+  public List<String> toSearchTerms() {
+    return List.of(
+        nodeID, "T:" + nodeType, "F:" + floor, building, "R:" + shortName, "R:" + longName);
+  }
+
+  @Override
+  public Location getAssociatedLocation() {
+    return this;
+  }
+
+  @Override
+  public String getDisplayName() {
+    return this.longName;
   }
 }
