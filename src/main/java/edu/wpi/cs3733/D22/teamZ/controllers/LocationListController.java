@@ -81,6 +81,21 @@ public class LocationListController {
   @FXML private TextField locationToDeleteTextField;
   @FXML private Pane deleteLocationPlane;
 
+  // Neha's stuff
+  // Buttons
+  @FXML private Button submitAddLocation;
+  @FXML private Button clearAddLocation;
+  @FXML private Button addLocationExitButton;
+  // text fields
+  @FXML private TextField xCoordTextField;
+  @FXML private TextField yCoordTextField;
+  @FXML private ChoiceBox locationTypeField;
+  @FXML private ChoiceBox floorField;
+  @FXML private TextField locationNameTextField;
+  @FXML private TextField nameAbbreviationTextField;
+  // pane
+  @FXML private Pane addLocationPane;
+
   // urls to other pages
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
@@ -111,6 +126,12 @@ public class LocationListController {
     changeFloor.getItems().add("2");
     changeFloor.getItems().add("3");
 
+    floorField.getItems().add("L1");
+    floorField.getItems().add("L2");
+    floorField.getItems().add("1");
+    floorField.getItems().add("2");
+    floorField.getItems().add("3");
+
     // floorLocations.remove(0, floorLocations.size());
     totalLocations.addAll(FXCollections.observableList(locDAO.getAllLocations()));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
@@ -138,6 +159,11 @@ public class LocationListController {
         FXCollections.observableArrayList(
             "DEPT", "HALL", "ELEV", "STOR", "EXIT", "INFO", "RETL", "SERV", "STAI", "BATH", "LABS",
             "PATI"));
+    locationTypeField.setItems(
+        FXCollections.observableArrayList(
+            "DEPT", "HALL", "ELEV", "STOR", "EXIT", "INFO", "RETL", "SERV", "STAI", "BATH", "LABS",
+            "PATI"));
+
     floorChoiceTextField.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
 
     Location displayResult = locDAO.getLocationByID(selectLocationTextField.getText());
@@ -547,5 +573,86 @@ public class LocationListController {
     locationChangeDarkenPane.setDisable(false);
     deleteLocationPlane.setDisable(false);
     locationToDeleteTextField.setText(activeLocation.getNodeID());
+  }
+
+  @FXML
+  private void addLocationButtonClicked(ActionEvent event) throws IOException {
+    locationChangeDarkenPane.setVisible(true);
+    addLocationPane.setVisible(true);
+    locationChangeDarkenPane.setDisable(false);
+    addLocationPane.setDisable(false);
+    selectLocationTextField.setText(activeLocation.getNodeID());
+  }
+
+  @FXML
+  private void cancelAddLocation(ActionEvent event) throws IOException {
+    locationChangeDarkenPane.setVisible(false);
+    addLocationPane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    addLocationPane.setDisable(true);
+  }
+
+  @FXML
+  private void addLocation(ActionEvent event) throws IOException {
+    // check if fields arent empty
+    if (!xCoordTextField.getText().isEmpty()
+        && !yCoordTextField.getText().isEmpty()
+        && !locationNameTextField.getText().isEmpty()
+        && !nameAbbreviationTextField.getText().isEmpty()) {
+      System.out.println("then add location");
+    } else {
+      return;
+    }
+
+    // make a location
+    Location newLocation = new Location();
+
+    newLocation.setXcoord(Integer.parseInt(xCoordTextField.getText()));
+    newLocation.setYcoord(Integer.parseInt(yCoordTextField.getText()));
+    newLocation.setNodeType(locationTypeField.getValue().toString());
+    newLocation.setFloor(floorField.getValue().toString());
+    newLocation.setLongName(locationNameTextField.getText());
+    newLocation.setShortName(nameAbbreviationTextField.getText());
+
+    // generate a node id
+    // generate numb
+    List<Location> locations = locDAO.getAllLocationsByFloor(floorField.getValue().toString());
+    int size =
+        (int)
+            locations.stream()
+                .filter(
+                    unusedLocation ->
+                        unusedLocation
+                            .getNodeType()
+                            .equalsIgnoreCase(locationTypeField.getValue().toString()))
+                .count();
+
+    String newNodeID =
+        "z"
+            + locationTypeField.getValue()
+            + "0".repeat(3 - Integer.toString(size + 1).length())
+            + Integer.toString(size + 1)
+            + "0".repeat(2 - floorField.getValue().toString().length())
+            + floorField.getValue();
+
+    newLocation.setNodeID(newNodeID);
+
+    // check if exists, if not add it
+    if (locDAO.getLocationByID(newNodeID).getNodeID() == null) {
+      // add it
+      locDAO.addLocation(newLocation);
+    } else {
+      return;
+    }
+
+    refreshMap(floorField.getValue().toString());
+    map.setImage(
+        new Image("edu/wpi/cs3733/D22/teamZ/images/" + floorField.getValue().toString() + ".png"));
+    // showLocations(nFloor);
+
+    // addLocationPane.setVisible(false);
+    // locationChangeDarkenPane.setVisible(false);
+    // addLocationPane.setDisable(true);
+    // locationChangeDarkenPane.setDisable(true);
   }
 }
