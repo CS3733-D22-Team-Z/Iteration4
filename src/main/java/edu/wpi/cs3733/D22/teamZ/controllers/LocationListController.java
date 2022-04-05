@@ -594,6 +594,18 @@ public class LocationListController {
 
   @FXML
   private void addLocation(ActionEvent event) throws IOException {
+
+    // check if coords are valid
+    if (Integer.parseInt(xCoordTextField.getText()) < 0
+        || Integer.parseInt(xCoordTextField.getText()) > 1021) {
+      return;
+    }
+
+    if (Integer.parseInt(yCoordTextField.getText()) < 0
+        || Integer.parseInt(yCoordTextField.getText()) > 850) {
+      return;
+    }
+
     // check if fields arent empty
     if (!xCoordTextField.getText().isEmpty()
         && !yCoordTextField.getText().isEmpty()
