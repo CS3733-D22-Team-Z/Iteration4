@@ -343,6 +343,9 @@ public class LocationListController {
     // change later to Neha's nodeID info
     Location tempLocation = locDAO.getLocationByID(selectLocationTextField.getText());
 
+    // old floor
+    String oldFloor = tempLocation.getFloor();
+
     tempLocation.setNodeType(typeChoiceTextField.getValue());
     tempLocation.setFloor(floorChoiceTextField.getValue());
     tempLocation.setLongName(changeNameTextField.getText());
@@ -373,6 +376,7 @@ public class LocationListController {
           medicalEquipmentDAO.updateMedicalEquipment(tempMedEquip);
         }
       }
+
       if (locDAO.deleteLocation(tempLocation)) {
         System.out.println("Delete location successful");
       }
@@ -382,6 +386,9 @@ public class LocationListController {
       }
       editLocationPane.setVisible(false);
       locationChangeDarkenPane.setVisible(false);
+
+      refreshMap(activeLocation.getFloor());
+      refreshMap(oldFloor);
     } else {
       alreadyExistsText.setVisible(true);
     }
@@ -517,6 +524,11 @@ public class LocationListController {
     } else {
       System.out.println("There are still stuff in this location");
     }
+
+    locationChangeDarkenPane.setVisible(false);
+    deleteLocationPlane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    deleteLocationPlane.setDisable(true);
   }
 
   @FXML

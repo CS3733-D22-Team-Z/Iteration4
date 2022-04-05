@@ -30,6 +30,8 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       PreparedStatement pstmt = connection.prepareStatement("Select * From MEDICALEQUIPMENT");
       ResultSet rset = pstmt.executeQuery();
 
+      medicalEquipmentsList.clear();
+
       while (rset.next()) {
         String itemID = rset.getString("itemID");
         String type = rset.getString("type");

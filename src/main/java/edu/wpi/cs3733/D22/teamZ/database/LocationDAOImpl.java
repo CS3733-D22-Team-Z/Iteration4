@@ -27,6 +27,8 @@ public class LocationDAOImpl implements ILocationDAO {
       PreparedStatement pstmt = connection.prepareStatement("Select * From Location");
       ResultSet rset = pstmt.executeQuery();
 
+      locations.clear();
+
       while (rset.next()) {
         String nodeID = rset.getString("nodeID");
         int xcoord = rset.getInt("xcoord");
