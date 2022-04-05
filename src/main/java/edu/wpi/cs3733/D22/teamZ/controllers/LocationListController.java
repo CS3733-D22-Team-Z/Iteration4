@@ -87,7 +87,8 @@ public class LocationListController {
   MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
   // create ObservableList to load locations into map
-  private ObservableList<Location> floorLocations = FXCollections.observableList(new ArrayList<>());
+  // private ObservableList<Location> floorLocations = FXCollections.observableList(new
+  // ArrayList<>());
   private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> allLabels = FXCollections.observableList(new ArrayList<>());
 
@@ -105,11 +106,12 @@ public class LocationListController {
     // floorLocations.remove(0, floorLocations.size());
     totalLocations.addAll(FXCollections.observableList(locDAO.getAllLocations()));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
-    floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
+    // floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
 
-    initLabels();
+    // initLabels();
 
-    showLocations("1");
+    // showLocations("1");
+    refreshMap("1");
 
     // change floor with dropdown
     changeFloor.setOnAction(
@@ -436,8 +438,9 @@ public class LocationListController {
   }
 
   private void changeToFloor(String nFloor) {
-    floorLocations.remove(0, floorLocations.size());
-    floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase(nFloor)));
+    // floorLocations.remove(0, floorLocations.size());
+    // floorLocations.addAll(totalLocations.filtered(loc ->
+    // loc.getFloor().equalsIgnoreCase(nFloor)));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + nFloor + ".png"));
     showLocations(nFloor);
   }
@@ -481,5 +484,12 @@ public class LocationListController {
       label.relocate(current.getXcoord() - 8, current.getYcoord() - 10);
       allLabels.add(label);
     }
+  }
+
+  private void refreshMap(String floor) {
+    totalLocations.remove(0, totalLocations.size());
+    totalLocations.addAll(locDAO.getAllLocations());
+    initLabels();
+    showLocations(floor);
   }
 }
