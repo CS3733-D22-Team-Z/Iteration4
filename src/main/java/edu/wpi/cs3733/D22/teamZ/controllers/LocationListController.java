@@ -192,11 +192,11 @@ public class LocationListController {
     pane.getChildren()
         .addAll(
             allLabels.filtered(
-                label ->
-                    totalLocations
-                        .get(allLabels.indexOf(label))
-                        .getFloor()
-                        .equalsIgnoreCase(floor)));
+                label -> {
+                  Location temp = totalLocations.get(allLabels.indexOf(label));
+                  return temp.getFloor().equalsIgnoreCase(floor)
+                      && !temp.getNodeType().equalsIgnoreCase("hall");
+                }));
   }
 
   // function to check if user has clicked outside of label
