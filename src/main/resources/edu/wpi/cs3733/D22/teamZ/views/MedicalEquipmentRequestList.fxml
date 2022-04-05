@@ -71,5 +71,6 @@
           <TableColumn fx:id="detailsColumn" prefWidth="86.0" text="Request" />
         </columns>
       </TableView>
+      <Button fx:id="exportCSVButton" layoutX="453.0" layoutY="33.0" mnemonicParsing="false" onAction="#exportToCSV" text="Export to CSV..." />
     </children>
 </AnchorPane>

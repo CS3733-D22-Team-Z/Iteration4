@@ -17,7 +17,7 @@ public class EmployeeControlCSV extends ControlCSV {
     writeCSV(objToData(in), headers);
   }
 
-  protected List<Employee> readLocCSV() throws IOException {
+  protected List<Employee> readEmpCSV() throws IOException {
     return dataToObj(readCSV());
   }
 
