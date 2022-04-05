@@ -60,7 +60,14 @@ public class LocationListController {
   @FXML private Pane editLocationPane;
   @FXML private Pane locationChangeDarkenPane;
   private Location activeLocation;
-  //
+
+  // Daniel's Stuff
+  // Buttons
+  @FXML private Button deleteMapLocation;
+  @FXML private Button cancelLocationSelection;
+  // text field box to select location to delete
+  @FXML private TextField locationToDeleteTextField;
+  @FXML private Pane deleteLocationPlane;
 
   // urls to other pages
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
@@ -125,6 +132,10 @@ public class LocationListController {
     editLocationPane.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
     editLocationPane.setDisable(true);
+
+    // Daniel's Stuff
+    deleteLocationPlane.setVisible(false);
+    deleteLocationPlane.setDisable(true);
   }
 
   private void showLocations(ObservableList<Location> floor) {
@@ -354,5 +365,36 @@ public class LocationListController {
     editLocationPane.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
     editLocationPane.setDisable(true);
+  }
+
+  @FXML
+  public void deleteLocation() throws IOException {
+    Location temp = locDAO.getLocationByID(locationToDeleteTextField.getText());
+    if (temp.getNodeID().equals(null)) {
+      System.out.println("Did not find location in database");
+      return;
+    }
+    if (locDAO.deleteLocation(temp)) {
+      System.out.println("Deletion Successful");
+    } else {
+      System.out.println("There are still stuff in this location");
+    }
+  }
+
+  @FXML
+  public void cancelLocationToDelete() throws IOException {
+    locationChangeDarkenPane.setVisible(false);
+    deleteLocationPlane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    deleteLocationPlane.setDisable(true);
+  }
+
+  @FXML
+  private void deleteLocationButtonClicked(ActionEvent event) throws IOException {
+    locationChangeDarkenPane.setVisible(true);
+    deleteLocationPlane.setVisible(true);
+    locationChangeDarkenPane.setDisable(false);
+    deleteLocationPlane.setDisable(false);
+    locationToDeleteTextField.setText(activeLocation.getNodeID());
   }
 }

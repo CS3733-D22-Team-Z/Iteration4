@@ -69,7 +69,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="deleteLocation" disable="true" mnemonicParsing="false" prefHeight="41.0" prefWidth="171.0" style="-fx-background-color: #0075FF; -fx-background-radius: 5;" text="Delete Location" textFill="WHITE">
+            <Button fx:id="deleteLocation" disable="true" mnemonicParsing="false" onAction="#deleteLocationButtonClicked" prefHeight="41.0" prefWidth="171.0" style="-fx-background-color: #0075FF; -fx-background-radius: 5;" text="Delete Location" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -298,7 +298,7 @@
                   </ImageView>
                </graphic></Button>
             <Text fx:id="alreadyExistsText" fill="RED" layoutX="221.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location already exists" visible="false" />
-            <TextField fx:id="selectLocationTextField" layoutX="30.0" layoutY="87.0" prefHeight="33.0" prefWidth="239.0" style="-fx-background-color: #FFFFFF;">
+            <TextField fx:id="selectLocationTextField" editable="false" layoutX="30.0" layoutY="87.0" prefHeight="33.0" prefWidth="239.0" style="-fx-background-color: #FFFFFF;">
                <effect>
                   <DropShadow>
                      <color>
@@ -307,6 +307,26 @@
                   </DropShadow>
                </effect>
             </TextField>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <Pane fx:id="deleteLocationPlane" layoutX="838.0" layoutY="658.0" prefHeight="174.0" prefWidth="384.0" style="-fx-background-color: white; -fx-background-radius: 10 10 10 10;">
+         <children>
+            <Text layoutX="30.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete Location" wrappingWidth="144.21630859375">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text fill="#7b7b7b" layoutX="30.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location to be deleted" wrappingWidth="144.21630859375">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Text>
+            <Button fx:id="deleteMapLocation" layoutX="31.0" layoutY="127.0" mnemonicParsing="false" onAction="#deleteLocation" style="-fx-background-color: #0075FF;" text="Delete" textFill="WHITE" />
+            <Button fx:id="cancelLocationSelection" layoutX="115.0" layoutY="127.0" mnemonicParsing="false" onAction="#cancelLocationToDelete" style="-fx-background-color: FF4343;" text="Cancel" textFill="WHITE" />
+            <TextField fx:id="locationToDeleteTextField" disable="true" layoutX="30.0" layoutY="75.0" />
          </children>
          <effect>
             <DropShadow />
