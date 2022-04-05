@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="864.0" prefWidth="1439.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<AnchorPane prefHeight="864.0" prefWidth="1439.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
       <ImageView fx:id="map" fitHeight="850.0" fitWidth="1153.0" layoutX="216.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -194,9 +202,9 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <TextField fx:id="searchField" layoutX="217.0" onKeyTyped="#search" prefHeight="51.0" prefWidth="415.0" promptText="Search...">
+      <TextField fx:id="searchField" layoutX="227.0" layoutY="11.0" onKeyTyped="#search" prefHeight="51.0" prefWidth="415.0" promptText="Search..." style="-fx-background-radius: 10; -fx-background-color: #FFFFFF;">
          <font>
-            <Font size="24.0" />
+            <Font size="19.0" />
          </font>
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" offsetX="2.0" offsetY="2.0" radius="4.5" width="10.0">
@@ -205,8 +213,11 @@
                </color>
             </DropShadow>
          </effect>
+         <padding>
+            <Insets left="55.0" />
+         </padding>
       </TextField>
-      <ListView fx:id="searchResultList" layoutX="217.0" layoutY="53.0" onMouseClicked="#resultMouseClick" prefHeight="472.0" prefWidth="415.0" visible="false" />
+      <ListView fx:id="searchResultList" layoutX="228.0" layoutY="61.0" onMouseClicked="#resultMouseClick" prefHeight="472.0" prefWidth="415.0" style="-fx-background-radius: 10;" visible="false" />
       <Pane fx:id="locationChangeDarkenPane" opacity="0.26" prefHeight="864.0" prefWidth="1442.0" style="-fx-background-color: #000000;" visible="false" />
       <Pane fx:id="editLocationPane" layoutX="838.0" layoutY="391.0" prefHeight="440.0" prefWidth="384.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: F6F6F6; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;">
          <children>
@@ -304,19 +315,16 @@
                   </ImageView>
                </graphic></Button>
             <Text fx:id="alreadyExistsText" fill="RED" layoutX="221.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location already exists" visible="false" />
-            <TextField fx:id="selectLocationTextField" editable="false" layoutX="30.0" layoutY="87.0" prefHeight="33.0" prefWidth="239.0" style="-fx-background-color: #FFFFFF;">
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color opacity="0.5199999809265137" />
-                     </color>
-                  </DropShadow>
-               </effect>
-            </TextField>
+            <TextField fx:id="selectLocationTextField" disable="true" editable="false" layoutX="30.0" layoutY="87.0" prefHeight="33.0" prefWidth="239.0" style="-fx-background-color: #FFFFFF;" />
          </children>
          <effect>
             <DropShadow />
          </effect>
       </Pane>
+      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="242.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/search.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
