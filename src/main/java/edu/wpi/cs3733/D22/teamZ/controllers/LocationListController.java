@@ -665,10 +665,10 @@ public class LocationListController {
         new Image("edu/wpi/cs3733/D22/teamZ/images/" + floorField.getValue().toString() + ".png"));
     // showLocations(nFloor);
 
-    // addLocationPane.setVisible(false);
-    // locationChangeDarkenPane.setVisible(false);
-    // addLocationPane.setDisable(true);
-    // locationChangeDarkenPane.setDisable(true);
+    addLocationPane.setVisible(false);
+    locationChangeDarkenPane.setVisible(false);
+    addLocationPane.setDisable(true);
+    locationChangeDarkenPane.setDisable(true);
   }
 
   public void exportToCSV(ActionEvent actionEvent) {
@@ -707,6 +707,5 @@ public class LocationListController {
             + numberConflicts
             + " locations that are"
             + " trying to get deleted but still have equipment in it");
-
   }
 }
