@@ -55,7 +55,7 @@ public class MealServiceRequestListController implements Initializable {
   @FXML private JFXListView<Label> identifierList;
   @FXML private JFXListView dataList;
 
-  private final String toHomepageURL = "views/Homepage.fxml";
+  private final String toMealServiceURL = "views/MealService.fxml";
 
   // List of identifiers for each
   private String[] identifiers = {
@@ -150,7 +150,7 @@ public class MealServiceRequestListController implements Initializable {
   // Called whenever the back button is clicked.
   public void backClicked() throws IOException {
     Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toHomepageURL));
+    Parent root = FXMLLoader.load(App.class.getResource(toMealServiceURL));
     Scene scene = new Scene(root);
     mainStage.setScene(scene);
   }

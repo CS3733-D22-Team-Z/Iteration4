@@ -54,19 +54,16 @@
                 <Insets />
             </opaqueInsets>
         </TextField>
-        <Label layoutX="22.0" layoutY="194.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Room Number" textFill="#7b7b7b">
+        <Label layoutX="22.0" layoutY="194.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Patient Room (Short Name)" textFill="#7b7b7b">
             <font>
                 <Font name="Segoe UI Bold" size="9.0" />
             </font>
         </Label>
-        <TextField fx:id="enterRoomNumber" layoutX="148.0" layoutY="227.0" onMouseExited="#validateButton" promptText="Enter room number">
-            <effect>
-                <DropShadow />
-            </effect>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-        </TextField>
+      <ChoiceBox fx:id="patientRoomDropDown" layoutX="149.0" layoutY="226.0" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ChoiceBox>
         <Label layoutX="23.0" layoutY="252.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Montserrat Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Meal Service Option" textFill="#7b7b7b">
             <font>
                 <Font name="Segoe UI Bold" size="9.0" />
@@ -113,6 +110,26 @@
             </font>
         </JFXButton>
       <JFXButton fx:id="resetButton" layoutX="103.0" layoutY="320.0" onAction="#onResetButtonClicked" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Reset" textFill="WHITE">
+         <font>
+            <Font name="Segoe UI Bold" size="10.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="429.0" layoutY="14.0" onAction="#toAllMealRequestList" prefHeight="32.0" prefWidth="158.0" style="-fx-background-radius: 5; -fx-background-color: FFFFFF;" text="Show All Meal Requests">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="22.0" layoutY="358.0" prefHeight="17.0" prefWidth="70.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Submit Status:" textFill="#7b7b7b">
+         <font>
+            <Font name="Segoe UI Bold" size="9.0" />
+         </font>
+      </Label>
+      <Label fx:id="submitStatusIndicator" layoutX="98.0" layoutY="359.0" prefHeight="17.0" prefWidth="70.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" textAlignment="CENTER" textFill="#7b7b7b">
+         <font>
+            <Font name="Segoe UI Bold" size="9.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="listButton" layoutX="277.0" layoutY="42.0" onAction="#onListButtonClicked" prefWidth="128.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 128; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Show All Meal Requests" textFill="WHITE">
          <font>
             <Font name="Segoe UI Bold" size="10.0" />
          </font>

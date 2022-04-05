@@ -1,0 +1,111 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+
+<!--<?import com.jfoenix.controls.JFXButton?>-->
+<!--<?import javafx.geometry.Insets?>-->
+<!--<?import javafx.scene.control.ChoiceBox?>-->
+<!--<?import javafx.scene.control.Label?>-->
+<!--<?import javafx.scene.control.ListView?>-->
+<!--<?import javafx.scene.control.Tab?>-->
+<!--<?import javafx.scene.control.TabPane?>-->
+<!--<?import javafx.scene.effect.DropShadow?>-->
+<!--<?import javafx.scene.image.Image?>-->
+<!--<?import javafx.scene.image.ImageView?>-->
+<!--<?import javafx.scene.layout.AnchorPane?>-->
+<!--<?import javafx.scene.text.Font?>-->
+
+<!--<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MealServiceController">-->
+<!--    <children>-->
+<!--      <JFXButton fx:id="backButton" layoutX="3.0" layoutY="338.0" onAction="#onBackButtonClicked" prefWidth="128.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 128; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Back to Dashboard" textFill="WHITE">-->
+<!--         <font>-->
+<!--            <Font name="Segoe UI Bold" size="10.0" />-->
+<!--         </font>-->
+<!--      </JFXButton>-->
+<!--        <Label layoutX="128.0" layoutY="222.0" textFill="#949292" />-->
+<!--        <Label layoutX="12.0" layoutY="278.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Montserrat Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Meal Service Option" textFill="#7b7b7b">-->
+<!--            <font>-->
+<!--                <Font name="Segoe UI Bold" size="9.0" />-->
+<!--            </font>-->
+<!--        </Label>-->
+<!--        <ChoiceBox fx:id="mealSelectionDropDown" layoutX="138.0" layoutY="311.0" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">-->
+<!--            <effect>-->
+<!--                <DropShadow />-->
+<!--            </effect>-->
+<!--        </ChoiceBox>-->
+<!--        <ListView fx:id="currentMealRequests" layoutX="403.0" layoutY="193.0" onMouseExited="#validateButton" prefHeight="74.0" prefWidth="179.0">-->
+<!--            <effect>-->
+<!--                <DropShadow />-->
+<!--            </effect>-->
+<!--        </ListView>-->
+<!--        <Label layoutX="277.0" layoutY="155.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="My Order" textFill="#7b7b7b">-->
+<!--            <font>-->
+<!--                <Font name="Segoe UI Bold" size="14.0" />-->
+<!--            </font>-->
+<!--        </Label>-->
+<!--        <JFXButton fx:id="submitButton" layoutX="-99.0" layoutY="121.0" onAction="#onSubmitButtonClicked" onMouseExited="#validateButton" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text=" Submit" textFill="WHITE">-->
+<!--            <font>-->
+<!--                <Font name="Segoe UI Bold" size="10.0" />-->
+<!--            </font>-->
+<!--        </JFXButton>-->
+<!--      <JFXButton fx:id="resetButton" layoutX="-83.0" layoutY="169.0" onAction="#onResetButtonClicked" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Reset" textFill="WHITE">-->
+<!--         <font>-->
+<!--            <Font name="Segoe UI Bold" size="10.0" />-->
+<!--         </font>-->
+<!--      </JFXButton>-->
+<!--      <ImageView fitHeight="96.0" fitWidth="478.0" layoutX="122.0">-->
+<!--         <image>-->
+<!--            <Image url="@../../images/MealOptions/Lettuce1.PNG" />-->
+<!--         </image>-->
+<!--      </ImageView>-->
+<!--      <Label layoutX="137.0" layoutY="113.0" prefHeight="22.0" prefWidth="416.0" text="Meal Request for the Brigham and Women's Hospital App ">-->
+<!--         <font>-->
+<!--            <Font name="System Bold" size="15.0" />-->
+<!--         </font>-->
+<!--      </Label>-->
+<!--      <Label layoutX="138.0" layoutY="137.0" text="Use the buttons below or menu on the left to navigate the app." textFill="#9d9d9d" />-->
+<!--      <JFXButton buttonType="RAISED" layoutX="137.0" layoutY="179.0" onAction="#toLocations" prefHeight="32.0" prefWidth="220.0" style="-fx-background-radius: 5; -fx-background-color: FFFFFF;" text="Cafeteria" wrapText="true">-->
+<!--         <font>-->
+<!--            <Font name="System Bold" size="12.0" />-->
+<!--         </font>-->
+<!--         <padding>-->
+<!--            <Insets right="150.0" />-->
+<!--         </padding>-->
+<!--      </JFXButton>-->
+<!--      <JFXButton buttonType="RAISED" layoutX="137.0" layoutY="231.0" onAction="#toLocations" prefHeight="32.0" prefWidth="220.0" style="-fx-background-radius: 5; -fx-background-color: FFFFFF;" text="Atrium Cafe">-->
+<!--         <font>-->
+<!--            <Font name="System Bold" size="12.0" />-->
+<!--         </font>-->
+<!--         <padding>-->
+<!--            <Insets right="135.0" />-->
+<!--         </padding>-->
+<!--      </JFXButton>-->
+<!--      <Label layoutX="292.0" layoutY="197.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Awaiting selection..." textFill="#7b7b7b">-->
+<!--         <font>-->
+<!--            <Font name="Segoe UI Bold" size="12.0" />-->
+<!--         </font>-->
+<!--      </Label>-->
+<!--      <Label layoutX="278.0" layoutY="271.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Order Settings" textFill="#7b7b7b">-->
+<!--         <font>-->
+<!--            <Font name="Segoe UI Bold" size="14.0" />-->
+<!--         </font>-->
+<!--      </Label>-->
+<!--      <TabPane layoutX="403.0" layoutY="301.0" prefHeight="80.0" prefWidth="179.0" tabClosingPolicy="UNAVAILABLE">-->
+<!--        <tabs>-->
+<!--          <Tab text="Location">-->
+<!--            <content>-->
+<!--              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
+<!--            </content>-->
+<!--          </Tab>-->
+<!--          <Tab text="Service">-->
+<!--            <content>-->
+<!--              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
+<!--            </content>-->
+<!--          </Tab>-->
+<!--            <Tab text="Time">-->
+<!--              <content>-->
+<!--                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
+<!--              </content>-->
+<!--            </Tab>-->
+<!--        </tabs>-->
+<!--      </TabPane>-->
+<!--    </children>-->
+<!--</AnchorPane>-->

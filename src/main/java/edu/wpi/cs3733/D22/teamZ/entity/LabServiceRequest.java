@@ -27,6 +27,11 @@ public class LabServiceRequest {
     return employeeID;
   }
 
+  /**
+   * Gets the lab type for this lab request
+   *
+   * @return Lab type
+   */
   public String getLabType() {
     return labType;
   }

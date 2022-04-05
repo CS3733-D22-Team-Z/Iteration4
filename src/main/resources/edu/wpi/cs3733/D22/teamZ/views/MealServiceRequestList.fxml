@@ -3,9 +3,10 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXTreeTableColumn?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
@@ -17,14 +18,6 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <JFXTreeTableView fx:id="requestTable" layoutX="9.0" layoutY="72.0" prefHeight="310.0" prefWidth="395.0" style="-fx-background-radius: 10;">
-            <columns>
-                <JFXTreeTableColumn fx:id="idColumn" editable="false" prefWidth="41.20001029968262" reorderable="false" resizable="false" sortable="false" text="ID" />
-                <JFXTreeTableColumn fx:id="typeColumn" editable="false" prefWidth="155.9999771118164" reorderable="false" resizable="false" sortable="false" text="Order" />
-                <JFXTreeTableColumn fx:id="statusColumn" editable="false" prefWidth="101.5999755859375" reorderable="false" resizable="false" sortable="false" text="Status" />
-                <JFXTreeTableColumn fx:id="locationColumn" editable="false" prefWidth="99.20001220703125" reorderable="false" resizable="false" sortable="false" text="Location" />
-            </columns>
-        </JFXTreeTableView>
         <JFXButton fx:id="refreshButton" layoutX="341.0" layoutY="66.0" onAction="#refreshClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Refresh" textFill="WHITE">
             <font>
                 <Font name="Segoe UI Bold" size="10.0" />
@@ -76,5 +69,18 @@
                 <Font name="Segoe UI Bold" size="10.0" />
             </font>
         </JFXButton>
+      <TableView id="Locations" fx:id="Locations" layoutX="20.0" layoutY="79.0" prefHeight="305.0" prefWidth="384.0">
+         <columns>
+            <TableColumn id="nodeID" fx:id="nodeID" prefWidth="47.20001411437988" text="REQID" />
+            <TableColumn id="xCoord" prefWidth="46.79998779296875" text="TIME" fx:id="xCoord" />
+            <TableColumn id="yCoord" fx:id="yCoord" prefWidth="66.40001678466797" text="NAME" />
+            <TableColumn id="floor" fx:id="floor" prefWidth="65.5999755859375" text="ROOM" />
+            <TableColumn id="building" fx:id="building" prefWidth="64.0" text="STATUS" />
+            <TableColumn id="nodeType" fx:id="nodeType" prefWidth="92.00003051757812" text="ORDER" />
+         </columns>
+         <effect>
+            <DropShadow />
+         </effect>
+      </TableView>
     </children>
 </AnchorPane>
