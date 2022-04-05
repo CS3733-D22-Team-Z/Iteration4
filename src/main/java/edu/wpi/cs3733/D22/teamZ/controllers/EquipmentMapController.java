@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.D22.teamZ.App;
 import edu.wpi.cs3733.D22.teamZ.database.ILocationDAO;
 import edu.wpi.cs3733.D22.teamZ.database.IMedicalEquipmentDAO;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
@@ -10,7 +9,6 @@ import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 import javafx.event.ActionEvent;
@@ -67,6 +65,7 @@ public class EquipmentMapController implements Initializable {
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
   private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
+  private String imageRoot = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
 
   /**
    * Initializes the map, changeFloor box, images, and database operations.
@@ -83,11 +82,11 @@ public class EquipmentMapController implements Initializable {
     changeFloor.getItems().addAll("L1", "L2", "1", "2", "3");
 
     // Load images now for use later
-    InputStream rsc = App.class.getResourceAsStream("images/location.png");
-    markerImage = new Image(rsc);
+    URL rsc = getClass().getClassLoader().getResource(String.format(imageRoot, "location"));
+    markerImage = new Image("file:" + rsc.getPath());
 
-    rsc = App.class.getResourceAsStream("images/home.png");
-    iconImage = new Image(rsc);
+    rsc = getClass().getClassLoader().getResource(String.format(imageRoot, "home"));
+    iconImage = new Image("file:" + rsc.getPath());
 
     // Setup DAOs
     locationDAO = new LocationDAOImpl();
@@ -116,8 +115,8 @@ public class EquipmentMapController implements Initializable {
     String floor = changeFloor.getSelectionModel().getSelectedItem();
 
     // Switch map image
-    mapImage.setImage(
-        new Image(App.class.getResourceAsStream(String.format("images/%s.png", floor))));
+    URL rsc = getClass().getClassLoader().getResource(String.format(imageRoot, floor));
+    mapImage.setImage(new Image("file:" + rsc.getPath()));
 
     // Reset canvas and iconContainer
     iconContainer.getChildren().clear();
