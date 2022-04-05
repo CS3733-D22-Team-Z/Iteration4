@@ -46,7 +46,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
         }
       }
     } catch (SQLException e) {
-      System.out.println("Failed to get all Locations");
+      System.out.println("Failed to get all Medical Equipment");
     }
     return medicalEquipmentsList;
   }
