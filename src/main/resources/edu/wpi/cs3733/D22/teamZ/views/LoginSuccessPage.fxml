@@ -7,17 +7,17 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LoginPageSuccessController">
    <children>
-      <Label fx:id="welcomeMessage" layoutX="-2.0" layoutY="4.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Hello, %s!">
+      <Label fx:id="welcomeMessage" layoutX="146.0" layoutY="4.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Hello, %s!">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="-2.0" layoutY="21.0" prefHeight="18.0" prefWidth="249.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Login successful! Click the button below to return to the main screen." textFill="#9d9d9d">
+      <Label layoutX="80.0" layoutY="21.0" prefHeight="18.0" prefWidth="189.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Login successful! Click the button below to continue." textFill="#9d9d9d">
          <font>
             <Font name="Segoe UI Bold" size="7.5" />
          </font>
       </Label>
-      <JFXButton fx:id="returnButton" layoutX="-2.0" layoutY="39.0" onAction="#returnButtonClicked" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Return" textFill="WHITE">
+      <JFXButton fx:id="continueButton" layoutX="139.0" layoutY="45.0" onAction="#continueButtonClicked" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Continue" textFill="WHITE">
          <font>
             <Font name="Segoe UI Bold" size="10.0" />
          </font>

@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D22.teamZ.App;
 import edu.wpi.cs3733.D22.teamZ.database.EmployeeDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.IEmployeeDAO;
@@ -18,7 +17,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LoginPageController implements Initializable {
-  @FXML private JFXButton backButton;
   @FXML private TextField usernameField;
   @FXML private TextField passwordField;
   @FXML private Label errorLabel;
@@ -55,25 +53,25 @@ public class LoginPageController implements Initializable {
                 "Login successful! User: %s, Password: %s",
                 user.getUsername(), user.getPassword()));
         enterNormalState();
+        try {
+          loadSuccessScreen(user.getUsername());
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
     } else {
       enterErrorState();
     }
 
-    try {
-      loadSuccessScreen("Test");
-    } catch (Exception e) {
-      e.printStackTrace();
+    if (!usernameField.getText().isEmpty()) {
+      try {
+        loadSuccessScreen(usernameField.getText());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    } else {
+      enterErrorState();
     }
-  }
-
-  @FXML
-  public void backButtonPressed() throws IOException {
-    // Load the default FXML file and set that scene to the main stage.
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
-    Scene scene = new Scene(root);
-    mainStage.setScene(scene);
   }
 
   public void enterErrorState() {
@@ -90,7 +88,7 @@ public class LoginPageController implements Initializable {
 
   public void loadSuccessScreen(String username) throws IOException {
     // Load the default FXML file and set that scene to the main stage.
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
+    Stage mainStage = (Stage) usernameField.getScene().getWindow();
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(App.class.getResource(toLoginSuccessURL));
     Parent root = loader.load();

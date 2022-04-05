@@ -29,7 +29,6 @@ public class LandingPageController {
   private final String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private final String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
-  private final String toLoginURL = "edu/wpi/cs3733/D22/teamZ/views/LoginPage.fxml";
 
   @FXML
   private void navMedicalEquipment(ActionEvent event) throws IOException {
@@ -98,16 +97,6 @@ public class LandingPageController {
     System.out.println("navigating to computer from landing page");
     Parent root =
         FXMLLoader.load(getClass().getClassLoader().getResource(toComputerServiceRequestURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
-  @FXML
-  private void navLogin(ActionEvent event) throws IOException {
-    System.out.println("navigating to login from landing page");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLoginURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);

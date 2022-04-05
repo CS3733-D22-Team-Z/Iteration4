@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LoginPageController">
    <children>
-      <TextField fx:id="usernameField" layoutX="114.0" layoutY="127.0" promptText="Username">
+      <TextField fx:id="usernameField" layoutX="225.0" layoutY="90.0" promptText="Username">
          <effect>
             <DropShadow />
          </effect>
@@ -18,22 +18,22 @@
             <Insets />
          </opaqueInsets>
       </TextField>
-      <Label layoutX="-12.0" layoutY="41.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Login">
+      <Label layoutX="158.0" layoutY="4.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Login">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="-12.0" layoutY="58.0" prefHeight="17.0" prefWidth="211.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Enter your username and password below." textFill="#9d9d9d">
+      <Label layoutX="96.0" layoutY="21.0" prefHeight="17.0" prefWidth="155.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Enter your username and password below." textFill="#9d9d9d">
          <font>
             <Font name="Segoe UI Bold" size="7.5" />
          </font>
       </Label>
-      <JFXButton fx:id="loginButton" layoutX="-12.0" layoutY="187.0" onAction="#loginButtonPressed" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Login" textFill="WHITE">
+      <JFXButton fx:id="loginButton" layoutX="139.0" layoutY="149.0" onAction="#loginButtonPressed" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Login" textFill="WHITE">
          <font>
             <Font name="Segoe UI Bold" size="10.0" />
          </font>
       </JFXButton>
-      <TextField fx:id="passwordField" layoutX="114.0" layoutY="160.0" promptText="Password">
+      <TextField fx:id="passwordField" layoutX="225.0" layoutY="123.0" promptText="Password">
          <effect>
             <DropShadow />
          </effect>
@@ -41,15 +41,10 @@
             <Insets />
          </opaqueInsets>
       </TextField>
-      <Label fx:id="errorLabel" layoutX="-12.0" layoutY="91.0" prefHeight="18.0" prefWidth="361.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Error: Login failed. Check your username and password and try again." textFill="#ff4f4f" visible="false">
+      <Label fx:id="errorLabel" layoutX="-7.0" layoutY="53.0" prefHeight="18.0" prefWidth="361.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Error: Login failed. Check your username and password and try again." textFill="#ff4f4f" visible="false">
          <font>
             <Font name="Segoe UI Bold" size="11.0" />
          </font>
       </Label>
-      <JFXButton fx:id="backButton" layoutX="-15.0" layoutY="1.0" onAction="#backButtonPressed" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Back" textFill="WHITE">
-         <font>
-            <Font name="Segoe UI Bold" size="10.0" />
-         </font>
-      </JFXButton>
    </children>
 </AnchorPane>
