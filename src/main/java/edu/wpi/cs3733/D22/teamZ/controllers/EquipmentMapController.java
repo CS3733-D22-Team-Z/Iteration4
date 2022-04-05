@@ -13,11 +13,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -47,7 +49,7 @@ public class EquipmentMapController implements Initializable {
   @FXML private HBox equipmentQuantities;
   @FXML private Pane iconContainer;
   @FXML private JFXComboBox<String> changeFloor;
-  @FXML private JFXButton backButton;
+  @FXML private JFXButton exitButton;
 
   // Database variables
   private ILocationDAO locationDAO;
@@ -59,7 +61,12 @@ public class EquipmentMapController implements Initializable {
   private Image iconImage;
 
   // URL to landing page on exit.
-  private String toLandingPageURL = "views/LandingPage.fxml";
+  private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
+  private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+  private String toMedicalEquipmentRequestURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
+  private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
+  private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
 
   /**
    * Initializes the map, changeFloor box, images, and database operations.
@@ -128,20 +135,6 @@ public class EquipmentMapController implements Initializable {
   @FXML
   public void iconContainerClicked() {
     detailsPopup.setVisible(false);
-  }
-
-  /**
-   * Called when the back button is clicked. This will exit the EquipmentMap and return the user to
-   * the landing page.
-   *
-   * @throws IOException XML file was not found
-   */
-  @FXML
-  private void toLandingPage() throws IOException {
-    Stage primaryStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
   }
 
   /**
@@ -306,5 +299,64 @@ public class EquipmentMapController implements Initializable {
         }
       }
     }
+  }
+
+  @FXML
+  private void toLocations(ActionEvent event) throws IOException {
+    System.out.println("navigating to locations from home");
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLocationsURL));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  @FXML
+  private void toLandingPage(ActionEvent event) throws IOException {
+    System.out.println("navigating to landing page from home");
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLandingPageURL));
+    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    primaryStage.setScene(scene);
+    primaryStage.show();
+  }
+
+  @FXML
+  private void toMedicalEquipmentRequest(ActionEvent event) throws IOException {
+    System.out.println("navigating to Medical Equipment Request page from home");
+    Parent root =
+        FXMLLoader.load(getClass().getClassLoader().getResource(toMedicalEquipmentRequestURL));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  @FXML
+  private void toHome(ActionEvent event) throws IOException {
+    System.out.println("navigating to home using home button on sidebar");
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomeURL));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  @FXML
+  private void toExit(ActionEvent event) {
+    System.out.println("exit the app using exit button bottom left");
+    Stage stage = (Stage) exitButton.getScene().getWindow();
+    stage.close();
+  }
+
+  // when the medical equipment map menu button is clicked navigate to medical equipment map page
+  @FXML
+  private void toEquipmentMap(ActionEvent event) throws IOException {
+    System.out.println("navigating to medical equipment map from home");
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toEquipmentMapURL));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
   }
 }

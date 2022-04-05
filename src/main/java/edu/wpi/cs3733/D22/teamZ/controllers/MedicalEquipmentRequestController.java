@@ -9,9 +9,10 @@ import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.IOException;
 import java.util.List;
+
+import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,38 +77,38 @@ public class MedicalEquipmentRequestController {
     equipmentDropDown.setValue(null);
   }
 
-  @FXML
-  private void onSubmitButtonClicked(ActionEvent actionEvent) {
-    System.out.println("Room Number: " + enterRoomNumber.getText());
-    System.out.println("Floor Number: " + enterFloorNumber.getText());
-    System.out.println("nodeType: " + enterNodeType.getText());
-    System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
+    @FXML
+    private void onSubmitButtonClicked(ActionEvent actionEvent) {
+      System.out.println("Room Number: " + enterRoomNumber.getText());
+      System.out.println("Floor Number: " + enterFloorNumber.getText());
+      System.out.println("nodeType: " + enterNodeType.getText());
+      System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
-    MedicalEquipmentDeliveryRequest lastestReq =
-        equipmentRequestList.get(equipmentRequestList.size() - 1);
-    String id = lastestReq.getRequestID();
-    int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
+      MedicalEquipmentDeliveryRequest lastestReq =
+          equipmentRequestList.get(equipmentRequestList.size() - 1);
+      String id = lastestReq.getRequestID();
+      int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
 
-    String requestID = "REQ" + num;
-    String itemID = equipmentDropDown.getValue().toString();
-    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
-    Employee issuer = new Employee("Pat" + num, "Pat", Employee.AccessType.ADMIN, "", "");
-    Employee handler = new Employee("Jake" + num, "Jake", Employee.AccessType.ADMIN, "", "");
+      String requestID = "REQ" + num;
+      String itemID = equipmentDropDown.getValue().toString();
+      ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
+      Employee issuer = new Employee("Pat" + num, "Pat", Employee.AccessType.ADMIN, "", "");
+      Employee handler = new Employee("Jake" + num, "Jake", Employee.AccessType.ADMIN, "", "");
 
-    // TODO add method to pick a free MedicalEquipment from the table of this type
-    String equipmentID = equipmentDropDown.getValue().toString();
+      // TODO add method to pick a free MedicalEquipment from the table of this type
+      String equipmentID = equipmentDropDown.getValue().toString();
 
-    String nodeID =
-        Location.createNodeID(
-            enterNodeType.getText(), enterRoomNumber.getText(), enterFloorNumber.getText());
-    Location targetLoc = locationDAO.getLocationByID(nodeID);
+      String nodeID =
+          Location.createNodeID(
+              enterNodeType.getText(), enterRoomNumber.getText(), enterFloorNumber.getText());
+      Location targetLoc = locationDAO.getLocationByID(nodeID);
 
-    MedicalEquipmentDeliveryRequest temp =
-        new MedicalEquipmentDeliveryRequest(
-            requestID, status, issuer, handler, equipmentID, targetLoc);
+      MedicalEquipmentDeliveryRequest temp =
+          new MedicalEquipmentDeliveryRequest(
+              requestID, status, issuer, handler, equipmentID, targetLoc);
 
-    medicalEquipmentRequestDAO.addMedEquipReq(temp);
-  }
+      medicalEquipmentRequestDAO.addMedEquipReq(temp);
+    }
 
   @FXML
   private void validateButton() {

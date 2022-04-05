@@ -79,6 +79,7 @@ public class LocationListController {
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
+  private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
 
   // init LocationDAOImpl to use sql methods from db
   LocationDAOImpl locDAO = new LocationDAOImpl();
@@ -322,6 +323,17 @@ public class LocationListController {
   private void toHome(ActionEvent event) throws IOException {
     System.out.println("navigating to home using home button on sidebar");
     Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomeURL));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  // when the medical equipment map menu button is clicked navigate to medical equipment map page
+  @FXML
+  private void toEquipmentMap(ActionEvent event) throws IOException {
+    System.out.println("navigating to medical equipment map from home");
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toEquipmentMapURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
