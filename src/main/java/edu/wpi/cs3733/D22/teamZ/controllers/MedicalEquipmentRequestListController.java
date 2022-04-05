@@ -5,6 +5,7 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.cs3733.D22.teamZ.App;
 import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -17,11 +18,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -59,7 +62,7 @@ public class MedicalEquipmentRequestListController implements Initializable {
 
   // List of identifiers for each
   private String[] identifiers = {
-    "ID", "Device", "Assignee", "Handler", "Status", "Current Location", "Target Location"
+    "ID", "Device", "Assignee", "Handler", "Status", "Target Location"
   };
 
   // List of MedEquipReq that represents raw data
@@ -160,13 +163,13 @@ public class MedicalEquipmentRequestListController implements Initializable {
     requests.clear();
 
     // Iterate through each MedEquipReq in entity and create RequestRow for each
-    for (MedicalEquipmentDeliveryRequest MERequest : rawRequests) {
+    for (MedicalEquipmentDeliveryRequest medicalEquipmentRequest : rawRequests) {
       requests.add(
           new RequestRow(
-              MERequest.getRequestID(),
-              MERequest.getEquipment(),
-              MERequest.getIssuer(),
-              MERequest.getStatus()));
+              medicalEquipmentRequest.getRequestID(),
+              medicalEquipmentRequest.getEquipmentID(),
+              medicalEquipmentRequest.getIssuer().getName(),
+              medicalEquipmentRequest.getStatus().toString()));
     }
 
     // Set root's children to requests, and add root to table.
@@ -192,22 +195,19 @@ public class MedicalEquipmentRequestListController implements Initializable {
           data.setText(selectedReq.getRequestID());
           break;
         case 1:
-          data.setText(selectedReq.getEquipment());
+          data.setText(selectedReq.getEquipmentID());
           break;
         case 2:
-          data.setText(selectedReq.getIssuer());
+          data.setText(selectedReq.getIssuer().getName());
           break;
         case 3:
-          data.setText(selectedReq.getHandler());
+          data.setText(selectedReq.getHandler().getName());
           break;
         case 4:
-          data.setText(selectedReq.getStatus());
+          data.setText(selectedReq.getStatus().toString());
           break;
         case 5:
-          data.setText(selectedReq.getCurrentLoc());
-          break;
-        case 6:
-          data.setText(selectedReq.getTargetLoc());
+          data.setText(selectedReq.getTargetLocation().getNodeID());
           break;
       }
 
@@ -222,6 +222,19 @@ public class MedicalEquipmentRequestListController implements Initializable {
 
   public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) {
     return database.getMedEquipReqByID(MeqID);
+  }
+
+  public void exportToCSV(ActionEvent actionEvent) {
+
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File file = fileChooser.showSaveDialog(stage);
+    database.exportToMedEquipReqCSV(file);
   }
 
   // Data structure to represent a row in the request list.

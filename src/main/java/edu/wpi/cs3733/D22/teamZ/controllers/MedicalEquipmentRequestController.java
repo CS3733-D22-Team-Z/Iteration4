@@ -2,13 +2,17 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D22.teamZ.*;
+import edu.wpi.cs3733.D22.teamZ.database.ILocationDAO;
+import edu.wpi.cs3733.D22.teamZ.database.IMedEquipReqDAO;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.IOException;
+import java.util.List;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,9 +23,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class MedicalEquipmentDelivery {
-  private LocationDAOImpl il1 = new LocationDAOImpl();
-  private MedEquipReqDAOImpl im1 = new MedEquipReqDAOImpl();
+public class MedicalEquipmentRequestController {
+  private ILocationDAO locationDAO = new LocationDAOImpl();
+  private IMedEquipReqDAO medicalEquipmentRequestDAO = new MedEquipReqDAOImpl();
 
   @FXML private JFXButton backButton;
   @FXML private JFXButton resetButton;
@@ -40,34 +44,14 @@ public class MedicalEquipmentDelivery {
   private final String toLandingPageURL = "views/LandingPage.fxml";
 
   // Lists
-  private ObservableList<Location> locationList;
-  private ObservableList<MedicalEquipmentDeliveryRequest> equipmentList;
-
-  //  MedicalEquipmentDeliveryRequest oneRequest =
-
-  //  try {
-  //    data =
-  //    // Execute query and store result in a resultset
-  //    ResultSet rs = conn.createStatement().executeQuery("SELECT username FROM user WHERE
-  // userrole='STUDENT';");
-  //    while (rs.next()) {
-  //      //get string from db,whichever way
-  //      data.add(new User(rs.getString("username")));
-  //    }
-  //  } catch (SQLException ex) {
-  //    System.err.println("Error"+ex);
-  //  }
+  private List<Location> locationList;
+  private List<MedicalEquipmentDeliveryRequest> equipmentRequestList;
 
   @FXML
   public void initialize() {
-    locationList = FXCollections.observableList(il1.getAllLocations());
-    equipmentList = FXCollections.observableList(im1.getAllMedEquipReq());
+    locationList = locationDAO.getAllLocations();
+    equipmentRequestList = medicalEquipmentRequestDAO.getAllMedEquipReq();
 
-    //    locationList = il1.getAllLocations();
-    //    System.out.println("locationList");
-    //    System.out.println(locationList);
-    //    System.out.println();
-    //    System.out.println("Test");
     for (Location model : locationList) {
       System.out.println(model.getNodeID());
     }
@@ -99,24 +83,30 @@ public class MedicalEquipmentDelivery {
     System.out.println("nodeType: " + enterNodeType.getText());
     System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
-    MedicalEquipmentDeliveryRequest lastestReq = equipmentList.get(equipmentList.size() - 1);
+    MedicalEquipmentDeliveryRequest lastestReq =
+        equipmentRequestList.get(equipmentRequestList.size() - 1);
     String id = lastestReq.getRequestID();
     int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-    MedicalEquipmentDeliveryRequest temp = new MedicalEquipmentDeliveryRequest();
-    temp.setRequestID("REQ" + num);
 
-    temp.setStatus("Processing"); // default
-    temp.setEquipment(equipmentDropDown.getValue().toString());
-    temp.setHandler("Jake"); // temp
-    temp.setIssuer("Pat"); // temp
-    temp.setCurrentLoc("FDEPT00101"); // temp
+    String requestID = "REQ" + num;
+    String itemID = equipmentDropDown.getValue().toString();
+    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
+    Employee issuer = new Employee("Pat" + num, "Pat", Employee.AccessType.ADMIN, "", "");
+    Employee handler = new Employee("Jake" + num, "Jake", Employee.AccessType.ADMIN, "", "");
 
-    // FDEPT00102
-    String target =
-        "z" + enterNodeType.getText() + enterRoomNumber.getText() + enterFloorNumber.getText();
-    temp.setTargetLoc(target);
+    // TODO add method to pick a free MedicalEquipment from the table of this type
+    String equipmentID = equipmentDropDown.getValue().toString();
 
-    im1.addMedEquipReq(temp);
+    String nodeID =
+        Location.createNodeID(
+            enterNodeType.getText(), enterRoomNumber.getText(), enterFloorNumber.getText());
+    Location targetLoc = locationDAO.getLocationByID(nodeID);
+
+    MedicalEquipmentDeliveryRequest temp =
+        new MedicalEquipmentDeliveryRequest(
+            requestID, status, issuer, handler, equipmentID, targetLoc);
+
+    medicalEquipmentRequestDAO.addMedEquipReq(temp);
   }
 
   @FXML

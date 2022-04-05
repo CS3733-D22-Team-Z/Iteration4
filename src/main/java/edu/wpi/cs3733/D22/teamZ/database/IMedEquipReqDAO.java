@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import java.io.File;
 import java.util.List;
 
 public interface IMedEquipReqDAO {
@@ -14,5 +15,5 @@ public interface IMedEquipReqDAO {
 
   void deleteMedEquipReq(MedicalEquipmentDeliveryRequest req);
 
-  boolean exportToMedEquipReqCSV();
+  boolean exportToMedEquipReqCSV(File data);
 }

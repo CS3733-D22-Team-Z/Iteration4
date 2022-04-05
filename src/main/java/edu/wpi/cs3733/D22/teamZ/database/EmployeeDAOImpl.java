@@ -151,7 +151,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    *
    * @return True if successful, false if not
    */
-  public boolean exportToLocationCSV() {
+  public boolean exportToEmployeeCSV() {
 
     File empData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(empData);

@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import java.io.File;
 import java.util.List;
 
 public interface ILocationDAO {
@@ -48,6 +49,7 @@ public interface ILocationDAO {
    *
    * @return True if successful, false if not
    */
+  boolean exportToLocationCSV(File locData);
   boolean exportToLocationCSV();
 
   /**
