@@ -1,15 +1,16 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.App;
 import edu.wpi.cs3733.D22.teamZ.database.EmployeeDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.IEmployeeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -22,8 +23,8 @@ public class LoginPageController implements Initializable {
   @FXML private Label errorLabel;
 
   private IEmployeeDAO database;
-  private String toLandingPageURL = "views/LandingPage.fxml";
-  private String toLoginSuccessURL = "views/LoginSuccessPage.fxml";
+  private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+  private String toLoginSuccessURL = "edu/wpi/cs3733/D22/teamZ/views/LoginSuccessPage.fxml";
 
   /**
    * Initalizes the employee database for the controller
@@ -41,7 +42,7 @@ public class LoginPageController implements Initializable {
    * login or not. If so, it loads the success screen. If not, it switches to the error state.
    */
   @FXML
-  private void loginButtonPressed() {
+  private void loginButtonPressed(ActionEvent event) {
     // Get account from username
     Employee user = database.getEmployeeByUsername(usernameField.getText());
 
@@ -54,7 +55,7 @@ public class LoginPageController implements Initializable {
                 user.getUsername(), user.getPassword()));
         enterNormalState();
         try {
-          loadSuccessScreen(user.getUsername());
+          loadSuccessScreen(user.getUsername(), event);
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -65,7 +66,7 @@ public class LoginPageController implements Initializable {
 
     if (!usernameField.getText().isEmpty()) {
       try {
-        loadSuccessScreen(usernameField.getText());
+        loadSuccessScreen(usernameField.getText(), event);
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -86,15 +87,24 @@ public class LoginPageController implements Initializable {
     errorLabel.setVisible(false);
   }
 
-  public void loadSuccessScreen(String username) throws IOException {
+  public void loadSuccessScreen(String username, ActionEvent event) throws IOException {
     // Load the default FXML file and set that scene to the main stage.
-    Stage mainStage = (Stage) usernameField.getScene().getWindow();
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(App.class.getResource(toLoginSuccessURL));
+    loader.setLocation(getClass().getClassLoader().getResource(toLoginSuccessURL));
     Parent root = loader.load();
     Scene scene = new Scene(root);
-    mainStage.setScene(scene);
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    stage.setScene(scene);
     LoginPageSuccessController thisController = loader.getController();
     thisController.setWelcomeMessage(username);
+  }
+
+  @FXML
+  public void skipButtonPressed(ActionEvent event) throws IOException {
+    // Load the default FXML file and set that scene to the main stage.
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLandingPageURL));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
   }
 }
