@@ -13,6 +13,13 @@ public interface ILocationDAO {
   List<Location> getAllLocations();
 
   /**
+   * Gets all the nodeIDs for the locations in database
+   *
+   * @return list of nodeIDs
+   */
+  List<String> getAllLocationNodeIDs();
+
+  /**
    * Gets ONE lcoation from the database based on the provided nodeID
    *
    * @param nodeID
@@ -58,4 +65,12 @@ public interface ILocationDAO {
    * @return list of locations
    */
   List<Location> getAllLocationsByFloor(String floor);
+
+  /**
+   * Imports data from CSV into location database
+   *
+   * @param locData
+   * @return True if successful, false if not
+   */
+  int importLocationFromCSV(File locData);
 }

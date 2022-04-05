@@ -699,9 +699,14 @@ public class LocationListController {
     // ControlCSV writer = new LocationControlCSV(file);
     LocationDAOImpl writer = new LocationDAOImpl();
 
-    // TODO: fix this when db feature finished
-    // writer.initDBFromFile(file);
+    int numberConflicts = writer.importLocationFromCSV(file);
 
     refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
+    System.out.println(
+        "Detected "
+            + numberConflicts
+            + " locations that are"
+            + " trying to get deleted but still have equipment in it");
+
   }
 }
