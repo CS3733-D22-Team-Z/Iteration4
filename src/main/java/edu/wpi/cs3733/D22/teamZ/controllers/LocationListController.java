@@ -4,7 +4,6 @@ import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -676,7 +675,7 @@ public class LocationListController {
     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
     fileChooser.setTitle("Enter a .csv file...");
     FileChooser.ExtensionFilter extFilter =
-            new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
     File file = fileChooser.showSaveDialog(stage);
@@ -691,7 +690,7 @@ public class LocationListController {
     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
     fileChooser.setTitle("Enter a .csv file...");
     FileChooser.ExtensionFilter extFilter =
-            new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
     File file = fileChooser.showSaveDialog(stage);
@@ -699,9 +698,8 @@ public class LocationListController {
     // ControlCSV writer = new LocationControlCSV(file);
     LocationDAOImpl writer = new LocationDAOImpl();
 
-
-    //TODO: fix this when db feature finished
-    //writer.initDBFromFile(file);
+    // TODO: fix this when db feature finished
+    // writer.initDBFromFile(file);
 
   }
 }
