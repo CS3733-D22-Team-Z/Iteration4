@@ -25,6 +25,8 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
           connection.prepareStatement("SELECT * FROM SERVICEREQUEST WHERE TYPE = 'MEDEQUIP'");
       ResultSet rset = pstmt.executeQuery();
 
+      list.clear();
+
       while (rset.next()) {
         // get the result set
         String requestID = rset.getString("requestID");
