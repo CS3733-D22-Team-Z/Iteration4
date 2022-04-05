@@ -1,0 +1,7 @@
+employeeID,name,accessType,username,password
+admin1,John Doe,ADMIN,jdoe,qwerty
+doctor1,Matt Smith,DOCTOR,msmith,password123
+doctor2,Rebecca Black,DOCTOR,rblack,cookie
+nurse1,Ben Dover,NURSE,bdover,abc123
+nurse2,Eugene Krabs,NURSE,ekrabs,money
+nurse3,Dave Davidson,NURSE,ddavidson,welcome

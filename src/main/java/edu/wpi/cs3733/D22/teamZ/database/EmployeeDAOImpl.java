@@ -155,7 +155,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
 
     File empData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(empData);
-    empCSV.writeEmpCSV(getAllEmployees());
+    empCSV.writeEmployeeCSV(getAllEmployees());
 
     return true;
   }
