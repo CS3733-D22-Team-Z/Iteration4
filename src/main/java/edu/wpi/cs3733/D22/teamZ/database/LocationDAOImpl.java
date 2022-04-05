@@ -163,9 +163,9 @@ public class LocationDAOImpl implements ILocationDAO {
    *
    * @return True if successful, false if not
    */
-  public boolean exportToLocationCSV() {
+  public boolean exportToLocationCSV(File locData) {
 
-    File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
+    // File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
     locCSV = new LocationControlCSV(locData);
     locCSV.writeLocCSV(getAllLocations());
 

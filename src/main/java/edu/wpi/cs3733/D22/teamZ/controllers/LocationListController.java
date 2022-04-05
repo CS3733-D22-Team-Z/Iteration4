@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import java.io.File;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +18,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -37,33 +43,16 @@ import javafx.util.Callback;
 public class LocationListController {
 
   // init ui components
-  @FXML private Pane pane;
-  @FXML private Label floorLabel;
-  @FXML private Label longnameLabel;
-  @FXML private Label xCoordLabel;
-  @FXML private Label yCoordLabel;
-  @FXML private Button exitButton;
-  @FXML private ChoiceBox changeFloor;
-  @FXML private ImageView map;
-  @FXML private Button editLocation;
-  @FXML private Button deleteLocation;
-
-  // Andrew's stuff
-  @FXML private TextField selectLocationTextField;
-  @FXML private ChoiceBox<String> typeChoiceTextField;
-  @FXML private ChoiceBox<String> floorChoiceTextField;
-  @FXML private TextField changeNumberTextField;
-  @FXML private TextField changeNameTextField;
-  @FXML private TextField abbreviationTextField;
-  @FXML private Text alreadyExistsText;
-  @FXML private Button submitButton;
-  @FXML private Button clearButton;
-  @FXML private Button editLocationExitButton;
-  @FXML private Pane editLocationPane;
-  @FXML private Pane locationChangeDarkenPane;
-  private Location activeLocation;
-  private Label activeLabel;
-  //
+  @FXML private TableView<Location> locations;
+  @FXML private TableColumn<Location, String> nodeID;
+  @FXML private TableColumn<Location, Integer> xCoord;
+  @FXML private TableColumn<Location, Integer> yCoord;
+  @FXML private TableColumn<Location, String> floor;
+  @FXML private TableColumn<Location, String> building;
+  @FXML private TableColumn<Location, String> nodeType;
+  @FXML private TableColumn<Location, String> longname;
+  @FXML private TableColumn<Location, String> shortname;
+  @FXML private Button loadData;
 
   // Casey's
   @FXML private TextField searchField;
@@ -92,6 +81,9 @@ public class LocationListController {
 
   // initialize location labels to display on map
   @FXML
+  private void loadDataFromDatabase(ActionEvent event) {
+    System.out.println("loading data");
+    locations.setItems(null);
   private void initialize() {
     System.out.println("loading labels");
 
@@ -259,6 +251,7 @@ public class LocationListController {
     xCoordLabel.setVisible(true);
     yCoordLabel.setVisible(true);
 
+    locations.setItems(data);
     editLocation.setDisable(false);
     deleteLocation.setDisable(false);
 
@@ -308,6 +301,24 @@ public class LocationListController {
   // when medical equipment request button is clicked on menu navigate to medical equipment request
   // page
   @FXML
+  public void writeExcel(ActionEvent event) throws Exception {
+    System.out.println("exporting CSV of LocationData");
+    data = FXCollections.observableList(locDAO.getAllLocations());
+
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File file = fileChooser.showSaveDialog(stage);
+
+    // ControlCSV writer = new LocationControlCSV(file);
+    LocationDAOImpl writer = new LocationDAOImpl();
+    writer.exportToLocationCSV(file);
+
+    // System.out.println(a.getAbsolutePath());
   private void toMedicalEquipmentRequest(ActionEvent event) throws IOException {
     System.out.println("navigating to Medical Equipment Request page from home");
     Parent root =
