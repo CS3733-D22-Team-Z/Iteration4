@@ -191,12 +191,11 @@ public class LocationListController {
           }
         });
 
+    this.displayResult.remove(5, this.displayResult.size());
+
     // Daniel's Stuff
     deleteLocationPlane.setVisible(false);
     deleteLocationPlane.setDisable(true);
-  }
-
-    this.displayResult.remove(5, this.displayResult.size());
   }
 
   private void showLocations(String floor) {
