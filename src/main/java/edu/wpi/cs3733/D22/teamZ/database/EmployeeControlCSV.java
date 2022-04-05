@@ -13,11 +13,11 @@ public class EmployeeControlCSV extends ControlCSV {
     this.setPath(path);
   }
 
-  protected void writeEmpCSV(List<Employee> in) {
+  protected void writeEmployeeCSV(List<Employee> in) {
     writeCSV(objToData(in), headers);
   }
 
-  protected List<Employee> readEmpCSV() throws IOException {
+  protected List<Employee> readEmployeeCSV() throws IOException {
     return dataToObj(readCSV());
   }
 

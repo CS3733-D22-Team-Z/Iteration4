@@ -3,8 +3,8 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import java.io.File;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +18,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.FileChooser;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -33,6 +28,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -43,16 +39,33 @@ import javafx.util.Callback;
 public class LocationListController {
 
   // init ui components
-  @FXML private TableView<Location> locations;
-  @FXML private TableColumn<Location, String> nodeID;
-  @FXML private TableColumn<Location, Integer> xCoord;
-  @FXML private TableColumn<Location, Integer> yCoord;
-  @FXML private TableColumn<Location, String> floor;
-  @FXML private TableColumn<Location, String> building;
-  @FXML private TableColumn<Location, String> nodeType;
-  @FXML private TableColumn<Location, String> longname;
-  @FXML private TableColumn<Location, String> shortname;
-  @FXML private Button loadData;
+  @FXML private Pane pane;
+  @FXML private Label floorLabel;
+  @FXML private Label longnameLabel;
+  @FXML private Label xCoordLabel;
+  @FXML private Label yCoordLabel;
+  @FXML private Button exitButton;
+  @FXML private ChoiceBox changeFloor;
+  @FXML private ImageView map;
+  @FXML private Button editLocation;
+  @FXML private Button deleteLocation;
+
+  // Andrew's stuff
+  @FXML private TextField selectLocationTextField;
+  @FXML private ChoiceBox<String> typeChoiceTextField;
+  @FXML private ChoiceBox<String> floorChoiceTextField;
+  @FXML private TextField changeNumberTextField;
+  @FXML private TextField changeNameTextField;
+  @FXML private TextField abbreviationTextField;
+  @FXML private Text alreadyExistsText;
+  @FXML private Button submitButton;
+  @FXML private Button clearButton;
+  @FXML private Button editLocationExitButton;
+  @FXML private Pane editLocationPane;
+  @FXML private Pane locationChangeDarkenPane;
+  private Location activeLocation;
+  private Label activeLabel;
+  //
 
   // Casey's
   @FXML private TextField searchField;
@@ -62,13 +75,35 @@ public class LocationListController {
   private final BooleanProperty multiFocusProperty = new SimpleBooleanProperty();
   private ObservableList<String> displayResult = FXCollections.observableList(new ArrayList<>());
 
+  // Daniel's Stuff
+  // Buttons
+  @FXML private Button deleteMapLocation;
+  @FXML private Button cancelLocationSelection;
+  // text field box to select location to delete
+  @FXML private TextField locationToDeleteTextField;
+  @FXML private Pane deleteLocationPlane;
+
+  // Neha's stuff
+  // Buttons
+  @FXML private Button submitAddLocation;
+  @FXML private Button clearAddLocation;
+  @FXML private Button addLocationExitButton;
+  // text fields
+  @FXML private TextField xCoordTextField;
+  @FXML private TextField yCoordTextField;
+  @FXML private ChoiceBox locationTypeField;
+  @FXML private ChoiceBox floorField;
+  @FXML private TextField locationNameTextField;
+  @FXML private TextField nameAbbreviationTextField;
+  // pane
+  @FXML private Pane addLocationPane;
+
   // urls to other pages
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
-  private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
 
   // init LocationDAOImpl to use sql methods from db
   LocationDAOImpl locDAO = new LocationDAOImpl();
@@ -77,13 +112,13 @@ public class LocationListController {
   MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
   // create ObservableList to load locations into map
-  private ObservableList<Location> floorLocations = FXCollections.observableList(new ArrayList<>());
+  // private ObservableList<Location> floorLocations = FXCollections.observableList(new
+  // ArrayList<>());
+  private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Label> allLabels = FXCollections.observableList(new ArrayList<>());
 
   // initialize location labels to display on map
   @FXML
-  private void loadDataFromDatabase(ActionEvent event) {
-    System.out.println("loading data");
-    locations.setItems(null);
   private void initialize() {
     System.out.println("loading labels");
 
@@ -93,26 +128,33 @@ public class LocationListController {
     changeFloor.getItems().add("2");
     changeFloor.getItems().add("3");
 
-    floorLocations.remove(0, floorLocations.size());
-    floorLocations.addAll(FXCollections.observableList(locDAO.getAllLocationsByFloor("1")));
+    floorField.getItems().add("L1");
+    floorField.getItems().add("L2");
+    floorField.getItems().add("1");
+    floorField.getItems().add("2");
+    floorField.getItems().add("3");
+
+    // floorLocations.remove(0, floorLocations.size());
+    totalLocations.addAll(FXCollections.observableList(locDAO.getAllLocations()));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
-    showLocations(floorLocations);
+    // floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
+
+    // initLabels();
+
+    // showLocations("1");
+    refreshMap("1");
+    changeFloor.getSelectionModel().select(2);
 
     // change floor with dropdown
     changeFloor.setOnAction(
         (event) -> {
-          int selectedIndex = changeFloor.getSelectionModel().getSelectedIndex();
           String selectedItem = changeFloor.getSelectionModel().getSelectedItem().toString();
 
           // System.out.println("Selection made: [" + selectedIndex + "] " + selectedItem);
           // System.out.println("   ChoiceBox.getValue(): " + changeFloor.getValue());
           // get list of locations from db and transfer into ObservableList
-
-          floorLocations.remove(0, floorLocations.size());
-          floorLocations.addAll(
-              FXCollections.observableList(locDAO.getAllLocationsByFloor(selectedItem)));
-          map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + selectedItem + ".png"));
-          showLocations(floorLocations);
+          System.out.println(selectedItem);
+          changeToFloor(selectedItem);
         });
 
     // Andrew's stuff
@@ -120,6 +162,11 @@ public class LocationListController {
         FXCollections.observableArrayList(
             "DEPT", "HALL", "ELEV", "STOR", "EXIT", "INFO", "RETL", "SERV", "STAI", "BATH", "LABS",
             "PATI"));
+    locationTypeField.setItems(
+        FXCollections.observableArrayList(
+            "DEPT", "HALL", "ELEV", "STOR", "EXIT", "INFO", "RETL", "SERV", "STAI", "BATH", "LABS",
+            "PATI"));
+
     floorChoiceTextField.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
 
     Location displayResult = locDAO.getLocationByID(selectLocationTextField.getText());
@@ -175,48 +222,45 @@ public class LocationListController {
           }
         });
 
+    // if user has clicked out of label, and on an empty part of the pane, disable buttons and
+    // unenlarge previous label
+    pane.addEventFilter(
+        MouseEvent.MOUSE_CLICKED,
+        evt -> {
+          if (!inHierarchy(evt.getPickResult().getIntersectedNode(), activeLabel)) {
+            pane.requestFocus();
+            activeLabel.setScaleX(1);
+            activeLabel.setScaleY(1);
+
+            editLocation.setDisable(true);
+            deleteLocation.setDisable(true);
+
+            floorLabel.setText("Floor: ");
+            longnameLabel.setText("Long Name: ");
+            xCoordLabel.setText("xCoord: ");
+            yCoordLabel.setText("yCoord: ");
+          }
+        });
+
     this.displayResult.remove(5, this.displayResult.size());
+
+    // Daniel's Stuff
+    deleteLocationPlane.setVisible(false);
+    deleteLocationPlane.setDisable(true);
   }
 
-  private void showLocations(ObservableList<Location> floor) {
+  private void showLocations(String floor) {
     pane.getChildren().clear();
-    for (int i = 0; i < floor.size(); i++) {
-      // styilize label icon
-      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
-      ImageView locationIcon = new ImageView(locationImg);
-      Location current = floor.get(i);
-      DropShadow dropShadow = new DropShadow();
-      dropShadow.setRadius(5.0);
-      dropShadow.setOffsetX(3.0);
-      dropShadow.setOffsetY(3.0);
-      dropShadow.setColor(Color.GRAY);
 
-      // create the label
-      Label label = new Label();
-      label.setEffect(dropShadow);
-      label.setGraphic(locationIcon);
-
-      // call function when clicked to display information about that location label on side
-      label.setOnMouseClicked(
-          (e) -> {
-            activeLocation = current;
-            activeLabel = label;
-            displayLocationInformation();
-          });
-      label
-          .focusedProperty()
-          .addListener(
-              (observable, oldValue, newValue) -> {
-                if (!newValue) {
-                  label.setScaleX(1);
-                  label.setScaleY(1);
-                }
-              });
-
-      // place label at correct coords
-      label.relocate(current.getXcoord() - 8, current.getYcoord() - 10);
-      pane.getChildren().add(label);
-    }
+    pane.getChildren()
+        .addAll(
+            allLabels.filtered(
+                label -> {
+                  Location temp = totalLocations.get(allLabels.indexOf(label));
+                  return temp.getFloor().equalsIgnoreCase(floor)
+                      && !temp.getNodeType()
+                          .equalsIgnoreCase("hall"); // disable line to enable halls
+                }));
   }
 
   // function to check if user has clicked outside of label
@@ -251,29 +295,8 @@ public class LocationListController {
     xCoordLabel.setVisible(true);
     yCoordLabel.setVisible(true);
 
-    locations.setItems(data);
     editLocation.setDisable(false);
     deleteLocation.setDisable(false);
-
-    // if user has clicked out of label, and on an empty part of the pane, disable buttons and
-    // unenlarge previous label
-    pane.addEventFilter(
-        MouseEvent.MOUSE_CLICKED,
-        evt -> {
-          if (!inHierarchy(evt.getPickResult().getIntersectedNode(), activeLabel)) {
-            pane.requestFocus();
-            activeLabel.setScaleX(1);
-            activeLabel.setScaleY(1);
-
-            editLocation.setDisable(true);
-            deleteLocation.setDisable(true);
-
-            floorLabel.setText("Floor: ");
-            longnameLabel.setText("Long Name: ");
-            xCoordLabel.setText("xCoord: ");
-            yCoordLabel.setText("yCoord: ");
-          }
-        });
   }
 
   // when locations menu button is clicked navigate to locations page
@@ -301,24 +324,6 @@ public class LocationListController {
   // when medical equipment request button is clicked on menu navigate to medical equipment request
   // page
   @FXML
-  public void writeExcel(ActionEvent event) throws Exception {
-    System.out.println("exporting CSV of LocationData");
-    data = FXCollections.observableList(locDAO.getAllLocations());
-
-    FileChooser fileChooser = new FileChooser();
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    fileChooser.setTitle("Enter a .csv file...");
-    FileChooser.ExtensionFilter extFilter =
-        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
-    fileChooser.getExtensionFilters().add(extFilter);
-
-    File file = fileChooser.showSaveDialog(stage);
-
-    // ControlCSV writer = new LocationControlCSV(file);
-    LocationDAOImpl writer = new LocationDAOImpl();
-    writer.exportToLocationCSV(file);
-
-    // System.out.println(a.getAbsolutePath());
   private void toMedicalEquipmentRequest(ActionEvent event) throws IOException {
     System.out.println("navigating to Medical Equipment Request page from home");
     Parent root =
@@ -334,17 +339,6 @@ public class LocationListController {
   private void toHome(ActionEvent event) throws IOException {
     System.out.println("navigating to home using home button on sidebar");
     Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomeURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
-  // when the medical equipment map menu button is clicked navigate to medical equipment map page
-  @FXML
-  private void toEquipmentMap(ActionEvent event) throws IOException {
-    System.out.println("navigating to medical equipment map from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toEquipmentMapURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
@@ -378,6 +372,9 @@ public class LocationListController {
     // change later to Neha's nodeID info
     Location tempLocation = locDAO.getLocationByID(selectLocationTextField.getText());
 
+    // old floor
+    String oldFloor = tempLocation.getFloor();
+
     tempLocation.setNodeType(typeChoiceTextField.getValue());
     tempLocation.setFloor(floorChoiceTextField.getValue());
     tempLocation.setLongName(changeNameTextField.getText());
@@ -408,6 +405,7 @@ public class LocationListController {
           medicalEquipmentDAO.updateMedicalEquipment(tempMedEquip);
         }
       }
+
       if (locDAO.deleteLocation(tempLocation)) {
         System.out.println("Delete location successful");
       }
@@ -417,6 +415,9 @@ public class LocationListController {
       }
       editLocationPane.setVisible(false);
       locationChangeDarkenPane.setVisible(false);
+
+      refreshMap(activeLocation.getFloor());
+      refreshMap(oldFloor);
     } else {
       alreadyExistsText.setVisible(true);
     }
@@ -474,8 +475,237 @@ public class LocationListController {
     int theoreticalGenericIndex =
         longNames.indexOf(searchResultList.getSelectionModel().getSelectedItem());
 
-    activeLabel = (Label) pane.getChildren().get(theoreticalGenericIndex);
     activeLocation = parentDataList.get(theoreticalGenericIndex).getAssociatedLocation();
+
+    String selectedItem = activeLocation.getFloor();
+    changeToFloor(selectedItem);
+
+    activeLabel = allLabels.get(theoreticalGenericIndex);
+    searchField.setText(activeLocation.getLongName());
     displayLocationInformation();
+  }
+
+  private void changeToFloor(String nFloor) {
+    // floorLocations.remove(0, floorLocations.size());
+    // floorLocations.addAll(totalLocations.filtered(loc ->
+    // loc.getFloor().equalsIgnoreCase(nFloor)));
+    map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + nFloor + ".png"));
+    showLocations(nFloor);
+  }
+
+  private void initLabels() {
+    allLabels.remove(0, allLabels.size());
+    for (int i = 0; i < totalLocations.size(); i++) {
+      // styilize label icon
+      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
+      ImageView locationIcon = new ImageView(locationImg);
+      Location current = totalLocations.get(i);
+      DropShadow dropShadow = new DropShadow();
+      dropShadow.setRadius(5.0);
+      dropShadow.setOffsetX(3.0);
+      dropShadow.setOffsetY(3.0);
+      dropShadow.setColor(Color.GRAY);
+
+      // create the label
+      Label label = new Label();
+      label.setEffect(dropShadow);
+      label.setGraphic(locationIcon);
+
+      // call function when clicked to display information about that location label on side
+      label.setOnMouseClicked(
+          (e) -> {
+            activeLocation = current;
+            activeLabel = label;
+            displayLocationInformation();
+          });
+      label
+          .focusedProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                if (!newValue) {
+                  label.setScaleX(1);
+                  label.setScaleY(1);
+                }
+              });
+
+      // place label at correct coords
+      label.relocate(current.getXcoord() - 8, current.getYcoord() - 10);
+      allLabels.add(label);
+    }
+  }
+
+  private void refreshMap(String floor) {
+    totalLocations.remove(0, totalLocations.size());
+    totalLocations.addAll(locDAO.getAllLocations());
+    initLabels();
+    showLocations(floor);
+  }
+
+  @FXML
+  public void deleteLocation() throws IOException {
+    Location temp = locDAO.getLocationByID(locationToDeleteTextField.getText());
+    if (temp.getNodeID().equals(null)) {
+      System.out.println("Did not find location in database");
+      return;
+    }
+    if (locDAO.deleteLocation(temp)) {
+      System.out.println("Deletion Successful");
+      refreshMap(activeLocation.getFloor());
+    } else {
+      System.out.println("There are still stuff in this location");
+    }
+
+    locationChangeDarkenPane.setVisible(false);
+    deleteLocationPlane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    deleteLocationPlane.setDisable(true);
+  }
+
+  @FXML
+  public void cancelLocationToDelete() throws IOException {
+    locationChangeDarkenPane.setVisible(false);
+    deleteLocationPlane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    deleteLocationPlane.setDisable(true);
+  }
+
+  @FXML
+  private void deleteLocationButtonClicked(ActionEvent event) throws IOException {
+    locationChangeDarkenPane.setVisible(true);
+    deleteLocationPlane.setVisible(true);
+    locationChangeDarkenPane.setDisable(false);
+    deleteLocationPlane.setDisable(false);
+    locationToDeleteTextField.setText(activeLocation.getNodeID());
+  }
+
+  @FXML
+  private void addLocationButtonClicked(ActionEvent event) throws IOException {
+    locationChangeDarkenPane.setVisible(true);
+    addLocationPane.setVisible(true);
+    locationChangeDarkenPane.setDisable(false);
+    addLocationPane.setDisable(false);
+    selectLocationTextField.setText(activeLocation.getNodeID());
+  }
+
+  @FXML
+  private void cancelAddLocation(ActionEvent event) throws IOException {
+    locationChangeDarkenPane.setVisible(false);
+    addLocationPane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    addLocationPane.setDisable(true);
+  }
+
+  @FXML
+  private void addLocation(ActionEvent event) throws IOException {
+
+    // check if coords are valid
+    if (Integer.parseInt(xCoordTextField.getText()) < 0
+        || Integer.parseInt(xCoordTextField.getText()) > 1021) {
+      return;
+    }
+
+    if (Integer.parseInt(yCoordTextField.getText()) < 0
+        || Integer.parseInt(yCoordTextField.getText()) > 850) {
+      return;
+    }
+
+    // check if fields arent empty
+    if (!xCoordTextField.getText().isEmpty()
+        && !yCoordTextField.getText().isEmpty()
+        && !locationNameTextField.getText().isEmpty()
+        && !nameAbbreviationTextField.getText().isEmpty()) {
+      System.out.println("then add location");
+    } else {
+      return;
+    }
+
+    // make a location
+    Location newLocation = new Location();
+
+    newLocation.setXcoord(Integer.parseInt(xCoordTextField.getText()));
+    newLocation.setYcoord(Integer.parseInt(yCoordTextField.getText()));
+    newLocation.setNodeType(locationTypeField.getValue().toString());
+    newLocation.setFloor(floorField.getValue().toString());
+    newLocation.setLongName(locationNameTextField.getText());
+    newLocation.setShortName(nameAbbreviationTextField.getText());
+
+    // generate a node id
+    // generate numb
+    List<Location> locations = locDAO.getAllLocationsByFloor(floorField.getValue().toString());
+    int size =
+        (int)
+            locations.stream()
+                .filter(
+                    unusedLocation ->
+                        unusedLocation
+                            .getNodeType()
+                            .equalsIgnoreCase(locationTypeField.getValue().toString()))
+                .count();
+
+    String newNodeID =
+        "z"
+            + locationTypeField.getValue()
+            + "0".repeat(3 - Integer.toString(size + 1).length())
+            + Integer.toString(size + 1)
+            + "0".repeat(2 - floorField.getValue().toString().length())
+            + floorField.getValue();
+
+    newLocation.setNodeID(newNodeID);
+
+    // check if exists, if not add it
+    if (locDAO.getLocationByID(newNodeID).getNodeID() == null) {
+      // add it
+      locDAO.addLocation(newLocation);
+    } else {
+      return;
+    }
+
+    refreshMap(floorField.getValue().toString());
+    map.setImage(
+        new Image("edu/wpi/cs3733/D22/teamZ/images/" + floorField.getValue().toString() + ".png"));
+    // showLocations(nFloor);
+
+    addLocationPane.setVisible(false);
+    locationChangeDarkenPane.setVisible(false);
+    addLocationPane.setDisable(true);
+    locationChangeDarkenPane.setDisable(true);
+  }
+
+  public void exportToCSV(ActionEvent actionEvent) {
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File file = fileChooser.showSaveDialog(stage);
+
+    // ControlCSV writer = new LocationControlCSV(file);
+    LocationDAOImpl writer = new LocationDAOImpl();
+    writer.exportToLocationCSV(file);
+  }
+
+  public void importFromCSV(ActionEvent actionEvent) {
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File file = fileChooser.showSaveDialog(stage);
+
+    // ControlCSV writer = new LocationControlCSV(file);
+    LocationDAOImpl writer = new LocationDAOImpl();
+
+    int numberConflicts = writer.importLocationFromCSV(file);
+
+    refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
+    System.out.println(
+        "Detected "
+            + numberConflicts
+            + " locations that are"
+            + " trying to get deleted but still have equipment in it");
   }
 }

@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
@@ -11,6 +8,7 @@ import java.util.List;
 
 public class DBInitializer {
   private LocationControlCSV locCSV;
+  private EmployeeControlCSV employeeCSV;
   private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
   private ServiceRequestControlCSV serviceControlCSV;
   private MedEqReqControlCSV medEqReqControlCSV;
@@ -23,6 +21,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "TowerLocations.csv");
+    File employeeData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "Employees.csv");
     File medicalEquipmentData =
         new File(
             System.getProperty("user.dir")
@@ -40,6 +43,7 @@ public class DBInitializer {
                 + "MedEquipReq.csv");
 
     locCSV = new LocationControlCSV(locData);
+    employeeCSV = new EmployeeControlCSV(employeeData);
     medicalEquipmentControlCSV = new MedicalEquipmentControlCSV(medicalEquipmentData);
     serviceControlCSV = new ServiceRequestControlCSV(serviceRequestData);
     medEqReqControlCSV = new MedEqReqControlCSV(medEquipReqData);
@@ -185,6 +189,35 @@ public class DBInitializer {
         pstmt.setString(6, info.getNodeType());
         pstmt.setString(7, info.getLongName());
         pstmt.setString(8, info.getShortName());
+
+        // insert it
+        pstmt.executeUpdate();
+        connection.commit();
+      }
+
+    } catch (SQLException e) {
+      System.out.println("Failed to populate LOCATION table");
+      return false;
+    } catch (IOException e) {
+      System.out.println("Failed to read CSV");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateEmployeeTable() {
+    try {
+      List<Employee> employeeList = employeeCSV.readEmployeeCSV();
+
+      for (Employee info : employeeList) {
+        PreparedStatement pstmt =
+            connection.prepareStatement(
+                "INSERT INTO EMPLOYEES (employeeID, name, accessType, username, password) values (?, ?, ?, ?, ?)");
+        pstmt.setString(1, info.getEmployeeID());
+        pstmt.setString(2, info.getName());
+        pstmt.setString(3, info.getAccesstype().toString());
+        pstmt.setString(4, info.getUsername());
+        pstmt.setString(5, info.getPassword());
 
         // insert it
         pstmt.executeUpdate();
