@@ -7,7 +7,9 @@ import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,18 +17,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 // issues: getAllLocations doesn't work if the DB is disconnected, is this how it's supposed to
 // work?
@@ -60,6 +62,16 @@ public class LocationListController {
   @FXML private Pane editLocationPane;
   @FXML private Pane locationChangeDarkenPane;
   private Location activeLocation;
+  private Label activeLabel;
+  //
+
+  // Casey's
+  @FXML private TextField searchField;
+  @FXML private ListView<String> searchResultList;
+  private SearchControl filter;
+  private List<ISearchable> parentDataList;
+  private final BooleanProperty multiFocusProperty = new SimpleBooleanProperty();
+  private ObservableList<String> displayResult = FXCollections.observableList(new ArrayList<>());
 
   // Daniel's Stuff
   // Buttons
@@ -83,8 +95,9 @@ public class LocationListController {
   MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
   // create ObservableList to load locations into map
-  private ObservableList<Location> firstFloorLocations =
-      FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Location> floorLocations = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Label> allLabels = FXCollections.observableList(new ArrayList<>());
 
   // initialize location labels to display on map
   @FXML
@@ -97,25 +110,25 @@ public class LocationListController {
     changeFloor.getItems().add("2");
     changeFloor.getItems().add("3");
 
-    firstFloorLocations.remove(0, firstFloorLocations.size());
-    firstFloorLocations.addAll(FXCollections.observableList(locDAO.getAllLocationsByFloor("1")));
+    // floorLocations.remove(0, floorLocations.size());
+    totalLocations.addAll(FXCollections.observableList(locDAO.getAllLocations()));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
-    showLocations(firstFloorLocations);
+    floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
 
+    initLabels();
+
+    showLocations("1");
+
+    // change floor with dropdown
     changeFloor.setOnAction(
         (event) -> {
-          int selectedIndex = changeFloor.getSelectionModel().getSelectedIndex();
           String selectedItem = changeFloor.getSelectionModel().getSelectedItem().toString();
 
-          System.out.println("Selection made: [" + selectedIndex + "] " + selectedItem);
-          System.out.println("   ChoiceBox.getValue(): " + changeFloor.getValue());
+          // System.out.println("Selection made: [" + selectedIndex + "] " + selectedItem);
+          // System.out.println("   ChoiceBox.getValue(): " + changeFloor.getValue());
           // get list of locations from db and transfer into ObservableList
-
-          firstFloorLocations.remove(0, firstFloorLocations.size());
-          firstFloorLocations.addAll(
-              FXCollections.observableList(locDAO.getAllLocationsByFloor(selectedItem)));
-          map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + selectedItem + ".png"));
-          showLocations(firstFloorLocations);
+          System.out.println(selectedItem);
+          changeToFloor(selectedItem);
         });
 
     // Andrew's stuff
@@ -125,48 +138,78 @@ public class LocationListController {
             "PATI"));
     floorChoiceTextField.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
 
-    Location temp = locDAO.getLocationByID(selectLocationTextField.getText());
-    typeChoiceTextField.setValue(temp.getNodeType());
+    Location displayResult = locDAO.getLocationByID(selectLocationTextField.getText());
+    typeChoiceTextField.setValue(displayResult.getNodeType());
 
     locationChangeDarkenPane.setVisible(false);
     editLocationPane.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
     editLocationPane.setDisable(true);
 
+    // Casey's
+    parentDataList = new ArrayList<>();
+    parentDataList.addAll(locDAO.getAllLocations());
+    filter = new SearchControl(parentDataList);
+
+    List<String> longNames = new ArrayList<>();
+    for (ISearchable loc : parentDataList) {
+      longNames.add(loc.getDisplayName());
+    }
+    this.displayResult.addAll(FXCollections.observableList(longNames));
+    searchResultList.setItems(this.displayResult);
+
+    multiFocusProperty.addListener(
+        (observable, oldValue, newValue) -> {
+          // System.out.println("vis swap");
+          searchResultList.setVisible(newValue);
+          searchResultList.setDisable(!newValue);
+        });
+
+    multiFocusProperty.bind(searchField.focusedProperty().or(searchResultList.focusedProperty()));
+
+    this.displayResult.addListener(
+        (ListChangeListener<String>)
+            c -> {
+              searchResultList.setPrefHeight(
+                  this.displayResult.size() * 40 // row height
+                      + 2); // this gets called way too much, but whatever
+              // System.out.println("height changed");
+            });
+
+    searchResultList.setCellFactory(
+        new Callback<ListView<String>, ListCell<String>>() {
+          @Override
+          public ListCell<String> call(ListView<String> param) {
+            return new ListCell<>() {
+              @Override
+              protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item);
+                setFont(Font.font(20));
+              }
+            };
+          }
+        });
+
     // Daniel's Stuff
     deleteLocationPlane.setVisible(false);
     deleteLocationPlane.setDisable(true);
   }
 
-  private void showLocations(ObservableList<Location> floor) {
+    this.displayResult.remove(5, this.displayResult.size());
+  }
+
+  private void showLocations(String floor) {
     pane.getChildren().clear();
-    for (int i = 0; i < floor.size(); i++) {
-      // styilize label icon
-      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
-      ImageView locationIcon = new ImageView(locationImg);
-      Location current = floor.get(i);
-      DropShadow dropShadow = new DropShadow();
-      dropShadow.setRadius(5.0);
-      dropShadow.setOffsetX(3.0);
-      dropShadow.setOffsetY(3.0);
-      dropShadow.setColor(Color.GRAY);
 
-      // create the label
-      Label label = new Label();
-      label.setEffect(dropShadow);
-      label.setGraphic(locationIcon);
-
-      // call function when clicked to display information about that location label on side
-      label.setOnMouseClicked(
-          (e) -> {
-            displayLocationInformation(current, pane, label);
-            activeLocation = current;
-          });
-
-      // place label at correct coords
-      label.relocate(current.getXcoord() - 10, current.getYcoord() - 10);
-      pane.getChildren().add(label);
-    }
+    pane.getChildren()
+        .addAll(
+            allLabels.filtered(
+                label -> {
+                  Location temp = totalLocations.get(allLabels.indexOf(label));
+                  return temp.getFloor().equalsIgnoreCase(floor)
+                      && !temp.getNodeType().equalsIgnoreCase("hall");
+                }));
   }
 
   // function to check if user has clicked outside of label
@@ -184,15 +227,16 @@ public class LocationListController {
   }
 
   // when a location label is clicked on map, information about that label is shown on the side
-  private void displayLocationInformation(Location clickedLocation, Pane pane, Label label) {
+  private void displayLocationInformation() {
 
-    label.setScaleX(2);
-    label.setScaleY(2);
+    activeLabel.requestFocus();
+    activeLabel.setScaleX(2);
+    activeLabel.setScaleY(2);
     // update labels to correct info
-    floorLabel.setText("Floor: " + clickedLocation.getFloor());
-    longnameLabel.setText("Long Name: " + clickedLocation.getLongName());
-    xCoordLabel.setText("xCoord: " + String.valueOf(clickedLocation.getXcoord()));
-    yCoordLabel.setText("yCoord: " + String.valueOf(clickedLocation.getYcoord()));
+    floorLabel.setText("Floor: " + activeLocation.getFloor());
+    longnameLabel.setText("Long Name: " + activeLocation.getLongName());
+    xCoordLabel.setText("xCoord: " + String.valueOf(activeLocation.getXcoord()));
+    yCoordLabel.setText("yCoord: " + String.valueOf(activeLocation.getYcoord()));
 
     // set the labels visible
     floorLabel.setVisible(true);
@@ -208,10 +252,10 @@ public class LocationListController {
     pane.addEventFilter(
         MouseEvent.MOUSE_CLICKED,
         evt -> {
-          if (!inHierarchy(evt.getPickResult().getIntersectedNode(), label)) {
+          if (!inHierarchy(evt.getPickResult().getIntersectedNode(), activeLabel)) {
             pane.requestFocus();
-            label.setScaleX(1);
-            label.setScaleY(1);
+            activeLabel.setScaleX(1);
+            activeLabel.setScaleY(1);
 
             editLocation.setDisable(true);
             deleteLocation.setDisable(true);
@@ -365,6 +409,89 @@ public class LocationListController {
     editLocationPane.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
     editLocationPane.setDisable(true);
+  }
+
+  // Casey's
+  @FXML
+  public void search(KeyEvent keyEvent) {
+    List<ISearchable> tempResultList = new ArrayList<>();
+    tempResultList = filter.filterList(searchField.getText());
+    List<String> longNames = new ArrayList<>();
+    for (ISearchable loc : tempResultList) {
+      longNames.add(loc.getDisplayName());
+    }
+    displayResult.remove(0, displayResult.size());
+    displayResult.addAll(FXCollections.observableList(longNames));
+    displayResult.remove(5, displayResult.size());
+    searchResultList.setItems(displayResult);
+  }
+
+  @FXML
+  public void resultMouseClick(MouseEvent mouseEvent) {
+    // System.out.println(searchResultList.getSelectionModel().getSelectedItem());
+
+    List<String> longNames = new ArrayList<>();
+    for (ISearchable loc : parentDataList) {
+      longNames.add(loc.getDisplayName());
+    }
+    int theoreticalGenericIndex =
+        longNames.indexOf(searchResultList.getSelectionModel().getSelectedItem());
+
+    activeLocation = parentDataList.get(theoreticalGenericIndex).getAssociatedLocation();
+
+    String selectedItem = activeLocation.getFloor();
+    changeToFloor(selectedItem);
+
+    activeLabel = allLabels.get(theoreticalGenericIndex);
+    searchField.setText(activeLocation.getLongName());
+    displayLocationInformation();
+  }
+
+  private void changeToFloor(String nFloor) {
+    floorLocations.remove(0, floorLocations.size());
+    floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase(nFloor)));
+    map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + nFloor + ".png"));
+    showLocations(nFloor);
+  }
+
+  private void initLabels() {
+    for (int i = 0; i < totalLocations.size(); i++) {
+      // styilize label icon
+      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
+      ImageView locationIcon = new ImageView(locationImg);
+      Location current = totalLocations.get(i);
+      DropShadow dropShadow = new DropShadow();
+      dropShadow.setRadius(5.0);
+      dropShadow.setOffsetX(3.0);
+      dropShadow.setOffsetY(3.0);
+      dropShadow.setColor(Color.GRAY);
+
+      // create the label
+      Label label = new Label();
+      label.setEffect(dropShadow);
+      label.setGraphic(locationIcon);
+
+      // call function when clicked to display information about that location label on side
+      label.setOnMouseClicked(
+          (e) -> {
+            activeLocation = current;
+            activeLabel = label;
+            displayLocationInformation();
+          });
+      label
+          .focusedProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                if (!newValue) {
+                  label.setScaleX(1);
+                  label.setScaleY(1);
+                }
+              });
+
+      // place label at correct coords
+      label.relocate(current.getXcoord() - 8, current.getYcoord() - 10);
+      allLabels.add(label);
+    }
   }
 
   @FXML
