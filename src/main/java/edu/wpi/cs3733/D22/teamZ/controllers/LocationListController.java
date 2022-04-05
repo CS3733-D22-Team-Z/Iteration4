@@ -183,6 +183,26 @@ public class LocationListController {
           }
         });
 
+    // if user has clicked out of label, and on an empty part of the pane, disable buttons and
+    // unenlarge previous label
+    pane.addEventFilter(
+        MouseEvent.MOUSE_CLICKED,
+        evt -> {
+          if (!inHierarchy(evt.getPickResult().getIntersectedNode(), activeLabel)) {
+            pane.requestFocus();
+            activeLabel.setScaleX(1);
+            activeLabel.setScaleY(1);
+
+            editLocation.setDisable(true);
+            deleteLocation.setDisable(true);
+
+            floorLabel.setText("Floor: ");
+            longnameLabel.setText("Long Name: ");
+            xCoordLabel.setText("xCoord: ");
+            yCoordLabel.setText("yCoord: ");
+          }
+        });
+
     this.displayResult.remove(5, this.displayResult.size());
   }
 
@@ -195,7 +215,8 @@ public class LocationListController {
                 label -> {
                   Location temp = totalLocations.get(allLabels.indexOf(label));
                   return temp.getFloor().equalsIgnoreCase(floor)
-                      && !temp.getNodeType().equalsIgnoreCase("hall");
+                      && !temp.getNodeType()
+                          .equalsIgnoreCase("hall"); // disable line to enable halls
                 }));
   }
 
@@ -233,26 +254,6 @@ public class LocationListController {
 
     editLocation.setDisable(false);
     deleteLocation.setDisable(false);
-
-    // if user has clicked out of label, and on an empty part of the pane, disable buttons and
-    // unenlarge previous label
-    pane.addEventFilter(
-        MouseEvent.MOUSE_CLICKED,
-        evt -> {
-          if (!inHierarchy(evt.getPickResult().getIntersectedNode(), activeLabel)) {
-            pane.requestFocus();
-            activeLabel.setScaleX(1);
-            activeLabel.setScaleY(1);
-
-            editLocation.setDisable(true);
-            deleteLocation.setDisable(true);
-
-            floorLabel.setText("Floor: ");
-            longnameLabel.setText("Long Name: ");
-            xCoordLabel.setText("xCoord: ");
-            yCoordLabel.setText("yCoord: ");
-          }
-        });
   }
 
   // when locations menu button is clicked navigate to locations page
@@ -442,6 +443,7 @@ public class LocationListController {
   }
 
   private void initLabels() {
+    allLabels.remove(0, allLabels.size());
     for (int i = 0; i < totalLocations.size(); i++) {
       // styilize label icon
       Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
