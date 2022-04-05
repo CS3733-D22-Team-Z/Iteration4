@@ -266,7 +266,7 @@ public class DBInitializer {
       for (ServiceRequest request : requestList) {
         PreparedStatement pstmt =
             connection.prepareStatement(
-                "INSERT INTO SERVICEREQUEST (requestID, type, status, issuer, handler, targetLocation)"
+                "INSERT INTO SERVICEREQUEST (requestID, type, status, issuerID, handlerID, targetLocationID)"
                     + "values (?, ?, ?, ?, ?, ?)");
         pstmt.setString(1, request.getRequestID());
         pstmt.setString(2, request.getType().toString());
