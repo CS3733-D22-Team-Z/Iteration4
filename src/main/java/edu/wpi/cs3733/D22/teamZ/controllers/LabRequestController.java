@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,6 +15,8 @@ public class LabRequestController {
   @FXML private Button backButton;
 
   private final String toDashboardURL = "views/LandingPage.fxml";
+  private final String toLabServiceRequestURL =
+      "edu/wpi/cs3733/D22/teamZ/views/LabRequestList.fxml";
 
   @FXML
   public void backToDashboard(ActionEvent event) throws IOException {
@@ -22,5 +25,14 @@ public class LabRequestController {
     Parent root = FXMLLoader.load(App.class.getResource(toDashboardURL));
     Scene scene = new Scene(root);
     mainStage.setScene(scene);
+  }
+
+  @FXML
+  private void toLabServiceRequestList(ActionEvent event) throws IOException {
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLabServiceRequestURL));
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
   }
 }
