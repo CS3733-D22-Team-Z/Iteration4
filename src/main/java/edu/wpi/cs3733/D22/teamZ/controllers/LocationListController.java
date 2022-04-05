@@ -521,6 +521,7 @@ public class LocationListController {
     }
     if (locDAO.deleteLocation(temp)) {
       System.out.println("Deletion Successful");
+      refreshMap(activeLocation.getFloor());
     } else {
       System.out.println("There are still stuff in this location");
     }
