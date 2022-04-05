@@ -304,7 +304,7 @@
                   </ImageView>
                </graphic></Button>
             <Text fx:id="alreadyExistsText" fill="RED" layoutX="221.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location already exists" visible="false" />
-            <TextField fx:id="selectLocationTextField" editable="false" layoutX="30.0" layoutY="87.0" prefHeight="33.0" prefWidth="239.0" style="-fx-background-color: #FFFFFF;">
+            <TextField fx:id="selectLocationTextField" layoutX="30.0" layoutY="87.0" prefHeight="33.0" prefWidth="239.0" style="-fx-background-color: #FFFFFF;">
                <effect>
                   <DropShadow>
                      <color>
