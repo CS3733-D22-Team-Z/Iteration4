@@ -4,6 +4,8 @@ import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -666,5 +669,37 @@ public class LocationListController {
     // locationChangeDarkenPane.setVisible(false);
     // addLocationPane.setDisable(true);
     // locationChangeDarkenPane.setDisable(true);
+  }
+
+  public void exportToCSV(ActionEvent actionEvent) {
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+            new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File file = fileChooser.showSaveDialog(stage);
+
+    // ControlCSV writer = new LocationControlCSV(file);
+    LocationDAOImpl writer = new LocationDAOImpl();
+    writer.exportToLocationCSV(file);
+  }
+
+  public void importFromCSV(ActionEvent actionEvent) {
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+            new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File file = fileChooser.showSaveDialog(stage);
+
+    // ControlCSV writer = new LocationControlCSV(file);
+    LocationDAOImpl writer = new LocationDAOImpl();
+
+    writer.initDBFromFile(file);
+
   }
 }
