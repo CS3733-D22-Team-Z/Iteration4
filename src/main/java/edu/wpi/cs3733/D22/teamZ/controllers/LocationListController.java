@@ -143,6 +143,7 @@ public class LocationListController {
 
     // showLocations("1");
     refreshMap("1");
+    changeFloor.getSelectionModel().select(2);
 
     // change floor with dropdown
     changeFloor.setOnAction(
@@ -701,5 +702,6 @@ public class LocationListController {
     // TODO: fix this when db feature finished
     // writer.initDBFromFile(file);
 
+    refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
   }
 }
