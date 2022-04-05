@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LabRequestListController">
    <children>
       <Label id="FormLabel" layoutX="-112.0" layoutY="4.0" prefHeight="17.0" prefWidth="224.0" style="-fx-font-weight: bold; -fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Lab Service Request List">
@@ -17,11 +16,11 @@
       </Label>
       <TableView id="Locations" fx:id="labRequestTable" layoutX="20.0" layoutY="38.0" prefHeight="302.0" prefWidth="560.0">
          <columns>
-            <TableColumn id="nodeID" fx:id="nodeID" prefWidth="100.0" text="Employee Name" />
-            <TableColumn id="yCoord" fx:id="yCoord" prefWidth="81.0" text="Employee ID" />
-            <TableColumn id="floor" fx:id="floor" minWidth="0.0" prefWidth="65.0" text="Lab Type" />
-            <TableColumn id="building" fx:id="building" minWidth="0.0" prefWidth="65.0" text="Status" />
-            <TableColumn id="longname" fx:id="longname" minWidth="0.0" prefWidth="96.33331298828125" text="Staff Assigned" />
+            <TableColumn id="nodeID" fx:id="employeeName" prefWidth="100.0" text="Employee Name" />
+            <TableColumn id="yCoord" fx:id="employeeID" prefWidth="81.0" text="Employee ID" />
+            <TableColumn id="floor" fx:id="labType" minWidth="0.0" prefWidth="65.0" text="Lab Type" />
+            <TableColumn id="building" fx:id="labStatus" minWidth="0.0" prefWidth="65.0" text="Status" />
+            <TableColumn id="longname" fx:id="staffAssigned" minWidth="0.0" prefWidth="96.33331298828125" text="Staff Assigned" />
          </columns>
          <effect>
             <DropShadow />
