@@ -50,7 +50,6 @@ public interface ILocationDAO {
    * @return True if successful, false if not
    */
   boolean exportToLocationCSV(File locData);
-  boolean exportToLocationCSV();
 
   /**
    * Gets all locations on the given floor

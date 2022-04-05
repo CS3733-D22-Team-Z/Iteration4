@@ -699,7 +699,9 @@ public class LocationListController {
     // ControlCSV writer = new LocationControlCSV(file);
     LocationDAOImpl writer = new LocationDAOImpl();
 
-    writer.initDBFromFile(file);
+
+    //TODO: fix this when db feature finished
+    //writer.initDBFromFile(file);
 
   }
 }
