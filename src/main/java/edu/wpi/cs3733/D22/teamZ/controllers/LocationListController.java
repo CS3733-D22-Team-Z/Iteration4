@@ -73,6 +73,14 @@ public class LocationListController {
   private final BooleanProperty multiFocusProperty = new SimpleBooleanProperty();
   private ObservableList<String> displayResult = FXCollections.observableList(new ArrayList<>());
 
+  // Daniel's Stuff
+  // Buttons
+  @FXML private Button deleteMapLocation;
+  @FXML private Button cancelLocationSelection;
+  // text field box to select location to delete
+  @FXML private TextField locationToDeleteTextField;
+  @FXML private Pane deleteLocationPlane;
+
   // urls to other pages
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
@@ -204,6 +212,10 @@ public class LocationListController {
         });
 
     this.displayResult.remove(5, this.displayResult.size());
+
+    // Daniel's Stuff
+    deleteLocationPlane.setVisible(false);
+    deleteLocationPlane.setDisable(true);
   }
 
   private void showLocations(String floor) {
@@ -481,5 +493,36 @@ public class LocationListController {
       label.relocate(current.getXcoord() - 8, current.getYcoord() - 10);
       allLabels.add(label);
     }
+  }
+
+  @FXML
+  public void deleteLocation() throws IOException {
+    Location temp = locDAO.getLocationByID(locationToDeleteTextField.getText());
+    if (temp.getNodeID().equals(null)) {
+      System.out.println("Did not find location in database");
+      return;
+    }
+    if (locDAO.deleteLocation(temp)) {
+      System.out.println("Deletion Successful");
+    } else {
+      System.out.println("There are still stuff in this location");
+    }
+  }
+
+  @FXML
+  public void cancelLocationToDelete() throws IOException {
+    locationChangeDarkenPane.setVisible(false);
+    deleteLocationPlane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    deleteLocationPlane.setDisable(true);
+  }
+
+  @FXML
+  private void deleteLocationButtonClicked(ActionEvent event) throws IOException {
+    locationChangeDarkenPane.setVisible(true);
+    deleteLocationPlane.setVisible(true);
+    locationChangeDarkenPane.setDisable(false);
+    deleteLocationPlane.setDisable(false);
+    locationToDeleteTextField.setText(activeLocation.getNodeID());
   }
 }
