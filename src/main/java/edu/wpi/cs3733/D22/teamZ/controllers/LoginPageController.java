@@ -95,7 +95,7 @@ public class LoginPageController implements Initializable {
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     stage.setScene(scene);
     HomepageController thisController = loader.getController();
-    thisController.setWelcomeMessage(username);
+    //thisController.setWelcomeMessage(username);
   }
 
   @FXML
@@ -108,6 +108,6 @@ public class LoginPageController implements Initializable {
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     stage.setScene(scene);
     HomepageController thisController = loader.getController();
-    thisController.setWelcomeMessage("Skipped");
+    //thisController.setWelcomeMessage("Skipped");
   }
 }
