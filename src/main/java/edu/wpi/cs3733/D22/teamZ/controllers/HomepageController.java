@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 public class HomepageController {
   @FXML private Label label;
   @FXML private Button exitButton; // ??????
+  @FXML private Label welcomeMessage;
 
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
@@ -79,6 +80,15 @@ public class HomepageController {
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+  }
+
+  /**
+   * Updates the welcome message with the username of who logged in
+   *
+   * @param name username
+   */
+  public void setWelcomeMessage(String name) {
+    welcomeMessage.setText(String.format(welcomeMessage.getText(), name));
   }
 }
 // Link to location, Landing, & Medical Equipment Page

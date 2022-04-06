@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.EmployeeDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.IEmployeeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,7 +23,6 @@ public class LoginPageController implements Initializable {
 
   private IEmployeeDAO database;
   private String toHomepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
-  private String toLoginSuccessURL = "edu/wpi/cs3733/D22/teamZ/views/LoginSuccessPage.fxml";
 
   /**
    * Initalizes the employee database for the controller
@@ -43,6 +41,7 @@ public class LoginPageController implements Initializable {
    */
   @FXML
   private void loginButtonPressed(ActionEvent event) {
+    /*
     // Get account from username
     Employee user = database.getEmployeeByUsername(usernameField.getText());
 
@@ -63,8 +62,8 @@ public class LoginPageController implements Initializable {
     } else {
       enterErrorState();
     }
-
-    if (!usernameField.getText().isEmpty() && !passwordField.getText().isEmpty()) {
+    */
+    if (usernameField.getText().equals("admin") && passwordField.getText().equals("admin")) {
       try {
         loadSuccessScreen(usernameField.getText(), event);
       } catch (Exception e) {
@@ -90,21 +89,25 @@ public class LoginPageController implements Initializable {
   public void loadSuccessScreen(String username, ActionEvent event) throws IOException {
     // Load the default FXML file and set that scene to the main stage.
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(getClass().getClassLoader().getResource(toLoginSuccessURL));
+    loader.setLocation(getClass().getClassLoader().getResource(toHomepageURL));
     Parent root = loader.load();
     Scene scene = new Scene(root);
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     stage.setScene(scene);
-    LoginPageSuccessController thisController = loader.getController();
+    HomepageController thisController = loader.getController();
     thisController.setWelcomeMessage(username);
   }
 
   @FXML
   public void skipButtonPressed(ActionEvent event) throws IOException {
     // Load the default FXML file and set that scene to the main stage.
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomepageURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(getClass().getClassLoader().getResource(toHomepageURL));
+    Parent root = loader.load();
     Scene scene = new Scene(root);
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     stage.setScene(scene);
+    HomepageController thisController = loader.getController();
+    thisController.setWelcomeMessage("Skipped");
   }
 }

@@ -132,14 +132,14 @@ public class LocationListController {
   private void initialize() {
     System.out.println("loading labels");
 
-    changeFloor.getItems().add("L1");
     changeFloor.getItems().add("L2");
+    changeFloor.getItems().add("L1");
     changeFloor.getItems().add("1");
     changeFloor.getItems().add("2");
     changeFloor.getItems().add("3");
 
-    floorField.getItems().add("L1");
     floorField.getItems().add("L2");
+    floorField.getItems().add("L1");
     floorField.getItems().add("1");
     floorField.getItems().add("2");
     floorField.getItems().add("3");
@@ -407,6 +407,7 @@ public class LocationListController {
     tempLocation.setNodeType(typeChoiceTextField.getValue());
     tempLocation.setFloor(floorChoiceTextField.getValue());
     tempLocation.setLongName(changeNameTextField.getText());
+    tempLocation.setBuilding("Tower");
     tempLocation.setShortName(abbreviationTextField.getText());
 
     String newNodeID =
@@ -445,8 +446,21 @@ public class LocationListController {
       editLocationPane.setVisible(false);
       locationChangeDarkenPane.setVisible(false);
 
-      refreshMap(activeLocation.getFloor());
+      refreshMap(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
       refreshMap(oldFloor);
+      changeFloor
+          .getSelectionModel()
+          .select(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
+
+      activeLocation = tempLocation;
+      activeLabel =
+          allLabels.get(
+              totalLocations
+                  .filtered(loc -> loc.getNodeID().equalsIgnoreCase(activeLocation.getNodeID()))
+                  .getSourceIndex(0));
+      displayLocationInformation();
+      changeToFloor(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
+
     } else {
       alreadyExistsText.setVisible(true);
     }
@@ -652,7 +666,7 @@ public class LocationListController {
     addLocationPane.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
     addLocationPane.setDisable(false);
-    selectLocationTextField.setText(activeLocation.getNodeID());
+    // selectLocationTextField.setText(activeLocation.getNodeID());
   }
 
   @FXML
@@ -696,6 +710,7 @@ public class LocationListController {
     newLocation.setFloor(floorField.getValue().toString());
     newLocation.setLongName(locationNameTextField.getText());
     newLocation.setShortName(nameAbbreviationTextField.getText());
+    newLocation.setBuilding("Tower");
 
     // generate a node id
     // generate numb
@@ -728,10 +743,16 @@ public class LocationListController {
       return;
     }
 
-    refreshMap(floorField.getValue().toString());
-    map.setImage(
-        new Image("edu/wpi/cs3733/D22/teamZ/images/" + floorField.getValue().toString() + ".png"));
-    // showLocations(nFloor);
+    // initLabels();
+    int floorIndex = floorField.getSelectionModel().getSelectedIndex();
+    changeFloor.getSelectionModel().select(floorIndex);
+
+    changeToFloor(changeFloor.getSelectionModel().getSelectedItem().toString());
+    refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
+
+    activeLocation = newLocation;
+    activeLabel = allLabels.get(allLabels.size() - 1);
+    displayLocationInformation();
 
     addLocationPane.setVisible(false);
     locationChangeDarkenPane.setVisible(false);
@@ -762,7 +783,7 @@ public class LocationListController {
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
-    File file = fileChooser.showSaveDialog(stage);
+    File file = fileChooser.showOpenDialog(stage);
 
     // ControlCSV writer = new LocationControlCSV(file);
     LocationDAOImpl writer = new LocationDAOImpl();

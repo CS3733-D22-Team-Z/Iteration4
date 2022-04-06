@@ -79,6 +79,7 @@ public class MedicalEquipmentRequestController {
 
   @FXML
   private void onSubmitButtonClicked(ActionEvent actionEvent) {
+    // Debug
     System.out.println("Room Number: " + enterRoomNumber.getText());
     System.out.println("Floor Number: " + enterFloorNumber.getText());
     System.out.println("nodeType: " + enterNodeType.getValue());
@@ -95,27 +96,28 @@ public class MedicalEquipmentRequestController {
           equipmentRequestList.get(equipmentRequestList.size() - 1);
       id = lastestReq.getRequestID();
     }
-
+    // Create new REQID
     int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-
     String requestID = "REQ" + num;
+
+    // Create entities for submission
     String itemID = equipmentDropDown.getValue().toString();
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
     Employee issuer = new Employee("Pat" + num, "Pat", Employee.AccessType.ADMIN, "", "");
     Employee handler = new Employee("Jake" + num, "Jake", Employee.AccessType.ADMIN, "", "");
 
-    // TODO add method to pick a free MedicalEquipment from the table of this type
     String equipmentID = equipmentDropDown.getValue().toString();
     IMedicalEquipmentDAO medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
+    // Find available equipment, if there is one. Else return null
     equipmentID = medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipmentID);
+
     if (equipmentID == null) {
-      // Implement red text and set to visible
       errorSavingLabel.setVisible(true);
       return;
     } else {
 
-      // update medical equipment table to show in use
+      // Update medical equipment table to show in use
       String nodeID =
           Location.createNodeID(
               enterNodeType.getValue().toString(),
