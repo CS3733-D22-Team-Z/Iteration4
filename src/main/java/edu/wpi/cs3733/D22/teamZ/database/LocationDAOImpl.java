@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,8 @@ public class LocationDAOImpl implements ILocationDAO {
       PreparedStatement pstmt = connection.prepareStatement("Select * From Location");
       ResultSet rset = pstmt.executeQuery();
 
+      locations.clear();
+
       while (rset.next()) {
         String nodeID = rset.getString("nodeID");
         int xcoord = rset.getInt("xcoord");
@@ -46,6 +49,27 @@ public class LocationDAOImpl implements ILocationDAO {
       System.out.println("Failed to get all Locations");
     }
     return locations;
+  }
+
+  /**
+   * Gets all the nodeIDs for the locations in database
+   *
+   * @return list of nodeIDs
+   */
+  public List<String> getAllLocationNodeIDs() {
+    List<String> list = new ArrayList<>();
+    try {
+      PreparedStatement pstmt = connection.prepareStatement("Select NODEID From Location");
+      ResultSet rset = pstmt.executeQuery();
+
+      while (rset.next()) {
+        list.add(rset.getString("NODEID"));
+      }
+
+    } catch (SQLException e) {
+      System.out.println("Failed to get nodeIDs from database");
+    }
+    return list;
   }
 
   /**
@@ -170,5 +194,136 @@ public class LocationDAOImpl implements ILocationDAO {
     locCSV.writeLocCSV(getAllLocations());
 
     return true;
+  }
+
+  /**
+   * Gets all locations on the given floor
+   *
+   * @param floor
+   * @return list of locations
+   */
+  @Override
+  public List<Location> getAllLocationsByFloor(String floor) {
+    List<Location> temp = new ArrayList<>();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement("Select * from LOCATION WHERE FLOOR = ?");
+      pstmt.setString(1, floor);
+
+      ResultSet rset = pstmt.executeQuery();
+
+      while (rset.next()) {
+        Location tempLoc = new Location();
+        tempLoc.setNodeID(rset.getString("nodeID"));
+        tempLoc.setXcoord(rset.getInt("xcoord"));
+        tempLoc.setYcoord(rset.getInt("ycoord"));
+        tempLoc.setFloor(floor);
+        tempLoc.setBuilding(rset.getString("building"));
+        tempLoc.setNodeType(rset.getString("nodeType"));
+        tempLoc.setLongName(rset.getString("longName"));
+        tempLoc.setShortName(rset.getString("shortName"));
+
+        temp.add(tempLoc);
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to get locations");
+    }
+    return temp;
+  }
+
+  /**
+   * Imports data from CSV into location database
+   *
+   * @param locData
+   * @return number of times there are conflicts when trying to import
+   */
+  @Override
+  public int importLocationFromCSV(File locData) {
+    int numberConflicts = 0;
+    try {
+      locCSV = new LocationControlCSV(locData);
+      List<Location> tempLoc = locCSV.readLocCSV();
+
+      List<String> newLocations = new ArrayList<>();
+
+      for (int i = 0; i < tempLoc.size(); i++) {
+        newLocations.add(tempLoc.get(i).getNodeID());
+      }
+
+      List<String> currentNodeIDs = getAllLocationNodeIDs();
+
+      currentNodeIDs.removeAll(newLocations);
+
+      for (String id : currentNodeIDs) {
+        // delete from database
+        try {
+          PreparedStatement pstmt =
+              connection.prepareStatement("DELETE from LOCATION WHERE NODEID = ?");
+          pstmt.setString(1, id);
+          pstmt.executeUpdate();
+        } catch (SQLException e) {
+          numberConflicts++;
+          System.out.println(
+              numberConflicts
+                  + " found. "
+                  + id
+                  + " cannot delete from database since"
+                  + " some stuff might still be in it.");
+        }
+      }
+
+      for (Location newInfo : tempLoc) {
+        Location temp = getLocationByID(newInfo.getNodeID());
+        // if new: insert
+        if (temp.getNodeID() == null) {
+          PreparedStatement pstmt =
+              connection.prepareStatement(
+                  "INSERT INTO Location (nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) values (?, ?, ?, ?, ?, ?, ?, ?)");
+          pstmt.setString(1, newInfo.getNodeID());
+          pstmt.setInt(2, newInfo.getXcoord());
+          pstmt.setInt(3, newInfo.getYcoord());
+          pstmt.setString(4, newInfo.getFloor());
+          pstmt.setString(5, newInfo.getBuilding());
+          pstmt.setString(6, newInfo.getNodeType());
+          pstmt.setString(7, newInfo.getLongName());
+          pstmt.setString(8, newInfo.getShortName());
+
+          // insert it
+          pstmt.executeUpdate();
+        }
+        // if already exists: update
+        else {
+          PreparedStatement pstmt =
+              connection.prepareStatement(
+                  "UPDATE  LOCATION SET "
+                      + "XCOORD = ?,"
+                      + "YCOORD = ?,"
+                      + "FLOOR = ?,"
+                      + "BUILDING = ?,"
+                      + "NODETYPE = ?,"
+                      + "LONGNAME = ?,"
+                      + "SHORTNAME = ?"
+                      + "WHERE NODEID = ?");
+          pstmt.setInt(1, newInfo.getXcoord());
+          pstmt.setInt(2, newInfo.getYcoord());
+          pstmt.setString(3, newInfo.getFloor());
+          pstmt.setString(4, newInfo.getBuilding());
+          pstmt.setString(5, newInfo.getNodeType());
+          pstmt.setString(6, newInfo.getLongName());
+          pstmt.setString(7, newInfo.getShortName());
+          pstmt.setString(8, newInfo.getNodeID());
+
+          // update it
+          pstmt.executeUpdate();
+        }
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to load LOCATION data");
+      return -1;
+    } catch (IOException e) {
+      System.out.println("Failed to read CSV");
+      return -1;
+    }
+    return numberConflicts;
   }
 }

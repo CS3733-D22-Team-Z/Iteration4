@@ -19,7 +19,7 @@ public class LocationControlCSV extends ControlCSV {
     writeCSV(objToData(in), headers);
   }
 
-  protected List<Location> readLocCSV() throws IOException {
+  public List<Location> readLocCSV() throws IOException {
     return dataToObj(readCSV());
   }
 

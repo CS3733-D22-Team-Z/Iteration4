@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.util.List;
 
@@ -7,6 +8,8 @@ public interface IMedicalEquipmentDAO {
   List<MedicalEquipment> getAllMedicalEquipment();
 
   MedicalEquipment getMedicalEquipmentByID(String itemID);
+
+  public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location);
 
   String getFirstAvailableEquipmentByType(String equipment);
 
