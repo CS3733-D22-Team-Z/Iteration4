@@ -17,11 +17,12 @@
       </Label>
       <TableView id="Locations" fx:id="labRequestTable" layoutX="20.0" layoutY="38.0" prefHeight="302.0" prefWidth="560.0">
          <columns>
-            <TableColumn id="nodeID" fx:id="employeeName" prefWidth="100.0" text="Employee Name" />
-            <TableColumn id="yCoord" fx:id="employeeID" prefWidth="81.0" text="Employee ID" />
-            <TableColumn id="floor" fx:id="labType" minWidth="0.0" prefWidth="65.0" text="Lab Type" />
-            <TableColumn id="building" fx:id="labStatus" minWidth="0.0" prefWidth="65.0" text="Status" />
-            <TableColumn id="longname" fx:id="staffAssigned" minWidth="0.0" prefWidth="96.33331298828125" text="Staff Assigned" />
+            <TableColumn id="yCoord" fx:id="status" prefWidth="47.66668510437012" text="Status" />
+            <TableColumn id="nodeID" fx:id="requestID" prefWidth="37.666656494140625" text="ID" />
+            <TableColumn id="floor" fx:id="issuer" minWidth="0.0" prefWidth="55.666664123535156" text="Issuer" />
+            <TableColumn id="building" fx:id="handler" minWidth="0.0" prefWidth="75.33328247070312" text="Handler" />
+            <TableColumn id="longname" fx:id="targetLocation" minWidth="0.0" prefWidth="86.66661071777344" text="Location" />
+            <TableColumn id="longname" fx:id="labType" minWidth="0.0" prefWidth="94.99993896484375" text="Type" />
          </columns>
          <effect>
             <DropShadow />
