@@ -2,8 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.App;
 import java.io.IOException;
-
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,12 +24,12 @@ public class LabRequestController {
 
   private final String toDashboardURL = "views/LandingPage.fxml";
 
-
   @FXML
   public void initialize() {
 
     labTypeChoiceBox.setItems(
-            FXCollections.observableArrayList("Blood Sample", "Urine Sample", "X-Ray", "CAT Scan", "MRI"));
+        FXCollections.observableArrayList(
+            "Blood Sample", "Urine Sample", "X-Ray", "CAT Scan", "MRI"));
   }
 
   @FXML
