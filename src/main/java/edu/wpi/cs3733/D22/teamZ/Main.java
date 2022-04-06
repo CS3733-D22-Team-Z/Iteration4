@@ -8,9 +8,8 @@ public class Main {
     DBInitializer init = new DBInitializer();
     init.createTables();
     init.populateLocationTable();
-    init.populateServiceRequestTable();
     init.populateMedicalEquipmentTable();
-
+    init.populateServiceRequestTable();
     init.populateMedicalEquipmentServiceRequestTable();
     App.launch(App.class, args);
   }
