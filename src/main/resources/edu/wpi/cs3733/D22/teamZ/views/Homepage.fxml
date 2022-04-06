@@ -92,7 +92,7 @@
          <graphic>
             <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" translateX="-7.0" translateY="-5.0">
                <image>
-                  <Image url="@../images/table.png" />
+                  <Image url="@../images/map.png" />
                </image>
             </ImageView>
          </graphic>
