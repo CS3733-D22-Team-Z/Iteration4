@@ -64,7 +64,7 @@
                 <JFXListView fx:id="dataList" />
             </children>
         </HBox>
-        <JFXButton fx:id="backButton" layoutX="-112.0" layoutY="1.0" onAction="#backClicked" prefWidth="88.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Go Back" textFill="WHITE">
+        <JFXButton fx:id="backButton" layoutX="-112.0" layoutY="1.0" onAction="#onBackButtonClicked" prefWidth="88.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Go Back" textFill="WHITE">
             <font>
                 <Font name="Segoe UI Bold" size="10.0" />
             </font>

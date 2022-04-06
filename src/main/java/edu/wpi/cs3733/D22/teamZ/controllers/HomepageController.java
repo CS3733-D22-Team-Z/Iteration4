@@ -59,16 +59,16 @@ public class HomepageController {
     stage.show();
   }
 
-  @FXML
-  public void toMealServiceRequestList(ActionEvent event) throws IOException {
-    System.out.println("navigating to Meal Service Request List page from landing page");
-    Parent root =
-        FXMLLoader.load(getClass().getClassLoader().getResource(toMealServiceRequestListURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
+  //  @FXML
+  //  public void toMealServiceRequestList(ActionEvent event) throws IOException {
+  //    System.out.println("navigating to Meal Service Request List page from landing page");
+  //    Parent root =
+  //        FXMLLoader.load(getClass().getClassLoader().getResource(toMealServiceRequestListURL));
+  //    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+  //    Scene scene = new Scene(root);
+  //    stage.setScene(scene);
+  //    stage.show();
+  //  }
 
   @FXML
   private void toHome(ActionEvent event) throws IOException {

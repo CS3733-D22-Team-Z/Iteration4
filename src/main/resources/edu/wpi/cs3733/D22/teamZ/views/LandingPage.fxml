@@ -181,17 +181,10 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton alignment="TOP_CENTER" layoutX="15.0" layoutY="244.0" onAction="#toMealServiceRequest" prefHeight="61.0" prefWidth="98.0" text="Meal  Service Requests" textFill="#c4c4c4" wrapText="true">
+      <Label layoutX="375.0" layoutY="237.0" text="Coming soon..." textFill="#9d9d9d">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Italic" size="12.0" />
          </font>
-         <graphic>
-            <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" translateX="-7.0" translateY="-18.0">
-               <image>
-                  <Image url="@../images/table.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </JFXButton>
+      </Label>
     </children>
 </AnchorPane>

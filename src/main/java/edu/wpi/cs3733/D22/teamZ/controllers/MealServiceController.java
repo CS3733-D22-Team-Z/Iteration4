@@ -5,6 +5,9 @@ import edu.wpi.cs3733.D22.teamZ.*;
 import edu.wpi.cs3733.D22.teamZ.App;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+
+import edu.wpi.cs3733.D22.teamZ.entity.MealServiceRequest;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,14 +47,65 @@ public class MealServiceController {
 
   private String toLandingPageURL = "views/LandingPage.fxml";
   //  private String toMealServiceRequestListURL = "views/MealServiceRequestList.fxml";
+  //  private String toMealServiceRequestListURL = "views/MealServiceRequestList.fxml";
   private String toMealServiceRequestListURL =
       "edu/wpi/cs3733/D22/teamZ/views/MealServiceRequestList.fxml";
+  private String toMealServiceTestURL = "edu/wpi/cs3733/D22/teamZ/views/MealServiceTest.fxml";
+
+
+  HashMap<Integer, MealServiceRequest> mealServiceRequests =
+          new HashMap<Integer, MealServiceRequest>();
 
   @FXML
   public void initialize() {
-    //    //    locationList = locationDAO.getAllLocations(); //locationDAO file not included yet
 
-    //    //    locationList = locationDAO.getAllLocations();
+    MealServiceRequest req1 = new MealServiceRequest();
+    MealServiceRequest req2 = new MealServiceRequest();
+    MealServiceRequest req3 = new MealServiceRequest();
+
+    /**
+     * String requestID,
+     *     String patientName,
+     *     int patientID,
+     *     String roomNumber,
+     *     String mealServiceOption,
+     *     String status,
+     *     String staffAssigned
+     */
+
+    //req1
+    req1.setRequestID(1);
+    req1.setPatientName("John");
+    req1.setPatientID(415);
+    req1.setRoomNumber("PR3C55");
+    req1.setMealServiceOption("Choice 1");
+    req1.setStatus("Served");
+    req1.setStaffAssigned("staff");
+    //req2
+    req2.setRequestID(2);
+    req2.setPatientName("John");
+    req2.setPatientID(415);
+    req2.setRoomNumber("PR3C55");
+    req2.setMealServiceOption("Choice 2");
+    req2.setStatus("Preparing");
+    req2.setStaffAssigned("staff");
+    //req3
+    req3.setRequestID(3);
+    req3.setPatientName("Lily");
+    req3.setPatientID(548);
+    req3.setRoomNumber("PR3C58");
+    req3.setMealServiceOption("Choice 3");
+    req3.setStatus("Order Placed");
+    req3.setStaffAssigned("staff");
+
+    // add example requests
+    mealServiceRequests.put(req1.getRequestID(),req1);
+    mealServiceRequests.put(req2.getRequestID(),req2);
+    mealServiceRequests.put(req3.getRequestID(),req3);
+
+
+
+    //    //    locationList = locationDAO.getAllLocations(); //locationDAO file not included yet
 
     //    for (Location model : locationList) {
     //      System.out.println(model.getNodeID());
@@ -79,6 +133,11 @@ public class MealServiceController {
 
     //    submitButton.setDisableVisualFocus(true);
     submitButton.setDisable(true);
+
+    // submit status indicator
+    submitStatusIndicator.setStyle(
+        "-fx-text-fill: #7b7b7b; -fx-translate-x: 126; -fx-translate-y: 10");
+    submitStatusIndicator.setText("Awaiting submission...");
   }
 
   @FXML
@@ -141,12 +200,14 @@ public class MealServiceController {
     // simple test
     if (minute % 2 == 0) {
       // if submit is successful
-      submitStatusIndicator.setStyle("-fx-text-fill: green");
+      submitStatusIndicator.setStyle(
+          "-fx-text-fill: green; -fx-translate-x: 126; -fx-translate-y: 10");
       submitStatusIndicator.setText(
           "Success at " + String.format("%02d", hour) + ":" + String.format("%02d", minute));
     } else {
       // if submit fails
-      submitStatusIndicator.setStyle("-fx-text-fill: red");
+      submitStatusIndicator.setStyle(
+          "-fx-text-fill: red; -fx-translate-x: 126; -fx-translate-y: 10");
       submitStatusIndicator.setText(
           "Failed at " + String.format("%02d", hour) + ":" + String.format("%02d", minute));
     }
@@ -165,15 +226,65 @@ public class MealServiceController {
     patientRoomDropDown.setValue(null);
     mealSelectionDropDown.setValue("Combo 1");
     mealRequestStatusDropDown.setValue("Creating");
-    submitStatusIndicator.setStyle("-fx-text-fill: #7b7b7b");
+    submitStatusIndicator.setStyle(
+        "-fx-text-fill: #7b7b7b; -fx-translate-x: 126; -fx-translate-y: 10");
     submitStatusIndicator.setText("Form Cleared");
   }
 
+  //  @FXML
+  //  public void onListButtonClicked(ActionEvent event) throws IOException {
+  //    System.out.println("navigating to all meal service request list, from meal service");
+  //    Stage primaryStage = (Stage) listButton.getScene().getWindow();
+  //    Parent root =
+  //        FXMLLoader.load(getClass().getClassLoader().getResource(toMealServiceRequestListURL));
+  //    Scene scene = new Scene(root);
+  //    primaryStage.setScene(scene);
+  //  }
+
   @FXML
-  public void onListButtonClicked(ActionEvent actionEvent) throws IOException {
-    Stage primaryStage = (Stage) listButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toMealServiceRequestListURL));
+  private void onListButtonClicked(ActionEvent event) throws IOException {
+    System.out.println("navigating to all meal service request list, from meal service");
+    Parent root =
+        FXMLLoader.load(getClass().getClassLoader().getResource(toMealServiceRequestListURL));
+    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
+    primaryStage.show();
+  }
+
+
+  /**
+   * For confirmation exit page
+   *
+   */
+
+  @FXML
+  public void toHome(ActionEvent event) {
+    System.out.println("navigating to meal service exit confirmation popup, from meal service");
+
+  }
+
+  @FXML
+  public void toLocations(ActionEvent event) {
+    System.out.println("navigating to all meal service request list, from meal service");
+
+  }
+
+  @FXML
+  public void toLandingPage(ActionEvent event) {
+    System.out.println("navigating to all meal service request list, from meal service");
+
+  }
+
+  @FXML
+  public void toMedicalEquipmentRequest(ActionEvent event) {
+    System.out.println("navigating to all meal service request list, from meal service");
+
+  }
+
+  @FXML
+  public void toExit(ActionEvent event) {
+    System.out.println("navigating to all meal service request list, from meal service");
+
   }
 }

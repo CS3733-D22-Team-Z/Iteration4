@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MealServiceTestController">
+   <children>
+      <JFXButton fx:id="backButton" layoutX="-96.0" layoutY="13.0" onAction="#onBackButtonClicked" prefWidth="128.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 128; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Back to Dashboard" textFill="WHITE">
+         <font>
+            <Font name="Segoe UI Bold" size="10.0" />
+         </font>
+      </JFXButton>
+      <TableView fx:id="Things" layoutX="30.0" layoutY="86.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="c1" prefWidth="75.0" text="C1" />
+          <TableColumn fx:id="c2" prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

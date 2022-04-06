@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 public class MealServiceRequest {
+  private int requestID;
   private String patientName;
   private int patientID;
   private String roomNumber;
@@ -11,12 +12,14 @@ public class MealServiceRequest {
   public MealServiceRequest() {}
 
   public MealServiceRequest(
-      String patientName,
-      int patientID,
-      String roomNumber,
-      String mealServiceOption,
-      String status,
-      String staffAssigned) {
+          int requestID,
+          String patientName,
+          int patientID,
+          String roomNumber,
+          String mealServiceOption,
+          String status,
+          String staffAssigned) {
+    this.requestID = requestID;
     this.patientName = patientName;
     this.patientID = patientID;
     this.roomNumber = roomNumber;
@@ -25,7 +28,12 @@ public class MealServiceRequest {
     this.staffAssigned = staffAssigned;
   }
 
-  // GetterFunctions
+  /**
+   * Getter Functions (or methods?)
+   *
+   */
+  public int getRequestID() {return this.requestID;}
+
   public String getPatientName() {
     return this.patientName;
   }
@@ -50,7 +58,12 @@ public class MealServiceRequest {
     return this.staffAssigned;
   }
 
-  // SetterFunction
+  /**
+   * Setter Functions (or methods?)
+   *
+   */
+  public void setRequestID(int requestID) { this.requestID = requestID; }
+
   public void setPatientName(String patientName) {
     this.patientName = patientName;
   }
