@@ -135,7 +135,7 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint LABRESULTS_PK Primary Key (itemID),"
               + "constraint LABRESULTS_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint labResultsStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint labResultsStatusVal check (status in ('PROCESSING', 'DONE')))");
 
       stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
