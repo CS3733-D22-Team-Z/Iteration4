@@ -83,6 +83,41 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
   }
 
   /**
+   * @param equipment
+   * @return the first available equipmentID of equipment type.
+   */
+  @Override
+  public String getFirstAvailableEquipmentByType(String equipment) {
+
+    ILocationDAO locationDAO = new LocationDAOImpl();
+
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "Select * From MEDICALEQUIPMENT WHERE TYPE = ? AND STATUS = 'Available'");
+      pstmt.setString(1, equipment);
+      ResultSet rset = pstmt.executeQuery();
+
+      rset.next();
+      String temp = rset.getString("ITEMID");
+      rset.close();
+      if (temp != null) {
+        pstmt =
+            connection.prepareStatement(
+                "UPDATE MEDICALEQUIPMENT SET STATUS = 'In-Use' WHERE ITEMID = ?");
+        pstmt.setString(1, temp);
+        pstmt.executeUpdate();
+        return temp;
+      }
+
+    } catch (SQLException e) {
+      System.out.println("Failed to get the Medical Equipment");
+    }
+    // Only returns if no equipments of type are available
+    return null;
+  }
+
+  /**
    * takes in a location and returns a list of the medical equipment at that location
    *
    * @param location
