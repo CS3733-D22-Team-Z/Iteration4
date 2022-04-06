@@ -429,8 +429,21 @@ public class LocationListController {
       editLocationPane.setVisible(false);
       locationChangeDarkenPane.setVisible(false);
 
-      refreshMap(activeLocation.getFloor());
+      refreshMap(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
       refreshMap(oldFloor);
+      changeFloor
+          .getSelectionModel()
+          .select(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
+
+      activeLocation = tempLocation;
+      activeLabel =
+          allLabels.get(
+              totalLocations
+                  .filtered(loc -> loc.getNodeID().equalsIgnoreCase(activeLocation.getNodeID()))
+                  .getSourceIndex(0));
+      displayLocationInformation();
+      changeToFloor(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
+
     } else {
       alreadyExistsText.setVisible(true);
     }
@@ -681,6 +694,10 @@ public class LocationListController {
     changeToFloor(changeFloor.getSelectionModel().getSelectedItem().toString());
     refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
 
+    activeLocation = newLocation;
+    activeLabel = allLabels.get(allLabels.size() - 1);
+    displayLocationInformation();
+
     addLocationPane.setVisible(false);
     locationChangeDarkenPane.setVisible(false);
     addLocationPane.setDisable(true);
@@ -710,7 +727,7 @@ public class LocationListController {
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
-    File file = fileChooser.showSaveDialog(stage);
+    File file = fileChooser.showOpenDialog(stage);
 
     // ControlCSV writer = new LocationControlCSV(file);
     LocationDAOImpl writer = new LocationDAOImpl();
