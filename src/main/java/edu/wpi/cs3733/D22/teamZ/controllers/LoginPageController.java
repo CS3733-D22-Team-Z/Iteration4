@@ -23,7 +23,7 @@ public class LoginPageController implements Initializable {
   @FXML private Label errorLabel;
 
   private IEmployeeDAO database;
-  private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+  private String toHomepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
   private String toLoginSuccessURL = "edu/wpi/cs3733/D22/teamZ/views/LoginSuccessPage.fxml";
 
   /**
@@ -102,7 +102,7 @@ public class LoginPageController implements Initializable {
   @FXML
   public void skipButtonPressed(ActionEvent event) throws IOException {
     // Load the default FXML file and set that scene to the main stage.
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLandingPageURL));
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomepageURL));
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     Scene scene = new Scene(root);
     stage.setScene(scene);
