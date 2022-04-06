@@ -3,10 +3,13 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D22.teamZ.App;
 import edu.wpi.cs3733.D22.teamZ.database.ILabRequestServiceDAO;
+import edu.wpi.cs3733.D22.teamZ.database.IServiceRequestDAO;
 import edu.wpi.cs3733.D22.teamZ.database.LabRequestServiceDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.ServiceRequestDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -67,15 +70,21 @@ public class LabRequestController {
 
   @FXML
   public void onSubmitButtonClicked(ActionEvent event) throws SQLException {
-
+    IServiceRequestDAO serviceRequestDAO = new ServiceRequestDAOImpl();
+    List<ServiceRequest> serviceRequestList = serviceRequestDAO.getAllServiceRequests();
     int id;
     // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (labRequestServiceDAO.getAllLabServiceRequests().isEmpty()) {
-      System.out.println("Equipment is empty");
+    if (serviceRequestDAO.getAllServiceRequests().isEmpty()) {
+      System.out.println("There are no service requests");
       id = 0;
     } else {
-      id = labRequestServiceDAO.getAllLabServiceRequests().size() - 1;
+      ServiceRequest tempService = serviceRequestList.get(serviceRequestList.size() - 1);
+      id =
+          Integer.parseInt(
+              tempService
+                  .getRequestID()
+                  .substring(tempService.getRequestID().lastIndexOf("Q") + 1));
     }
     // Create new REQID
     String requestID = "REQ" + ++id;
@@ -92,7 +101,15 @@ public class LabRequestController {
             status,
             issuer,
             handler,
-            new Location(),
+            new Location(
+                "zLABS00101",
+                717,
+                609,
+                "1",
+                "Tower",
+                "LABS",
+                "Obstetrics Admitting",
+                "Obs Admitting"),
             labTypeChoiceBox.getSelectionModel().getSelectedItem());
 
     labRequestServiceDAO.addLabRequest(temp);

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
@@ -23,9 +22,10 @@ public class DBInitializer {
                 + System.getProperty("file.separator")
                 + "TowerLocations.csv");
     File employeeData =
-            new File(System.getProperty("user.dir")
-            + System.getProperty("file.separator")
-            + "Employees.csv");
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "Employees.csv");
     File medicalEquipmentData =
         new File(
             System.getProperty("user.dir")
@@ -135,7 +135,7 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint LABRESULTS_PK Primary Key (itemID),"
               + "constraint LABRESULTS_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint labResultsStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint labResultsStatusVal check (status in ('PROCESSING', 'DONE')))");
 
       stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
@@ -211,8 +211,8 @@ public class DBInitializer {
 
       for (Employee info : employeeList) {
         PreparedStatement pstmt =
-                connection.prepareStatement(
-                        "INSERT INTO EMPLOYEES (employeeID, name, accessType, username, password) values (?, ?, ?, ?, ?)");
+            connection.prepareStatement(
+                "INSERT INTO EMPLOYEES (employeeID, name, accessType, username, password) values (?, ?, ?, ?, ?)");
         pstmt.setString(1, info.getEmployeeID());
         pstmt.setString(2, info.getName());
         pstmt.setString(3, info.getAccesstype().toString());

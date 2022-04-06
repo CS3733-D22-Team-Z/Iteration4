@@ -112,8 +112,8 @@ public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
               "INSERT INTO LABRESULT (ITEMID, TYPE, STATUS, CURRENTLOCATION) values (?, ?, ?, ?)");
       stmt.setString(1, request.getRequestID());
       stmt.setString(2, request.getLabType());
-      stmt.setString(2, request.getStatus().toString());
-      stmt.setString(2, request.getTargetLocation().getShortName());
+      stmt.setString(3, request.getStatus().toString());
+      stmt.setString(4, request.getTargetLocation().getNodeID());
 
       stmt.executeUpdate();
       connection.commit();
