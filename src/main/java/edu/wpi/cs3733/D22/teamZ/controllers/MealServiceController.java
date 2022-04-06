@@ -3,11 +3,10 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D22.teamZ.*;
 import edu.wpi.cs3733.D22.teamZ.App;
+import edu.wpi.cs3733.D22.teamZ.entity.MealServiceRequest;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
-
-import edu.wpi.cs3733.D22.teamZ.entity.MealServiceRequest;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,11 +22,15 @@ import javafx.stage.Stage;
 public class MealServiceController {
   //  private ILocationDAO locationDAO = new LocationDAOImpl();
 
+  public String toWhere = null; // BAD
+
   @FXML private JFXButton backButton;
   @FXML private JFXButton submitButton;
   @FXML private JFXButton resetButton;
   @FXML private JFXButton allMealRequestsButton;
   @FXML private JFXButton listButton; // temp
+
+  @FXML private JFXButton exitButton;
 
   @FXML private Label header;
   @FXML private Label objectBodyText;
@@ -50,11 +53,11 @@ public class MealServiceController {
   //  private String toMealServiceRequestListURL = "views/MealServiceRequestList.fxml";
   private String toMealServiceRequestListURL =
       "edu/wpi/cs3733/D22/teamZ/views/MealServiceRequestList.fxml";
-  private String toMealServiceTestURL = "edu/wpi/cs3733/D22/teamZ/views/MealServiceTest.fxml";
-
+  private String toMealServiceExitConfirmationURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MealServiceExitConfirmation.fxml";
 
   HashMap<Integer, MealServiceRequest> mealServiceRequests =
-          new HashMap<Integer, MealServiceRequest>();
+      new HashMap<Integer, MealServiceRequest>();
 
   @FXML
   public void initialize() {
@@ -64,16 +67,11 @@ public class MealServiceController {
     MealServiceRequest req3 = new MealServiceRequest();
 
     /**
-     * String requestID,
-     *     String patientName,
-     *     int patientID,
-     *     String roomNumber,
-     *     String mealServiceOption,
-     *     String status,
-     *     String staffAssigned
+     * String requestID, String patientName, int patientID, String roomNumber, String
+     * mealServiceOption, String status, String staffAssigned
      */
 
-    //req1
+    // req1
     req1.setRequestID(1);
     req1.setPatientName("John");
     req1.setPatientID(415);
@@ -81,7 +79,7 @@ public class MealServiceController {
     req1.setMealServiceOption("Choice 1");
     req1.setStatus("Served");
     req1.setStaffAssigned("staff");
-    //req2
+    // req2
     req2.setRequestID(2);
     req2.setPatientName("John");
     req2.setPatientID(415);
@@ -89,7 +87,7 @@ public class MealServiceController {
     req2.setMealServiceOption("Choice 2");
     req2.setStatus("Preparing");
     req2.setStaffAssigned("staff");
-    //req3
+    // req3
     req3.setRequestID(3);
     req3.setPatientName("Lily");
     req3.setPatientID(548);
@@ -99,11 +97,9 @@ public class MealServiceController {
     req3.setStaffAssigned("staff");
 
     // add example requests
-    mealServiceRequests.put(req1.getRequestID(),req1);
-    mealServiceRequests.put(req2.getRequestID(),req2);
-    mealServiceRequests.put(req3.getRequestID(),req3);
-
-
+    mealServiceRequests.put(req1.getRequestID(), req1);
+    mealServiceRequests.put(req2.getRequestID(), req2);
+    mealServiceRequests.put(req3.getRequestID(), req3);
 
     //    //    locationList = locationDAO.getAllLocations(); //locationDAO file not included yet
 
@@ -118,7 +114,7 @@ public class MealServiceController {
             "PR3B39", "PR3B40", "PR3C51", "PR3C52", "PR3C53", "PR3C54", "PR3C55", "PR3C56",
             "PR3C57", "PR3C58", "PR3C59", "PR3C60"));
 
-    // TODO: Creat a meal database
+    // TODO: Create a meal database
     mealSelectionDropDown.setItems(
         FXCollections.observableArrayList("Combo 1", "Combo 2", "Combo 3"));
     mealRequestStatusDropDown.setItems(
@@ -252,39 +248,93 @@ public class MealServiceController {
     primaryStage.show();
   }
 
-
-  /**
-   * For confirmation exit page
-   *
-   */
-
+  /** For confirmation exit page */
   @FXML
   public void toHome(ActionEvent event) {
     System.out.println("navigating to meal service exit confirmation popup, from meal service");
 
+    toWhere = "home";
+
+    try {
+      FXMLLoader fxmlLoader =
+          new FXMLLoader(getClass().getResource(toMealServiceExitConfirmationURL));
+      Parent root1 = (Parent) fxmlLoader.load();
+      Stage stage = new Stage();
+      stage.setTitle("Exit Confirmation");
+      stage.setScene(new Scene(root1));
+      stage.show();
+    } catch (Exception e) {
+      System.out.println("Can't load new window");
+      e.printStackTrace();
+    }
   }
 
   @FXML
   public void toLocations(ActionEvent event) {
     System.out.println("navigating to all meal service request list, from meal service");
 
+    try {
+      FXMLLoader fxmlLoader =
+          new FXMLLoader(getClass().getResource(toMealServiceExitConfirmationURL));
+      Parent root1 = (Parent) fxmlLoader.load();
+      Stage stage = new Stage();
+      stage.setTitle("Exit Confirmation");
+      stage.setScene(new Scene(root1));
+      stage.show();
+    } catch (Exception e) {
+      System.out.println("Can't load new window");
+      e.printStackTrace();
+    }
   }
 
   @FXML
   public void toLandingPage(ActionEvent event) {
     System.out.println("navigating to all meal service request list, from meal service");
 
+    toWhere = "landing";
+
+    try {
+      FXMLLoader fxmlLoader =
+          new FXMLLoader(getClass().getResource(toMealServiceExitConfirmationURL));
+      Parent root1 = (Parent) fxmlLoader.load();
+      Stage stage = new Stage();
+      stage.setTitle("Exit Confirmation");
+      stage.setScene(new Scene(root1));
+      stage.show();
+    } catch (Exception e) {
+      System.out.println("Can't load new window");
+      e.printStackTrace();
+    }
   }
 
   @FXML
   public void toMedicalEquipmentRequest(ActionEvent event) {
     System.out.println("navigating to all meal service request list, from meal service");
 
+    toWhere = "medEquip";
+
+    try {
+      FXMLLoader fxmlLoader =
+          new FXMLLoader(getClass().getResource(toMealServiceExitConfirmationURL));
+      Parent root1 = (Parent) fxmlLoader.load();
+      Stage stage = new Stage();
+      stage.setTitle("Exit Confirmation");
+      stage.setScene(new Scene(root1));
+      stage.show();
+    } catch (Exception e) {
+      System.out.println("Can't load new window");
+      e.printStackTrace();
+    }
   }
 
   @FXML
   public void toExit(ActionEvent event) {
     System.out.println("navigating to all meal service request list, from meal service");
 
+    toWhere = "exit";
+
+    System.out.println("exit the app using exit button bottom left");
+    //    Stage stage = (Stage) exitButton.getScene().getWindow();
+    //    stage.close();
   }
 }

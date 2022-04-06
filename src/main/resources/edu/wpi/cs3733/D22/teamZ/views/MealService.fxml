@@ -132,8 +132,8 @@
             <Font name="Segoe UI Bold" size="10.0" />
          </font>
       </JFXButton>
-      <VBox layoutX="1.0" prefHeight="400.0" prefWidth="121.0" style="-fx-background-color: #FFFFFF;" />
-      <JFXButton layoutX="-14.0" layoutY="57.0" onAction="#toHome" prefHeight="34.0" prefWidth="129.0" text="  Home" textFill="#c4c4c4">
+      <VBox layoutX="-4.0" prefHeight="400.0" prefWidth="121.0" style="-fx-background-color: #FFFFFF;" />
+      <JFXButton layoutX="-19.0" layoutY="57.0" onAction="#toHome" prefHeight="34.0" prefWidth="129.0" text="  Home" textFill="#c4c4c4">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -145,7 +145,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton layoutX="7.0" layoutY="103.0" onAction="#toLocations" prefHeight="25.0" prefWidth="106.0" text="  Locations" textFill="#c4c4c4">
+      <JFXButton layoutX="2.0" layoutY="103.0" onAction="#toLocations" prefHeight="25.0" prefWidth="106.0" text="  Locations" textFill="#c4c4c4">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -157,7 +157,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton layoutX="5.0" layoutY="143.0" onAction="#toLandingPage" prefHeight="25.0" prefWidth="106.0" text="  Landing " textFill="#c4c4c4">
+      <JFXButton layoutY="143.0" onAction="#toLandingPage" prefHeight="25.0" prefWidth="106.0" text="  Landing " textFill="#c4c4c4">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -169,7 +169,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton layoutX="20.0" layoutY="180.0" onAction="#toMedicalEquipmentRequest" prefHeight="61.0" prefWidth="114.0" text="Medical  Equipment Requests" textFill="#c4c4c4" wrapText="true">
+      <JFXButton layoutX="15.0" layoutY="180.0" onAction="#toMedicalEquipmentRequest" prefHeight="61.0" prefWidth="114.0" text="Medical  Equipment Requests" textFill="#c4c4c4" wrapText="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -181,7 +181,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="exitButton" buttonType="RAISED" layoutX="17.0" layoutY="363.0" onAction="#toExit" prefHeight="27.0" prefWidth="92.0" style="-fx-background-color: #0075FF;" text="Exit" textFill="WHITE">
+      <JFXButton fx:id="exitButton" buttonType="RAISED" layoutX="12.0" layoutY="363.0" onAction="#toExit" prefHeight="27.0" prefWidth="92.0" style="-fx-background-color: #0075FF;" text="Exit" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

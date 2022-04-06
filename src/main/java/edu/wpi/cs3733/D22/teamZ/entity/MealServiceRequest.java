@@ -12,13 +12,13 @@ public class MealServiceRequest {
   public MealServiceRequest() {}
 
   public MealServiceRequest(
-          int requestID,
-          String patientName,
-          int patientID,
-          String roomNumber,
-          String mealServiceOption,
-          String status,
-          String staffAssigned) {
+      int requestID,
+      String patientName,
+      int patientID,
+      String roomNumber,
+      String mealServiceOption,
+      String status,
+      String staffAssigned) {
     this.requestID = requestID;
     this.patientName = patientName;
     this.patientID = patientID;
@@ -28,11 +28,10 @@ public class MealServiceRequest {
     this.staffAssigned = staffAssigned;
   }
 
-  /**
-   * Getter Functions (or methods?)
-   *
-   */
-  public int getRequestID() {return this.requestID;}
+  /** Getter Functions (or methods?) */
+  public int getRequestID() {
+    return this.requestID;
+  }
 
   public String getPatientName() {
     return this.patientName;
@@ -58,11 +57,10 @@ public class MealServiceRequest {
     return this.staffAssigned;
   }
 
-  /**
-   * Setter Functions (or methods?)
-   *
-   */
-  public void setRequestID(int requestID) { this.requestID = requestID; }
+  /** Setter Functions (or methods?) */
+  public void setRequestID(int requestID) {
+    this.requestID = requestID;
+  }
 
   public void setPatientName(String patientName) {
     this.patientName = patientName;
