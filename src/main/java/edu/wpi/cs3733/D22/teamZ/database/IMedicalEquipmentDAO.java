@@ -11,6 +11,8 @@ public interface IMedicalEquipmentDAO {
 
   public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location);
 
+  String getFirstAvailableEquipmentByType(String equipment);
+
   boolean addMedicalEquipment(MedicalEquipment equipment);
 
   boolean updateMedicalEquipment(MedicalEquipment equipment);
