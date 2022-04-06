@@ -6,8 +6,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -15,6 +14,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,7 +25,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -98,6 +101,11 @@ public class LocationListController {
   // pane
   @FXML private Pane addLocationPane;
 
+  // Patricks stuff
+  @FXML private VBox detailsPopup;
+  @FXML private HBox equipmentNames;
+  @FXML private HBox equipmentQuantities;
+
   // urls to other pages
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
@@ -117,6 +125,7 @@ public class LocationListController {
   // ArrayList<>());
   private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> allLabels = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Label> equipLabels = FXCollections.observableList(new ArrayList<>());
 
   // initialize location labels to display on map
   @FXML
@@ -136,6 +145,7 @@ public class LocationListController {
     floorField.getItems().add("3");
 
     // floorLocations.remove(0, floorLocations.size());
+
     totalLocations.addAll(FXCollections.observableList(locDAO.getAllLocations()));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
     // floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
@@ -143,8 +153,8 @@ public class LocationListController {
     // initLabels();
 
     // showLocations("1");
-    refreshMap("1");
     changeFloor.getSelectionModel().select(2);
+    refreshMap("1");
 
     // change floor with dropdown
     changeFloor.setOnAction(
@@ -255,12 +265,19 @@ public class LocationListController {
 
     pane.getChildren()
         .addAll(
+            equipLabels.filtered(
+                label -> {
+                  return changeFloor.getSelectionModel().getSelectedItem().toString().equals("3");
+                }));
+
+    pane.getChildren()
+        .addAll(
             allLabels.filtered(
                 label -> {
                   Location temp = totalLocations.get(allLabels.indexOf(label));
-                  return temp.getFloor().equalsIgnoreCase(floor)
-                      && !temp.getNodeType()
-                          .equalsIgnoreCase("hall"); // disable line to enable halls
+                  return temp.getFloor().equalsIgnoreCase(floor);
+                  // && !temp.getNodeType()
+                  // .equalsIgnoreCase("hall"); // disable line to enable halls
                 }));
   }
 
@@ -537,6 +554,45 @@ public class LocationListController {
       label.setEffect(dropShadow);
       label.setGraphic(locationIcon);
 
+      // equipment labels
+      List<MedicalEquipment> medicalEquipmentAtLocation =
+          medicalEquipmentDAO.getAllMedicalEquipmentByLocation(current);
+
+      // If there is medical equipment at the location, then proceed.
+      if (!medicalEquipmentAtLocation.isEmpty()) {
+
+        // Setup icon image view
+        Image equipmentImg = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
+        ImageView equipmentIcon = new ImageView(equipmentImg);
+
+        DropShadow dropShadowEquip = new DropShadow();
+        dropShadowEquip.setRadius(5.0);
+        dropShadowEquip.setOffsetX(3.0);
+        dropShadowEquip.setOffsetY(3.0);
+        dropShadowEquip.setColor(Color.GRAY);
+
+        // create the label
+        Label labelEquip = new Label();
+        labelEquip.setEffect(dropShadowEquip);
+        labelEquip.setGraphic(equipmentIcon);
+        labelEquip.setPrefWidth(7);
+        labelEquip.setPrefHeight(7);
+
+        labelEquip.relocate(current.getXcoord() - 8, current.getYcoord() - 8);
+        equipLabels.add(labelEquip);
+        System.out.println("adding a label");
+
+        labelEquip.setOnMouseClicked(
+            (e) -> {
+              showInfoDialog(
+                  labelEquip,
+                  current,
+                  medicalEquipmentDAO.getAllMedicalEquipmentByLocation(current));
+            });
+
+        // pane.getChildren().add(labelEquip);
+      }
+
       // call function when clicked to display information about that location label on side
       label.setOnMouseClicked(
           (e) -> {
@@ -740,5 +796,83 @@ public class LocationListController {
             + numberConflicts
             + " locations that are"
             + " trying to get deleted but still have equipment in it");
+  }
+
+  public void showInfoDialog(Label labelEquip, Location loc, List<MedicalEquipment> equipment) {
+    // Make the popup visible again, and reset the HBoxes' children.
+    detailsPopup.setVisible(true);
+    equipmentNames.getChildren().clear();
+    equipmentQuantities.getChildren().clear();
+
+    // Get a Dictionary of each type of equipment and how much of each is present.
+    Dictionary<String, Integer> equipFrequency = getMedicalEquipmentInstances(equipment);
+
+    // Create popup with information about medical equipment
+    int i = 0;
+    Enumeration<String> keys = equipFrequency.keys();
+    while (keys.hasMoreElements()) {
+      String key = keys.nextElement();
+      // This entire system is hideous and should probably be replaced by a factory at some point.
+      if (i == 0) {
+        equipmentNames.getChildren().add(getPopupLabel(key, "#FFFFFF", 5, 0, 0, 0));
+        equipmentQuantities
+            .getChildren()
+            .add(getPopupLabel(equipFrequency.get(key).toString(), "#FFFFFF", 0, 0, 5, 0));
+      } else if (i == equipFrequency.size() - 1) {
+        equipmentNames.getChildren().add(getPopupLabel(key, "#FFFFFF", 0, 5, 0, 0));
+        equipmentQuantities
+            .getChildren()
+            .add(getPopupLabel(equipFrequency.get(key).toString(), "#FFFFFF", 0, 0, 0, 5));
+      } else {
+        equipmentNames.getChildren().add(getPopupLabel(key, "#FFFFFF", 0, 0, 0, 0));
+        equipmentQuantities
+            .getChildren()
+            .add(getPopupLabel(equipFrequency.get(key).toString(), "#FFFFFF", 0, 0, 0, 0));
+      }
+      i++;
+    }
+
+    // Move the popup so that it is centered with the location, but well above the equipment icon.
+    detailsPopup.relocate(loc.getXcoord() + 60, loc.getYcoord());
+  }
+
+  public Label getPopupLabel(
+      String text, String color, int topLeft, int topRight, int botLeft, int botRight) {
+    Label newLabel = new Label();
+
+    // Set the padding of text, and the preferred width of the label
+    newLabel.setPadding(new Insets(4, 0, 4, 0));
+    newLabel.setPrefWidth(70);
+
+    // Set the CSS of the label
+    newLabel.setStyle(
+        String.format(
+            "-fx-border-width: 1px; -fx-background-color: %s; -fx-border-color: #000000; -fx-border-radius: %dpx %dpx %dpx %dpx; -fx-background-radius: %dpx %dpx %dpx %dpx",
+            color, topLeft, topRight, botRight, botLeft, topLeft, topRight, botRight, botLeft));
+
+    // Set and center the text
+    newLabel.setText(text);
+    newLabel.setAlignment(Pos.CENTER);
+    return newLabel;
+  }
+
+  private Dictionary<String, Integer> getMedicalEquipmentInstances(List<MedicalEquipment> reqList) {
+    // Make dictionary
+    Dictionary<String, Integer> dict = new Hashtable<>();
+
+    // For each piece of equipment...
+    for (MedicalEquipment equipment : reqList) {
+
+      // If the dictionary doesn't contain the item, add it in with one occurrence.
+      if (dict.get(equipment.getType()) == null) {
+        dict.put(equipment.getType(), 1);
+
+        // If it is already in, add 1 to the amount of times it occurs.
+      } else {
+        dict.put(equipment.getType(), dict.get(equipment.getType()) + 1);
+      }
+    }
+
+    return dict;
   }
 }
