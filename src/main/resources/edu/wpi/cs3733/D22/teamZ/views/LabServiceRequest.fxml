@@ -8,10 +8,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-radius: 2;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LabRequestController">
     <children>
+      <Rectangle fx:id="warningBackground" arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="26.0" layoutX="148.0" layoutY="342.0" stroke="TRANSPARENT" strokeType="INSIDE" width="178.0" />
         <Button id="backButton" fx:id="backButton" layoutX="23.0" mnemonicParsing="false" onAction="#onBackButtonClicked" style="-fx-background-color: #0075FF; -fx-translate-x: 126; -fx-pref-width: 128; -fx-pref-height: 26; -fx-translate-y: 13; -fx-background-radius: 2;" text="Back to Dashboard" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="10.0" />
@@ -57,7 +59,7 @@
                 <Font name="Segoe UI Bold" size="9.0" />
             </font>
         </Label>
-        <ChoiceBox fx:id="labTypeChoiceBox" layoutX="149.0" layoutY="227.0" prefHeight="25.0" onMouseExited="#validateButton" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
+        <ChoiceBox fx:id="labTypeChoiceBox" layoutX="149.0" layoutY="227.0" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
             <effect>
                 <DropShadow />
             </effect>
@@ -77,7 +79,7 @@
                 <Font name="Segoe UI Bold" size="9.0" />
             </font>
         </Label>
-        <Label fx:id="errorSavingLabel" layoutX="33.0" layoutY="262.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 118; -fx-translate-y: 100; -fx-pref-width: 200;" text="Error saving request, no equipment available" textFill="RED">
+        <Label fx:id="errorSavingLabel" layoutX="33.0" layoutY="245.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 118; -fx-translate-y: 100; -fx-pref-width: 200;" text="Error saving request, no equipment available" textFill="RED">
             <font>
                 <Font name="Segoe UI Bold" size="9.0" />
             </font>
@@ -87,5 +89,10 @@
             <Font name="Segoe UI Bold" size="10.0" />
          </font>
       </JFXButton>
+      <Label fx:id="successfulSubmitLabel" layoutX="33.0" layoutY="245.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 118; -fx-translate-y: 100; -fx-pref-width: 200;" text="Successfull lab request submission" textFill="#0075ff">
+         <font>
+            <Font name="Segoe UI Bold" size="9.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

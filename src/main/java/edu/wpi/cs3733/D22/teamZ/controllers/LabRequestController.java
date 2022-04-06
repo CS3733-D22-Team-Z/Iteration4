@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class LabRequestController {
@@ -34,6 +35,8 @@ public class LabRequestController {
   @FXML private Label patientNameLabel;
   @FXML private Label patientIdLabel;
   @FXML private Label errorSavingLabel;
+  @FXML private Label successfulSubmitLabel;
+  @FXML private Rectangle warningBackground;
 
   private final String toDashboardURL = "views/LandingPage.fxml";
   ILabRequestServiceDAO labRequestServiceDAO;
@@ -48,6 +51,8 @@ public class LabRequestController {
             "Blood Sample", "Urine Sample", "X-Ray", "CAT Scan", "MRI"));
     errorSavingLabel.setVisible(false);
     submitButton.setDisable(true);
+    successfulSubmitLabel.setVisible(false);
+    warningBackground.setVisible(false);
   }
 
   @FXML
@@ -113,6 +118,9 @@ public class LabRequestController {
             labTypeChoiceBox.getSelectionModel().getSelectedItem());
 
     labRequestServiceDAO.addLabRequest(temp);
+    this.clearFields();
+    successfulSubmitLabel.setVisible(true);
+    warningBackground.setVisible(true);
   }
 
   @FXML
@@ -128,6 +136,15 @@ public class LabRequestController {
 
   @FXML
   private void onResetButtonClicked(ActionEvent event) throws IOException {
+    patientIdField.clear();
+    patientNameField.clear();
+    labTypeChoiceBox.setValue(null);
+    successfulSubmitLabel.setVisible(false);
+    warningBackground.setVisible(false);
+  }
+
+  @FXML
+  public void clearFields() {
     patientIdField.clear();
     patientNameField.clear();
     labTypeChoiceBox.setValue(null);
