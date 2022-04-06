@@ -104,26 +104,26 @@ zELEV00M03,707,648,3,Tower,ELEV,Elevator M Floor 3,Elevator M3
 zDEPT002L1,874,208,L1,Tower,DEPT,Day Surgery Family Waiting Floor L1,Department C002L1
 zDEPT003L1,738,208,L1,Tower,DEPT,Day Surgery Family Waiting Exit Floor L1,Department C003L1
 zHALL001L1,628,286,L1,Tower,HALL,Hallway 1 Floor L1,Hallway C001L1
-zHALL005L1,649,649,L1,Tower,HALL,Hallway 5 Floor L1,Hallway C005L1
-zHALL006L1,1020,649,L1,Tower,HALL,Hallway 6 Floor L1,Hallway C006L1
-zHALL007L1,1020,408,L1,Tower,HALL,Hallway 7 Floor L1,Hallway C007L1
-zHALL014L1,738,286,L1,Tower,HALL,Hallway 14 Floor L1,Hallway C014L1
-zHALL015L1,500,285,L1,Tower,HALL,Hallway 15 Floor L1,Hallway C015L1
+zHALL002L1,649,649,L1,Tower,HALL,Hallway 2 Floor L1,Hallway C002L1
+zHALL003L1,1020,649,L1,Tower,HALL,Hallway 3 Floor L1,Hallway C003L1
+zHALL004L1,1020,408,L1,Tower,HALL,Hallway 4 Floor L1,Hallway C004L1
+zHALL005L1,738,286,L1,Tower,HALL,Hallway 5 Floor L1,Hallway C005L1
+zHALL006L1,500,285,L1,Tower,HALL,Hallway 6 Floor L1,Hallway C006L1
 zLABS001L1,860,649,L1,Tower,LABS,Outpatient Fluoroscopy Floor L1,Lab C001L1
 zLABS002L1,636,455,L1,Tower,LABS,Pre-Op PACU Floor L1,Lab C002L1
 zREST001L1,616,381,L1,Tower,REST,Restroom L Elevator Floor L1,Restroom C001L1
 zREST002L1,958,635,L1,Tower,REST,Restroom M Elevator Floor L1,Restroom C002L1
 zELEV00LL1,681,286,L1,Tower,ELEV,Elevator L Floor L1,Elevator LL1
 zELEV00ML1,713,649,L1,Tower,ELEV,Elevator M Floor L1,Elevator ML1
-zHALL005L2,639,646,L2,Tower,HALL,Hallway 5 Floor L2,Hallway C005L2
-zHALL006L2,639,372,L2,Tower,HALL,Hallway 6 Floor L2,Hallway C006L2
-zHALL007L2,624,372,L2,Tower,HALL,Hallway 7 Floor L2,Hallway C007L2
-zHALL008L2,624,286,L2,Tower,HALL,Hallway 8 Floor L2,Hallway C008L2
-zHALL009L2,624,215,L2,Tower,HALL,Hallway 9 Floor L2,Hallway C009L2
-zHALL010L2,1017,215,L2,Tower,HALL,Hallway 10 Floor L2,Hallway C010L2
+zHALL001L2,639,646,L2,Tower,HALL,Hallway 1 Floor L2,Hallway C001L2
+zHALL002L2,639,372,L2,Tower,HALL,Hallway 2 Floor L2,Hallway C002L2
+zHALL003L2,624,372,L2,Tower,HALL,Hallway 3 Floor L2,Hallway C003L2
+zHALL004L2,624,286,L2,Tower,HALL,Hallway 4 Floor L2,Hallway C004L2
+zHALL005L2,624,215,L2,Tower,HALL,Hallway 5 Floor L2,Hallway C005L2
+zHALL006L2,1017,215,L2,Tower,HALL,Hallway 6 Floor L2,Hallway C006L2
 zELEV00LL2,681,286,L2,Tower,ELEV,Elevator L Floor L2,Elevator LL2
 zELEV00ML2,714,646,L2,Tower,ELEV,Elevator M Floor L2,Elevator ML2
-zHALL001L2,639,849,L2,Tower,HALL,Hallway Connector 1 Floor L2,Hallway W01L2
+zHALL007L2,639,849,L2,Tower,HALL,Hallway Connector 7 Floor L2,Hallway W07L2
 zSTOR001L1,487,180,L1,Tower,STOR,OR Bed Park,Bed Park
 zSTOR00101,405,286,1,Tower,STOR,West Plaza,West Plaza
 zSTOR00103,430,438,3,Tower,STOR,Pod C Clean Storage,Pod C Clean
