@@ -181,17 +181,5 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="equipmentMapButton" alignment="TOP_CENTER" layoutX="15.0" layoutY="250.0" onAction="#toEquipmentMap" prefHeight="43.0" prefWidth="102.0" text="Equipment Map" textFill="#c4c4c4" wrapText="true">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-         <graphic>
-            <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" translateX="-7.0" translateY="-5.0">
-               <image>
-                  <Image url="@../images/map.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </JFXButton>
     </children>
 </AnchorPane>

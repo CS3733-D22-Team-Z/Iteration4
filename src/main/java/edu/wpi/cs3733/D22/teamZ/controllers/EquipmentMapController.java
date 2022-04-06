@@ -114,8 +114,11 @@ public class EquipmentMapController implements Initializable {
     // Read new floor
     String floor = changeFloor.getSelectionModel().getSelectedItem();
 
+    String imageLink = "edu/wpi/cs3733/D22/teamZ/images/" + floor + ".png";
+
     // Switch map image
-    URL rsc = getClass().getClassLoader().getResource(String.format(imageRoot, floor));
+    // URL rsc = getClass().getClassLoader().getResource(String.format(imageRoot, floor));
+    URL rsc = getClass().getClassLoader().getResource(imageLink);
     mapImage.setImage(new Image("file:" + rsc.getPath()));
 
     // Reset canvas and iconContainer

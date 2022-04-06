@@ -30,7 +30,7 @@
             <Font name="Segoe UI Bold" size="7.5" />
          </font>
       </Label>
-      <JFXButton fx:id="loginButton" layoutX="38.0" layoutY="294.0" onAction="#loginButtonPressed" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Login" textFill="WHITE">
+      <JFXButton fx:id="loginButton" layoutX="80.0" layoutY="296.0" onAction="#loginButtonPressed" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Login" textFill="WHITE">
          <font>
             <Font name="Segoe UI Bold" size="10.0" />
          </font>
@@ -48,11 +48,6 @@
             <Font name="Segoe UI Bold" size="11.0" />
          </font>
       </Label>
-      <JFXButton fx:id="skipButton" layoutX="123.0" layoutY="294.0" onAction="#skipButtonPressed" prefWidth="111.0" ripplerFill="#75ff75" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #65DF65; -fx-font-family: &quot;Segoe UI&quot;;" text="Skip" textFill="WHITE">
-         <font>
-            <Font name="Segoe UI Bold" size="10.0" />
-         </font>
-      </JFXButton>
       <ImageView fitHeight="155.0" fitWidth="482.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Brigham-Womens-Hospital.jpg" />
