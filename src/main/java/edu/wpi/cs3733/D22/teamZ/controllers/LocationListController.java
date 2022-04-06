@@ -117,6 +117,7 @@ public class LocationListController {
   // ArrayList<>());
   private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> allLabels = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Label> equipLabels = FXCollections.observableList(new ArrayList<>());
 
   // initialize location labels to display on map
   @FXML
@@ -252,6 +253,10 @@ public class LocationListController {
 
   private void showLocations(String floor) {
     pane.getChildren().clear();
+
+    if (!equipLabels.isEmpty()) {
+      pane.getChildren().add(equipLabels.get(1));
+    }
 
     pane.getChildren()
         .addAll(
@@ -522,6 +527,34 @@ public class LocationListController {
       Label label = new Label();
       label.setEffect(dropShadow);
       label.setGraphic(locationIcon);
+
+      // equipment labels
+      List<MedicalEquipment> medicalEquipmentAtLocation =
+          medicalEquipmentDAO.getAllMedicalEquipmentByLocation(current);
+
+      // If there is medical equipment at the location, then proceed.
+      if (!medicalEquipmentAtLocation.isEmpty()) {
+
+        // Setup icon image view
+        Image equipmentImg = new Image("edu/wpi/cs3733/D22/teamZ/images/home.png");
+        ImageView equipmentIcon = new ImageView(equipmentImg);
+
+        DropShadow dropShadowEquip = new DropShadow();
+        dropShadowEquip.setRadius(5.0);
+        dropShadowEquip.setOffsetX(3.0);
+        dropShadowEquip.setOffsetY(3.0);
+        dropShadowEquip.setColor(Color.GRAY);
+
+        // create the label
+        Label labelEquip = new Label();
+        labelEquip.setEffect(dropShadowEquip);
+        labelEquip.setGraphic(equipmentIcon);
+
+        labelEquip.relocate(current.getXcoord() - 6, current.getYcoord() - 8);
+        equipLabels.add(labelEquip);
+        System.out.println("adding a label");
+        pane.getChildren().add(labelEquip);
+      }
 
       // call function when clicked to display information about that location label on side
       label.setOnMouseClicked(
