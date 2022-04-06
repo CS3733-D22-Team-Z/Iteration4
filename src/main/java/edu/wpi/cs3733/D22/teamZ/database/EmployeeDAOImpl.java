@@ -53,7 +53,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
     Employee emp = new Employee();
     try {
       PreparedStatement pstmt =
-          connection.prepareStatement("Select * From EMPLOYEE WHERE EMPLOYEEID = ?");
+          connection.prepareStatement("Select * From EMPLOYEES WHERE EMPLOYEEID = ?");
       pstmt.setString(1, employeeID);
       ResultSet rset = pstmt.executeQuery();
 
@@ -83,7 +83,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
     Employee emp = new Employee();
     try {
       PreparedStatement pstmt =
-          connection.prepareStatement("Select * From EMPLOYEE WHERE USERNAME = ?");
+          connection.prepareStatement("Select * From EMPLOYEES WHERE USERNAME = ?");
       pstmt.setString(1, employeeUsername);
       ResultSet rset = pstmt.executeQuery();
 
@@ -113,7 +113,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "INSERT INTO Employee (EMPLOYEEID, NAME, ACESSTYPE, USERNAME, PASSWORD)"
+              "INSERT INTO EMPLOYEES (EMPLOYEEID, NAME, ACCESSTYPE, USERNAME, PASSWORD)"
                   + "values (?, ?, ?, ?, ?)");
       stmt.setString(1, emp.getEmployeeID());
       stmt.setString(2, emp.getName());
@@ -141,7 +141,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "UPDATE Employee SET NAME=?, ACCESSTYPE =? WHERE EMPLOYEEID =?");
+              "UPDATE EMPLOYEES SET NAME=?, ACCESSTYPE =? WHERE EMPLOYEEID =?");
       stmt.setString(1, emp.getName());
       stmt.setObject(2, emp.getAccesstype());
       stmt.setString(3, emp.getEmployeeID());
@@ -165,7 +165,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
   public boolean deleteEmployee(Employee emp) {
     try {
       PreparedStatement stmt =
-          connection.prepareStatement("DELETE FROM EMPLOYEE WHERE EmployeeID=?");
+          connection.prepareStatement("DELETE FROM EMPLOYEES WHERE EmployeeID=?");
       stmt.setString(1, emp.getEmployeeID());
       stmt.executeUpdate();
     } catch (SQLException e) {
