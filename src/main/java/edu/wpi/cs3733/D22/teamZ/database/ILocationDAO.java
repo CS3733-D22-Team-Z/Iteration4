@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import java.io.File;
 import java.util.List;
 
 public interface ILocationDAO {
@@ -10,6 +11,13 @@ public interface ILocationDAO {
    * @return List of locations
    */
   List<Location> getAllLocations();
+
+  /**
+   * Gets all the nodeIDs for the locations in database
+   *
+   * @return list of nodeIDs
+   */
+  List<String> getAllLocationNodeIDs();
 
   /**
    * Gets ONE lcoation from the database based on the provided nodeID
@@ -48,5 +56,21 @@ public interface ILocationDAO {
    *
    * @return True if successful, false if not
    */
-  boolean exportToLocationCSV();
+  boolean exportToLocationCSV(File locData);
+
+  /**
+   * Gets all locations on the given floor
+   *
+   * @param floor
+   * @return list of locations
+   */
+  List<Location> getAllLocationsByFloor(String floor);
+
+  /**
+   * Imports data from CSV into location database
+   *
+   * @param locData
+   * @return True if successful, false if not
+   */
+  int importLocationFromCSV(File locData);
 }

@@ -1,62 +1,26 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
-public class LabServiceRequest {
-  private String employeeName;
-  private int employeeID;
-  private String labType;
-  private String status;
-  private String staffAssigned;
+public class LabServiceRequest extends ServiceRequest {
 
-  public LabServiceRequest() {}
+  private final String labType;
 
   public LabServiceRequest(
-      String employeeName, int employeeID, String labType, String status, String staffAssigned) {
-    this.employeeName = employeeName;
-    this.employeeID = employeeID;
+      String requestID,
+      RequestStatus status,
+      Employee issuer,
+      Employee handler,
+      Location targetLocation,
+      String labType) {
+    super(requestID, RequestType.LABS, status, issuer, handler, targetLocation);
     this.labType = labType;
-    this.status = status;
-    this.staffAssigned = staffAssigned;
   }
 
-  // getterFunctions
-  public String getEmployeeName() {
-    return employeeName;
-  }
-
-  public int getEmployeeID() {
-    return employeeID;
-  }
-
+  /**
+   * Gets the lab type for this lab request
+   *
+   * @return Lab type
+   */
   public String getLabType() {
     return labType;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public String getStaffAssigned() {
-    return staffAssigned;
-  }
-
-  // setterFunctions
-  public void setEmployeeName(String employeeName) {
-    this.employeeName = employeeName;
-  }
-
-  public void setEmployeeID(int employeeID) {
-    this.employeeID = employeeID;
-  }
-
-  public void setLabType(String labType) {
-    this.labType = labType;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  public void setStaffAssigned(String staffAssigned) {
-    this.staffAssigned = staffAssigned;
   }
 }

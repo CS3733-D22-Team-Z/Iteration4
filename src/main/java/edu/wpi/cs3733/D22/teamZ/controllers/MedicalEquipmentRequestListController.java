@@ -5,6 +5,7 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.cs3733.D22.teamZ.App;
 import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -17,11 +18,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.stage.FileChooser;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -51,15 +56,16 @@ public class MedicalEquipmentRequestListController implements Initializable {
   // Drop-down box that selects which data type to filter by.
   @FXML private JFXComboBox<String> filterCBox;
 
-  // Lists that display details about a selection.
-  @FXML private JFXListView<Label> identifierList;
-  @FXML private JFXListView dataList;
+  // Details Table
+  @FXML public TableView<TableColumnItems> statusTable;
+  @FXML private TableColumn<TableColumnItems, String> labelsColumn;
+  @FXML private TableColumn<TableColumnItems, String> detailsColumn;
 
   private final String toHomepageURL = "views/Homepage.fxml";
 
   // List of identifiers for each
   private String[] identifiers = {
-    "ID", "Device", "Assignee", "Handler", "Status", "Current Location", "Target Location"
+    "ID", "Device", "Assignee", "Handler", "Status", "Target Location"
   };
 
   // List of MedEquipReq that represents raw data
@@ -85,7 +91,6 @@ public class MedicalEquipmentRequestListController implements Initializable {
     for (int i = 0; i < identifiers.length; i++) {
       Label ID = new Label();
       ID.setText(identifiers[i]);
-      identifierList.getItems().add(ID);
     }
 
     // Fill the filter box with test data
@@ -160,13 +165,13 @@ public class MedicalEquipmentRequestListController implements Initializable {
     requests.clear();
 
     // Iterate through each MedEquipReq in entity and create RequestRow for each
-    for (MedicalEquipmentDeliveryRequest MERequest : rawRequests) {
+    for (MedicalEquipmentDeliveryRequest medicalEquipmentRequest : rawRequests) {
       requests.add(
           new RequestRow(
-              MERequest.getRequestID(),
-              MERequest.getEquipment(),
-              MERequest.getIssuer(),
-              MERequest.getStatus()));
+              medicalEquipmentRequest.getRequestID(),
+              medicalEquipmentRequest.getEquipmentID(),
+              medicalEquipmentRequest.getIssuer().getName(),
+              medicalEquipmentRequest.getStatus().toString()));
     }
 
     // Set root's children to requests, and add root to table.
@@ -178,41 +183,50 @@ public class MedicalEquipmentRequestListController implements Initializable {
   // Load a MedEquipReq into the Details row.
   public void loadRow(String MeqID) {
     // Clear out current details data
-    dataList.getItems().clear();
+    statusTable.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
     MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(MeqID);
 
-    // "ID", "Device", "Assignee", "Handler", "Status", "Current Location", "Target Location"
-    // Add and fill labels with relevant information.
-    for (int i = 0; i < identifiers.length; i++) {
-      Label data = new Label();
-      switch (i) {
-        case 0:
-          data.setText(selectedReq.getRequestID());
-          break;
-        case 1:
-          data.setText(selectedReq.getEquipment());
-          break;
-        case 2:
-          data.setText(selectedReq.getIssuer());
-          break;
-        case 3:
-          data.setText(selectedReq.getHandler());
-          break;
-        case 4:
-          data.setText(selectedReq.getStatus());
-          break;
-        case 5:
-          data.setText(selectedReq.getCurrentLoc());
-          break;
-        case 6:
-          data.setText(selectedReq.getTargetLoc());
-          break;
-      }
+    // statusTable.getColumns().add(labelsColumn);
+    // statusTable.getColumns().add(detailsColumn);
 
-      // Add label to dataList
-      dataList.getItems().add(data);
+    labelsColumn.setCellValueFactory(new PropertyValueFactory<>("label"));
+    detailsColumn.setCellValueFactory(new PropertyValueFactory<>("detail"));
+
+    statusTable.getItems().add(new TableColumnItems("ID", selectedReq.getRequestID()));
+    statusTable.getItems().add(new TableColumnItems("Type", selectedReq.getType().toString()));
+    statusTable.getItems().add(new TableColumnItems("Status", selectedReq.getStatus().toString()));
+    statusTable.getItems().add(new TableColumnItems("Issuer", selectedReq.getIssuer().getName()));
+    statusTable.getItems().add(new TableColumnItems("Handler", selectedReq.getHandler().getName()));
+    statusTable
+        .getItems()
+        .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
+  }
+
+  public class TableColumnItems {
+    String label = null;
+    String detail = null;
+
+    public TableColumnItems(String label, String detail) {
+      this.label = label;
+      this.detail = detail;
+    }
+
+    public String getLabel() {
+      return label;
+    }
+
+    public void setLabel(String label) {
+      this.label = label;
+    }
+
+    public String getDetail() {
+      return detail;
+    }
+
+    public void setDetail(String detail) {
+      this.detail = detail;
     }
   }
 
@@ -222,6 +236,19 @@ public class MedicalEquipmentRequestListController implements Initializable {
 
   public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) {
     return database.getMedEquipReqByID(MeqID);
+  }
+
+  public void exportToCSV(ActionEvent actionEvent) {
+
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File file = fileChooser.showSaveDialog(stage);
+    database.exportToMedEquipReqCSV(file);
   }
 
   // Data structure to represent a row in the request list.
