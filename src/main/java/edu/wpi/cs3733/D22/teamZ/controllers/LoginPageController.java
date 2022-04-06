@@ -64,7 +64,7 @@ public class LoginPageController implements Initializable {
       enterErrorState();
     }
 
-    if (!usernameField.getText().isEmpty()) {
+    if (!usernameField.getText().isEmpty() && !passwordField.getText().isEmpty()) {
       try {
         loadSuccessScreen(usernameField.getText(), event);
       } catch (Exception e) {
