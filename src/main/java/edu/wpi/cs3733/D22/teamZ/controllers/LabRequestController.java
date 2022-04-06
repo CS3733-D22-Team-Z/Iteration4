@@ -51,7 +51,7 @@ public class LabRequestController {
         FXCollections.observableArrayList(
             "Blood Sample", "Urine Sample", "X-Ray", "CAT Scan", "MRI"));
         FXCollections.observableArrayList(
-            "Blood Sample", "Urine Sample", "X-Ray", "CAT Scan", "MRI"));
+            "Blood Sample", "Urine Sample", "X-Ray", "CAT Scan", "MRI");
     errorSavingLabel.setVisible(false);
     submitButton.setDisable(true);
     successfulSubmitLabel.setVisible(false);
