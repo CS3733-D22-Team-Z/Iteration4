@@ -103,6 +103,11 @@ public class Location implements ISearchable {
   }
 
   @Override
+  public String toString() {
+    return nodeID;
+  }
+
+  @Override
   public List<String> toSearchTerms() {
     return List.of(
         nodeID, "T:" + nodeType, "F:" + floor, building, "R:" + shortName, "R:" + longName);

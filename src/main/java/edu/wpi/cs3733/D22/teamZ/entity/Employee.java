@@ -69,6 +69,11 @@ public class Employee implements ISearchable {
     return employeeID;
   }
 
+  @Override
+  public String toString() {
+    return name;
+  }
+
   public void setEmployeeID(String employeeID) {
     this.employeeID = employeeID;
   }

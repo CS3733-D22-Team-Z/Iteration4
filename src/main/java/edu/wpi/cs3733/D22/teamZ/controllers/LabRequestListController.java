@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.LabRequestServiceDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.LabServiceRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.IOException;
 import java.net.URL;
@@ -26,9 +24,9 @@ public class LabRequestListController implements Initializable {
   @FXML private TableView<LabServiceRequest> labRequestTable;
   @FXML private TableColumn<LabServiceRequest, ServiceRequest.RequestStatus> status;
   @FXML private TableColumn<LabServiceRequest, String> requestID;
-  @FXML private TableColumn<LabServiceRequest, Employee> issuer;
-  @FXML private TableColumn<LabServiceRequest, Employee> handler;
-  @FXML private TableColumn<LabServiceRequest, Location> targetLocation;
+  @FXML private TableColumn<LabServiceRequest, String> issuer;
+  @FXML private TableColumn<LabServiceRequest, String> handler;
+  @FXML private TableColumn<LabServiceRequest, String> targetLocation;
   @FXML private TableColumn<LabServiceRequest, String> labType;
 
   private final String toLabServiceRequestListURL =
@@ -61,12 +59,12 @@ public class LabRequestListController implements Initializable {
     // link columnNames to data
     status.setCellValueFactory(
         new PropertyValueFactory<LabServiceRequest, ServiceRequest.RequestStatus>("Status"));
-    requestID.setCellValueFactory(new PropertyValueFactory<LabServiceRequest, String>("ID"));
-    issuer.setCellValueFactory(new PropertyValueFactory<LabServiceRequest, Employee>("Employee"));
-    handler.setCellValueFactory(new PropertyValueFactory<LabServiceRequest, Employee>("Handler"));
+    requestID.setCellValueFactory(new PropertyValueFactory<LabServiceRequest, String>("RequestID"));
+    issuer.setCellValueFactory(new PropertyValueFactory<LabServiceRequest, String>("Issuer"));
+    handler.setCellValueFactory(new PropertyValueFactory<LabServiceRequest, String>("Handler"));
     targetLocation.setCellValueFactory(
-        new PropertyValueFactory<LabServiceRequest, Location>("Location"));
-    labType.setCellValueFactory(new PropertyValueFactory<LabServiceRequest, String>("Type"));
+        new PropertyValueFactory<LabServiceRequest, String>("TargetLocation"));
+    labType.setCellValueFactory(new PropertyValueFactory<LabServiceRequest, String>("LabType"));
 
     // load data into tableView
 
