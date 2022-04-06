@@ -30,6 +30,8 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       PreparedStatement pstmt = connection.prepareStatement("Select * From MEDICALEQUIPMENT");
       ResultSet rset = pstmt.executeQuery();
 
+      medicalEquipmentsList.clear();
+
       while (rset.next()) {
         String itemID = rset.getString("itemID");
         String type = rset.getString("type");
@@ -78,6 +80,75 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       System.out.println("Failed to get the Medical Equipment");
     }
     return medicalEquipment;
+  }
+
+  /**
+   * @param equipment
+   * @return the first available equipmentID of equipment type.
+   */
+  @Override
+  public String getFirstAvailableEquipmentByType(String equipment) {
+
+    ILocationDAO locationDAO = new LocationDAOImpl();
+
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "Select * From MEDICALEQUIPMENT WHERE TYPE = ? AND STATUS = 'Available'");
+      pstmt.setString(1, equipment);
+      ResultSet rset = pstmt.executeQuery();
+
+      rset.next();
+      String temp = rset.getString("ITEMID");
+      rset.close();
+      if (temp != null) {
+        pstmt =
+            connection.prepareStatement(
+                "UPDATE MEDICALEQUIPMENT SET STATUS = 'In-Use' WHERE ITEMID = ?");
+        pstmt.setString(1, temp);
+        pstmt.executeUpdate();
+        return temp;
+      }
+
+    } catch (SQLException e) {
+      System.out.println("Failed to get the Medical Equipment");
+    }
+    // Only returns if no equipments of type are available
+    return null;
+  }
+
+  /**
+   * takes in a location and returns a list of the medical equipment at that location
+   *
+   * @param location
+   * @return list of medical equipment
+   */
+  @Override
+  public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location) {
+    List<MedicalEquipment> medicalEquipmentLocationList = new ArrayList<>();
+    try {
+      PreparedStatement pstnt =
+          connection.prepareStatement("select * from MEDICALEQUIPMENT where currentLocation = ?");
+      pstnt.setString(1, location.getNodeID());
+      ResultSet rset = pstnt.executeQuery();
+      while (rset.next()) {
+        String tempItemID = rset.getString("ITEMID");
+        String tempType = rset.getString("TYPE");
+        String tempStatus = rset.getString("STATUS");
+        String tempCurrentLocation = rset.getString("CURRENTLOCATION");
+        LocationDAOImpl tempDAO = new LocationDAOImpl();
+        Location tempLocation = tempDAO.getLocationByID(tempCurrentLocation);
+        MedicalEquipment tempMedicalEquipment =
+            new MedicalEquipment(tempItemID, tempType, tempStatus, tempLocation);
+        medicalEquipmentLocationList.add(tempMedicalEquipment);
+      }
+    } catch (SQLException e) {
+      System.out.println("failed to get medical equipment by location");
+      for (int i = 0; i < medicalEquipmentLocationList.size(); i++) {
+        medicalEquipmentLocationList.remove(i);
+      }
+    }
+    return medicalEquipmentLocationList;
   }
 
   /**

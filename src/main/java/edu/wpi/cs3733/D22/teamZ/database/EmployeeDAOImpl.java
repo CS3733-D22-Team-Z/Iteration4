@@ -74,6 +74,36 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
   }
 
   /**
+   * Gets ONE employee from the database based on the provided username
+   *
+   * @param employeeUsername
+   * @return Employee object with provided employeeID
+   */
+  public Employee getEmployeeByUsername(String employeeUsername) {
+    Employee emp = new Employee();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement("Select * From EMPLOYEE WHERE USERNAME = ?");
+      pstmt.setString(1, employeeUsername);
+      ResultSet rset = pstmt.executeQuery();
+
+      while (rset.next()) {
+        String name = rset.getString("name");
+        Employee.AccessType accessType = Employee.AccessType.valueOf(rset.getString("accessType"));
+        String username = rset.getString("username");
+        String password = rset.getString("password");
+        emp.setName(name);
+        emp.setAccesstype(accessType);
+        emp.setUsername(username);
+        emp.setPassword(password);
+      }
+    } catch (SQLException e) {
+      System.out.println("Unable to find employee");
+    }
+    return emp;
+  }
+
+  /**
    * Adds a new employee to database. Will automatically check if already in database
    *
    * @param emp
@@ -151,11 +181,11 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    *
    * @return True if successful, false if not
    */
-  public boolean exportToLocationCSV() {
+  public boolean exportToEmployeeCSV() {
 
     File empData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(empData);
-    empCSV.writeEmpCSV(getAllEmployees());
+    empCSV.writeEmployeeCSV(getAllEmployees());
 
     return true;
   }

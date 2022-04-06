@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
@@ -19,17 +20,20 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
 
   public List<MedicalEquipmentDeliveryRequest> getAllMedEquipReq() {
     IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
-
+    List<List<String>> medEquipList = new ArrayList<>();
     try {
-      PreparedStatement pstmt =
-          connection.prepareStatement("SELECT * FROM SERVICEREQUEST WHERE TYPE = 'MEDEQUIP'");
+      PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM MEDEQUIPREQ");
       ResultSet rset = pstmt.executeQuery();
+
+      list.clear();
 
       while (rset.next()) {
         // get the result set
-        String requestID = rset.getString("requestID");
-        String equipmentID = rset.getString("equipmentID");
-
+        medEquipList.add(Arrays.asList(rset.getString("requestID"), rset.getString("equipmentID")));
+      }
+      for (List<String> serviceRequestList : medEquipList) {
+        String requestID = serviceRequestList.get(0);
+        String equipmentID = serviceRequestList.get(1);
         ServiceRequest request = requestDAO.getServiceRequestByID(requestID);
 
         // make new temp to put into list
@@ -47,6 +51,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
           list.add(temp);
         }
       }
+
     } catch (SQLException e) {
       System.out.println("Unable to get all Medical Equipment Requests");
     }
@@ -66,6 +71,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
       ResultSet rset = pstmt.executeQuery();
 
       // get the result set
+      rset.next();
       String requestID = rset.getString("requestID");
       String equipmentID = rset.getString("equipmentID");
 
@@ -141,8 +147,8 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     requestDAO.deleteServiceRequest(request);
   }
 
-  public boolean exportToMedEquipReqCSV() {
-    File reqData = new File(System.getProperty("user.dir") + "\\MedEquipReq.csv");
+  public boolean exportToMedEquipReqCSV(File reqData) {
+    // reqData = new File(System.getProperty("user.dir") + "\\MedEquipReq.csv");
     reqCSV = new MedEqReqControlCSV(reqData);
 
     reqCSV.writeMedReqCSV(getAllMedEquipReq());

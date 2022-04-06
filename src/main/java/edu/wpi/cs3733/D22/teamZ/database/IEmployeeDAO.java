@@ -20,6 +20,14 @@ public interface IEmployeeDAO {
   Employee getEmployeeByID(String employeeID);
 
   /**
+   * Gets ONE Employee from the database based on the provided EmployeeID
+   *
+   * @param employeeUsername
+   * @return Employee object with provided employeeID
+   */
+  Employee getEmployeeByUsername(String employeeUsername);
+
+  /**
    * Adds a new Employee to database. Will automatically check if already in database
    *
    * @param emp
@@ -48,5 +56,5 @@ public interface IEmployeeDAO {
    *
    * @return True if successful, false if not
    */
-  boolean exportToLocationCSV();
+  boolean exportToEmployeeCSV();
 }
