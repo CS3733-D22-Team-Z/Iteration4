@@ -39,6 +39,7 @@ public class LabRequestController {
   @FXML private Rectangle warningBackground;
 
   private final String toDashboardURL = "views/LandingPage.fxml";
+
   ILabRequestServiceDAO labRequestServiceDAO;
 
   @FXML
@@ -47,6 +48,8 @@ public class LabRequestController {
     labRequestServiceDAO = new LabRequestServiceDAOImpl();
 
     labTypeChoiceBox.setItems(
+        FXCollections.observableArrayList(
+            "Blood Sample", "Urine Sample", "X-Ray", "CAT Scan", "MRI"));
         FXCollections.observableArrayList(
             "Blood Sample", "Urine Sample", "X-Ray", "CAT Scan", "MRI"));
     errorSavingLabel.setVisible(false);

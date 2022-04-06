@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LoginPageSuccessController">
+   <children>
+      <Label fx:id="welcomeMessage" layoutX="146.0" layoutY="4.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Hello, %s!">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="80.0" layoutY="21.0" prefHeight="18.0" prefWidth="189.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Login successful! Click the button below to continue." textFill="#9d9d9d">
+         <font>
+            <Font name="Segoe UI Bold" size="7.5" />
+         </font>
+      </Label>
+      <JFXButton fx:id="continueButton" layoutX="139.0" layoutY="45.0" onAction="#continueButtonClicked" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Continue" textFill="WHITE">
+         <font>
+            <Font name="Segoe UI Bold" size="10.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

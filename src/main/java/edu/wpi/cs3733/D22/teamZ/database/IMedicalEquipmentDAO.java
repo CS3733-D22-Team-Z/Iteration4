@@ -9,9 +9,9 @@ public interface IMedicalEquipmentDAO {
 
   MedicalEquipment getMedicalEquipmentByID(String itemID);
 
-  String getFirstAvailableEquipmentByType(String equipment);
-
   public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location);
+
+  String getFirstAvailableEquipmentByType(String equipment);
 
   boolean addMedicalEquipment(MedicalEquipment equipment);
 
