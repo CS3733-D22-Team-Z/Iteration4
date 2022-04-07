@@ -245,10 +245,10 @@ public class LocationListController {
             editLocation.setDisable(true);
             deleteLocation.setDisable(true);
 
-            floorLabel.setText("Floor: ");
+            /*floorLabel.setText("Floor: ");
             longnameLabel.setText("Long Name: ");
             xCoordLabel.setText("xCoord: ");
-            yCoordLabel.setText("yCoord: ");
+            yCoordLabel.setText("yCoord: ");*/
           }
         });
 
@@ -259,7 +259,7 @@ public class LocationListController {
           rightClickMenu.setDisable(true);
           rightClickMenu.setVisible(false);
           rightClickMenu.getSelectionModel().clearSelection();
-          // TODO: replace with inHierarchy? ask neha about implementation
+
           if (clicked.getClass() == pane.getClass()) {
             pane.requestFocus();
           }
@@ -269,7 +269,7 @@ public class LocationListController {
             activeLabel = temp.get(0).getLabel();
             activeLocation = temp.get(0).getLocation();
             System.out.println(activeLocation.getLongName());
-            displayLocationInformation();
+            // displayLocationInformation();
           }
         });
 
@@ -369,7 +369,7 @@ public class LocationListController {
   }
 
   // when a location label is clicked on map, information about that label is shown on the side
-  private void displayLocationInformation() {
+  /*private void displayLocationInformation() {
 
     activeLabel.requestFocus();
     activeLabel.setScaleX(2);
@@ -388,7 +388,7 @@ public class LocationListController {
 
     editLocation.setDisable(false);
     deleteLocation.setDisable(false);
-  }
+  }*/
 
   // when locations menu button is clicked navigate to locations page
   @FXML
@@ -520,7 +520,7 @@ public class LocationListController {
           totalLocations
               .filtered(loc -> loc.getNodeID().equalsIgnoreCase(activeLocation.getNodeID()))
               .getSourceIndex(0));*/
-      displayLocationInformation();
+      // displayLocationInformation();
       changeToFloor(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
 
     } else {
@@ -587,7 +587,7 @@ public class LocationListController {
 
     // activeLabel = allLabels.get(theoreticalGenericIndex);
     searchField.setText(activeLocation.getLongName());
-    displayLocationInformation();
+    // displayLocationInformation();
   }
 
   private void changeToFloor(String nFloor) {
@@ -782,7 +782,7 @@ public class LocationListController {
 
     activeLocation = newLocation;
     // activeLabel = allLabels.get(allLabels.size() - 1);
-    displayLocationInformation();
+    // displayLocationInformation();
 
     addLocationPane.setVisible(false);
     locationChangeDarkenPane.setVisible(false);

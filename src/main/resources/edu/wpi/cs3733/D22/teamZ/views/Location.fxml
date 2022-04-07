@@ -18,36 +18,8 @@
       </ImageView>
       <ListView fx:id="rightClickMenu" disable="true" onMouseClicked="#contextMenuClick" prefHeight="89.0" prefWidth="83.0" visible="false" />
       <Pane fx:id="pane" layoutX="216.0" prefHeight="850.0" prefWidth="1021.0" />
-      <VBox layoutX="1238.0" layoutY="579.0" prefHeight="285.0" prefWidth="205.0">
+      <VBox layoutX="1238.0" layoutY="733.0" prefHeight="132.0" prefWidth="206.0">
          <children>
-            <Label fx:id="floorLabel" prefHeight="41.0" prefWidth="199.0" text="Floor" textFill="#7b7b7b">
-               <padding>
-                  <Insets bottom="10.0" left="20.0" top="10.0" />
-               </padding>
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Label>
-            <Label fx:id="longnameLabel" contentDisplay="CENTER" prefHeight="41.0" prefWidth="207.0" text="Longname" textFill="#7b7b7b" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-               <padding>
-                  <Insets bottom="10.0" left="20.0" top="10.0" />
-               </padding></Label>
-            <Label prefHeight="17.0" prefWidth="100.0" text="xCoord" textFill="#7b7b7b" fx:id="xCoordLabel">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-               <padding>
-                  <Insets bottom="10.0" left="20.0" top="10.0" />
-               </padding></Label>
-            <Label fx:id="yCoordLabel" prefHeight="17.0" prefWidth="100.0" text="yCoord" textFill="#7b7b7b">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-               <padding>
-                  <Insets bottom="10.0" left="20.0" top="10.0" />
-               </padding></Label>
             <Button fx:id="editLocation" disable="true" mnemonicParsing="false" onAction="#editLocationButtonClicked" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: #0075FF; -fx-background-radius: 5;" text="Edit Location" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="10.0" left="20.0" top="10.0" />
