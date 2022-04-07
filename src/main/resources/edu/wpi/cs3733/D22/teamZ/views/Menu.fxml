@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane dividerPositions="0.2" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MenuController">
+   <items>
+      <Pane fx:id="menuPane" maxWidth="120.0" minWidth="120.0" prefHeight="400.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" layoutY="50.0" spacing="10.0">
+               <children>
+                  <JFXButton onAction="#toHome" prefHeight="34.0" prefWidth="120.0" text="  Home" textAlignment="CENTER" textFill="#0075ff">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0">
+                           <image>
+                              <Image url="@../images/home.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton onAction="#toLocations" prefHeight="25.0" prefWidth="120.0" text="  Locations" textAlignment="CENTER" textFill="#c4c4c4">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/map.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton onAction="#toLandingPage" prefHeight="25.0" prefWidth="120.0" text="  Landing " textAlignment="CENTER" textFill="#c4c4c4">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
+                           <image>
+                              <Image url="@../images/layout-grid.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton alignment="TOP_CENTER" onAction="#toMedicalEquipmentRequest" prefHeight="61.0" prefWidth="120.0" text="Medical  Equipment Requests" textAlignment="CENTER" textFill="#c4c4c4" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" translateX="13.0">
+                           <image>
+                              <Image url="@../images/table.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+            <JFXButton fx:id="exitButton" buttonType="RAISED" layoutX="15.0" layoutY="365.0" onAction="#toExit" prefHeight="25.0" prefWidth="90.0" style="-fx-background-color: #0075FF;" text="Exit" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/log-out.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </Pane>
+      <AnchorPane fx:id="contentPane" prefHeight="400.0" prefWidth="600.0" />
+   </items>
+</SplitPane>
