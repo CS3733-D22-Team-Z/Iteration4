@@ -130,6 +130,8 @@ public class LocationListController {
   private ObservableList<MapLabel> allLabels = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> equipLabels = FXCollections.observableList(new ArrayList<>());
 
+  @FXML private ListView<String> rightClickMenu = new ListView<>();
+
   // initialize location labels to display on map
   @FXML
   private void initialize() {
@@ -254,7 +256,9 @@ public class LocationListController {
         MouseEvent.MOUSE_CLICKED,
         evt -> {
           Node clicked = evt.getPickResult().getIntersectedNode();
-
+          rightClickMenu.setDisable(true);
+          rightClickMenu.setVisible(false);
+          rightClickMenu.getSelectionModel().clearSelection();
           // TODO: replace with inHierarchy? ask neha about implementation
           if (clicked.getClass() == pane.getClass()) {
             pane.requestFocus();
@@ -285,15 +289,43 @@ public class LocationListController {
         MouseEvent.MOUSE_CLICKED,
         evt -> {
           if (evt.getButton().toString().equalsIgnoreCase("secondary")
-              && evt.getPickResult().getIntersectedNode().getClass()
-                  == allLabels.get(0).getLabel().getClass()) {
-            try {
-              editLocationButtonClicked();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
+              && evt.getPickResult().getIntersectedNode().getClass() == activeLabel.getClass()) {
+
+            rightClickMenu.relocate(evt.getSceneX(), evt.getSceneY());
+            rightClickMenu.setDisable(false);
+            rightClickMenu.setVisible(true);
+            rightClickMenu.toFront();
           }
         });
+
+    rightClickMenu.setItems(FXCollections.observableList(List.of("Edit", "Delete")));
+    rightClickMenu.setCellFactory(
+        new Callback<ListView<String>, ListCell<String>>() {
+          @Override
+          public ListCell<String> call(ListView<String> param) {
+            return new ListCell<>() {
+              @Override
+              protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item);
+                setFont(Font.font(20));
+              }
+            };
+          }
+        });
+    rightClickMenu.setPrefHeight(82);
+    rightClickMenu.setPrefWidth(120);
+
+    rightClickMenu
+        .focusedProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if (!newValue) {
+                rightClickMenu.setVisible(false);
+                rightClickMenu.setDisable(true);
+                rightClickMenu.getSelectionModel().clearSelection();
+              }
+            });
 
     this.displayResult.remove(5, this.displayResult.size());
 
@@ -651,7 +683,7 @@ public class LocationListController {
   }
 
   @FXML
-  private void deleteLocationButtonClicked(ActionEvent event) throws IOException {
+  private void deleteLocationButtonClicked() throws IOException {
     locationChangeDarkenPane.setVisible(true);
     deleteLocationPlane.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
@@ -872,5 +904,20 @@ public class LocationListController {
     }
 
     return dict;
+  }
+
+  public void contextMenuClick(MouseEvent mouseEvent) throws IOException {
+    int id = rightClickMenu.getSelectionModel().getSelectedIndex();
+    rightClickMenu.setVisible(false);
+    rightClickMenu.setDisable(true);
+    rightClickMenu.getSelectionModel().clearSelection();
+    switch (id) {
+      case 0:
+        editLocationButtonClicked();
+        break;
+      case 1:
+        deleteLocationButtonClicked();
+        break;
+    }
   }
 }
