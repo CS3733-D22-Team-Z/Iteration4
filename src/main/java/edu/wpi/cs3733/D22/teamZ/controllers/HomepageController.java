@@ -24,18 +24,21 @@ public class HomepageController implements IMenuAccess {
   @FXML
   private void toLocations() throws IOException {
     System.out.println("navigating to locations from home");
+    menu.selectMenu(1);
     menu.load(toLocationsURL);
   }
 
   @FXML
   private void toLandingPage() throws IOException {
     System.out.println("navigating to landing page from home");
+    menu.selectMenu(2);
     menu.load(toLandingPageURL);
   }
 
   @FXML
   private void toMedicalEquipmentRequest() throws IOException {
     System.out.println("navigating to Medical Equipment Request page from home");
+    menu.selectMenu(3);
     menu.load(toMedicalEquipmentRequestURL);
   }
 
