@@ -9,15 +9,11 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class MedicalEquipmentRequestController {
+public class MedicalEquipmentRequestController implements IMenuAccess {
   private ILocationDAO locationDAO = new LocationDAOImpl();
   private IMedEquipReqDAO medicalEquipmentRequestDAO = new MedEquipReqDAOImpl();
 
@@ -36,11 +32,20 @@ public class MedicalEquipmentRequestController {
   @FXML private Label errorSavingLabel;
 
   // URLs
-  private final String toLandingPageURL = "views/LandingPage.fxml";
+  private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+  private String toMedicalEquipmentRequestURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
 
   // Lists
   private List<Location> locationList;
   private List<MedicalEquipmentDeliveryRequest> equipmentRequestList;
+
+  private MenuController menu;
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
 
   @FXML
   public void initialize() {
@@ -63,10 +68,7 @@ public class MedicalEquipmentRequestController {
 
   @FXML
   private void onBackButtonClicked(ActionEvent event) throws IOException {
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
-    Scene scene = new Scene(root);
-    mainStage.setScene(scene);
+    menu.load(toLandingPageURL);
   }
 
   @FXML
@@ -144,10 +146,8 @@ public class MedicalEquipmentRequestController {
     }
   }
 
-  public void onNavigateToMedicalRequestList(ActionEvent actionEvent) throws IOException {
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/MedicalEquipmentRequestList.fxml"));
-    Scene scene = new Scene(root);
-    mainStage.setScene(scene);
+  public void onNavigateToMedicalRequestList() throws IOException {
+    menu.selectMenu(3);
+    menu.load(toMedicalEquipmentRequestURL);
   }
 }
