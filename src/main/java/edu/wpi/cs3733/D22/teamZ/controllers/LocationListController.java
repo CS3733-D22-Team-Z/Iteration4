@@ -17,8 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,9 +26,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -69,8 +66,8 @@ public class LocationListController {
   @FXML private Button editLocationExitButton;
   @FXML private Pane editLocationPane;
   @FXML private Pane locationChangeDarkenPane;
-  private Location activeLocation;
-  private Label activeLabel;
+
+  private MapLabel activeLabel;
   //
 
   // Casey's
@@ -105,9 +102,11 @@ public class LocationListController {
   @FXML private Pane addLocationPane;
 
   // Patricks stuff
-  @FXML private VBox detailsPopup;
-  @FXML private HBox equipmentNames;
-  @FXML private HBox equipmentQuantities;
+  // @FXML private VBox detailsPopup;
+  // @FXML private HBox equipmentNames;
+  // @FXML private HBox equipmentQuantities;
+  @FXML private GridPane roomLabelRoot;
+  @FXML private GridPane equipSetupGrid;
 
   // urls to other pages
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
@@ -264,11 +263,10 @@ public class LocationListController {
             pane.requestFocus();
           }
 
-          List<MapLabel> temp = allLabels.filtered(l -> l.getLabel().equals(clicked));
+          List<MapLabel> temp = allLabels.filtered(l -> l.equals(clicked));
           if (temp.size() > 0) {
-            activeLabel = temp.get(0).getLabel();
-            activeLocation = temp.get(0).getLocation();
-            System.out.println(activeLocation.getLongName());
+            activeLabel = temp.get(0);
+            System.out.println(activeLabel.getLocation().getLongName());
             // displayLocationInformation();
           }
         });
@@ -278,7 +276,7 @@ public class LocationListController {
         evt -> {
           if (evt.getClickCount() > 1) {
             try {
-              addLocationButtonClicked();
+              addLocationButtonClicked(evt);
             } catch (IOException e) {
               e.printStackTrace();
             }
@@ -289,7 +287,7 @@ public class LocationListController {
         MouseEvent.MOUSE_CLICKED,
         evt -> {
           if (evt.getButton().toString().equalsIgnoreCase("secondary")
-              && evt.getPickResult().getIntersectedNode().getClass() == activeLabel.getClass()) {
+              && evt.getPickResult().getIntersectedNode() instanceof MapLabel) {
 
             rightClickMenu.relocate(evt.getSceneX(), evt.getSceneY());
             rightClickMenu.setDisable(false);
@@ -349,8 +347,7 @@ public class LocationListController {
         .addAll(
             IntStream.range(0, allLabels.size()) // for 0 -> allLabels.size
                 .filter(i -> allLabels.get(i).isOnFloor(floor)) // if allLabels.get(i).isOnFloor
-                .mapToObj(
-                    i -> allLabels.get(i).getLabel()) // outList.add(allLabels.get(i).getLabel)
+                .mapToObj(i -> allLabels.get(i)) // outList.add(allLabels.get(i))
                 .collect(Collectors.toList())); // return as list
   }
 
@@ -514,13 +511,6 @@ public class LocationListController {
           .getSelectionModel()
           .select(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
 
-      activeLocation = tempLocation;
-      /*   activeLabel =
-      allLabels.get(
-          totalLocations
-              .filtered(loc -> loc.getNodeID().equalsIgnoreCase(activeLocation.getNodeID()))
-              .getSourceIndex(0));*/
-      // displayLocationInformation();
       changeToFloor(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
 
     } else {
@@ -543,7 +533,7 @@ public class LocationListController {
     editLocationPane.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
     editLocationPane.setDisable(false);
-    selectLocationTextField.setText(activeLocation.getNodeID());
+    selectLocationTextField.setText(activeLabel.getLocation().getNodeID());
   }
 
   @FXML
@@ -573,20 +563,19 @@ public class LocationListController {
   public void resultMouseClick(MouseEvent mouseEvent) {
     // System.out.println(searchResultList.getSelectionModel().getSelectedItem());
 
-    List<String> longNames = new ArrayList<>();
-    for (ISearchable loc : parentDataList) {
-      longNames.add(loc.getDisplayName());
+    String searched = searchResultList.getSelectionModel().getSelectedItem();
+
+    for (MapLabel label : allLabels) {
+      if (label.getLocation().getLongName().equals(searched)) {
+        activeLabel = label;
+      }
     }
-    int theoreticalGenericIndex =
-        longNames.indexOf(searchResultList.getSelectionModel().getSelectedItem());
 
-    activeLocation = parentDataList.get(theoreticalGenericIndex).getAssociatedLocation();
-
-    String selectedItem = activeLocation.getFloor();
+    String selectedItem = activeLabel.getLocation().getFloor();
     changeToFloor(selectedItem);
 
     // activeLabel = allLabels.get(theoreticalGenericIndex);
-    searchField.setText(activeLocation.getLongName());
+    searchField.setText(activeLabel.getLocation().getLongName());
     // displayLocationInformation();
   }
 
@@ -631,18 +620,54 @@ public class LocationListController {
         equipLabels.add(labelEquip);
         System.out.println("adding a label");
 
-        labelEquip.setOnMouseClicked(
-            (e) -> {
-              showInfoDialog(
-                  labelEquip,
-                  current,
-                  medicalEquipmentDAO.getAllMedicalEquipmentByLocation(current));
-            });
+        /*labelEquip.setOnMouseClicked(
+        (e) -> {
+          showInfoDialog(
+              labelEquip,
+              current,
+              medicalEquipmentDAO.getAllMedicalEquipmentByLocation(current));
+        });*/
 
         // pane.getChildren().add(labelEquip);
       }
 
-      allLabels.add(new MapLabel(new MapLabel.mapLabelBuilder().location(current)));
+      MapLabel label = new MapLabel(new MapLabel.mapLabelBuilder().location(current));
+      // stylize label icon
+      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
+      ImageView locationIcon = new ImageView(locationImg);
+
+      DropShadow dropShadow = new DropShadow();
+      dropShadow.setRadius(5.0);
+      dropShadow.setOffsetX(3.0);
+      dropShadow.setOffsetY(3.0);
+      dropShadow.setColor(Color.GRAY);
+
+      // create the label
+      label.setEffect(dropShadow);
+      label.setGraphic(locationIcon);
+
+      label
+          .focusedProperty()
+          .addListener(
+              (observable, oldValue, newValue) -> {
+                if (!newValue) {
+                  label.setScaleX(1);
+                  label.setScaleY(1);
+                  // returnOnClick();
+                } else {
+                  label.setScaleX(2);
+                  label.setScaleY(2);
+                }
+              });
+
+      label.setOnMouseClicked(
+          evt -> {
+            label.requestFocus();
+          });
+      // place label at correct coords
+      label.relocate(label.getLocation().getXcoord() - 8, label.getLocation().getYcoord() - 10);
+
+      allLabels.add(label);
     }
   }
 
@@ -663,7 +688,7 @@ public class LocationListController {
     if (locDAO.deleteLocation(temp)) {
       System.out.println("Deletion Successful");
       // TODO: fix
-      refreshMap(activeLocation.getFloor());
+      refreshMap(activeLabel.getLocation().getFloor());
     } else {
       System.out.println("There are still stuff in this location");
     }
@@ -688,15 +713,22 @@ public class LocationListController {
     deleteLocationPlane.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
     deleteLocationPlane.setDisable(false);
-    locationToDeleteTextField.setText(activeLocation.getNodeID());
+    locationToDeleteTextField.setText(activeLabel.getLocation().getNodeID());
   }
 
   @FXML
-  private void addLocationButtonClicked() throws IOException {
+  private void addLocationButtonClicked(MouseEvent evt) throws IOException {
     locationChangeDarkenPane.setVisible(true);
     addLocationPane.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
     addLocationPane.setDisable(false);
+
+    xCoordTextField.setText(String.valueOf((int) evt.getSceneX()));
+    yCoordTextField.setText(String.valueOf((int) evt.getSceneY()));
+    floorField.getSelectionModel().select(changeFloor.getSelectionModel().getSelectedIndex());
+    floorField.setDisable(true);
+    xCoordTextField.setEditable(false);
+    yCoordTextField.setEditable(false);
     // selectLocationTextField.setText(activeLocation.getNodeID());
   }
 
@@ -777,12 +809,10 @@ public class LocationListController {
     int floorIndex = floorField.getSelectionModel().getSelectedIndex();
     changeFloor.getSelectionModel().select(floorIndex);
 
-    changeToFloor(changeFloor.getSelectionModel().getSelectedItem().toString());
-    refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
+    changeToFloor(changeFloor.getSelectionModel().getSelectedItem());
+    refreshMap(changeFloor.getSelectionModel().getSelectedItem());
 
-    activeLocation = newLocation;
-    // activeLabel = allLabels.get(allLabels.size() - 1);
-    // displayLocationInformation();
+    activeLabel = allLabels.get(allLabels.size() - 1);
 
     addLocationPane.setVisible(false);
     locationChangeDarkenPane.setVisible(false);
@@ -828,8 +858,10 @@ public class LocationListController {
             + " trying to get deleted but still have equipment in it");
   }
 
-  public void showInfoDialog(Label labelEquip, Location loc, List<MedicalEquipment> equipment) {
+  /*public void showInfoDialog(Label labelEquip, Location loc, List<MedicalEquipment> equipment) {
     // Make the popup visible again, and reset the HBoxes' children.
+
+
     detailsPopup.setVisible(true);
     equipmentNames.getChildren().clear();
     equipmentQuantities.getChildren().clear();
@@ -904,7 +936,7 @@ public class LocationListController {
     }
 
     return dict;
-  }
+  }*/
 
   public void contextMenuClick(MouseEvent mouseEvent) throws IOException {
     int id = rightClickMenu.getSelectionModel().getSelectedIndex();

@@ -2,17 +2,12 @@ package edu.wpi.cs3733.D22.teamZ.entity;
 
 import java.util.List;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
-public class MapLabel {
+public class MapLabel extends Label {
 
   private Location location;
   private List<MedicalEquipment> equip;
   private List<Employee> employee;
-  private Label label = new Label();
   // etc
 
   public MapLabel(mapLabelBuilder b) {
@@ -26,49 +21,10 @@ public class MapLabel {
     locationLabel();
   }
 
-  private void locationLabel() {
-    // stylize label icon
-    Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
-    ImageView locationIcon = new ImageView(locationImg);
-
-    DropShadow dropShadow = new DropShadow();
-    dropShadow.setRadius(5.0);
-    dropShadow.setOffsetX(3.0);
-    dropShadow.setOffsetY(3.0);
-    dropShadow.setColor(Color.GRAY);
-
-    // create the label
-    label.setEffect(dropShadow);
-    label.setGraphic(locationIcon);
-
-    label
-        .focusedProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              if (!newValue) {
-                label.setScaleX(1);
-                label.setScaleY(1);
-                // returnOnClick();
-              } else {
-                label.setScaleX(2);
-                label.setScaleY(2);
-              }
-            });
-
-    label.setOnMouseClicked(
-        evt -> {
-          label.requestFocus();
-        });
-    // place label at correct coords
-    label.relocate(location.getXcoord() - 8, location.getYcoord() - 10);
-  }
+  private void locationLabel() {}
 
   public boolean isOnFloor(String floor) {
     return location.getFloor().equalsIgnoreCase(floor);
-  }
-
-  public Label getLabel() {
-    return this.label;
   }
 
   public Location getLocation() {
