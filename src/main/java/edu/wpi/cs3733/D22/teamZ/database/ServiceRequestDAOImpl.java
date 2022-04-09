@@ -205,7 +205,7 @@ public class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
   /** Writes the current database to a .csv file */
   @Override
-  public void writeServiceRequestsToCSV() {
+  public void exportToServiceRequestCSV() {
     csvController.writeServiceRequestCSV(serviceRequestList);
   }
 

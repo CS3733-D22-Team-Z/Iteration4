@@ -468,7 +468,7 @@ public class FacadeDAO {
   /** Writes the current database to a .csv file */
   // TODO fix the export services function
   public void exportServiceRequestsToCSV(File serviceRequestData) {
-    serviceRequestDAO.writeServiceRequestsToCSV();
+    serviceRequestDAO.exportToServiceRequestCSV();
   }
   /**
    * Exports the MedicalEquipmentRequest database to specified file location for csv
