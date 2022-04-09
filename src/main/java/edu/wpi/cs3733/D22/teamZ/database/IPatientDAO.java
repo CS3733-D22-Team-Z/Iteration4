@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.Patient;
+import java.io.File;
 import java.util.List;
 
 public interface IPatientDAO {
@@ -48,5 +49,13 @@ public interface IPatientDAO {
    *
    * @return True if successful, false if not
    */
-  boolean exportToPatientCSV();
+  boolean exportToPatientCSV(File data);
+
+  /**
+   * Imports Patients to database from a specified file location for the csv
+   *
+   * @param patientData file location for csv
+   * @return number of conflicts when importing
+   */
+  int importPatientsFromCSV(File patientData);
 }

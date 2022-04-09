@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       }
     } catch (SQLException e) {
       System.out.println("Failed to get all Employees");
+      e.printStackTrace();
     }
     return employees;
   }
@@ -69,6 +71,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       }
     } catch (SQLException e) {
       System.out.println("Unable to find employee");
+      e.printStackTrace();
     }
     return emp;
   }
@@ -99,6 +102,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       }
     } catch (SQLException e) {
       System.out.println("Unable to find employee");
+      e.printStackTrace();
     }
     return emp;
   }
@@ -125,6 +129,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       connection.commit();
     } catch (SQLException e) {
       System.out.println("Statement failed");
+      e.printStackTrace();
       return false;
     }
     employees.add(emp);
@@ -149,6 +154,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       stmt.executeUpdate();
     } catch (SQLException e) {
       System.out.println("Statement failed");
+      e.printStackTrace();
       return false;
     }
     employees.remove(getEmployeeByID(emp.getEmployeeID()));
@@ -170,6 +176,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       stmt.executeUpdate();
     } catch (SQLException e) {
       System.out.println("Statement failed");
+      e.printStackTrace();
       return false;
     }
     employees.remove(emp);
@@ -181,12 +188,52 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    *
    * @return True if successful, false if not
    */
-  public boolean exportToEmployeeCSV() {
+  public boolean exportToEmployeeCSV(File empData) {
 
-    File empData = new File(System.getProperty("user.dir") + "\\employee.csv");
+    empData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(empData);
     empCSV.writeEmployeeCSV(getAllEmployees());
 
     return true;
+  }
+
+  /**
+   * Imports the Employee csv into the Employee table
+   *
+   * @param employeeData file location of employee csv
+   * @return number of conflicts when inserting
+   */
+  @Override
+  public int importEmployeesFromCSV(File employeeData) {
+    employeeData = new File(System.getProperty("user.dir") + "\\employee.csv");
+    empCSV = new EmployeeControlCSV(employeeData);
+    int conflictCounter = 0;
+    try {
+      List<Employee> tempEmployee = empCSV.readEmployeeCSV();
+
+      try {
+        for (Employee info : tempEmployee) {
+          PreparedStatement pstmt =
+              connection.prepareStatement(
+                  "INSERT INTO EMPLOYEES (EMPLOYEEID, NAME, ACCESSTYPE, USERNAME, PASSWORD) "
+                      + "values (?, ?, ?, ?, ?)");
+          pstmt.setString(1, info.getEmployeeID());
+          pstmt.setString(2, info.getName());
+          pstmt.setString(3, info.getAccesstype().toString());
+          pstmt.setString(4, info.getUsername());
+          pstmt.setString(5, info.getPassword());
+
+          // insert it
+          pstmt.executeUpdate();
+        }
+      } catch (SQLException e) {
+        conflictCounter++;
+        System.out.println("Found " + conflictCounter + " conflicts.");
+      }
+    } catch (IOException e) {
+      System.out.println("Failed to insert into Employee table");
+      e.printStackTrace();
+    }
+    return conflictCounter;
   }
 }

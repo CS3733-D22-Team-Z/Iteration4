@@ -1,9 +1,8 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D22.teamZ.database.ILabRequestServiceDAO;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.database.IServiceRequestDAO;
-import edu.wpi.cs3733.D22.teamZ.database.LabRequestServiceDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.ServiceRequestDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
@@ -37,7 +36,7 @@ public class LabRequestController implements IMenuAccess {
   private final String toLabServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/LabRequestList.fxml";
 
-  ILabRequestServiceDAO labRequestServiceDAO;
+  private FacadeDAO facadeDAO;
 
   private MenuController menu;
 
@@ -49,7 +48,7 @@ public class LabRequestController implements IMenuAccess {
   @FXML
   public void initialize() {
 
-    labRequestServiceDAO = new LabRequestServiceDAOImpl();
+    facadeDAO = new FacadeDAO();
 
     labTypeChoiceBox.setItems(
         FXCollections.observableArrayList(
@@ -124,7 +123,7 @@ public class LabRequestController implements IMenuAccess {
                 "Obs Admitting"),
             labTypeChoiceBox.getSelectionModel().getSelectedItem());
 
-    labRequestServiceDAO.addLabRequest(temp);
+    facadeDAO.addLabServiceRequest(temp);
     this.clearFields();
     successfulSubmitLabel.setVisible(true);
     warningBackground.setVisible(true);

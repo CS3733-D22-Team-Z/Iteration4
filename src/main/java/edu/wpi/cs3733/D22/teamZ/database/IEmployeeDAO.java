@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
+import java.io.File;
 import java.util.List;
 
 public interface IEmployeeDAO {
@@ -20,7 +21,7 @@ public interface IEmployeeDAO {
   Employee getEmployeeByID(String employeeID);
 
   /**
-   * Gets ONE Employee from the database based on the provided EmployeeID
+   * Gets ONE Employee from the database based on the provided username
    *
    * @param employeeUsername
    * @return Employee object with provided employeeID
@@ -54,7 +55,16 @@ public interface IEmployeeDAO {
   /**
    * Exports the Employee table into a csv file to the working directory
    *
+   * @param empData File location of employee data csv
    * @return True if successful, false if not
    */
-  boolean exportToEmployeeCSV();
+  boolean exportToEmployeeCSV(File empData);
+
+  /**
+   * Imports the Employee csv into the Employee table
+   *
+   * @param employeeData file location of employee csv
+   * @return number of conflicts when inserting
+   */
+  int importEmployeesFromCSV(File employeeData);
 }
