@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
 .root {
-    -fx-background-color: #F6F6F6;
+    -fx-background-color: #D6D6D6;
 }
 
 .object-header {
@@ -24,6 +24,20 @@
     -fx-text-fill: #7B7B7B;
 }
 
+#confirmed .form-header {
+    -fx-font-family: inherit;
+    -fx-font-weight: inherit;
+    -fx-font-size: inherit;
+    -fx-text-fill: #43FF43;
+}
+
+#rejected .form-header {
+    -fx-font-family: inherit;
+    -fx-font-weight: inherit;
+    -fx-font-size: inherit;
+    -fx-text-fill: #FF4343;
+}
+
 .button {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 700;
@@ -39,6 +53,8 @@
     -fx-font-weight: 600;
     -fx-font-size: 9pt;
     -fx-text-fill: #9D9D9D;
+
+
 
     -fx-border-width: 0px;
 

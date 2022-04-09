@@ -5,6 +5,8 @@ import edu.wpi.cs3733.D22.teamZ.database.*;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
 import java.util.List;
+
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,9 +17,9 @@ import javafx.scene.control.TextField;
 public class MedicalEquipmentRequestController implements IMenuAccess {
   private FacadeDAO facadeDAO = new FacadeDAO();
 
-  @FXML private JFXButton backButton;
-  @FXML private JFXButton resetButton;
-  @FXML private JFXButton submitButton;
+  @FXML private MFXButton backButton;
+  @FXML private MFXButton resetButton;
+  @FXML private MFXButton submitButton;
 
   @FXML private Label header;
   @FXML private Label objectBodyText;

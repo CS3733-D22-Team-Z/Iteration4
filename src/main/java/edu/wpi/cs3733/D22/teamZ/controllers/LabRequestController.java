@@ -1,10 +1,10 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.database.IServiceRequestDAO;
 import edu.wpi.cs3733.D22.teamZ.database.ServiceRequestDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -20,9 +20,9 @@ import javafx.scene.shape.Rectangle;
 public class LabRequestController implements IMenuAccess {
 
   @FXML private Button backButton;
-  @FXML private JFXButton navigateToLabRequests;
-  @FXML private JFXButton submitButton;
-  @FXML private JFXButton resetButton;
+  @FXML private MFXButton navigateToLabRequests;
+  @FXML private MFXButton submitButton;
+  @FXML private MFXButton resetButton;
   @FXML private ChoiceBox<String> labTypeChoiceBox;
   @FXML private TextField patientNameField;
   @FXML private TextField patientIdField;
