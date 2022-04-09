@@ -8,10 +8,9 @@ import java.util.List;
 
 public class ServiceRequestControlCSV extends ControlCSV {
 
-  private LocationDAOImpl locationDAO = new LocationDAOImpl();
-  private MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
+  private final LocationDAOImpl locationDAO = new LocationDAOImpl();
 
-  private String[] headers = {"requestID", "type", "status", "issuer", "handler", "targetLocation"};
+  private final String[] headers = {"requestID", "type", "status", "issuer", "handler", "targetLocation"};
 
   public ServiceRequestControlCSV(File path) {
     this.setPath(path);
@@ -53,8 +52,8 @@ public class ServiceRequestControlCSV extends ControlCSV {
                     a.getType().toString(),
                     a.getStatus().toString(),
                     // change later
-                    null,
-                    null,
+                    "null",
+                    "null",
                     a.getTargetLocation().getNodeID()
                   }));
       ret.add(entry);
