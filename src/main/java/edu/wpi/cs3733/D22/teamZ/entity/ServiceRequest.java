@@ -1,5 +1,8 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
+import edu.wpi.cs3733.D22.teamZ.database.EmployeeDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
+
 public class ServiceRequest {
   protected String requestID;
   protected RequestType type;
@@ -7,6 +10,9 @@ public class ServiceRequest {
   protected Employee issuer;
   protected Employee handler;
   protected Location targetLocation;
+
+  private EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
+  private LocationDAOImpl locationDAO = new LocationDAOImpl();
 
   public enum RequestType {
     MEDEQUIP("MEDEQUIP"),
@@ -127,6 +133,21 @@ public class ServiceRequest {
     this.handler = handler;
   }
 
+  public ServiceRequest(
+      String requestID,
+      RequestType type,
+      RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation) {
+    this.requestID = requestID;
+    this.type = type;
+    this.targetLocation = locationDAO.getLocationByID(targetLocation);
+    this.status = status;
+    this.issuer = employeeDAO.getEmployeeByID(issuer);
+    this.handler = employeeDAO.getEmployeeByID(handler);
+  }
+
   /**
    * Gets the requestID for this ServiceRequest
    *
@@ -216,5 +237,10 @@ public class ServiceRequest {
     } else {
       return false;
     }
+  }
+
+  @Override
+  public String toString() {
+    return this.requestID;
   }
 }

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.database.EmployeeDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.IEmployeeDAO;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +20,7 @@ public class LoginPageController implements Initializable {
   @FXML private TextField passwordField;
   @FXML private Label errorLabel;
 
-  private IEmployeeDAO database;
+  private FacadeDAO facadeDAO;
   private String toHomepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   /**
@@ -32,7 +31,7 @@ public class LoginPageController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    database = new EmployeeDAOImpl();
+    facadeDAO = new FacadeDAO();
   }
 
   /**

@@ -2,10 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.D22.teamZ.database.ILocationDAO;
-import edu.wpi.cs3733.D22.teamZ.database.IMedicalEquipmentDAO;
-import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.*;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
@@ -50,8 +47,7 @@ public class EquipmentMapController implements Initializable {
   @FXML private JFXButton exitButton;
 
   // Database variables
-  private ILocationDAO locationDAO;
-  private IMedicalEquipmentDAO medicalEquipmentDAO;
+  private FacadeDAO facadeDAO;
   private List<Location> locations;
 
   // Hold onto the marker and icon images
@@ -89,11 +85,10 @@ public class EquipmentMapController implements Initializable {
     iconImage = new Image("file:" + rsc.getPath());
 
     // Setup DAOs
-    locationDAO = new LocationDAOImpl();
-    medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
+    facadeDAO = new FacadeDAO();
 
     // Pull all locations
-    locations = locationDAO.getAllLocations();
+    locations = facadeDAO.getAllLocations();
 
     // Zoom stuff
     Scale scaleTransform = new Scale(0.85, 0.85, 0, 0);
@@ -274,7 +269,7 @@ public class EquipmentMapController implements Initializable {
       // If this location is on the current floor, then proceed.
       if (tempLocation.getFloor().equals(floor)) {
         List<MedicalEquipment> medicalEquipmentAtLocation =
-            medicalEquipmentDAO.getAllMedicalEquipmentByLocation(tempLocation);
+            facadeDAO.getAllMedicalEquipmentByLocation(tempLocation);
 
         // If there is medical equipment at the location, then proceed.
         if (!medicalEquipmentAtLocation.isEmpty()) {

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D22.teamZ.*;
 import edu.wpi.cs3733.D22.teamZ.database.*;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
@@ -14,8 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class MedicalEquipmentRequestController implements IMenuAccess {
-  private ILocationDAO locationDAO = new LocationDAOImpl();
-  private IMedEquipReqDAO medicalEquipmentRequestDAO = new MedEquipReqDAOImpl();
+  private FacadeDAO facadeDAO = new FacadeDAO();
 
   @FXML private JFXButton backButton;
   @FXML private JFXButton resetButton;
@@ -49,8 +47,8 @@ public class MedicalEquipmentRequestController implements IMenuAccess {
 
   @FXML
   public void initialize() {
-    locationList = locationDAO.getAllLocations();
-    equipmentRequestList = medicalEquipmentRequestDAO.getAllMedEquipReq();
+    locationList = facadeDAO.getAllLocations();
+    equipmentRequestList = facadeDAO.getAllMedicalEquipmentRequest();
 
     for (Location model : locationList) {
       System.out.println(model.getNodeID());
@@ -94,8 +92,8 @@ public class MedicalEquipmentRequestController implements IMenuAccess {
       System.out.println("Equipment is empty");
       id = "REQ0";
     } else {
-      MedicalEquipmentDeliveryRequest lastestReq =
-          equipmentRequestList.get(equipmentRequestList.size() - 1);
+      List<ServiceRequest> currentList = facadeDAO.getAllServiceRequests();
+      ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
       id = lastestReq.getRequestID();
     }
     // Create new REQID
@@ -109,10 +107,9 @@ public class MedicalEquipmentRequestController implements IMenuAccess {
     Employee handler = new Employee("Jake" + num, "Jake", Employee.AccessType.ADMIN, "", "");
 
     String equipmentID = equipmentDropDown.getValue().toString();
-    IMedicalEquipmentDAO medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
     // Find available equipment, if there is one. Else return null
-    equipmentID = medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipmentID);
+    equipmentID = facadeDAO.getFirstAvailableEquipmentByType(equipmentID);
 
     if (equipmentID == null) {
       errorSavingLabel.setVisible(true);
@@ -125,13 +122,13 @@ public class MedicalEquipmentRequestController implements IMenuAccess {
               enterNodeType.getValue().toString(),
               enterRoomNumber.getText(),
               enterFloorNumber.getText());
-      Location targetLoc = locationDAO.getLocationByID(nodeID);
+      Location targetLoc = facadeDAO.getLocationByID(nodeID);
 
       MedicalEquipmentDeliveryRequest temp =
           new MedicalEquipmentDeliveryRequest(
               requestID, status, issuer, handler, equipmentID, targetLoc);
 
-      medicalEquipmentRequestDAO.addMedEquipReq(temp);
+      facadeDAO.addMedicalEquipmentRequest(temp);
     }
     errorSavingLabel.setVisible(false);
   }
