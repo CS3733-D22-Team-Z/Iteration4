@@ -16,7 +16,6 @@
             <Image url="@../images/1.png" />
          </image>
       </ImageView>
-      <ListView fx:id="rightClickMenu" disable="true" onMouseClicked="#contextMenuClick" prefHeight="89.0" prefWidth="83.0" visible="false" />
       <Pane fx:id="pane" layoutX="216.0" prefHeight="850.0" prefWidth="1021.0" />
       <VBox layoutX="1238.0" layoutY="733.0" prefHeight="132.0" prefWidth="206.0">
          <children>

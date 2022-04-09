@@ -5,9 +5,11 @@ import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javafx.beans.property.*;
@@ -15,19 +17,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -129,7 +135,10 @@ public class LocationListController {
   private ObservableList<MapLabel> allLabels = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> equipLabels = FXCollections.observableList(new ArrayList<>());
 
-  @FXML private ListView<String> rightClickMenu = new ListView<>();
+  private ContextMenu rightClickMenu;
+  private Menu locInfo;
+  private Menu servInfo;
+  private Menu medInfo;
 
   // initialize location labels to display on map
   @FXML
@@ -255,11 +264,8 @@ public class LocationListController {
         MouseEvent.MOUSE_CLICKED,
         evt -> {
           Node clicked = evt.getPickResult().getIntersectedNode();
-          rightClickMenu.setDisable(true);
-          rightClickMenu.setVisible(false);
-          rightClickMenu.getSelectionModel().clearSelection();
 
-          if (clicked.getClass() == pane.getClass()) {
+          if (clicked instanceof Pane) {
             pane.requestFocus();
           }
 
@@ -283,53 +289,94 @@ public class LocationListController {
           }
         });
 
-    pane.addEventFilter(
-        MouseEvent.MOUSE_CLICKED,
-        evt -> {
-          if (evt.getButton().toString().equalsIgnoreCase("secondary")
-              && evt.getPickResult().getIntersectedNode() instanceof MapLabel) {
-
-            rightClickMenu.relocate(evt.getSceneX(), evt.getSceneY());
-            rightClickMenu.setDisable(false);
-            rightClickMenu.setVisible(true);
-            rightClickMenu.toFront();
-          }
-        });
-
-    rightClickMenu.setItems(FXCollections.observableList(List.of("Edit", "Delete")));
-    rightClickMenu.setCellFactory(
-        new Callback<ListView<String>, ListCell<String>>() {
+    MenuItem edit = new MenuItem("Edit");
+    edit.setOnAction(
+        new EventHandler<ActionEvent>() {
           @Override
-          public ListCell<String> call(ListView<String> param) {
-            return new ListCell<>() {
-              @Override
-              protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(item);
-                setFont(Font.font(20));
-              }
-            };
+          public void handle(ActionEvent event) {
+            try {
+              editLocationButtonClicked();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
           }
         });
+    MenuItem delete = new MenuItem("Delete");
+    delete.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            try {
+              deleteLocationButtonClicked();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+        });
+    locInfo = new Menu("Location Info");
+    medInfo = new Menu("Medical Equipment Info");
+    servInfo = new Menu("Service Request Info");
+    MenuItem prop = new MenuItem("Properties");
+    prop.setOnAction(event -> propertiesWindow());
+    Menu info = new Menu("Info");
+    // prop.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
+    info.getItems().addAll(medInfo, servInfo, locInfo);
+
+    rightClickMenu = new ContextMenu(info, edit, delete, prop);
+
     rightClickMenu.setPrefHeight(82);
     rightClickMenu.setPrefWidth(120);
-
-    rightClickMenu
-        .focusedProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              if (!newValue) {
-                rightClickMenu.setVisible(false);
-                rightClickMenu.setDisable(true);
-                rightClickMenu.getSelectionModel().clearSelection();
-              }
-            });
 
     this.displayResult.remove(5, this.displayResult.size());
 
     // Daniel's Stuff
     deleteLocationPlane.setVisible(false);
     deleteLocationPlane.setDisable(true);
+  }
+
+  private void propertiesWindow() {
+    Stage stage = new Stage();
+    TabPane root = new TabPane();
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    root.setPrefWidth(screenSize.getWidth() * .25);
+    root.setPrefHeight(screenSize.getHeight() * .4);
+
+    stage.setTitle("Properties");
+    stage.getIcons().add(new Image("edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png"));
+    stage.setResizable(false);
+
+    Tab locInfoTab = new Tab("Location Info");
+    Tab medInfoTab = new Tab("Medical Equipment Info");
+    Tab servReqTab = new Tab("Service Request Info");
+
+    root.getTabs().addAll(medInfoTab, servReqTab, locInfoTab);
+    root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
+    Label test = new Label("Testing");
+    GridPane locPane = new GridPane();
+    locPane.setPrefWidth(root.getPrefWidth());
+    locPane.setPrefHeight(root.getPrefHeight());
+    locPane.setGridLinesVisible(true);
+    ColumnConstraints col1 = new ColumnConstraints();
+    col1.setFillWidth(true);
+    col1.setPercentWidth(33.333);
+    col1.setHgrow(Priority.ALWAYS);
+    RowConstraints row1 = new RowConstraints();
+    row1.setPercentHeight(33.333);
+    row1.setFillHeight(true);
+    row1.setVgrow(Priority.ALWAYS);
+    locPane.getColumnConstraints().add(0, col1);
+    locPane.getColumnConstraints().add(1, col1);
+    locPane.getColumnConstraints().add(2, col1);
+    locPane.getRowConstraints().add(0, row1);
+    locPane.getRowConstraints().add(1, row1);
+    locPane.getRowConstraints().add(2, row1);
+
+    locInfoTab.setContent(locPane);
+
+    Scene window = new Scene(root);
+    stage.setScene(window);
+    stage.show();
   }
 
   private void showLocations(String floor) {
@@ -667,6 +714,21 @@ public class LocationListController {
       // place label at correct coords
       label.relocate(label.getLocation().getXcoord() - 8, label.getLocation().getYcoord() - 10);
 
+      label.setContextMenu(rightClickMenu);
+      label.setOnContextMenuRequested(
+          new EventHandler<ContextMenuEvent>() {
+            @Override
+            public void handle(ContextMenuEvent event) {
+              rightClickMenu.show(label, event.getScreenX(), event.getScreenY());
+              Location loc = label.getLocation();
+              locInfo.getItems().clear();
+              locInfo
+                  .getItems()
+                  .addAll(
+                      new MenuItem("Name: " + loc.getLongName()),
+                      new MenuItem("Abrev.: " + loc.getShortName()));
+            }
+          });
       allLabels.add(label);
     }
   }
@@ -938,7 +1000,7 @@ public class LocationListController {
     return dict;
   }*/
 
-  public void contextMenuClick(MouseEvent mouseEvent) throws IOException {
+  /*public void contextMenuClick(MouseEvent mouseEvent) throws IOException {
     int id = rightClickMenu.getSelectionModel().getSelectedIndex();
     rightClickMenu.setVisible(false);
     rightClickMenu.setDisable(true);
@@ -951,5 +1013,5 @@ public class LocationListController {
         deleteLocationButtonClicked();
         break;
     }
-  }
+  }*/
 }
