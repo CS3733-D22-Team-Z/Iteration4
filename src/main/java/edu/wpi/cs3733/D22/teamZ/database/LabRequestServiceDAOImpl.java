@@ -32,8 +32,8 @@ public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
     try {
       PreparedStatement pstmt =
           connection.prepareStatement(
-              "Select LABREQUEST.REQUESTID, SERVICEREQUEST.STATUS, ISSUERID, HANDLERID, TARGETLOCATIONID, LABRESULT.TYPE\n"
-                  + "FROM SERVICEREQUEST,LABRESULT where  SERVICEREQUEST.REQUESTID = LABREQUEST.REQUESTID");
+              "Select LABREQUEST.REQUESTID, SERVICEREQUEST.STATUS, ISSUERID, HANDLERID, TARGETLOCATIONID, LABREQUEST.LABTYPE\n"
+                  + "FROM SERVICEREQUEST,LABREQUEST where  SERVICEREQUEST.REQUESTID = LABREQUEST.REQUESTID");
       ResultSet rset = pstmt.executeQuery();
 
       while (rset.next()) {
