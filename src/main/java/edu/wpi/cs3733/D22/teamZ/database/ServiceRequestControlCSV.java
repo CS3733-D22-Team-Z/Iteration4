@@ -10,7 +10,9 @@ public class ServiceRequestControlCSV extends ControlCSV {
 
   private final LocationDAOImpl locationDAO = new LocationDAOImpl();
 
-  private final String[] headers = {"requestID", "type", "status", "issuer", "handler", "targetLocation"};
+  private final String[] headers = {
+    "requestID", "type", "status", "issuer", "handler", "targetLocation"
+  };
 
   public ServiceRequestControlCSV(File path) {
     this.setPath(path);
