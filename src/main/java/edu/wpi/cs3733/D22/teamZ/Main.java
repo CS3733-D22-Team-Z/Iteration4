@@ -11,6 +11,7 @@ public class Main {
     init.populateMedicalEquipmentTable();
     init.populateServiceRequestTable();
     init.populateMedicalEquipmentServiceRequestTable();
+    init.populateEmployeeTable();
     App.launch(App.class, args);
   }
 }

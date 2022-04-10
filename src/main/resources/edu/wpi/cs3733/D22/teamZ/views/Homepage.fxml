@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
     <children>
         <Label fx:id="welcomeMessage" alignment="TOP_LEFT" layoutX="18.0" layoutY="167.0" prefHeight="49.0" prefWidth="470.0" text="Hello admin, welcome to the Brigham and Women's Hospital App " wrapText="true">
             <font>
@@ -30,6 +30,11 @@
             </image>
         </ImageView>
       <JFXButton buttonType="RAISED" layoutX="18.0" layoutY="337.0" onAction="#toMedicalEquipmentRequest" prefHeight="32.0" prefWidth="220.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;" text="Medical Equipment Requests          ">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="300.0" layoutY="245.0" onAction="#toEmployeePage" prefHeight="32.0" prefWidth="220.0" style="-fx-background-radius: 5; -fx-background-color: FFFFFF;" text="Employees">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
