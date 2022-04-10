@@ -508,6 +508,14 @@ public class FacadeDAO {
   public List<Location> getAllLocationsByFloor(String floor) {
     return locationDAO.getAllLocationsByFloor(floor);
   }
+  /**
+   * Gets all locations of the given type
+   * @param type type of location
+   * @return list of locations of the given type
+   */
+  public List<Location> getALlLocationsByType(String type){
+    return locationDAO.getALlLocationsByType(type);
+  }
 
   // Special methods for medical equipment
   /**

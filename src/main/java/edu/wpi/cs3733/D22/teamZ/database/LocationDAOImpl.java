@@ -232,6 +232,40 @@ public class LocationDAOImpl implements ILocationDAO {
   }
 
   /**
+   * Gets all locations of the given type
+   * @param type type of location
+   * @return list of locations of given type
+   */
+  @Override
+  public List<Location> getALlLocationsByType(String type) {
+    List<Location> tempList = new ArrayList<>();
+    try {
+      PreparedStatement pstmt =
+              connection.prepareStatement("Select * from LOCATION WHERE NODETYPE = ?");
+      pstmt.setString(1, type);
+
+      ResultSet rset = pstmt.executeQuery();
+
+      while (rset.next()) {
+        Location tempLoc = new Location();
+        tempLoc.setNodeID(rset.getString("nodeID"));
+        tempLoc.setXcoord(rset.getInt("xcoord"));
+        tempLoc.setYcoord(rset.getInt("ycoord"));
+        tempLoc.setFloor(rset.getString("floor"));
+        tempLoc.setBuilding(rset.getString("building"));
+        tempLoc.setNodeType(rset.getString("nodeType"));
+        tempLoc.setLongName(rset.getString("longName"));
+        tempLoc.setShortName(rset.getString("shortName"));
+
+        tempList.add(tempLoc);
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to get locations");
+    }
+    return tempList;
+  }
+
+  /**
    * Imports data from CSV into location database
    *
    * @param locData
