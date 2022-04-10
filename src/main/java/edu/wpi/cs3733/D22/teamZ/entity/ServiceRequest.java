@@ -233,7 +233,7 @@ public class ServiceRequest {
   public boolean equals(Object o) {
     if (o instanceof ServiceRequest) {
       ServiceRequest objectRequest = (ServiceRequest) o;
-      return (this.getRequestID() == objectRequest.getRequestID());
+      return (this.getRequestID().equals(objectRequest.getRequestID()));
     } else {
       return false;
     }
