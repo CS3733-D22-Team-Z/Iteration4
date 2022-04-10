@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.LabServiceRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +36,7 @@ public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
       ResultSet rset = pstmt.executeQuery();
 
       while (rset.next()) {
-        String requestID = rset.getString("REQUEST");
+        String requestID = rset.getString("REQUESTID");
         String status = rset.getString("STATUS");
         String issuer = rset.getString("ISSUERID");
         String handler = rset.getString("HANDLERID");
@@ -113,19 +112,18 @@ public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
   public boolean addLabRequest(LabServiceRequest request) {
 
     IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
-    requestDAO.addServiceRequest(request);
+    // requestDAO.addServiceRequest(request);
 
     try {
       PreparedStatement stmt =
-          connection.prepareStatement(
-              "INSERT INTO LABREQUEST (REQUESTID, LABTYPE) values (?, ?)");
+          connection.prepareStatement("INSERT INTO LABREQUEST (REQUESTID, LABTYPE) values (?, ?)");
       stmt.setString(1, request.getRequestID());
       stmt.setString(2, request.getLabType());
 
       stmt.executeUpdate();
       connection.commit();
     } catch (SQLException e) {
-      System.out.println("Statement failed");
+      System.out.println("add lab request statement failed");
       return false;
     }
     return true;
@@ -139,7 +137,7 @@ public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public boolean updateLabRequest(LabServiceRequest req) {
-    //TODO implement updateLabRequest
+    // TODO implement updateLabRequest
     return false;
   }
 
@@ -152,7 +150,8 @@ public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
   @Override
   public boolean deleteLabRequest(LabServiceRequest req) {
     try {
-      PreparedStatement stmt = connection.prepareStatement("DELETE FROM LABREQUEST WHERE REQUESTID=?");
+      PreparedStatement stmt =
+          connection.prepareStatement("DELETE FROM LABREQUEST WHERE REQUESTID=?");
       stmt.setString(1, req.getRequestID());
       stmt.executeUpdate();
     } catch (SQLException e) {
@@ -194,8 +193,8 @@ public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
       try {
         for (LabServiceRequest info : tempLabRequest) {
           PreparedStatement pstmt =
-                  connection.prepareStatement(
-                          "INSERT INTO LABREQUEST (REQUESTID, LABTYPE) " + "values (?, ?)");
+              connection.prepareStatement(
+                  "INSERT INTO LABREQUEST (REQUESTID, LABTYPE) " + "values (?, ?)");
           temp = info.getRequestID();
           pstmt.setString(1, info.getRequestID());
           pstmt.setString(2, info.getLabType());
@@ -206,7 +205,7 @@ public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
       } catch (SQLException e) {
         conflictCounter++;
         System.out.println(
-                "Found "
+            "Found "
                 + conflictCounter
                 + " conflicts. "
                 + temp

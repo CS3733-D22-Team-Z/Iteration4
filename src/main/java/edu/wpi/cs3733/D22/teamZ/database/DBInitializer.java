@@ -145,15 +145,15 @@ public class DBInitializer {
               + "requestID VARCHAR(15),"
               + "equipmentID VARCHAR(15),"
               + "constraint MEDEQUIPREQ_PK Primary Key (requestID),"
-              + "constraint REQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
+              + "constraint MEDEQUIPREQ_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
               + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(itemID))");
 
       stmt.execute(
-              "CREATE TABLE LABREQUEST ("
-                      + "requestID VARCHAR(15),"
-                      + "labType VARCHAR(50),"
-                      + "constraint LABREQUEST_PK Primary Key (reqeustID),"
-                      + "constraint REQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID)");
+          "CREATE TABLE LABREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "labType VARCHAR(50),"
+              + "constraint LABREQUEST_PK Primary Key (requestID),"
+              + "constraint LABREQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID))");
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
