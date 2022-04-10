@@ -39,7 +39,7 @@ import javafx.util.Callback;
 // work?
 
 // LocationController controls Location.fxml, loads location data into a tableView on page
-public class LocationListController {
+public class LocationListController implements IMenuAccess {
 
   // init ui components
   @FXML private Pane pane;
@@ -68,6 +68,8 @@ public class LocationListController {
   @FXML private Pane locationChangeDarkenPane;
   private Location activeLocation;
   private Label activeLabel;
+
+  private MenuController menu;
   //
 
   // Casey's
@@ -873,5 +875,10 @@ public class LocationListController {
     }
 
     return dict;
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
   }
 }

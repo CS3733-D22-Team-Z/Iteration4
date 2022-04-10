@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Location implements ISearchable {
@@ -12,6 +13,7 @@ public class Location implements ISearchable {
   private String nodeType;
   private String longName;
   private String shortName;
+  private List<PathEdge> connections;
 
   public Location() {}
 
@@ -32,6 +34,7 @@ public class Location implements ISearchable {
     this.nodeType = nodeType;
     this.longName = longName;
     this.shortName = shortName;
+    connections = new ArrayList<>();
   }
 
   public Location(String nodeID) {
@@ -102,6 +105,22 @@ public class Location implements ISearchable {
     this.shortName = shortName;
   }
 
+  public void addConnections(List<PathEdge> more) {
+    connections.addAll(more);
+  }
+
+  public void setConnections(List<PathEdge> connections) {
+    this.connections = connections;
+  }
+
+  public List<PathEdge> getConnections() {
+    return connections;
+  }
+
+  public void addConnection(PathEdge conn) {
+    connections.add(conn);
+  }
+
   @Override
   public String toString() {
     return nodeID;
@@ -132,5 +151,21 @@ public class Location implements ISearchable {
             + "0".repeat(2 - floor.length())
             + floor;
     return newNodeID;
+  }
+
+
+  @Override
+  public boolean equals(Object other){
+    Location actual;
+    if (other == null){
+      return false;
+    }
+    try{
+      actual = (Location)other;
+    }catch (ClassCastException e){
+      return false;
+    }
+
+    return actual.getNodeID().equalsIgnoreCase(nodeID);
   }
 }
