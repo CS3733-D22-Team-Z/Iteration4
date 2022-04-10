@@ -68,6 +68,7 @@ public interface ILocationDAO {
 
   /**
    * Gets all locations of the given type
+   *
    * @param type type of location
    * @return list of locations of the given type
    */
