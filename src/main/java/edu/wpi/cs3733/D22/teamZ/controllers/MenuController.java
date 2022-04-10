@@ -80,6 +80,11 @@ public class MenuController implements Initializable {
     return cont;
   }
 
+  public void setScale(float scaleX, float scaleY) {
+    contentPane.setScaleX(scaleX);
+    contentPane.setScaleY(scaleY);
+  }
+
   /**
    * Highlights the selected menu item
    *
