@@ -242,7 +242,7 @@ public class DBInitializer {
             connection.prepareStatement(
                 "INSERT INTO MEDICALEQUIPMENT (ITEMID, TYPE, STATUS, CURRENTLOCATION) "
                     + "values (?, ?, ?, ?)");
-        pstmt.setString(1, info.getItemID());
+        pstmt.setString(1, info.getEquipmentID());
         pstmt.setString(2, info.getType());
         pstmt.setString(3, info.getStatus());
         pstmt.setString(4, info.getCurrentLocation().getNodeID());
