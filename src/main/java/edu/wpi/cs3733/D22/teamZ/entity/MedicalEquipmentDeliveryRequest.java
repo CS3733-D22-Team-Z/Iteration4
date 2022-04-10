@@ -15,6 +15,17 @@ public class MedicalEquipmentDeliveryRequest extends ServiceRequest {
     this.equipmentID = equipmentID;
   }
 
+  public MedicalEquipmentDeliveryRequest(
+      String requestID,
+      ServiceRequest.RequestStatus status,
+      String issuer,
+      String handler,
+      String equipmentID,
+      String targetLoc) {
+    super(requestID, RequestType.MEDEQUIP, status, issuer, handler, targetLoc);
+    this.equipmentID = equipmentID;
+  }
+
   public String getEquipmentID() {
     return equipmentID;
   }

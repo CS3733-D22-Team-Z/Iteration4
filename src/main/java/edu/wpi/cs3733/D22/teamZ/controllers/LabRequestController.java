@@ -1,10 +1,8 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D22.teamZ.App;
-import edu.wpi.cs3733.D22.teamZ.database.ILabRequestServiceDAO;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.database.IServiceRequestDAO;
-import edu.wpi.cs3733.D22.teamZ.database.LabRequestServiceDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.ServiceRequestDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
@@ -13,18 +11,13 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
-public class LabRequestController {
+public class LabRequestController implements IMenuAccess {
 
   @FXML private Button backButton;
   @FXML private JFXButton navigateToLabRequests;
@@ -39,16 +32,23 @@ public class LabRequestController {
   @FXML private Label successfulSubmitLabel;
   @FXML private Rectangle warningBackground;
 
-  private final String toDashboardURL = "views/LandingPage.fxml";
+  private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private final String toLabServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/LabRequestList.fxml";
 
-  ILabRequestServiceDAO labRequestServiceDAO;
+  private FacadeDAO facadeDAO;
+
+  private MenuController menu;
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
 
   @FXML
   public void initialize() {
 
-    labRequestServiceDAO = new LabRequestServiceDAOImpl();
+    facadeDAO = new FacadeDAO();
 
     labTypeChoiceBox.setItems(
         FXCollections.observableArrayList(
@@ -71,20 +71,12 @@ public class LabRequestController {
 
   @FXML
   public void onBackButtonClicked(ActionEvent event) throws IOException {
-    // Load the default FXML file and set that scene to the main stage.
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toDashboardURL));
-    Scene scene = new Scene(root);
-    mainStage.setScene(scene);
+    menu.load(toLandingPageURL);
   }
 
   @FXML
   private void toLabServiceRequestList(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLabServiceRequestURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    menu.load(toLabServiceRequestURL);
   }
 
   @FXML
@@ -131,7 +123,7 @@ public class LabRequestController {
                 "Obs Admitting"),
             labTypeChoiceBox.getSelectionModel().getSelectedItem());
 
-    labRequestServiceDAO.addLabRequest(temp);
+    facadeDAO.addLabServiceRequest(temp);
     this.clearFields();
     successfulSubmitLabel.setVisible(true);
     warningBackground.setVisible(true);

@@ -2,11 +2,9 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import edu.wpi.cs3733.D22.teamZ.App;
-import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -16,11 +14,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
@@ -30,7 +25,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class MedicalEquipmentRequestListController implements Initializable {
+public class MedicalEquipmentRequestListController implements Initializable, IMenuAccess {
 
   // Each column on the main request list.
   @FXML private JFXTreeTableColumn<RequestRow, String> deviceColumn;
@@ -43,9 +38,6 @@ public class MedicalEquipmentRequestListController implements Initializable {
 
   // Button that re-fetches requests and refreshes table.
   @FXML private JFXButton refreshButton;
-
-  // Button that goes back to the default screen.
-  @FXML private JFXButton backButton;
 
   // Buttons to select the sorting/filter parameters.
   @FXML private JFXButton assigneeButton;
@@ -68,6 +60,8 @@ public class MedicalEquipmentRequestListController implements Initializable {
     "ID", "Device", "Assignee", "Handler", "Status", "Target Location"
   };
 
+  private MenuController menu;
+
   // List of MedEquipReq that represents raw data
   private List<MedicalEquipmentDeliveryRequest> rawRequests;
 
@@ -75,14 +69,19 @@ public class MedicalEquipmentRequestListController implements Initializable {
   private ObservableList<RequestRow> requests;
 
   // Database object
-  private MedEquipReqDAOImpl database;
+  private FacadeDAO facadeDAO;
 
   public MedicalEquipmentRequestListController() {
     // Create new database object
-    database = new MedEquipReqDAOImpl();
+    facadeDAO = new FacadeDAO();
 
     // Grab data
     loadRequests();
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
   }
 
   @Override
@@ -150,14 +149,6 @@ public class MedicalEquipmentRequestListController implements Initializable {
   // Called whenever the filter select was set?
   public void filterSet(ActionEvent event) {
     System.out.println(filterCBox.getSelectionModel().getSelectedItem());
-  }
-
-  // Called whenever the back button is clicked.
-  public void backClicked() throws IOException {
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toHomepageURL));
-    Scene scene = new Scene(root);
-    mainStage.setScene(scene);
   }
 
   public void createRRList() {
@@ -231,11 +222,11 @@ public class MedicalEquipmentRequestListController implements Initializable {
   }
 
   public void loadRequests() {
-    rawRequests = database.getAllMedEquipReq();
+    rawRequests = facadeDAO.getAllMedicalEquipmentRequest();
   }
 
   public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) {
-    return database.getMedEquipReqByID(MeqID);
+    return facadeDAO.getMedicalEquipmentRequestByID(MeqID);
   }
 
   public void exportToCSV(ActionEvent actionEvent) {
@@ -248,7 +239,7 @@ public class MedicalEquipmentRequestListController implements Initializable {
     fileChooser.getExtensionFilters().add(extFilter);
 
     File file = fileChooser.showSaveDialog(stage);
-    database.exportToMedEquipReqCSV(file);
+    facadeDAO.exportMedicalEquipmentRequestsToCSV(file);
   }
 
   // Data structure to represent a row in the request list.

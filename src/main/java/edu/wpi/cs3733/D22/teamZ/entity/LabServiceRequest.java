@@ -15,6 +15,17 @@ public class LabServiceRequest extends ServiceRequest {
     this.labType = labType;
   }
 
+  public LabServiceRequest(
+      String requestID,
+      RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation,
+      String labType) {
+    super(requestID, RequestType.LABS, status, issuer, handler, targetLocation);
+    this.labType = labType;
+  }
+
   /**
    * Gets the lab type for this lab request
    *

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D22.teamZ.*;
 import edu.wpi.cs3733.D22.teamZ.database.*;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
@@ -9,17 +8,12 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class MedicalEquipmentRequestController {
-  private ILocationDAO locationDAO = new LocationDAOImpl();
-  private IMedEquipReqDAO medicalEquipmentRequestDAO = new MedEquipReqDAOImpl();
+public class MedicalEquipmentRequestController implements IMenuAccess {
+  private FacadeDAO facadeDAO = new FacadeDAO();
 
   @FXML private JFXButton backButton;
   @FXML private JFXButton resetButton;
@@ -36,16 +30,25 @@ public class MedicalEquipmentRequestController {
   @FXML private Label errorSavingLabel;
 
   // URLs
-  private final String toLandingPageURL = "views/LandingPage.fxml";
+  private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+  private String toMedicalEquipmentRequestURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
 
   // Lists
   private List<Location> locationList;
   private List<MedicalEquipmentDeliveryRequest> equipmentRequestList;
 
+  private MenuController menu;
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
   @FXML
   public void initialize() {
-    locationList = locationDAO.getAllLocations();
-    equipmentRequestList = medicalEquipmentRequestDAO.getAllMedEquipReq();
+    locationList = facadeDAO.getAllLocations();
+    equipmentRequestList = facadeDAO.getAllMedicalEquipmentRequest();
 
     for (Location model : locationList) {
       System.out.println(model.getNodeID());
@@ -63,10 +66,7 @@ public class MedicalEquipmentRequestController {
 
   @FXML
   private void onBackButtonClicked(ActionEvent event) throws IOException {
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
-    Scene scene = new Scene(root);
-    mainStage.setScene(scene);
+    menu.load(toLandingPageURL);
   }
 
   @FXML
@@ -92,8 +92,8 @@ public class MedicalEquipmentRequestController {
       System.out.println("Equipment is empty");
       id = "REQ0";
     } else {
-      MedicalEquipmentDeliveryRequest lastestReq =
-          equipmentRequestList.get(equipmentRequestList.size() - 1);
+      List<ServiceRequest> currentList = facadeDAO.getAllServiceRequests();
+      ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
       id = lastestReq.getRequestID();
     }
     // Create new REQID
@@ -107,10 +107,9 @@ public class MedicalEquipmentRequestController {
     Employee handler = new Employee("Jake" + num, "Jake", Employee.AccessType.ADMIN, "", "");
 
     String equipmentID = equipmentDropDown.getValue().toString();
-    IMedicalEquipmentDAO medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
     // Find available equipment, if there is one. Else return null
-    equipmentID = medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipmentID);
+    equipmentID = facadeDAO.getFirstAvailableEquipmentByType(equipmentID);
 
     if (equipmentID == null) {
       errorSavingLabel.setVisible(true);
@@ -123,13 +122,13 @@ public class MedicalEquipmentRequestController {
               enterNodeType.getValue().toString(),
               enterRoomNumber.getText(),
               enterFloorNumber.getText());
-      Location targetLoc = locationDAO.getLocationByID(nodeID);
+      Location targetLoc = facadeDAO.getLocationByID(nodeID);
 
       MedicalEquipmentDeliveryRequest temp =
           new MedicalEquipmentDeliveryRequest(
               requestID, status, issuer, handler, equipmentID, targetLoc);
 
-      medicalEquipmentRequestDAO.addMedEquipReq(temp);
+      facadeDAO.addMedicalEquipmentRequest(temp);
     }
     errorSavingLabel.setVisible(false);
   }
@@ -144,10 +143,8 @@ public class MedicalEquipmentRequestController {
     }
   }
 
-  public void onNavigateToMedicalRequestList(ActionEvent actionEvent) throws IOException {
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/MedicalEquipmentRequestList.fxml"));
-    Scene scene = new Scene(root);
-    mainStage.setScene(scene);
+  public void onNavigateToMedicalRequestList() throws IOException {
+    menu.selectMenu(3);
+    menu.load(toMedicalEquipmentRequestURL);
   }
 }
