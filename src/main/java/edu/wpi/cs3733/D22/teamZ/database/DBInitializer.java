@@ -348,6 +348,7 @@ public class DBInitializer {
     // drop the tables in order of creation
     createTables();
 
+    //bool checker
     boolean val = true;
     // reinsert info into new database
     val = !dao.addLocationFromList(tempLocation) &&
