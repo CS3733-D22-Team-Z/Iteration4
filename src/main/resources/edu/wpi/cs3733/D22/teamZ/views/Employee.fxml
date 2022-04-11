@@ -54,7 +54,7 @@
       </MFXButton>
       <Pane fx:id="addEmployeePane" layoutX="260.0" layoutY="150.0" prefHeight="211.0" prefWidth="182.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10;">
          <children>
-            <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Employee" wrappingWidth="90.27587890625" />
+            <Text fx:id="editFields" layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Employee" wrappingWidth="90.27587890625" />
             <MFXTextField fx:id="addEmployeeName" alignment="BOTTOM_LEFT" borderGap="1.0" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="14.0" layoutY="53.0" measureUnitGap="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="147.0" promptText="Enter Employee Name">
                <font>
                   <Font size="10.0" />

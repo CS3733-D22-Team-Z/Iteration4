@@ -41,6 +41,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   @FXML private MFXTextField addEmployeeID;
   @FXML private ChoiceBox addEmployeeAccessType;
   @FXML private Text fillFields;
+  @FXML private Text editFields;
 
   private MenuController menu;
   private FacadeDAO facadeDAO;
@@ -97,6 +98,11 @@ public class EmployeeController implements IMenuAccess, Initializable {
   }
 
   public void addEmployee(ActionEvent actionEvent) throws IOException {
+    addEmployeeName.clear();
+    addEmployeeID.clear();
+    addEmployeeAccessType.setValue(null);
+    fillFields.setVisible(false);
+    editFields.setText("Add Employee");
     addEmployeePane.setVisible(true);
   }
 
@@ -104,22 +110,38 @@ public class EmployeeController implements IMenuAccess, Initializable {
     if (!addEmployeeName.getText().equals("")
         && !addEmployeeID.getText().equals("")
         && !(addEmployeeAccessType.getValue() == null)) {
-      Employee temp = new Employee();
-      temp.setName(addEmployeeName.getText());
-      temp.setEmployeeID(addEmployeeID.getText());
-      temp.setAccesstype(
-          Employee.AccessType.getRequestTypeByString(addEmployeeAccessType.getValue().toString()));
-      temp.setUsername(addEmployeeID.getText());
-      temp.setPassword("password");
-      facadeDAO.addEmployee(temp);
+      if (editFields.getText().equals("Add Employee")) {
+        addEmployee();
+      } else {
+        facadeDAO.deleteEmployee(employeeTable.getSelectionModel().getSelectedItem());
+        addEmployee();
+        addEmployeePane.setVisible(false);
+        editEmp.setDisable(true);
+        deleteEmp.setDisable(true);
+      }
+      createTable();
+    } else {
+      fillFields.setVisible(true);
+    }
+  }
+
+  public boolean addEmployee() {
+    Employee temp = new Employee();
+    temp.setName(addEmployeeName.getText());
+    temp.setEmployeeID(addEmployeeID.getText());
+    temp.setAccesstype(
+        Employee.AccessType.getRequestTypeByString(addEmployeeAccessType.getValue().toString()));
+    temp.setUsername(addEmployeeID.getText());
+    temp.setPassword("password");
+    if (facadeDAO.addEmployee(temp)) {
       createTable();
       addEmployeeName.clear();
       addEmployeeID.clear();
       addEmployeeAccessType.setValue(null);
       fillFields.setVisible(false);
-    } else {
-      fillFields.setVisible(true);
+      return true;
     }
+    return false;
   }
 
   public void clearNewEmployee(ActionEvent actionEvent) throws IOException {
@@ -128,7 +150,15 @@ public class EmployeeController implements IMenuAccess, Initializable {
     addEmployeeAccessType.setValue(null);
   }
 
-  public void editEmployee(ActionEvent actionEvent) throws IOException {}
+  public void editEmployee(ActionEvent actionEvent) throws IOException {
+    editFields.setText("Edit Location");
+    Employee temp = employeeTable.getSelectionModel().getSelectedItem();
+    addEmployeeName.setText(temp.getName());
+    addEmployeeID.setText(temp.getEmployeeID());
+    addEmployeeAccessType.setValue(temp.getAccesstype());
+    fillFields.setVisible(false);
+    addEmployeePane.setVisible(true);
+  }
 
   public void deleteEmployee(ActionEvent actionEvent) {
     facadeDAO.deleteEmployee(employeeTable.getSelectionModel().getSelectedItem());
