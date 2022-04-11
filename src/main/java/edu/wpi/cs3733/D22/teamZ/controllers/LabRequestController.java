@@ -6,8 +6,11 @@ import edu.wpi.cs3733.D22.teamZ.database.ServiceRequestDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
 
-public class LabRequestController implements IMenuAccess {
+public class LabRequestController extends ServiceRequestController {
 
   @FXML private Button backButton;
   @FXML private MFXButton navigateToLabRequests;
@@ -38,16 +41,8 @@ public class LabRequestController implements IMenuAccess {
 
   private FacadeDAO facadeDAO;
 
-  private MenuController menu;
-
-  @Override
-  public void setMenuController(MenuController menu) {
-    this.menu = menu;
-  }
-
   @FXML
-  public void initialize() {
-
+  public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = new FacadeDAO();
 
     labTypeChoiceBox.setItems(

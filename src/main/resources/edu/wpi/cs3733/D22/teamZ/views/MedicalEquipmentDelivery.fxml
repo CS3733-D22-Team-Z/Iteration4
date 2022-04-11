@@ -6,23 +6,23 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="MedicalEquipmentDeliveryMedicalEquipmentDelivery" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestController">
+<AnchorPane fx:id="MedicalEquipmentDeliveryMedicalEquipmentDelivery" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestController">
     <children>
         <MFXButton fx:id="backButton" layoutX="17.0" layoutY="25.0" onAction="#onBackButtonClicked" text="Back to Dashboard" />
-        <Label layoutX="17.0" layoutY="59.0" prefHeight="21.0" prefWidth="182.0" text="Medical Equipment Request" />
-        <Label layoutX="17.0" layoutY="76.0" prefHeight="17.0" prefWidth="211.0" text="Enter the fields below to request a language interpreter." />
-        <Label layoutX="18.0" layoutY="99.0" prefHeight="17.0" prefWidth="158.0" text="Room Number" />
+        <Label layoutX="17.0" layoutY="59.0" prefHeight="21.0" prefWidth="182.0" styleClass="object-header" text="Medical Equipment Request" />
+        <Label layoutX="17.0" layoutY="76.0" prefHeight="17.0" prefWidth="237.0" styleClass="object-body" text="Enter the fields below to request a language interpreter." />
+        <Label layoutX="18.0" layoutY="99.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
         <MFXTextField fx:id="enterRoomNumber" floatMode="DISABLED" layoutX="15.0" layoutY="115.0" onKeyReleased="#validateButton" prefWidth="149.0" promptText="Enter room number" />
-        <Label layoutX="17.0" layoutY="270.0" prefHeight="17.0" prefWidth="158.0" text="Equipment" />
+        <Label layoutX="17.0" layoutY="270.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Equipment" />
         <ChoiceBox fx:id="equipmentDropDown" layoutX="15.0" layoutY="286.0" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" />
         <MFXButton fx:id="submitButton" disable="true" layoutX="15.0" layoutY="327.0" onAction="#onSubmitButtonClicked" prefWidth="111.0" text="Submit" />
-        <MFXButton fx:id="resetButton" layoutX="154.0" layoutY="327.0" onAction="#onResetButtonClicked" prefWidth="111.0" text="Reset" />
-        <Label layoutX="17.0" layoutY="149.0" prefHeight="17.0" prefWidth="158.0" text="Floor Number" />
+        <MFXButton fx:id="resetButton" layoutX="154.0" layoutY="327.0" onAction="#onResetButtonClicked" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
+        <Label layoutX="17.0" layoutY="156.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Floor Number" />
         <MFXTextField fx:id="enterFloorNumber" floatMode="DISABLED" layoutX="15.0" layoutY="173.0" onKeyReleased="#validateButton" prefWidth="149.0" promptText="Enter floor number" />
-        <Label layoutX="17.0" layoutY="216.0" prefHeight="17.0" prefWidth="158.0" text="Location Type" />
+        <Label layoutX="17.0" layoutY="216.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Location Type" />
         <ChoiceBox fx:id="enterNodeType" layoutX="14.0" layoutY="232.0" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" />
-        <Label layoutX="271.0" layoutY="212.0" prefHeight="17.0" prefWidth="158.0" text="Current Requests" />
+        <Label layoutX="271.0" layoutY="212.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
         <MFXButton fx:id="navigateToMedicalRequestList" layoutX="271.0" layoutY="231.0" onAction="#onNavigateToMedicalRequestList" prefWidth="111.0" text="See Requests" />
-        <Label fx:id="errorSavingLabel" layoutX="16.0" layoutY="362.0" prefHeight="17.0" prefWidth="196.0" text="Error saving request, no equipment available" />
+        <Label fx:id="errorSavingLabel" layoutX="16.0" layoutY="362.0" prefHeight="17.0" prefWidth="243.0" style="-fx-text-fill: #FF4C4C;" styleClass="form-header" text="Error saving request, no equipment available" />
     </children>
 </AnchorPane>

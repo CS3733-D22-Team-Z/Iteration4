@@ -48,6 +48,20 @@
     -fx-background-color: #0075FF;
 }
 
+.menu-button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+
+    -fx-background-color: transparent;
+}
+
+.region-icon {
+    -fx-pref-width: 18;
+    -fx-pref-height: 18;
+    -fx-background-color: #000000;
+}
+
 .mfx-text-field {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 600;
