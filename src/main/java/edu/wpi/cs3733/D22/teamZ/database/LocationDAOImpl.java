@@ -372,6 +372,7 @@ public class LocationDAOImpl implements ILocationDAO {
    * @return true if successful, false otherwise
    */
   public boolean addLocationFromList(List<Location> list) {
+    updateConnection();
     boolean val = true;
     for (Location loc : list) {
       if (!addToDatabase(loc)) {

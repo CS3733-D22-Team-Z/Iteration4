@@ -5,11 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public enum EnumDatabaseConnection {
-  CONNECTION(null);
+  CONNECTION(null, "");
   private Connection connection;
+  private String type;
 
-  private EnumDatabaseConnection(Connection type) {
-    connection = type;
+  private EnumDatabaseConnection(Connection connection, String type) {
+    connection = connection;
+    type = type;
   }
 
   public Connection getConnection() {
@@ -17,6 +19,7 @@ public enum EnumDatabaseConnection {
   }
 
   public void setConnection(String type) {
+    this.type = type;
     String url = "";
     if (type.equalsIgnoreCase("embedded")) {
       url = "jdbc:derby:myDB;create=true";
@@ -30,5 +33,9 @@ public enum EnumDatabaseConnection {
     } catch (ClassNotFoundException | SQLException e) {
       e.printStackTrace();
     }
+  }
+
+  public String getType() {
+    return type;
   }
 }

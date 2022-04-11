@@ -40,7 +40,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       medicalEquipmentsList.clear();
 
       while (rset.next()) {
-        String itemID = rset.getString("itemID");
+        String itemID = rset.getString("equipmentID");
         String type = rset.getString("type");
         String status = rset.getString("status");
         String locationNodeID = rset.getString("currentLocation");
@@ -143,7 +143,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       pstnt.setString(1, location.getNodeID());
       ResultSet rset = pstnt.executeQuery();
       while (rset.next()) {
-        String tempItemID = rset.getString("ITEMID");
+        String tempItemID = rset.getString("EQUIPMENTID");
         String tempType = rset.getString("TYPE");
         String tempStatus = rset.getString("STATUS");
         String tempCurrentLocation = rset.getString("CURRENTLOCATION");
@@ -304,6 +304,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    * @return True if successful, false otherwise
    */
   public boolean addMedicalEquipmentFromList(List<MedicalEquipment> list) {
+    updateConnection();
     boolean val = true;
     for (MedicalEquipment info : list) {
       if (!addToDatabase(info)) {

@@ -225,6 +225,7 @@ public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    * @return true if successful, false otherwise
    */
   public boolean addLabRequestFromList(List<LabServiceRequest> list) {
+    updateConnection();
     boolean val = true;
     for (LabServiceRequest request : list) {
       if (!addToDatabase(request)) {

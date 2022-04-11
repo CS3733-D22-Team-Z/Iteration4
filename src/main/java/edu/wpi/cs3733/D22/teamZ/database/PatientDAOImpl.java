@@ -211,6 +211,7 @@ public class PatientDAOImpl implements IPatientDAO {
    * @return True if successful, false otherwise
    */
   public boolean addPatientFromList(List<Patient> list) {
+    updateConnection();
     boolean val = true;
     for (Patient patient : list) {
       if (!addToDatabase(patient)) {

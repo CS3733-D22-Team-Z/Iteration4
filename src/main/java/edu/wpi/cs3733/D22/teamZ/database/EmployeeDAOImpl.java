@@ -245,6 +245,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return true if successful, false otherwise
    */
   public boolean addEmployeeFromList(List<Employee> list) {
+    updateConnection();
     boolean val = true;
     for (Employee info : list) {
       if (!addToDatabase(info)) {

@@ -263,13 +263,14 @@ public class ServiceRequestDAOImpl implements IServiceRequestDAO {
    * @return True if successful, false otherwise
    */
   public boolean addServiceRequestFromList(List<ServiceRequest> list) {
+    updateConnection();
     boolean val = true;
     for (ServiceRequest request : list) {
       if (!addToDatabase(request)) {
         val = false;
       }
     }
-    return true;
+    return val;
   }
 
   /**

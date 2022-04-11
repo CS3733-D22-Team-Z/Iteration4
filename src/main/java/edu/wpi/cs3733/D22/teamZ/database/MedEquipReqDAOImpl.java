@@ -244,6 +244,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return True if successful, false otherwise
    */
   public boolean addMedicalEquipReqFromList(List<MedicalEquipmentDeliveryRequest> list) {
+    updateConnection();
     boolean val = true;
     for (MedicalEquipmentDeliveryRequest request : list) {
       if (!addToDatabase(request)) {

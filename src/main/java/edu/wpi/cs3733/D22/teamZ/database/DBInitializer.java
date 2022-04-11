@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.List;
 
 public class DBInitializer {
-  private String dbType;
   private LocationControlCSV locCSV;
   private EmployeeControlCSV employeeCSV;
   private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
@@ -18,8 +17,6 @@ public class DBInitializer {
   // DatabaseConnection.getConnection();
 
   public DBInitializer() {
-    dbType = "embedded";
-    EnumDatabaseConnection.CONNECTION.setConnection("embedded");
     connection = EnumDatabaseConnection.CONNECTION.getConnection();
     File locData =
         new File(
@@ -352,13 +349,13 @@ public class DBInitializer {
     boolean val = true;
     // reinsert info into new database
     val =
-        !dao.addLocationFromList(tempLocation)
-            && !dao.addEmployeeFromList(tempEmployee)
-            && !dao.addPatientFromList(tempPatient)
-            && !dao.addMedicalEquipmentFromList(tempMedicalEquipment)
-            && !dao.addServiceRequestFromList(tempServiceRequests)
-            && !dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests)
-            && !dao.addLabRequestFromList(tempLabRequest);
+        dao.addLocationFromList(tempLocation)
+            && dao.addEmployeeFromList(tempEmployee)
+            && dao.addPatientFromList(tempPatient)
+            && dao.addMedicalEquipmentFromList(tempMedicalEquipment)
+            && dao.addServiceRequestFromList(tempServiceRequests)
+            && dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests)
+            && dao.addLabRequestFromList(tempLabRequest);
     return val;
   }
 }
