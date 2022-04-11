@@ -25,7 +25,8 @@ public class MedicalEquipment {
    * @param status
    * @param currentLocation
    */
-  public MedicalEquipment(String equipmentID, String type, String status, Location currentLocation) {
+  public MedicalEquipment(
+      String equipmentID, String type, String status, Location currentLocation) {
     this.equipmentID = equipmentID;
     this.type = type;
     this.status = status;

@@ -114,11 +114,11 @@ public class DBInitializer {
 
       stmt.execute(
           "CREATE TABLE MEDICALEQUIPMENT ("
-              + "itemID VARCHAR(15),"
+              + "equipmentID VARCHAR(15),"
               + "type VARCHAR(20),"
               + "status VARCHAR(20) DEFAULT 'Available',"
               + "currentLocation VARCHAR(15),"
-              + "constraint MEDEQUIPMENT_PK Primary Key (itemID),"
+              + "constraint MEDEQUIPMENT_PK Primary Key (equipmentID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
               + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
 
@@ -140,7 +140,7 @@ public class DBInitializer {
               + "equipmentID VARCHAR(15),"
               + "constraint MEDEQUIPREQ_PK Primary Key (requestID),"
               + "constraint MEDEQUIPREQ_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
-              + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(EQUIPMENTID))");
+              + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(equipmentID))");
 
       stmt.execute(
           "CREATE TABLE LABREQUEST ("
