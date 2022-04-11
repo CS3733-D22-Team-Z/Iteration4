@@ -233,6 +233,7 @@ public class LocationDAOImpl implements ILocationDAO {
 
   /**
    * Gets all locations of the given type
+   *
    * @param type type of location
    * @return list of locations of given type
    */
@@ -241,7 +242,7 @@ public class LocationDAOImpl implements ILocationDAO {
     List<Location> tempList = new ArrayList<>();
     try {
       PreparedStatement pstmt =
-              connection.prepareStatement("Select * from LOCATION WHERE NODETYPE = ?");
+          connection.prepareStatement("Select * from LOCATION WHERE NODETYPE = ?");
       pstmt.setString(1, type);
 
       ResultSet rset = pstmt.executeQuery();

@@ -510,10 +510,11 @@ public class FacadeDAO {
   }
   /**
    * Gets all locations of the given type
+   *
    * @param type type of location
    * @return list of locations of the given type
    */
-  public List<Location> getALlLocationsByType(String type){
+  public List<Location> getALlLocationsByType(String type) {
     return locationDAO.getALlLocationsByType(type);
   }
 

@@ -21,7 +21,7 @@ public class LoginPageController implements Initializable {
   @FXML private Label errorLabel;
 
   private FacadeDAO facadeDAO;
-  private String toHomepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
+  private String toHomepageURL = "edu/wpi/cs3733/D22/teamZ/views/Menu.fxml";
 
   /**
    * Initalizes the employee database for the controller
@@ -40,28 +40,7 @@ public class LoginPageController implements Initializable {
    */
   @FXML
   private void loginButtonPressed(ActionEvent event) {
-    /*
-    // Get account from username
-    Employee user = database.getEmployeeByUsername(usernameField.getText());
 
-    // Check if user exists in database
-    if (usernameField.getText().equals(user.getUsername())) {
-      if (passwordField.getText().equals(user.getPassword())) {
-        System.out.println(
-            String.format(
-                "Login successful! User: %s, Password: %s",
-                user.getUsername(), user.getPassword()));
-        enterNormalState();
-        try {
-          loadSuccessScreen(user.getUsername(), event);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    } else {
-      enterErrorState();
-    }
-    */
     if (usernameField.getText().equals("admin") && passwordField.getText().equals("admin")) {
       try {
         loadSuccessScreen(usernameField.getText(), event);
@@ -80,8 +59,8 @@ public class LoginPageController implements Initializable {
   }
 
   public void enterNormalState() {
-    usernameField.setStyle("-fx-border-color: #000000");
-    passwordField.setStyle("-fx-border-color: #000000");
+    usernameField.setStyle("-fx-border-color: #0075ff");
+    passwordField.setStyle("-fx-border-color: #0075ff");
     errorLabel.setVisible(false);
   }
 
