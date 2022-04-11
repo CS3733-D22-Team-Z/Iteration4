@@ -1,77 +1,54 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
-public class MedicineRequest {
-  private String patientName;
-  private int patientID;
-  private String roomNumber;
-  private String medicine;
-  private String status;
-  private String staffAssigned;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 
-  public MedicineRequest() {}
+public class MedicineRequest extends ServiceRequest {
+  private Patient patient;
+  private String medicine;
+
+  private FacadeDAO facadeDAO = new FacadeDAO();
 
   public MedicineRequest(
-      String patientName,
-      int patientID,
-      String roomNumber,
-      String medicine,
-      String status,
-      String staffAssigned) {
-    this.patientName = patientName;
-    this.patientID = patientID;
-    this.roomNumber = roomNumber;
+          String requestID,
+          RequestStatus status,
+          Employee issuer,
+          Employee handler,
+          Location targetLocation,
+          Patient patient,
+          String medicine) {
+    super(requestID, RequestType.MEDIC, status, issuer, handler, targetLocation);
+    this.patient = patient;
     this.medicine = medicine;
-    this.status = status;
-    this.staffAssigned = staffAssigned;
+  }
+
+  public MedicineRequest(
+          String requestID,
+          RequestStatus status,
+          String issuer,
+          String handler,
+          String targetLocation,
+          String patient,
+          String medicine) {
+    super(requestID, RequestType.MEDIC, status, issuer, handler, targetLocation);
+    this.patient = facadeDAO.getPatientByID(patient);
+    this.medicine = medicine;
   }
 
   // GetterFunctions
-  public String getPatientName() {
-    return this.patientName;
-  }
-
-  public int getPatientID() {
-    return this.patientID;
-  }
-
-  public String getRoomNumber() {
-    return this.roomNumber;
+  public Patient getPatient() {
+    return this.patient;
   }
 
   public String getMedicine() {
     return this.medicine;
   }
 
-  public String getStatus() {
-    return status;
-  }
-
-  public String getStaffAssigned() {
-    return this.staffAssigned;
-  }
-
   // SetterFunctions
-  public void setPatientName(String patientName) {
-    this.patientName = patientName;
-  }
-
-  public void setPatientID(int patientID) {
-    this.patientID = patientID;
-  }
-
-  public void setRoomNumber(String roomNumber) {
-    this.roomNumber = roomNumber;
+  public void setPatient(Patient patient) {
+    this.patient = patient;
   }
 
   public void setMedicine(String medicine) {
     this.medicine = medicine;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  public void setStaffAssigned(String staffAssigned) {
-    this.staffAssigned = staffAssigned;
   }
 }
