@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
-import edu.wpi.cs3733.D22.teamZ.database.EmployeeDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 
 public class ServiceRequest {
   protected String requestID;
@@ -12,7 +10,7 @@ public class ServiceRequest {
   protected Employee handler;
   protected Location targetLocation;
 
-  private FacadeDAO facadeDAO = new FacadeDAO();
+  private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   public enum RequestType {
     MEDEQUIP("MEDEQUIP"),

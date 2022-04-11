@@ -6,29 +6,29 @@ public class LaundryServiceRequest extends ServiceRequest {
   private Patient patient;
   private String linenType;
 
-  private FacadeDAO facadeDAO = new FacadeDAO();
+  private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   public LaundryServiceRequest(
-          String requestID,
-          ServiceRequest.RequestStatus status,
-          Employee issuer,
-          Employee handler,
-          Location targetLocation,
-          Patient patient,
-          String linenType) {
+      String requestID,
+      ServiceRequest.RequestStatus status,
+      Employee issuer,
+      Employee handler,
+      Location targetLocation,
+      Patient patient,
+      String linenType) {
     super(requestID, ServiceRequest.RequestType.LAUNDRY, status, issuer, handler, targetLocation);
     this.linenType = linenType;
     this.patient = patient;
   }
 
   public LaundryServiceRequest(
-          String requestID,
-          ServiceRequest.RequestStatus status,
-          String issuer,
-          String handler,
-          String targetLocation,
-          String patient,
-          String linenType) {
+      String requestID,
+      ServiceRequest.RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation,
+      String patient,
+      String linenType) {
     super(requestID, ServiceRequest.RequestType.LAUNDRY, status, issuer, handler, targetLocation);
     this.linenType = linenType;
     this.patient = facadeDAO.getPatientByID(patient);

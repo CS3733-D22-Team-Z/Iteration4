@@ -6,7 +6,7 @@ public class MedicalEquipmentDeliveryRequest extends ServiceRequest {
 
   private String equipmentID;
 
-  FacadeDAO facadeDAO = new FacadeDAO();
+  FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   public MedicalEquipmentDeliveryRequest(
       String requestID,

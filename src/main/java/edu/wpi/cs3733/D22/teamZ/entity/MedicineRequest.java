@@ -6,29 +6,29 @@ public class MedicineRequest extends ServiceRequest {
   private Patient patient;
   private String medicine;
 
-  private FacadeDAO facadeDAO = new FacadeDAO();
+  private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   public MedicineRequest(
-          String requestID,
-          RequestStatus status,
-          Employee issuer,
-          Employee handler,
-          Location targetLocation,
-          Patient patient,
-          String medicine) {
+      String requestID,
+      RequestStatus status,
+      Employee issuer,
+      Employee handler,
+      Location targetLocation,
+      Patient patient,
+      String medicine) {
     super(requestID, RequestType.MEDIC, status, issuer, handler, targetLocation);
     this.patient = patient;
     this.medicine = medicine;
   }
 
   public MedicineRequest(
-          String requestID,
-          RequestStatus status,
-          String issuer,
-          String handler,
-          String targetLocation,
-          String patient,
-          String medicine) {
+      String requestID,
+      RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation,
+      String patient,
+      String medicine) {
     super(requestID, RequestType.MEDIC, status, issuer, handler, targetLocation);
     this.patient = facadeDAO.getPatientByID(patient);
     this.medicine = medicine;

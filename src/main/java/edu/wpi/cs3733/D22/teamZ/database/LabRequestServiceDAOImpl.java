@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
+class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
 
   static Connection connection = DatabaseConnection.getConnection();
   List<LabServiceRequest> returnList = new ArrayList<>();

@@ -6,7 +6,7 @@ public class LanguageInterpreterRequest extends ServiceRequest {
   private Patient patient;
   private String language;
 
-  private FacadeDAO facadeDAO = new FacadeDAO();
+  private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   public LanguageInterpreterRequest(
       String requestID,
@@ -22,13 +22,13 @@ public class LanguageInterpreterRequest extends ServiceRequest {
   }
 
   public LanguageInterpreterRequest(
-          String requestID,
-          RequestStatus status,
-          String issuer,
-          String handler,
-          String targetLocation,
-          String patient,
-          String language) {
+      String requestID,
+      RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation,
+      String patient,
+      String language) {
     super(requestID, RequestType.LANG, status, issuer, handler, targetLocation);
     this.patient = facadeDAO.getPatientByID(patient);
     this.language = language;
