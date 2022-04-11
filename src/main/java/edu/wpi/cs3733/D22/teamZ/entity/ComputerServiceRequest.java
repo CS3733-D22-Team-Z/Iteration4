@@ -5,26 +5,26 @@ public class ComputerServiceRequest extends ServiceRequest {
   private String problemDescription;
 
   public ComputerServiceRequest(
-          String requestID,
-          RequestStatus status,
-          Employee issuer,
-          Employee handler,
-          Location targetLocation,
-          String operatingSystem,
-          String problemDescription) {
+      String requestID,
+      RequestStatus status,
+      Employee issuer,
+      Employee handler,
+      Location targetLocation,
+      String operatingSystem,
+      String problemDescription) {
     super(requestID, RequestType.COMP, status, issuer, handler, targetLocation);
     this.operatingSystem = operatingSystem;
     this.problemDescription = problemDescription;
   }
 
   public ComputerServiceRequest(
-          String requestID,
-          RequestStatus status,
-          String issuer,
-          String handler,
-          String targetLocation,
-          String operatingSystem,
-          String problemDescription) {
+      String requestID,
+      RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation,
+      String operatingSystem,
+      String problemDescription) {
     super(requestID, RequestType.COMP, status, issuer, handler, targetLocation);
     this.operatingSystem = operatingSystem;
     this.problemDescription = problemDescription;

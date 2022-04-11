@@ -44,7 +44,7 @@ public class LabRequestListController implements Initializable, IMenuAccess {
   // loadDataFromDatabase when button loadData is clicked
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
-    facadeDAO = new FacadeDAO();
+    facadeDAO = FacadeDAO.getInstance();
 
     System.out.println("loading data");
     labRequestTable.getItems().clear();

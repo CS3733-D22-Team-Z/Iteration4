@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationDAOImpl implements ILocationDAO {
+class LocationDAOImpl implements ILocationDAO {
 
   private List<Location> locations;
   private LocationControlCSV locCSV;

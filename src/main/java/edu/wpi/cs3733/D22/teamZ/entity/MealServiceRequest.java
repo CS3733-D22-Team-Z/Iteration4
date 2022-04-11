@@ -6,29 +6,29 @@ public class MealServiceRequest extends ServiceRequest {
   private Patient patient;
   private String mealServiceOption;
 
-  private FacadeDAO facadeDAO = new FacadeDAO();
+  private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   public MealServiceRequest(
-          String requestID,
-          ServiceRequest.RequestStatus status,
-          Employee issuer,
-          Employee handler,
-          Location targetLocation,
-          Patient patient,
-          String mealServiceOption) {
+      String requestID,
+      ServiceRequest.RequestStatus status,
+      Employee issuer,
+      Employee handler,
+      Location targetLocation,
+      Patient patient,
+      String mealServiceOption) {
     super(requestID, ServiceRequest.RequestType.MEAL, status, issuer, handler, targetLocation);
     this.patient = patient;
     this.mealServiceOption = mealServiceOption;
   }
 
   public MealServiceRequest(
-          String requestID,
-          ServiceRequest.RequestStatus status,
-          String issuer,
-          String handler,
-          String targetLocation,
-          String patient,
-          String mealServiceOption) {
+      String requestID,
+      ServiceRequest.RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation,
+      String patient,
+      String mealServiceOption) {
     super(requestID, ServiceRequest.RequestType.MEAL, status, issuer, handler, targetLocation);
     this.patient = facadeDAO.getPatientByID(patient);
     this.mealServiceOption = mealServiceOption;
