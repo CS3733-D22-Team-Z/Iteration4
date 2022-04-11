@@ -8,6 +8,7 @@ public class Main {
     DBInitializer init = new DBInitializer();
     init.createTables();
     init.populateLocationTable();
+    // TODO insert populateEmployeeTable here
     init.populateMedicalEquipmentTable();
     init.populateServiceRequestTable();
     init.populateMedicalEquipmentServiceRequestTable();

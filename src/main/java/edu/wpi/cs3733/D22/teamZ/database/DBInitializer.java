@@ -7,15 +7,20 @@ import java.sql.*;
 import java.util.List;
 
 public class DBInitializer {
+  private String dbType;
   private LocationControlCSV locCSV;
   private EmployeeControlCSV employeeCSV;
   private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
   private ServiceRequestControlCSV serviceControlCSV;
   private MedEqReqControlCSV medEqReqControlCSV;
 
-  static Connection connection = DatabaseConnection.getConnection();
+  static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  // DatabaseConnection.getConnection();
 
   public DBInitializer() {
+    dbType = "embedded";
+    EnumDatabaseConnection.CONNECTION.setConnection("embedded");
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
     File locData =
         new File(
             System.getProperty("user.dir")
@@ -67,10 +72,9 @@ public class DBInitializer {
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
     dropExistingTable("MEDEQUIPREQ");
-    dropExistingTable("SERVICEREQUEST");
-    dropExistingTable("LABRESULT");
     dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
+    dropExistingTable("SERVICEREQUEST");
     dropExistingTable("MEDICALEQUIPMENT");
     dropExistingTable("PATIENTS");
     dropExistingTable("EMPLOYEES");
@@ -119,16 +123,6 @@ public class DBInitializer {
               + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
 
       stmt.execute(
-          "CREATE TABLE MEALSERVICE ("
-              + "itemID VARCHAR(50),"
-              + "type VARCHAR(50),"
-              + "status VARCHAR(50) DEFAULT 'Available',"
-              + "currentLocation VARCHAR(15),"
-              + "constraint MEALSERVICE_PK Primary Key (itemID),"
-              + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
-
-      stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
               + "requestID VARCHAR(15),"
               + "type VARCHAR(20),"
@@ -154,6 +148,16 @@ public class DBInitializer {
               + "labType VARCHAR(50),"
               + "constraint LABREQUEST_PK Primary Key (requestID),"
               + "constraint LABREQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID))");
+
+      stmt.execute(
+          "CREATE TABLE MEALSERVICE ("
+              + "itemID VARCHAR(50),"
+              + "type VARCHAR(50),"
+              + "status VARCHAR(50) DEFAULT 'Available',"
+              + "currentLocation VARCHAR(15),"
+              + "constraint MEALSERVICE_PK Primary Key (itemID),"
+              + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
+              + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
@@ -320,5 +324,39 @@ public class DBInitializer {
       return false;
     }
     return true;
+  }
+
+  public boolean switchDatabase(String type) {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+
+    FacadeDAO dao = new FacadeDAO();
+
+    // transfer all stuff to temp lists
+    List<Location> tempLocation = dao.getAllLocations();
+    List<Employee> tempEmployee = dao.getAllEmployees();
+    List<Patient> tempPatient = dao.getAllPatients();
+    List<MedicalEquipment> tempMedicalEquipment = dao.getAllMedicalEquipment();
+    List<ServiceRequest> tempServiceRequests = dao.getAllServiceRequests();
+    List<MedicalEquipmentDeliveryRequest> tempMedicalDeliveryRequests =
+        dao.getAllMedicalEquipmentRequest();
+    List<LabServiceRequest> tempLabRequest = dao.getAllLabServiceRequests();
+
+    // change the connection type
+    EnumDatabaseConnection.CONNECTION.setConnection(type);
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+
+    // drop the tables in order of creation
+    createTables();
+
+    boolean val = true;
+    // reinsert info into new database
+    val = !dao.addLocationFromList(tempLocation) &&
+            !dao.addEmployeeFromList(tempEmployee) &&
+            !dao.addPatientFromList(tempPatient) &&
+            !dao.addMedicalEquipmentFromList(tempMedicalEquipment) &&
+            !dao.addServiceRequestFromList(tempServiceRequests) &&
+            !dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests) &&
+            !dao.addLabRequestFromList(tempLabRequest);
+    return val;
   }
 }

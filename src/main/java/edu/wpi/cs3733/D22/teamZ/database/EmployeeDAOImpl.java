@@ -11,10 +11,12 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
   List<Employee> employees;
   private EmployeeControlCSV empCSV;
 
-  static Connection connection = DatabaseConnection.getConnection();
+  static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  // DatabaseConnection.getConnection();
 
   public EmployeeDAOImpl() {
     employees = new ArrayList<Employee>();
+    updateConnection();
   }
 
   /**
@@ -23,6 +25,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return List of employees
    */
   public List<Employee> getAllEmployees() {
+    updateConnection();
     try {
       PreparedStatement pstmt = connection.prepareStatement("Select * From EMPLOYEES");
       ResultSet rset = pstmt.executeQuery();
@@ -52,6 +55,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByID(String employeeID) {
+    updateConnection();
     Employee emp = new Employee();
     try {
       PreparedStatement pstmt =
@@ -83,6 +87,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByUsername(String employeeUsername) {
+    updateConnection();
     Employee emp = new Employee();
     try {
       PreparedStatement pstmt =
@@ -114,26 +119,13 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return True if successful, false if not
    */
   public boolean addEmployee(Employee emp) {
-    try {
-      PreparedStatement stmt =
-          connection.prepareStatement(
-              "INSERT INTO EMPLOYEES (EMPLOYEEID, NAME, ACCESSTYPE, USERNAME, PASSWORD)"
-                  + "values (?, ?, ?, ?, ?)");
-      stmt.setString(1, emp.getEmployeeID());
-      stmt.setString(2, emp.getName());
-      stmt.setObject(3, emp.getAccesstype());
-      stmt.setString(4, emp.getUsername());
-      stmt.setString(5, emp.getPassword());
-
-      stmt.executeUpdate();
-      connection.commit();
-    } catch (SQLException e) {
-      System.out.println("Statement failed");
-      e.printStackTrace();
-      return false;
+    updateConnection();
+    boolean val = false;
+    if (addToDatabase(emp)) {
+      val = true;
+      employees.add(emp);
     }
-    employees.add(emp);
-    return true;
+    return val;
   }
 
   /**
@@ -143,6 +135,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return True if successful, false if not
    */
   public boolean updateEmployee(Employee emp) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
@@ -169,6 +162,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return True if successful, false if not
    */
   public boolean deleteEmployee(Employee emp) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement("DELETE FROM EMPLOYEES WHERE EmployeeID=?");
@@ -189,6 +183,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return True if successful, false if not
    */
   public boolean exportToEmployeeCSV(File empData) {
+    updateConnection();
 
     empData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(empData);
@@ -205,6 +200,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    */
   @Override
   public int importEmployeesFromCSV(File employeeData) {
+    updateConnection();
     employeeData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(employeeData);
     int conflictCounter = 0;
@@ -235,5 +231,53 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       e.printStackTrace();
     }
     return conflictCounter;
+  }
+
+  /** Updates the connection */
+  private void updateConnection() {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  }
+
+  /**
+   * Inserts employees from a list
+   *
+   * @param list list of employees to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addEmployeeFromList(List<Employee> list) {
+    boolean val = true;
+    for (Employee info : list) {
+      if (!addToDatabase(info)) {
+        val = false;
+      }
+    }
+    return val;
+  }
+
+  /**
+   * Contains the SQL command to insert into DB
+   *
+   * @return True if successful, false otherwise
+   */
+  private boolean addToDatabase(Employee emp) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "INSERT INTO EMPLOYEES (EMPLOYEEID, NAME, ACCESSTYPE, USERNAME, PASSWORD)"
+                  + "values (?, ?, ?, ?, ?)");
+      stmt.setString(1, emp.getEmployeeID());
+      stmt.setString(2, emp.getName());
+      stmt.setObject(3, emp.getAccesstype());
+      stmt.setString(4, emp.getUsername());
+      stmt.setString(5, emp.getPassword());
+
+      stmt.executeUpdate();
+      connection.commit();
+    } catch (SQLException e) {
+      System.out.println("Statement failed");
+      e.printStackTrace();
+      return false;
+    }
+    return true;
   }
 }

@@ -68,6 +68,7 @@ public interface ILocationDAO {
 
   /**
    * Gets all locations of the given type
+   *
    * @param type type of location
    * @return list of locations of the given type
    */
@@ -80,4 +81,12 @@ public interface ILocationDAO {
    * @return True if successful, false if not
    */
   int importLocationFromCSV(File locData);
+
+  /**
+   * Insert locations into the database from given list
+   *
+   * @param list list of locations to be added
+   * @return true if successful, false otherwise
+   */
+  boolean addLocationFromList(List<Location> list);
 }
