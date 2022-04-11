@@ -42,11 +42,14 @@ public class LoginPageController implements Initializable {
   @FXML
   private void loginButtonPressed(ActionEvent event) {
     Employee tryLog = facadeDAO.getEmployeeByUsername(usernameField.getText());
+
     if (tryLog == null || tryLog.getName() == null || tryLog.getName().equals("")) {
       errorLabel.setText("Invalid username. Try again.");
       enterErrorState();
     } else { // theoretically valid username
-      if (tryLog.getPassword().equals(passwordField.getText())) { //edit this line for hashcode eventually
+      if (tryLog
+          .getPassword()
+          .equals(passwordField.getText())) { // edit this line for hashcode eventually
 
         try {
           loadSuccessScreen(usernameField.getText(), event);
@@ -81,20 +84,6 @@ public class LoginPageController implements Initializable {
     Scene scene = new Scene(root);
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     stage.setScene(scene);
-    HomepageController thisController = loader.getController();
     // thisController.setWelcomeMessage(username);
-  }
-
-  @FXML
-  public void skipButtonPressed(ActionEvent event) throws IOException {
-    // Load the default FXML file and set that scene to the main stage.
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(getClass().getClassLoader().getResource(toHomepageURL));
-    Parent root = loader.load();
-    Scene scene = new Scene(root);
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    stage.setScene(scene);
-    HomepageController thisController = loader.getController();
-    // thisController.setWelcomeMessage("Skipped");
   }
 }
