@@ -69,5 +69,4 @@ public interface ILabRequestServiceDAO {
    * @return true if successful, false otherwise
    */
   boolean addLabRequestFromList(List<LabServiceRequest> list);
-
 }

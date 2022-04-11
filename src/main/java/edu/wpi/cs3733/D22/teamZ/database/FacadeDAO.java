@@ -490,14 +490,14 @@ public class FacadeDAO {
     return labRequestServiceDAO.exportToLabRequestCSV(labData);
   }
 
-  //Add from list functions
+  // Add from list functions
   /**
    * Insert locations into the database from given list
    *
    * @param list list of locations to be added
    * @return true if successful, false otherwise
    */
-  public boolean addLocationFromList(List<Location> list){
+  public boolean addLocationFromList(List<Location> list) {
     return locationDAO.addLocationFromList(list);
   }
   /**
@@ -506,7 +506,7 @@ public class FacadeDAO {
    * @param list list of patients that need to be added
    * @return True if successful, false otherwise
    */
-  public boolean addPatientFromList(List<Patient> list){
+  public boolean addPatientFromList(List<Patient> list) {
     return patientDAO.addPatientFromList(list);
   }
   /**
@@ -515,7 +515,7 @@ public class FacadeDAO {
    * @param list list of employees to be added
    * @return true if successful, false otherwise
    */
-  public boolean addEmployeeFromList(List<Employee> list){
+  public boolean addEmployeeFromList(List<Employee> list) {
     return employeeDAO.addEmployeeFromList(list);
   }
   /**
@@ -524,7 +524,7 @@ public class FacadeDAO {
    * @param list list of medical equipment to be added
    * @return True if successful, false otherwise
    */
-  public boolean addMedicalEquipmentFromList(List<MedicalEquipment> list){
+  public boolean addMedicalEquipmentFromList(List<MedicalEquipment> list) {
     return medicalEquipmentDAO.addMedicalEquipmentFromList(list);
   }
   /**
@@ -533,7 +533,7 @@ public class FacadeDAO {
    * @param list list of service requests to be added
    * @return True if successful, false otherwise
    */
-  public boolean addServiceRequestFromList(List<ServiceRequest> list){
+  public boolean addServiceRequestFromList(List<ServiceRequest> list) {
     return serviceRequestDAO.addServiceRequestFromList(list);
   }
   /**
@@ -542,7 +542,7 @@ public class FacadeDAO {
    * @param list list of lab requests to be added
    * @return true if successful, false otherwise
    */
-  public boolean addLabRequestFromList(List<LabServiceRequest> list){
+  public boolean addLabRequestFromList(List<LabServiceRequest> list) {
     return labRequestServiceDAO.addLabRequestFromList(list);
   }
   /**
@@ -551,10 +551,9 @@ public class FacadeDAO {
    * @param list Request to be added
    * @return True if successful, false otherwise
    */
-  public boolean addMedicalEquipmentRequestFromList(List<MedicalEquipmentDeliveryRequest> list){
+  public boolean addMedicalEquipmentRequestFromList(List<MedicalEquipmentDeliveryRequest> list) {
     return medEquipReqDAO.addMedicalEquipReqFromList(list);
   }
-
 
   // Special methods for location
   /**

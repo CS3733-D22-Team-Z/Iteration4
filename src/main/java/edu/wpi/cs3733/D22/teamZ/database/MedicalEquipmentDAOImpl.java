@@ -70,7 +70,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     MedicalEquipment medicalEquipment = new MedicalEquipment(itemID);
     try {
       PreparedStatement pstmt =
-          connection.prepareStatement("Select * From MEDICALEQUIPMENT WHERE itemID = ?");
+          connection.prepareStatement("Select * From MEDICALEQUIPMENT WHERE EQUIPMENTID = ?");
       pstmt.setString(1, itemID);
       ResultSet rset = pstmt.executeQuery();
 
@@ -114,7 +114,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       if (temp != null) {
         pstmt =
             connection.prepareStatement(
-                "UPDATE MEDICALEQUIPMENT SET STATUS = 'In-Use' WHERE ITEMID = ?");
+                "UPDATE MEDICALEQUIPMENT SET STATUS = 'In-Use' WHERE EQUIPMENTID = ?");
         pstmt.setString(1, temp);
         pstmt.executeUpdate();
         return temp;
@@ -193,7 +193,8 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       oldEquipment = getMedicalEquipmentByID(equipment.getEquipmentID());
       PreparedStatement pstmt =
           connection.prepareStatement(
-              "" + "UPDATE MEDICALEQUIPMENT SET status = ?, currentLocation = ? WHERE itemID = ?");
+              ""
+                  + "UPDATE MEDICALEQUIPMENT SET status = ?, currentLocation = ? WHERE EQUIPMENTID = ?");
       pstmt.setString(1, equipment.getStatus());
       pstmt.setString(2, equipment.getCurrentLocation().getNodeID());
       pstmt.setString(3, equipment.getEquipmentID());
@@ -219,7 +220,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     updateConnection();
     try {
       PreparedStatement pstmt =
-          connection.prepareStatement("" + "DELETE FROM MEDICALEQUIPMENT WHERE itemID = ?");
+          connection.prepareStatement("" + "DELETE FROM MEDICALEQUIPMENT WHERE EQUIPMENTID = ?");
       pstmt.setString(1, equipment.getEquipmentID());
 
       pstmt.executeUpdate();
@@ -265,7 +266,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
         for (MedicalEquipment info : tempMedicalEquipment) {
           PreparedStatement pstmt =
               connection.prepareStatement(
-                  "INSERT INTO MEDICALEQUIPMENT (ITEMID, TYPE, STATUS, CURRENTLOCATION) "
+                  "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, TYPE, STATUS, CURRENTLOCATION) "
                       + "values (?, ?, ?, ?)");
           temp = info.getEquipmentID();
           pstmt.setString(1, info.getEquipmentID());
@@ -323,9 +324,9 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       PreparedStatement pstmt =
           connection.prepareStatement(
               ""
-                  + "INSERT INTO MEDICALEQUIPMENT (itemID, type, status, currentLocation)"
+                  + "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, type, status, currentLocation)"
                   + "values (?, ?, ?, ?)");
-      pstmt.setString(1, equipment.getItemID());
+      pstmt.setString(1, equipment.getEquipmentID());
       pstmt.setString(2, equipment.getType());
       pstmt.setString(3, equipment.getStatus());
       pstmt.setString(4, equipment.getCurrentLocation().getNodeID());

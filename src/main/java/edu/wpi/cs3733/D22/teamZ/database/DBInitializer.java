@@ -140,7 +140,7 @@ public class DBInitializer {
               + "equipmentID VARCHAR(15),"
               + "constraint MEDEQUIPREQ_PK Primary Key (requestID),"
               + "constraint MEDEQUIPREQ_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
-              + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(itemID))");
+              + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(EQUIPMENTID))");
 
       stmt.execute(
           "CREATE TABLE LABREQUEST ("
@@ -244,7 +244,7 @@ public class DBInitializer {
       for (MedicalEquipment info : tempMedicalEquipment) {
         PreparedStatement pstmt =
             connection.prepareStatement(
-                "INSERT INTO MEDICALEQUIPMENT (ITEMID, TYPE, STATUS, CURRENTLOCATION) "
+                "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, TYPE, STATUS, CURRENTLOCATION) "
                     + "values (?, ?, ?, ?)");
         pstmt.setString(1, info.getEquipmentID());
         pstmt.setString(2, info.getType());
@@ -348,16 +348,17 @@ public class DBInitializer {
     // drop the tables in order of creation
     createTables();
 
-    //bool checker
+    // bool checker
     boolean val = true;
     // reinsert info into new database
-    val = !dao.addLocationFromList(tempLocation) &&
-            !dao.addEmployeeFromList(tempEmployee) &&
-            !dao.addPatientFromList(tempPatient) &&
-            !dao.addMedicalEquipmentFromList(tempMedicalEquipment) &&
-            !dao.addServiceRequestFromList(tempServiceRequests) &&
-            !dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests) &&
-            !dao.addLabRequestFromList(tempLabRequest);
+    val =
+        !dao.addLocationFromList(tempLocation)
+            && !dao.addEmployeeFromList(tempEmployee)
+            && !dao.addPatientFromList(tempPatient)
+            && !dao.addMedicalEquipmentFromList(tempMedicalEquipment)
+            && !dao.addServiceRequestFromList(tempServiceRequests)
+            && !dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests)
+            && !dao.addLabRequestFromList(tempLabRequest);
     return val;
   }
 }
