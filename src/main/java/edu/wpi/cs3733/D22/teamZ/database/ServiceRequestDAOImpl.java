@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceRequestDAOImpl implements IServiceRequestDAO {
+class ServiceRequestDAOImpl implements IServiceRequestDAO {
   private List<ServiceRequest> serviceRequestList;
   private ServiceRequestControlCSV csvController;
 

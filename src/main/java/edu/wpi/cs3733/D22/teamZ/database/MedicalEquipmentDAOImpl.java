@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
+class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
 
   Connection connection = DatabaseConnection.getConnection();
   List<MedicalEquipment> medicalEquipmentsList;
@@ -171,7 +171,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
               ""
                   + "INSERT INTO MEDICALEQUIPMENT (itemID, type, status, currentLocation)"
                   + "values (?, ?, ?, ?)");
-      pstmt.setString(1, equipment.getItemID());
+      pstmt.setString(1, equipment.getEquipmentID());
       pstmt.setString(2, equipment.getType());
       pstmt.setString(3, equipment.getStatus());
       pstmt.setString(4, equipment.getCurrentLocation().getNodeID());
@@ -195,13 +195,13 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
   public boolean updateMedicalEquipment(MedicalEquipment equipment) {
     MedicalEquipment oldEquipment;
     try {
-      oldEquipment = getMedicalEquipmentByID(equipment.getItemID());
+      oldEquipment = getMedicalEquipmentByID(equipment.getEquipmentID());
       PreparedStatement pstmt =
           connection.prepareStatement(
               "" + "UPDATE MEDICALEQUIPMENT SET status = ?, currentLocation = ? WHERE itemID = ?");
       pstmt.setString(1, equipment.getStatus());
       pstmt.setString(2, equipment.getCurrentLocation().getNodeID());
-      pstmt.setString(3, equipment.getItemID());
+      pstmt.setString(3, equipment.getEquipmentID());
 
       pstmt.executeUpdate();
     } catch (SQLException e) {
@@ -224,7 +224,7 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     try {
       PreparedStatement pstmt =
           connection.prepareStatement("" + "DELETE FROM MEDICALEQUIPMENT WHERE itemID = ?");
-      pstmt.setString(1, equipment.getItemID());
+      pstmt.setString(1, equipment.getEquipmentID());
 
       pstmt.executeUpdate();
     } catch (SQLException e) {
@@ -269,8 +269,8 @@ public class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
               connection.prepareStatement(
                   "INSERT INTO MEDICALEQUIPMENT (ITEMID, TYPE, STATUS, CURRENTLOCATION) "
                       + "values (?, ?, ?, ?)");
-          temp = info.getItemID();
-          pstmt.setString(1, info.getItemID());
+          temp = info.getEquipmentID();
+          pstmt.setString(1, info.getEquipmentID());
           pstmt.setString(2, info.getType());
           pstmt.setString(3, info.getStatus());
           pstmt.setString(4, info.getCurrentLocation().getNodeID());

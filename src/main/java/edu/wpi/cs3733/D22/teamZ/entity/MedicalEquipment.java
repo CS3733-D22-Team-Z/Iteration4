@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 public class MedicalEquipment {
-  private String itemID;
+  private String equipmentID;
   private String type;
   private String status;
   private Location currentLocation;
@@ -9,24 +9,25 @@ public class MedicalEquipment {
   // Constructors
 
   /**
-   * Basic constructor for only MedicalEquipment with itemID
+   * Basic constructor for only MedicalEquipment with equipmentID
    *
-   * @param itemID
+   * @param equipmentID
    */
-  public MedicalEquipment(String itemID) {
-    this.itemID = itemID;
+  public MedicalEquipment(String equipmentID) {
+    this.equipmentID = equipmentID;
   }
 
   /**
    * Full constructor for MedicalEquipment
    *
-   * @param itemID
+   * @param equipmentID
    * @param type
    * @param status
    * @param currentLocation
    */
-  public MedicalEquipment(String itemID, String type, String status, Location currentLocation) {
-    this.itemID = itemID;
+  public MedicalEquipment(
+      String equipmentID, String type, String status, Location currentLocation) {
+    this.equipmentID = equipmentID;
     this.type = type;
     this.status = status;
     this.currentLocation = currentLocation;
@@ -37,8 +38,8 @@ public class MedicalEquipment {
    *
    * @return itemID of MedicalEquipment object
    */
-  public String getItemID() {
-    return itemID;
+  public String getEquipmentID() {
+    return equipmentID;
   }
 
   /**
@@ -93,5 +94,15 @@ public class MedicalEquipment {
    */
   public void setType(String type) {
     this.type = type;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof MedicalEquipment) {
+      MedicalEquipment objectEquipment = (MedicalEquipment) o;
+      return (this.getEquipmentID().equals(objectEquipment.getEquipmentID()));
+    } else {
+      return false;
+    }
   }
 }

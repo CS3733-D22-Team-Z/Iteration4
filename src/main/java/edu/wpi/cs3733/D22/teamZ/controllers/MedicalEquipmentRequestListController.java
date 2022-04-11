@@ -73,7 +73,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   public MedicalEquipmentRequestListController() {
     // Create new database object
-    facadeDAO = new FacadeDAO();
+    facadeDAO = FacadeDAO.getInstance();
 
     // Grab data
     loadRequests();

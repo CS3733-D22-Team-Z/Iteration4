@@ -13,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class MedicalEquipmentRequestController implements IMenuAccess {
-  private FacadeDAO facadeDAO = new FacadeDAO();
+  private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   @FXML private JFXButton backButton;
   @FXML private JFXButton resetButton;
