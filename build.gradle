@@ -14,6 +14,11 @@ repositories {
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
+    maven{
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+    mavenLocal()
+
 }
 
 javafx {
@@ -33,6 +38,11 @@ dependencies {
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
     )
+    implementation 'org.testng:testng:7.1.0'
+    implementation 'org.testng:testng:7.1.0'
+
+    compile group: 'edu.cmu.sphinx', name: 'sphinx4-core', version:'5prealpha-SNAPSHOT'
+    compile group: 'edu.cmu.sphinx', name: 'sphinx4-data', version:'5prealpha-SNAPSHOT'
 
     testCompile(
             "org.testfx:testfx-core:4.0.16-alpha",

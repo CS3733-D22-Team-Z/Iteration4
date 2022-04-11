@@ -30,6 +30,13 @@ public class App extends Application {
     text.setStrokeWidth(0.5);
     Parent root = FXMLLoader.load(App.class.getResource("views/Menu.fxml"));
     Scene scene = new Scene(root);
+    /**
+     * scene.addEventFilter( KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { @Override public
+     * void handle(KeyEvent event) { if (event.getCode() == KeyCode.UP || event.getCode() ==
+     * KeyCode.DOWN || event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.LEFT) {
+     * System.out.println("u"); } else if (event.getCode() == KeyCode.SPACE) { // your code for
+     * shooting the missile } event.consume(); } });*
+     */
     primaryStage.setTitle("Team Z - Brigham and Women's Hospital App");
     primaryStage.getIcons().add(new Image("edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png"));
     primaryStage.setScene(scene);

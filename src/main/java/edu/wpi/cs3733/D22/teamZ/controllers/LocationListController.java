@@ -12,10 +12,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,11 +26,11 @@ import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -39,9 +42,10 @@ import javafx.util.Callback;
 // work?
 
 // LocationController controls Location.fxml, loads location data into a tableView on page
-public class LocationListController {
+public class LocationListController implements IMenuAccess {
 
   // init ui components
+  @FXML private AnchorPane anchorPane;
   @FXML private Pane pane;
   @FXML private Label floorLabel;
   @FXML private Label longnameLabel;
@@ -52,6 +56,7 @@ public class LocationListController {
   @FXML private ImageView map;
   @FXML private Button editLocation;
   @FXML private Button deleteLocation;
+  @FXML private Button someButton;
 
   // Andrew's stuff
   @FXML private TextField selectLocationTextField;
@@ -68,6 +73,12 @@ public class LocationListController {
   @FXML private Pane locationChangeDarkenPane;
   private Location activeLocation;
   private Label activeLabel;
+  @FXML private Button zoomButton;
+  @FXML private ScrollPane scrollPane;
+  @FXML private StackPane stackPane;
+  final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
+  @FXML Group group;
+
   //
 
   // Casey's
@@ -85,6 +96,7 @@ public class LocationListController {
   // text field box to select location to delete
   @FXML private TextField locationToDeleteTextField;
   @FXML private Pane deleteLocationPlane;
+  private MenuController menu;
 
   // Neha's stuff
   // Buttons
@@ -123,6 +135,7 @@ public class LocationListController {
   private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> allLabels = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> equipLabels = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Label> alertLabels = FXCollections.observableList(new ArrayList<>());
 
   // initialize location labels to display on map
   @FXML
@@ -148,6 +161,7 @@ public class LocationListController {
     // floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
 
     // initLabels();
+    scrollPane.setPannable(true);
 
     // showLocations("1");
     changeFloor.getSelectionModel().select(2);
@@ -163,6 +177,87 @@ public class LocationListController {
           // get list of locations from db and transfer into ObservableList
           System.out.println(selectedItem);
           changeToFloor(selectedItem);
+        });
+
+    anchorPane.addEventFilter(
+        KeyEvent.KEY_PRESSED,
+        new EventHandler<KeyEvent>() {
+          @Override
+          public void handle(KeyEvent event) {
+            if (event.getCode() == KeyCode.DOWN) {
+              // zPATI00103,407,223,3,Tower,PATI,Patient Room 3B31,PR3B31
+              System.out.println("Alert Patient Room 3B31");
+              Location location = new Location();
+              location.setFloor("3");
+              location.setLongName("Patient Room 3B31");
+              location.setXcoord(407);
+              location.setYcoord(223);
+              showAlert(location);
+            } else if (event.getCode() == KeyCode.UP) {
+              // zPATI00403,324,122,3,Tower,PATI,Patient Room 3B34,PR3B34
+              System.out.println("Alert Patient Room 3B34");
+              Location location = new Location();
+              location.setFloor("3");
+              location.setLongName("Patient Room 3B34");
+              location.setXcoord(324);
+              location.setYcoord(122);
+              showAlert(location);
+            } else if (event.getCode() == KeyCode.RIGHT) {
+              // zPATI01103,408,354,3,Tower,PATI,Patient Room 3C51,PR3C51
+              System.out.println("Alert Patient Room 3C51");
+              Location location = new Location();
+              location.setFloor("3");
+              location.setLongName("Patient Room 3C51");
+              location.setXcoord(408);
+              location.setYcoord(354);
+              showAlert(location);
+            } else if (event.getCode() == KeyCode.LEFT) {
+              // zPATI01403,332,454,3,Tower,PATI,Patient Room 3C54,PR3C54
+              System.out.println("Alert Patient Room 3C54");
+              Location location = new Location();
+              location.setFloor("3");
+              location.setLongName("Patient Room 3C54");
+              location.setXcoord(332);
+              location.setYcoord(454);
+              showAlert(location);
+            }
+            event.consume();
+          }
+        });
+
+    // zooming neha
+    StackPane zoomPane = new StackPane();
+    zoomPane.getChildren().add(group);
+
+    Group content = new Group(zoomPane);
+    scrollPane.setContent(content);
+
+    group.setScaleX(group.getScaleX() / 1.1);
+    group.setScaleY(group.getScaleY() / 1.1);
+
+    zoomPane.setOnScroll(
+        new EventHandler<ScrollEvent>() {
+          @Override
+          public void handle(ScrollEvent event) {
+            event.consume();
+
+            if (event.getDeltaY() == 0) {
+              return;
+            }
+
+            double scaleFactor = (event.getDeltaY() > 0) ? 1.1 : 1 / 1.1;
+
+            // amount of scrolling in each direction in scrollContent coordinate
+            // units
+            Point2D scrollOffset = figureScrollOffset(content, scrollPane);
+
+            group.setScaleX(group.getScaleX() * scaleFactor);
+            group.setScaleY(group.getScaleY() * scaleFactor);
+
+            // move viewport so that old center remains in the center after the
+            // scaling
+            repositionScroller(content, scrollPane, scaleFactor, scrollOffset);
+          }
         });
 
     // Andrew's stuff
@@ -259,6 +354,13 @@ public class LocationListController {
 
   private void showLocations(String floor) {
     pane.getChildren().clear();
+
+    pane.getChildren()
+        .addAll(
+            alertLabels.filtered(
+                label -> {
+                  return changeFloor.getSelectionModel().getSelectedItem().toString().equals("3");
+                }));
 
     pane.getChildren()
         .addAll(
@@ -581,6 +683,7 @@ public class LocationListController {
 
         labelEquip.relocate(current.getXcoord() - 8, current.getYcoord() - 8);
         equipLabels.add(labelEquip);
+
         System.out.println("adding a label");
 
         labelEquip.setOnMouseClicked(
@@ -874,4 +977,71 @@ public class LocationListController {
 
     return dict;
   }
+
+  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    double hScrollProportion =
+        (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
+    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    double vScrollProportion =
+        (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
+    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
+    return new Point2D(scrollXOffset, scrollYOffset);
+  }
+
+  private void repositionScroller(
+      Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
+    double scrollXOffset = scrollOffset.getX();
+    double scrollYOffset = scrollOffset.getY();
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    if (extraWidth > 0) {
+      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
+      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
+      scroller.setHvalue(
+          scroller.getHmin()
+              + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    if (extraHeight > 0) {
+      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
+      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
+      scroller.setVvalue(
+          scroller.getVmin()
+              + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
+  public void showAlert(Location location) {
+    Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/alert.png");
+    ImageView locationIcon = new ImageView(locationImg);
+    DropShadow dropShadow = new DropShadow();
+    dropShadow.setRadius(5.0);
+    dropShadow.setOffsetX(3.0);
+    dropShadow.setOffsetY(3.0);
+    dropShadow.setColor(Color.GRAY);
+    // create the label
+    Label label = new Label();
+    label.setEffect(dropShadow);
+    label.setGraphic(locationIcon);
+    label.relocate(location.getXcoord() + 20, location.getYcoord() + 20);
+    // pane.getChildren().add(label);
+    alertLabels.add(label);
+  }
+
+  // do some actions
+
 }
