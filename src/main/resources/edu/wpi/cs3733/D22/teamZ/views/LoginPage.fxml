@@ -22,6 +22,6 @@
       <MFXTextField fx:id="usernameField" floatMode="DISABLED" layoutX="180.0" layoutY="235.0" prefHeight="0.0" prefWidth="238.0" promptText="Username" style="-fx-border-color: #0075ff;" />
       <MFXPasswordField fx:id="passwordField" floatMode="DISABLED" layoutX="180.0" layoutY="274.0" prefHeight="38.0" prefWidth="238.0" promptText="Password" style="-fx-border-color: #0075ff;" />
       <MFXButton fx:id="loginButton" layoutX="261.0" layoutY="331.0" onAction="#loginButtonPressed" prefHeight="26.0" prefWidth="76.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Login" textFill="WHITE" />
-      <Label layoutX="174.0" layoutY="368.0" text="Invalid Username or Password. Please try again." textFill="RED" visible="false" />
+      <Label fx:id="errorLabel" layoutX="174.0" layoutY="368.0" text="Invalid Username or Password. Please try again." textFill="RED" visible="false" />
    </children>
 </AnchorPane>

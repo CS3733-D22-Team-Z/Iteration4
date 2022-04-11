@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,15 +41,23 @@ public class LoginPageController implements Initializable {
    */
   @FXML
   private void loginButtonPressed(ActionEvent event) {
-
-    if (usernameField.getText().equals("admin") && passwordField.getText().equals("admin")) {
-      try {
-        loadSuccessScreen(usernameField.getText(), event);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    } else {
+    Employee tryLog = facadeDAO.getEmployeeByUsername(usernameField.getText());
+    if (tryLog == null || tryLog.getName() == null || tryLog.getName().equals("")) {
+      errorLabel.setText("Invalid username. Try again.");
       enterErrorState();
+    } else { // theoretically valid username
+      if (tryLog.getPassword().equals(passwordField.getText())) { //edit this line for hashcode eventually
+
+        try {
+          loadSuccessScreen(usernameField.getText(), event);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+
+      } else {
+        errorLabel.setText("Invalid password for this username. Try again.");
+        enterErrorState();
+      }
     }
   }
 
