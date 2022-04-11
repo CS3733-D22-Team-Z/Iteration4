@@ -19,6 +19,12 @@ public class Draggable {
     this.location = location;
   }
 
+  /**
+   * Makes something draggable
+   *
+   * @param node
+   * @return void
+   */
   public void makeDraggable(Node node) {
     node.setOnMousePressed(
         mouseEvent -> {
@@ -31,7 +37,7 @@ public class Draggable {
           node.setTranslateX(mouseEvent.getSceneX() - mouseAnchorX);
           node.setTranslateY(mouseEvent.getSceneY() - mouseAnchorY);
 
-          if (!(location == null)) {
+          if (!(location == null)) { // updates location X and Y coord
             location.setXcoord((int) mouseEvent.getSceneX());
             location.setYcoord((int) mouseEvent.getSceneY());
             facadeDAO.updateLocation(location);
