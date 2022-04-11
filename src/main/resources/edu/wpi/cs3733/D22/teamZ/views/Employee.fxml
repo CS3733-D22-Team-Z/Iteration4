@@ -23,7 +23,7 @@
             <TableColumn fx:id="usernameColumn" prefWidth="100.0" text="Username" />
         </columns>
       </TableView>
-      <MFXButton buttonType="RAISED" layoutX="475.0" layoutY="75.0" onAction="#exportToCSV" prefHeight="28.0" prefWidth="98.0" text="Export to CSV">
+      <MFXButton buttonType="RAISED" layoutX="464.0" layoutY="75.0" onAction="#exportToCSV" prefHeight="28.0" prefWidth="118.0" text="Export to CSV">
          <font>
             <Font size="12.0" />
          </font>
@@ -33,22 +33,22 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </MFXButton>
-      <MFXButton layoutX="475.0" layoutY="29.0" onAction="#refresh" prefHeight="28.0" prefWidth="98.0" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Refresh" textFill="WHITE">
+      <MFXButton layoutX="464.0" layoutY="29.0" onAction="#refresh" prefHeight="28.0" prefWidth="118.0" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Refresh" textFill="WHITE">
          <font>
             <Font size="12.0" />
          </font>
       </MFXButton>
-      <MFXButton layoutX="468.0" layoutY="255.0" onAction="#addEmployee" prefHeight="28.0" prefWidth="112.0" style="-fx-background-color: #0075ff;" text="Add Employee" textFill="WHITE">
+      <MFXButton layoutX="462.0" layoutY="255.0" onAction="#addEmployee" prefHeight="28.0" prefWidth="118.0" style="-fx-background-color: #0075ff;" text="Add Employee" textFill="WHITE">
          <font>
             <Font size="12.0" />
          </font>
       </MFXButton>
-      <MFXButton fx:id="editEmp" layoutX="468.0" layoutY="293.0" onAction="#editEmployee" prefHeight="28.0" prefWidth="112.0" style="-fx-background-color: #0075ff;" text="Edit Employee" textFill="WHITE">
+      <MFXButton fx:id="editEmp" layoutX="462.0" layoutY="293.0" onAction="#editEmployee" prefHeight="28.0" prefWidth="118.0" style="-fx-background-color: #0075ff;" text="Edit Employee" textFill="WHITE">
          <font>
             <Font size="12.0" />
          </font>
       </MFXButton>
-      <MFXButton fx:id="deleteEmp" layoutX="468.0" layoutY="331.0" onAction="#deleteEmployee" prefHeight="28.0" prefWidth="112.0" style="-fx-background-color: #0075ff;" text="Delete Employee" textFill="WHITE">
+      <MFXButton fx:id="deleteEmp" layoutX="462.0" layoutY="331.0" onAction="#deleteEmployee" prefHeight="28.0" prefWidth="118.0" style="-fx-background-color: #0075ff;" text="Delete Employee" textFill="WHITE">
          <font>
             <Font size="12.0" />
          </font>
@@ -107,7 +107,7 @@
             <DropShadow />
          </effect>
       </Pane>
-      <MFXButton buttonType="RAISED" layoutX="475.0" layoutY="122.0" prefHeight="28.0" prefWidth="98.0" text="Import to CSV">
+      <MFXButton buttonType="RAISED" layoutX="465.0" layoutY="122.0" onAction="#importFromCSV" prefHeight="28.0" prefWidth="118.0" text="Import from CSV">
          <font>
             <Font size="12.0" />
          </font>

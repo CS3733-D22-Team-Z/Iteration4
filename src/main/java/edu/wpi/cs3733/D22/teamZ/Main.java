@@ -9,9 +9,9 @@ public class Main {
     init.createTables();
     init.populateLocationTable();
     init.populateMedicalEquipmentTable();
+    init.populateEmployeeTable();
     init.populateServiceRequestTable();
     init.populateMedicalEquipmentServiceRequestTable();
-    init.populateEmployeeTable();
     App.launch(App.class, args);
   }
 }
