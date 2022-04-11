@@ -9,23 +9,26 @@ import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /** The controller for the Menu FXML. */
 public class MenuController implements Initializable {
+  @FXML SplitPane rootElement;
   @FXML Pane contentPane;
   @FXML Button exitButton;
   @FXML VBox menuContainer;
@@ -43,6 +46,19 @@ public class MenuController implements Initializable {
     "M3,3v8h8V3H3z M9,9H5V5h4V9z M3,13v8h8v-8H3z M9,19H5v-4h4V19z M13,3v8h8V3H13z M19,9h-4V5h4V9z M13,13v8h8v-8H13z M19,19h-4v-4h4V19z",
     "M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM20.1 3H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9zM19 19H5V5h14v14z"
   };
+
+  // FXMLS
+  @FXML private Label pageLabel;
+
+  // String that holds the pageLabel's text
+  private SimpleStringProperty currentPage;
+
+  // Current scale of the content window
+  private Scale scale;
+
+  // Ratios for scaling
+  double ratioYtoX;
+  double ratioY;
 
   // CSS line to set text fill
   private String textCSSLine = "-fx-text-fill: %s;";
@@ -66,6 +82,7 @@ public class MenuController implements Initializable {
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   public MenuController() {
+    currentPage = new SimpleStringProperty();
     rscLoader = getClass().getClassLoader();
   }
 
@@ -76,6 +93,11 @@ public class MenuController implements Initializable {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    pageLabel.textProperty().bind(currentPage);
+
+    scale = new Scale();
+    contentPane.getTransforms().setAll(scale);
 
     // Initialize icons
     for (int i = 0; i < iconContainer.getChildren().size(); i++) {
@@ -110,6 +132,13 @@ public class MenuController implements Initializable {
     // Initialize labels too
     timeLabel.setText(timeFormatA.format(LocalDateTime.now()));
     dateLabel.setText(dateFormat.format(LocalDateTime.now()));
+
+    // Setup resizing
+    ratioYtoX = 400.0 / 600.0;
+    ratioY = 1.0 / 437.0;
+    rootElement
+        .heightProperty()
+        .addListener((obs, oldVal, newVal) -> scaleContent((Double) newVal));
   }
 
   /**
@@ -131,6 +160,9 @@ public class MenuController implements Initializable {
     // Set the menu controller of controller
     IMenuAccess cont = loader.getController();
     cont.setMenuController(this);
+    if (cont instanceof ServiceRequestController) {
+      currentPage.set(((ServiceRequestController) cont).menuName);
+    }
     return cont;
   }
 
@@ -156,36 +188,14 @@ public class MenuController implements Initializable {
     newGraphic.setStyle(String.format(svgCSSLine, blue));
   }
 
-  /**
-   * Re-color a given image with a new color.
-   *
-   * @param source the image to be colored
-   * @param color the color to color the image with
-   * @return the image colored in the specified color
-   */
-  private Image recolorImage(Image source, Color color) {
-    // Stackoverflow code
-    int w = (int) source.getWidth();
-    int h = (int) source.getHeight();
-
-    final WritableImage outputImage = new WritableImage(w, h);
-    final PixelWriter writer = outputImage.getPixelWriter();
-    final PixelReader reader = source.getPixelReader();
-    for (int y = 0; y < h; y++) {
-      for (int x = 0; x < w; x++) {
-        // Keeping the opacity of every pixel as it is.
-        writer.setColor(
-            x,
-            y,
-            new Color(
-                color.getRed(),
-                color.getGreen(),
-                color.getBlue(),
-                reader.getColor(x, y).getOpacity()));
-      }
-    }
-
-    return outputImage;
+  /** Scale the content pane based on new resolution */
+  private void scaleContent(double height) {
+    double y = height * ratioY;
+    if (y < 1) y = 1;
+    scale.setY(y);
+    scale.setX(y);
+    contentPane.setPrefHeight(y * 400);
+    contentPane.setPrefWidth(y * 600);
   }
 
   @FXML

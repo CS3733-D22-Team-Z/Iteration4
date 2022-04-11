@@ -8,10 +8,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LanguageInterpreterController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LanguageInterpreterController">
     <children>
         <Label id="FormLabel" layoutX="16.0" layoutY="57.0" prefHeight="17.0" prefWidth="224.0" styleClass="object-header" text="Language Interpreter Request Form" />
-        <MFXButton id="LanguageBackButton" layoutX="15.0" layoutY="22.0" onAction="#navDefault" text=" Back to dashboard" />
+        <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="15.0" layoutY="22.0" onAction="#onBackButtonClicked" text=" Back to dashboard" />
         <Label layoutX="16.0" layoutY="74.0" prefHeight="17.0" prefWidth="211.0" styleClass="object-body" text="Enter the fields below to request a language interpreter." />
         <Label layoutX="16.0" layoutY="153.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
         <MFXTextField floatMode="DISABLED" layoutX="15.0" layoutY="171.0" prefWidth="149.0" promptText="Enter patient ID" />
@@ -20,7 +20,7 @@
         <Label layoutX="16.0" layoutY="268.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Language" />
         <Label layoutX="16.0" layoutY="97.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
         <MFXTextField floatMode="DISABLED" layoutX="15.0" layoutY="115.0" prefWidth="149.0" promptText="Enter patient name" />
-        <MFXButton layoutX="15.0" layoutY="342.0" prefWidth="111.0" text="Submit" />
+        <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="342.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="64.0" text="Submit" />
         <Label layoutX="15.0" layoutY="210.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
         <MFXTextField floatMode="DISABLED" layoutX="14.0" layoutY="228.0" prefWidth="149.0" promptText="Enter room number" />
         <Label layoutX="268.0" layoutY="97.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Status" />
@@ -29,5 +29,6 @@
         <MFXTextField floatMode="DISABLED" layoutX="268.0" layoutY="171.0" prefWidth="149.0" />
         <MFXLegacyListView layoutX="265.0" layoutY="228.0" prefHeight="122.0" prefWidth="191.0" />
         <Label layoutX="270.0" layoutY="210.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
+      <MFXButton fx:id="resetButton" layoutX="100.0" layoutY="342.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="64.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
     </children>
 </AnchorPane>

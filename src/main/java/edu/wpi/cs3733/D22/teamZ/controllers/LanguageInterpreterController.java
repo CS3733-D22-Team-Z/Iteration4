@@ -1,24 +1,25 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 
-public class LanguageInterpreterController implements IMenuAccess {
-
-  private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
-
-  private MenuController menu;
+public class LanguageInterpreterController extends ServiceRequestController {
 
   @Override
-  public void setMenuController(MenuController menu) {
-    this.menu = menu;
+  public void initialize(URL location, ResourceBundle resources) {
+    menuName = "Language Interpreter Request";
   }
 
-  // navDefault: navigates back to default page when back button is pressed
-  @FXML
-  public void navDefault(ActionEvent event) throws IOException {
-    System.out.println("navigating to default from language interpreter");
-    menu.load(toLandingPageURL);
+  @Override
+  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
+    // Add submitting functionality here!
+  }
+
+  @Override
+  protected void onResetButtonClicked(ActionEvent event) throws IOException {
+    // Reset fields here!
   }
 }

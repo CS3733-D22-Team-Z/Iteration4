@@ -3,17 +3,13 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyListView?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LaundryServiceController">
     <children>
-        <MFXButton id="backButton" layoutX="14.0" layoutY="12.0" onAction="#navDefault" prefHeight="28.0" prefWidth="142.0" text="Back to Dashboard" />
         <Text layoutX="16.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="object-header" text="Laundry Service Request Form" />
         <Label layoutX="14.0" layoutY="78.0" prefHeight="17.0" prefWidth="211.0" styleClass="object-body" text="Enter the fields below to request laundry service." />
         <Label layoutX="14.0" layoutY="101.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
@@ -24,12 +20,14 @@
         <MFXTextField floatMode="DISABLED" layoutX="15.0" layoutY="232.0" prefWidth="149.0" promptText="Enter room number" />
         <Label layoutX="15.0" layoutY="268.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Linen Type" />
         <ChoiceBox layoutX="17.0" layoutY="291.0" prefHeight="25.0" prefWidth="149.0" />
-        <MFXButton layoutX="16.0" layoutY="337.0" prefHeight="28.0" prefWidth="73.0" text="Submit" />
         <Label layoutX="266.0" layoutY="92.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Status" />
         <ChoiceBox layoutX="268.0" layoutY="113.0" prefHeight="25.0" prefWidth="149.0" />
         <Label layoutX="268.0" layoutY="148.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Staff Assigned" />
         <MFXTextField floatMode="DISABLED" layoutX="268.0" layoutY="171.0" prefWidth="149.0" />
         <MFXLegacyListView layoutX="265.0" layoutY="228.0" prefHeight="122.0" prefWidth="191.0" />
         <Label layoutX="268.0" layoutY="205.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
+      <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="17.0" layoutY="11.0" onAction="#onBackButtonClicked" text=" Back to dashboard" />
+      <MFXButton fx:id="submitButton" layoutX="17.0" layoutY="331.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="64.0" text="Submit" />
+      <MFXButton fx:id="resetButton" layoutX="102.0" layoutY="331.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="64.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
     </children>
 </AnchorPane>

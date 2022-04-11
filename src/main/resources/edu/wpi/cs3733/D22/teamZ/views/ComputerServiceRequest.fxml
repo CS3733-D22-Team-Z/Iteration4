@@ -11,14 +11,12 @@
     <children>
         <Label layoutX="15.0" layoutY="50.0" styleClass="object-header" text="Computer Service Request Page" />
         <MFXTextField fx:id="roomNumberField" floatMode="DISABLED" layoutX="15.0" layoutY="115.0" prefWidth="149.0" />
-        <MFXButton id="backButton" fx:id="backButton" layoutX="15.0" layoutY="9.0" onAction="#backToDashboard" text="Back to Dashboard" />
         <Label layoutX="15.0" layoutY="67.0" prefHeight="17.0" prefWidth="211.0" styleClass="object-body" text="Enter the fields below to request computer service." />
         <Label layoutX="15.0" layoutY="90.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Employee Name" />
         <Label layoutX="15.0" layoutY="146.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Employee ID" />
         <MFXTextField fx:id="roomNumberField1" floatMode="DISABLED" layoutX="15.0" layoutY="170.0" prefWidth="149.0" />
         <Label layoutX="14.0" layoutY="203.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Operating System" />
         <ChoiceBox layoutX="15.0" layoutY="227.0" prefHeight="25.0" prefWidth="149.0" />
-        <MFXButton layoutX="15.0" layoutY="362.0" prefWidth="111.0" text="Submit" />
         <Label layoutX="15.0" layoutY="261.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Description of problem" />
         <MFXTextField fx:id="roomNumberField11" layoutX="15.0" layoutY="286.0" prefHeight="58.0" prefWidth="220.0" />
         <Label layoutX="267.0" layoutY="90.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Status" />
@@ -27,5 +25,8 @@
         <MFXTextField floatMode="DISABLED" layoutX="268.0" layoutY="171.0" prefWidth="149.0" />
         <MFXLegacyListView layoutX="265.0" layoutY="228.0" prefHeight="122.0" prefWidth="191.0" />
         <Label layoutX="269.0" layoutY="203.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
+      <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="15.0" layoutY="14.0" onAction="#onBackButtonClicked" text=" Back to dashboard" />
+      <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="358.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="64.0" text="Submit" />
+      <MFXButton fx:id="resetButton" layoutX="100.0" layoutY="358.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="64.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
     </children>
 </AnchorPane>
