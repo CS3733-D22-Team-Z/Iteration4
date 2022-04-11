@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.EmployeeDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 
 public class ServiceRequest {
@@ -11,8 +12,7 @@ public class ServiceRequest {
   protected Employee handler;
   protected Location targetLocation;
 
-  private EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
-  private LocationDAOImpl locationDAO = new LocationDAOImpl();
+  private FacadeDAO facadeDAO = new FacadeDAO();
 
   public enum RequestType {
     MEDEQUIP("MEDEQUIP"),
@@ -142,10 +142,10 @@ public class ServiceRequest {
       String targetLocation) {
     this.requestID = requestID;
     this.type = type;
-    this.targetLocation = locationDAO.getLocationByID(targetLocation);
+    this.targetLocation = facadeDAO.getLocationByID(targetLocation);
     this.status = status;
-    this.issuer = employeeDAO.getEmployeeByID(issuer);
-    this.handler = employeeDAO.getEmployeeByID(handler);
+    this.issuer = facadeDAO.getEmployeeByID(issuer);
+    this.handler = facadeDAO.getEmployeeByID(handler);
   }
 
   /**
