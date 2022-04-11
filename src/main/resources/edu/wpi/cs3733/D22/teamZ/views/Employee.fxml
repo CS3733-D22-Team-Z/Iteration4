@@ -15,11 +15,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.EmployeeController">
    <children>
-      <TableView fx:id="employeeTable" layoutX="32.0" layoutY="75.0" onMouseClicked="#buttonsAppear" prefHeight="284.0" prefWidth="402.0">
+      <TableView fx:id="employeeTable" layoutX="32.0" layoutY="75.0" onMouseClicked="#buttonsAppear" prefHeight="284.0" prefWidth="400.0">
         <columns>
-          <TableColumn fx:id="IDColumn" prefWidth="134.0" text="ID" />
-            <TableColumn fx:id="nameColumn" prefWidth="134.0" text="Name" />
-            <TableColumn fx:id="accessColumn" prefWidth="134.0" text="Access Type" />
+          <TableColumn fx:id="IDColumn" prefWidth="100.0" text="ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="100.0" text="Name" />
+            <TableColumn fx:id="accessColumn" prefWidth="100.0" text="Access Type" />
+            <TableColumn fx:id="usernameColumn" prefWidth="100.0" text="Username" />
         </columns>
       </TableView>
       <MFXButton buttonType="RAISED" layoutX="475.0" layoutY="75.0" onAction="#exportToCSV" prefHeight="28.0" prefWidth="98.0" text="Export to CSV">
@@ -65,12 +66,12 @@
                   <Font size="12.0" />
                </font>
             </Text>
-            <MFXTextField fx:id="addEmployeeID" alignment="BOTTOM_LEFT" borderGap="1.0" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="14.0" layoutY="94.0" measureUnitGap="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="147.0" promptText="Enter Employee ID">
+            <MFXTextField fx:id="addEmployeeUsername" alignment="BOTTOM_LEFT" borderGap="1.0" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="14.0" layoutY="94.0" measureUnitGap="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="147.0" promptText="Enter Employee Username">
                <font>
                   <Font size="10.0" />
                </font>
             </MFXTextField>
-            <Text fill="#9d9d9d" layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  Employee ID" wrappingWidth="108.7158203125">
+            <Text fill="#9d9d9d" layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  Employee Username" wrappingWidth="129.0">
                <font>
                   <Font size="12.0" />
                </font>

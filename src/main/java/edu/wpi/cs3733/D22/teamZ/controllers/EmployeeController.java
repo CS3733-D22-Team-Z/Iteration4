@@ -7,6 +7,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,9 +37,10 @@ public class EmployeeController implements IMenuAccess, Initializable {
   @FXML private TableColumn<Employee, String> IDColumn;
   @FXML private TableColumn<Employee, String> nameColumn;
   @FXML private TableColumn<Employee, Employee.AccessType> accessColumn;
+  @FXML private TableColumn<Employee, String> usernameColumn;
   @FXML private Pane addEmployeePane;
   @FXML private MFXTextField addEmployeeName;
-  @FXML private MFXTextField addEmployeeID;
+  @FXML private MFXTextField addEmployeeUsername;
   @FXML private ChoiceBox addEmployeeAccessType;
   @FXML private Text fillFields;
   @FXML private Text editFields;
@@ -65,6 +67,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
     nameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("name"));
     accessColumn.setCellValueFactory(
         new PropertyValueFactory<Employee, Employee.AccessType>("accesstype"));
+    usernameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("username"));
     data = FXCollections.observableList(facadeDAO.getAllEmployees());
     employeeTable.setItems(data);
   }
@@ -99,7 +102,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
 
   public void addEmployee(ActionEvent actionEvent) throws IOException {
     addEmployeeName.clear();
-    addEmployeeID.clear();
+    addEmployeeUsername.clear();
     addEmployeeAccessType.setValue(null);
     fillFields.setVisible(false);
     editFields.setText("Add Employee");
@@ -108,13 +111,14 @@ public class EmployeeController implements IMenuAccess, Initializable {
 
   public void submitNewEmployee(ActionEvent actionEvent) throws IOException {
     if (!addEmployeeName.getText().equals("")
-        && !addEmployeeID.getText().equals("")
+        && !addEmployeeUsername.getText().equals("")
         && !(addEmployeeAccessType.getValue() == null)) {
       if (editFields.getText().equals("Add Employee")) {
-        addEmployee();
+        newID(addEmployeeAccessType.getValue().toString());
       } else {
+        String employeeID = employeeTable.getSelectionModel().getSelectedItem().getEmployeeID();
         facadeDAO.deleteEmployee(employeeTable.getSelectionModel().getSelectedItem());
-        addEmployee();
+        addEmployee(employeeID);
         addEmployeePane.setVisible(false);
         editEmp.setDisable(true);
         deleteEmp.setDisable(true);
@@ -125,18 +129,18 @@ public class EmployeeController implements IMenuAccess, Initializable {
     }
   }
 
-  public boolean addEmployee() {
+  public boolean addEmployee(String employeeID) {
     Employee temp = new Employee();
     temp.setName(addEmployeeName.getText());
-    temp.setEmployeeID(addEmployeeID.getText());
+    temp.setUsername(addEmployeeUsername.getText());
     temp.setAccesstype(
         Employee.AccessType.getRequestTypeByString(addEmployeeAccessType.getValue().toString()));
-    temp.setUsername(addEmployeeID.getText());
+    temp.setEmployeeID(employeeID);
     temp.setPassword("password");
     if (facadeDAO.addEmployee(temp)) {
       createTable();
       addEmployeeName.clear();
-      addEmployeeID.clear();
+      addEmployeeUsername.clear();
       addEmployeeAccessType.setValue(null);
       fillFields.setVisible(false);
       return true;
@@ -144,9 +148,20 @@ public class EmployeeController implements IMenuAccess, Initializable {
     return false;
   }
 
+  public void newID(String AccessType) {
+    String ID = AccessType.toLowerCase();
+    Random rand = new Random();
+    int int_random = rand.nextInt(10);
+    ID += int_random;
+    while (!addEmployee(ID)) {
+      int_random = rand.nextInt(10);
+      ID += int_random;
+    }
+  }
+
   public void clearNewEmployee(ActionEvent actionEvent) throws IOException {
     addEmployeeName.clear();
-    addEmployeeID.clear();
+    addEmployeeUsername.clear();
     addEmployeeAccessType.setValue(null);
   }
 
@@ -154,7 +169,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
     editFields.setText("Edit Location");
     Employee temp = employeeTable.getSelectionModel().getSelectedItem();
     addEmployeeName.setText(temp.getName());
-    addEmployeeID.setText(temp.getEmployeeID());
+    addEmployeeUsername.setText(temp.getUsername());
     addEmployeeAccessType.setValue(temp.getAccesstype());
     fillFields.setVisible(false);
     addEmployeePane.setVisible(true);
@@ -173,7 +188,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   public void closeAddEmployee(MouseEvent mouseEvent) {
     addEmployeePane.setVisible(false);
     addEmployeeName.clear();
-    addEmployeeID.clear();
+    addEmployeeUsername.clear();
     addEmployeeAccessType.setValue(null);
     fillFields.setVisible(false);
   }
