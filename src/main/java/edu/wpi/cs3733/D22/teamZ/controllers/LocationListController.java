@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.Draggable;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.File;
@@ -295,6 +296,8 @@ public class LocationListController {
   private void displayLocationInformation() {
 
     activeLabel.requestFocus();
+    Draggable drag = new Draggable(activeLocation);
+    drag.makeDraggable(activeLabel);
     activeLabel.setScaleX(2);
     activeLabel.setScaleY(2);
     // update labels to correct info
