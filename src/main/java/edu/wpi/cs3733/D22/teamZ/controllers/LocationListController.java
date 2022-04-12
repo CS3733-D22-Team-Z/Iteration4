@@ -19,9 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -431,60 +429,6 @@ public class LocationListController implements IMenuAccess {
     return false;
   }
 
-  // when locations menu button is clicked navigate to locations page
-  @FXML
-  private void toLocations(ActionEvent event) throws IOException {
-    System.out.println("navigating to locations from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLocationsURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
-  // when landing page menu button is clicked navigate to landing page
-  @FXML
-  private void toLandingPage(ActionEvent event) throws IOException {
-    System.out.println("navigating to landing page from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLandingPageURL));
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
-    primaryStage.show();
-  }
-
-  // when medical equipment request button is clicked on menu navigate to medical equipment request
-  // page
-  @FXML
-  private void toMedicalEquipmentRequest(ActionEvent event) throws IOException {
-    System.out.println("navigating to Medical Equipment Request page from home");
-    Parent root =
-        FXMLLoader.load(getClass().getClassLoader().getResource(toMedicalEquipmentRequestURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
-  // when home button on menu is clicked navigate to home page
-  @FXML
-  private void toHome(ActionEvent event) throws IOException {
-    System.out.println("navigating to home using home button on sidebar");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomeURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
-  // when exit button is clicked on menu exit application
-  @FXML
-  private void toExit(ActionEvent event) {
-    System.out.println("exit the app using exit button bottom left");
-    Stage stage = (Stage) exitButton.getScene().getWindow();
-    stage.close();
-  }
-
   // Andrew's Stuff
   /**
    * Will update location data in database given text inputs on app
@@ -642,14 +586,32 @@ public class LocationListController implements IMenuAccess {
       Location current = totalLocations.get(i);
 
       MapLabel label =
-          new MapLabel(
-              new MapLabel.mapLabelBuilder()
-                  .location(current)
-                  .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current)));
+          new MapLabel.mapLabelBuilder()
+              .location(current)
+              .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
+              .build();
       // .requests(facadeDAO.getAllServiceRequestsByLocation(current)));
       // stylize label icon
-      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
-      ImageView locationIcon = new ImageView(locationImg);
+      Image locationImg;
+      ImageView locationIcon = null;
+
+      switch (radioGroup.getSelectedToggle().getUserData().toString()) {
+        case "Locations":
+          locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
+          locationIcon = new ImageView(locationImg);
+          break;
+        case "Equipment":
+          locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
+          locationIcon = new ImageView(locationImg);
+          break;
+        case "Service Requests":
+          locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/servicerequest.png");
+          locationIcon = new ImageView(locationImg);
+          break;
+        default:
+          System.out.println("hopefully not");
+          break;
+      }
 
       DropShadow dropShadow = new DropShadow();
       dropShadow.setRadius(5.0);

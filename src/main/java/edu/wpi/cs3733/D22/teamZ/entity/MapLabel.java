@@ -18,6 +18,7 @@ public class MapLabel extends Label {
   private List<MedicalEquipment> equip;
   private List<Employee> employee;
   private List<ServiceRequest> reqs;
+  private Label label;
   // etc
 
   public MapLabel(mapLabelBuilder b) {
@@ -28,11 +29,7 @@ public class MapLabel extends Label {
     createLabel();
   }
 
-  private void createLabel() {
-    locationLabel();
-  }
-
-  private void locationLabel() {}
+  private void createLabel() {}
 
   public boolean isOnFloor(String floor) {
     return location.getFloor().equalsIgnoreCase(floor);
@@ -47,9 +44,15 @@ public class MapLabel extends Label {
     private List<MedicalEquipment> equip = null;
     private List<Employee> employee = null;
     private List<ServiceRequest> reqs = null;
+    private Label label;
 
     public mapLabelBuilder location(Location loc) {
       location = loc;
+      return this;
+    }
+
+    public mapLabelBuilder label(Label label) {
+      this.label = label;
       return this;
     }
 

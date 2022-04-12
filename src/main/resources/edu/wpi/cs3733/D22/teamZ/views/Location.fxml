@@ -2,10 +2,12 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.ColorAdjust?>
@@ -19,16 +21,53 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="864.0" prefWidth="1218.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<AnchorPane prefHeight="864.0" prefWidth="1218.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
-      <ImageView fx:id="map" fitHeight="850.0" fitWidth="1153.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/1.png" />
-         </image>
-      </ImageView>
-      <Pane fx:id="pane" prefHeight="850.0" prefWidth="1021.0" />
+      <Label layoutX="1106.0" layoutY="432.0" text="Disable Zoom" visible="false" />
+      <ScrollPane fx:id="scrollPane" layoutY="-3.0" prefHeight="856.0" prefWidth="1022.0">
+         <content>
+            <Group fx:id="group">
+               <children>
+                  <ImageView fx:id="map" fitHeight="850.0" fitWidth="1153.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/1.png" />
+                     </image>
+                  </ImageView>
+                  <Pane fx:id="pane" layoutY="3.0" prefHeight="850.0" prefWidth="1021.0" />
+               </children>
+            </Group>
+         </content>
+      </ScrollPane>
       <VBox layoutX="1017.0" layoutY="579.0" prefHeight="285.0" prefWidth="205.0">
          <children>
+            <Label fx:id="floorLabel" prefHeight="41.0" prefWidth="199.0" text="Floor" textFill="#7b7b7b">
+               <padding>
+                  <Insets bottom="10.0" left="20.0" top="10.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label fx:id="longnameLabel" contentDisplay="CENTER" prefHeight="41.0" prefWidth="207.0" text="Longname" textFill="#7b7b7b" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" top="10.0" />
+               </padding></Label>
+            <Label prefHeight="17.0" prefWidth="100.0" text="xCoord" textFill="#7b7b7b" fx:id="xCoordLabel">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" top="10.0" />
+               </padding></Label>
+            <Label fx:id="yCoordLabel" prefHeight="17.0" prefWidth="100.0" text="yCoord" textFill="#7b7b7b">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" top="10.0" />
+               </padding></Label>
             <Button fx:id="editLocation" disable="true" mnemonicParsing="false" onAction="#editLocationButtonClicked" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: #0075FF; -fx-background-radius: 5;" text="Edit Location" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="10.0" left="20.0" top="10.0" />
@@ -115,8 +154,7 @@
             </Button>
          </children>
       </VBox>
-      <VBox layoutX="-5.0" layoutY="-10.0" prefHeight="872.0" prefWidth="221.0" style="-fx-background-color: #FFFFFF;" />
-      <TextField fx:id="searchField" layoutX="227.0" layoutY="11.0" onKeyTyped="#search" prefHeight="51.0" prefWidth="415.0" promptText="Search..." style="-fx-background-radius: 10; -fx-background-color: #FFFFFF;">
+      <TextField fx:id="searchField" layoutX="6.0" layoutY="11.0" onKeyTyped="#search" prefHeight="51.0" prefWidth="415.0" promptText="Search..." style="-fx-background-radius: 10; -fx-background-color: #FFFFFF;">
          <font>
             <Font size="19.0" />
          </font>
@@ -384,18 +422,18 @@
             <DropShadow />
          </effect>
       </Pane>
-      <MFXRadioButton fx:id="locRadio" layoutX="1277.0" layoutY="391.0" selected="true" text="Locations">
+      <MFXRadioButton fx:id="locRadio" layoutX="1044.0" layoutY="391.0" selected="true" text="Locations">
          <effect>
             <ColorAdjust hue="-0.25" />
          </effect>
          <toggleGroup>
             <ToggleGroup fx:id="radioGroup" />
          </toggleGroup></MFXRadioButton>
-      <MFXRadioButton fx:id="equipRadio" layoutX="1277.0" layoutY="417.0" text="Equipment" toggleGroup="$radioGroup">
+      <MFXRadioButton fx:id="equipRadio" layoutX="1044.0" layoutY="416.0" text="Equipment" toggleGroup="$radioGroup">
          <effect>
             <ColorAdjust hue="-0.25" />
          </effect></MFXRadioButton>
-      <MFXRadioButton fx:id="servRadio" layoutX="1277.0" layoutY="442.0" text="Service Requests" toggleGroup="$radioGroup">
+      <MFXRadioButton fx:id="servRadio" layoutX="1045.0" layoutY="443.0" text="Service Requests" toggleGroup="$radioGroup">
          <effect>
             <ColorAdjust hue="-0.25" />
          </effect></MFXRadioButton>

@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ;
 
-import java.awt.*;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -8,7 +7,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -49,7 +51,7 @@ public class App extends Application {
     primaryStage.setMinHeight(392); // initial size. doesnt work if less so ignore lol.
     primaryStage.setMinWidth(745);
 
-    initialHeight = primaryStage.getHeight();
+    /* initialHeight = primaryStage.getHeight();
     initialWidth = primaryStage.getWidth();
     initialRatio = initialHeight / initialWidth;
 
@@ -59,18 +61,11 @@ public class App extends Application {
     sizeChangeListener =
         (ChangeListener<Number>)
             (observable, oldValue, newValue) -> {
-              // System.out.println("old:" + oldValue + " new:" + newValue);
-              float scaleY = (float) (primaryStage.getHeight() / initialHeight);
-              float scaleX = (float) (primaryStage.getWidth() / initialWidth);
-              if (initialStates == null) {
-                initialStates = root.getTransforms();
-              }
-              root.getTransforms().setAll(initialStates);
-
-              root.getTransforms().add(new Scale(scaleX, scaleY, 0, 0));
+              onSizeChange(root, primaryStage);
             };
+
     primaryStage.heightProperty().addListener(sizeChangeListener);
-    primaryStage.widthProperty().addListener(sizeChangeListener);
+    primaryStage.widthProperty().addListener(sizeChangeListener);*/
   }
 
   @Override
@@ -80,5 +75,29 @@ public class App extends Application {
     // locDAO.exportToLocationCSV();
     // reqDAO.exportToMedEquipReqCSV();
     log.info("Shutting Down");
+  }
+
+  public void onSizeChange(Parent root, Stage primaryStage) {
+    boolean hack = true;
+    try {
+      Label tryCast =
+          (Label)
+              ((Pane) ((Pane) ((SplitPane) root).getItems().get(1)).getChildren().get(0))
+                  .getChildren()
+                  .get(0);
+      hack = !tryCast.getText().equalsIgnoreCase("disable zoom");
+    } catch (ClassCastException ignored) {
+    }
+    if (hack) {
+      // System.out.println("old:" + oldValue + " new:" + newValue);
+      float scaleY = (float) (primaryStage.getHeight() / initialHeight);
+      float scaleX = (float) (primaryStage.getWidth() / initialWidth);
+      if (initialStates == null) {
+        initialStates = root.getTransforms();
+      }
+      root.getTransforms().setAll(initialStates);
+
+      root.getTransforms().add(new Scale(scaleX, scaleY, 0, 0));
+    }
   }
 }
