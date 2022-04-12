@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.github.sarxos.webcam.Webcam;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.sun.java.accessibility.util.SwingEventMonitor;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -29,6 +31,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
+//import javafx.swing.SwingFXUtils;
+import javafx.embed.swing.SwingFXUtils;
+
+
 //import javax.swing.text.html.ImageView;
 //import javafx.embed.swing.SwingFXUtils;
 
@@ -43,15 +49,26 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import static com.sun.javafx.tk.quantum.PerformanceLogger.getStartTime;
+
 public class CCTVSelectionController implements Initializable {
 
     @FXML    Button btnStartCamera;
     @FXML    Button btnStopCamera;
     @FXML    Button btnDisposeCamera;
+    @FXML    Button backButton;
     @FXML    ComboBox<WebCamInfo> cbCameraOptions;
     @FXML    BorderPane bpWebCamPaneHolder;
     @FXML    FlowPane fpBottomPane;
     @FXML    ImageView imgWebCamCapturedImage;
+
+    private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+
+    private MenuController menu;
+
+    public void toLandingPage(ActionEvent event) throws IOException {
+        menu.load(toLandingPageURL);
+    }
 
     private class WebCamInfo {
 
@@ -169,26 +186,27 @@ public class CCTVSelectionController implements Initializable {
 
                 while (!stopCamera) {
                     try {
-//                        if ((grabbedImage = selWebCam.getImage()) != null) {
-//
-//                            Platform.runLater(new Runnable() {
-//
-//                                @Override
-//                                public void run() {
+                        if ((grabbedImage = selWebCam.getImage()) != null) {
+
+                            Platform.runLater(new Runnable() {
+
+                                @Override
+                                public void run() {
 //                                    final Image mainimage = SwingFXUtils.toFXImage(grabbedImage, null);
 //                                    imageProperty.set(mainimage);
-//                                }
-//                            });
-//
-//                            grabbedImage.flush();
-//
-//                        }
+                                    imageProperty.
+                                }
+                            });
 
-                        FileChooser fileChooser = new FileChooser();
-                        File imageFile = fileChooser.showOpenDialog(new Stage());
-                        BufferedImage bufferedImage = ImageIO.read(imageFile);
-                        imageProperty.set(bufferedImage);
+                            grabbedImage.flush();
 
+                        }
+
+//                        FileChooser fileChooser = new FileChooser();
+//                        File imageFile = fileChooser.showOpenDialog(new Stage());
+//                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+//                        imageProperty.set(bufferedImage);
+//
 //                        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 //                        currentlySelectedUser.messagesList.add(new MessageViewModel("", getCurrentTime(), false, true, image));
 //                        messagesListView.scrollTo(currentlySelectedUser.messagesList.size());
