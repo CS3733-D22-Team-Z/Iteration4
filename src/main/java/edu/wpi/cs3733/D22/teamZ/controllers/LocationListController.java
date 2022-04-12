@@ -1003,13 +1003,19 @@ public class LocationListController {
 
   @FXML
   public void showAlertPane(ActionEvent Event) {
+    locationChangeDarkenPane.setVisible(true);
+    locationChangeDarkenPane.setDisable(false);
     alertPane.setVisible(true);
+    alertPane.setDisable(false);
     selectAlertLocation.setText(activeLocation.getNodeID());
     submitAlert.setOnAction(
         (e) -> {
           createAlert(
               selectAlertChoice.getSelectionModel().getSelectedItem().toString(), activeLocation);
           alertPane.setVisible(false);
+          locationChangeDarkenPane.setVisible(false);
+          locationChangeDarkenPane.setDisable(true);
+          alertPane.setDisable(true);
         });
   }
 
@@ -1112,12 +1118,22 @@ public class LocationListController {
     dropShadow.setOffsetY(3.0);
     dropShadow.setColor(Color.GRAY);
 
+    ContextMenu contextMenu = new ContextMenu();
+    MenuItem menuItem1 = new MenuItem("Resolve alert");
+
     // create the label
     Label label = new Label();
     label.setEffect(dropShadow);
     label.setGraphic(locationIcon);
     label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
+    label.setContextMenu(contextMenu);
     alertLabels.add(label);
+    contextMenu.getItems().add(menuItem1);
+    menuItem1.setOnAction(
+        (e) -> {
+          alertLabels.remove(label);
+          refreshMap(location.getFloor());
+        });
     alert.setGraphic(icon);
     label.setOnMouseClicked(
         (e) -> {
