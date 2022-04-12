@@ -21,6 +21,7 @@
 
 <AnchorPane prefHeight="864.0" prefWidth="1218.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
+      <Label layoutX="1106.0" layoutY="432.0" text="Disable Zoom" visible="false" />
       <ScrollPane fx:id="scrollPane" layoutY="-3.0" prefHeight="856.0" prefWidth="1022.0">
          <content>
             <Group fx:id="group">
