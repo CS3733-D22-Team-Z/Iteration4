@@ -51,7 +51,7 @@ public class App extends Application {
     primaryStage.setMinHeight(392); // initial size. doesnt work if less so ignore lol.
     primaryStage.setMinWidth(745);
 
-    /* initialHeight = primaryStage.getHeight();
+    initialHeight = primaryStage.getHeight();
     initialWidth = primaryStage.getWidth();
     initialRatio = initialHeight / initialWidth;
 
@@ -65,7 +65,7 @@ public class App extends Application {
             };
 
     primaryStage.heightProperty().addListener(sizeChangeListener);
-    primaryStage.widthProperty().addListener(sizeChangeListener);*/
+    primaryStage.widthProperty().addListener(sizeChangeListener);
   }
 
   @Override

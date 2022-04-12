@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import io.github.palexdev.materialfx.controls.MFXRadioButton;
+import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -20,12 +21,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -45,23 +49,27 @@ import javafx.util.Callback;
 // LocationController controls Location.fxml, loads location data into a tableView on page
 public class LocationListController implements IMenuAccess {
 
+  @FXML private AnchorPane rightPane;
+  @FXML private SplitPane splitPane;
+  @FXML private Group group;
+  @FXML private ScrollPane scrollPane;
   MenuController menu;
   // init ui components
-  @FXML private Pane pane;
+  @FXML private AnchorPane pane;
   @FXML private Label floorLabel;
   @FXML private Label longnameLabel;
   @FXML private Label xCoordLabel;
   @FXML private Label yCoordLabel;
   @FXML private Button exitButton;
-  @FXML private ChoiceBox<String> changeFloor;
+  @FXML private MFXLegacyComboBox<String> changeFloor;
   @FXML private ImageView map;
   @FXML private Button editLocation;
   @FXML private Button deleteLocation;
 
   // Andrew's stuff
   @FXML private TextField selectLocationTextField;
-  @FXML private ChoiceBox<String> typeChoiceTextField;
-  @FXML private ChoiceBox<String> floorChoiceTextField;
+  @FXML private MFXLegacyComboBox<String> typeChoiceTextField;
+  @FXML private MFXLegacyComboBox<String> floorChoiceTextField;
   @FXML private TextField changeNumberTextField;
   @FXML private TextField changeNameTextField;
   @FXML private TextField abbreviationTextField;
@@ -99,8 +107,8 @@ public class LocationListController implements IMenuAccess {
   // text fields
   @FXML private TextField xCoordTextField;
   @FXML private TextField yCoordTextField;
-  @FXML private ChoiceBox<String> locationTypeField;
-  @FXML private ChoiceBox<String> floorField;
+  @FXML private MFXLegacyComboBox<String> locationTypeField;
+  @FXML private MFXLegacyComboBox<String> floorField;
   @FXML private TextField locationNameTextField;
   @FXML private TextField nameAbbreviationTextField;
   // pane
@@ -134,6 +142,43 @@ public class LocationListController implements IMenuAccess {
   // initialize location labels to display on map
   @FXML
   private void initialize() {
+    rightPane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.23));
+    pane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.75));
+
+    StackPane zoomPane = new StackPane();
+    zoomPane.getChildren().add(group);
+
+    Group content = new Group(zoomPane);
+    scrollPane.setContent(content);
+
+    // group.setScaleX(group.getScaleX() / 1.1);
+    // group.setScaleY(group.getScaleY() / 1.1);
+
+    zoomPane.setOnScroll(
+        new EventHandler<ScrollEvent>() {
+          @Override
+          public void handle(ScrollEvent event) {
+            event.consume();
+
+            if (event.getDeltaY() == 0) {
+              return;
+            }
+
+            double scaleFactor = (event.getDeltaY() > 0) ? 1.1 : 1 / 1.1;
+
+            // amount of scrolling in each direction in scrollContent coordinate
+            // units
+            Point2D scrollOffset = figureScrollOffset(content, scrollPane);
+
+            group.setScaleX(group.getScaleX() * scaleFactor);
+            group.setScaleY(group.getScaleY() * scaleFactor);
+
+            // move viewport so that old center remains in the center after the
+            // scaling
+            repositionScroller(content, scrollPane, scaleFactor, scrollOffset);
+          }
+        });
+
     System.out.println("loading labels");
 
     changeFloor.getItems().add("L2");
@@ -326,8 +371,8 @@ public class LocationListController implements IMenuAccess {
     this.displayResult.remove(5, this.displayResult.size());
 
     // Daniel's Stuff
-    deleteLocationPlane.setVisible(false);
-    deleteLocationPlane.setDisable(true);
+    //    deleteLocationPlane.setVisible(false);
+    //   deleteLocationPlane.setDisable(true);
 
     locRadio.setToggleGroup(radioGroup);
     locRadio.setUserData("Locations");
@@ -965,4 +1010,46 @@ public class LocationListController implements IMenuAccess {
         break;
     }
   }*/
+
+  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    double hScrollProportion =
+        (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
+    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    double vScrollProportion =
+        (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
+    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
+    return new Point2D(scrollXOffset, scrollYOffset);
+  }
+
+  private void repositionScroller(
+      Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
+    double scrollXOffset = scrollOffset.getX();
+    double scrollYOffset = scrollOffset.getY();
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    if (extraWidth > 0) {
+      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
+      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
+      scroller.setHvalue(
+          scroller.getHmin()
+              + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    if (extraHeight > 0) {
+      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
+      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
+      scroller.setVvalue(
+          scroller.getVmin()
+              + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+  }
 }
