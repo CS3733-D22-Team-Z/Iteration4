@@ -85,6 +85,7 @@ public class MenuController implements Initializable {
     contentPane.setScaleY(scaleY);
   }
 
+
   /**
    * Highlights the selected menu item
    *
