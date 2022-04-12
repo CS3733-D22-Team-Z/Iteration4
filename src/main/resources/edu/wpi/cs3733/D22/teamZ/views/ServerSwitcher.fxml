@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ServerSwitcherController">
+   <children>
+      <Label fx:id="currentDatabaseLabel" alignment="TOP_LEFT" layoutX="18.0" layoutY="167.0" prefHeight="49.0" prefWidth="470.0" text="You are currently using the embedded database" wrapText="true">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="155.0" fitWidth="482.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Brigham-Womens-Hospital.jpg" />
+         </image>
+      </ImageView>
+      <MFXButton fx:id="SwitchServerButton" buttonType="RAISED" layoutX="14.0" layoutY="236.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="97.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="Switch Server">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </MFXButton>
+      <Label fx:id="switchServerLabel" layoutX="18.0" layoutY="200.0" text="Press the button to switch to a client server database" textFill="#9d9d9d" />
+   </children>
+</AnchorPane>

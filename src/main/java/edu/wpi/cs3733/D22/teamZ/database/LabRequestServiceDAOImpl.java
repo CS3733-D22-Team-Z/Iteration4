@@ -13,8 +13,9 @@ import java.util.List;
 
 class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
 
-  static Connection connection = DatabaseConnection.getConnection();
-  List<LabServiceRequest> returnList = new ArrayList<>();
+  static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  // DatabaseConnection.getConnection();
+  private List<LabServiceRequest> returnList = new ArrayList<>();
   private LabRequestControlCSV reqCSV;
 
   /**
@@ -25,6 +26,7 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public List<LabServiceRequest> getAllLabServiceRequests() {
+    updateConnection();
     LabServiceRequest temp;
     returnList.clear();
 
@@ -71,8 +73,8 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public LabServiceRequest getLabRequestByID(String requestID) {
+    updateConnection();
     IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
-
     try {
       PreparedStatement pstmt =
           connection.prepareStatement("SELECT * FROM LABREQUEST WHERE 'REQUESTID' = ?");
@@ -110,23 +112,13 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public boolean addLabRequest(LabServiceRequest request) {
-
-    IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
-    // requestDAO.addServiceRequest(request);
-
-    try {
-      PreparedStatement stmt =
-          connection.prepareStatement("INSERT INTO LABREQUEST (REQUESTID, LABTYPE) values (?, ?)");
-      stmt.setString(1, request.getRequestID());
-      stmt.setString(2, request.getLabType());
-
-      stmt.executeUpdate();
-      connection.commit();
-    } catch (SQLException e) {
-      System.out.println("add lab request statement failed");
-      return false;
+    updateConnection();
+    boolean val = false;
+    if (addToDatabase(request)) {
+      val = true;
+      returnList.add(request);
     }
-    return true;
+    return val;
   }
 
   /**
@@ -137,6 +129,7 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public boolean updateLabRequest(LabServiceRequest req) {
+    updateConnection();
     // TODO implement updateLabRequest
     return false;
   }
@@ -149,6 +142,7 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public boolean deleteLabRequest(LabServiceRequest req) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement("DELETE FROM LABREQUEST WHERE REQUESTID=?");
@@ -170,6 +164,7 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public boolean exportToLabRequestCSV(File reqData) {
+    updateConnection();
     reqCSV = new LabRequestControlCSV(reqData);
 
     reqCSV.writeLabRequestCSV(returnList);
@@ -184,6 +179,7 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public int importLabRequestFromCSV(File data) {
+    updateConnection();
     reqCSV = new LabRequestControlCSV(data);
     int conflictCounter = 0;
     String temp = "";
@@ -215,5 +211,49 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
       System.out.println("Failed to populate Lab Equipment Request table");
     }
     return conflictCounter;
+  }
+
+  /** Updates the connection */
+  private void updateConnection() {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  }
+
+  /**
+   * Inserts lab requests into database from given list
+   *
+   * @param list list of lab requests to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addLabRequestFromList(List<LabServiceRequest> list) {
+    updateConnection();
+    boolean val = true;
+    for (LabServiceRequest request : list) {
+      if (!addToDatabase(request)) {
+        val = false;
+      }
+    }
+    return val;
+  }
+
+  /**
+   * Contains the SQL command for inserting to database
+   *
+   * @param request request to be inserted
+   * @return True if successful, false otherwise
+   */
+  private boolean addToDatabase(LabServiceRequest request) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement("INSERT INTO LABREQUEST (REQUESTID, LABTYPE) values (?, ?)");
+      stmt.setString(1, request.getRequestID());
+      stmt.setString(2, request.getLabType());
+
+      stmt.executeUpdate();
+      connection.commit();
+    } catch (SQLException e) {
+      System.out.println("add lab request statement failed");
+      return false;
+    }
+    return true;
   }
 }

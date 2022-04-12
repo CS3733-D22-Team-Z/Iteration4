@@ -61,4 +61,12 @@ public interface ILabRequestServiceDAO {
    * @return True if successful, false otherwise
    */
   int importLabRequestFromCSV(File data);
+
+  /**
+   * Inserts lab requests into database from given list
+   *
+   * @param list list of lab requests to be added
+   * @return true if successful, false otherwise
+   */
+  boolean addLabRequestFromList(List<LabServiceRequest> list);
 }
