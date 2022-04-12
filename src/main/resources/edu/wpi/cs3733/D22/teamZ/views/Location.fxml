@@ -449,12 +449,12 @@
          <graphic>
             <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-14.0">
                <image>
-                  <Image url="@../images/addLocation.png" />
+                  <Image url="@../images/addAlert.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Pane fx:id="alertPane" layoutX="616.0" layoutY="556.0" prefHeight="276.0" prefWidth="384.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: F6F6F6; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;">
+      <Pane fx:id="alertPane" layoutX="616.0" layoutY="556.0" prefHeight="276.0" prefWidth="384.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: F6F6F6; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;" visible="false">
          <children>
             <Text layoutX="28.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Alert">
                <font>

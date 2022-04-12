@@ -603,6 +603,11 @@ public class LocationListController {
     // floorLocations.remove(0, floorLocations.size());
     // floorLocations.addAll(totalLocations.filtered(loc ->
     // loc.getFloor().equalsIgnoreCase(nFloor)));
+    if (!nFloor.equals("1")) {
+      arrowGIF1.setVisible(false);
+      arrowGIF2.setVisible(false);
+      arrowGIF3.setVisible(false);
+    }
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + nFloor + ".png"));
     showLocations(nFloor);
   }
