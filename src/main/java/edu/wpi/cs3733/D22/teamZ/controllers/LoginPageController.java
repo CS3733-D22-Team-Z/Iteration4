@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +22,7 @@ public class LoginPageController implements Initializable {
   @FXML private Label errorLabel;
 
   private FacadeDAO facadeDAO;
-  private String toHomepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
+  private String toHomepageURL = "edu/wpi/cs3733/D22/teamZ/views/Menu.fxml";
 
   /**
    * Initalizes the employee database for the controller
@@ -40,36 +41,26 @@ public class LoginPageController implements Initializable {
    */
   @FXML
   private void loginButtonPressed(ActionEvent event) {
-    /*
-    // Get account from username
-    Employee user = database.getEmployeeByUsername(usernameField.getText());
+    Employee tryLog = facadeDAO.getEmployeeByUsername(usernameField.getText());
 
-    // Check if user exists in database
-    if (usernameField.getText().equals(user.getUsername())) {
-      if (passwordField.getText().equals(user.getPassword())) {
-        System.out.println(
-            String.format(
-                "Login successful! User: %s, Password: %s",
-                user.getUsername(), user.getPassword()));
-        enterNormalState();
+    if (tryLog == null || tryLog.getName() == null || tryLog.getName().equals("")) {
+      errorLabel.setText("Invalid username. Try again.");
+      enterErrorState();
+    } else { // theoretically valid username
+      if (tryLog
+          .getPassword()
+          .equals(passwordField.getText())) { // edit this line for hashcode eventually
+
         try {
-          loadSuccessScreen(user.getUsername(), event);
-        } catch (Exception e) {
+          loadSuccessScreen(usernameField.getText(), event);
+        } catch (IOException e) {
           e.printStackTrace();
         }
+
+      } else {
+        errorLabel.setText("Invalid password for this username. Try again.");
+        enterErrorState();
       }
-    } else {
-      enterErrorState();
-    }
-    */
-    if (usernameField.getText().equals("admin") && passwordField.getText().equals("admin")) {
-      try {
-        loadSuccessScreen(usernameField.getText(), event);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    } else {
-      enterErrorState();
     }
   }
 
@@ -80,8 +71,8 @@ public class LoginPageController implements Initializable {
   }
 
   public void enterNormalState() {
-    usernameField.setStyle("-fx-border-color: #000000");
-    passwordField.setStyle("-fx-border-color: #000000");
+    usernameField.setStyle("-fx-border-color: #0075ff");
+    passwordField.setStyle("-fx-border-color: #0075ff");
     errorLabel.setVisible(false);
   }
 
@@ -93,20 +84,6 @@ public class LoginPageController implements Initializable {
     Scene scene = new Scene(root);
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     stage.setScene(scene);
-    HomepageController thisController = loader.getController();
     // thisController.setWelcomeMessage(username);
-  }
-
-  @FXML
-  public void skipButtonPressed(ActionEvent event) throws IOException {
-    // Load the default FXML file and set that scene to the main stage.
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(getClass().getClassLoader().getResource(toHomepageURL));
-    Parent root = loader.load();
-    Scene scene = new Scene(root);
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    stage.setScene(scene);
-    HomepageController thisController = loader.getController();
-    // thisController.setWelcomeMessage("Skipped");
   }
 }
