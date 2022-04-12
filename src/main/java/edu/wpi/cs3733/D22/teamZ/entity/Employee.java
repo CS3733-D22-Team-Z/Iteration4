@@ -109,4 +109,14 @@ public class Employee implements ISearchable {
   public void setPassword(String password) {
     this.password = password;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Employee) {
+      Employee objectEmployee = (Employee) o;
+      return (this.getEmployeeID().equals(objectEmployee.getEmployeeID()));
+    } else {
+      return false;
+    }
+  }
 }

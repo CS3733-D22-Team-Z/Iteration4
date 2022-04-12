@@ -133,4 +133,14 @@ public class Location implements ISearchable {
             + floor;
     return newNodeID;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Location) {
+      Location objectLocation = (Location) o;
+      return (this.getNodeID().equals(objectLocation.getNodeID()));
+    } else {
+      return false;
+    }
+  }
 }

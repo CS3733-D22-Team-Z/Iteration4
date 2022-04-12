@@ -32,7 +32,7 @@ public class LoginPageController implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    facadeDAO = new FacadeDAO();
+    facadeDAO = FacadeDAO.getInstance();
   }
 
   /**

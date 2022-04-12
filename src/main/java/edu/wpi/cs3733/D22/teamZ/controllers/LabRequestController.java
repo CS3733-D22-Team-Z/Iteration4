@@ -1,28 +1,23 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.database.IServiceRequestDAO;
-import edu.wpi.cs3733.D22.teamZ.database.ServiceRequestDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
 
-public class LabRequestController implements IMenuAccess {
+public class LabRequestController extends ServiceRequestController {
 
-  @FXML private Button backButton;
-  @FXML private JFXButton navigateToLabRequests;
-  @FXML private JFXButton submitButton;
-  @FXML private JFXButton resetButton;
+  @FXML private MFXButton navigateToLabRequests;
   @FXML private ChoiceBox<String> labTypeChoiceBox;
   @FXML private TextField patientNameField;
   @FXML private TextField patientIdField;
@@ -32,23 +27,12 @@ public class LabRequestController implements IMenuAccess {
   @FXML private Label successfulSubmitLabel;
   @FXML private Rectangle warningBackground;
 
-  private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private final String toLabServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/LabRequestList.fxml";
 
-  private FacadeDAO facadeDAO;
-
-  private MenuController menu;
-
-  @Override
-  public void setMenuController(MenuController menu) {
-    this.menu = menu;
-  }
-
   @FXML
-  public void initialize() {
-
-    facadeDAO = new FacadeDAO();
+  public void initialize(URL location, ResourceBundle resources) {
+    menuName = "Lab Request";
 
     labTypeChoiceBox.setItems(
         FXCollections.observableArrayList(
@@ -70,23 +54,18 @@ public class LabRequestController implements IMenuAccess {
   }
 
   @FXML
-  public void onBackButtonClicked(ActionEvent event) throws IOException {
-    menu.load(toLandingPageURL);
-  }
-
-  @FXML
   private void toLabServiceRequestList(ActionEvent event) throws IOException {
     menu.load(toLabServiceRequestURL);
   }
 
   @FXML
-  public void onSubmitButtonClicked(ActionEvent event) throws SQLException {
-    IServiceRequestDAO serviceRequestDAO = new ServiceRequestDAOImpl();
-    List<ServiceRequest> serviceRequestList = serviceRequestDAO.getAllServiceRequests();
+  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
+    // IServiceRequestDAO serviceRequestDAO = new ServiceRequestDAOImpl();
+    List<ServiceRequest> serviceRequestList = database.getAllServiceRequests();
     int id;
     // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (serviceRequestDAO.getAllServiceRequests().isEmpty()) {
+    if (serviceRequestList.isEmpty()) {
       System.out.println("There are no service requests");
       id = 0;
     } else {
@@ -123,7 +102,7 @@ public class LabRequestController implements IMenuAccess {
                 "Obs Admitting"),
             labTypeChoiceBox.getSelectionModel().getSelectedItem());
 
-    facadeDAO.addLabServiceRequest(temp);
+    database.addLabServiceRequest(temp);
     this.clearFields();
     successfulSubmitLabel.setVisible(true);
     warningBackground.setVisible(true);
@@ -141,7 +120,7 @@ public class LabRequestController implements IMenuAccess {
   }
 
   @FXML
-  private void onResetButtonClicked(ActionEvent event) throws IOException {
+  protected void onResetButtonClicked(ActionEvent event) {
     patientIdField.clear();
     patientNameField.clear();
     labTypeChoiceBox.setValue(null);

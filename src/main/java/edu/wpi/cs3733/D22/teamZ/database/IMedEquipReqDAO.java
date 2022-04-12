@@ -59,4 +59,12 @@ public interface IMedEquipReqDAO {
    * @return number of conflicts during import
    */
   int importMedEquipReqFromCSV(File data);
+
+  /**
+   * Adds MedicalEquipmentDeliveryRequest into database from list
+   *
+   * @param list Request to be added
+   * @return True if successful, false otherwise
+   */
+  boolean addMedicalEquipReqFromList(List<MedicalEquipmentDeliveryRequest> list);
 }

@@ -8,13 +8,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
+class MedEquipReqDAOImpl implements IMedEquipReqDAO {
   private List<MedicalEquipmentDeliveryRequest> list;
   private MedEqReqControlCSV reqCSV;
 
-  static Connection connection = DatabaseConnection.getConnection();
+  static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  // DatabaseConnection.getConnection();
 
   public MedEquipReqDAOImpl() {
+    updateConnection();
     list = new ArrayList<>();
   }
 
@@ -24,6 +26,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return list of MedicalEquipmentRequests
    */
   public List<MedicalEquipmentDeliveryRequest> getAllMedEquipReq() {
+    updateConnection();
     try {
       PreparedStatement pstmt =
           connection.prepareStatement(
@@ -69,6 +72,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return MedicalEquipmentRequest of given ID, null if not found
    */
   public MedicalEquipmentDeliveryRequest getMedEquipReqByID(String id) {
+    updateConnection();
     try {
       // query to get information of request by ID
       PreparedStatement pstmt =
@@ -112,21 +116,13 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return True if successful, false otherwise
    */
   public boolean addMedEquipReq(MedicalEquipmentDeliveryRequest request) {
-    try {
-      PreparedStatement stmt =
-          connection.prepareStatement(
-              "INSERT INTO MEDEQUIPREQ (REQUESTID, EQUIPMENTID) values (?, ?)");
-      stmt.setString(1, request.getRequestID());
-      stmt.setString(2, request.getEquipmentID());
-
-      stmt.executeUpdate();
-      connection.commit();
+    updateConnection();
+    boolean val = false;
+    if (addToDatabase(request)) {
+      val = true;
       list.add(request);
-      return true;
-    } catch (SQLException e) {
-      System.out.println("Statement failed");
-      return false;
     }
+    return val;
   }
 
   /**
@@ -136,6 +132,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return True if successful, false otherwise
    */
   public boolean updateMedEquipReq(MedicalEquipmentDeliveryRequest request) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
@@ -162,6 +159,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return True if successful, false otherwise
    */
   public boolean deleteMedEquipReq(MedicalEquipmentDeliveryRequest request) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement("DELETE FROM MEDEQUIPREQ WHERE RequestID=?");
@@ -184,6 +182,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    */
   @Override
   public boolean exportToMedEquipReqCSV(File reqData) {
+    updateConnection();
     // reqData = new File(System.getProperty("user.dir") + "\\MedEquipReq.csv");
     reqCSV = new MedEqReqControlCSV(reqData);
 
@@ -199,6 +198,7 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    */
   @Override
   public int importMedEquipReqFromCSV(File data) {
+    updateConnection();
     reqCSV = new MedEqReqControlCSV(data);
     int conflictCounter = 0;
     String temp = "";
@@ -230,5 +230,50 @@ public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
       System.out.println("Failed to populate Medical Equipment Request table");
     }
     return conflictCounter;
+  }
+
+  /** Updates the connection */
+  private void updateConnection() {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  }
+
+  /**
+   * Adds MedicalEquipmentDeliveryRequest into database from list
+   *
+   * @param list list of medical equipment delivery requests to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addMedicalEquipReqFromList(List<MedicalEquipmentDeliveryRequest> list) {
+    updateConnection();
+    boolean val = true;
+    for (MedicalEquipmentDeliveryRequest request : list) {
+      if (!addToDatabase(request)) {
+        val = false;
+      }
+    }
+    return val;
+  }
+
+  /**
+   * Contains SQL command for inserting MedicalEquipmentDeliveryRequests into database
+   *
+   * @param request
+   * @return True if successful, false otherwise
+   */
+  private boolean addToDatabase(MedicalEquipmentDeliveryRequest request) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "INSERT INTO MEDEQUIPREQ (REQUESTID, EQUIPMENTID) values (?, ?)");
+      stmt.setString(1, request.getRequestID());
+      stmt.setString(2, request.getEquipmentID());
+
+      stmt.executeUpdate();
+      connection.commit();
+    } catch (SQLException e) {
+      System.out.println("Statement failed");
+      return false;
+    }
+    return true;
   }
 }
