@@ -78,7 +78,7 @@ public class ServiceRequestController implements Initializable, IMenuAccess {
       employeeBox.getItems().add(employees.get(i).getEmployeeID());
     }
 
-    createTable();
+    // createTable();
   }
 
   public void createTable() {

@@ -189,7 +189,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
           connection.prepareStatement(
               "UPDATE SERVICEREQUEST SET status =?, HANDLERID =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
-      stmt.setString(2, request.getHandler().toString());
+      stmt.setString(2, request.getHandler().getEmployeeID());
       stmt.setString(3, request.getRequestID());
 
       stmt.executeUpdate();
