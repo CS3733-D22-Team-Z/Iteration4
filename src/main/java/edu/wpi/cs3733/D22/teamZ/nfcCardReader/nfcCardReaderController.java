@@ -22,12 +22,18 @@ public class nfcCardReaderController {
         reader.connectReader();
     }
 
-    public void setUsernameAndPassword() throws UnsupportedEncodingException {
+    public void setUID() throws UnsupportedEncodingException {
+        byte[] byteUID = reader.readCardUsingDefaultKey(1);
+        UID = new String(byteUID, "US-ASCII");
+    }
+
+    public void setUsername() throws UnsupportedEncodingException {
         byte[] byteUsername = reader.readCardUsingDefaultKey(1);
-        byte[] bytePassword = reader.readCardUsingDefaultKey(2);
-
         username = new String(byteUsername, "US-ASCII");
-        password = new String(bytePassword, "US-ASCII");
+    }
 
+    public void setPassword(String password) throws UnsupportedEncodingException{
+        byte[] bytePassword = reader.readCardUsingDefaultKey(2);
+        password = new String(bytePassword, "US-ASCII");
     }
 }

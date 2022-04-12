@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D22.teamZ.nfcCardReader;
 import edu.wpi.cs3733.D22.teamZ.nfcCardReader.exception.CardDataException;
 import edu.wpi.cs3733.D22.teamZ.nfcCardReader.util.ACR122Util;
 import org.apache.log4j.Logger;
-
 import javax.smartcardio.*;
 import java.util.List;
 
@@ -148,7 +147,7 @@ public class ACR122UReaderHelper {
 	}
 
 	/**
-	 * @param authKey
+	 * @param
 	 * @param trailerBlockNo
 	 * @return byte[]
 	 * 
@@ -251,7 +250,7 @@ public class ACR122UReaderHelper {
 	}
 	
 	/**
-	 * @param apduCmd
+	 * @param
 	 * @return byte Array
 	 * 
 	 * <li>This method will read card code from manufacturer block and returns the same.</li>
