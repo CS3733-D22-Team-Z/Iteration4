@@ -17,6 +17,7 @@ public class HomepageController implements IMenuAccess {
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
+  private String toEmployeeURL = "edu/wpi/cs3733/D22/teamZ/views/Employee.fxml";
   private String toServerSwitchURL = "edu/wpi/cs3733/D22/teamZ/views/ServerSwitcher.fxml";
 
   public void setMenuController(MenuController menu) {
@@ -42,6 +43,12 @@ public class HomepageController implements IMenuAccess {
     System.out.println("navigating to Medical Equipment Request page from home");
     menu.selectMenu(3);
     menu.load(toMedicalEquipmentRequestURL);
+  }
+
+  @FXML
+  private void toEmployeePage() throws IOException {
+    System.out.println("navigating to employee page from home");
+    menu.load(toEmployeeURL);
   }
 
   /**

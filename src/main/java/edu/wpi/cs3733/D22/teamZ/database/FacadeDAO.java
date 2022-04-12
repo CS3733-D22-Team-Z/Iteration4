@@ -6,15 +6,21 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
-  private LocationDAOImpl locationDAO;
-  private MedicalEquipmentDAOImpl medicalEquipmentDAO;
-  private MedEquipReqDAOImpl medEquipReqDAO;
-  private EmployeeDAOImpl employeeDAO;
-  private PatientDAOImpl patientDAO;
-  private LabRequestServiceDAOImpl labRequestServiceDAO;
-  private ServiceRequestDAOImpl serviceRequestDAO;
+  private static FacadeDAO instance = new FacadeDAO();
 
-  public FacadeDAO() {
+  private final LocationDAOImpl locationDAO;
+  private final MedicalEquipmentDAOImpl medicalEquipmentDAO;
+  private final MedEquipReqDAOImpl medEquipReqDAO;
+  private final EmployeeDAOImpl employeeDAO;
+  private final PatientDAOImpl patientDAO;
+  private final LabRequestServiceDAOImpl labRequestServiceDAO;
+  private final ServiceRequestDAOImpl serviceRequestDAO;
+
+  public static FacadeDAO getInstance() {
+    return instance;
+  }
+
+  private FacadeDAO() {
     locationDAO = new LocationDAOImpl();
     medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
     medEquipReqDAO = new MedEquipReqDAOImpl();

@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedEquipReqDAOImpl implements IMedEquipReqDAO {
+class MedEquipReqDAOImpl implements IMedEquipReqDAO {
   private List<MedicalEquipmentDeliveryRequest> list;
   private MedEqReqControlCSV reqCSV;
 

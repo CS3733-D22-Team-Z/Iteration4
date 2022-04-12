@@ -2,8 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.database.IServiceRequestDAO;
-import edu.wpi.cs3733.D22.teamZ.database.ServiceRequestDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -47,8 +45,7 @@ public class LabRequestController implements IMenuAccess {
 
   @FXML
   public void initialize() {
-
-    facadeDAO = new FacadeDAO();
+    facadeDAO = FacadeDAO.getInstance();
 
     labTypeChoiceBox.setItems(
         FXCollections.observableArrayList(
@@ -81,7 +78,7 @@ public class LabRequestController implements IMenuAccess {
 
   @FXML
   public void onSubmitButtonClicked(ActionEvent event) throws SQLException {
-    IServiceRequestDAO serviceRequestDAO = new ServiceRequestDAOImpl();
+    FacadeDAO serviceRequestDAO = FacadeDAO.getInstance();
     List<ServiceRequest> serviceRequestList = serviceRequestDAO.getAllServiceRequests();
     int id;
     // Check for empty db and set first request (will appear as REQ1 in the db)

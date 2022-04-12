@@ -46,7 +46,7 @@ public class StartupController {
   private String homepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   // init LocationDAOImpl to getAllLocations from db
-  FacadeDAO facadeDAO = new FacadeDAO();
+  FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   // create ObservableList to load locations into tableView
   private ObservableList<Location> data;

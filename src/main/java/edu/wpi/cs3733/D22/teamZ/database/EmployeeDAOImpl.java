@@ -7,8 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeDAOImpl implements IEmployeeDAO {
-  List<Employee> employees;
+class EmployeeDAOImpl implements IEmployeeDAO {
+  private List<Employee> employees;
   private EmployeeControlCSV empCSV;
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();

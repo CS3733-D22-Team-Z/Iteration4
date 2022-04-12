@@ -2,10 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.D22.teamZ.database.ILocationDAO;
-import edu.wpi.cs3733.D22.teamZ.database.IMedicalEquipmentDAO;
-import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.*;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
@@ -39,8 +36,7 @@ public class EquipmentMapTest extends ApplicationTest {
   ImageView mapImage;
 
   // Databases
-  ILocationDAO locDB;
-  IMedicalEquipmentDAO medDB;
+  FacadeDAO facadeDAO;
 
   @Override
   public void start(Stage stage) throws IOException, InterruptedException {
@@ -56,8 +52,7 @@ public class EquipmentMapTest extends ApplicationTest {
     iconContainer = lookup("#iconContainer").query();
     mapImage = lookup("#mapImage").query();
 
-    locDB = new LocationDAOImpl();
-    medDB = new MedicalEquipmentDAOImpl();
+    facadeDAO = FacadeDAO.getInstance();
   }
 
   public String getImgPath(String name) {
@@ -110,9 +105,9 @@ public class EquipmentMapTest extends ApplicationTest {
     type(KeyCode.ENTER);
     Thread.sleep(100);
 
-    List<Location> locs = locDB.getAllLocationsByFloor("3");
+    List<Location> locs = facadeDAO.getAllLocationsByFloor("3");
     Location sampleLoc = locs.get(rng.nextInt(locs.size()));
-    List<MedicalEquipment> sampleEquip = medDB.getAllMedicalEquipmentByLocation(sampleLoc);
+    List<MedicalEquipment> sampleEquip = facadeDAO.getAllMedicalEquipmentByLocation(sampleLoc);
 
     boolean iconFound = false;
     for (Node child : iconContainer.getChildren()) {

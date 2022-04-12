@@ -12,6 +12,7 @@ public class Main {
     init.populateLocationTable();
     // TODO insert populateEmployeeTable here
     init.populateMedicalEquipmentTable();
+    init.populateEmployeeTable();
     init.populateServiceRequestTable();
     init.populateMedicalEquipmentServiceRequestTable();
     App.launch(App.class, args);
