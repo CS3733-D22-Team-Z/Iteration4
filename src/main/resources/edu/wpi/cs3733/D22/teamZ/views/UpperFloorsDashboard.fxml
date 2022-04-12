@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -20,7 +21,12 @@
             <DropShadow />
          </effect>
          <children>
-            <MFXLegacyTableView layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0" />
+            <TableView fx:id="upperFloor1Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP1" prefWidth="60.800048828125" text="ID" />
+                  <TableColumn fx:id="locationColumnUP1" prefWidth="113.5999755859375" text="Location" />
+               </columns>
+            </TableView>
          </children>
       </Pane>
       <Pane layoutX="207.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
@@ -28,7 +34,12 @@
             <DropShadow />
          </effect>
          <children>
-            <MFXLegacyTableView layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0" />
+            <TableView fx:id="upperFloor2Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP2" prefWidth="60.800048828125" text="ID" />
+                  <TableColumn fx:id="locationColumnUP2" prefWidth="113.5999755859375" text="Location" />
+               </columns>
+            </TableView>
          </children>
       </Pane>
       <Pane layoutX="406.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
@@ -36,7 +47,12 @@
             <DropShadow />
          </effect>
          <children>
-            <MFXLegacyTableView layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0" />
+            <TableView fx:id="upperFloor3Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP3" prefWidth="60.800048828125" text="ID" />
+                  <TableColumn fx:id="locationColumnUP3" prefWidth="113.5999755859375" text="Location" />
+               </columns>
+            </TableView>
          </children>
       </Pane>
       <Pane layoutX="114.0" layoutY="218.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
@@ -44,7 +60,12 @@
             <DropShadow />
          </effect>
          <children>
-            <MFXLegacyTableView layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0" />
+            <TableView fx:id="upperFloor4Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP4" prefWidth="60.800048828125" text="ID" />
+                  <TableColumn fx:id="locationColumnUP4" prefWidth="113.5999755859375" text="Location" />
+               </columns>
+            </TableView>
          </children>
       </Pane>
       <Pane layoutX="313.0" layoutY="218.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
@@ -52,7 +73,12 @@
             <DropShadow />
          </effect>
          <children>
-            <MFXLegacyTableView layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0" />
+            <TableView fx:id="upperFloor5Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP5" prefWidth="60.800048828125" text="ID" />
+                  <TableColumn fx:id="locationColumnUP5" prefWidth="113.5999755859375" text="Location" />
+               </columns>
+            </TableView>
          </children>
       </Pane>
       <MFXButton fx:id="lowerLevelButton" layoutX="440.0" layoutY="9.0" onAction="#toLowerLevelDashboard" prefHeight="26.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" text="Lower Level Dashboard" textFill="WHITE">

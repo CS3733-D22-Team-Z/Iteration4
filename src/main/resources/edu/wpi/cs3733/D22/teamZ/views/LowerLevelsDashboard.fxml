@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -25,7 +26,13 @@
             <DropShadow />
          </effect>
          <children>
-            <MFXLegacyTableView fx:id="lowerLevel1Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0" />
+            <TableView fx:id="lowerLevel1Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnLL1" prefWidth="60.800048828125" text="ID" />
+                  <TableColumn fx:id="locationColumnLL1" prefWidth="113.5999755859375" text="Location" />
+               </columns>
+            </TableView>
+
          </children>
       </Pane>
       <Pane layoutX="337.0" layoutY="116.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
@@ -33,7 +40,11 @@
             <DropShadow />
          </effect>
          <children>
-            <MFXLegacyTableView fx:id="lowerLevel2Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0" />
+            <TableView fx:id="lowerLevel2Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnLL2" prefWidth="60.800048828125" text="ID" />
+                  <TableColumn fx:id="locationColumnLL2" prefWidth="113.5999755859375" text="Location" />
+               </columns></TableView>
          </children>
       </Pane>
    </children>
