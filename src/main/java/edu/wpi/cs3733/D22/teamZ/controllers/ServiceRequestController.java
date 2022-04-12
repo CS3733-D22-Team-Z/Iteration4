@@ -41,7 +41,7 @@ public class ServiceRequestController implements Initializable, IMenuAccess {
   @FXML public TableView<ServiceRequest> tableContainer;
   @FXML private TableColumn<ServiceRequest, String> idCol;
   @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestType> typeCol;
-  @FXML private TableColumn<ServiceRequest, String> assigneeCol;
+  @FXML private TableColumn<ServiceRequest, Employee> assigneeCol;
   @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestStatus> statusCol;
 
   private final String toHomepageURL = "views/Homepage.fxml";
@@ -86,7 +86,7 @@ public class ServiceRequestController implements Initializable, IMenuAccess {
     idCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
     typeCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestType>("type"));
-    assigneeCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("handler"));
+    assigneeCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, Employee>("handler"));
     statusCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestStatus>("status"));
     requests = FXCollections.observableList(facadeDAO.getAllServiceRequests());
