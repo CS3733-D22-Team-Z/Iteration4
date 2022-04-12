@@ -1,8 +1,11 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +19,7 @@ public class LowerLevelsDashboardController implements IMenuAccess {
   private FacadeDAO dao = FacadeDAO.getInstance();
   private MenuController menu;
 
-  private ObservableList<MedicalEquipment> data;
+  private ObservableList<DashboardEquipment> data;
   @FXML private TableView lowerLevel1Table;
   @FXML private TableView lowerLevel2Table;
   @FXML private TableColumn idColumnLL1;
@@ -45,20 +48,28 @@ public class LowerLevelsDashboardController implements IMenuAccess {
   public void createTableLL1() {
     lowerLevel1Table.getItems().clear();
     idColumnLL1.setCellValueFactory(
-        new PropertyValueFactory<MedicalEquipment, String>("equipmentID"));
+        new PropertyValueFactory<DashboardEquipment, String>("equipmentID"));
     locationColumnLL1.setCellValueFactory(
-        new PropertyValueFactory<MedicalEquipment, String>("currentLocation"));
-    data = FXCollections.observableList(dao.getAllMedicalEquipment());
+        new PropertyValueFactory<DashboardEquipment, String>("locationNodeType"));
+    List<DashboardEquipment> dashboardEquipmentList = new ArrayList<>();
+    for (MedicalEquipment tempMedEquip : dao.getAllMedicalEquipmentByFloor("L1")) {
+      dashboardEquipmentList.add(new DashboardEquipment(tempMedEquip));
+    }
+    data = FXCollections.observableList(dashboardEquipmentList);
     lowerLevel1Table.setItems(data);
   }
 
   public void createTableLL2() {
     lowerLevel2Table.getItems().clear();
     idColumnLL2.setCellValueFactory(
-        new PropertyValueFactory<MedicalEquipment, String>("equipmentID"));
+        new PropertyValueFactory<DashboardEquipment, String>("equipmentID"));
     locationColumnLL2.setCellValueFactory(
-        new PropertyValueFactory<MedicalEquipment, String>("currentLocation"));
-    data = FXCollections.observableList(dao.getAllMedicalEquipment());
+        new PropertyValueFactory<DashboardEquipment, String>("locationNodeType"));
+    List<DashboardEquipment> dashboardEquipmentList = new ArrayList<>();
+    for (MedicalEquipment tempMedEquip : dao.getAllMedicalEquipmentByFloor("L2")) {
+      dashboardEquipmentList.add(new DashboardEquipment(tempMedEquip));
+    }
+    data = FXCollections.observableList(dashboardEquipmentList);
     lowerLevel2Table.setItems(data);
   }
 
