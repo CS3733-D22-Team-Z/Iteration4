@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import io.github.palexdev.materialfx.controls.MFXRadioButton;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -26,7 +29,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -107,12 +109,10 @@ public class LocationListController {
   // pane
   @FXML private Pane addLocationPane;
 
-  // Patricks stuff
-  // @FXML private VBox detailsPopup;
-  // @FXML private HBox equipmentNames;
-  // @FXML private HBox equipmentQuantities;
-  @FXML private GridPane roomLabelRoot;
-  @FXML private GridPane equipSetupGrid;
+  @FXML private MFXRadioButton locRadio;
+  @FXML private MFXRadioButton equipRadio;
+  @FXML private MFXRadioButton servRadio;
+  @FXML final ToggleGroup radioGroup = new ToggleGroup();
 
   // urls to other pages
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
@@ -123,10 +123,6 @@ public class LocationListController {
   private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
 
   // init LocationDAOImpl to use sql methods from db
-  LocationDAOImpl locDAO = new LocationDAOImpl();
-
-  // init MedicalEquipmentDAOImpl
-  MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
   // create ObservableList to load locations into map
   // private ObservableList<Location> floorLocations = FXCollections.observableList(new
@@ -136,9 +132,6 @@ public class LocationListController {
   private ObservableList<Label> equipLabels = FXCollections.observableList(new ArrayList<>());
 
   private ContextMenu rightClickMenu;
-  private Menu locInfo;
-  private Menu servInfo;
-  private Menu medInfo;
 
   // initialize location labels to display on map
   @FXML
@@ -313,16 +306,11 @@ public class LocationListController {
             }
           }
         });
-    locInfo = new Menu("Location Info");
-    medInfo = new Menu("Medical Equipment Info");
-    servInfo = new Menu("Service Request Info");
     MenuItem prop = new MenuItem("Properties");
     prop.setOnAction(event -> propertiesWindow());
-    Menu info = new Menu("Info");
     // prop.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
-    info.getItems().addAll(medInfo, servInfo, locInfo);
 
-    rightClickMenu = new ContextMenu(info, edit, delete, prop);
+    rightClickMenu = new ContextMenu(edit, delete, prop);
 
     rightClickMenu.setPrefHeight(82);
     rightClickMenu.setPrefWidth(120);
@@ -332,6 +320,37 @@ public class LocationListController {
     // Daniel's Stuff
     deleteLocationPlane.setVisible(false);
     deleteLocationPlane.setDisable(true);
+
+    locRadio.setToggleGroup(radioGroup);
+    locRadio.setUserData("Locations");
+    equipRadio.setToggleGroup(radioGroup);
+    equipRadio.setUserData("Equipment");
+    servRadio.setToggleGroup(radioGroup);
+    servRadio.setUserData("Service Requests");
+
+    radioGroup
+        .selectedToggleProperty()
+        .addListener(
+            new ChangeListener<Toggle>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                switch (newValue.getUserData().toString()) {
+                  case "Locations":
+                    System.out.println("loc");
+                    break;
+                  case "Equipment":
+                    System.out.println("equip");
+                    break;
+                  case "Service Requests":
+                    System.out.println("serv");
+                    break;
+                  default:
+                    System.out.println("lolno");
+                    break;
+                }
+              }
+            });
   }
 
   private void propertiesWindow() {
@@ -639,46 +658,9 @@ public class LocationListController {
     for (int i = 0; i < totalLocations.size(); i++) {
 
       Location current = totalLocations.get(i);
-      // equipment labels
-      List<MedicalEquipment> medicalEquipmentAtLocation =
-          medicalEquipmentDAO.getAllMedicalEquipmentByLocation(current);
 
-      // If there is medical equipment at the location, then proceed.
-      if (!medicalEquipmentAtLocation.isEmpty()) {
 
-        // Setup icon image view
-        Image equipmentImg = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
-        ImageView equipmentIcon = new ImageView(equipmentImg);
-
-        DropShadow dropShadowEquip = new DropShadow();
-        dropShadowEquip.setRadius(5.0);
-        dropShadowEquip.setOffsetX(3.0);
-        dropShadowEquip.setOffsetY(3.0);
-        dropShadowEquip.setColor(Color.GRAY);
-
-        // create the label
-        Label labelEquip = new Label();
-        labelEquip.setEffect(dropShadowEquip);
-        labelEquip.setGraphic(equipmentIcon);
-        labelEquip.setPrefWidth(7);
-        labelEquip.setPrefHeight(7);
-
-        labelEquip.relocate(current.getXcoord() - 8, current.getYcoord() - 8);
-        equipLabels.add(labelEquip);
-        System.out.println("adding a label");
-
-        /*labelEquip.setOnMouseClicked(
-        (e) -> {
-          showInfoDialog(
-              labelEquip,
-              current,
-              medicalEquipmentDAO.getAllMedicalEquipmentByLocation(current));
-        });*/
-
-        // pane.getChildren().add(labelEquip);
-      }
-
-      MapLabel label = new MapLabel(new MapLabel.mapLabelBuilder().location(current));
+      MapLabel label = new MapLabel(new MapLabel.mapLabelBuilder().location(current).equipment());
       // stylize label icon
       Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
       ImageView locationIcon = new ImageView(locationImg);
@@ -721,12 +703,6 @@ public class LocationListController {
             public void handle(ContextMenuEvent event) {
               rightClickMenu.show(label, event.getScreenX(), event.getScreenY());
               Location loc = label.getLocation();
-              locInfo.getItems().clear();
-              locInfo
-                  .getItems()
-                  .addAll(
-                      new MenuItem("Name: " + loc.getLongName()),
-                      new MenuItem("Abrev.: " + loc.getShortName()));
             }
           });
       allLabels.add(label);
