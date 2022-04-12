@@ -250,7 +250,7 @@ public class LocationListController implements IMenuAccess {
 
     multiFocusProperty.addListener(
         (observable, oldValue, newValue) -> {
-          //System.out.println("vis swap");
+          // System.out.println("vis swap");
           searchResultList.setVisible(newValue);
           searchResultList.setDisable(!newValue);
         });
