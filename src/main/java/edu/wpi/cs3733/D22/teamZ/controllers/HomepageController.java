@@ -22,6 +22,11 @@ public class HomepageController implements IMenuAccess {
     this.menu = menu;
   }
 
+  @Override
+  public String getMenuName() {
+    return "Home";
+  }
+
   @FXML
   private void toLocations() throws IOException {
     System.out.println("navigating to locations from home");

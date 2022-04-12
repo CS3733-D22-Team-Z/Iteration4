@@ -59,7 +59,7 @@ public class App extends Application {
     sizeChangeListener =
         (ChangeListener<Number>)
             (observable, oldValue, newValue) -> {
-              // System.out.println("old:" + oldValue + " new:" + newValue);
+              System.out.println("old:" + oldValue + " new:" + newValue);
               float scaleY = (float) (primaryStage.getHeight() / initialHeight);
               float scaleX = (float) (primaryStage.getWidth() / initialWidth);
               if (initialStates == null) {

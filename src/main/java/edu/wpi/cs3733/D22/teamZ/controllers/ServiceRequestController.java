@@ -36,7 +36,7 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
 
   /** Constructor for ServiceRequestController class, which initializes the database. */
   public ServiceRequestController() {
-    database = new FacadeDAO();
+    database = FacadeDAO.getInstance();
   }
 
   /**
@@ -47,6 +47,10 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
   @Override
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  public String getMenuName() {
+    return menuName;
   }
 
   /**

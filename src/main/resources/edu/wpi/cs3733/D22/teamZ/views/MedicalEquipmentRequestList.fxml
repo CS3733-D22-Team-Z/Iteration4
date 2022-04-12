@@ -1,78 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTreeTableColumn?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
-<?import javafx.scene.control.Button?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestListController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestListController">
     <children>
-        <Label layoutX="-71.0" layoutY="36.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="List of Medical Equipment Requests">
+        <Label layoutX="59.0" layoutY="33.0" styleClass="object-header" text="List of Medical Equipment Requests">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <JFXTreeTableView fx:id="requestTable" layoutX="9.0" layoutY="72.0" prefHeight="310.0" prefWidth="395.0" style="-fx-background-radius: 10;">
-            <columns>
-                <JFXTreeTableColumn fx:id="idColumn" editable="false" prefWidth="60.4000244140625" reorderable="false" resizable="false" sortable="false" text="ID" />
-                <JFXTreeTableColumn fx:id="deviceColumn" editable="false" prefWidth="110.39996337890625" reorderable="false" resizable="false" sortable="false" text="Device" />
-                <JFXTreeTableColumn fx:id="assigneeColumn" editable="false" prefWidth="101.5999755859375" reorderable="false" resizable="false" sortable="false" text="Assignee" />
-                <JFXTreeTableColumn fx:id="statusColumn" editable="false" prefWidth="99.20001220703125" reorderable="false" resizable="false" sortable="false" text="Status" />
-            </columns>
-        </JFXTreeTableView>
-        <JFXButton fx:id="refreshButton" layoutX="341.0" layoutY="66.0" onAction="#refreshClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Refresh" textFill="WHITE">
-            <font>
-                <Font name="Segoe UI Bold" size="10.0" />
-            </font>
-        </JFXButton>
-        <HBox layoutX="414.0" layoutY="131.0">
-            <children>
-                <JFXButton fx:id="idButton" onAction="#filterClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-pref-width: 25; -fx-pref-height: 26; -fx-background-color: #FFFFFF; -fx-font-family: &quot;Segoe UI&quot;;" text="ID">
-                    <font>
-                        <Font name="Segoe UI Bold" size="10.0" />
-                    </font>
-                </JFXButton>
-                <JFXButton fx:id="deviceButton" onAction="#filterClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-pref-width: 45; -fx-pref-height: 26; -fx-background-color: #FFFFFF; -fx-font-family: &quot;Segoe UI&quot;;" text="Device">
-                    <font>
-                        <Font name="Segoe UI Bold" size="10.0" />
-                    </font>
-                </JFXButton>
-                <JFXButton fx:id="assigneeButton" onAction="#filterClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-pref-width: 60; -fx-pref-height: 26; -fx-background-color: #FFFFFF; -fx-font-family: &quot;Segoe UI&quot;;" text="Assignee">
-                    <font>
-                        <Font name="Segoe UI Bold" size="10.0" />
-                    </font>
-                </JFXButton>
-                <JFXButton fx:id="statusButton" onAction="#filterClicked" prefWidth="66.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-pref-width: 45; -fx-pref-height: 26; -fx-background-color: #FFFFFF; -fx-font-family: &quot;Segoe UI&quot;;" text="Status">
-                    <font>
-                        <Font name="Segoe UI Bold" size="10.0" />
-                    </font>
-                </JFXButton>
-            </children>
-        </HBox>
-        <Label layoutX="342.0" layoutY="103.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Filter &amp; Sort">
-            <font>
-                <Font name="System Bold" size="12.0" />
-            </font>
-        </Label>
-        <JFXComboBox fx:id="filterCBox" layoutX="415.0" layoutY="169.0" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" promptText="Filter by..." style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
-        <Label layoutX="289.0" layoutY="203.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Details">
-            <font>
-                <Font name="System Bold" size="12.0" />
-            </font>
-        </Label>
-      <TableView fx:id="statusTable" layoutX="411.0" layoutY="232.0" prefHeight="150.0" prefWidth="175.0">
-        <columns>
-          <TableColumn fx:id="labelsColumn" prefWidth="88.0" text="?" />
-          <TableColumn fx:id="detailsColumn" prefWidth="86.0" text="Request" />
-        </columns>
+      <VBox alignment="CENTER" layoutX="411.0" layoutY="32.0" spacing="10.0">
+         <children>
+            <MFXButton fx:id="exportCSVButton" mnemonicParsing="false" onAction="#exportToCSV" text="Export to CSV..." />
+              <MFXButton fx:id="refreshButton" onAction="#refreshClicked" prefHeight="29.0" prefWidth="73.0" text="Refresh" textFill="WHITE" />
+              <Label styleClass="object-body" text="Filter &amp; Sort">
+                  <font>
+                      <Font name="System Bold" size="12.0" />
+                  </font>
+              </Label>
+              <HBox alignment="CENTER">
+                  <children>
+                      <MFXButton fx:id="idButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 5 0 0 5;" styleClass="filter-button" text="ID" />
+                      <MFXButton fx:id="deviceButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Device" />
+                      <MFXButton fx:id="statusButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Status" />
+                      <MFXButton fx:id="assigneeButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 0 5 5 0;" styleClass="filter-button" text="Assignee" />
+                  </children>
+              </HBox>
+              <ChoiceBox fx:id="filterCBox" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+              <Label styleClass="object-body" text="Details">
+                  <font>
+                      <Font name="System Bold" size="12.0" />
+                  </font>
+              </Label>
+            <TableView fx:id="statusTable" prefHeight="150.0" prefWidth="175.0">
+              <columns>
+                <TableColumn fx:id="labelsColumn" prefWidth="100.0" text="?" />
+                <TableColumn fx:id="detailsColumn" prefWidth="100.0" text="Request" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </VBox>
+      <TableView fx:id="tableContainer" layoutX="23.0" layoutY="54.0" prefHeight="326.0" prefWidth="374.0">
+         <columns>
+            <TableColumn fx:id="idColumn" editable="false" prefWidth="100.0" text="ID" />
+            <TableColumn fx:id="deviceColumn" editable="false" prefWidth="100.0" text="Device" />
+            <TableColumn fx:id="assigneeColumn" editable="false" prefWidth="100.0" text="Assignee" />
+            <TableColumn fx:id="statusColumn" editable="false" prefWidth="100.0" text="Status" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
-      <Button fx:id="exportCSVButton" layoutX="453.0" layoutY="33.0" mnemonicParsing="false" onAction="#exportToCSV" text="Export to CSV..." />
     </children>
 </AnchorPane>

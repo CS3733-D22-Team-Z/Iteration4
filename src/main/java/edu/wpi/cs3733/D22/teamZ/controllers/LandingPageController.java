@@ -23,6 +23,11 @@ public class LandingPageController implements IMenuAccess {
     this.menu = menu;
   }
 
+  @Override
+  public String getMenuName() {
+    return "Service Request Landing";
+  }
+
   @FXML
   private void navMedicalEquipment() throws IOException {
     System.out.println("navigating to medical equipment delivery from landing page");
