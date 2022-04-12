@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.File;
@@ -115,7 +114,7 @@ public class LocationListController {
   private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
 
   // init LocationDAOImpl to use sql methods from db
-  FacadeDAO facadeDAO = new FacadeDAO();
+  FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   // create ObservableList to load locations into map
   // private ObservableList<Location> floorLocations = FXCollections.observableList(new
@@ -769,9 +768,7 @@ public class LocationListController {
 
     File file = fileChooser.showSaveDialog(stage);
 
-    // ControlCSV writer = new LocationControlCSV(file);
-    LocationDAOImpl writer = new LocationDAOImpl();
-    writer.exportToLocationCSV(file);
+    facadeDAO.exportLocationsToCSV(file);
   }
 
   public void importFromCSV(ActionEvent actionEvent) {
@@ -784,10 +781,7 @@ public class LocationListController {
 
     File file = fileChooser.showOpenDialog(stage);
 
-    // ControlCSV writer = new LocationControlCSV(file);
-    LocationDAOImpl writer = new LocationDAOImpl();
-
-    int numberConflicts = writer.importLocationFromCSV(file);
+    int numberConflicts = facadeDAO.importLocationsFromCSV(file);
 
     refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
     System.out.println(

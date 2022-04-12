@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,6 +20,8 @@ public class HomepageController implements IMenuAccess {
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toUpperFloorsDashboardURL =
       "edu/wpi/cs3733/D22/teamZ/views/UpperFloorsDashboard.fxml";
+  private String toEmployeeURL = "edu/wpi/cs3733/D22/teamZ/views/Employee.fxml";
+  private String toServerSwitchURL = "edu/wpi/cs3733/D22/teamZ/views/ServerSwitcher.fxml";
 
   public void setMenuController(MenuController menu) {
     this.menu = menu;
@@ -50,6 +53,12 @@ public class HomepageController implements IMenuAccess {
     menu.load(toUpperFloorsDashboardURL);
   }
 
+  @FXML
+  private void toEmployeePage() throws IOException {
+    System.out.println("navigating to employee page from home");
+    menu.load(toEmployeeURL);
+  }
+
   /**
    * Updates the welcome message with the username of who logged in
    *
@@ -57,6 +66,16 @@ public class HomepageController implements IMenuAccess {
    */
   public void setWelcomeMessage(String name) {
     welcomeMessage.setText(String.format(welcomeMessage.getText(), name));
+  }
+
+  /**
+   * Opens panel for switching database servers
+   *
+   * @param event
+   */
+  @FXML
+  public void SwitchServerClicked(ActionEvent event) throws IOException {
+    menu.load(toServerSwitchURL);
   }
 }
 // Link to location, Landing, & Medical Equipment Page
