@@ -43,12 +43,12 @@
             <Insets left="-95.0" />
          </padding>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="279.0" layoutY="245.0" onAction="#toGame" prefHeight="32.0" prefWidth="220.0" style="-fx-background-radius: 5; -fx-background-color: FFFFFF;" text="Game">
+      <JFXButton buttonType="RAISED" layoutX="279.0" layoutY="245.0" onAction="#toGame" prefHeight="32.0" prefWidth="220.0" style="-fx-background-radius: 5; -fx-background-color: FFFFFF;" text="Brick Breaker">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
          <padding>
-            <Insets left="-118.0" />
+            <Insets left="-85.0" />
          </padding>
       </JFXButton>
     </children>
