@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="864.0" prefWidth="1218.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<AnchorPane fx:id="anchorPane" prefHeight="864.0" prefWidth="1218.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
       <Label layoutX="1106.0" layoutY="432.0" text="Disable Zoom" visible="false" />
       <ScrollPane fx:id="scrollPane" layoutY="-3.0" prefHeight="856.0" prefWidth="1022.0">
@@ -36,7 +36,7 @@
             </Group>
          </content>
       </ScrollPane>
-      <VBox layoutX="1017.0" layoutY="579.0" prefHeight="285.0" prefWidth="205.0">
+      <VBox layoutX="1017.0" layoutY="511.0" prefHeight="285.0" prefWidth="205.0">
          <children>
             <Label fx:id="floorLabel" prefHeight="41.0" prefWidth="199.0" text="Floor" textFill="#7b7b7b">
                <padding>
@@ -44,7 +44,8 @@
                </padding>
                <font>
                   <Font name="System Bold" size="12.0" />
-               </font></Label>
+               </font>
+            </Label>
             <Label fx:id="longnameLabel" contentDisplay="CENTER" prefHeight="41.0" prefWidth="207.0" text="Longname" textFill="#7b7b7b" wrapText="true">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -426,5 +427,77 @@
             <HBox fx:id="equipmentQuantities" style="-fx-background-color: transparent;" />
          </children>
       </VBox>
+      <Button fx:id="addAlertButton" disable="true" layoutX="1037.0" layoutY="800.0" mnemonicParsing="false" onAction="#showAlertPane" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: FF4343; -fx-background-radius: 5;" text="Add Alert" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-14.0">
+               <image>
+                  <Image url="@../images/addLocation.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Pane fx:id="alertPane" layoutX="616.0" layoutY="138.0" prefHeight="276.0" prefWidth="384.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: F6F6F6; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;" visible="false">
+         <children>
+            <Text layoutX="28.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Alert">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+            <Text fill="#7b7b7b" layoutX="28.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select location of alert">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <ChoiceBox fx:id="selectAlertChoice" layoutX="31.0" layoutY="159.0" prefHeight="32.0" prefWidth="239.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.5199999809265137" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </ChoiceBox>
+            <Text fill="#7b7b7b" layoutX="31.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select alert code">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <Button fx:id="cancelAlert" layoutX="117.0" layoutY="217.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="69.0" style="-fx-background-color: #FF4343;" text="Clear" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="submitAlert" layoutX="32.0" layoutY="218.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="69.0" style="-fx-background-color: #0075FF;" text="Submit" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="editLocationExitButton1" layoutX="327.0" layoutY="14.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: F6F6F6;">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/exitPopup.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Text fx:id="alreadyExistsText2" fill="RED" layoutX="221.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location already exists" visible="false" />
+            <TextField fx:id="selectAlertLocation" editable="false" layoutX="28.0" layoutY="89.0" prefHeight="33.0" prefWidth="239.0" style="-fx-background-color: #FFFFFF;">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.5199999809265137" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </TextField>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
    </children>
 </AnchorPane>

@@ -28,10 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -59,6 +56,11 @@ public class LocationListController {
   @FXML private ScrollPane scrollPane;
   @FXML private Group group;
   @FXML private StackPane stackPane;
+  @FXML private AnchorPane anchorPane;
+  @FXML private Pane alertPane;
+  @FXML private Button addAlertButton;
+  @FXML private ChoiceBox selectAlertChoice;
+  @FXML private Button submitAlert;
 
   // Andrew's stuff
   @FXML private TextField selectLocationTextField;
@@ -92,6 +94,7 @@ public class LocationListController {
   // text field box to select location to delete
   @FXML private TextField locationToDeleteTextField;
   @FXML private Pane deleteLocationPlane;
+  @FXML private TextField selectAlertLocation;
 
   // Neha's stuff
   // Buttons
@@ -130,6 +133,7 @@ public class LocationListController {
   private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> allLabels = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> equipLabels = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Label> alertLabels = FXCollections.observableList(new ArrayList<>());
 
   // initialize location labels to display on map
   @FXML
@@ -147,6 +151,14 @@ public class LocationListController {
     floorField.getItems().add("1");
     floorField.getItems().add("2");
     floorField.getItems().add("3");
+
+    selectAlertChoice.getItems().add("Code Red");
+    selectAlertChoice.getItems().add("Code Grey");
+    selectAlertChoice.getItems().add("Code Blue");
+    selectAlertChoice.getItems().add("Code Green");
+    selectAlertChoice.getItems().add("Code White");
+    selectAlertChoice.getItems().add("Code Pink");
+    selectAlertChoice.getItems().add("Code Amber");
 
     // floorLocations.remove(0, floorLocations.size());
 
@@ -285,6 +297,7 @@ public class LocationListController {
 
             editLocation.setDisable(true);
             deleteLocation.setDisable(true);
+            addAlertButton.setDisable(true);
 
             floorLabel.setText("Floor: ");
             longnameLabel.setText("Long Name: ");
@@ -302,6 +315,16 @@ public class LocationListController {
 
   private void showLocations(String floor) {
     pane.getChildren().clear();
+
+    pane.getChildren()
+        .addAll(
+            alertLabels.filtered(
+                label -> {
+                  Location temp = totalLocations.get(alertLabels.indexOf(label));
+                  return temp.getFloor().equalsIgnoreCase(floor);
+                  // && !temp.getNodeType()
+                  // .equalsIgnoreCase("hall"); // disable line to enable halls
+                }));
 
     pane.getChildren()
         .addAll(
@@ -355,6 +378,7 @@ public class LocationListController {
 
     editLocation.setDisable(false);
     deleteLocation.setDisable(false);
+    addAlertButton.setDisable(false);
   }
 
   // when locations menu button is clicked navigate to locations page
@@ -953,5 +977,151 @@ public class LocationListController {
     } else {
       scroller.setHvalue(scroller.getHmin());
     }
+  }
+
+  public void showAlert(Location location) {
+    Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/alert.png");
+    ImageView locationIcon = new ImageView(locationImg);
+    DropShadow dropShadow = new DropShadow();
+    dropShadow.setRadius(5.0);
+    dropShadow.setOffsetX(3.0);
+    dropShadow.setOffsetY(3.0);
+    dropShadow.setColor(Color.GRAY);
+    // create the label
+    Label label = new Label();
+    label.setEffect(dropShadow);
+    label.setGraphic(locationIcon);
+    label.relocate(location.getXcoord() + 20, location.getYcoord() + 20);
+    // pane.getChildren().add(label);
+    alertLabels.add(label);
+    label.setOnMouseClicked(
+        (e) -> {
+          activeLocation = location;
+          activeLabel = label;
+        });
+  }
+
+  @FXML
+  public void showAlertPane(ActionEvent Event) {
+    alertPane.setVisible(true);
+    selectAlertLocation.setText(activeLocation.getNodeID());
+    submitAlert.setOnAction(
+        (e) -> {
+          createAlert(
+              selectAlertChoice.getSelectionModel().getSelectedItem().toString(), activeLocation);
+          alertPane.setVisible(false);
+        });
+  }
+
+  public void createAlert(String alert, Location location) {
+    Alert newAlert = new Alert(Alert.AlertType.WARNING);
+    switch (alert) {
+      case "Code Red":
+        ImageView redAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/RedAlert.png"));
+        newAlert.setTitle("Code Red Alert");
+        newAlert.setHeaderText("Code Red");
+        newAlert.setContentText(
+            "Fire at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(redAlertIcon);
+        createAlertLabel(redAlertIcon, location, newAlert);
+        break;
+      case "Code Grey":
+        ImageView greyAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreyAlert.png"));
+        newAlert.setTitle("Code Grey Alert");
+        newAlert.setHeaderText("Code Grey");
+        newAlert.setContentText(
+            "Security Personnel Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greyAlertIcon);
+        createAlertLabel(greyAlertIcon, location, newAlert);
+        break;
+      case "Code Green":
+        ImageView greenAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreenAlert.png"));
+        newAlert.setTitle("Code Green Alert");
+        newAlert.setHeaderText("Code Green");
+        newAlert.setContentText(
+            "M.D. or Specialty Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greenAlertIcon);
+        createAlertLabel(greenAlertIcon, location, newAlert);
+        break;
+      case "Code White":
+        ImageView whiteAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/WhiteAlert.png"));
+        newAlert.setTitle("Code White Alert");
+        newAlert.setHeaderText("Code White");
+        newAlert.setContentText(
+            "Bomb Threat at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(whiteAlertIcon);
+        createAlertLabel(whiteAlertIcon, location, newAlert);
+        break;
+      case "Code Pink":
+        ImageView pinkAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/PinkAlert.png"));
+        newAlert.setTitle("Code Pink Alert");
+        newAlert.setHeaderText("Code Pink");
+        newAlert.setContentText(
+            "Infant Abduction at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(pinkAlertIcon);
+        createAlertLabel(pinkAlertIcon, location, newAlert);
+        break;
+      case "Code Amber":
+        ImageView amberAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/AmberAlert.png"));
+        newAlert.setTitle("Code Amber Alert");
+        newAlert.setHeaderText("Code Amber");
+        newAlert.setContentText("Disaster Plan in Effect");
+        newAlert.setGraphic(amberAlertIcon);
+        createAlertLabel(amberAlertIcon, location, newAlert);
+        break;
+      case "Code Blue":
+        ImageView blueAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/BlueAlert.png"));
+        newAlert.setTitle("Code Blue Alert");
+        newAlert.setHeaderText("Code Blue");
+        newAlert.setContentText(
+            "Immediate Medical Assistance Needed at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(blueAlertIcon);
+        createAlertLabel(blueAlertIcon, location, newAlert);
+        break;
+      default:
+        break;
+    }
+    newAlert.show();
+    newAlert.setOnCloseRequest(
+        (e) -> {
+          refreshMap(location.getFloor());
+        });
+  }
+
+  public void createAlertLabel(ImageView icon, Location location, Alert alert) {
+    ImageView locationIcon = icon;
+    DropShadow dropShadow = new DropShadow();
+    dropShadow.setRadius(5.0);
+    dropShadow.setOffsetX(3.0);
+    dropShadow.setOffsetY(3.0);
+    dropShadow.setColor(Color.GRAY);
+
+    // create the label
+    Label label = new Label();
+    label.setEffect(dropShadow);
+    label.setGraphic(locationIcon);
+    label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
+    alertLabels.add(label);
+    alert.setGraphic(icon);
+    label.setOnMouseClicked(
+        (e) -> {
+          alert.show();
+        });
   }
 }
