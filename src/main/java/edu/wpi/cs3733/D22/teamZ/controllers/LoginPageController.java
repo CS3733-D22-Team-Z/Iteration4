@@ -52,6 +52,7 @@ public class LoginPageController implements Initializable {
           .equals(passwordField.getText())) { // edit this line for hashcode eventually
 
         try {
+          MenuController.setLoggedInUser(tryLog);
           loadSuccessScreen(usernameField.getText(), event);
         } catch (IOException e) {
           e.printStackTrace();

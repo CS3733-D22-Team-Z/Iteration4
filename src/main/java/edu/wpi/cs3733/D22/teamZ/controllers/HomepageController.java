@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import java.io.IOException;
+import java.util.Locale;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,6 +23,13 @@ public class HomepageController implements IMenuAccess {
 
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  @FXML
+  public void initialize() {
+    String name = MenuController.getLoggedInUser().getName();
+    name = name.substring(0, 1).toUpperCase(Locale.ROOT) + name.substring(1).toLowerCase(Locale.ROOT);
+    setWelcomeMessage(name);
   }
 
   @FXML
@@ -57,7 +65,8 @@ public class HomepageController implements IMenuAccess {
    * @param name username
    */
   public void setWelcomeMessage(String name) {
-    welcomeMessage.setText(String.format(welcomeMessage.getText(), name));
+    welcomeMessage.setText(
+        String.format("Hello %s, Welcome to the Brigham and Women's Hospital App", name));
   }
 
   /**
