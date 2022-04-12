@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.github.sarxos.webcam.Webcam;
+import io.github.palexdev.materialfx.utils.SwingFXUtils;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -13,7 +14,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,7 +28,7 @@ import javax.swing.*;
 // import javax.swing.text.html.ImageView;
 // import javafx.embed.swing.SwingFXUtils;
 
-public class CCTVSelectionController implements Initializable {
+public class CCTVSelectionController implements IMenuAccess, Initializable {
 
   @FXML Button btnStartCamera;
   @FXML Button btnStopCamera;
@@ -45,6 +45,11 @@ public class CCTVSelectionController implements Initializable {
 
   public void toLandingPage(ActionEvent event) throws IOException {
     menu.load(toLandingPageURL);
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
   }
 
   private class WebCamInfo {
