@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
@@ -25,8 +24,7 @@ public class EditLocationOverlayController {
   @FXML private Button submitButton;
   @FXML private Button clearButton;
 
-  LocationDAOImpl locationDAO = new LocationDAOImpl();
-  MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
+  FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   /** Sets the dropdown choices to enum types */
   @FXML
@@ -36,7 +34,7 @@ public class EditLocationOverlayController {
             "DEPT", "HALL", "ELEV", "STOR", "EXIT", "INFO", "RETL", "SERV", "STAI", "BATH", "LABS",
             "PATI"));
 
-    Location temp = locationDAO.getLocationByID(selectLocationTextField.getText());
+    Location temp = facadeDAO.getLocationByID(selectLocationTextField.getText());
     typeChoiceTextField.setValue(temp.getNodeType());
   }
 
@@ -49,7 +47,7 @@ public class EditLocationOverlayController {
   @FXML
   private void submitButtonClicked(ActionEvent event) throws IOException {
     // change later to Neha's nodeID info
-    Location tempLocation = locationDAO.getLocationByID(selectLocationTextField.getText());
+    Location tempLocation = facadeDAO.getLocationByID(selectLocationTextField.getText());
 
     tempLocation.setNodeType(typeChoiceTextField.getValue());
     tempLocation.setFloor(floorChoiceTextField.getValue());
@@ -65,10 +63,10 @@ public class EditLocationOverlayController {
             + tempLocation.getFloor();
 
     // check if already exists
-    if (locationDAO.getLocationByID(newNodeID).equals(null)) {
+    if (facadeDAO.getLocationByID(newNodeID).equals(null)) {
       alreadyExistsText.setVisible(false);
       List<MedicalEquipment> medicalEquipmentList =
-          medicalEquipmentDAO.getAllMedicalEquipmentByLocation(tempLocation);
+          facadeDAO.getAllMedicalEquipmentByLocation(tempLocation);
       // check if there are medical equipment stuff there
       if (medicalEquipmentList.isEmpty()) {
         // do nothing
@@ -78,14 +76,14 @@ public class EditLocationOverlayController {
         for (int i = 0; i < medicalEquipmentList.size(); i++) {
           MedicalEquipment tempMedEquip = medicalEquipmentList.get(i);
           tempMedEquip.setCurrentLocation(tempLocation);
-          medicalEquipmentDAO.updateMedicalEquipment(tempMedEquip);
+          facadeDAO.updateMedicalEquipment(tempMedEquip);
         }
       }
-      if (locationDAO.deleteLocation(tempLocation)) {
+      if (facadeDAO.deleteLocation(tempLocation)) {
         System.out.println("Delete location successful");
       }
       tempLocation.setNodeID(newNodeID);
-      if (locationDAO.addLocation(tempLocation)) {
+      if (facadeDAO.addLocation(tempLocation)) {
         System.out.println("Added updated location successful");
       }
     } else {

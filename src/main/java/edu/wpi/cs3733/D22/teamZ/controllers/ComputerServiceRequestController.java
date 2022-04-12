@@ -1,29 +1,28 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.App;
 import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class ComputerServiceRequestController {
+public class ComputerServiceRequestController implements IMenuAccess {
   @FXML private Button backButton;
   @FXML private Button submitButton;
   @FXML private TextField roomNumberField;
   @FXML private TextArea descriptionArea;
 
-  private final String toDashboardURL = "views/LandingPage.fxml";
+  private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+
+  private MenuController menu;
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
 
   @FXML
   void backToDashboard() throws IOException {
-    Stage primaryStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toDashboardURL));
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
+    menu.load(toLandingPageURL);
   }
 }

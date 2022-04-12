@@ -46,13 +46,12 @@ public class StartupController {
   private String homepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   // init LocationDAOImpl to getAllLocations from db
-  LocationDAOImpl locDAO = new LocationDAOImpl();
+  FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   // create ObservableList to load locations into tableView
   private ObservableList<Location> data;
 
   // init MedEquipReqDAOImpl
-  IMedEquipReqDAO medDAO = new MedEquipReqDAOImpl();
 
   // create ObservableList to load MedEquipDAO into tableView
   private ObservableList<MedicalEquipmentDeliveryRequest> dataMed;
@@ -65,10 +64,10 @@ public class StartupController {
     MedRequestsTable.getItems().clear();
 
     // get list of locations from db and transfer into ObservableList
-    data = FXCollections.observableList(locDAO.getAllLocations());
+    data = FXCollections.observableList(facadeDAO.getAllLocations());
 
-    // get list of locations from db and transfer into ObservableList
-    dataMed = FXCollections.observableList(medDAO.getAllMedEquipReq());
+    // get list of medical equipment requests from db and transfer into ObservableList
+    dataMed = FXCollections.observableList(facadeDAO.getAllMedicalEquipmentRequest());
 
     // link columnNames to data
     nodeID.setCellValueFactory(new PropertyValueFactory<Location, String>("nodeID"));
@@ -104,8 +103,8 @@ public class StartupController {
   @FXML
   public void writeExcel(ActionEvent event) throws Exception {
     System.out.println("exporting CSV of LocationData");
-    data = FXCollections.observableList(locDAO.getAllLocations());
-    dataMed = FXCollections.observableList(medDAO.getAllMedEquipReq());
+    data = FXCollections.observableList(facadeDAO.getAllLocations());
+    dataMed = FXCollections.observableList(facadeDAO.getAllMedicalEquipmentRequest());
   }
 
   @FXML

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
@@ -123,6 +122,7 @@ public class LocationListController {
   private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
 
   // init LocationDAOImpl to use sql methods from db
+  FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   // create ObservableList to load locations into map
   // private ObservableList<Location> floorLocations = FXCollections.observableList(new
@@ -152,9 +152,13 @@ public class LocationListController {
 
     // floorLocations.remove(0, floorLocations.size());
 
-    totalLocations.addAll(FXCollections.observableList(locDAO.getAllLocations()));
+    totalLocations.addAll(FXCollections.observableList(facadeDAO.getAllLocations()));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
+    // floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
 
+    // initLabels();
+
+    // showLocations("1");
     changeFloor.getSelectionModel().select(2);
     refreshMap("1");
 
@@ -182,7 +186,7 @@ public class LocationListController {
 
     floorChoiceTextField.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
 
-    Location displayResult = locDAO.getLocationByID(selectLocationTextField.getText());
+    Location displayResult = facadeDAO.getLocationByID(selectLocationTextField.getText());
     typeChoiceTextField.setValue(displayResult.getNodeType());
 
     locationChangeDarkenPane.setVisible(false);
@@ -192,7 +196,7 @@ public class LocationListController {
 
     // Casey's
     parentDataList = new ArrayList<>();
-    parentDataList.addAll(locDAO.getAllLocations());
+    parentDataList.addAll(facadeDAO.getAllLocations());
     filter = new SearchControl(parentDataList);
 
     List<String> longNames = new ArrayList<>();
@@ -524,7 +528,7 @@ public class LocationListController {
     }
 
     // change later to Neha's nodeID info
-    Location tempLocation = locDAO.getLocationByID(selectLocationTextField.getText());
+    Location tempLocation = facadeDAO.getLocationByID(selectLocationTextField.getText());
 
     // old floor
     String oldFloor = tempLocation.getFloor();
@@ -535,6 +539,8 @@ public class LocationListController {
     tempLocation.setBuilding("Tower");
     tempLocation.setShortName(abbreviationTextField.getText());
 
+    Location oldLoc = new Location(tempLocation.getNodeID());
+
     String newNodeID =
         "z"
             + typeChoiceTextField.getValue()
@@ -544,10 +550,16 @@ public class LocationListController {
             + floorChoiceTextField.getValue();
 
     // check if already exists
-    if (locDAO.getLocationByID(newNodeID).getNodeID() == null) {
+    if (facadeDAO.getLocationByID(newNodeID).getNodeID() == null) {
       alreadyExistsText.setVisible(false);
       List<MedicalEquipment> medicalEquipmentList =
-          medicalEquipmentDAO.getAllMedicalEquipmentByLocation(tempLocation);
+          facadeDAO.getAllMedicalEquipmentByLocation(tempLocation);
+
+      tempLocation.setNodeID(newNodeID);
+      if (facadeDAO.addLocation(tempLocation)) {
+        System.out.println("Added updated location successful");
+      }
+
       // check if there are medical equipment stuff there
       if (medicalEquipmentList.isEmpty()) {
         // do nothing
@@ -557,16 +569,12 @@ public class LocationListController {
         for (int i = 0; i < medicalEquipmentList.size(); i++) {
           MedicalEquipment tempMedEquip = medicalEquipmentList.get(i);
           tempMedEquip.setCurrentLocation(tempLocation);
-          medicalEquipmentDAO.updateMedicalEquipment(tempMedEquip);
+          facadeDAO.updateMedicalEquipment(tempMedEquip);
         }
       }
 
-      if (locDAO.deleteLocation(tempLocation)) {
+      if (facadeDAO.deleteLocation(oldLoc)) {
         System.out.println("Delete location successful");
-      }
-      tempLocation.setNodeID(newNodeID);
-      if (locDAO.addLocation(tempLocation)) {
-        System.out.println("Added updated location successful");
       }
       editLocationPane.setVisible(false);
       locationChangeDarkenPane.setVisible(false);
@@ -711,19 +719,19 @@ public class LocationListController {
 
   private void refreshMap(String floor) {
     totalLocations.remove(0, totalLocations.size());
-    totalLocations.addAll(locDAO.getAllLocations());
+    totalLocations.addAll(facadeDAO.getAllLocations());
     initLabels();
     showLocations(floor);
   }
 
   @FXML
   public void deleteLocation() throws IOException {
-    Location temp = locDAO.getLocationByID(locationToDeleteTextField.getText());
+    Location temp = facadeDAO.getLocationByID(locationToDeleteTextField.getText());
     if (temp.getNodeID().equals(null)) {
       System.out.println("Did not find location in database");
       return;
     }
-    if (locDAO.deleteLocation(temp)) {
+    if (facadeDAO.deleteLocation(temp)) {
       System.out.println("Deletion Successful");
       // TODO: fix
       refreshMap(activeLabel.getLocation().getFloor());
@@ -814,7 +822,7 @@ public class LocationListController {
 
     // generate a node id
     // generate numb
-    List<Location> locations = locDAO.getAllLocationsByFloor(floorField.getValue().toString());
+    List<Location> locations = facadeDAO.getAllLocationsByFloor(floorField.getValue().toString());
     int size =
         (int)
             locations.stream()
@@ -836,9 +844,9 @@ public class LocationListController {
     newLocation.setNodeID(newNodeID);
 
     // check if exists, if not add it
-    if (locDAO.getLocationByID(newNodeID).getNodeID() == null) {
+    if (facadeDAO.getLocationByID(newNodeID).getNodeID() == null) {
       // add it
-      locDAO.addLocation(newLocation);
+      facadeDAO.addLocation(newLocation);
     } else {
       return;
     }
@@ -868,9 +876,7 @@ public class LocationListController {
 
     File file = fileChooser.showSaveDialog(stage);
 
-    // ControlCSV writer = new LocationControlCSV(file);
-    LocationDAOImpl writer = new LocationDAOImpl();
-    writer.exportToLocationCSV(file);
+    facadeDAO.exportLocationsToCSV(file);
   }
 
   public void importFromCSV(ActionEvent actionEvent) {
@@ -883,10 +889,7 @@ public class LocationListController {
 
     File file = fileChooser.showOpenDialog(stage);
 
-    // ControlCSV writer = new LocationControlCSV(file);
-    LocationDAOImpl writer = new LocationDAOImpl();
-
-    int numberConflicts = writer.importLocationFromCSV(file);
+    int numberConflicts = facadeDAO.importLocationsFromCSV(file);
 
     refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
     System.out.println(

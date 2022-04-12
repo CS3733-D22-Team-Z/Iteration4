@@ -19,15 +19,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="864.0" prefWidth="1439.0" style="color: #0075ff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<AnchorPane prefHeight="864.0" prefWidth="1218.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
-      <ImageView fx:id="map" fitHeight="850.0" fitWidth="1153.0" layoutX="216.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="map" fitHeight="850.0" fitWidth="1153.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/1.png" />
          </image>
       </ImageView>
-      <Pane fx:id="pane" layoutX="216.0" prefHeight="850.0" prefWidth="1021.0" />
-      <VBox layoutX="1238.0" layoutY="733.0" prefHeight="132.0" prefWidth="206.0">
+      <Pane fx:id="pane" prefHeight="850.0" prefWidth="1021.0" />
+      <VBox layoutX="1017.0" layoutY="579.0" prefHeight="285.0" prefWidth="205.0">
          <children>
             <Button fx:id="editLocation" disable="true" mnemonicParsing="false" onAction="#editLocationButtonClicked" prefHeight="41.0" prefWidth="170.0" style="-fx-background-color: #0075FF; -fx-background-radius: 5;" text="Edit Location" textFill="WHITE">
                <VBox.margin>
@@ -61,7 +61,7 @@
             </Button>
          </children>
       </VBox>
-      <VBox layoutX="1235.0" prefHeight="308.0" prefWidth="205.0">
+      <VBox layoutX="1017.0" prefHeight="308.0" prefWidth="205.0">
          <children>
             <Label text="Change Floor" textFill="#7b7b7b">
                <font>
@@ -131,9 +131,9 @@
             <Insets left="55.0" />
          </padding>
       </TextField>
-      <ListView fx:id="searchResultList" layoutX="228.0" layoutY="61.0" onMouseClicked="#resultMouseClick" prefHeight="472.0" prefWidth="415.0" style="-fx-background-radius: 10;" visible="false" />
-      <Pane fx:id="locationChangeDarkenPane" opacity="0.26" prefHeight="864.0" prefWidth="1442.0" style="-fx-background-color: #000000;" visible="false" />
-      <Pane fx:id="editLocationPane" layoutX="838.0" layoutY="391.0" prefHeight="440.0" prefWidth="384.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: F6F6F6; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;">
+      <ListView fx:id="searchResultList" layoutX="7.0" layoutY="61.0" onMouseClicked="#resultMouseClick" prefHeight="472.0" prefWidth="415.0" style="-fx-background-radius: 10;" visible="false" />
+      <Pane fx:id="locationChangeDarkenPane" opacity="0.26" prefHeight="864.0" prefWidth="1221.0" style="-fx-background-color: #000000;" visible="false" />
+      <Pane fx:id="editLocationPane" layoutX="617.0" layoutY="391.0" prefHeight="440.0" prefWidth="384.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: F6F6F6; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;">
          <children>
             <Text layoutX="28.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Location">
                <font>
@@ -243,7 +243,7 @@
             <DropShadow />
          </effect>
       </Pane>
-      <Pane fx:id="deleteLocationPlane" layoutX="838.0" layoutY="658.0" prefHeight="174.0" prefWidth="384.0" style="-fx-background-color: white; -fx-background-radius: 10 10 10 10;">
+      <Pane fx:id="deleteLocationPlane" layoutX="617.0" layoutY="658.0" prefHeight="174.0" prefWidth="384.0" style="-fx-background-color: white; -fx-background-radius: 10 10 10 10;">
          <children>
             <Text layoutX="30.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete Location" wrappingWidth="144.21630859375">
                <font>
@@ -263,12 +263,12 @@
             <DropShadow />
          </effect>
       </Pane>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="242.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="21.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/search.png" />
          </image>
       </ImageView>
-      <Pane fx:id="addLocationPane" layoutX="838.0" layoutY="12.0" prefHeight="440.0" prefWidth="384.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: F6F6F6; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;" visible="false">
+      <Pane fx:id="addLocationPane" layoutX="617.0" layoutY="12.0" prefHeight="440.0" prefWidth="384.0" style="fx-border-radius: 10 10 10 10; -fx-background-color: F6F6F6; -fx-background-radius: 10 10 10 10; -fx-background-size: 600 400;" visible="false">
          <children>
             <Text layoutX="28.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Location">
                <font>

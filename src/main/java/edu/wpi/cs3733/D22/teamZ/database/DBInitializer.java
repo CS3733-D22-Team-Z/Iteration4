@@ -69,6 +69,7 @@ public class DBInitializer {
     dropExistingTable("MEDEQUIPREQ");
     dropExistingTable("SERVICEREQUEST");
     dropExistingTable("LABRESULT");
+    dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
     dropExistingTable("MEDICALEQUIPMENT");
     dropExistingTable("PATIENTS");
@@ -128,16 +129,6 @@ public class DBInitializer {
               + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
 
       stmt.execute(
-          "CREATE TABLE LABRESULT ("
-              + "itemID VARCHAR(50),"
-              + "type VARCHAR(50),"
-              + "status VARCHAR(50) DEFAULT 'Available',"
-              + "currentLocation VARCHAR(15),"
-              + "constraint LABRESULTS_PK Primary Key (itemID),"
-              + "constraint LABRESULTS_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint labResultsStatusVal check (status in ('PROCESSING', 'DONE')))");
-
-      stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
               + "requestID VARCHAR(15),"
               + "type VARCHAR(20),"
@@ -154,8 +145,15 @@ public class DBInitializer {
               + "requestID VARCHAR(15),"
               + "equipmentID VARCHAR(15),"
               + "constraint MEDEQUIPREQ_PK Primary Key (requestID),"
-              + "constraint REQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
+              + "constraint MEDEQUIPREQ_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
               + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(itemID))");
+
+      stmt.execute(
+          "CREATE TABLE LABREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "labType VARCHAR(50),"
+              + "constraint LABREQUEST_PK Primary Key (requestID),"
+              + "constraint LABREQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID))");
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
@@ -244,7 +242,7 @@ public class DBInitializer {
             connection.prepareStatement(
                 "INSERT INTO MEDICALEQUIPMENT (ITEMID, TYPE, STATUS, CURRENTLOCATION) "
                     + "values (?, ?, ?, ?)");
-        pstmt.setString(1, info.getItemID());
+        pstmt.setString(1, info.getEquipmentID());
         pstmt.setString(2, info.getType());
         pstmt.setString(3, info.getStatus());
         pstmt.setString(4, info.getCurrentLocation().getNodeID());

@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceRequestDAOImpl implements IServiceRequestDAO {
+class ServiceRequestDAOImpl implements IServiceRequestDAO {
   private List<ServiceRequest> serviceRequestList;
   private ServiceRequestControlCSV csvController;
 
@@ -175,9 +176,84 @@ public class ServiceRequestDAOImpl implements IServiceRequestDAO {
     return true;
   }
 
+  /**
+   * Update a ServiceRequest object in database and list of service requests
+   *
+   * @param request ServiceRequest object that stores updated information
+   * @returnTrue if success, false otherwise
+   */
+  @Override
+  public boolean updateServiceRequest(ServiceRequest request) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "UPDATE SERVICEREQUEST SET status =?, HANDLERID =? WHERE RequestID =?");
+      stmt.setString(1, request.getStatus().toString());
+      stmt.setString(2, request.getHandler().toString());
+      stmt.setString(3, request.getRequestID());
+
+      stmt.executeUpdate();
+      connection.commit();
+      serviceRequestList.remove(request);
+      serviceRequestList.add(request);
+      return true;
+    } catch (SQLException e) {
+      System.out.println("Update failed");
+      return false;
+    }
+  }
+
   /** Writes the current database to a .csv file */
   @Override
-  public void writeServiceRequestsToCSV() {
+  public void exportToServiceRequestCSV() {
     csvController.writeServiceRequestCSV(serviceRequestList);
+  }
+
+  /**
+   * Import ServiceRequest to database from a specified file location for csv
+   *
+   * @param serviceRequestData file location for csv
+   * @return number of conflicts when importing
+   */
+  @Override
+  public int importServiceRequestsFromCSV(File serviceRequestData) {
+    serviceRequestData = new File(System.getProperty("user.dir") + "\\employee.csv");
+    csvController = new ServiceRequestControlCSV(serviceRequestData);
+    int conflictCounter = 0;
+    try {
+      List<ServiceRequest> tempServiceRequest = csvController.readServiceRequestCSV();
+      String temp = "";
+
+      try {
+        for (ServiceRequest info : tempServiceRequest) {
+          PreparedStatement pstmt =
+              connection.prepareStatement(
+                  "INSERT INTO SERVICEREQUEST (REQUESTID, TYPE, STATUS, ISSUERID, HANDLERID, TARGETLOCATIONID) "
+                      + "values (?, ?, ?, ?, ?, ?)");
+          temp = info.getRequestID();
+          pstmt.setString(1, info.getRequestID());
+          pstmt.setString(2, info.getType().toString());
+          pstmt.setString(3, info.getStatus().toString());
+          pstmt.setString(4, info.getIssuer().toString());
+          pstmt.setString(5, info.getHandler().toString());
+          pstmt.setString(6, info.getTargetLocation().toString());
+
+          // insert it
+          pstmt.executeUpdate();
+        }
+      } catch (SQLException e) {
+        conflictCounter++;
+        System.out.println(
+            "Found "
+                + conflictCounter
+                + " conflicts. "
+                + temp
+                + " might have a location that does not exist");
+      }
+    } catch (IOException e) {
+      System.out.println("Failed to insert into Employee table");
+      e.printStackTrace();
+    }
+    return conflictCounter;
   }
 }
