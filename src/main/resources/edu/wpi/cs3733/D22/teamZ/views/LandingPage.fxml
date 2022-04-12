@@ -1,121 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LandingPageController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LandingPageController">
     <children>
-        <Label layoutX="20.0" layoutY="25.0" text="Submit a Service Request">
+        <Label layoutX="24.0" layoutY="9.0" styleClass="object-header" text="Service Request Systems">
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <Label layoutX="20.0" layoutY="44.0" text="Select and submit a service request" textFill="#9d9d9d">
+        <Label layoutX="23.0" layoutY="38.0" styleClass="object-body" text="Select and submit a service request" textFill="#9d9d9d">
             <font>
                 <Font size="9.0" />
             </font>
         </Label>
-      <VBox layoutX="20.0" layoutY="63.0" prefHeight="245.0" prefWidth="238.0" spacing="10.0" style="-fx-spacing: -5;">
+      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="69.0" onAction="#navMedicalEquipment" prefHeight="37.0" prefWidth="365.0" styleClass="landing-button" text="Medical Equipment ">
+         <padding>
+            <Insets right="210.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton buttonType="RAISED" layoutX="23.0" layoutY="113.0" onAction="#navLab" prefHeight="37.0" prefWidth="365.0" styleClass="landing-button" text="Lab">
+         <padding>
+            <Insets right="320.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="159.0" onAction="#navMedicine" prefHeight="37.0" prefWidth="366.0" styleClass="landing-button" text="Medicine Delivery">
+         <padding>
+            <Insets right="230.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton buttonType="RAISED" layoutX="21.0" layoutY="206.0" onAction="#navLanguage" prefHeight="37.0" prefWidth="369.0" styleClass="landing-button" text="Language Interpreter">
+         <padding>
+            <Insets right="200.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton buttonType="RAISED" layoutX="20.0" layoutY="251.0" onAction="#navMeal" prefHeight="37.0" prefWidth="371.0" styleClass="landing-button" text="Meal Service">
+         <padding>
+            <Insets right="265.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton buttonType="RAISED" layoutX="21.0" layoutY="295.0" onAction="#navLaundry" prefHeight="37.0" prefWidth="369.0" styleClass="landing-button" text="Laundry Service">
+         <padding>
+            <Insets right="245.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton buttonType="RAISED" layoutX="20.0" layoutY="340.0" onAction="#navComputer" prefHeight="37.0" prefWidth="371.0" styleClass="landing-button" text="Computer Service">
+         <padding>
+            <Insets right="235.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <VBox fx:id="iconContainer" layoutX="349.0" layoutY="77.0" spacing="28.0">
          <children>
-              <Group>
-                  <children>
-                      <Button id="MedicalEquipmentButton" layoutX="9.0" layoutY="9.0" mnemonicParsing="false" onAction="#navMedicalEquipment" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: &quot;LEFT&quot;; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Medical Equipment">
-                          <effect>
-                              <DropShadow />
-                          </effect>
-                          <font>
-                              <Font name="System Bold" size="9.0" />
-                          </font>
-                      </Button>
-                      <Pane layoutX="205.0" layoutY="13.0" prefHeight="26.0" prefWidth="23.0" style="-fx-background-color: #0075FF; -fx-pref-height: 20; -fx-pref-width: 20; -fx-background-radius: 3;" />
-                  </children>
-              </Group>
-              <Group>
-                  <children>
-                      <Button id="LabButton" layoutX="9.0" layoutY="9.0" mnemonicParsing="false" onAction="#navLab" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: LEFT; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Lab">
-                          <effect>
-                              <DropShadow />
-                          </effect>
-                          <font>
-                              <Font name="System Bold" size="9.0" />
-                          </font>
-                      </Button>
-                      <Pane layoutX="205.0" layoutY="13.0" prefHeight="26.0" prefWidth="23.0" style="-fx-background-color: #0075FF; -fx-pref-height: 20; -fx-pref-width: 20; -fx-background-radius: 3;" />
-                  </children>
-              </Group>
-              <Group>
-                  <children>
-                      <Button id="MedicineDeliveryButton" layoutX="9.0" layoutY="9.0" mnemonicParsing="false" onAction="#navMedicine" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: LEFT; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Medicine Delivery">
-                          <effect>
-                              <DropShadow />
-                          </effect>
-                          <font>
-                              <Font name="System Bold" size="9.0" />
-                          </font>
-                      </Button>
-                      <Pane layoutX="205.0" layoutY="13.0" prefHeight="26.0" prefWidth="23.0" style="-fx-background-color: #0075FF; -fx-pref-height: 20; -fx-pref-width: 20; -fx-background-radius: 3;" />
-                  </children>
-              </Group>
-              <Group>
-                  <children>
-                      <Button id="LanguageInterpreterButton" layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#navLanguage" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: LEFT; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Language Interpreter">
-                          <effect>
-                              <DropShadow />
-                          </effect>
-                          <font>
-                              <Font name="System Bold" size="9.0" />
-                          </font>
-                      </Button>
-                      <Pane layoutX="205.0" layoutY="13.0" prefHeight="26.0" prefWidth="23.0" style="-fx-background-color: #0075FF; -fx-pref-height: 20; -fx-pref-width: 20; -fx-background-radius: 3;" />
-                  </children>
-              </Group>
-              <Group>
-                  <children>
-                      <Button id="MealServiceButton" layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#navMeal" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: LEFT; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Meal Service ">
-                          <effect>
-                              <DropShadow />
-                          </effect>
-                          <font>
-                              <Font name="System Bold" size="9.0" />
-                          </font>
-                      </Button>
-                      <Pane layoutX="205.0" layoutY="13.0" prefHeight="26.0" prefWidth="23.0" style="-fx-background-color: #0075FF; -fx-pref-height: 20; -fx-pref-width: 20; -fx-background-radius: 3;" />
-                  </children>
-              </Group>
-              <Group>
-                  <children>
-                      <Button id="LaundryServiceButton" layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#navLaundry" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: LEFT; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Laundry Service">
-                          <effect>
-                              <DropShadow />
-                          </effect>
-                          <font>
-                              <Font name="System Bold" size="9.0" />
-                          </font>
-                      </Button>
-                      <Pane layoutX="205.0" layoutY="13.0" prefHeight="26.0" prefWidth="23.0" style="-fx-background-color: #0075FF; -fx-pref-height: 20; -fx-pref-width: 20; -fx-background-radius: 3;" />
-                  </children>
-              </Group>
-              <Group>
-                  <children>
-                      <Button id="ComputerServiceButton" fx:id="ComputerServiceButton" layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#navComputer" prefHeight="25.0" prefWidth="199.0" style="-fx-background-color: #FFFFFF; -fx-alignment: LEFT; -fx-pref-width: 220; -fx-pref-height: 26; -fx-background-radius: 5;" text="Computer Service">
-                          <effect>
-                              <DropShadow />
-                          </effect>
-                          <font>
-                              <Font name="System Bold" size="9.0" />
-                          </font>
-                      </Button>
-                      <Pane layoutX="205.0" layoutY="13.0" prefHeight="26.0" prefWidth="23.0" style="-fx-background-color: #0075FF; -fx-pref-height: 20; -fx-pref-width: 20; -fx-background-radius: 3;" />
-                  </children>
-              </Group>
-            <Group />
+            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
+            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
+            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
+            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
+            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
+            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
+            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
          </children>
       </VBox>
+      <Label fx:id="Daniel" layoutX="391.0" layoutY="79.0" text="Daniel Correa" />
+      <Label fx:id="Patrick" layoutX="391.0" layoutY="124.0" text="Patrick Hunter" />
+      <Label fx:id="Maya" layoutX="391.0" layoutY="169.0" text="Maya Angeles" />
+      <Label fx:id="Neha" layoutX="393.0" layoutY="217.0" prefHeight="17.0" prefWidth="119.0" text="Neha Kuchipudi" />
+      <Label fx:id="Alex" layoutX="395.0" layoutY="261.0" text="Alex Brattstrom" />
+      <Label fx:id="Jake" layoutX="395.0" layoutY="305.0" text="Jake Leavitt" />
+      <Label fx:id="Nelson" layoutX="394.0" layoutY="352.0" text="Nelson Diaz" />
+      <MFXToggleButton fx:id="toggle" layoutX="524.0" layoutY="346.0" onMouseClicked="#onToggleClicked" />
     </children>
 </AnchorPane>

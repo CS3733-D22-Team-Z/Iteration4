@@ -1,116 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyListView?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LaundryServiceController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LaundryServiceController">
     <children>
-        <JFXButton id="backButton" layoutX="-111.0" layoutY="1.0" onAction="#navDefault" prefHeight="90.0" prefWidth="191.0" style="-fx-pref-width: 128; -fx-pref-height: 26; -fx-background-radius: 2; -fx-background-color: #0075FF; -fx-translate-x: 126; -fx-translate-y: 13;" text="Back to Dashboard" textFill="WHITE">
-            <font>
-                <Font name="Segoe UI Bold" size="10.0" />
-            </font>
-        </JFXButton>
-        <Text layoutX="-111.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 54; -fx-translate-x: 126;" text="Laundry Service Request Form">
-            <font>
-                <Font name="System Bold" size="12.0" />
-            </font>
-        </Text>
-        <Label layoutX="-112.0" layoutY="59.0" prefHeight="17.0" prefWidth="211.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Enter the fields below to request laundry service." textFill="#9d9d9d">
-            <font>
-                <Font name="Segoe UI Bold" size="7.5" />
-            </font>
-        </Label>
-        <Label layoutX="-112.0" layoutY="83.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Patient Name" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField layoutX="14.0" layoutY="118.0" promptText="Enter patient name">
-            <effect>
-                <DropShadow />
-            </effect>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-        </TextField>
-        <Label layoutX="-111.0" layoutY="142.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Patient ID" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField layoutX="15.0" layoutY="175.0" promptText="Enter patient ID">
-            <effect>
-                <DropShadow />
-            </effect>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-        </TextField>
-        <Label layoutX="-111.0" layoutY="199.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Room Number" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField layoutX="15.0" layoutY="232.0" promptText="Enter room number">
-            <effect>
-                <DropShadow />
-            </effect>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-        </TextField>
-        <Label layoutX="-110.0" layoutY="258.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Montserrat Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Linen Type" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <ChoiceBox layoutX="17.0" layoutY="291.0" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
-            <effect>
-                <DropShadow />
-            </effect>
-        </ChoiceBox>
-        <JFXButton layoutX="-109.0" layoutY="326.0" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text=" Submit" textFill="WHITE">
-            <font>
-                <Font name="Segoe UI Bold" size="10.0" />
-            </font>
-        </JFXButton>
-        <Label layoutX="141.0" layoutY="82.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Status" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <ChoiceBox layoutX="268.0" layoutY="113.0" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
-            <effect>
-                <DropShadow />
-            </effect>
-        </ChoiceBox>
-        <Label layoutX="143.0" layoutY="138.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Staff Assigned" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField layoutX="268.0" layoutY="171.0">
-            <effect>
-                <DropShadow />
-            </effect>
-        </TextField>
-        <ListView layoutX="265.0" layoutY="228.0" prefHeight="122.0" prefWidth="191.0">
-            <effect>
-                <DropShadow />
-            </effect>
-        </ListView>
-        <Label layoutX="143.0" layoutY="195.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Current Requests" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
+        <Text layoutX="14.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="object-header" text="Laundry Service Request Form" />
+        <Label layoutX="13.0" layoutY="84.0" prefHeight="17.0" prefWidth="266.0" styleClass="object-body" text="Enter the fields below to request laundry service." />
+        <Label layoutX="15.0" layoutY="112.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
+        <MFXTextField floatMode="DISABLED" layoutX="14.0" layoutY="132.0" prefWidth="149.0" promptText="Enter patient name" />
+        <Label layoutX="16.0" layoutY="172.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
+        <MFXTextField floatMode="DISABLED" layoutX="14.0" layoutY="193.0" prefWidth="149.0" promptText="Enter patient ID" />
+        <Label layoutX="13.0" layoutY="231.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
+        <MFXTextField floatMode="DISABLED" layoutX="15.0" layoutY="252.0" prefWidth="149.0" promptText="Enter room number" />
+        <Label layoutX="15.0" layoutY="293.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Linen Type" />
+        <ChoiceBox layoutX="16.0" layoutY="313.0" prefHeight="25.0" prefWidth="149.0" />
+        <Label layoutX="266.0" layoutY="113.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Status" />
+        <ChoiceBox layoutX="262.0" layoutY="129.0" prefHeight="25.0" prefWidth="149.0" />
+        <Label layoutX="263.0" layoutY="171.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Staff Assigned" />
+        <MFXTextField floatMode="DISABLED" layoutX="263.0" layoutY="188.0" prefWidth="149.0" />
+        <MFXLegacyListView layoutX="263.0" layoutY="252.0" prefHeight="118.0" prefWidth="275.0" />
+        <Label layoutX="265.0" layoutY="232.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
+      <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="17.0" layoutY="11.0" onAction="#onBackButtonClicked" text=" Back to Landing Page" />
+      <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="359.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="70.0" text="Submit" />
+      <MFXButton fx:id="resetButton" layoutX="98.0" layoutY="360.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="70.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
     </children>
 </AnchorPane>
