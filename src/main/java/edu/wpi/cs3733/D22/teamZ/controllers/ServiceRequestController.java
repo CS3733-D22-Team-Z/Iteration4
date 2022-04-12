@@ -36,7 +36,7 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
 
   /** Constructor for ServiceRequestController class, which initializes the database. */
   public ServiceRequestController() {
-    database = new FacadeDAO();
+    database = FacadeDAO.getInstance();
   }
 
   /**
