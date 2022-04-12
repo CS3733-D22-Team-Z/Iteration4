@@ -111,13 +111,64 @@
     -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
 }
 
+/*.mfx-table-view {*/
+/*    -fx-alignment: center;*/
+
+/*}*/
+/*.mfx-table-column {*/
+/*    -fx-font-family: 'Montserrat';*/
+/*    -fx-font-weight: 700;*/
+/*    -fx-font-size: 12pt;*/
+/*    -fx-text-fill: #2e2e2e;*/
+
+/*    !*-fx-min-width: 81;*!*/
+/*    !*-fx-max-width: 81;*!*/
+
+/*    -fx-alignment: center;*/
+/*    -fx-text-alignment: center;*/
+
+/*    -fx-border-width: 0 0 0 0;*/
+/*    -fx-padding: 0 0 0 0;*/
+/*    -fx-border-color: #D2D2D2;*/
+/*}*/
+
+/*.mfx-table-row-cell {*/
+/*    -fx-font-family: 'Montserrat';*/
+/*    -fx-font-weight: 600;*/
+/*    -fx-font-size: 7pt;*/
+/*    -fx-text-fill: #7B7B7B;*/
+
+/*    !*-fx-min-width: 81;*!*/
+/*    !*-fx-max-width: 81;*!*/
+
+/*    -fx-alignment: center;*/
+
+/*    -fx-border-width: 0 0 0 0;*/
+/*    -fx-border-color: #D2D2D2;*/
+
+/*    -fx-padding: 0 0 0 0;*/
+/*}*/
+
+/*.mfx-table-row:selected {*/
+/*    -fx-background-color: #0075FF2F;*/
+/*}*/
+
+/*.mfx-table-column .mfx-icon-wrapper {*/
+/*    -fx-min-width: 0;*/
+/*    -fx-max-width: 0;*/
+
+/*    -fx-min-height: 0;*/
+/*    -fx-max-height: 0;*/
+/*}*/
+
 .table-view {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 5px;
+
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
 }
 
 .table-view .column-header {
-    /* Using object-header font */
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 700;
     -fx-font-size: 7.5pt;
@@ -128,25 +179,33 @@
     -fx-border-color: #D2D2D2;
 }
 
-/*.table-view .scroll-bar * {
-    -fx-min-width: 0;
-    -fx-pref-width: 0;
-    -fx-max-width: 0;
-
+.table-view .scroll-bar * {
     -fx-min-height: 0;
     -fx-pref-height: 0;
     -fx-max-height: 0;
-}*/
+}
 
 .table-view .table-cell{
-    /* Using object-body font */
+    -fx-background-color: #FFFFFF;
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 600;
     -fx-font-size: 7pt;
     -fx-text-fill: #7B7B7B;
-    -fx-alignment: center;
 
-    -fx-background-color: #FFFFFF;
     -fx-border-width: 0 1 0 0;
     -fx-border-color: #D2D2D2;
+
+    -fx-alignment: center;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #0075FF;
+}
+
+.table-view .filler {
+    -fx-min-width: 0;
+    -fx-max-width: 0;
+
+    -fx-min-height: 0;
+    -fx-max-height: 0;
 }

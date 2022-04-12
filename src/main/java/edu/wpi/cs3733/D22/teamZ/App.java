@@ -67,7 +67,7 @@ public class App extends Application {
               }
               root.getTransforms().setAll(initialStates);
 
-              root.getTransforms().add(new Scale(scaleX, scaleY, 0, 0));
+              root.getTransforms().add(new Scale(scaleY, scaleY, 0, 0));
             };
     primaryStage.heightProperty().addListener(sizeChangeListener);
     primaryStage.widthProperty().addListener(sizeChangeListener);
