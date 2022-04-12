@@ -268,7 +268,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
                   + "values (?, ?, ?, ?, ?)");
       stmt.setString(1, emp.getEmployeeID());
       stmt.setString(2, emp.getName());
-      stmt.setObject(3, emp.getAccesstype());
+      stmt.setString(3, emp.getAccesstype().toString());
       stmt.setString(4, emp.getUsername());
       stmt.setString(5, emp.getPassword());
 

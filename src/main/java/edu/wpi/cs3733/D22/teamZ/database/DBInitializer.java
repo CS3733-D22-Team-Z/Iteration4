@@ -326,7 +326,7 @@ public class DBInitializer {
   public boolean switchDatabase(String type) {
     connection = EnumDatabaseConnection.CONNECTION.getConnection();
 
-    FacadeDAO dao = new FacadeDAO();
+    FacadeDAO dao = FacadeDAO.getInstance();
 
     // transfer all stuff to temp lists
     List<Location> tempLocation = dao.getAllLocations();
@@ -348,14 +348,13 @@ public class DBInitializer {
     // bool checker
     boolean val = true;
     // reinsert info into new database
-    val =
-        dao.addLocationFromList(tempLocation)
-            && dao.addEmployeeFromList(tempEmployee)
-            && dao.addPatientFromList(tempPatient)
-            && dao.addMedicalEquipmentFromList(tempMedicalEquipment)
-            && dao.addServiceRequestFromList(tempServiceRequests)
-            && dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests)
-            && dao.addLabRequestFromList(tempLabRequest);
+    val = dao.addLocationFromList(tempLocation);
+    val = dao.addEmployeeFromList(tempEmployee);
+    val = dao.addPatientFromList(tempPatient);
+    val = dao.addMedicalEquipmentFromList(tempMedicalEquipment);
+    val = dao.addServiceRequestFromList(tempServiceRequests);
+    val = dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests);
+    val = dao.addLabRequestFromList(tempLabRequest);
     return val;
   }
 }

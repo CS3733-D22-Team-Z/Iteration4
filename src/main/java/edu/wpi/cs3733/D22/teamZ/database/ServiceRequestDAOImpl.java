@@ -27,7 +27,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     File serviceRequestCSV = new File(System.getProperty("user.dir") + "\\ServiceRequest.csv");
     csvController = new ServiceRequestControlCSV(serviceRequestCSV);
 
-    serviceRequestList = new ArrayList<ServiceRequest>();
+    serviceRequestList = new ArrayList<>();
 
     try {
       PreparedStatement pstmt = connection.prepareStatement("Select * From SERVICEREQUEST");
@@ -74,6 +74,20 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   @Override
   public List<ServiceRequest> getAllServiceRequests() {
     updateConnection();
+
+    try {
+      PreparedStatement pstmt = connection.prepareStatement("Select * from SERVICEREQUEST");
+      ResultSet rset = pstmt.executeQuery();
+
+      while (rset.next()) {
+        ServiceRequest temp = serviceRequestFromResultSet(rset);
+        if (!serviceRequestList.contains(temp)) {
+          serviceRequestList.add(temp);
+        }
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to add service request");
+    }
     return this.serviceRequestList;
   }
 
