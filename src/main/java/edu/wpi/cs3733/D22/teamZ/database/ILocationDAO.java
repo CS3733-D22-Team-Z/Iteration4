@@ -67,10 +67,26 @@ public interface ILocationDAO {
   List<Location> getAllLocationsByFloor(String floor);
 
   /**
+   * Gets all locations of the given type
+   *
+   * @param type type of location
+   * @return list of locations of the given type
+   */
+  List<Location> getALlLocationsByType(String type);
+
+  /**
    * Imports data from CSV into location database
    *
    * @param locData
    * @return True if successful, false if not
    */
   int importLocationFromCSV(File locData);
+
+  /**
+   * Insert locations into the database from given list
+   *
+   * @param list list of locations to be added
+   * @return true if successful, false otherwise
+   */
+  boolean addLocationFromList(List<Location> list);
 }

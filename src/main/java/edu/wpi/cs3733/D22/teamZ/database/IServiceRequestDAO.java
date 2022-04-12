@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import java.io.File;
 import java.util.List;
 
 public interface IServiceRequestDAO {
@@ -38,6 +39,30 @@ public interface IServiceRequestDAO {
    */
   boolean deleteServiceRequest(ServiceRequest request);
 
+  /**
+   * Update a ServiceRequest object in database and list of service requests
+   *
+   * @param request ServiceRequest object that stores updated information
+   * @return True if success, false otherwise
+   */
+  boolean updateServiceRequest(ServiceRequest request);
+
   /** Writes the current database to a .csv file */
-  void writeServiceRequestsToCSV();
+  void exportToServiceRequestCSV();
+
+  /**
+   * Import ServiceRequest to database from a specified file location for csv
+   *
+   * @param serviceRequestData file location for csv
+   * @return number of conflicts when importing
+   */
+  int importServiceRequestsFromCSV(File serviceRequestData);
+
+  /**
+   * Insert service requests into the database from the given list
+   *
+   * @param list list of service requests to be added
+   * @return True if successful, false otherwise
+   */
+  boolean addServiceRequestFromList(List<ServiceRequest> list);
 }

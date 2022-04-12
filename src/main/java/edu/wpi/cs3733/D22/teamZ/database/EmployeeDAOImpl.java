@@ -2,18 +2,21 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeDAOImpl implements IEmployeeDAO {
-  List<Employee> employees;
+class EmployeeDAOImpl implements IEmployeeDAO {
+  private List<Employee> employees;
   private EmployeeControlCSV empCSV;
 
-  static Connection connection = DatabaseConnection.getConnection();
+  static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  // DatabaseConnection.getConnection();
 
   public EmployeeDAOImpl() {
     employees = new ArrayList<Employee>();
+    updateConnection();
   }
 
   /**
@@ -22,6 +25,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return List of employees
    */
   public List<Employee> getAllEmployees() {
+    updateConnection();
     try {
       PreparedStatement pstmt = connection.prepareStatement("Select * From EMPLOYEES");
       ResultSet rset = pstmt.executeQuery();
@@ -39,6 +43,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       }
     } catch (SQLException e) {
       System.out.println("Failed to get all Employees");
+      e.printStackTrace();
     }
     return employees;
   }
@@ -50,6 +55,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByID(String employeeID) {
+    updateConnection();
     Employee emp = new Employee();
     try {
       PreparedStatement pstmt =
@@ -69,6 +75,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       }
     } catch (SQLException e) {
       System.out.println("Unable to find employee");
+      e.printStackTrace();
     }
     return emp;
   }
@@ -80,6 +87,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByUsername(String employeeUsername) {
+    updateConnection();
     Employee emp = new Employee();
     try {
       PreparedStatement pstmt =
@@ -99,6 +107,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       }
     } catch (SQLException e) {
       System.out.println("Unable to find employee");
+      e.printStackTrace();
     }
     return emp;
   }
@@ -110,25 +119,13 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return True if successful, false if not
    */
   public boolean addEmployee(Employee emp) {
-    try {
-      PreparedStatement stmt =
-          connection.prepareStatement(
-              "INSERT INTO EMPLOYEES (EMPLOYEEID, NAME, ACCESSTYPE, USERNAME, PASSWORD)"
-                  + "values (?, ?, ?, ?, ?)");
-      stmt.setString(1, emp.getEmployeeID());
-      stmt.setString(2, emp.getName());
-      stmt.setObject(3, emp.getAccesstype());
-      stmt.setString(4, emp.getUsername());
-      stmt.setString(5, emp.getPassword());
-
-      stmt.executeUpdate();
-      connection.commit();
-    } catch (SQLException e) {
-      System.out.println("Statement failed");
-      return false;
+    updateConnection();
+    boolean val = false;
+    if (addToDatabase(emp)) {
+      val = true;
+      employees.add(emp);
     }
-    employees.add(emp);
-    return true;
+    return val;
   }
 
   /**
@@ -138,6 +135,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return True if successful, false if not
    */
   public boolean updateEmployee(Employee emp) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
@@ -149,6 +147,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       stmt.executeUpdate();
     } catch (SQLException e) {
       System.out.println("Statement failed");
+      e.printStackTrace();
       return false;
     }
     employees.remove(getEmployeeByID(emp.getEmployeeID()));
@@ -163,6 +162,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    * @return True if successful, false if not
    */
   public boolean deleteEmployee(Employee emp) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement("DELETE FROM EMPLOYEES WHERE EmployeeID=?");
@@ -170,6 +170,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
       stmt.executeUpdate();
     } catch (SQLException e) {
       System.out.println("Statement failed");
+      e.printStackTrace();
       return false;
     }
     employees.remove(emp);
@@ -181,12 +182,103 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
    *
    * @return True if successful, false if not
    */
-  public boolean exportToEmployeeCSV() {
+  public boolean exportToEmployeeCSV(File empData) {
+    updateConnection();
 
-    File empData = new File(System.getProperty("user.dir") + "\\employee.csv");
+    empData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(empData);
     empCSV.writeEmployeeCSV(getAllEmployees());
 
+    return true;
+  }
+
+  /**
+   * Imports the Employee csv into the Employee table
+   *
+   * @param employeeData file location of employee csv
+   * @return number of conflicts when inserting
+   */
+  @Override
+  public int importEmployeesFromCSV(File employeeData) {
+    updateConnection();
+    employeeData = new File(System.getProperty("user.dir") + "\\employee.csv");
+    empCSV = new EmployeeControlCSV(employeeData);
+    int conflictCounter = 0;
+    try {
+      List<Employee> tempEmployee = empCSV.readEmployeeCSV();
+
+      try {
+        for (Employee info : tempEmployee) {
+          PreparedStatement pstmt =
+              connection.prepareStatement(
+                  "INSERT INTO EMPLOYEES (EMPLOYEEID, NAME, ACCESSTYPE, USERNAME, PASSWORD) "
+                      + "values (?, ?, ?, ?, ?)");
+          pstmt.setString(1, info.getEmployeeID());
+          pstmt.setString(2, info.getName());
+          pstmt.setString(3, info.getAccesstype().toString());
+          pstmt.setString(4, info.getUsername());
+          pstmt.setString(5, info.getPassword());
+
+          // insert it
+          pstmt.executeUpdate();
+        }
+      } catch (SQLException e) {
+        conflictCounter++;
+        System.out.println("Found " + conflictCounter + " conflicts.");
+      }
+    } catch (IOException e) {
+      System.out.println("Failed to insert into Employee table");
+      e.printStackTrace();
+    }
+    return conflictCounter;
+  }
+
+  /** Updates the connection */
+  private void updateConnection() {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  }
+
+  /**
+   * Inserts employees from a list
+   *
+   * @param list list of employees to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addEmployeeFromList(List<Employee> list) {
+    updateConnection();
+    boolean val = true;
+    for (Employee info : list) {
+      if (!addToDatabase(info)) {
+        val = false;
+      }
+    }
+    return val;
+  }
+
+  /**
+   * Contains the SQL command to insert into DB
+   *
+   * @return True if successful, false otherwise
+   */
+  private boolean addToDatabase(Employee emp) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "INSERT INTO EMPLOYEES (EMPLOYEEID, NAME, ACCESSTYPE, USERNAME, PASSWORD)"
+                  + "values (?, ?, ?, ?, ?)");
+      stmt.setString(1, emp.getEmployeeID());
+      stmt.setString(2, emp.getName());
+      stmt.setString(3, emp.getAccesstype().toString());
+      stmt.setString(4, emp.getUsername());
+      stmt.setString(5, emp.getPassword());
+
+      stmt.executeUpdate();
+      connection.commit();
+    } catch (SQLException e) {
+      System.out.println("Statement failed");
+      e.printStackTrace();
+      return false;
+    }
     return true;
   }
 }

@@ -2,7 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import edu.wpi.cs3733.D22.teamZ.database.MedEquipReqDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import java.io.File;
 import java.net.URL;
@@ -69,11 +69,11 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   private ObservableList<RequestRow> requests;
 
   // Database object
-  private MedEquipReqDAOImpl database;
+  private FacadeDAO facadeDAO;
 
   public MedicalEquipmentRequestListController() {
     // Create new database object
-    database = new MedEquipReqDAOImpl();
+    facadeDAO = FacadeDAO.getInstance();
 
     // Grab data
     loadRequests();
@@ -222,11 +222,11 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   }
 
   public void loadRequests() {
-    rawRequests = database.getAllMedEquipReq();
+    rawRequests = facadeDAO.getAllMedicalEquipmentRequest();
   }
 
   public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) {
-    return database.getMedEquipReqByID(MeqID);
+    return facadeDAO.getMedicalEquipmentRequestByID(MeqID);
   }
 
   public void exportToCSV(ActionEvent actionEvent) {
@@ -239,7 +239,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     fileChooser.getExtensionFilters().add(extFilter);
 
     File file = fileChooser.showSaveDialog(stage);
-    database.exportToMedEquipReqCSV(file);
+    facadeDAO.exportMedicalEquipmentRequestsToCSV(file);
   }
 
   // Data structure to represent a row in the request list.

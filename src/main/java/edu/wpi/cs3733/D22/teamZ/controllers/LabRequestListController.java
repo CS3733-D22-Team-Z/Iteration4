@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.database.LabRequestServiceDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.LabServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class LabRequestListController implements Initializable, IMenuAccess {
   private final String toLabServiceRequestListURL =
       "edu/wpi/cs3733/D22/teamZ/views/LabServiceRequest.fxml";
 
-  private LabRequestServiceDAOImpl labDatabase;
+  private FacadeDAO facadeDAO;
 
   private MenuController menu;
 
@@ -44,14 +44,14 @@ public class LabRequestListController implements Initializable, IMenuAccess {
   // loadDataFromDatabase when button loadData is clicked
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
-    labDatabase = new LabRequestServiceDAOImpl();
+    facadeDAO = FacadeDAO.getInstance();
 
     System.out.println("loading data");
     labRequestTable.getItems().clear();
 
     // get list of locations from db and transfer into ObservableList
     ObservableList<LabServiceRequest> data =
-        FXCollections.observableList(labDatabase.getAllLabServiceRequests());
+        FXCollections.observableList(facadeDAO.getAllLabServiceRequests());
 
     // link columnNames to data
     status.setCellValueFactory(
