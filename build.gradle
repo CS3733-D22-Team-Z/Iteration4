@@ -18,7 +18,7 @@ repositories {
 
 javafx {
     version = "17"
-    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing', 'javafx.graphics', 'javafx.media']
 }
 
 
