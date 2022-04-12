@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
     <children>
-        <Label fx:id="welcomeMessage" alignment="TOP_LEFT" layoutX="18.0" layoutY="167.0" prefHeight="49.0" prefWidth="470.0" text="Hello admin, welcome to the Brigham and Women's Hospital App " wrapText="true">
+        <Label fx:id="welcomeMessage" alignment="TOP_LEFT" layoutX="18.0" layoutY="167.0" prefHeight="49.0" prefWidth="531.0" styleClass="object-header" stylesheets="@../styles/ServiceRequestDefault.css" text="Hello admin, Welcome to the Brigham and Women's Hospital App " wrapText="true">
             <font>
                 <Font name="System Bold" size="15.0" />
             </font>
