@@ -1,15 +1,17 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
+import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 class MedEquipReqDAOImpl implements IMedEquipReqDAO {
-  private List<MedicalEquipmentDeliveryRequest> list;
+  private HashMap<String, MedicalEquipmentDeliveryRequest> medicalEquipmentRequests;
   private MedEqReqControlCSV reqCSV;
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -17,7 +19,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
 
   public MedEquipReqDAOImpl() {
     updateConnection();
-    list = new ArrayList<>();
+    medicalEquipmentRequests = new HashMap<>();
   }
 
   /**
@@ -26,43 +28,8 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return list of MedicalEquipmentRequests
    */
   public List<MedicalEquipmentDeliveryRequest> getAllMedEquipReq() {
-    updateConnection();
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement(
-              "Select SERVICEREQUEST.REQUESTID, SERVICEREQUEST.STATUS, MEDEQUIPREQ.EQUIPMENTID, ISSUERID, HANDLERID, TARGETLOCATIONID\n"
-                  + "FROM SERVICEREQUEST,MEDEQUIPREQ WHERE SERVICEREQUEST.REQUESTID = MEDEQUIPREQ.REQUESTID");
-      ResultSet rset = pstmt.executeQuery();
-
-      list.clear();
-
-      while (rset.next()) {
-        String requestID = rset.getString("REQUESTID");
-        String status = rset.getString("STATUS");
-        String equipmentID = rset.getString("EQUIPMENTID");
-        String issuer = rset.getString("ISSUERID");
-        String handler = rset.getString("HANDLERID");
-        String targetLoc = rset.getString("TARGETLOCATIONID");
-
-        // make new temp to put into list
-        MedicalEquipmentDeliveryRequest temp =
-            new MedicalEquipmentDeliveryRequest(
-                requestID,
-                ServiceRequest.RequestStatus.getRequestStatusByString(status),
-                issuer,
-                handler,
-                equipmentID,
-                targetLoc);
-
-        // if not in the list already, add it
-        if (!list.contains(temp)) {
-          list.add(temp);
-        }
-      }
-    } catch (SQLException e) {
-      System.out.println("Unable to get all Medical Equipment Requests");
-    }
-    return list;
+    ArrayList<MedicalEquipmentDeliveryRequest> medRequestList = new ArrayList<>(medicalEquipmentRequests.values());
+    return medRequestList;
   }
 
   /**
@@ -72,41 +39,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return MedicalEquipmentRequest of given ID, null if not found
    */
   public MedicalEquipmentDeliveryRequest getMedEquipReqByID(String id) {
-    updateConnection();
-    try {
-      // query to get information of request by ID
-      PreparedStatement pstmt =
-          connection.prepareStatement(
-              "Select SERVICEREQUEST.REQUESTID, "
-                  + "SERVICEREQUEST.STATUS, MEDEQUIPREQ.EQUIPMENTID, ISSUERID,"
-                  + " HANDLERID, TARGETLOCATIONID FROM SERVICEREQUEST,MEDEQUIPREQ "
-                  + "WHERE SERVICEREQUEST.REQUESTID = MEDEQUIPREQ.REQUESTID AND MEDEQUIPREQ.REQUESTID = ?");
-      pstmt.setString(1, id);
-      ResultSet rset = pstmt.executeQuery();
-
-      while (rset.next()) {
-        String requestID = rset.getString("REQUESTID");
-        String status = rset.getString("STATUS");
-        String equipmentID = rset.getString("EQUIPMENTID");
-        String issuer = rset.getString("ISSUERID");
-        String handler = rset.getString("HANDLERID");
-        String targetLoc = rset.getString("TARGETLOCATIONID");
-
-        // make new temp to put into list
-        MedicalEquipmentDeliveryRequest temp =
-            new MedicalEquipmentDeliveryRequest(
-                requestID,
-                ServiceRequest.RequestStatus.getRequestStatusByString(status),
-                issuer,
-                handler,
-                equipmentID,
-                targetLoc);
-        return temp;
-      }
-    } catch (SQLException e) {
-      System.out.println("Unable to find request with given ID");
-    }
-    return null;
+    return medicalEquipmentRequests.get(id);
   }
 
   /**
@@ -120,7 +53,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     boolean val = false;
     if (addToDatabase(request)) {
       val = true;
-      list.add(request);
+      medicalEquipmentRequests.put(request.getEquipmentID(), request);
     }
     return val;
   }
@@ -143,8 +76,8 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
 
       stmt.executeUpdate();
       connection.commit();
-      list.remove(request);
-      list.add(request);
+      medicalEquipmentRequests.remove(request.getRequestID());
+      medicalEquipmentRequests.put(request.getRequestID(), request);
       return true;
     } catch (SQLException e) {
       System.out.println("Update failed");
@@ -166,7 +99,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
       stmt.setString(1, request.getRequestID());
       stmt.execute();
       connection.commit();
-      list.remove(request);
+      medicalEquipmentRequests.remove(request.getRequestID());
       return true;
     } catch (SQLException e) {
       System.out.println("Failed to delete from MEDEQUIPREQ table");
@@ -200,6 +133,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
   public int importMedEquipReqFromCSV(File data) {
     updateConnection();
     reqCSV = new MedEqReqControlCSV(data);
+
     int conflictCounter = 0;
     String temp = "";
     try {
@@ -216,6 +150,8 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
 
           // insert it
           pstmt.executeUpdate();
+
+          medicalEquipmentRequests.put(info.getRequestID(), info);
         }
       } catch (SQLException e) {
         conflictCounter++;
