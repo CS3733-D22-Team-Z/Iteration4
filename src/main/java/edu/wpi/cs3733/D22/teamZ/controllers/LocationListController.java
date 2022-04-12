@@ -589,8 +589,9 @@ public class LocationListController implements IMenuAccess {
           new MapLabel.mapLabelBuilder()
               .location(current)
               .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
+                  //todo: uncomment .requests(facadeDAO.getAllServiceRequestsByLocation(current))
               .build();
-      // .requests(facadeDAO.getAllServiceRequestsByLocation(current)));
+
       // stylize label icon
       Image locationImg;
       ImageView locationIcon = null;
