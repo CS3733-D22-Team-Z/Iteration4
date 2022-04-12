@@ -11,10 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,8 +27,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -51,6 +56,9 @@ public class LocationListController {
   @FXML private ImageView map;
   @FXML private Button editLocation;
   @FXML private Button deleteLocation;
+  @FXML private ScrollPane scrollPane;
+  @FXML private Group group;
+  @FXML private StackPane stackPane;
 
   // Andrew's stuff
   @FXML private TextField selectLocationTextField;
@@ -142,6 +150,8 @@ public class LocationListController {
 
     // floorLocations.remove(0, floorLocations.size());
 
+    scrollPane.setPannable(true);
+
     totalLocations.addAll(FXCollections.observableList(facadeDAO.getAllLocations()));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
     // floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
@@ -162,6 +172,40 @@ public class LocationListController {
           // get list of locations from db and transfer into ObservableList
           System.out.println(selectedItem);
           changeToFloor(selectedItem);
+        });
+
+    StackPane zoomPane = new StackPane();
+    zoomPane.getChildren().add(group);
+
+    Group content = new Group(zoomPane);
+    scrollPane.setContent(content);
+
+    group.setScaleX(group.getScaleX() / 1.1);
+    group.setScaleY(group.getScaleY() / 1.1);
+
+    zoomPane.setOnScroll(
+        new EventHandler<ScrollEvent>() {
+          @Override
+          public void handle(ScrollEvent event) {
+            event.consume();
+
+            if (event.getDeltaY() == 0) {
+              return;
+            }
+
+            double scaleFactor = (event.getDeltaY() > 0) ? 1.1 : 1 / 1.1;
+
+            // amount of scrolling in each direction in scrollContent coordinate
+            // units
+            Point2D scrollOffset = figureScrollOffset(content, scrollPane);
+
+            group.setScaleX(group.getScaleX() * scaleFactor);
+            group.setScaleY(group.getScaleY() * scaleFactor);
+
+            // move viewport so that old center remains in the center after the
+            // scaling
+            repositionScroller(content, scrollPane, scaleFactor, scrollOffset);
+          }
         });
 
     // Andrew's stuff
@@ -867,5 +911,47 @@ public class LocationListController {
     }
 
     return dict;
+  }
+
+  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    double hScrollProportion =
+        (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
+    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    double vScrollProportion =
+        (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
+    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
+    return new Point2D(scrollXOffset, scrollYOffset);
+  }
+
+  private void repositionScroller(
+      Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
+    double scrollXOffset = scrollOffset.getX();
+    double scrollYOffset = scrollOffset.getY();
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    if (extraWidth > 0) {
+      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
+      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
+      scroller.setHvalue(
+          scroller.getHmin()
+              + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    if (extraHeight > 0) {
+      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
+      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
+      scroller.setVvalue(
+          scroller.getVmin()
+              + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
   }
 }
