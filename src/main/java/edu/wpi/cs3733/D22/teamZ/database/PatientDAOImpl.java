@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientDAOImpl implements IPatientDAO {
+class PatientDAOImpl implements IPatientDAO {
   List<Patient> patients;
   private PatientControlCSV patCSV;
 

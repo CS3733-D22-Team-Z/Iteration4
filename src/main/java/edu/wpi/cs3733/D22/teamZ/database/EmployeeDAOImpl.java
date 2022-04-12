@@ -7,8 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeDAOImpl implements IEmployeeDAO {
-  List<Employee> employees;
+class EmployeeDAOImpl implements IEmployeeDAO {
+  private List<Employee> employees;
   private EmployeeControlCSV empCSV;
 
   static Connection connection = DatabaseConnection.getConnection();
@@ -121,7 +121,7 @@ public class EmployeeDAOImpl implements IEmployeeDAO {
                   + "values (?, ?, ?, ?, ?)");
       stmt.setString(1, emp.getEmployeeID());
       stmt.setString(2, emp.getName());
-      stmt.setObject(3, emp.getAccesstype());
+      stmt.setString(3, emp.getAccesstype().accessTypeToString());
       stmt.setString(4, emp.getUsername());
       stmt.setString(5, emp.getPassword());
 

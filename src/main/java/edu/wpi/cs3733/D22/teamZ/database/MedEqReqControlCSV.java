@@ -20,7 +20,7 @@ public class MedEqReqControlCSV extends ControlCSV {
 
     writeCSV(objToData(in), headers);
     // TODO this doesnt make sense
-    requestDAO.writeServiceRequestsToCSV();
+    requestDAO.exportToServiceRequestCSV();
   }
 
   protected List<MedicalEquipmentDeliveryRequest> readMedReqCSV() throws IOException {

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceRequestDAOImpl implements IServiceRequestDAO {
+class ServiceRequestDAOImpl implements IServiceRequestDAO {
   private List<ServiceRequest> serviceRequestList;
   private ServiceRequestControlCSV csvController;
 
@@ -205,7 +205,7 @@ public class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
   /** Writes the current database to a .csv file */
   @Override
-  public void writeServiceRequestsToCSV() {
+  public void exportToServiceRequestCSV() {
     csvController.writeServiceRequestCSV(serviceRequestList);
   }
 
