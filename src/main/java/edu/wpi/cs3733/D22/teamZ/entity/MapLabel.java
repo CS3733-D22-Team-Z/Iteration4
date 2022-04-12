@@ -6,14 +6,25 @@ import javafx.scene.control.Label;
 public class MapLabel extends Label {
 
   private Location location;
+
+  public List<MedicalEquipment> getEquip() {
+    return equip;
+  }
+
+  public List<ServiceRequest> getReqs() {
+    return reqs;
+  }
+
   private List<MedicalEquipment> equip;
   private List<Employee> employee;
+  private List<ServiceRequest> reqs;
   // etc
 
   public MapLabel(mapLabelBuilder b) {
     this.location = b.location;
     this.employee = b.employee;
     this.equip = b.equip;
+    this.reqs = b.reqs;
     createLabel();
   }
 
@@ -51,6 +62,7 @@ public class MapLabel extends Label {
       this.employee = employ;
       return this;
     }
+
     public mapLabelBuilder requests(List<ServiceRequest> reqs) {
       this.reqs = reqs;
       return this;

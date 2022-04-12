@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -46,8 +44,9 @@ import javafx.util.Callback;
 // work?
 
 // LocationController controls Location.fxml, loads location data into a tableView on page
-public class LocationListController {
+public class LocationListController implements IMenuAccess {
 
+  MenuController menu;
   // init ui components
   @FXML private Pane pane;
   @FXML private Label floorLabel;
@@ -160,7 +159,6 @@ public class LocationListController {
 
     // showLocations("1");
     changeFloor.getSelectionModel().select(2);
-    refreshMap("1");
 
     // change floor with dropdown
     changeFloor.setOnAction(
@@ -339,22 +337,11 @@ public class LocationListController {
               @Override
               public void changed(
                   ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                switch (newValue.getUserData().toString()) {
-                  case "Locations":
-                    refreshMap(changeFloor.getSelectionModel().getSelectedItem());
-                    break;
-                  case "Equipment":
-                    System.out.println("equip");
-                    break;
-                  case "Service Requests":
-                    System.out.println("serv");
-                    break;
-                  default:
-                    System.out.println("lolno");
-                    break;
-                }
+                refreshMap(changeFloor.getSelectionModel().getSelectedItem());
               }
             });
+
+    refreshMap("1");
   }
 
   private void propertiesWindow() {
@@ -405,20 +392,29 @@ public class LocationListController {
   private void showLocations(String floor) {
     pane.getChildren().clear();
 
-    pane.getChildren()
-        .addAll(
-            equipLabels.filtered(
-                label -> {
-                  return changeFloor.getSelectionModel().getSelectedItem().toString().equals("3");
-                }));
-
-    // advanced for loop lol
-    pane.getChildren()
-        .addAll(
-            IntStream.range(0, allLabels.size()) // for 0 -> allLabels.size
-                .filter(i -> allLabels.get(i).isOnFloor(floor)) // if allLabels.get(i).isOnFloor
-                .mapToObj(i -> allLabels.get(i)) // outList.add(allLabels.get(i))
-                .collect(Collectors.toList())); // return as list
+    for (int i = 0; i < allLabels.size(); i++) {
+      if (allLabels.get(i).isOnFloor(floor)) {
+        switch (radioGroup.getSelectedToggle().getUserData().toString()) {
+          case "Locations":
+            pane.getChildren().add(allLabels.get(i));
+            break;
+          case "Equipment":
+            if (allLabels.get(i).getEquip().size() > 0) {
+              pane.getChildren().add(allLabels.get(i));
+            }
+            break;
+          case "Service Requests":
+            System.out.println("serv");
+            if (allLabels.get(i).getReqs().size() > 0) {
+              pane.getChildren().add(allLabels.get(i));
+            }
+            break;
+          default:
+            System.out.println("lolno");
+            break;
+        }
+      }
+    }
   }
 
   // function to check if user has clicked outside of label
@@ -434,28 +430,6 @@ public class LocationListController {
     }
     return false;
   }
-
-  // when a location label is clicked on map, information about that label is shown on the side
-  /*private void displayLocationInformation() {
-
-    activeLabel.requestFocus();
-    activeLabel.setScaleX(2);
-    activeLabel.setScaleY(2);
-    // update labels to correct info
-    floorLabel.setText("Floor: " + activeLocation.getFloor());
-    longnameLabel.setText("Long Name: " + activeLocation.getLongName());
-    xCoordLabel.setText("xCoord: " + String.valueOf(activeLocation.getXcoord()));
-    yCoordLabel.setText("yCoord: " + String.valueOf(activeLocation.getYcoord()));
-
-    // set the labels visible
-    floorLabel.setVisible(true);
-    longnameLabel.setVisible(true);
-    xCoordLabel.setVisible(true);
-    yCoordLabel.setVisible(true);
-
-    editLocation.setDisable(false);
-    deleteLocation.setDisable(false);
-  }*/
 
   // when locations menu button is clicked navigate to locations page
   @FXML
@@ -667,11 +641,12 @@ public class LocationListController {
 
       Location current = totalLocations.get(i);
 
-
-      MapLabel label = new MapLabel(new MapLabel.mapLabelBuilder()
-              .location(current)
-              .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
-              .requests(facadeDAO.getAllServiceRequestsByLocation(current)));
+      MapLabel label =
+          new MapLabel(
+              new MapLabel.mapLabelBuilder()
+                  .location(current)
+                  .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current)));
+      // .requests(facadeDAO.getAllServiceRequestsByLocation(current)));
       // stylize label icon
       Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
       ImageView locationIcon = new ImageView(locationImg);
@@ -900,6 +875,11 @@ public class LocationListController {
             + numberConflicts
             + " locations that are"
             + " trying to get deleted but still have equipment in it");
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
   }
 
   /*public void showInfoDialog(Label labelEquip, Location loc, List<MedicalEquipment> equipment) {
