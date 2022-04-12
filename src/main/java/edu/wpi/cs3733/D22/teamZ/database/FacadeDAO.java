@@ -673,6 +673,9 @@ public class FacadeDAO {
   // Special methods for patient
 
   // Special methods for service requests
+  public List<ServiceRequest> getServiceRequestsByLocation(Location target) {
+    return serviceRequestDAO.getServiceRequestsByLocation(target);
+  }
 
   // Special methods for medical equipment requests
 

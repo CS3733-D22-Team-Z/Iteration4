@@ -10,60 +10,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 class ServiceRequestDAOImpl implements IServiceRequestDAO {
-  private List<ServiceRequest> serviceRequestList;
+  private HashMap<String, ServiceRequest> serviceRequests;
   private ServiceRequestControlCSV csvController;
-
-  private static IEmployeeDAO employeeDAO = new EmployeeDAOImpl();
-  private static ILocationDAO locationDAO = new LocationDAOImpl();
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
 
   public ServiceRequestDAOImpl() {
     updateConnection();
-    File serviceRequestCSV = new File(System.getProperty("user.dir") + "\\ServiceRequest.csv");
-    csvController = new ServiceRequestControlCSV(serviceRequestCSV);
-
-    serviceRequestList = new ArrayList<>();
-
-    try {
-      PreparedStatement pstmt = connection.prepareStatement("Select * From SERVICEREQUEST");
-      ResultSet rset = pstmt.executeQuery();
-
-      // Read through all of the ResultSet before calling another DAO to prevent conflicts
-      List<List<String>> data = new ArrayList<>();
-      while (rset.next()) {
-        List<String> fields = new ArrayList<>();
-        fields.add(rset.getString("requestID"));
-        fields.add(rset.getString("type"));
-        fields.add(rset.getString("status"));
-        fields.add(rset.getString("issuerID"));
-        fields.add(rset.getString("handlerID"));
-        fields.add(rset.getString("targetLocationID"));
-
-        data.add(fields);
-      }
-
-      for (List<String> fields : data) {
-        String requestID = fields.get(0);
-        ServiceRequest.RequestType type =
-            ServiceRequest.RequestType.getRequestTypeByString(fields.get(1));
-        ServiceRequest.RequestStatus status =
-            ServiceRequest.RequestStatus.getRequestStatusByString(fields.get(2));
-        Employee issuer = employeeDAO.getEmployeeByID(fields.get(3));
-        Employee handler = employeeDAO.getEmployeeByID(fields.get(4));
-        Location targetLocation = locationDAO.getLocationByID(fields.get(5));
-
-        serviceRequestList.add(
-            new ServiceRequest(requestID, type, status, issuer, handler, targetLocation));
-      }
-    } catch (SQLException e) {
-      System.out.println("Something went wrong with the database connection.");
-      e.printStackTrace();
-    }
+    serviceRequests = new HashMap<>();
   }
 
   /**
@@ -73,22 +32,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
    */
   @Override
   public List<ServiceRequest> getAllServiceRequests() {
-    updateConnection();
-
-    try {
-      PreparedStatement pstmt = connection.prepareStatement("Select * from SERVICEREQUEST");
-      ResultSet rset = pstmt.executeQuery();
-
-      while (rset.next()) {
-        ServiceRequest temp = serviceRequestFromResultSet(rset);
-        if (!serviceRequestList.contains(temp)) {
-          serviceRequestList.add(temp);
-        }
-      }
-    } catch (SQLException e) {
-      System.out.println("Failed to add service request");
-    }
-    return this.serviceRequestList;
+    ArrayList<ServiceRequest> requestsList = new ArrayList<>(serviceRequests.values());
+    return requestsList;
   }
 
   /**
@@ -101,43 +46,38 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
    */
   @Override
   public ServiceRequest getServiceRequestByID(String serviceRequestID) {
-    updateConnection();
-    ServiceRequest request = null;
-
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement("Select * From SERVICEREQUEST WHERE requestID = ?");
-      pstmt.setString(1, serviceRequestID);
-      ResultSet rset = pstmt.executeQuery();
-
-      if (rset.next()) {
-        request = serviceRequestFromResultSet(rset);
-      }
-    } catch (SQLException e) {
-      System.out.println("Something went wrong with the database connection.");
-      e.printStackTrace();
-    }
-
-    return request;
+    return serviceRequests.get(serviceRequestID);
   }
 
-  private ServiceRequest serviceRequestFromResultSet(ResultSet rset) throws SQLException {
+  /**
+   * Returns a list of ServiceRequest objects stored in the database that are located
+   * in the given target location
+   *
+   * @param target The location to search
+   * @return A list of service requests that are located in the given location
+   */
+  @Override
+  public List<ServiceRequest> getServiceRequestsByLocation(Location target) {
     updateConnection();
-    String requestID = rset.getString("requestID");
-    String typeStr = rset.getString("type");
-    String statusStr = rset.getString("status");
-    String issuerID = rset.getString("issuerID");
-    String handlerID = rset.getString("handlerID");
-    String targetLocationID = rset.getString("targetLocationID");
 
-    ServiceRequest.RequestType type = ServiceRequest.RequestType.getRequestTypeByString(typeStr);
-    ServiceRequest.RequestStatus status =
-        ServiceRequest.RequestStatus.getRequestStatusByString(statusStr);
-    Employee issuer = employeeDAO.getEmployeeByID(issuerID);
-    Employee handler = employeeDAO.getEmployeeByID(handlerID);
-    Location targetLocation = locationDAO.getLocationByID(targetLocationID);
+    ArrayList<ServiceRequest> searchedRequests = new ArrayList<>();
+    try {
+      PreparedStatement stmt =
+              connection.prepareStatement("SELECT requestID FROM SERVICEREQUEST WHERE targetLocationID=?");
+      stmt.setString(1, target.getNodeID());
+      ResultSet rset = stmt.executeQuery();
 
-    return new ServiceRequest(requestID, type, status, issuer, handler, targetLocation);
+      while(rset.next()) {
+        String requestID = rset.getString("requestID");
+        searchedRequests.add(serviceRequests.get(requestID));
+      }
+
+    } catch (SQLException e) {
+      System.out.println("Failed to query service request table");
+      return searchedRequests;
+    }
+
+    return searchedRequests;
   }
 
   /**
@@ -153,7 +93,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     boolean val = false;
     if (addToDatabase(request)) {
       val = true;
-      serviceRequestList.add(request);
+      serviceRequests.put(request.getRequestID(), request);
     }
     return val;
   }
@@ -177,7 +117,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
       System.out.println("Failed to delete service request");
       return false;
     }
-    serviceRequestList.remove(request);
+    serviceRequests.remove(request.getRequestID());
     return true;
   }
 
@@ -200,8 +140,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
       stmt.executeUpdate();
       connection.commit();
-      serviceRequestList.remove(request);
-      serviceRequestList.add(request);
+      serviceRequests.remove(request.getRequestID());
+      serviceRequests.put(request.getRequestID(), request);
       return true;
     } catch (SQLException e) {
       System.out.println("Update failed");
@@ -213,7 +153,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   @Override
   public void exportToServiceRequestCSV() {
     updateConnection();
-    csvController.writeServiceRequestCSV(serviceRequestList);
+    csvController.writeServiceRequestCSV(getAllServiceRequests());
   }
 
   /**
@@ -225,13 +165,13 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   @Override
   public int importServiceRequestsFromCSV(File serviceRequestData) {
     updateConnection();
-    serviceRequestData = new File(System.getProperty("user.dir") + "\\employee.csv");
+    //serviceRequestData = new File(System.getProperty("user.dir") + "\\employee.csv");
     csvController = new ServiceRequestControlCSV(serviceRequestData);
     int conflictCounter = 0;
     try {
       List<ServiceRequest> tempServiceRequest = csvController.readServiceRequestCSV();
-      String temp = "";
 
+      String temp = "";
       try {
         for (ServiceRequest info : tempServiceRequest) {
           PreparedStatement pstmt =
@@ -248,6 +188,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
           // insert it
           pstmt.executeUpdate();
+
+          serviceRequests.put(info.getRequestID(), info);
         }
       } catch (SQLException e) {
         conflictCounter++;
