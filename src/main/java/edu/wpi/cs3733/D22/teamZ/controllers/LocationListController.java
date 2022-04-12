@@ -61,6 +61,9 @@ public class LocationListController {
   @FXML private Button addAlertButton;
   @FXML private ChoiceBox selectAlertChoice;
   @FXML private Button submitAlert;
+  @FXML private ImageView arrowGIF1;
+  @FXML private ImageView arrowGIF2;
+  @FXML private ImageView arrowGIF3;
 
   // Andrew's stuff
   @FXML private TextField selectLocationTextField;
@@ -718,6 +721,14 @@ public class LocationListController {
   }
 
   @FXML
+  public void cancelAddAlert() throws IOException {
+    locationChangeDarkenPane.setVisible(false);
+    alertPane.setVisible(false);
+    locationChangeDarkenPane.setDisable(true);
+    alertPane.setDisable(true);
+  }
+
+  @FXML
   private void deleteLocationButtonClicked(ActionEvent event) throws IOException {
     locationChangeDarkenPane.setVisible(true);
     deleteLocationPlane.setVisible(true);
@@ -1107,6 +1118,9 @@ public class LocationListController {
     newAlert.setOnCloseRequest(
         (e) -> {
           refreshMap(location.getFloor());
+          if (alert == "Code Red") {
+            findClosestExit(location);
+          }
         });
   }
 
@@ -1132,12 +1146,60 @@ public class LocationListController {
     menuItem1.setOnAction(
         (e) -> {
           alertLabels.remove(label);
+          arrowGIF1.setVisible(false);
+          arrowGIF2.setVisible(false);
+          arrowGIF3.setVisible(false);
           refreshMap(location.getFloor());
         });
-    alert.setGraphic(icon);
-    label.setOnMouseClicked(
-        (e) -> {
-          alert.show();
-        });
+  }
+
+  public void findClosestExit(Location location) {
+    Location closestExit = new Location();
+    Location current = new Location();
+    double distance;
+    double bestDistance = 1000;
+    int index = 0;
+
+    for (int i = 0; i < totalLocations.size(); i++) {
+      if (totalLocations.get(i).getNodeType().equals("EXIT")
+          && totalLocations.get(i).getFloor().equals(location.getFloor())) {
+        current = totalLocations.get(i);
+        distance =
+            Math.sqrt(
+                (Math.pow((current.getXcoord() - location.getXcoord()), 2))
+                    + (Math.pow((current.getYcoord() - location.getYcoord()), 2)));
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          closestExit = current;
+          index = i;
+        }
+      }
+    }
+    switch (closestExit.getNodeID()) {
+      case "zEXIT00101":
+        arrowGIF1.setVisible(true);
+        System.out.println(closestExit.getLongName());
+        changeToFloor(closestExit.getFloor());
+        activeLabel = allLabels.get(index);
+        displayLocationInformation();
+
+        break;
+      case "zEXIT00201":
+        arrowGIF2.setVisible(true);
+        System.out.println(closestExit.getLongName());
+        changeToFloor(closestExit.getFloor());
+        activeLabel = allLabels.get(index);
+        displayLocationInformation();
+        break;
+      case "zEXIT00301":
+        arrowGIF3.setVisible(true);
+        System.out.println(closestExit.getLongName());
+        changeToFloor(closestExit.getFloor());
+        activeLabel = allLabels.get(index);
+        displayLocationInformation();
+        break;
+      default:
+        break;
+    }
   }
 }
