@@ -496,6 +496,71 @@ public class FacadeDAO {
     return labRequestServiceDAO.exportToLabRequestCSV(labData);
   }
 
+  // Add from list functions
+  /**
+   * Insert locations into the database from given list
+   *
+   * @param list list of locations to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addLocationFromList(List<Location> list) {
+    return locationDAO.addLocationFromList(list);
+  }
+  /**
+   * Insert patients into database from given list
+   *
+   * @param list list of patients that need to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addPatientFromList(List<Patient> list) {
+    return patientDAO.addPatientFromList(list);
+  }
+  /**
+   * Inserts employees from a list
+   *
+   * @param list list of employees to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addEmployeeFromList(List<Employee> list) {
+    return employeeDAO.addEmployeeFromList(list);
+  }
+  /**
+   * Insert Medical Equipment into database from list
+   *
+   * @param list list of medical equipment to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addMedicalEquipmentFromList(List<MedicalEquipment> list) {
+    return medicalEquipmentDAO.addMedicalEquipmentFromList(list);
+  }
+  /**
+   * Insert service requests into the database from the given list
+   *
+   * @param list list of service requests to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addServiceRequestFromList(List<ServiceRequest> list) {
+    return serviceRequestDAO.addServiceRequestFromList(list);
+  }
+  /**
+   * Inserts lab requests into database from given list
+   *
+   * @param list list of lab requests to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addLabRequestFromList(List<LabServiceRequest> list) {
+    return labRequestServiceDAO.addLabRequestFromList(list);
+  }
+  /**
+   * Adds MedicalEquipmentDeliveryRequest into database from list
+   *
+   * @param list Request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addMedicalEquipmentRequestFromList(List<MedicalEquipmentDeliveryRequest> list) {
+    return medEquipReqDAO.addMedicalEquipReqFromList(list);
+  }
+
   // Special methods for location
   /**
    * Gets all the nodeIDs for the locations in database

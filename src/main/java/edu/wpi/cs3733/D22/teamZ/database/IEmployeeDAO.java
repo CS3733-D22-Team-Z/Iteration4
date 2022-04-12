@@ -67,4 +67,12 @@ public interface IEmployeeDAO {
    * @return number of conflicts when inserting
    */
   int importEmployeesFromCSV(File employeeData);
+
+  /**
+   * Inserts employees from a list
+   *
+   * @param list list of employees to be added
+   * @return true if successful, false otherwise
+   */
+  boolean addEmployeeFromList(List<Employee> list);
 }
