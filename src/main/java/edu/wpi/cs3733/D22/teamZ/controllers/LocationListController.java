@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -71,7 +72,7 @@ public class LocationListController implements IMenuAccess {
   @FXML private Pane editLocationPane;
   @FXML private Pane locationChangeDarkenPane;
 
-  private MapLabel activeLabel;
+  private static MapLabel activeLabel;
   //
 
   // Casey's
@@ -307,7 +308,14 @@ public class LocationListController implements IMenuAccess {
           }
         });
     MenuItem prop = new MenuItem("Properties");
-    prop.setOnAction(event -> propertiesWindow());
+    prop.setOnAction(
+        event -> {
+          try {
+            propertiesWindow();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
     // prop.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
 
     rightClickMenu = new ContextMenu(edit, delete, prop);
@@ -342,12 +350,12 @@ public class LocationListController implements IMenuAccess {
     refreshMap("1");
   }
 
-  private void propertiesWindow() {
+  private void propertiesWindow() throws IOException {
     Stage stage = new Stage();
     TabPane root = new TabPane();
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    root.setPrefWidth(screenSize.getWidth() * .25);
-    root.setPrefHeight(screenSize.getHeight() * .4);
+    root.setPrefWidth(600);
+    root.setPrefHeight(440);
 
     stage.setTitle("Properties");
     stage.getIcons().add(new Image("edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png"));
@@ -356,6 +364,10 @@ public class LocationListController implements IMenuAccess {
     Tab locInfoTab = new Tab("Location Info");
     Tab medInfoTab = new Tab("Medical Equipment Info");
     Tab servReqTab = new Tab("Service Request Info");
+
+    AnchorPane medPane = new AnchorPane();
+    loadMedPane(medPane);
+    medInfoTab.setContent(medPane);
 
     root.getTabs().addAll(medInfoTab, servReqTab, locInfoTab);
     root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -385,6 +397,16 @@ public class LocationListController implements IMenuAccess {
     Scene window = new Scene(root);
     stage.setScene(window);
     stage.show();
+  }
+
+  private void loadMedPane(AnchorPane pane) throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    pane.getChildren()
+        .add(
+            loader.load(
+                getClass()
+                    .getClassLoader()
+                    .getResource("edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentInfoTab.fxml")));
   }
 
   private void showLocations(String floor) {
@@ -589,7 +611,7 @@ public class LocationListController implements IMenuAccess {
           new MapLabel.mapLabelBuilder()
               .location(current)
               .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
-                  //todo: uncomment .requests(facadeDAO.getAllServiceRequestsByLocation(current))
+              // todo: uncomment .requests(facadeDAO.getAllServiceRequestsByLocation(current))
               .build();
 
       // stylize label icon
@@ -843,6 +865,10 @@ public class LocationListController implements IMenuAccess {
   @Override
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  public static MapLabel getActiveLabel() {
+    return activeLabel;
   }
 
   /*public void showInfoDialog(Label labelEquip, Location loc, List<MedicalEquipment> equipment) {

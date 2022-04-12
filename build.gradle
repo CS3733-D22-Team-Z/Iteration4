@@ -24,6 +24,8 @@ javafx {
 
 dependencies {
     implementation(
+            'io.github.palexdev:materialfx:11.13.4',
+
             'com.jfoenix:jfoenix:9.0.10',
             'io.github.palexdev:materialfx:11.13.5',
             // You may comment out the database dependency you do not use
