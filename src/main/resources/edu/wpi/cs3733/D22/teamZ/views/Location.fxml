@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import io.github.palexdev.materialfx.controls.legacy.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
       <SplitPane fx:id="splitPane" dividerPositions="0.75" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <items>
@@ -217,101 +228,129 @@
             </AnchorPane>
             <AnchorPane fx:id="rightPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <MFXRadioButton fx:id="locRadio" layoutX="10.0" layoutY="177.0" selected="true" text="Locations">
+                  <MFXRadioButton fx:id="locRadio" gap="6.0" layoutX="14.0" layoutY="169.0" radioGap="2.5" radius="5.0" selected="true" text="Locations" textFill="#7b7b7b">
                      <effect>
                         <ColorAdjust hue="-0.25" />
                      </effect>
                      <toggleGroup>
                         <ToggleGroup fx:id="radioGroup" />
                      </toggleGroup>
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
                   </MFXRadioButton>
-                  <MFXRadioButton fx:id="equipRadio" layoutX="11.0" layoutY="196.0" text="Equipment">
+                  <MFXRadioButton fx:id="equipRadio" gap="6.0" layoutX="14.0" layoutY="189.0" radioGap="2.5" radius="5.0" text="Equipment" textFill="#7b7b7b">
                      <effect>
                         <ColorAdjust hue="-0.25" />
                      </effect>
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
                   </MFXRadioButton>
-                  <MFXRadioButton fx:id="servRadio" layoutX="11.0" layoutY="215.0" text="Service Requests">
+                  <MFXRadioButton fx:id="servRadio" gap="6.0" layoutX="14.0" layoutY="210.0" radioGap="2.5" radius="5.0" text="Service Requests" textFill="#7b7b7b">
                      <effect>
                         <ColorAdjust hue="-0.25" />
                      </effect>
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
                   </MFXRadioButton>
                   <Label fx:id="longnameLabel" layoutY="236.0" prefHeight="17.0" prefWidth="146.0" text="Longname" textFill="#7b7b7b" wrapText="true">
                      <padding>
                         <Insets left="10.0" />
                      </padding>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
                   </Label>
                   <Label fx:id="floorLabel" layoutX="-1.0" layoutY="253.0" prefHeight="17.0" prefWidth="146.0" text="Floor" textFill="#7b7b7b" wrapText="true">
                      <padding>
                         <Insets left="10.0" />
                      </padding>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
                   </Label>
                   <Label layoutX="-1.0" layoutY="270.0" prefHeight="17.0" prefWidth="146.0" text="xCoord" textFill="#7b7b7b" wrapText="true" fx:id="xCoordLabel">
                      <padding>
                         <Insets left="10.0" />
                      </padding>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
                   </Label>
                   <Label fx:id="yCoordLabel" layoutY="287.0" prefHeight="17.0" prefWidth="146.0" text="yCoord" textFill="#7b7b7b" wrapText="true">
                      <padding>
                         <Insets left="10.0" />
                      </padding>
-                  </Label>
-                  <Label layoutX="23.0" layoutY="2.0" text="Change Floor" textFill="#7b7b7b">
                      <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font size="10.0" />
                      </font>
                   </Label>
-                  <MFXLegacyComboBox fx:id="changeFloor" layoutX="22.0" layoutY="27.0" prefHeight="23.0" prefWidth="100.0" />
-                  <MFXButton fx:id="editLocation" alignment="TOP_LEFT" disable="true" layoutX="14.0" layoutY="309.0" onAction="#editLocationButtonClicked" prefHeight="32.0" prefWidth="114.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 5;" text="Edit" textFill="WHITE">
+                  <Label layoutX="12.0" layoutY="6.0" text="Change Floor" textFill="#7b7b7b">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <MFXLegacyComboBox fx:id="changeFloor" layoutX="13.0" layoutY="27.0" prefHeight="23.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF;" unfocusedLineColor="#ffffff00">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.411255419254303" />
+                           </color>
+                        </DropShadow>
+                     </effect></MFXLegacyComboBox>
+                  <MFXButton fx:id="editLocation" alignment="CENTER" disable="true" layoutX="14.0" layoutY="315.0" onAction="#editLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Edit Location" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" onDragDetected="#editLocationButtonClicked" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="12.0" fitWidth="12.0" onDragDetected="#editLocationButtonClicked" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/editLocation.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </MFXButton>
-                  <MFXButton fx:id="deleteLocation" alignment="TOP_LEFT" disable="true" layoutX="14.0" layoutY="352.0" onAction="#deleteLocationButtonClicked" prefHeight="32.0" prefWidth="114.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 5;" text="Delete" textFill="WHITE">
+                  <MFXButton fx:id="deleteLocation" alignment="CENTER" disable="true" layoutX="14.0" layoutY="347.0" onAction="#deleteLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Delete Location" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="10.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/deleteLocation.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </MFXButton>
-                  <MFXButton fx:id="addLocationButton" alignment="TOP_LEFT" layoutX="14.0" layoutY="65.0" onAction="#addLocationButtonClicked" prefHeight="1.0" prefWidth="114.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 5;" text="Add" textFill="WHITE">
+                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="62.0" onAction="#addLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Add Location" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="10.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/addLocation.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </MFXButton>
-                  <MFXButton layoutX="14.0" layoutY="97.0" onAction="#exportToCSV" prefHeight="37.0" prefWidth="114.0" style="-fx-background-color: FFFFFF; -fx-border-color: C4C4C4; -fx-border-width: 3; -fx-border-radius: 5;" text="Export CSV" textFill="#c4c4c4">
+                  <MFXButton layoutX="13.0" layoutY="95.0" onAction="#exportToCSV" prefHeight="23.0" prefWidth="117.0" style="-fx-background-color: FFFFFF; -fx-border-color: C4C4C4; -fx-border-width: 2; -fx-border-radius: 2;" text="Export CSV" textFill="#c4c4c4">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="10.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton layoutX="14.0" layoutY="134.0" onAction="#importFromCSV" prefHeight="37.0" prefWidth="114.0" style="-fx-background-color: FFFFFF; -fx-border-color: C4C4C4; -fx-border-width: 3; -fx-border-radius: 5;" text="Import CSV" textFill="#c4c4c4">
+                  <MFXButton layoutX="13.0" layoutY="128.0" onAction="#importFromCSV" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: FFFFFF; -fx-border-color: C4C4C4; -fx-border-width: 2; -fx-border-radius: 2;" text="Import CSV" textFill="#c4c4c4">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font name="System Bold" size="10.0" />
                      </font>
                   </MFXButton>
                </children>
             </AnchorPane>
          </items>
       </SplitPane>
-      <TextField fx:id="searchField" layoutX="8.0" layoutY="8.0" onKeyTyped="#search" prefHeight="26.0" prefWidth="192.0" promptText="Search..." style="-fx-background-radius: 10; -fx-background-color: #FFFFFF;">
+      <TextField fx:id="searchField" layoutX="8.0" layoutY="8.0" onKeyTyped="#search" prefHeight="26.0" prefWidth="192.0" promptText="Search..." style="-fx-background-radius: 3; -fx-background-color: #FFFFFF;">
          <font>
             <Font size="10.0" />
          </font>
@@ -323,6 +362,6 @@
             </DropShadow>
          </effect>
       </TextField>
-      <ListView fx:id="searchResultList" layoutX="7.0" layoutY="38.0" onMouseClicked="#resultMouseClick" prefHeight="132.0" prefWidth="192.0" style="-fx-background-radius: 10;" visible="false" />
+      <ListView fx:id="searchResultList" layoutX="7.0" layoutY="38.0" onMouseClicked="#resultMouseClick" prefHeight="132.0" prefWidth="192.0" style="-fx-background-radius: 4;" visible="false" />
    </children>
 </AnchorPane>
