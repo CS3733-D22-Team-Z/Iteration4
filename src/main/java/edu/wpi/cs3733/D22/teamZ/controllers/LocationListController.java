@@ -4,9 +4,10 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXRadioButton;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -26,7 +27,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -49,6 +49,7 @@ import javafx.util.Callback;
 // LocationController controls Location.fxml, loads location data into a tableView on page
 public class LocationListController implements IMenuAccess {
 
+  @FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
   @FXML private SplitPane splitPane;
   @FXML private Group group;
@@ -56,27 +57,22 @@ public class LocationListController implements IMenuAccess {
   MenuController menu;
   // init ui components
   @FXML private AnchorPane pane;
-  @FXML private Label floorLabel;
-  @FXML private Label longnameLabel;
-  @FXML private Label xCoordLabel;
-  @FXML private Label yCoordLabel;
-  @FXML private Button exitButton;
   @FXML private MFXLegacyComboBox<String> changeFloor;
   @FXML private ImageView map;
-  @FXML private Button editLocation;
-  @FXML private Button deleteLocation;
+  @FXML private MFXButton editLocation;
+  @FXML private MFXButton deleteLocation;
 
   // Andrew's stuff
-  @FXML private TextField selectLocationTextField;
+  @FXML private MFXTextField selectLocationTextField;
   @FXML private MFXLegacyComboBox<String> typeChoiceTextField;
   @FXML private MFXLegacyComboBox<String> floorChoiceTextField;
   @FXML private TextField changeNumberTextField;
   @FXML private TextField changeNameTextField;
   @FXML private TextField abbreviationTextField;
   @FXML private Text alreadyExistsText;
-  @FXML private Button submitButton;
-  @FXML private Button clearButton;
-  @FXML private Button editLocationExitButton;
+  @FXML private MFXButton submitButton;
+  @FXML private MFXButton clearButton;
+  @FXML private MFXButton editLocationExitButton;
   @FXML private Pane editLocationPane;
   @FXML private Pane locationChangeDarkenPane;
 
@@ -84,7 +80,7 @@ public class LocationListController implements IMenuAccess {
   //
 
   // Casey's
-  @FXML private TextField searchField;
+  @FXML private MFXTextField searchField;
   @FXML private ListView<String> searchResultList;
   private SearchControl filter;
   private List<ISearchable> parentDataList;
@@ -93,24 +89,24 @@ public class LocationListController implements IMenuAccess {
 
   // Daniel's Stuff
   // Buttons
-  @FXML private Button deleteMapLocation;
-  @FXML private Button cancelLocationSelection;
+  @FXML private MFXButton deleteMapLocation;
+  @FXML private MFXButton cancelLocationSelection;
   // text field box to select location to delete
-  @FXML private TextField locationToDeleteTextField;
+  @FXML private MFXTextField locationToDeleteTextField;
   @FXML private Pane deleteLocationPlane;
 
   // Neha's stuff
   // Buttons
-  @FXML private Button submitAddLocation;
-  @FXML private Button clearAddLocation;
-  @FXML private Button addLocationExitButton;
+  @FXML private MFXButton submitAddLocation;
+  @FXML private MFXButton clearAddLocation;
+  @FXML private MFXButton addLocationExitButton;
   // text fields
-  @FXML private TextField xCoordTextField;
-  @FXML private TextField yCoordTextField;
+  @FXML private MFXTextField xCoordTextField;
+  @FXML private MFXTextField yCoordTextField;
   @FXML private MFXLegacyComboBox<String> locationTypeField;
   @FXML private MFXLegacyComboBox<String> floorField;
-  @FXML private TextField locationNameTextField;
-  @FXML private TextField nameAbbreviationTextField;
+  @FXML private MFXTextField locationNameTextField;
+  @FXML private MFXTextField nameAbbreviationTextField;
   // pane
   @FXML private Pane addLocationPane;
 
@@ -148,8 +144,8 @@ public class LocationListController implements IMenuAccess {
     StackPane zoomPane = new StackPane();
     zoomPane.getChildren().add(group);
 
-    Group content = new Group(zoomPane);
-    scrollPane.setContent(content);
+    Group content = new Group(zoomPane, pane);
+    scrollPane.setContent(group);
 
     // group.setScaleX(group.getScaleX() / 1.1);
     // group.setScaleY(group.getScaleY() / 1.1);
@@ -320,11 +316,7 @@ public class LocationListController implements IMenuAccess {
         MouseEvent.MOUSE_CLICKED,
         evt -> {
           if (evt.getClickCount() > 1) {
-            try {
-              addLocationButtonClicked(evt);
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
+            doubleClickAdd(evt);
           }
         });
 
@@ -398,7 +390,7 @@ public class LocationListController implements IMenuAccess {
   private void propertiesWindow() throws IOException {
     Stage stage = new Stage();
     TabPane root = new TabPane();
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     root.setPrefWidth(600);
     root.setPrefHeight(440);
 
@@ -455,23 +447,23 @@ public class LocationListController implements IMenuAccess {
   }
 
   private void showLocations(String floor) {
-    pane.getChildren().clear();
+    group.getChildren().removeIf(child -> child instanceof MapLabel);
 
     for (int i = 0; i < allLabels.size(); i++) {
       if (allLabels.get(i).isOnFloor(floor)) {
         switch (radioGroup.getSelectedToggle().getUserData().toString()) {
           case "Locations":
-            pane.getChildren().add(allLabels.get(i));
+            group.getChildren().add(allLabels.get(i));
             break;
           case "Equipment":
             if (allLabels.get(i).getEquip().size() > 0) {
-              pane.getChildren().add(allLabels.get(i));
+              group.getChildren().add(allLabels.get(i));
             }
             break;
           case "Service Requests":
             System.out.println("serv");
             if (allLabels.get(i).getReqs().size() > 0) {
-              pane.getChildren().add(allLabels.get(i));
+              group.getChildren().add(allLabels.get(i));
             }
             break;
           default:
@@ -696,21 +688,25 @@ public class LocationListController implements IMenuAccess {
           .addListener(
               (observable, oldValue, newValue) -> {
                 if (!newValue) {
-                  label.setScaleX(1);
-                  label.setScaleY(1);
+                  label.setScaleX(.7);
+                  label.setScaleY(.7);
                   // returnOnClick();
                 } else {
-                  label.setScaleX(2);
-                  label.setScaleY(2);
+                  label.setScaleX(1.1);
+                  label.setScaleY(1.1);
                 }
               });
 
+      label.setScaleX(.7);
+      label.setScaleY(.7);
       label.setOnMouseClicked(
           evt -> {
             label.requestFocus();
           });
       // place label at correct coords
-      label.relocate(label.getLocation().getXcoord() - 8, label.getLocation().getYcoord() - 10);
+      label.relocate(
+          (label.getLocation().getXcoord() - 12) * (map.getFitWidth() / 1021),
+          (label.getLocation().getYcoord() - 24) * (map.getFitHeight() / 850));
 
       label.setContextMenu(rightClickMenu);
       label.setOnContextMenuRequested(
@@ -771,19 +767,31 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  private void addLocationButtonClicked(MouseEvent evt) throws IOException {
+  private void addLocationButtonClicked(ActionEvent evt) throws IOException {
     locationChangeDarkenPane.setVisible(true);
     addLocationPane.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
     addLocationPane.setDisable(false);
 
-    xCoordTextField.setText(String.valueOf((int) evt.getSceneX()));
-    yCoordTextField.setText(String.valueOf((int) evt.getSceneY()));
     floorField.getSelectionModel().select(changeFloor.getSelectionModel().getSelectedIndex());
     floorField.setDisable(true);
     xCoordTextField.setEditable(false);
     yCoordTextField.setEditable(false);
     // selectLocationTextField.setText(activeLocation.getNodeID());
+  }
+
+  private void doubleClickAdd(MouseEvent evt) {
+    locationChangeDarkenPane.setVisible(true);
+    addLocationPane.setVisible(true);
+    locationChangeDarkenPane.setDisable(false);
+    addLocationPane.setDisable(false);
+
+    floorField.getSelectionModel().select(changeFloor.getSelectionModel().getSelectedIndex());
+    floorField.setDisable(true);
+    xCoordTextField.setEditable(false);
+    yCoordTextField.setEditable(false);
+    xCoordTextField.setText(String.valueOf((int) evt.getSceneX()));
+    yCoordTextField.setText(String.valueOf((int) evt.getSceneY()));
   }
 
   @FXML
