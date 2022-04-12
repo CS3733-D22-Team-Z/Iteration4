@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServiceRequestControlCSV extends ControlCSV {
 
-  private final LocationDAOImpl locationDAO = new LocationDAOImpl();
+  private final FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   private final String[] headers = {
     "requestID", "type", "status", "issuer", "handler", "targetLocation"
@@ -34,10 +34,9 @@ public class ServiceRequestControlCSV extends ControlCSV {
               a.get(0),
               ServiceRequest.RequestType.getRequestTypeByString(a.get(1)),
               ServiceRequest.RequestStatus.getRequestStatusByString(a.get(2)),
-              // change later
-              null,
-              null,
-              locationDAO.getLocationByID(a.get(5))));
+              facadeDAO.getEmployeeByID(a.get(3)),
+              facadeDAO.getEmployeeByID(a.get(4)),
+              facadeDAO.getLocationByID(a.get(5))));
     }
     return ret;
   }
@@ -53,9 +52,8 @@ public class ServiceRequestControlCSV extends ControlCSV {
                     a.getRequestID(),
                     a.getType().toString(),
                     a.getStatus().toString(),
-                    // change later
-                    "null",
-                    "null",
+                    a.getIssuer().getEmployeeID(),
+                    a.getHandler().getEmployeeID(),
                     a.getTargetLocation().getNodeID()
                   }));
       ret.add(entry);

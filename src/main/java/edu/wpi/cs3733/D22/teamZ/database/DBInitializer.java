@@ -137,6 +137,8 @@ public class DBInitializer {
               + "handlerID VARCHAR(15),"
               + "targetLocationID Varchar(15),"
               + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
+              + "constraint ISSUER_FK Foreign Key (issuerID) References EMPLOYEES(employeeID),"
+              + "constraint HANDLER_FK Foreign Key (handlerID) References EMPLOYEES(employeeID),"
               + "constraint TARGETLOC_FK Foreign Key (targetLocationID) References LOCATION(nodeID),"
               + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
 
