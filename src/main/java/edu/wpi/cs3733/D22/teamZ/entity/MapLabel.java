@@ -35,6 +35,7 @@ public class MapLabel extends Label {
     private Location location = null;
     private List<MedicalEquipment> equip = null;
     private List<Employee> employee = null;
+    private List<ServiceRequest> reqs = null;
 
     public mapLabelBuilder location(Location loc) {
       location = loc;
@@ -48,6 +49,10 @@ public class MapLabel extends Label {
 
     public mapLabelBuilder employees(List<Employee> employ) {
       this.employee = employ;
+      return this;
+    }
+    public mapLabelBuilder requests(List<ServiceRequest> reqs) {
+      this.reqs = reqs;
       return this;
     }
 

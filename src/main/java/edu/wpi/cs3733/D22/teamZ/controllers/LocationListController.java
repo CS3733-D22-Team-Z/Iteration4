@@ -341,7 +341,7 @@ public class LocationListController {
                   ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
                 switch (newValue.getUserData().toString()) {
                   case "Locations":
-                    System.out.println("loc");
+                    refreshMap(changeFloor.getSelectionModel().getSelectedItem());
                     break;
                   case "Equipment":
                     System.out.println("equip");
@@ -668,7 +668,10 @@ public class LocationListController {
       Location current = totalLocations.get(i);
 
 
-      MapLabel label = new MapLabel(new MapLabel.mapLabelBuilder().location(current).equipment());
+      MapLabel label = new MapLabel(new MapLabel.mapLabelBuilder()
+              .location(current)
+              .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
+              .requests(facadeDAO.getAllServiceRequestsByLocation(current)));
       // stylize label icon
       Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
       ImageView locationIcon = new ImageView(locationImg);
