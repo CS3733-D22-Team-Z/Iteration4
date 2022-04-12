@@ -66,7 +66,7 @@
         <TableView fx:id="tableContainer" layoutX="23.0" layoutY="54.0" prefHeight="326.0" prefWidth="374.0">
             <columns>
                 <TableColumn fx:id="idColumn" editable="false" prefWidth="100.0" text="ID" />
-                <TableColumn fx:id="deviceColumn" editable="false" prefWidth="100.0" text="Device" />
+                <TableColumn fx:id="typeColumn" editable="false" prefWidth="100.0" text="Type" />
                 <TableColumn fx:id="assigneeColumn" editable="false" prefWidth="100.0" text="Assignee" />
                 <TableColumn fx:id="statusColumn" editable="false" prefWidth="100.0" text="Status" />
             </columns>

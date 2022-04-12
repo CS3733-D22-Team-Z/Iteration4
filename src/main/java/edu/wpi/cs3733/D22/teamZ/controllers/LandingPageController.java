@@ -15,6 +15,8 @@ public class LandingPageController implements IMenuAccess {
   private final String toLaundryServiceURL = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
+  private final String toServiceRequestURL =
+      "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
 
   private MenuController menu;
 
@@ -45,6 +47,12 @@ public class LandingPageController implements IMenuAccess {
   private void navMeal() throws IOException {
     System.out.println("navigating to meal from landing page");
     menu.load(toMealRequestsURL);
+  }
+
+  @FXML
+  private void toServReq() throws IOException {
+    System.out.println("navigating to meal from landing page");
+    menu.load(toServiceRequestURL);
   }
 
   @FXML
