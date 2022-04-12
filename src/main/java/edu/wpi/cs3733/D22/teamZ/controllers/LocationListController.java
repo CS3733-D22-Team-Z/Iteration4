@@ -80,7 +80,7 @@ public class LocationListController implements IMenuAccess {
   //
 
   // Casey's
-  @FXML private MFXTextField searchField;
+  @FXML private TextField searchField;
   @FXML private ListView<String> searchResultList;
   private SearchControl filter;
   private List<ISearchable> parentDataList;
@@ -244,20 +244,22 @@ public class LocationListController implements IMenuAccess {
     this.displayResult.addAll(FXCollections.observableList(longNames));
     searchResultList.setItems(this.displayResult);
 
+    searchResultList.setVisible(true);
+
+    multiFocusProperty.bind(searchField.focusedProperty().or(searchResultList.focusedProperty()));
+
     multiFocusProperty.addListener(
         (observable, oldValue, newValue) -> {
-          // System.out.println("vis swap");
+          //System.out.println("vis swap");
           searchResultList.setVisible(newValue);
           searchResultList.setDisable(!newValue);
         });
-
-    multiFocusProperty.bind(searchField.focusedProperty().or(searchResultList.focusedProperty()));
 
     this.displayResult.addListener(
         (ListChangeListener<String>)
             c -> {
               searchResultList.setPrefHeight(
-                  this.displayResult.size() * 40 // row height
+                  this.displayResult.size() * 19 // row height
                       + 2); // this gets called way too much, but whatever
               // System.out.println("height changed");
             });
@@ -271,7 +273,7 @@ public class LocationListController implements IMenuAccess {
               protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(item);
-                setFont(Font.font(20));
+                setFont(Font.font(9));
               }
             };
           }
@@ -312,7 +314,7 @@ public class LocationListController implements IMenuAccess {
           }
         });
 
-    pane.addEventFilter(
+    scrollPane.addEventFilter(
         MouseEvent.MOUSE_CLICKED,
         evt -> {
           if (evt.getClickCount() > 1) {
@@ -598,6 +600,7 @@ public class LocationListController implements IMenuAccess {
   // Casey's
   @FXML
   public void search(KeyEvent keyEvent) {
+    searchField.requestFocus();
     List<ISearchable> tempResultList = new ArrayList<>();
     tempResultList = filter.filterList(searchField.getText());
     List<String> longNames = new ArrayList<>();
@@ -625,6 +628,7 @@ public class LocationListController implements IMenuAccess {
     String selectedItem = activeLabel.getLocation().getFloor();
     changeToFloor(selectedItem);
 
+    activeLabel.requestFocus();
     // activeLabel = allLabels.get(theoreticalGenericIndex);
     searchField.setText(activeLabel.getLocation().getLongName());
     // displayLocationInformation();
