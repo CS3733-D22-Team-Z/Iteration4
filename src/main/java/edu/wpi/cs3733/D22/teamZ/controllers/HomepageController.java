@@ -17,6 +17,7 @@ public class HomepageController implements IMenuAccess {
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toEmployeeURL = "edu/wpi/cs3733/D22/teamZ/views/Employee.fxml";
+  private String toGameURL = "edu/wpi/cs3733/D22/teamZ/views/Game.fxml";
 
   public void setMenuController(MenuController menu) {
     this.menu = menu;
@@ -27,6 +28,13 @@ public class HomepageController implements IMenuAccess {
     System.out.println("navigating to locations from home");
     menu.selectMenu(1);
     menu.load(toLocationsURL);
+  }
+
+  @FXML
+  private void toGame() throws IOException {
+    System.out.println("navigating to game from home");
+    menu.selectMenu(1);
+    menu.load(toGameURL);
   }
 
   @FXML
