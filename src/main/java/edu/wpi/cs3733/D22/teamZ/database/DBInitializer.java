@@ -272,12 +272,12 @@ public class DBInitializer {
         pstmt.setString(2, request.getType().toString());
         pstmt.setString(3, request.getStatus().toString());
         if (request.getIssuer() == null) {
-          pstmt.setString(4, "null");
+          pstmt.setString(4, null);
         } else {
           pstmt.setString(4, request.getIssuer().getEmployeeID());
         }
         if (request.getHandler() == null) {
-          pstmt.setString(5, "null");
+          pstmt.setString(5, null);
         } else {
           pstmt.setString(5, request.getHandler().getEmployeeID());
         }
