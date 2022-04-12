@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class LandingPageController implements IMenuAccess {
@@ -15,6 +16,7 @@ public class LandingPageController implements IMenuAccess {
   private final String toLaundryServiceURL = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
+  private final String toWebCamPreview = "edu/wpi/cs3733/D22/teamZ/views/WebCamPreview.fxml";
 
   private MenuController menu;
 
@@ -63,5 +65,10 @@ public class LandingPageController implements IMenuAccess {
   private void navComputer() throws IOException {
     System.out.println("navigating to computer from landing page");
     menu.load(toComputerServiceRequestURL);
+  }
+
+  public void navCCTV(ActionEvent event) throws IOException {
+    System.out.println("navigating to WebCam Preview from landing page");
+    menu.load(toWebCamPreview);
   }
 }

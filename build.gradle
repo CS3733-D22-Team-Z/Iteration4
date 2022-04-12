@@ -6,7 +6,7 @@ plugins {
     id "io.freefair.lombok" version "5.0.0-rc6"
     id 'org.openjfx.javafxplugin' version '0.0.10'
 }
-mainClassName = 'edu.wpi.cs3733.D22.teamZ.Main'
+mainClassName = 'edu.wpi.cs3733.D22.teamZ.Main' //controllers.WebCamAppLauncher
 
 repositories {
     mavenCentral()
@@ -18,7 +18,7 @@ repositories {
 
 javafx {
     version = "17"
-    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing', 'javafx.graphics', 'javafx.media']
 }
 
 
@@ -28,17 +28,21 @@ dependencies {
 
             // You may comment out the database dependency you do not use
             'org.xerial:sqlite-jdbc:3.36.0.3',
-            'org.apache.derby:derby:10.15.2.0',
+            'org.apache.derby:derby:10.14.2.0',
 
             'org.slf4j:slf4j-api:1.7.36',
             'org.slf4j:slf4j-simple:1.7.36',
+            'com.nativelibs4java:bridj:0.6.2',
+            'com.github.sarxos:webcam-capture:0.3.12'
     )
 
     testCompile(
             "org.testfx:testfx-core:4.0.16-alpha",
 
             "junit:junit:4.13.2",
-            "org.testfx:testfx-junit:4.0.16-alpha"
+            "org.testfx:testfx-junit:4.0.16-alpha",
+            "com.nativelibs4java:bridj:0.6.2",
+            'com.github.sarxos:webcam-capture:0.3.12'
 
             // optional dependencies for using JUnit 5 (replaces above 2)
             // 'org.junit.jupiter:junit-jupiter:5.6.0',

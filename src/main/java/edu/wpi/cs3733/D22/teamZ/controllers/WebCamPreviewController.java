@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.github.sarxos.webcam.Webcam;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -23,29 +22,27 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javax.swing.*;
 
-// import javax.swing.text.html.ImageView;
-// import javafx.embed.swing.SwingFXUtils;
-
-public class CCTVSelectionController implements Initializable {
+/**
+ * This is controller for WebCamPreview FXML.
+ *
+ * @author Rakesh Bhatt (rakeshbhatt10)
+ */
+public class WebCamPreviewController implements Initializable {
 
   @FXML Button btnStartCamera;
+
   @FXML Button btnStopCamera;
+
   @FXML Button btnDisposeCamera;
-  @FXML Button backButton;
+
   @FXML ComboBox<WebCamInfo> cbCameraOptions;
+
   @FXML BorderPane bpWebCamPaneHolder;
+
   @FXML FlowPane fpBottomPane;
+
   @FXML ImageView imgWebCamCapturedImage;
-
-  private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
-
-  private MenuController menu;
-
-  public void toLandingPage(ActionEvent event) throws IOException {
-    menu.load(toLandingPageURL);
-  }
 
   private class WebCamInfo {
 
@@ -180,29 +177,13 @@ public class CCTVSelectionController implements Initializable {
 
                         @Override
                         public void run() {
-                          final Image mainimage = SwingFXUtils.toFXImage(grabbedImage, null);
-                          imageProperty.set(mainimage);
+                          final Image mainiamge = SwingFXUtils.toFXImage(grabbedImage, null);
+                          imageProperty.set(mainiamge);
                         }
                       });
 
                   grabbedImage.flush();
                 }
-
-                //                                        FileChooser fileChooser = new
-                // FileChooser();
-                //                                        File imageFile =
-                // fileChooser.showOpenDialog(new Stage());
-                //                                        BufferedImage bufferedImage =
-                // ImageIO.read(imageFile);
-                //                                        imageProperty.set(bufferedImage);
-                //
-                //                                        Image image =
-                // SwingFXUtils.toFXImage(bufferedImage, null);
-                //                                        currentlySelectedUser.messagesList.add(new
-                //                 MessageViewModel("", getCurrentTime(), false, true, image));
-                //
-                //
-                // messagesListView.scrollTo(currentlySelectedUser.messagesList.size());
               } catch (Exception e) {
                 e.printStackTrace();
               }
