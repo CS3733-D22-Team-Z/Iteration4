@@ -57,4 +57,12 @@ public interface IServiceRequestDAO {
    * @return number of conflicts when importing
    */
   int importServiceRequestsFromCSV(File serviceRequestData);
+
+  /**
+   * Insert service requests into the database from the given list
+   *
+   * @param list list of service requests to be added
+   * @return True if successful, false otherwise
+   */
+  boolean addServiceRequestFromList(List<ServiceRequest> list);
 }

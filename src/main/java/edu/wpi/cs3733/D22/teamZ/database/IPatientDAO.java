@@ -58,4 +58,12 @@ public interface IPatientDAO {
    * @return number of conflicts when importing
    */
   int importPatientsFromCSV(File patientData);
+
+  /**
+   * Insert patients into database from given list
+   *
+   * @param list list of patients that need to be added
+   * @return True if successful, false otherwise
+   */
+  boolean addPatientFromList(List<Patient> list);
 }

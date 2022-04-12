@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
 
 .root {
-    -fx-background-color: #D6D6D6;
+    -fx-background-color: #E5E5E5;
 }
 
 .object-header {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 700;
-    -fx-font-size: 7.5pt;
+    -fx-font-size: 12pt;
     -fx-text-fill: #2e2e2e;
 }
 
@@ -49,6 +49,16 @@
     -fx-background-color: #0075FF;
 }
 
+.landing-button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #000000;
+
+    -fx-background-radius: 2px;
+    -fx-background-color: #FFFFFF;
+}
+
 .filter-button {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 700;
@@ -57,6 +67,14 @@
 
     -fx-background-radius: 0px;
     -fx-background-color: #FFFFFF;
+}
+
+.menu-button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+
+    -fx-background-color: transparent;
 }
 
 .region-icon {
