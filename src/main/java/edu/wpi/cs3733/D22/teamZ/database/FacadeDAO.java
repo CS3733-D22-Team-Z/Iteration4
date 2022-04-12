@@ -344,7 +344,7 @@ public class FacadeDAO {
    * @param serviceRequest ServiceRequest object that stores updated information
    * @return True if success, false otherwise
    */
-  private boolean updateServiceRequest(ServiceRequest serviceRequest) {
+  public boolean updateServiceRequest(ServiceRequest serviceRequest) {
     return serviceRequestDAO.updateServiceRequest(serviceRequest);
   }
   // not in use rn

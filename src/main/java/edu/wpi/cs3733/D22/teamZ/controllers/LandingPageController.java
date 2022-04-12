@@ -15,8 +15,7 @@ public class LandingPageController implements IMenuAccess {
   private final String toLaundryServiceURL = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
-  private final String toServiceRequestURL =
-      "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
+  private final String toServiceRequestURL = "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
 
   private MenuController menu;
 
