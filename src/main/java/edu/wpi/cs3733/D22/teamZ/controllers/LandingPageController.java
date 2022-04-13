@@ -98,7 +98,7 @@ public class LandingPageController implements IMenuAccess {
 
   @FXML
   private void toServReq() throws IOException {
-    System.out.println("navigating to meal from landing page");
+    System.out.println("navigating to servReq from landing page");
     menu.load(toServiceRequestURL);
   }
 
