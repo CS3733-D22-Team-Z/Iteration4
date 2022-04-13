@@ -12,7 +12,7 @@ public class ExternalPatientDAOImpl implements IExternalPatientDAOImpl {
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   List<ExternalPatientTransportationRequest> requestList = new ArrayList<>();
 
-  public ExternalPatientDAOImpl(){}
+  public ExternalPatientDAOImpl() {}
 
   /** Updates the connection */
   private void updateConnection() {
@@ -26,14 +26,14 @@ public class ExternalPatientDAOImpl implements IExternalPatientDAOImpl {
    * @return True if successful, false otherwise
    */
   @Override
-  public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request){
-      updateConnection();
-      boolean val = false;
-      if (addToDatabase(request)) {
-          val = true;
-          requestList.add(request);
-      }
-      return val;
+  public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request) {
+    updateConnection();
+    boolean val = false;
+    if (addToDatabase(request)) {
+      val = true;
+      requestList.add(request);
+    }
+    return val;
   }
 
   /**
@@ -43,22 +43,23 @@ public class ExternalPatientDAOImpl implements IExternalPatientDAOImpl {
    * @return True if successful, false otherwise
    */
   private boolean addToDatabase(ExternalPatientTransportationRequest request) {
-      try {
-          PreparedStatement stmt =
-                  connection.prepareStatement("INSERT INTO EXTERNALTRANSPORTREQUEST (REQUESTID," +
-                          " PATIENTID, PATIENTNAME, DESTINATION, DEPARTUREDATE) values (?, ?, ?, ?, ?)");
-          stmt.setString(1, request.getRequestID());
-          stmt.setString(2, request.getPatientID());
-          stmt.setString(3, request.getPatientName());
-          stmt.setString(4, request.getDestination());
-          stmt.setDate(5, Date.valueOf(request.getDepartureDate()));
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "INSERT INTO EXTERNALTRANSPORTREQUEST (REQUESTID,"
+                  + " PATIENTID, PATIENTNAME, DESTINATION, DEPARTUREDATE) values (?, ?, ?, ?, ?)");
+      stmt.setString(1, request.getRequestID());
+      stmt.setString(2, request.getPatientID());
+      stmt.setString(3, request.getPatientName());
+      stmt.setString(4, request.getDestination());
+      stmt.setDate(5, Date.valueOf(request.getDepartureDate()));
 
-          stmt.executeUpdate();
-          connection.commit();
-      } catch (SQLException e) {
-          System.out.println("add external patient transport request statement failed");
-          return false;
-      }
-      return true;
+      stmt.executeUpdate();
+      connection.commit();
+    } catch (SQLException e) {
+      System.out.println("add external patient transport request statement failed");
+      return false;
+    }
+    return true;
   }
 }

@@ -235,9 +235,9 @@ public class FacadeDAO {
    * @param request request to be added
    * @return True if successful, false otherwise
    */
-  public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request){
-    return serviceRequestDAO.addServiceRequest(request) &&
-            transportRequestDAO.addPatientTransportRequest(request);
+  public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request) {
+    return serviceRequestDAO.addServiceRequest(request)
+        && transportRequestDAO.addPatientTransportRequest(request);
   }
 
   // Delete methods
