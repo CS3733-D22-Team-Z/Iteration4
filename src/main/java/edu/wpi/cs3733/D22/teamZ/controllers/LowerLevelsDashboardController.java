@@ -18,6 +18,7 @@ public class LowerLevelsDashboardController implements IMenuAccess {
 
   private FacadeDAO dao = FacadeDAO.getInstance();
   private MenuController menu;
+  protected String menuName;
 
   private ObservableList<DashboardEquipment> data;
   @FXML private TableView lowerLevel1Table;
@@ -76,5 +77,10 @@ public class LowerLevelsDashboardController implements IMenuAccess {
   @Override
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Dashboard";
   }
 }

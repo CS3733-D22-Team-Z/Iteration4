@@ -111,9 +111,15 @@ public class Employee implements ISearchable {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(Object o) { // TO DO Weird issues
     if (o instanceof Employee) {
       Employee objectEmployee = (Employee) o;
+      if (this.getEmployeeID() == null) {
+        return false;
+      }
+      if (objectEmployee.getEmployeeID() == null) {
+        return false;
+      }
       return (this.getEmployeeID().equals(objectEmployee.getEmployeeID()));
     } else {
       return false;
