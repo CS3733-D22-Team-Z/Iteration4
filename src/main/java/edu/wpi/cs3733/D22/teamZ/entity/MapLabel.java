@@ -26,6 +26,7 @@ public class MapLabel extends Label {
     this.employee = b.employee;
     this.equip = b.equip;
     this.reqs = b.reqs;
+    this.label = this.label;
     createLabel();
   }
 

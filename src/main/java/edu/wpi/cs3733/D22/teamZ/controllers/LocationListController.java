@@ -49,6 +49,12 @@ import javafx.util.Callback;
 // LocationController controls Location.fxml, loads location data into a tableView on page
 public class LocationListController implements IMenuAccess {
 
+  // alert
+  @FXML private Pane addAlertPane;
+  @FXML private MFXTextField alertLocationField;
+  @FXML private MFXButton submitAlert;
+  @FXML private MFXButton addAlertButton;
+  @FXML private ComboBox<String> alertCodeField;
   @FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
   @FXML private SplitPane splitPane;
@@ -107,6 +113,7 @@ public class LocationListController implements IMenuAccess {
   @FXML private MFXLegacyComboBox<String> floorField;
   @FXML private MFXTextField locationNameTextField;
   @FXML private MFXTextField nameAbbreviationTextField;
+
   // pane
   @FXML private Pane addLocationPane;
 
@@ -132,12 +139,14 @@ public class LocationListController implements IMenuAccess {
   private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
   private ObservableList<MapLabel> allLabels = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> equipLabels = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Label> alertLabels = FXCollections.observableList(new ArrayList<>());
 
   private ContextMenu rightClickMenu;
 
   // initialize location labels to display on map
   @FXML
   private void initialize() {
+
     rightPane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.23));
     pane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.75));
 
@@ -188,6 +197,14 @@ public class LocationListController implements IMenuAccess {
     floorField.getItems().add("1");
     floorField.getItems().add("2");
     floorField.getItems().add("3");
+
+    alertCodeField.getItems().add("Code Red");
+    alertCodeField.getItems().add("Code Grey");
+    alertCodeField.getItems().add("Code Blue");
+    alertCodeField.getItems().add("Code Green");
+    alertCodeField.getItems().add("Code White");
+    alertCodeField.getItems().add("Code Pink");
+    alertCodeField.getItems().add("Code Amber");
 
     // floorLocations.remove(0, floorLocations.size());
 
@@ -289,6 +306,7 @@ public class LocationListController implements IMenuAccess {
 
             editLocation.setDisable(true);
             deleteLocation.setDisable(true);
+            addAlertButton.setDisable(true);
 
             /*floorLabel.setText("Floor: ");
             longnameLabel.setText("Long Name: ");
@@ -355,9 +373,18 @@ public class LocationListController implements IMenuAccess {
             e.printStackTrace();
           }
         });
+    MenuItem alert = new MenuItem("Alert");
+    alert.setOnAction(
+        event -> {
+          try {
+            showAlertPane();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
     // prop.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
 
-    rightClickMenu = new ContextMenu(edit, delete, prop);
+    rightClickMenu = new ContextMenu(edit, delete, prop, alert);
 
     rightClickMenu.setPrefHeight(82);
     rightClickMenu.setPrefWidth(120);
@@ -1063,5 +1090,181 @@ public class LocationListController implements IMenuAccess {
     } else {
       scroller.setHvalue(scroller.getHmin());
     }
+  }
+
+  @FXML
+  public void showAlertPane() throws IOException {
+    addAlertPane.setVisible(true);
+    alertLocationField.setText(activeLabel.getLocation().getNodeID());
+    submitAlert.setOnAction(
+        (e) -> {
+          createAlert(
+              alertCodeField.getSelectionModel().getSelectedItem().toString(),
+              activeLabel.getLocation());
+          addAlertPane.setVisible(false);
+        });
+  }
+
+  public void createAlert(String code, Location location) {
+    Alert newAlert = new Alert(Alert.AlertType.WARNING);
+    switch (code) {
+      case "Code Red":
+        ImageView redAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/RedAlert.png"));
+        newAlert.setTitle("Code Red Alert");
+        newAlert.setHeaderText("Code Red");
+        newAlert.setGraphic(redAlertIcon);
+        createAlertLabel(redAlertIcon, location);
+        if (location.getFloor().equals("1")) {
+          newAlert.setContentText(
+              "Fire at "
+                  + location.getLongName()
+                  + " on Floor "
+                  + location.getFloor()
+                  + ". The closest exit is "
+                  + findClosestExit(location).getLongName());
+        } else {
+          newAlert.setContentText(
+              "Fire at " + location.getLongName() + " on Floor " + location.getFloor());
+        }
+        findClosestExit(location);
+        break;
+      case "Code Grey":
+        ImageView greyAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreyAlert.png"));
+        newAlert.setTitle("Code Grey Alert");
+        newAlert.setHeaderText("Code Grey");
+        newAlert.setContentText(
+            "Security Personnel Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greyAlertIcon);
+        createAlertLabel(greyAlertIcon, location);
+        break;
+      case "Code Green":
+        System.out.println("green label");
+        ImageView greenAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreenAlert.png"));
+        newAlert.setTitle("Code Green Alert");
+        newAlert.setHeaderText("Code Green");
+        newAlert.setContentText(
+            "M.D. or Specialty Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greenAlertIcon);
+        createAlertLabel(greenAlertIcon, location);
+        break;
+      case "Code White":
+        ImageView whiteAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/WhiteAlert.png"));
+        newAlert.setTitle("Code White Alert");
+        newAlert.setHeaderText("Code White");
+        newAlert.setContentText(
+            "Bomb Threat at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(whiteAlertIcon);
+        createAlertLabel(whiteAlertIcon, location);
+        break;
+      case "Code Pink":
+        ImageView pinkAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/PinkAlert.png"));
+        newAlert.setTitle("Code Pink Alert");
+        newAlert.setHeaderText("Code Pink");
+        newAlert.setContentText(
+            "Infant Abduction at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(pinkAlertIcon);
+        createAlertLabel(pinkAlertIcon, location);
+        break;
+      case "Code Amber":
+        ImageView amberAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/AmberAlert.png"));
+        newAlert.setTitle("Code Amber Alert");
+        newAlert.setHeaderText("Code Amber");
+        newAlert.setContentText("Disaster Plan in Effect");
+        newAlert.setGraphic(amberAlertIcon);
+        createAlertLabel(amberAlertIcon, location);
+        break;
+      case "Code Blue":
+        ImageView blueAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/BlueAlert.png"));
+        newAlert.setTitle("Code Blue Alert");
+        newAlert.setHeaderText("Code Blue");
+        newAlert.setContentText(
+            "Immediate Medical Assistance Needed at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(blueAlertIcon);
+        createAlertLabel(blueAlertIcon, location);
+        break;
+      default:
+        break;
+    }
+
+    newAlert.show();
+    newAlert.setOnCloseRequest((e) -> {});
+  }
+
+  public void createAlertLabel(ImageView icon, Location location) {
+    ImageView locationIcon = icon;
+    DropShadow dropShadow = new DropShadow();
+    dropShadow.setRadius(5.0);
+    dropShadow.setOffsetX(3.0);
+    dropShadow.setOffsetY(3.0);
+    dropShadow.setColor(Color.GRAY);
+
+    ContextMenu contextMenu = new ContextMenu();
+    MenuItem menuItem1 = new MenuItem("Resolve alert");
+
+    // create the label
+    Label label = new Label();
+    label.setEffect(dropShadow);
+    label.setGraphic(locationIcon);
+    label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
+    label.setContextMenu(contextMenu);
+    contextMenu.getItems().add(menuItem1);
+    menuItem1.setOnAction(
+        (e) -> {
+          // remove from map
+        });
+    MapLabel mapLabel = new MapLabel.mapLabelBuilder().label(label).location(location).build();
+
+    // System.out.println("adding label");
+    // allLabels.add(mapLabel);
+  }
+
+  public Location findClosestExit(Location location) {
+    Location closestExit = new Location();
+    Location current = new Location();
+    double distance;
+    double bestDistance = 1000;
+    int index = 0;
+
+    for (int i = 0; i < totalLocations.size(); i++) {
+      if (totalLocations.get(i).getNodeType().equals("EXIT")
+          && totalLocations.get(i).getFloor().equals(location.getFloor())) {
+        current = totalLocations.get(i);
+        distance =
+            Math.sqrt(
+                (Math.pow((current.getXcoord() - location.getXcoord()), 2))
+                    + (Math.pow((current.getYcoord() - location.getYcoord()), 2)));
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          closestExit = current;
+          index = i;
+        }
+      }
+    }
+    System.out.println(closestExit.getLongName());
+    for (MapLabel label : allLabels) {
+      if (label.getLocation().getLongName().equals(closestExit.getLongName())) {
+        activeLabel = label;
+        System.out.println(activeLabel.getLocation().getLongName());
+        activeLabel.setScaleX(1);
+        activeLabel.setScaleY(1);
+      }
+    }
+    return closestExit;
   }
 }
