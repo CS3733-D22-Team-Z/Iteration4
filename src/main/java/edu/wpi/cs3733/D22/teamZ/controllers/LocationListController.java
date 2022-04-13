@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXRadioButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -12,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -129,6 +128,8 @@ public class LocationListController implements IMenuAccess {
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
   private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
+  private String toServiceRequestProperties =
+      "edu/wpi/cs3733/D22/teamZ/views/ServiceRequestProperties.fxml";
 
   // init LocationDAOImpl to use sql methods from db
   FacadeDAO facadeDAO = FacadeDAO.getInstance();
@@ -263,8 +264,6 @@ public class LocationListController implements IMenuAccess {
     }
     this.displayResult.addAll(FXCollections.observableList(longNames));
     searchResultList.setItems(this.displayResult);
-
-    searchResultList.setVisible(true);
 
     multiFocusProperty.bind(searchField.focusedProperty().or(searchResultList.focusedProperty()));
 
@@ -426,6 +425,8 @@ public class LocationListController implements IMenuAccess {
     root.setPrefWidth(600);
     root.setPrefHeight(440);
 
+    // 3 tabs: do service request tab
+
     stage.setTitle("Properties");
     stage.getIcons().add(new Image("edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png"));
     stage.setResizable(false);
@@ -441,27 +442,57 @@ public class LocationListController implements IMenuAccess {
     root.getTabs().addAll(medInfoTab, servReqTab, locInfoTab);
     root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-    Label test = new Label("Testing");
-    GridPane locPane = new GridPane();
-    locPane.setPrefWidth(root.getPrefWidth());
-    locPane.setPrefHeight(root.getPrefHeight());
-    locPane.setGridLinesVisible(true);
-    ColumnConstraints col1 = new ColumnConstraints();
-    col1.setFillWidth(true);
-    col1.setPercentWidth(33.333);
-    col1.setHgrow(Priority.ALWAYS);
-    RowConstraints row1 = new RowConstraints();
-    row1.setPercentHeight(33.333);
-    row1.setFillHeight(true);
-    row1.setVgrow(Priority.ALWAYS);
-    locPane.getColumnConstraints().add(0, col1);
-    locPane.getColumnConstraints().add(1, col1);
-    locPane.getColumnConstraints().add(2, col1);
-    locPane.getRowConstraints().add(0, row1);
-    locPane.getRowConstraints().add(1, row1);
-    locPane.getRowConstraints().add(2, row1);
+    Pane locPane = new Pane();
+    ObservableList<String> locationHeads = FXCollections.observableList(new ArrayList<>());
+    ObservableList<String> locationInfo = FXCollections.observableList(new ArrayList<>());
+
+    locationInfo.add(activeLabel.getLocation().getLongName());
+    locationInfo.add(activeLabel.getLocation().getShortName());
+    locationInfo.add(activeLabel.getLocation().getNodeID());
+    locationInfo.add(activeLabel.getLocation().getNodeType());
+    locationInfo.add(activeLabel.getLocation().getFloor());
+    locationInfo.add(String.valueOf(activeLabel.getLocation().getXcoord()));
+    locationInfo.add(String.valueOf(activeLabel.getLocation().getYcoord()));
+
+    locationHeads.add("Long name:");
+    locationHeads.add("Short name:");
+    locationHeads.add("Node ID:");
+    locationHeads.add("Node Type:");
+    locationHeads.add("Floor:");
+    locationHeads.add("XCoord:");
+    locationHeads.add("YCoord:");
+
+    ListView<String> info = new ListView<>(locationInfo);
+    ListView<String> heads = new ListView<>(locationHeads);
+    heads.setPrefWidth(85);
+    info.setPrefWidth(300);
+    info.setPrefHeight(7 * 24);
+    heads.setPrefHeight(7 * 24);
+    info.relocate(85, 0);
+
+    info.getSelectionModel()
+        .selectedIndexProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                Platform.runLater(() -> info.getSelectionModel().select(-1)));
+    heads
+        .getSelectionModel()
+        .selectedIndexProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                Platform.runLater(() -> heads.getSelectionModel().select(-1)));
+
+    locPane.getChildren().addAll(info, heads);
 
     locInfoTab.setContent(locPane);
+
+    // Service Request page stuff
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(getClass().getClassLoader().getResource(toServiceRequestProperties));
+    Node serviceReqPage = loader.load();
+    ((ServiceRequestPropertiesController) (loader.getController())).setRequests(activeLabel.getReqs());
+
+    servReqTab.setContent(serviceReqPage);
 
     Scene window = new Scene(root);
     stage.setScene(window);
@@ -682,7 +713,7 @@ public class LocationListController implements IMenuAccess {
           new MapLabel.mapLabelBuilder()
               .location(current)
               .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
-              // todo: uncomment .requests(facadeDAO.getAllServiceRequestsByLocation(current))
+              //@TODO add location stuff .requests(facadeDAO.getAllServiceRequestsByLocation())
               .build();
 
       // stylize label icon
