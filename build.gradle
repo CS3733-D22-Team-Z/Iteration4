@@ -25,6 +25,8 @@ javafx {
 dependencies {
     implementation(
             'io.github.palexdev:materialfx:11.13.4',
+            'io.github.palexdev:virtualizedfx:11.2.6',
+
 
             'com.jfoenix:jfoenix:9.0.10',
 

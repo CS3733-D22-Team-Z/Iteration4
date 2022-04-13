@@ -1,58 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
     <children>
-        <Label fx:id="welcomeMessage" alignment="TOP_LEFT" layoutX="18.0" layoutY="167.0" prefHeight="49.0" prefWidth="531.0" styleClass="object-header" stylesheets="@../styles/ServiceRequestDefault.css" text="" wrapText="true">
-            <font>
-                <Font name="System Bold" size="15.0" />
-            </font>
-        </Label>
-        <Label layoutX="18.0" layoutY="198.0" text="Use the buttons below or menu on the left to navigate the app." textFill="#9d9d9d" />
-        <JFXButton buttonType="RAISED" layoutX="18.0" layoutY="245.0" onAction="#toLocations" prefHeight="32.0" prefWidth="220.0" style="-fx-background-radius: 5; -fx-background-color: FFFFFF;" text="Locations                                           ">
-            <font>
-                <Font name="System Bold" size="12.0" />
-            </font>
-      </JFXButton>
-        <JFXButton buttonType="RAISED" layoutX="18.0" layoutY="291.0" onAction="#toLandingPage" prefHeight="32.0" prefWidth="220.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;" text="Landing Page                                    ">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></JFXButton>
+        <Label fx:id="welcomeMessage" alignment="TOP_LEFT" layoutX="18.0" layoutY="167.0" prefHeight="49.0" prefWidth="531.0" styleClass="object-header" stylesheets="@../styles/ServiceRequestDefault.css" text="Hello admin, Welcome to the Brigham and Women's Hospital App" wrapText="true" />
+        <Label layoutX="18.0" layoutY="217.0" styleClass="object-body" text="Use the buttons below or menu on the left to navigate the app." />
+        <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="245.0" onAction="#toLocations" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Locations" />
+        <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="291.0" onAction="#toLandingPage" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Landing Page" />
         <ImageView fitHeight="155.0" fitWidth="482.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../images/Brigham-Womens-Hospital.jpg" />
             </image>
         </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="18.0" layoutY="337.0" onAction="#toMedicalEquipmentRequest" prefHeight="32.0" prefWidth="220.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;" text="Medical Equipment Requests          ">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="upperFloorsDashboardButton" buttonType="RAISED" layoutX="268.0" layoutY="245.0" onAction="#toUpperFloorsDashboard" prefHeight="32.0" prefWidth="220.0" style="-fx-background-radius: 5; -fx-background-color: FFFFFF;" text="Dashboard                                           ">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="267.0" layoutY="291.0" onAction="#toEmployeePage" prefHeight="32.0" prefWidth="220.0" style="-fx-background-radius: 5; -fx-background-color: FFFFFF;" text="Employees             ">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-         <padding>
-            <Insets left="-95.0" />
-         </padding>
-      </JFXButton>
-      <MFXButton fx:id="SwitchServerButton" buttonType="RAISED" layoutX="377.0" layoutY="337.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="97.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="Switch Server">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
+      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="337.0" onAction="#toMedicalEquipmentRequest" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Medical Equipment Requests" />
+      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="245.0" onAction="#toEmployeePage" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Employees" />
+      <MFXButton fx:id="SwitchServerButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="291.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Switch Server" />
     </children>
 </AnchorPane>

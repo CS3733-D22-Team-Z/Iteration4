@@ -138,7 +138,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
           connection.prepareStatement(
               "UPDATE MEDEQUIPREQ SET status =?, handler =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
-      stmt.setString(2, request.getHandler().toString());
+      stmt.setString(2, request.getHandler().getEmployeeID());
       stmt.setString(3, request.getRequestID());
 
       stmt.executeUpdate();
