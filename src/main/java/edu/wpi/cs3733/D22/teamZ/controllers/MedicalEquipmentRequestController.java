@@ -87,14 +87,8 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     // Create entities for submission
     String itemID = equipmentDropDown.getValue().toString();
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
-    Employee issuer =
-        new Employee(
-            "admin1",
-            "Pat",
-            Employee.AccessType.ADMIN,
-            "",
-            ""); // TO DO: be person who made request
-    Employee handler = null;
+    Employee issuer = MenuController.getLoggedInUser();
+    Employee handler = FacadeDAO.getInstance().getEmployeeByID("nurse1");
 
     String equipmentID = equipmentDropDown.getValue().toString();
 

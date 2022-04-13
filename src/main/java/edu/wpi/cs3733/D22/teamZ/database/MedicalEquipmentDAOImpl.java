@@ -109,7 +109,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       ResultSet rset = pstmt.executeQuery();
 
       rset.next();
-      String temp = rset.getString("ITEMID");
+      String temp = rset.getString("EQUIPMENTID");
       rset.close();
       if (temp != null) {
         pstmt =
