@@ -1,26 +1,32 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.MFXTableView;
+import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import java.io.File;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MedicalEquipmentRequestListController implements Initializable, IMenuAccess {
+public class DontUseThisController implements Initializable, IMenuAccess {
   // Button that re-fetches requests and refreshes table.
   @FXML private MFXButton refreshButton;
 
@@ -39,11 +45,11 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   @FXML private TableColumn<TableColumnItems, String> detailsColumn;
 
   // Main table
-  @FXML public TableView<RequestRow> tableContainer;
-  @FXML private TableColumn<RequestRow, String> idColumn;
+  @FXML public MFXTableView<RequestRow> tableContainer;
+  /*@FXML private TableColumn<RequestRow, String> idColumn;
   @FXML private TableColumn<RequestRow, String> deviceColumn;
   @FXML private TableColumn<RequestRow, String> assigneeColumn;
-  @FXML private TableColumn<RequestRow, String> statusColumn;
+  @FXML private TableColumn<RequestRow, String> statusColumn;*/
 
   private final String toHomepageURL = "views/Homepage.fxml";
 
@@ -63,7 +69,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   // Database object
   private FacadeDAO facadeDAO;
 
-  public MedicalEquipmentRequestListController() {
+  public DontUseThisController() {
     // Create new database object
     facadeDAO = FacadeDAO.getInstance();
 
@@ -93,37 +99,34 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     filterCBox.getItems().addAll("Test 1", "Test 2", "Test 3");
 
     // Setup details window
-    int sWidth = 186 / 2;
     labelsColumn.setCellValueFactory(tRow -> tRow.getValue().label);
-    labelsColumn.setPrefWidth(sWidth);
+    labelsColumn.setMinWidth(statusTable.getPrefWidth() / 2);
     labelsColumn.setResizable(false);
     labelsColumn.setReorderable(false);
 
     detailsColumn.setCellValueFactory(tRow -> tRow.getValue().detail);
-    detailsColumn.setPrefWidth(sWidth);
+    detailsColumn.setMinWidth(statusTable.getPrefWidth() / 2);
     detailsColumn.setResizable(false);
     detailsColumn.setReorderable(false);
 
-    // Setup main list
-    int width = 380 / 4;
-
+    /* Setup main list
     idColumn.setCellValueFactory(rRow -> rRow.getValue().id);
-    idColumn.setPrefWidth(width);
+    idColumn.setPrefWidth(tableContainer.getPrefWidth() / 4);
     idColumn.setResizable(false);
     idColumn.setReorderable(false);
 
     deviceColumn.setCellValueFactory(rRow -> rRow.getValue().device);
-    deviceColumn.setPrefWidth(width);
+    deviceColumn.setPrefWidth(tableContainer.getPrefWidth() / 4);
     deviceColumn.setResizable(false);
     deviceColumn.setReorderable(false);
 
     assigneeColumn.setCellValueFactory(rRow -> rRow.getValue().assignee);
-    assigneeColumn.setPrefWidth(width);
+    assigneeColumn.setPrefWidth(tableContainer.getPrefWidth() / 4);
     assigneeColumn.setResizable(false);
     assigneeColumn.setReorderable(false);
 
     statusColumn.setCellValueFactory(rRow -> rRow.getValue().status);
-    statusColumn.setPrefWidth(width);
+    statusColumn.setPrefWidth(tableContainer.getPrefWidth() / 4);
     statusColumn.setResizable(false);
     statusColumn.setReorderable(false);
 
@@ -132,11 +135,106 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
         .selectedItemProperty()
         .addListener(
             (obs, oldVal, newVal) ->
-                loadRow(tableContainer.getSelectionModel().getSelectedItem().id.get()));
+                loadRow(tableContainer.getSelectionModel().getSelectedItem().id.get())); */
+
+    int width = (int) (380 / 4);
+
+    MFXTableColumn<RequestRow> idColumn = new MFXTableColumn<>("ID");
+    idColumn.setRowCellFactory(
+        row ->
+            new MFXTableRowCell<>(requestRow -> requestRow.id.get()) {
+              {
+                setMinWidth(width);
+                setMaxWidth(width);
+                onMouseClickedProperty()
+                    .set(
+                        (event) -> {
+                          loadRow(
+                              tableContainer.getSelectionModel().getSelection().get(0).id.get());
+                        });
+              }
+            });
+    idColumn.setMinWidth(width);
+    idColumn.setMaxWidth(width);
+    // idColumn.setStyle(String.format("-fx-max-width: %d;", (int) (tableContainer.getWidth() /
+    // 4)));
+
+    MFXTableColumn<RequestRow> deviceColumn = new MFXTableColumn<>("Device");
+    deviceColumn.setRowCellFactory(
+        row ->
+            new MFXTableRowCell<>(requestRow -> requestRow.device.get()) {
+              {
+                setMinWidth(width);
+                setMaxWidth(width);
+                onMouseClickedProperty()
+                    .set(
+                        (event) -> {
+                          ObservableMap map = tableContainer.getSelectionModel().getSelection();
+                          for (Iterator it = map.keySet().iterator(); it.hasNext(); ) {
+                            Integer key = (Integer) it.next();
+                            loadRow(
+                                tableContainer
+                                    .getSelectionModel()
+                                    .getSelection()
+                                    .get(key)
+                                    .id
+                                    .get());
+                          }
+                        });
+              }
+            });
+    // deviceColumn.setStyle(
+    //    String.format("-fx-max-width: %d;", (int) (tableContainer.getWidth() / 4)));
+    deviceColumn.setMinWidth(width);
+    deviceColumn.setMaxWidth(width);
+
+    MFXTableColumn<RequestRow> assigneeColumn = new MFXTableColumn<>("ID");
+    assigneeColumn.setRowCellFactory(
+        row ->
+            new MFXTableRowCell<>(requestRow -> requestRow.assignee.get()) {
+              {
+                setMinWidth(width);
+                setMaxWidth(width);
+                onMouseClickedProperty()
+                    .set(
+                        (event) -> {
+                          loadRow(
+                              tableContainer.getSelectionModel().getSelection().get(0).id.get());
+                        });
+              }
+            });
+    // assigneeColumn.setStyle(
+    //    String.format("-fx-max-width: %d;", (int) (tableContainer.getWidth() / 4)));
+    assigneeColumn.setMinWidth(width);
+    assigneeColumn.setMaxWidth(width);
+
+    MFXTableColumn<RequestRow> statusColumn = new MFXTableColumn<>("Status");
+    statusColumn.setRowCellFactory(
+        row ->
+            new MFXTableRowCell<>(requestRow -> requestRow.status.get()) {
+              {
+                setMinWidth(width);
+                setMaxWidth(width);
+                onMouseClickedProperty()
+                    .set(
+                        (event) -> {
+                          loadRow(
+                              tableContainer.getSelectionModel().getSelection().get(0).id.get());
+                        });
+              }
+            });
+    // statusColumn.setStyle(
+    //    String.format("-fx-max-width: %d;", (int) (tableContainer.getWidth() / 4)));
+    statusColumn.setMinWidth(width);
+    statusColumn.setMaxWidth(width);
+
+    tableContainer.getTableColumns().addAll(idColumn, deviceColumn, assigneeColumn, statusColumn);
 
     // Initialize requests
     requests = FXCollections.observableArrayList();
     createRRList();
+
+    // tableContainer.autosizeColumnsOnInitialization();
   }
 
   // Called whenever one of the filter buttons are clicked.

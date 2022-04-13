@@ -23,6 +23,11 @@ public class ServerSwitcherController implements IMenuAccess {
     this.menu = menu;
   }
 
+  @Override
+  public String getMenuName() {
+    return "Server Switcher";
+  }
+
   @FXML
   private void initialize() {
     if (currentDatabase.equals("embedded")) {

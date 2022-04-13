@@ -29,6 +29,11 @@ public class HomepageController implements IMenuAccess {
     this.menu = menu;
   }
 
+  @Override
+  public String getMenuName() {
+    return "Home";
+  }
+
   @FXML
   public void initialize() {
     String name = MenuController.getLoggedInUser().getName();
