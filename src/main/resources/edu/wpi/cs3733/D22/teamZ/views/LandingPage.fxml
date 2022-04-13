@@ -11,17 +11,17 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LandingPageController">
     <children>
-        <Label layoutX="24.0" layoutY="9.0" styleClass="object-header" text="Service Request Systems">
+        <Label layoutX="24.0" layoutY="10.0" styleClass="object-header" text="Service Request Systems">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <Label layoutX="23.0" layoutY="38.0" styleClass="object-body" text="Select and submit a service request" textFill="#9d9d9d">
+        <Label layoutX="23.0" layoutY="36.0" styleClass="object-body" text="Select and submit a service request" textFill="#9d9d9d">
             <font>
                 <Font size="9.0" />
             </font>
         </Label>
-      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="69.0" onAction="#navMedicalEquipment" prefHeight="37.0" prefWidth="365.0" styleClass="landing-button" text="Medical Equipment ">
+      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="67.0" onAction="#navMedicalEquipment" prefHeight="37.0" prefWidth="365.0" styleClass="landing-button" text="Medical Equipment ">
          <padding>
             <Insets right="210.0" />
          </padding>
@@ -77,7 +77,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </MFXButton>
-      <VBox fx:id="iconContainer" layoutX="349.0" layoutY="77.0" spacing="28.0">
+      <VBox fx:id="iconContainer" layoutX="354.0" layoutY="80.0" prefHeight="291.0" prefWidth="18.0" spacing="28.0">
          <children>
             <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
             <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
@@ -88,13 +88,13 @@
             <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
          </children>
       </VBox>
-      <Label fx:id="Daniel" layoutX="391.0" layoutY="79.0" text="Daniel Correa" />
-      <Label fx:id="Patrick" layoutX="391.0" layoutY="124.0" text="Patrick Hunter" />
-      <Label fx:id="Maya" layoutX="391.0" layoutY="169.0" text="Maya Angeles" />
-      <Label fx:id="Neha" layoutX="393.0" layoutY="217.0" prefHeight="17.0" prefWidth="119.0" text="Neha Kuchipudi" />
-      <Label fx:id="Alex" layoutX="395.0" layoutY="261.0" text="Alex Brattstrom" />
-      <Label fx:id="Jake" layoutX="395.0" layoutY="305.0" text="Jake Leavitt" />
-      <Label fx:id="Nelson" layoutX="394.0" layoutY="352.0" text="Nelson Diaz" />
-      <MFXToggleButton fx:id="toggle" layoutX="524.0" layoutY="346.0" onMouseClicked="#onToggleClicked" />
+      <Label fx:id="Daniel" layoutX="408.0" layoutY="79.0" text="Daniel Correa" />
+      <Label fx:id="Patrick" layoutX="408.0" layoutY="124.0" text="Patrick Hunter" />
+      <Label fx:id="Maya" layoutX="408.0" layoutY="169.0" text="Maya Angeles" />
+      <Label fx:id="Neha" layoutX="410.0" layoutY="217.0" prefHeight="17.0" prefWidth="119.0" text="Neha Kuchipudi" />
+      <Label fx:id="Alex" layoutX="412.0" layoutY="261.0" text="Alex Brattstrom" />
+      <Label fx:id="Jake" layoutX="412.0" layoutY="305.0" text="Jake Leavitt" />
+      <Label fx:id="Nelson" layoutX="411.0" layoutY="352.0" text="Nelson Diaz" />
+      <MFXToggleButton fx:id="toggle" layoutX="535.0" layoutY="6.0" onMouseClicked="#onToggleClicked" />
     </children>
 </AnchorPane>

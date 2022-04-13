@@ -22,8 +22,8 @@
         <MFXButton fx:id="submitButton" layoutX="12.0" layoutY="334.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="79.0" text="Submit" />
         <MFXButton fx:id="resetButton" layoutX="104.0" layoutY="334.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="75.0" style="-fx-background-color: FF4343;" text="Reset" />
         <Label layoutX="286.0" layoutY="164.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
-        <Label id="rejected" fx:id="errorSavingLabel" layoutX="18.0" layoutY="373.0" prefHeight="17.0" prefWidth="237.0" styleClass="form-header" text="Error saving request, no equipment available" />
-        <Label id="confirmed" fx:id="successfulSubmitLabel" layoutX="22.0" layoutY="374.0" prefHeight="17.0" prefWidth="237.0" styleClass="form-header" text="Successfully submitted lab request!" />
+        <Label id="rejected" fx:id="errorSavingLabel" layoutX="18.0" layoutY="373.0" prefHeight="17.0" prefWidth="373.0" styleClass="form-header" text="Error saving request, no equipment available" />
+        <Label id="confirmed" fx:id="successfulSubmitLabel" layoutX="22.0" layoutY="374.0" prefHeight="17.0" prefWidth="359.0" styleClass="form-header" text="Successfully submitted lab request!" />
         <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="259.0" layoutY="185.0" onAction="#toLabServiceRequestList" text="Lab Service Request List" />
     </children>
 </AnchorPane>

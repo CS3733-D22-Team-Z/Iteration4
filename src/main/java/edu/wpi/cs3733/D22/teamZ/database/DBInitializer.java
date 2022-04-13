@@ -70,6 +70,7 @@ public class DBInitializer {
     // Drop tables
     dropExistingTable("EXTERNALTRANSPORTREQUEST");
     dropExistingTable("MEDEQUIPREQ");
+    dropExistingTable("LABRESULT");
     dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
     dropExistingTable("SERVICEREQUEST");
