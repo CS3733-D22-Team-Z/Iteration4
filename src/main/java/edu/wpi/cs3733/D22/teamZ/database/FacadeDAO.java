@@ -15,6 +15,7 @@ public class FacadeDAO {
   private final PatientDAOImpl patientDAO;
   private final LabRequestServiceDAOImpl labRequestServiceDAO;
   private final ServiceRequestDAOImpl serviceRequestDAO;
+  private final ExternalPatientDAOImpl transportRequestDAO;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -28,6 +29,7 @@ public class FacadeDAO {
     patientDAO = new PatientDAOImpl();
     labRequestServiceDAO = new LabRequestServiceDAOImpl();
     serviceRequestDAO = new ServiceRequestDAOImpl();
+    transportRequestDAO = new ExternalPatientDAOImpl();
   }
 
   // Get All methods
@@ -227,6 +229,16 @@ public class FacadeDAO {
             && labRequestServiceDAO.addLabRequest(labServiceRequest);
     return val;
   }
+  /**
+   * Adds a ExternalPatientTransportationRequest to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request) {
+    return serviceRequestDAO.addServiceRequest(request)
+        && transportRequestDAO.addPatientTransportRequest(request);
+  }
 
   // Delete methods
   /**
@@ -344,7 +356,7 @@ public class FacadeDAO {
    * @param serviceRequest ServiceRequest object that stores updated information
    * @return True if success, false otherwise
    */
-  private boolean updateServiceRequest(ServiceRequest serviceRequest) {
+  public boolean updateServiceRequest(ServiceRequest serviceRequest) {
     return serviceRequestDAO.updateServiceRequest(serviceRequest);
   }
   // not in use rn
@@ -608,6 +620,15 @@ public class FacadeDAO {
   public String getFirstAvailableEquipmentByType(String equipment) {
     return medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipment);
   }
+  /**
+   * Get all Medical Equipment in given floor
+   *
+   * @param floor floor to be searched
+   * @return list of medical equipment for given floor
+   */
+  public List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor) {
+    return medicalEquipmentDAO.getAllMedicalEquipmentByFloor(floor);
+  }
 
   // Special methods for employee
   /**
@@ -623,6 +644,15 @@ public class FacadeDAO {
   // Special methods for patient
 
   // Special methods for service requests
+  /**
+   * Gets the ServiceRequests in the given locations
+   *
+   * @param loc location of service requests
+   * @return ServiceRequest at that location
+   */
+  public List<ServiceRequest> getServiceRequestsByLocation(Location loc) {
+    return serviceRequestDAO.getServiceRequestsByLocation(loc);
+  }
 
   // Special methods for medical equipment requests
 

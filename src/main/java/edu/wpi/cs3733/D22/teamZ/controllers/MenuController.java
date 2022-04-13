@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
@@ -22,7 +23,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
-import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -36,6 +36,8 @@ public class MenuController implements Initializable {
   @FXML VBox iconContainer;
   @FXML Label timeLabel;
   @FXML Label dateLabel;
+
+  private static Employee loggedInUser;
 
   // SVGS
   private String exitIcon =
@@ -52,13 +54,6 @@ public class MenuController implements Initializable {
 
   // String that holds the pageLabel's text
   private SimpleStringProperty currentPage;
-
-  // Current scale of the content window
-  private Scale scale;
-
-  // Ratios for scaling
-  double ratioYtoX;
-  double ratioY;
 
   // CSS line to set text fill
   private String textCSSLine = "-fx-text-fill: %s;";
@@ -96,16 +91,14 @@ public class MenuController implements Initializable {
 
     pageLabel.textProperty().bind(currentPage);
 
-    scale = new Scale();
-    contentPane.getTransforms().setAll(scale);
-
     // Initialize icons
     for (int i = 0; i < iconContainer.getChildren().size(); i++) {
       Region graphic = (Region) iconContainer.getChildren().get(i);
       SVGPath icon = new SVGPath();
       icon.setContent(icons[i]);
       graphic.setShape(icon);
-      graphic.setStyle(String.format(svgCSSLine, grey));
+      if (i > 0) graphic.setStyle(String.format(svgCSSLine, grey));
+      else graphic.setStyle(String.format(svgCSSLine, blue));
     }
 
     // Initialize exit menu
@@ -132,13 +125,6 @@ public class MenuController implements Initializable {
     // Initialize labels too
     timeLabel.setText(timeFormatA.format(LocalDateTime.now()));
     dateLabel.setText(dateFormat.format(LocalDateTime.now()));
-
-    // Setup resizing
-    ratioYtoX = 400.0 / 600.0;
-    ratioY = 1.0 / 437.0;
-    rootElement
-        .heightProperty()
-        .addListener((obs, oldVal, newVal) -> scaleContent((Double) newVal));
   }
 
   /**
@@ -160,15 +146,8 @@ public class MenuController implements Initializable {
     // Set the menu controller of controller
     IMenuAccess cont = loader.getController();
     cont.setMenuController(this);
-    if (cont instanceof ServiceRequestController) {
-      currentPage.set(((ServiceRequestController) cont).menuName);
-    }
+    currentPage.set(cont.getMenuName());
     return cont;
-  }
-
-  public void setScale(float scaleX, float scaleY) {
-    contentPane.setScaleX(scaleX);
-    contentPane.setScaleY(scaleY);
   }
 
   /**
@@ -191,16 +170,6 @@ public class MenuController implements Initializable {
     newMenuItem.setStyle(String.format(textCSSLine, blue));
     Region newGraphic = (Region) iconContainer.getChildren().get(selectedItem);
     newGraphic.setStyle(String.format(svgCSSLine, blue));
-  }
-
-  /** Scale the content pane based on new resolution */
-  private void scaleContent(double height) {
-    double y = height * ratioY;
-    if (y < 1) y = 1;
-    scale.setY(y);
-    scale.setX(y);
-    contentPane.setPrefHeight(y * 400);
-    contentPane.setPrefWidth(y * 600);
   }
 
   @FXML
@@ -231,5 +200,13 @@ public class MenuController implements Initializable {
   private void toExit() {
     Stage stage = (Stage) exitButton.getScene().getWindow();
     stage.close();
+  }
+
+  public static Employee getLoggedInUser() {
+    return loggedInUser;
+  }
+
+  public static void setLoggedInUser(Employee loggedInUser) {
+    MenuController.loggedInUser = loggedInUser;
   }
 }

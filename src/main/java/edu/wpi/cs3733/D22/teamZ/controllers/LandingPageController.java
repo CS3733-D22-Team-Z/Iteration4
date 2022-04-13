@@ -20,6 +20,7 @@ public class LandingPageController implements IMenuAccess {
   private final String toLaundryServiceURL = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
+
   @FXML VBox iconContainer;
   @FXML MFXToggleButton toggle;
   @FXML private Label Daniel;
@@ -41,7 +42,7 @@ public class LandingPageController implements IMenuAccess {
   };
 
   private MenuController menu;
-  private String grey = "#C4C4C4";
+  private String grey = "#0075FF";
   private String svgCSSLine = "-fx-background-color: %s";
 
   public void initialize() {
@@ -69,6 +70,11 @@ public class LandingPageController implements IMenuAccess {
   @Override
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Service Request Landing";
   }
 
   @FXML
