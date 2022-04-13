@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
@@ -82,8 +83,8 @@ public class LabRequestController extends ServiceRequestController {
     // Create entities for submission
 
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
-    Employee issuer = new Employee("Pat" + id, "Pat", Employee.AccessType.ADMIN, "", "");
-    Employee handler = new Employee("Jake" + id, "Jake", Employee.AccessType.ADMIN, "", "");
+    Employee issuer = MenuController.getLoggedInUser();
+    Employee handler = FacadeDAO.getInstance().getEmployeeByID("nurse1");
 
     LabServiceRequest temp =
         new LabServiceRequest(
