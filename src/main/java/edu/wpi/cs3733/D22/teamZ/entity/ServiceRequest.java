@@ -19,7 +19,8 @@ public class ServiceRequest {
     MEAL("MEAL"),
     COMP("COMP"),
     LAUNDRY("LAUNDRY"),
-    LANG("LANG");
+    LANG("LANG"),
+    EXTERNAL("EXTRL");
 
     private final String typeStr;
 
@@ -59,6 +60,8 @@ public class ServiceRequest {
           return LAUNDRY;
         case "LANG":
           return LANG;
+        case "EXTRL":
+          return EXTERNAL;
         default:
           return null;
       }
