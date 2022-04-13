@@ -10,18 +10,18 @@
     <children>
         <Label fx:id="welcomeMessage" alignment="TOP_LEFT" layoutX="18.0" layoutY="167.0" prefHeight="49.0" prefWidth="531.0" styleClass="object-header" stylesheets="@../styles/ServiceRequestDefault.css" text="Hello admin, Welcome to the Brigham and Women's Hospital App" wrapText="true" />
         <Label layoutX="18.0" layoutY="217.0" styleClass="object-body" text="Use the buttons below or menu on the left to navigate the app." />
-        <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="245.0" onAction="#toLocations" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Locations" />
-        <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="291.0" onAction="#toLandingPage" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Landing Page" />
+        <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="245.0" onAction="#toLocations" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Locations" />
+        <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="291.0" onAction="#toLandingPage" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Landing Page" />
         <ImageView fitHeight="155.0" fitWidth="482.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../images/Brigham-Womens-Hospital.jpg" />
             </image>
         </ImageView>
-      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="337.0" onAction="#toMedicalEquipmentRequest" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Medical Equipment Requests" />
-      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="291.0" onAction="#toEmployeePage" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Employees" />
-      <MFXButton fx:id="SwitchServerButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="383.0" layoutY="201.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="110.0" styleClass="landing-button" text="Switch Server" />
-      <MFXButton fx:id="upperFloorsDashboardButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="245.0" onAction="#toUpperFloorsDashboard" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Dashboard" />
-      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="337.0" onAction="#toServiceRequests" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Service Requests" />
+      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="337.0" onAction="#toMedicalEquipmentRequest" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Medical Equipment Requests" />
+      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="291.0" onAction="#toEmployeePage" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Employees" />
+      <MFXButton fx:id="SwitchServerButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="363.0" layoutY="201.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="150.0" styleClass="landing-button" text="Switch Server" />
+      <MFXButton fx:id="upperFloorsDashboardButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="245.0" onAction="#toUpperFloorsDashboard" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Dashboard" />
+      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="337.0" onAction="#toServiceRequests" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Service Requests" />
       <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="506.0" layoutY="14.0" onAction="#toGame" prefHeight="32.0" prefWidth="70.0" styleClass="landing-button" text="Game" />
     </children>
 </AnchorPane>
