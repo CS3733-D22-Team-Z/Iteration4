@@ -98,7 +98,7 @@ public class LocationListController implements IMenuAccess {
   @FXML private MFXButton cancelLocationSelection;
   // text field box to select location to delete
   @FXML private MFXTextField locationToDeleteTextField;
-  @FXML private Pane deleteLocationPlane;
+  @FXML private Pane deleteLocationPlane1;
 
   // Neha's stuff
   // Buttons
@@ -148,6 +148,8 @@ public class LocationListController implements IMenuAccess {
   @FXML
   private void initialize() {
 
+    scrollPane.setPannable(true);
+
     rightPane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.23));
     pane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.75));
 
@@ -157,13 +159,14 @@ public class LocationListController implements IMenuAccess {
     Group content = new Group(zoomPane, pane);
     scrollPane.setContent(group);
 
-    // group.setScaleX(group.getScaleX() / 1.1);
-    // group.setScaleY(group.getScaleY() / 1.1);
+    group.setScaleX(group.getScaleX() / 1.1);
+    group.setScaleY(group.getScaleY() / 1.1);
 
-    zoomPane.setOnScroll(
+    scrollPane.setOnScroll(
         new EventHandler<ScrollEvent>() {
           @Override
           public void handle(ScrollEvent event) {
+            System.out.println("zoom");
             event.consume();
 
             if (event.getDeltaY() == 0) {
@@ -811,25 +814,24 @@ public class LocationListController implements IMenuAccess {
     }
 
     locationChangeDarkenPane.setVisible(false);
-    deleteLocationPlane.setVisible(false);
+    deleteLocationPlane1.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
-    deleteLocationPlane.setDisable(true);
+    deleteLocationPlane1.setDisable(true);
   }
 
   @FXML
   public void cancelLocationToDelete() throws IOException {
     locationChangeDarkenPane.setVisible(false);
-    deleteLocationPlane.setVisible(false);
+    deleteLocationPlane1.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
-    deleteLocationPlane.setDisable(true);
+    deleteLocationPlane1.setDisable(true);
   }
 
   @FXML
   private void deleteLocationButtonClicked() throws IOException {
     locationChangeDarkenPane.setVisible(true);
-    deleteLocationPlane.setVisible(true);
+    deleteLocationPlane1.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
-    deleteLocationPlane.setDisable(false);
     locationToDeleteTextField.setText(activeLabel.getLocation().getNodeID());
   }
 
@@ -867,6 +869,12 @@ public class LocationListController implements IMenuAccess {
     addLocationPane.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
     addLocationPane.setDisable(true);
+  }
+
+  @FXML
+  private void cancelAddAlert(ActionEvent event) throws IOException {
+    addAlertPane.setVisible(false);
+    addAlertPane.setDisable(true);
   }
 
   @FXML
