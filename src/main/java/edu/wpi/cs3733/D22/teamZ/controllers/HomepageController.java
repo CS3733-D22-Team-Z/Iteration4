@@ -39,7 +39,7 @@ public class HomepageController implements IMenuAccess {
   public void initialize() {
     String name = MenuController.getLoggedInUser().getName();
     name =
-        name.substring(0, 1).toUpperCase(Locale.ROOT) + name.substring(1).toLowerCase(Locale.ROOT);
+        name.substring(0, 1).toUpperCase(Locale.ROOT) + name.substring(1);
     setWelcomeMessage(name);
   }
 
