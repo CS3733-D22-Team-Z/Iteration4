@@ -81,4 +81,12 @@ public interface ILocationDAO {
    * @return True if successful, false if not
    */
   int importLocationFromCSV(File locData);
+
+  /**
+   * Insert locations into the database from given list
+   *
+   * @param list list of locations to be added
+   * @return true if successful, false otherwise
+   */
+  boolean addLocationFromList(List<Location> list);
 }

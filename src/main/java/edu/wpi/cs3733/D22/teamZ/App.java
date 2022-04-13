@@ -42,7 +42,7 @@ public class App extends Application {
     text.setFill(Color.BROWN);
     text.setStroke(Color.BLUEVIOLET);
     text.setStrokeWidth(0.5);
-    Parent root = FXMLLoader.load(App.class.getResource("views/Menu.fxml"));
+    Parent root = FXMLLoader.load(App.class.getResource("views/LoginPage.fxml"));
     Scene scene = new Scene(root);
     primaryStage.setTitle("Team Z - Brigham and Women's Hospital App");
     primaryStage.getIcons().add(new Image("edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png"));

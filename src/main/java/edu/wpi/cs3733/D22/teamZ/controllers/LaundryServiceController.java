@@ -1,19 +1,24 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 
-public class LaundryServiceController implements IMenuAccess {
-
-  private final String toLandingPage = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
-
-  private MenuController menu;
-
+public class LaundryServiceController extends ServiceRequestController {
   @Override
-  public void setMenuController(MenuController menu) {
-    this.menu = menu;
+  public void initialize(URL location, ResourceBundle resources) {
+    menuName = "Laundry Service Request";
   }
 
-  public void navDefault(javafx.event.ActionEvent actionEvent) throws IOException {
-    menu.load(toLandingPage);
+  @Override
+  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
+    // Add submitting functionality here!
+  }
+
+  @Override
+  protected void onResetButtonClicked(ActionEvent event) throws IOException {
+    // Reset fields here!
   }
 }

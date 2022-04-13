@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.EmployeeController">
+   <children>
+      <TableView fx:id="employeeTable" layoutX="32.0" layoutY="75.0" onMouseClicked="#buttonsAppear" prefHeight="284.0" prefWidth="400.0">
+        <columns>
+          <TableColumn fx:id="IDColumn" prefWidth="100.0" text="ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="100.0" text="Name" />
+            <TableColumn fx:id="accessColumn" prefWidth="100.0" text="Access Type" />
+            <TableColumn fx:id="usernameColumn" prefWidth="100.0" text="Username" />
+        </columns>
+      </TableView>
+      <MFXButton buttonType="RAISED" layoutX="464.0" layoutY="75.0" onAction="#exportToCSV" prefHeight="28.0" prefWidth="118.0" text="Export to CSV">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton layoutX="32.0" layoutY="29.0" onAction="#toHomePage" prefHeight="28.0" prefWidth="129.0" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Back to homepage" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton layoutX="464.0" layoutY="29.0" onAction="#refresh" prefHeight="28.0" prefWidth="118.0" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Refresh" textFill="WHITE">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton layoutX="462.0" layoutY="255.0" onAction="#addEmployee" prefHeight="28.0" prefWidth="118.0" style="-fx-background-color: #0075ff;" text="Add Employee" textFill="WHITE">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="editEmp" layoutX="462.0" layoutY="293.0" onAction="#editEmployee" prefHeight="28.0" prefWidth="118.0" style="-fx-background-color: #0075ff;" text="Edit Employee" textFill="WHITE">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="deleteEmp" layoutX="462.0" layoutY="331.0" onAction="#deleteEmployee" prefHeight="28.0" prefWidth="118.0" style="-fx-background-color: #0075ff;" text="Delete Employee" textFill="WHITE">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </MFXButton>
+      <Pane fx:id="addEmployeePane" layoutX="260.0" layoutY="150.0" prefHeight="211.0" prefWidth="182.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10;">
+         <children>
+            <Text fx:id="editFields" layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Employee" wrappingWidth="90.27587890625" />
+            <MFXTextField fx:id="addEmployeeName" alignment="BOTTOM_LEFT" borderGap="1.0" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="14.0" layoutY="53.0" measureUnitGap="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="147.0" promptText="Enter Employee Name">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </MFXTextField>
+            <Text fill="#9d9d9d" layoutX="14.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  Name" wrappingWidth="36.7158203125">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Text>
+            <MFXTextField fx:id="addEmployeeUsername" alignment="BOTTOM_LEFT" borderGap="1.0" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="14.0" layoutY="94.0" measureUnitGap="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="147.0" promptText="Enter Employee Username">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </MFXTextField>
+            <Text fill="#9d9d9d" layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  Employee Username" wrappingWidth="129.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Text>
+            <Text fill="#9d9d9d" layoutX="14.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  Access Type" wrappingWidth="108.7158203125">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Text>
+            <MFXButton fx:id="addSubmit" layoutX="14.0" layoutY="177.0" onAction="#submitNewEmployee" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Submit" textFill="WHITE">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </MFXButton>
+            <MFXButton layoutX="95.0" layoutY="177.0" onAction="#clearNewEmployee" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: #ff4343; -fx-border-radius: 2;" text="Clear" textFill="WHITE">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </MFXButton>
+            <ImageView fitHeight="15.0" fitWidth="18.0" layoutX="161.0" layoutY="7.0" onMouseClicked="#closeAddEmployee" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/exitPopup.png" />
+               </image>
+            </ImageView>
+            <ChoiceBox fx:id="addEmployeeAccessType" layoutX="13.0" layoutY="134.0" prefHeight="26.0" prefWidth="147.0" style="-fx-background-radius: 5;" />
+            <Text fx:id="fillFields" fill="#ff4343" layoutX="14.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please Fill All Fields" wrappingWidth="108.7158203125">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Text>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <MFXButton buttonType="RAISED" layoutX="465.0" layoutY="122.0" onAction="#importFromCSV" prefHeight="28.0" prefWidth="118.0" text="Import from CSV">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </MFXButton>
+   </children>
+</AnchorPane>

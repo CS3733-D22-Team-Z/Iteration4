@@ -1,84 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.17" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MenuController">
+<SplitPane fx:id="rootElement" dividerPositions="0.17" stylesheets="@../styles/MenuDefault.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MenuController">
    <items>
-      <Pane fx:id="menuPane" maxWidth="120.0" minWidth="120.0">
+      <Pane fx:id="menuPane" maxWidth="120.0" minWidth="150.0" styleClass="menu-container" stylesheets="@../styles/ServiceRequestDefault.css">
          <children>
-            <VBox fx:id="menuContainer" alignment="CENTER_LEFT" layoutY="50.0" spacing="10.0">
+            <VBox fx:id="iconContainer" alignment="TOP_CENTER" layoutX="24.0" layoutY="60.0" prefHeight="175.0" prefWidth="18.0" spacing="18.0">
                <children>
-                  <JFXButton onAction="#toHome" prefHeight="34.0" prefWidth="120.0" text="  Home" textAlignment="CENTER" textFill="#0075ff">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0">
-                           <image>
-                              <Image url="@../images/home.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton onAction="#toLocations" prefHeight="25.0" prefWidth="120.0" text="  Locations" textAlignment="CENTER" textFill="#c4c4c4">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/map.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton onAction="#toLandingPage" prefHeight="25.0" prefWidth="120.0" text="  Landing " textAlignment="CENTER" textFill="#c4c4c4">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" translateX="-2.0">
-                           <image>
-                              <Image url="@../images/layout-grid.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton alignment="TOP_CENTER" onAction="#toMedicalEquipmentRequest" prefHeight="61.0" prefWidth="120.0" text="Medical  Equipment Requests" textAlignment="CENTER" textFill="#c4c4c4" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" translateX="13.0">
-                           <image>
-                              <Image url="@../images/table.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
+                  <Region styleClass="region-icon" />
+                  <Region styleClass="region-icon" />
+                  <Region styleClass="region-icon" />
+                  <Region styleClass="region-icon" />
                </children>
             </VBox>
-            <JFXButton fx:id="exitButton" buttonType="RAISED" layoutX="15.0" layoutY="365.0" onAction="#toExit" prefHeight="25.0" prefWidth="90.0" style="-fx-background-color: #0075FF;" text="Exit" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
+            <VBox fx:id="menuContainer" alignment="CENTER_LEFT" layoutX="50.0" layoutY="50.0" spacing="10.0">
+               <children>
+                  <MFXButton alignment="CENTER" onAction="#toHome" prefHeight="34.0" prefWidth="100.0" style="-fx-text-fill: #0075FF;" styleClass="menu-button" text="Home" textAlignment="CENTER" />
+                  <MFXButton alignment="CENTER" onAction="#toLocations" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Locations" textAlignment="CENTER" />
+                  <MFXButton alignment="CENTER" onAction="#toLandingPage" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Landing" textAlignment="CENTER" />
+                  <MFXButton alignment="CENTER" onAction="#toMedicalEquipmentRequest" prefHeight="61.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Medical  Equipment Requests" textAlignment="CENTER" wrapText="true" />
+               </children>
+            </VBox>
+            <MFXButton fx:id="exitButton" buttonType="RAISED" layoutX="30.0" layoutY="365.0" onAction="#toExit" prefHeight="25.0" prefWidth="90.0" text="Exit">
                <graphic>
-                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/log-out.png" />
-                     </image>
-                  </ImageView>
+                  <Region fx:id="exitGraphic" />
                </graphic>
-            </JFXButton>
+            </MFXButton>
          </children>
       </Pane>
-      <AnchorPane fx:id="contentPane" prefWidth="600.0" />
+      <VBox>
+         <children>
+            <AnchorPane fx:id="contentPane" prefHeight="400.0" prefWidth="600.0" />
+            <BorderPane prefHeight="35.0" styleClass="menu-container">
+               <right>
+                  <HBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="timeLabel" text="4:20 AM" />
+                        <Label fx:id="dateLabel" text="06/09/2022" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="5.0" right="10.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </right>
+               <left>
+                  <Label fx:id="pageLabel" text="Menu" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+               </left>
+            </BorderPane>
+         </children>
+      </VBox>
    </items>
 </SplitPane>
