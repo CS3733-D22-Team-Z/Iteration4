@@ -76,4 +76,12 @@ public interface IMedicalEquipmentDAO {
    * @return number of conflicts when importing
    */
   int importMedicalEquipmentFromCSV(File equipmentData);
+
+  /**
+   * Insert Medical Equipment into database from list
+   *
+   * @param list list of medical equipment to be added
+   * @return True if successful, false otherwise
+   */
+  boolean addMedicalEquipmentFromList(List<MedicalEquipment> list);
 }

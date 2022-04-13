@@ -490,7 +490,8 @@ public class LocationListController implements IMenuAccess {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getClassLoader().getResource(toServiceRequestProperties));
     Node serviceReqPage = loader.load();
-    ((ServiceRequestPropertiesController) (loader.getController())).setRequests(activeLabel.getReqs());
+    ((ServiceRequestPropertiesController) (loader.getController()))
+        .setRequests(activeLabel.getReqs());
 
     servReqTab.setContent(serviceReqPage);
 
@@ -713,7 +714,7 @@ public class LocationListController implements IMenuAccess {
           new MapLabel.mapLabelBuilder()
               .location(current)
               .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
-              //@TODO add location stuff .requests(facadeDAO.getAllServiceRequestsByLocation())
+              // @TODO add location stuff .requests(facadeDAO.getAllServiceRequestsByLocation())
               .build();
 
       // stylize label icon

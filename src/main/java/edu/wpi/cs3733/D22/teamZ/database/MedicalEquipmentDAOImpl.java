@@ -13,13 +13,15 @@ import java.util.List;
 
 class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
 
-  Connection connection = DatabaseConnection.getConnection();
+  Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  // DatabaseConnection.getConnection();
   List<MedicalEquipment> medicalEquipmentsList;
 
   MedicalEquipmentControlCSV medicalEquipmentControlCSV;
 
   /** Constructor for MedicalEquipmentDAOImpl */
   public MedicalEquipmentDAOImpl() {
+    updateConnection();
     medicalEquipmentsList = new ArrayList<>();
   }
 
@@ -30,6 +32,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    */
   @Override
   public List<MedicalEquipment> getAllMedicalEquipment() {
+    updateConnection();
     try {
       PreparedStatement pstmt = connection.prepareStatement("Select * From MEDICALEQUIPMENT");
       ResultSet rset = pstmt.executeQuery();
@@ -37,7 +40,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       medicalEquipmentsList.clear();
 
       while (rset.next()) {
-        String itemID = rset.getString("itemID");
+        String itemID = rset.getString("equipmentID");
         String type = rset.getString("type");
         String status = rset.getString("status");
         String locationNodeID = rset.getString("currentLocation");
@@ -63,10 +66,11 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    */
   @Override
   public MedicalEquipment getMedicalEquipmentByID(String itemID) {
+    updateConnection();
     MedicalEquipment medicalEquipment = new MedicalEquipment(itemID);
     try {
       PreparedStatement pstmt =
-          connection.prepareStatement("Select * From MEDICALEQUIPMENT WHERE itemID = ?");
+          connection.prepareStatement("Select * From MEDICALEQUIPMENT WHERE EQUIPMENTID = ?");
       pstmt.setString(1, itemID);
       ResultSet rset = pstmt.executeQuery();
 
@@ -94,7 +98,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    */
   @Override
   public String getFirstAvailableEquipmentByType(String equipment) {
-
+    updateConnection();
     ILocationDAO locationDAO = new LocationDAOImpl();
 
     try {
@@ -110,7 +114,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       if (temp != null) {
         pstmt =
             connection.prepareStatement(
-                "UPDATE MEDICALEQUIPMENT SET STATUS = 'In-Use' WHERE ITEMID = ?");
+                "UPDATE MEDICALEQUIPMENT SET STATUS = 'In-Use' WHERE EQUIPMENTID = ?");
         pstmt.setString(1, temp);
         pstmt.executeUpdate();
         return temp;
@@ -131,6 +135,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    */
   @Override
   public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location) {
+    updateConnection();
     List<MedicalEquipment> medicalEquipmentLocationList = new ArrayList<>();
     try {
       PreparedStatement pstnt =
@@ -138,7 +143,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       pstnt.setString(1, location.getNodeID());
       ResultSet rset = pstnt.executeQuery();
       while (rset.next()) {
-        String tempItemID = rset.getString("ITEMID");
+        String tempItemID = rset.getString("EQUIPMENTID");
         String tempType = rset.getString("TYPE");
         String tempStatus = rset.getString("STATUS");
         String tempCurrentLocation = rset.getString("CURRENTLOCATION");
@@ -165,24 +170,13 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    */
   @Override
   public boolean addMedicalEquipment(MedicalEquipment equipment) {
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement(
-              ""
-                  + "INSERT INTO MEDICALEQUIPMENT (itemID, type, status, currentLocation)"
-                  + "values (?, ?, ?, ?)");
-      pstmt.setString(1, equipment.getEquipmentID());
-      pstmt.setString(2, equipment.getType());
-      pstmt.setString(3, equipment.getStatus());
-      pstmt.setString(4, equipment.getCurrentLocation().getNodeID());
-
-      pstmt.executeUpdate();
-    } catch (SQLException e) {
-      System.out.println("Failed to insert new MedicalEquipment");
-      return false;
+    updateConnection();
+    boolean val = false;
+    if (addToDatabase(equipment)) {
+      val = true;
+      medicalEquipmentsList.add(equipment);
     }
-    medicalEquipmentsList.add(equipment);
-    return true;
+    return val;
   }
 
   /**
@@ -193,12 +187,14 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    */
   @Override
   public boolean updateMedicalEquipment(MedicalEquipment equipment) {
+    updateConnection();
     MedicalEquipment oldEquipment;
     try {
       oldEquipment = getMedicalEquipmentByID(equipment.getEquipmentID());
       PreparedStatement pstmt =
           connection.prepareStatement(
-              "" + "UPDATE MEDICALEQUIPMENT SET status = ?, currentLocation = ? WHERE itemID = ?");
+              ""
+                  + "UPDATE MEDICALEQUIPMENT SET status = ?, currentLocation = ? WHERE EQUIPMENTID = ?");
       pstmt.setString(1, equipment.getStatus());
       pstmt.setString(2, equipment.getCurrentLocation().getNodeID());
       pstmt.setString(3, equipment.getEquipmentID());
@@ -221,9 +217,10 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    */
   @Override
   public boolean deleteMedicalEquipment(MedicalEquipment equipment) {
+    updateConnection();
     try {
       PreparedStatement pstmt =
-          connection.prepareStatement("" + "DELETE FROM MEDICALEQUIPMENT WHERE itemID = ?");
+          connection.prepareStatement("" + "DELETE FROM MEDICALEQUIPMENT WHERE EQUIPMENTID = ?");
       pstmt.setString(1, equipment.getEquipmentID());
 
       pstmt.executeUpdate();
@@ -243,6 +240,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    */
   @Override
   public boolean exportToMedicalEquipmentCSV(File equipmentData) {
+    updateConnection();
     medicalEquipmentControlCSV = new MedicalEquipmentControlCSV(equipmentData);
     medicalEquipmentControlCSV.writeMedicalEquipmentCSV(medicalEquipmentsList);
     return true;
@@ -256,6 +254,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
    */
   @Override
   public int importMedicalEquipmentFromCSV(File equipmentData) {
+    updateConnection();
     medicalEquipmentControlCSV = new MedicalEquipmentControlCSV(equipmentData);
     int conflictCounter = 0;
     String temp = "";
@@ -267,7 +266,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
         for (MedicalEquipment info : tempMedicalEquipment) {
           PreparedStatement pstmt =
               connection.prepareStatement(
-                  "INSERT INTO MEDICALEQUIPMENT (ITEMID, TYPE, STATUS, CURRENTLOCATION) "
+                  "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, TYPE, STATUS, CURRENTLOCATION) "
                       + "values (?, ?, ?, ?)");
           temp = info.getEquipmentID();
           pstmt.setString(1, info.getEquipmentID());
@@ -291,5 +290,53 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       System.out.println("Failed to populate MedicalEquipment table");
     }
     return conflictCounter;
+  }
+
+  /** Updates the connection */
+  private void updateConnection() {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  }
+
+  /**
+   * Insert Medical Equipment into database from list
+   *
+   * @param list list of medical equipment to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addMedicalEquipmentFromList(List<MedicalEquipment> list) {
+    updateConnection();
+    boolean val = true;
+    for (MedicalEquipment info : list) {
+      if (!addToDatabase(info)) {
+        val = false;
+      }
+    }
+    return val;
+  }
+
+  /**
+   * Contains SQL command to insert MedicalEquipment to database
+   *
+   * @param equipment Medical Equipment to be added
+   * @return True if successful, false otherwise
+   */
+  private boolean addToDatabase(MedicalEquipment equipment) {
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              ""
+                  + "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, type, status, currentLocation)"
+                  + "values (?, ?, ?, ?)");
+      pstmt.setString(1, equipment.getEquipmentID());
+      pstmt.setString(2, equipment.getType());
+      pstmt.setString(3, equipment.getStatus());
+      pstmt.setString(4, equipment.getCurrentLocation().getNodeID());
+
+      pstmt.executeUpdate();
+    } catch (SQLException e) {
+      System.out.println("Failed to insert new MedicalEquipment");
+      return false;
+    }
+    return true;
   }
 }
