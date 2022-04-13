@@ -128,6 +128,8 @@ public class DBInitializer {
               + "handlerID VARCHAR(15),"
               + "targetLocationID Varchar(15),"
               + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
+              + "constraint ISSUER_FK Foreign Key (issuerID) References EMPLOYEES(employeeID),"
+              + "constraint HANDLER_FK Foreign Key (handlerID) References EMPLOYEES(employeeID),"
               + "constraint TARGETLOC_FK Foreign Key (targetLocationID) References LOCATION(nodeID),"
               + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
 
@@ -271,12 +273,12 @@ public class DBInitializer {
         pstmt.setString(2, request.getType().toString());
         pstmt.setString(3, request.getStatus().toString());
         if (request.getIssuer() == null) {
-          pstmt.setString(4, "null");
+          pstmt.setString(4, null);
         } else {
           pstmt.setString(4, request.getIssuer().getEmployeeID());
         }
         if (request.getHandler() == null) {
-          pstmt.setString(5, "null");
+          pstmt.setString(5, null);
         } else {
           pstmt.setString(5, request.getHandler().getEmployeeID());
         }
