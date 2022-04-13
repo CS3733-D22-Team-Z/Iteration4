@@ -37,13 +37,13 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="159.0" onAction="#navMedicine" prefHeight="37.0" prefWidth="366.0" styleClass="landing-button" text="Medicine Delivery">
-         <padding>
-            <Insets right="230.0" />
-         </padding>
+      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="159.0" onAction="#toExternalPatientTransportation" prefHeight="37.0" prefWidth="366.0" styleClass="landing-button" text="External Patient Transportation ">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <padding>
+            <Insets right="130.0" />
+         </padding>
       </MFXButton>
       <MFXButton buttonType="RAISED" layoutX="21.0" layoutY="206.0" onAction="#navLanguage" prefHeight="37.0" prefWidth="369.0" styleClass="landing-button" text="Language Interpreter">
          <padding>
