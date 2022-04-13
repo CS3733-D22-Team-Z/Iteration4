@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 public class NFCCardReaderController {
     private String username;
     private String password;
-    private String UID;
+    private String uid;
     private static ACR122UReaderHelper reader;
     private static ACR122Util readerUtil;
 
@@ -26,7 +26,7 @@ public class NFCCardReaderController {
     public void setUID() throws UnsupportedEncodingException {
         byte[] byteUID = reader.readCardUsingDefaultKey(0);
         String tempUID = new String(byteUID, StandardCharsets.US_ASCII);
-        UID = tempUID.replaceAll("\u0000","");
+        uid = tempUID.replaceAll("\u0000","");
     }
 
     public void setUsername() throws UnsupportedEncodingException {
@@ -35,14 +35,14 @@ public class NFCCardReaderController {
         username = tempUsername.replaceAll("\u0000","");
     }
 
-    public void setPassword(String password) throws UnsupportedEncodingException{
+    public void setPassword() throws UnsupportedEncodingException{
         byte[] bytePassword = reader.readCardUsingDefaultKey(2);
         String tempPassword = new String(bytePassword, StandardCharsets.US_ASCII);
         password = tempPassword.replaceAll("\u0000","");
     }
 
-    public String getUID() {
-        return UID;
+    public String getUid() {
+        return uid;
     }
 
     public String getUsername() {
