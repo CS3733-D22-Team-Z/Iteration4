@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.AddEmployeeOverlayController">
+   <children>
+      <Pane layoutX="300.0" layoutY="74.0" prefHeight="211.0" prefWidth="182.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;">
+         <children>
+            <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Employee" />
+            <MFXTextField alignment="BOTTOM_LEFT" borderGap="1.0" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="14.0" layoutY="53.0" measureUnitGap="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="147.0" promptText="Enter Employee Name">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </MFXTextField>
+            <Text fill="#9d9d9d" layoutX="14.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  Name" wrappingWidth="36.7158203125">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Text>
+            <MFXTextField alignment="BOTTOM_LEFT" borderGap="1.0" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="14.0" layoutY="94.0" measureUnitGap="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="147.0" promptText="Enter Employee ID">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </MFXTextField>
+            <Text fill="#9d9d9d" layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  Employee ID" wrappingWidth="108.7158203125">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Text>
+            <Text fill="#9d9d9d" layoutX="14.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="  Access Type" wrappingWidth="108.7158203125">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Text>
+            <MFXTextField alignment="BOTTOM_LEFT" borderGap="1.0" floatingTextGap="1.0" graphicTextGap="1.0" layoutX="14.0" layoutY="134.0" measureUnitGap="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="147.0" promptText="Enter Employee Access Type">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </MFXTextField>
+            <MFXButton layoutX="14.0" layoutY="170.0" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Submit" textFill="WHITE">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </MFXButton>
+            <MFXButton layoutX="91.0" layoutY="171.0" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: #ff4343; -fx-border-radius: 2;" text="Clear" textFill="WHITE">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </MFXButton>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,24 +1,24 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import java.io.IOException;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 
-public class MealServiceController implements IMenuAccess {
-  @FXML private Button backButton;
-  @FXML private Button mealButton;
-
-  private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
-
-  private MenuController menu;
-
+public class MealServiceController extends ServiceRequestController {
   @Override
-  public void setMenuController(MenuController menu) {
-    this.menu = menu;
+  public void initialize(URL location, ResourceBundle resources) {
+    menuName = "Meal Request";
   }
 
-  @FXML
-  private void toLandingPage() throws IOException {
-    menu.load(toLandingPageURL);
+  @Override
+  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
+    // Add submitting functionality here!
+  }
+
+  @Override
+  protected void onResetButtonClicked(ActionEvent event) throws IOException {
+    // Reset fields here!
   }
 }
