@@ -22,5 +22,6 @@
       <MFXButton fx:id="SwitchServerButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="383.0" layoutY="201.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="110.0" styleClass="landing-button" text="Switch Server" />
       <MFXButton fx:id="upperFloorsDashboardButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="245.0" onAction="#toUpperFloorsDashboard" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Dashboard" />
       <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="337.0" onAction="#toServiceRequests" prefHeight="32.0" prefWidth="220.0" styleClass="landing-button" text="Service Requests" />
+      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="506.0" layoutY="14.0" onAction="#toGame" prefHeight="32.0" prefWidth="70.0" styleClass="landing-button" text="Game" />
     </children>
 </AnchorPane>
