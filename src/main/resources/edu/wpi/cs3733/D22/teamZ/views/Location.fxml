@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.legacy.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
       <SplitPane fx:id="splitPane" dividerPositions="0.75" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <items>
@@ -87,30 +75,6 @@
                            </color>
                         </DropShadow>
                      </effect></MFXLegacyComboBox>
-                  <MFXButton fx:id="editLocation" alignment="CENTER" disable="true" layoutX="14.0" layoutY="303.0" onAction="#editLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Edit Location" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="12.0" fitWidth="12.0" onDragDetected="#editLocationButtonClicked" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/editLocation.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </MFXButton>
-                  <MFXButton fx:id="deleteLocation" alignment="CENTER" disable="true" layoutX="14.0" layoutY="333.0" onAction="#deleteLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Delete Location" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/deleteLocation.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </MFXButton>
                   <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="62.0" onAction="#addLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Add Location" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="10.0" />
@@ -132,18 +96,6 @@
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
-                  </MFXButton>
-                  <MFXButton fx:id="addAlertButton" alignment="CENTER" disable="true" layoutX="14.0" layoutY="363.0" onAction="#showAlertPane" prefHeight="23.0" prefWidth="117.0" rippleColor="#e50e0e" style="-fx-background-color: #e50e0e; -fx-background-radius: 2;" text="Add Alert" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/addLocation.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
                   </MFXButton>
                </children>
             </AnchorPane>

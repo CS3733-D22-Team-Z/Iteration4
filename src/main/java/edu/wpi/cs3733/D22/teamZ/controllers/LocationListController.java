@@ -310,9 +310,9 @@ public class LocationListController implements IMenuAccess {
           if (!inHierarchy(evt.getPickResult().getIntersectedNode(), activeLabel)) {
             pane.requestFocus();
 
-            editLocation.setDisable(true);
-            deleteLocation.setDisable(true);
-            addAlertButton.setDisable(true);
+            // editLocation.setDisable(true);
+            // deleteLocation.setDisable(true);
+            // addAlertButton.setDisable(true);
 
             /*floorLabel.setText("Floor: ");
             longnameLabel.setText("Long Name: ");
@@ -718,7 +718,7 @@ public class LocationListController implements IMenuAccess {
           new MapLabel.mapLabelBuilder()
               .location(current)
               .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
-              // @TODO add location stuff .requests(facadeDAO.getAllServiceRequestsByLocation())
+              .requests(facadeDAO.getServiceRequestsByLocation(current))
               .build();
 
       // stylize label icon

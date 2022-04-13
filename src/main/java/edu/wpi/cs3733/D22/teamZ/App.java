@@ -54,5 +54,4 @@ public class App extends Application {
     // reqDAO.exportToMedEquipReqCSV();
     log.info("Shutting Down");
   }
-
 }
