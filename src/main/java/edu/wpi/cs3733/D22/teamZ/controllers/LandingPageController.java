@@ -42,7 +42,7 @@ public class LandingPageController implements IMenuAccess {
   };
 
   private MenuController menu;
-  private String grey = "#C4C4C4";
+  private String grey = "#0075FF";
   private String svgCSSLine = "-fx-background-color: %s";
 
   public void initialize() {
