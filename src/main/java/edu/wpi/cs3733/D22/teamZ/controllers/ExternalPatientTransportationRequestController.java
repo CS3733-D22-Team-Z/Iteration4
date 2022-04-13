@@ -67,7 +67,7 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
     // Create entities for submission
 
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
-    Employee issuer = dao.getEmployeeByID("admin1");
+    Employee issuer = MenuController.getLoggedInUser();
     Employee handler = dao.getEmployeeByID("nurse1");
     Location tempLoc = dao.getLocationByID("zEXIT00101");
     String patientName = patientNameField.getText();
