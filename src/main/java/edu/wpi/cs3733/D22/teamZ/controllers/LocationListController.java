@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXRadioButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -122,6 +120,8 @@ public class LocationListController implements IMenuAccess {
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
   private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
+  private String toServiceRequestProperties =
+      "edu/wpi/cs3733/D22/teamZ/views/ServiceRequestProperties.fxml";
 
   // init LocationDAOImpl to use sql methods from db
   FacadeDAO facadeDAO = FacadeDAO.getInstance();
@@ -396,6 +396,8 @@ public class LocationListController implements IMenuAccess {
     root.setPrefWidth(600);
     root.setPrefHeight(440);
 
+    // 3 tabs: do service request tab
+
     stage.setTitle("Properties");
     stage.getIcons().add(new Image("edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png"));
     stage.setResizable(false);
@@ -432,6 +434,14 @@ public class LocationListController implements IMenuAccess {
     locPane.getRowConstraints().add(2, row1);
 
     locInfoTab.setContent(locPane);
+
+    // Service Request page stuff
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(getClass().getClassLoader().getResource(toServiceRequestProperties));
+    Node serviceReqPage = loader.load();
+    ((ServiceRequestPropertiesController) (loader.getController())).setRequests(activeLabel.getReqs());
+
+    servReqTab.setContent(serviceReqPage);
 
     Scene window = new Scene(root);
     stage.setScene(window);
@@ -652,7 +662,7 @@ public class LocationListController implements IMenuAccess {
           new MapLabel.mapLabelBuilder()
               .location(current)
               .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
-              // todo: uncomment .requests(facadeDAO.getAllServiceRequestsByLocation(current))
+              //@TODO add location stuff .requests(facadeDAO.getAllServiceRequestsByLocation())
               .build();
 
       // stylize label icon
