@@ -183,12 +183,16 @@ public class LocationListController implements IMenuAccess {
     changeFloor.getItems().add("1");
     changeFloor.getItems().add("2");
     changeFloor.getItems().add("3");
+    changeFloor.getItems().add("4");
+    changeFloor.getItems().add("5");
 
     floorField.getItems().add("L2");
     floorField.getItems().add("L1");
     floorField.getItems().add("1");
     floorField.getItems().add("2");
     floorField.getItems().add("3");
+    floorField.getItems().add("4");
+    floorField.getItems().add("5");
 
     // floorLocations.remove(0, floorLocations.size());
 
