@@ -19,6 +19,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
   private FacadeDAO dao = FacadeDAO.getInstance();
   private MenuController menu;
+  private String menuName;
 
   @FXML private Button lowerLevelButton;
 
@@ -44,6 +45,10 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @Override
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  public String getMenuName() {
+    return menuName;
   }
 
   @FXML

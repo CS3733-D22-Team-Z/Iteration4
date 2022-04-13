@@ -45,7 +45,11 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
 
   private final String toHomepageURL = "views/Homepage.fxml";
 
-  private MenuController menu;
+  protected MenuController menu;
+
+  // Changes per every implementation
+  // The name of the page that will be displayed in the bottom menu bar.
+  protected String menuName;
 
   // List of RequestRows currently being displayed on the table
   private ObservableList<ServiceRequest> requests;
@@ -56,6 +60,10 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   @Override
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  public String getMenuName() {
+    return menuName;
   }
 
   @Override
