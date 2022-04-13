@@ -62,8 +62,9 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     this.menu = menu;
   }
 
+  @Override
   public String getMenuName() {
-    return menuName;
+    return "Service Request Page";
   }
 
   @Override
