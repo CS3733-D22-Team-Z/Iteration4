@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.nfcCardReader.util.ACR122Util;
 
 import javax.smartcardio.CardException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 public class nfcCardReaderController {
     private String username;
@@ -23,17 +24,17 @@ public class nfcCardReaderController {
     }
 
     public void setUID() throws UnsupportedEncodingException {
-        byte[] byteUID = reader.readCardUsingDefaultKey(1);
-        UID = new String(byteUID, "US-ASCII");
+        byte[] byteUID = reader.readCardUsingDefaultKey(0);
+        UID = new String(byteUID, StandardCharsets.US_ASCII);
     }
 
     public void setUsername() throws UnsupportedEncodingException {
         byte[] byteUsername = reader.readCardUsingDefaultKey(1);
-        username = new String(byteUsername, "US-ASCII");
+        username = new String(byteUsername, StandardCharsets.US_ASCII);
     }
 
     public void setPassword(String password) throws UnsupportedEncodingException{
         byte[] bytePassword = reader.readCardUsingDefaultKey(2);
-        password = new String(bytePassword, "US-ASCII");
+        password = new String(bytePassword, StandardCharsets.US_ASCII);
     }
 }
