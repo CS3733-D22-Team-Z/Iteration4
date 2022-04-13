@@ -14,7 +14,7 @@
 .object-body {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 600;
-    -fx-font-size: 7pt;
+    -fx-font-size: 9pt;
     -fx-text-fill: #7B7B7B;
 }
 
@@ -55,7 +55,7 @@
     -fx-font-size: 10pt;
     -fx-text-fill: #000000;
 
-    -fx-background-radius: 2px;
+    -fx-background-radius: 4px;
     -fx-background-color: #FFFFFF;
 }
 

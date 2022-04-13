@@ -5,6 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
     <children>
@@ -17,6 +18,7 @@
                 <Image url="@../images/Brigham-Womens-Hospital.jpg" />
             </image>
         </ImageView>
+
       <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="337.0" onAction="#toMedicalEquipmentRequest" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Medical Equipment Requests" />
       <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="291.0" onAction="#toEmployeePage" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Employees" />
       <MFXButton fx:id="SwitchServerButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="363.0" layoutY="201.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="150.0" styleClass="landing-button" text="Switch Server" />
