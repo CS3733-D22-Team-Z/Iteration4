@@ -16,10 +16,11 @@ public class Main {
     init.populateEmployeeTable();
     init.populateServiceRequestTable();
     init.populateMedicalEquipmentServiceRequestTable();
-    FacadeDAO dao = FacadeDAO.getInstance();
-    for (ServiceRequest test : dao.getAllServiceRequests()) {
+    /*FacadeDAO dao = FacadeDAO.getInstance();
+    for (ServiceRequest test :
+        dao.getServiceRequestsByLocation(dao.getLocationByID("zDIRT00103"))) {
       System.out.println(test);
-    }
+    }*/
     App.launch(App.class, args);
   }
 }

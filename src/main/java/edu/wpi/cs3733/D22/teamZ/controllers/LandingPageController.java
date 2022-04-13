@@ -20,6 +20,7 @@ public class LandingPageController implements IMenuAccess {
   private final String toLaundryServiceURL = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
+
   @FXML VBox iconContainer;
   @FXML MFXToggleButton toggle;
   @FXML private Label Daniel;
