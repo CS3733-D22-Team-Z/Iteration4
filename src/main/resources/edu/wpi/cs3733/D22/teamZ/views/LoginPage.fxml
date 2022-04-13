@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LoginPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LoginPageController">
    <children>
       <ImageView fitHeight="191.0" fitWidth="613.0" layoutX="-4.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -24,10 +21,14 @@
       <Label alignment="TOP_CENTER" layoutX="187.0" layoutY="219.0" text="Enter your username and password below." textFill="#9d9d9d" />
       <MFXTextField fx:id="usernameField" floatMode="DISABLED" layoutX="180.0" layoutY="246.0" prefHeight="38.0" prefWidth="238.0" promptText="Username" style="-fx-border-color: #0075ff; -fx-border-width: 1.8;" />
       <MFXPasswordField fx:id="passwordField" floatMode="DISABLED" layoutX="180.0" layoutY="294.0" prefHeight="38.0" prefWidth="238.0" promptText="Password" style="-fx-border-color: #0075ff; -fx-border-width: 1.8;" />
-      <MFXButton fx:id="loginButton" layoutX="255.0" layoutY="346.0" onAction="#loginButtonPressed" prefHeight="38.0" prefWidth="90.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Login" textFill="WHITE">
+      <MFXButton fx:id="loginButton" layoutX="180.0" layoutY="349.0" onAction="#loginButtonPressed" prefHeight="38.0" prefWidth="90.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Login" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></MFXButton>
       <Label fx:id="errorLabel" layoutX="174.0" layoutY="368.0" text="Invalid Username or Password. Please try again." textFill="RED" visible="false" />
+      <MFXButton layoutX="282.0" layoutY="349.0" mnemonicParsing="false" onAction="#readCard" prefHeight="38.0" prefWidth="139.0" style="-fx-background-color: #0075ff;" text="Login With ID" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></MFXButton>
    </children>
 </AnchorPane>

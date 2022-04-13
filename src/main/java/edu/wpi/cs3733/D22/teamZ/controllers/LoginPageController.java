@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
+import edu.wpi.cs3733.D22.teamZ.nfcCardReader.NFCCardReaderController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
+import javax.smartcardio.CardException;
 
 public class LoginPageController implements Initializable {
   @FXML private TextField usernameField;
@@ -126,5 +128,41 @@ public class LoginPageController implements Initializable {
     root.getTransforms().setAll(initialStates);
 
     root.getTransforms().add(new Scale(scaleX, scaleY, 0, 0));
+  }
+
+  @FXML
+  public void readCard(ActionEvent evt) {
+    NFCCardReaderController obj = new NFCCardReaderController();
+    try {
+      obj.initialize();
+    } catch (CardException e) {
+      e.printStackTrace();
+    }
+    obj.setUsername();
+    obj.setPassword();
+
+    // System.out.println("User:" + obj.getUsername() + " Pass: " + obj.getPassword());
+    Employee tryLog = facadeDAO.getEmployeeByUsername(obj.getUsername());
+
+    if (tryLog == null || tryLog.getName() == null || tryLog.getName().equals("")) {
+      errorLabel.setText("Invalid username. Try again.");
+      enterErrorState();
+    } else { // theoretically valid username
+      if (tryLog
+          .getPassword()
+          .equals(obj.getPassword())) { // edit this line for hashcode eventually
+
+        try {
+          MenuController.setLoggedInUser(tryLog);
+          loadSuccessScreen(obj.getUsername(), evt);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+
+      } else {
+        errorLabel.setText("Invalid password for this username. Try again.");
+        enterErrorState();
+      }
+    }
   }
 }
