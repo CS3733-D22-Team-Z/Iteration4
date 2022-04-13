@@ -49,6 +49,10 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
     this.menu = menu;
   }
 
+  public String getMenuName() {
+    return menuName;
+  }
+
   /**
    * Initialization method that every service request will implement
    *

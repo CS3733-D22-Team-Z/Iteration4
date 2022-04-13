@@ -57,6 +57,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
   public Employee getEmployeeByID(String employeeID) {
     updateConnection();
     Employee emp = new Employee();
+    emp.setEmployeeID(employeeID);
     try {
       PreparedStatement pstmt =
           connection.prepareStatement("Select * From EMPLOYEES WHERE EMPLOYEEID = ?");
