@@ -84,4 +84,12 @@ public interface IMedicalEquipmentDAO {
    * @return True if successful, false otherwise
    */
   boolean addMedicalEquipmentFromList(List<MedicalEquipment> list);
+
+  /**
+   * Get all Medical Equipment in given floor
+   *
+   * @param floor floor to be searched
+   * @return list of medical equipment for given floor
+   */
+  List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor);
 }

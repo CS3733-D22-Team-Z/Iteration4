@@ -59,7 +59,7 @@ public class App extends Application {
     sizeChangeListener =
         (ChangeListener<Number>)
             (observable, oldValue, newValue) -> {
-              // System.out.println("old:" + oldValue + " new:" + newValue);
+              System.out.println("old:" + oldValue + " new:" + newValue);
               float scaleY = (float) (primaryStage.getHeight() / initialHeight);
               float scaleX = (float) (primaryStage.getWidth() / initialWidth);
               if (initialStates == null) {
@@ -67,7 +67,7 @@ public class App extends Application {
               }
               root.getTransforms().setAll(initialStates);
 
-              root.getTransforms().add(new Scale(scaleX, scaleY, 0, 0));
+              root.getTransforms().add(new Scale(scaleY, scaleY, 0, 0));
             };
     primaryStage.heightProperty().addListener(sizeChangeListener);
     primaryStage.widthProperty().addListener(sizeChangeListener);

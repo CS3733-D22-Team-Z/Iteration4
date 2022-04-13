@@ -356,7 +356,7 @@ public class FacadeDAO {
    * @param serviceRequest ServiceRequest object that stores updated information
    * @return True if success, false otherwise
    */
-  private boolean updateServiceRequest(ServiceRequest serviceRequest) {
+  public boolean updateServiceRequest(ServiceRequest serviceRequest) {
     return serviceRequestDAO.updateServiceRequest(serviceRequest);
   }
   // not in use rn
@@ -619,6 +619,15 @@ public class FacadeDAO {
    */
   public String getFirstAvailableEquipmentByType(String equipment) {
     return medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipment);
+  }
+  /**
+   * Get all Medical Equipment in given floor
+   *
+   * @param floor floor to be searched
+   * @return list of medical equipment for given floor
+   */
+  public List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor) {
+    return medicalEquipmentDAO.getAllMedicalEquipmentByFloor(floor);
   }
 
   // Special methods for employee

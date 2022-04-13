@@ -9,8 +9,9 @@ import javafx.scene.control.Label;
 
 public class HomepageController implements IMenuAccess {
   @FXML private Label label;
-  @FXML private Button exitButton; // ??????
+  @FXML private Button exitButton;
   @FXML private Label welcomeMessage;
+  @FXML private Button upperFloorsDashboardButton;
 
   private MenuController menu;
 
@@ -18,11 +19,19 @@ public class HomepageController implements IMenuAccess {
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
+  private String toUpperFloorsDashboardURL =
+      "edu/wpi/cs3733/D22/teamZ/views/UpperFloorsDashboard.fxml";
   private String toEmployeeURL = "edu/wpi/cs3733/D22/teamZ/views/Employee.fxml";
   private String toServerSwitchURL = "edu/wpi/cs3733/D22/teamZ/views/ServerSwitcher.fxml";
+  private final String toServiceRequestURL = "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
 
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Home";
   }
 
   @FXML
@@ -41,6 +50,12 @@ public class HomepageController implements IMenuAccess {
   }
 
   @FXML
+  private void toServiceRequests() throws IOException {
+    System.out.println("navigating to servReq from landing page");
+    menu.load(toServiceRequestURL);
+  }
+
+  @FXML
   private void toLandingPage() throws IOException {
     System.out.println("navigating to landing page from home");
     menu.selectMenu(2);
@@ -52,6 +67,11 @@ public class HomepageController implements IMenuAccess {
     System.out.println("navigating to Medical Equipment Request page from home");
     menu.selectMenu(3);
     menu.load(toMedicalEquipmentRequestURL);
+  }
+
+  @FXML
+  private void toUpperFloorsDashboard() throws IOException {
+    menu.load(toUpperFloorsDashboardURL);
   }
 
   @FXML
