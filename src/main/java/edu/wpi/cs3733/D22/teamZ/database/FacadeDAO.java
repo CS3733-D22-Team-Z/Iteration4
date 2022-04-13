@@ -15,6 +15,7 @@ public class FacadeDAO {
   private final PatientDAOImpl patientDAO;
   private final LabRequestServiceDAOImpl labRequestServiceDAO;
   private final ServiceRequestDAOImpl serviceRequestDAO;
+  private final ExternalPatientDAOImpl transportRequestDAO;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -28,6 +29,7 @@ public class FacadeDAO {
     patientDAO = new PatientDAOImpl();
     labRequestServiceDAO = new LabRequestServiceDAOImpl();
     serviceRequestDAO = new ServiceRequestDAOImpl();
+    transportRequestDAO = new ExternalPatientDAOImpl();
   }
 
   // Get All methods
@@ -226,6 +228,16 @@ public class FacadeDAO {
         serviceRequestDAO.addServiceRequest(labServiceRequest)
             && labRequestServiceDAO.addLabRequest(labServiceRequest);
     return val;
+  }
+  /**
+   * Adds a ExternalPatientTransportationRequest to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request){
+    return serviceRequestDAO.addServiceRequest(request) &&
+            transportRequestDAO.addPatientTransportRequest(request);
   }
 
   // Delete methods

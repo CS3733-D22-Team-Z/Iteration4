@@ -68,6 +68,7 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("EXTERNALTRANSPORTREQUEST");
     dropExistingTable("MEDEQUIPREQ");
     dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
@@ -155,6 +156,16 @@ public class DBInitializer {
               + "constraint MEALSERVICE_PK Primary Key (itemID),"
               + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
               + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
+
+      stmt.execute(
+          "CREATE TABLE EXTERNALTRANSPORTREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "patientID VARCHAR(15),"
+              + "patientName VARCHAR(50),"
+              + "destination VARCHAR(50),"
+              + "departureDate DATE,"
+              + "constraint TRANSPORTREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint TRANSPORTREQUESTID_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid))");
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
