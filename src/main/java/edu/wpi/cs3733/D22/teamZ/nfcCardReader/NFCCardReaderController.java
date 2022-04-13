@@ -6,14 +6,14 @@ import javax.smartcardio.CardException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
-public class nfcCardReaderController {
+public class NFCCardReaderController {
     private String username;
     private String password;
     private String UID;
     private static ACR122UReaderHelper reader;
     private static ACR122Util readerUtil;
 
-    public nfcCardReaderController(){
+    public NFCCardReaderController(){
 
     }
 
