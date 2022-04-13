@@ -4,9 +4,6 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import edu.wpi.cs3733.D22.teamZ.nfcCardReader.ACR122UReaderHelper;
-import edu.wpi.cs3733.D22.teamZ.nfcCardReader.util.ACR122Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,8 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import javax.smartcardio.CardException;
 
 public class LoginPageController implements Initializable {
   @FXML private TextField usernameField;
