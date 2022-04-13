@@ -1,27 +1,24 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.App;
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
-public class MedicineRequestController {
-  @FXML private Label label;
+public class MedicineRequestController extends ServiceRequestController {
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    menuName = "Medicine Delivery Request";
+  }
 
-  private final String toLandingPageURL = "views/LandingPage.fxml";
+  @Override
+  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
+    // Add submitting functionality here!
+  }
 
-  @FXML
-  private void backToDashboard(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
-    primaryStage.show();
+  @Override
+  protected void onResetButtonClicked(ActionEvent event) throws IOException {
+    // Reset fields here!
   }
 }

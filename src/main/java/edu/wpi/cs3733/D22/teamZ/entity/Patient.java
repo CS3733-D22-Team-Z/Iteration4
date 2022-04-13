@@ -36,4 +36,19 @@ public class Patient {
   public void setLocation(Location location) {
     this.location = location;
   }
+
+  @Override
+  public String toString() {
+    return patientID;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Patient) {
+      Patient objectPatient = (Patient) o;
+      return (this.getPatientID().equals(objectPatient.getPatientID()));
+    } else {
+      return false;
+    }
+  }
 }

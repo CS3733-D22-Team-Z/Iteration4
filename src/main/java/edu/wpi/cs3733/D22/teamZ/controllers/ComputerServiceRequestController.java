@@ -1,29 +1,24 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.App;
 import java.io.IOException;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 
-public class ComputerServiceRequestController {
-  @FXML private Button backButton;
-  @FXML private Button submitButton;
-  @FXML private TextField roomNumberField;
-  @FXML private TextArea descriptionArea;
+public class ComputerServiceRequestController extends ServiceRequestController {
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    menuName = "Computer Service Request";
+  }
 
-  private final String toDashboardURL = "views/LandingPage.fxml";
+  @Override
+  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
+    // Add submitting functionality here!
+  }
 
-  @FXML
-  void backToDashboard() throws IOException {
-    Stage primaryStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toDashboardURL));
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
+  @Override
+  protected void onResetButtonClicked(ActionEvent event) throws IOException {
+    // Reset fields here!
   }
 }

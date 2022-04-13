@@ -1,30 +1,19 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D22.teamZ.*;
 import edu.wpi.cs3733.D22.teamZ.database.*;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class MedicalEquipmentRequestController {
-  private ILocationDAO locationDAO = new LocationDAOImpl();
-  private IMedEquipReqDAO medicalEquipmentRequestDAO = new MedEquipReqDAOImpl();
-
-  @FXML private JFXButton backButton;
-  @FXML private JFXButton resetButton;
-  @FXML private JFXButton submitButton;
-
+public class MedicalEquipmentRequestController extends ServiceRequestController {
   @FXML private Label header;
   @FXML private Label objectBodyText;
   @FXML private Label roomNumberLabel;
@@ -36,16 +25,19 @@ public class MedicalEquipmentRequestController {
   @FXML private Label errorSavingLabel;
 
   // URLs
-  private final String toLandingPageURL = "views/LandingPage.fxml";
+  private String toMedicalEquipmentRequestURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
 
   // Lists
   private List<Location> locationList;
   private List<MedicalEquipmentDeliveryRequest> equipmentRequestList;
 
   @FXML
-  public void initialize() {
-    locationList = locationDAO.getAllLocations();
-    equipmentRequestList = medicalEquipmentRequestDAO.getAllMedEquipReq();
+  public void initialize(URL location, ResourceBundle resources) {
+    menuName = "Medical Equipment Request";
+
+    locationList = database.getAllLocations();
+    equipmentRequestList = database.getAllMedicalEquipmentRequest();
 
     for (Location model : locationList) {
       System.out.println(model.getNodeID());
@@ -62,15 +54,7 @@ public class MedicalEquipmentRequestController {
   }
 
   @FXML
-  private void onBackButtonClicked(ActionEvent event) throws IOException {
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource(toLandingPageURL));
-    Scene scene = new Scene(root);
-    mainStage.setScene(scene);
-  }
-
-  @FXML
-  private void onResetButtonClicked(ActionEvent event) throws IOException {
+  protected void onResetButtonClicked(ActionEvent event) throws IOException {
     enterRoomNumber.clear();
     enterFloorNumber.clear();
     enterNodeType.setValue(null);
@@ -78,7 +62,7 @@ public class MedicalEquipmentRequestController {
   }
 
   @FXML
-  private void onSubmitButtonClicked(ActionEvent actionEvent) {
+  protected void onSubmitButtonClicked(ActionEvent actionEvent) {
     // Debug
     System.out.println("Room Number: " + enterRoomNumber.getText());
     System.out.println("Floor Number: " + enterFloorNumber.getText());
@@ -92,8 +76,8 @@ public class MedicalEquipmentRequestController {
       System.out.println("Equipment is empty");
       id = "REQ0";
     } else {
-      MedicalEquipmentDeliveryRequest lastestReq =
-          equipmentRequestList.get(equipmentRequestList.size() - 1);
+      List<ServiceRequest> currentList = database.getAllServiceRequests();
+      ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
       id = lastestReq.getRequestID();
     }
     // Create new REQID
@@ -103,14 +87,19 @@ public class MedicalEquipmentRequestController {
     // Create entities for submission
     String itemID = equipmentDropDown.getValue().toString();
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
-    Employee issuer = new Employee("Pat" + num, "Pat", Employee.AccessType.ADMIN, "", "");
-    Employee handler = new Employee("Jake" + num, "Jake", Employee.AccessType.ADMIN, "", "");
+    Employee issuer =
+        new Employee(
+            "admin1",
+            "Pat",
+            Employee.AccessType.ADMIN,
+            "",
+            ""); // TO DO: be person who made request
+    Employee handler = null;
 
     String equipmentID = equipmentDropDown.getValue().toString();
-    IMedicalEquipmentDAO medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
 
     // Find available equipment, if there is one. Else return null
-    equipmentID = medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipmentID);
+    equipmentID = database.getFirstAvailableEquipmentByType(equipmentID);
 
     if (equipmentID == null) {
       errorSavingLabel.setVisible(true);
@@ -123,13 +112,13 @@ public class MedicalEquipmentRequestController {
               enterNodeType.getValue().toString(),
               enterRoomNumber.getText(),
               enterFloorNumber.getText());
-      Location targetLoc = locationDAO.getLocationByID(nodeID);
+      Location targetLoc = database.getLocationByID(nodeID);
 
       MedicalEquipmentDeliveryRequest temp =
           new MedicalEquipmentDeliveryRequest(
               requestID, status, issuer, handler, equipmentID, targetLoc);
 
-      medicalEquipmentRequestDAO.addMedEquipReq(temp);
+      database.addMedicalEquipmentRequest(temp);
     }
     errorSavingLabel.setVisible(false);
   }
@@ -144,10 +133,8 @@ public class MedicalEquipmentRequestController {
     }
   }
 
-  public void onNavigateToMedicalRequestList(ActionEvent actionEvent) throws IOException {
-    Stage mainStage = (Stage) backButton.getScene().getWindow();
-    Parent root = FXMLLoader.load(App.class.getResource("views/MedicalEquipmentRequestList.fxml"));
-    Scene scene = new Scene(root);
-    mainStage.setScene(scene);
+  public void onNavigateToMedicalRequestList() throws IOException {
+    menu.selectMenu(3);
+    menu.load(toMedicalEquipmentRequestURL);
   }
 }

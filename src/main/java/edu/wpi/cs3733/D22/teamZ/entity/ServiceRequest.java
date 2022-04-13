@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+
 public class ServiceRequest {
   protected String requestID;
   protected RequestType type;
@@ -8,6 +10,8 @@ public class ServiceRequest {
   protected Employee handler;
   protected Location targetLocation;
 
+  private FacadeDAO facadeDAO = FacadeDAO.getInstance();
+
   public enum RequestType {
     MEDEQUIP("MEDEQUIP"),
     MEDIC("MEDIC"),
@@ -15,7 +19,8 @@ public class ServiceRequest {
     MEAL("MEAL"),
     COMP("COMP"),
     LAUNDRY("LAUNDRY"),
-    LANG("LANG");
+    LANG("LANG"),
+    EXTERNAL("EXTRL");
 
     private final String typeStr;
 
@@ -55,6 +60,8 @@ public class ServiceRequest {
           return LAUNDRY;
         case "LANG":
           return LANG;
+        case "EXTRL":
+          return EXTERNAL;
         default:
           return null;
       }
@@ -125,6 +132,21 @@ public class ServiceRequest {
     this.status = status;
     this.issuer = issuer;
     this.handler = handler;
+  }
+
+  public ServiceRequest(
+      String requestID,
+      RequestType type,
+      RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation) {
+    this.requestID = requestID;
+    this.type = type;
+    this.targetLocation = facadeDAO.getLocationByID(targetLocation);
+    this.status = status;
+    this.issuer = facadeDAO.getEmployeeByID(issuer);
+    this.handler = facadeDAO.getEmployeeByID(handler);
   }
 
   /**
@@ -212,9 +234,14 @@ public class ServiceRequest {
   public boolean equals(Object o) {
     if (o instanceof ServiceRequest) {
       ServiceRequest objectRequest = (ServiceRequest) o;
-      return (this.getRequestID() == objectRequest.getRequestID());
+      return (this.getRequestID().equals(objectRequest.getRequestID()));
     } else {
       return false;
     }
+  }
+
+  @Override
+  public String toString() {
+    return this.requestID;
   }
 }

@@ -1,22 +1,24 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.App;
 import java.io.IOException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 
-public class LaundryServiceController {
+public class LaundryServiceController extends ServiceRequestController {
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    menuName = "Laundry Service Request";
+  }
 
-  private final String toLandingPage = "views/LandingPage.fxml";
+  @Override
+  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
+    // Add submitting functionality here!
+  }
 
-  public void navDefault(javafx.event.ActionEvent actionEvent) throws IOException {
-    Parent root = FXMLLoader.load(App.class.getResource(toLandingPage));
-    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+  @Override
+  protected void onResetButtonClicked(ActionEvent event) throws IOException {
+    // Reset fields here!
   }
 }

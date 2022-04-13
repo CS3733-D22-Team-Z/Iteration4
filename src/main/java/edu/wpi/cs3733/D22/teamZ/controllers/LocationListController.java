@@ -1,33 +1,40 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.MedicalEquipmentDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.*;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXRadioButton;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
+import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -39,35 +46,42 @@ import javafx.util.Callback;
 // work?
 
 // LocationController controls Location.fxml, loads location data into a tableView on page
-public class LocationListController {
+public class LocationListController implements IMenuAccess {
 
+  // alert
+  @FXML private Pane addAlertPane;
+  @FXML private MFXTextField alertLocationField;
+  @FXML private MFXButton submitAlert;
+  @FXML private MFXButton addAlertButton;
+  @FXML private ComboBox<String> alertCodeField;
+  @FXML private MFXButton addLocationButton;
+  @FXML private AnchorPane rightPane;
+  @FXML private SplitPane splitPane;
+  @FXML private Group group;
+  @FXML private ScrollPane scrollPane;
+  MenuController menu;
   // init ui components
-  @FXML private Pane pane;
-  @FXML private Label floorLabel;
-  @FXML private Label longnameLabel;
-  @FXML private Label xCoordLabel;
-  @FXML private Label yCoordLabel;
-  @FXML private Button exitButton;
-  @FXML private ChoiceBox changeFloor;
+  @FXML private AnchorPane pane;
+  @FXML private MFXLegacyComboBox<String> changeFloor;
   @FXML private ImageView map;
-  @FXML private Button editLocation;
-  @FXML private Button deleteLocation;
+  @FXML private MFXButton editLocation;
+  @FXML private MFXButton deleteLocation;
 
   // Andrew's stuff
-  @FXML private TextField selectLocationTextField;
-  @FXML private ChoiceBox<String> typeChoiceTextField;
-  @FXML private ChoiceBox<String> floorChoiceTextField;
+  @FXML private MFXTextField selectLocationTextField;
+  @FXML private MFXLegacyComboBox<String> typeChoiceTextField;
+  @FXML private MFXLegacyComboBox<String> floorChoiceTextField;
   @FXML private TextField changeNumberTextField;
   @FXML private TextField changeNameTextField;
   @FXML private TextField abbreviationTextField;
   @FXML private Text alreadyExistsText;
-  @FXML private Button submitButton;
-  @FXML private Button clearButton;
-  @FXML private Button editLocationExitButton;
+  @FXML private MFXButton submitButton;
+  @FXML private MFXButton clearButton;
+  @FXML private MFXButton editLocationExitButton;
   @FXML private Pane editLocationPane;
   @FXML private Pane locationChangeDarkenPane;
-  private Location activeLocation;
-  private Label activeLabel;
+
+  private static MapLabel activeLabel;
   //
 
   // Casey's
@@ -80,31 +94,32 @@ public class LocationListController {
 
   // Daniel's Stuff
   // Buttons
-  @FXML private Button deleteMapLocation;
-  @FXML private Button cancelLocationSelection;
+  @FXML private MFXButton deleteMapLocation;
+  @FXML private MFXButton cancelLocationSelection;
   // text field box to select location to delete
-  @FXML private TextField locationToDeleteTextField;
-  @FXML private Pane deleteLocationPlane;
+  @FXML private MFXTextField locationToDeleteTextField;
+  @FXML private Pane deleteLocationPlane1;
 
   // Neha's stuff
   // Buttons
-  @FXML private Button submitAddLocation;
-  @FXML private Button clearAddLocation;
-  @FXML private Button addLocationExitButton;
+  @FXML private MFXButton submitAddLocation;
+  @FXML private MFXButton clearAddLocation;
+  @FXML private MFXButton addLocationExitButton;
   // text fields
-  @FXML private TextField xCoordTextField;
-  @FXML private TextField yCoordTextField;
-  @FXML private ChoiceBox locationTypeField;
-  @FXML private ChoiceBox floorField;
-  @FXML private TextField locationNameTextField;
-  @FXML private TextField nameAbbreviationTextField;
+  @FXML private MFXTextField xCoordTextField;
+  @FXML private MFXTextField yCoordTextField;
+  @FXML private MFXLegacyComboBox<String> locationTypeField;
+  @FXML private MFXLegacyComboBox<String> floorField;
+  @FXML private MFXTextField locationNameTextField;
+  @FXML private MFXTextField nameAbbreviationTextField;
+
   // pane
   @FXML private Pane addLocationPane;
 
-  // Patricks stuff
-  @FXML private VBox detailsPopup;
-  @FXML private HBox equipmentNames;
-  @FXML private HBox equipmentQuantities;
+  @FXML private MFXRadioButton locRadio;
+  @FXML private MFXRadioButton equipRadio;
+  @FXML private MFXRadioButton servRadio;
+  @FXML final ToggleGroup radioGroup = new ToggleGroup();
 
   // urls to other pages
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
@@ -113,23 +128,66 @@ public class LocationListController {
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
   private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
+  private String toServiceRequestProperties =
+      "edu/wpi/cs3733/D22/teamZ/views/ServiceRequestProperties.fxml";
 
   // init LocationDAOImpl to use sql methods from db
-  LocationDAOImpl locDAO = new LocationDAOImpl();
-
-  // init MedicalEquipmentDAOImpl
-  MedicalEquipmentDAOImpl medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
+  FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   // create ObservableList to load locations into map
   // private ObservableList<Location> floorLocations = FXCollections.observableList(new
   // ArrayList<>());
   private ObservableList<Location> totalLocations = FXCollections.observableList(new ArrayList<>());
-  private ObservableList<Label> allLabels = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<MapLabel> allLabels = FXCollections.observableList(new ArrayList<>());
   private ObservableList<Label> equipLabels = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<Label> alertLabels = FXCollections.observableList(new ArrayList<>());
+
+  private ContextMenu rightClickMenu;
 
   // initialize location labels to display on map
   @FXML
   private void initialize() {
+
+    scrollPane.setPannable(true);
+
+    rightPane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.23));
+    pane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.75));
+
+    StackPane zoomPane = new StackPane();
+    zoomPane.getChildren().add(group);
+
+    Group content = new Group(zoomPane, pane);
+    scrollPane.setContent(group);
+
+    group.setScaleX(group.getScaleX() / 1.1);
+    group.setScaleY(group.getScaleY() / 1.1);
+
+    scrollPane.setOnScroll(
+        new EventHandler<ScrollEvent>() {
+          @Override
+          public void handle(ScrollEvent event) {
+            System.out.println("zoom");
+            event.consume();
+
+            if (event.getDeltaY() == 0) {
+              return;
+            }
+
+            double scaleFactor = (event.getDeltaY() > 0) ? 1.1 : 1 / 1.1;
+
+            // amount of scrolling in each direction in scrollContent coordinate
+            // units
+            Point2D scrollOffset = figureScrollOffset(content, scrollPane);
+
+            group.setScaleX(group.getScaleX() * scaleFactor);
+            group.setScaleY(group.getScaleY() * scaleFactor);
+
+            // move viewport so that old center remains in the center after the
+            // scaling
+            repositionScroller(content, scrollPane, scaleFactor, scrollOffset);
+          }
+        });
+
     System.out.println("loading labels");
 
     changeFloor.getItems().add("L2");
@@ -137,16 +195,28 @@ public class LocationListController {
     changeFloor.getItems().add("1");
     changeFloor.getItems().add("2");
     changeFloor.getItems().add("3");
+    changeFloor.getItems().add("4");
+    changeFloor.getItems().add("5");
 
     floorField.getItems().add("L2");
     floorField.getItems().add("L1");
     floorField.getItems().add("1");
     floorField.getItems().add("2");
     floorField.getItems().add("3");
+    floorField.getItems().add("4");
+    floorField.getItems().add("5");
+
+    alertCodeField.getItems().add("Code Red");
+    alertCodeField.getItems().add("Code Grey");
+    alertCodeField.getItems().add("Code Blue");
+    alertCodeField.getItems().add("Code Green");
+    alertCodeField.getItems().add("Code White");
+    alertCodeField.getItems().add("Code Pink");
+    alertCodeField.getItems().add("Code Amber");
 
     // floorLocations.remove(0, floorLocations.size());
 
-    totalLocations.addAll(FXCollections.observableList(locDAO.getAllLocations()));
+    totalLocations.addAll(FXCollections.observableList(facadeDAO.getAllLocations()));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
     // floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
 
@@ -154,12 +224,11 @@ public class LocationListController {
 
     // showLocations("1");
     changeFloor.getSelectionModel().select(2);
-    refreshMap("1");
 
     // change floor with dropdown
     changeFloor.setOnAction(
         (event) -> {
-          String selectedItem = changeFloor.getSelectionModel().getSelectedItem().toString();
+          String selectedItem = changeFloor.getSelectionModel().getSelectedItem();
 
           // System.out.println("Selection made: [" + selectedIndex + "] " + selectedItem);
           // System.out.println("   ChoiceBox.getValue(): " + changeFloor.getValue());
@@ -180,7 +249,7 @@ public class LocationListController {
 
     floorChoiceTextField.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
 
-    Location displayResult = locDAO.getLocationByID(selectLocationTextField.getText());
+    Location displayResult = facadeDAO.getLocationByID(selectLocationTextField.getText());
     typeChoiceTextField.setValue(displayResult.getNodeType());
 
     locationChangeDarkenPane.setVisible(false);
@@ -190,7 +259,7 @@ public class LocationListController {
 
     // Casey's
     parentDataList = new ArrayList<>();
-    parentDataList.addAll(locDAO.getAllLocations());
+    parentDataList.addAll(facadeDAO.getAllLocations());
     filter = new SearchControl(parentDataList);
 
     List<String> longNames = new ArrayList<>();
@@ -200,6 +269,8 @@ public class LocationListController {
     this.displayResult.addAll(FXCollections.observableList(longNames));
     searchResultList.setItems(this.displayResult);
 
+    multiFocusProperty.bind(searchField.focusedProperty().or(searchResultList.focusedProperty()));
+
     multiFocusProperty.addListener(
         (observable, oldValue, newValue) -> {
           // System.out.println("vis swap");
@@ -207,13 +278,11 @@ public class LocationListController {
           searchResultList.setDisable(!newValue);
         });
 
-    multiFocusProperty.bind(searchField.focusedProperty().or(searchResultList.focusedProperty()));
-
     this.displayResult.addListener(
         (ListChangeListener<String>)
             c -> {
               searchResultList.setPrefHeight(
-                  this.displayResult.size() * 40 // row height
+                  this.displayResult.size() * 19 // row height
                       + 2); // this gets called way too much, but whatever
               // System.out.println("height changed");
             });
@@ -227,7 +296,7 @@ public class LocationListController {
               protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(item);
-                setFont(Font.font(20));
+                setFont(Font.font(9));
               }
             };
           }
@@ -240,45 +309,237 @@ public class LocationListController {
         evt -> {
           if (!inHierarchy(evt.getPickResult().getIntersectedNode(), activeLabel)) {
             pane.requestFocus();
-            activeLabel.setScaleX(1);
-            activeLabel.setScaleY(1);
 
-            editLocation.setDisable(true);
-            deleteLocation.setDisable(true);
+            // editLocation.setDisable(true);
+            // deleteLocation.setDisable(true);
+            // addAlertButton.setDisable(true);
 
-            floorLabel.setText("Floor: ");
+            /*floorLabel.setText("Floor: ");
             longnameLabel.setText("Long Name: ");
             xCoordLabel.setText("xCoord: ");
-            yCoordLabel.setText("yCoord: ");
+            yCoordLabel.setText("yCoord: ");*/
           }
         });
+
+    pane.addEventFilter(
+        MouseEvent.MOUSE_CLICKED,
+        evt -> {
+          Node clicked = evt.getPickResult().getIntersectedNode();
+
+          if (clicked instanceof Pane) {
+            pane.requestFocus();
+          }
+
+          List<MapLabel> temp = allLabels.filtered(l -> l.equals(clicked));
+          if (temp.size() > 0) {
+            activeLabel = temp.get(0);
+            System.out.println(activeLabel.getLocation().getLongName());
+            // displayLocationInformation();
+          }
+        });
+
+    scrollPane.addEventFilter(
+        MouseEvent.MOUSE_CLICKED,
+        evt -> {
+          if (evt.getClickCount() > 1) {
+            doubleClickAdd(evt);
+          }
+        });
+
+    MenuItem edit = new MenuItem("Edit");
+    edit.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            try {
+              editLocationButtonClicked();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+        });
+    MenuItem delete = new MenuItem("Delete");
+    delete.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            try {
+              deleteLocationButtonClicked();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+        });
+    MenuItem prop = new MenuItem("Properties");
+    prop.setOnAction(
+        event -> {
+          try {
+            propertiesWindow();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+    MenuItem alert = new MenuItem("Alert");
+    alert.setOnAction(
+        event -> {
+          try {
+            showAlertPane();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+    // prop.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
+
+    rightClickMenu = new ContextMenu(edit, delete, prop, alert);
+
+    rightClickMenu.setPrefHeight(82);
+    rightClickMenu.setPrefWidth(120);
 
     this.displayResult.remove(5, this.displayResult.size());
 
     // Daniel's Stuff
-    deleteLocationPlane.setVisible(false);
-    deleteLocationPlane.setDisable(true);
+    //    deleteLocationPlane.setVisible(false);
+    //   deleteLocationPlane.setDisable(true);
+
+    locRadio.setToggleGroup(radioGroup);
+    locRadio.setUserData("Locations");
+    equipRadio.setToggleGroup(radioGroup);
+    equipRadio.setUserData("Equipment");
+    servRadio.setToggleGroup(radioGroup);
+    servRadio.setUserData("Service Requests");
+
+    radioGroup
+        .selectedToggleProperty()
+        .addListener(
+            new ChangeListener<Toggle>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                refreshMap(changeFloor.getSelectionModel().getSelectedItem());
+              }
+            });
+
+    refreshMap("1");
+  }
+
+  private void propertiesWindow() throws IOException {
+    Stage stage = new Stage();
+    TabPane root = new TabPane();
+    // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    root.setPrefWidth(600);
+    root.setPrefHeight(440);
+
+    // 3 tabs: do service request tab
+
+    stage.setTitle("Properties");
+    stage.getIcons().add(new Image("edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png"));
+    stage.setResizable(false);
+
+    Tab locInfoTab = new Tab("Location Info");
+    Tab medInfoTab = new Tab("Medical Equipment Info");
+    Tab servReqTab = new Tab("Service Request Info");
+
+    AnchorPane medPane = new AnchorPane();
+    loadMedPane(medPane);
+    medInfoTab.setContent(medPane);
+
+    root.getTabs().addAll(medInfoTab, servReqTab, locInfoTab);
+    root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
+    Pane locPane = new Pane();
+    ObservableList<String> locationHeads = FXCollections.observableList(new ArrayList<>());
+    ObservableList<String> locationInfo = FXCollections.observableList(new ArrayList<>());
+
+    locationInfo.add(activeLabel.getLocation().getLongName());
+    locationInfo.add(activeLabel.getLocation().getShortName());
+    locationInfo.add(activeLabel.getLocation().getNodeID());
+    locationInfo.add(activeLabel.getLocation().getNodeType());
+    locationInfo.add(activeLabel.getLocation().getFloor());
+    locationInfo.add(String.valueOf(activeLabel.getLocation().getXcoord()));
+    locationInfo.add(String.valueOf(activeLabel.getLocation().getYcoord()));
+
+    locationHeads.add("Long name:");
+    locationHeads.add("Short name:");
+    locationHeads.add("Node ID:");
+    locationHeads.add("Node Type:");
+    locationHeads.add("Floor:");
+    locationHeads.add("XCoord:");
+    locationHeads.add("YCoord:");
+
+    ListView<String> info = new ListView<>(locationInfo);
+    ListView<String> heads = new ListView<>(locationHeads);
+    heads.setPrefWidth(85);
+    info.setPrefWidth(300);
+    info.setPrefHeight(7 * 24);
+    heads.setPrefHeight(7 * 24);
+    info.relocate(85, 0);
+
+    info.getSelectionModel()
+        .selectedIndexProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                Platform.runLater(() -> info.getSelectionModel().select(-1)));
+    heads
+        .getSelectionModel()
+        .selectedIndexProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                Platform.runLater(() -> heads.getSelectionModel().select(-1)));
+
+    locPane.getChildren().addAll(info, heads);
+
+    locInfoTab.setContent(locPane);
+
+    // Service Request page stuff
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(getClass().getClassLoader().getResource(toServiceRequestProperties));
+    Node serviceReqPage = loader.load();
+    ((ServiceRequestPropertiesController) (loader.getController()))
+        .setRequests(activeLabel.getReqs());
+
+    servReqTab.setContent(serviceReqPage);
+
+    Scene window = new Scene(root);
+    stage.setScene(window);
+    stage.show();
+  }
+
+  private void loadMedPane(AnchorPane pane) throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    pane.getChildren()
+        .add(
+            loader.load(
+                getClass()
+                    .getClassLoader()
+                    .getResource("edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentInfoTab.fxml")));
   }
 
   private void showLocations(String floor) {
-    pane.getChildren().clear();
+    group.getChildren().removeIf(child -> child instanceof MapLabel);
 
-    pane.getChildren()
-        .addAll(
-            equipLabels.filtered(
-                label -> {
-                  return changeFloor.getSelectionModel().getSelectedItem().toString().equals("3");
-                }));
-
-    pane.getChildren()
-        .addAll(
-            allLabels.filtered(
-                label -> {
-                  Location temp = totalLocations.get(allLabels.indexOf(label));
-                  return temp.getFloor().equalsIgnoreCase(floor);
-                  // && !temp.getNodeType()
-                  // .equalsIgnoreCase("hall"); // disable line to enable halls
-                }));
+    for (int i = 0; i < allLabels.size(); i++) {
+      if (allLabels.get(i).isOnFloor(floor)) {
+        switch (radioGroup.getSelectedToggle().getUserData().toString()) {
+          case "Locations":
+            group.getChildren().add(allLabels.get(i));
+            break;
+          case "Equipment":
+            if (allLabels.get(i).getEquip().size() > 0) {
+              group.getChildren().add(allLabels.get(i));
+            }
+            break;
+          case "Service Requests":
+            System.out.println("serv");
+            if (allLabels.get(i).getReqs().size() > 0) {
+              group.getChildren().add(allLabels.get(i));
+            }
+            break;
+          default:
+            System.out.println("lolno");
+            break;
+        }
+      }
+    }
   }
 
   // function to check if user has clicked outside of label
@@ -293,93 +554,6 @@ public class LocationListController {
       node = node.getParent();
     }
     return false;
-  }
-
-  // when a location label is clicked on map, information about that label is shown on the side
-  private void displayLocationInformation() {
-
-    activeLabel.requestFocus();
-    activeLabel.setScaleX(2);
-    activeLabel.setScaleY(2);
-    // update labels to correct info
-    floorLabel.setText("Floor: " + activeLocation.getFloor());
-    longnameLabel.setText("Long Name: " + activeLocation.getLongName());
-    xCoordLabel.setText("xCoord: " + String.valueOf(activeLocation.getXcoord()));
-    yCoordLabel.setText("yCoord: " + String.valueOf(activeLocation.getYcoord()));
-
-    // set the labels visible
-    floorLabel.setVisible(true);
-    longnameLabel.setVisible(true);
-    xCoordLabel.setVisible(true);
-    yCoordLabel.setVisible(true);
-
-    editLocation.setDisable(false);
-    deleteLocation.setDisable(false);
-  }
-
-  // when locations menu button is clicked navigate to locations page
-  @FXML
-  private void toLocations(ActionEvent event) throws IOException {
-    System.out.println("navigating to locations from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLocationsURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
-  // when landing page menu button is clicked navigate to landing page
-  @FXML
-  private void toLandingPage(ActionEvent event) throws IOException {
-    System.out.println("navigating to landing page from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLandingPageURL));
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
-    primaryStage.show();
-  }
-
-  // when medical equipment request button is clicked on menu navigate to medical equipment request
-  // page
-  @FXML
-  private void toMedicalEquipmentRequest(ActionEvent event) throws IOException {
-    System.out.println("navigating to Medical Equipment Request page from home");
-    Parent root =
-        FXMLLoader.load(getClass().getClassLoader().getResource(toMedicalEquipmentRequestURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
-  // when home button on menu is clicked navigate to home page
-  @FXML
-  private void toHome(ActionEvent event) throws IOException {
-    System.out.println("navigating to home using home button on sidebar");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomeURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
-  // when the medical equipment map menu button is clicked navigate to medical equipment map page
-  @FXML
-  private void toEquipmentMap(ActionEvent event) throws IOException {
-    System.out.println("navigating to medical equipment map from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toEquipmentMapURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-  }
-
-  // when exit button is clicked on menu exit application
-  @FXML
-  private void toExit(ActionEvent event) {
-    System.out.println("exit the app using exit button bottom left");
-    Stage stage = (Stage) exitButton.getScene().getWindow();
-    stage.close();
   }
 
   // Andrew's Stuff
@@ -399,7 +573,7 @@ public class LocationListController {
     }
 
     // change later to Neha's nodeID info
-    Location tempLocation = locDAO.getLocationByID(selectLocationTextField.getText());
+    Location tempLocation = facadeDAO.getLocationByID(selectLocationTextField.getText());
 
     // old floor
     String oldFloor = tempLocation.getFloor();
@@ -410,6 +584,8 @@ public class LocationListController {
     tempLocation.setBuilding("Tower");
     tempLocation.setShortName(abbreviationTextField.getText());
 
+    Location oldLoc = new Location(tempLocation.getNodeID());
+
     String newNodeID =
         "z"
             + typeChoiceTextField.getValue()
@@ -419,10 +595,16 @@ public class LocationListController {
             + floorChoiceTextField.getValue();
 
     // check if already exists
-    if (locDAO.getLocationByID(newNodeID).getNodeID() == null) {
+    if (facadeDAO.getLocationByID(newNodeID).getNodeID() == null) {
       alreadyExistsText.setVisible(false);
       List<MedicalEquipment> medicalEquipmentList =
-          medicalEquipmentDAO.getAllMedicalEquipmentByLocation(tempLocation);
+          facadeDAO.getAllMedicalEquipmentByLocation(tempLocation);
+
+      tempLocation.setNodeID(newNodeID);
+      if (facadeDAO.addLocation(tempLocation)) {
+        System.out.println("Added updated location successful");
+      }
+
       // check if there are medical equipment stuff there
       if (medicalEquipmentList.isEmpty()) {
         // do nothing
@@ -432,16 +614,12 @@ public class LocationListController {
         for (int i = 0; i < medicalEquipmentList.size(); i++) {
           MedicalEquipment tempMedEquip = medicalEquipmentList.get(i);
           tempMedEquip.setCurrentLocation(tempLocation);
-          medicalEquipmentDAO.updateMedicalEquipment(tempMedEquip);
+          facadeDAO.updateMedicalEquipment(tempMedEquip);
         }
       }
 
-      if (locDAO.deleteLocation(tempLocation)) {
+      if (facadeDAO.deleteLocation(oldLoc)) {
         System.out.println("Delete location successful");
-      }
-      tempLocation.setNodeID(newNodeID);
-      if (locDAO.addLocation(tempLocation)) {
-        System.out.println("Added updated location successful");
       }
       editLocationPane.setVisible(false);
       locationChangeDarkenPane.setVisible(false);
@@ -452,13 +630,6 @@ public class LocationListController {
           .getSelectionModel()
           .select(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
 
-      activeLocation = tempLocation;
-      activeLabel =
-          allLabels.get(
-              totalLocations
-                  .filtered(loc -> loc.getNodeID().equalsIgnoreCase(activeLocation.getNodeID()))
-                  .getSourceIndex(0));
-      displayLocationInformation();
       changeToFloor(floorChoiceTextField.getSelectionModel().getSelectedItem().toString());
 
     } else {
@@ -476,12 +647,12 @@ public class LocationListController {
   }
 
   @FXML
-  private void editLocationButtonClicked(ActionEvent event) throws IOException {
+  private void editLocationButtonClicked() throws IOException {
     locationChangeDarkenPane.setVisible(true);
     editLocationPane.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
     editLocationPane.setDisable(false);
-    selectLocationTextField.setText(activeLocation.getNodeID());
+    selectLocationTextField.setText(activeLabel.getLocation().getNodeID());
   }
 
   @FXML
@@ -495,6 +666,7 @@ public class LocationListController {
   // Casey's
   @FXML
   public void search(KeyEvent keyEvent) {
+    searchField.requestFocus();
     List<ISearchable> tempResultList = new ArrayList<>();
     tempResultList = filter.filterList(searchField.getText());
     List<String> longNames = new ArrayList<>();
@@ -511,21 +683,21 @@ public class LocationListController {
   public void resultMouseClick(MouseEvent mouseEvent) {
     // System.out.println(searchResultList.getSelectionModel().getSelectedItem());
 
-    List<String> longNames = new ArrayList<>();
-    for (ISearchable loc : parentDataList) {
-      longNames.add(loc.getDisplayName());
+    String searched = searchResultList.getSelectionModel().getSelectedItem();
+
+    for (MapLabel label : allLabels) {
+      if (label.getLocation().getLongName().equals(searched)) {
+        activeLabel = label;
+      }
     }
-    int theoreticalGenericIndex =
-        longNames.indexOf(searchResultList.getSelectionModel().getSelectedItem());
 
-    activeLocation = parentDataList.get(theoreticalGenericIndex).getAssociatedLocation();
-
-    String selectedItem = activeLocation.getFloor();
+    String selectedItem = activeLabel.getLocation().getFloor();
     changeToFloor(selectedItem);
 
-    activeLabel = allLabels.get(theoreticalGenericIndex);
-    searchField.setText(activeLocation.getLongName());
-    displayLocationInformation();
+    activeLabel.requestFocus();
+    // activeLabel = allLabels.get(theoreticalGenericIndex);
+    searchField.setText(activeLabel.getLocation().getLongName());
+    // displayLocationInformation();
   }
 
   private void changeToFloor(String nFloor) {
@@ -539,10 +711,38 @@ public class LocationListController {
   private void initLabels() {
     allLabels.remove(0, allLabels.size());
     for (int i = 0; i < totalLocations.size(); i++) {
-      // styilize label icon
-      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
-      ImageView locationIcon = new ImageView(locationImg);
+
       Location current = totalLocations.get(i);
+
+      MapLabel label =
+          new MapLabel.mapLabelBuilder()
+              .location(current)
+              .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
+              .requests(facadeDAO.getServiceRequestsByLocation(current))
+              .build();
+
+      // stylize label icon
+      Image locationImg;
+      ImageView locationIcon = null;
+
+      switch (radioGroup.getSelectedToggle().getUserData().toString()) {
+        case "Locations":
+          locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
+          locationIcon = new ImageView(locationImg);
+          break;
+        case "Equipment":
+          locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
+          locationIcon = new ImageView(locationImg);
+          break;
+        case "Service Requests":
+          locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/servicerequest.png");
+          locationIcon = new ImageView(locationImg);
+          break;
+        default:
+          System.out.println("hopefully not");
+          break;
+      }
+
       DropShadow dropShadow = new DropShadow();
       dropShadow.setRadius(5.0);
       dropShadow.setOffsetX(3.0);
@@ -550,123 +750,117 @@ public class LocationListController {
       dropShadow.setColor(Color.GRAY);
 
       // create the label
-      Label label = new Label();
       label.setEffect(dropShadow);
       label.setGraphic(locationIcon);
 
-      // equipment labels
-      List<MedicalEquipment> medicalEquipmentAtLocation =
-          medicalEquipmentDAO.getAllMedicalEquipmentByLocation(current);
-
-      // If there is medical equipment at the location, then proceed.
-      if (!medicalEquipmentAtLocation.isEmpty()) {
-
-        // Setup icon image view
-        Image equipmentImg = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
-        ImageView equipmentIcon = new ImageView(equipmentImg);
-
-        DropShadow dropShadowEquip = new DropShadow();
-        dropShadowEquip.setRadius(5.0);
-        dropShadowEquip.setOffsetX(3.0);
-        dropShadowEquip.setOffsetY(3.0);
-        dropShadowEquip.setColor(Color.GRAY);
-
-        // create the label
-        Label labelEquip = new Label();
-        labelEquip.setEffect(dropShadowEquip);
-        labelEquip.setGraphic(equipmentIcon);
-        labelEquip.setPrefWidth(7);
-        labelEquip.setPrefHeight(7);
-
-        labelEquip.relocate(current.getXcoord() - 8, current.getYcoord() - 8);
-        equipLabels.add(labelEquip);
-        System.out.println("adding a label");
-
-        labelEquip.setOnMouseClicked(
-            (e) -> {
-              showInfoDialog(
-                  labelEquip,
-                  current,
-                  medicalEquipmentDAO.getAllMedicalEquipmentByLocation(current));
-            });
-
-        // pane.getChildren().add(labelEquip);
-      }
-
-      // call function when clicked to display information about that location label on side
-      label.setOnMouseClicked(
-          (e) -> {
-            activeLocation = current;
-            activeLabel = label;
-            displayLocationInformation();
-          });
       label
           .focusedProperty()
           .addListener(
               (observable, oldValue, newValue) -> {
                 if (!newValue) {
-                  label.setScaleX(1);
-                  label.setScaleY(1);
+                  label.setScaleX(.7);
+                  label.setScaleY(.7);
+                  // returnOnClick();
+                } else {
+                  label.setScaleX(1.1);
+                  label.setScaleY(1.1);
                 }
               });
 
+      label.setScaleX(.7);
+      label.setScaleY(.7);
+      label.setOnMouseClicked(
+          evt -> {
+            label.requestFocus();
+          });
       // place label at correct coords
-      label.relocate(current.getXcoord() - 8, current.getYcoord() - 10);
+      label.relocate(
+          (label.getLocation().getXcoord() - 12) * (map.getFitWidth() / 1021),
+          (label.getLocation().getYcoord() - 24) * (map.getFitHeight() / 850));
+
+      label.setContextMenu(rightClickMenu);
+      label.setOnContextMenuRequested(
+          new EventHandler<ContextMenuEvent>() {
+            @Override
+            public void handle(ContextMenuEvent event) {
+              rightClickMenu.show(label, event.getScreenX(), event.getScreenY());
+              Location loc = label.getLocation();
+            }
+          });
       allLabels.add(label);
     }
   }
 
   private void refreshMap(String floor) {
     totalLocations.remove(0, totalLocations.size());
-    totalLocations.addAll(locDAO.getAllLocations());
+    totalLocations.addAll(facadeDAO.getAllLocations());
     initLabels();
     showLocations(floor);
   }
 
   @FXML
   public void deleteLocation() throws IOException {
-    Location temp = locDAO.getLocationByID(locationToDeleteTextField.getText());
+    Location temp = facadeDAO.getLocationByID(locationToDeleteTextField.getText());
     if (temp.getNodeID().equals(null)) {
       System.out.println("Did not find location in database");
       return;
     }
-    if (locDAO.deleteLocation(temp)) {
+    if (facadeDAO.deleteLocation(temp)) {
       System.out.println("Deletion Successful");
-      refreshMap(activeLocation.getFloor());
+      // TODO: fix
+      refreshMap(activeLabel.getLocation().getFloor());
     } else {
       System.out.println("There are still stuff in this location");
     }
 
     locationChangeDarkenPane.setVisible(false);
-    deleteLocationPlane.setVisible(false);
+    deleteLocationPlane1.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
-    deleteLocationPlane.setDisable(true);
+    deleteLocationPlane1.setDisable(true);
   }
 
   @FXML
   public void cancelLocationToDelete() throws IOException {
     locationChangeDarkenPane.setVisible(false);
-    deleteLocationPlane.setVisible(false);
+    deleteLocationPlane1.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
-    deleteLocationPlane.setDisable(true);
+    deleteLocationPlane1.setDisable(true);
   }
 
   @FXML
-  private void deleteLocationButtonClicked(ActionEvent event) throws IOException {
+  private void deleteLocationButtonClicked() throws IOException {
     locationChangeDarkenPane.setVisible(true);
-    deleteLocationPlane.setVisible(true);
+    deleteLocationPlane1.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
-    deleteLocationPlane.setDisable(false);
-    locationToDeleteTextField.setText(activeLocation.getNodeID());
+    locationToDeleteTextField.setText(activeLabel.getLocation().getNodeID());
   }
 
   @FXML
-  private void addLocationButtonClicked(ActionEvent event) throws IOException {
+  private void addLocationButtonClicked(ActionEvent evt) throws IOException {
     locationChangeDarkenPane.setVisible(true);
     addLocationPane.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
     addLocationPane.setDisable(false);
+
+    floorField.getSelectionModel().select(changeFloor.getSelectionModel().getSelectedIndex());
+    floorField.setDisable(true);
+    xCoordTextField.setEditable(false);
+    yCoordTextField.setEditable(false);
     // selectLocationTextField.setText(activeLocation.getNodeID());
+  }
+
+  private void doubleClickAdd(MouseEvent evt) {
+    locationChangeDarkenPane.setVisible(true);
+    addLocationPane.setVisible(true);
+    locationChangeDarkenPane.setDisable(false);
+    addLocationPane.setDisable(false);
+
+    floorField.getSelectionModel().select(changeFloor.getSelectionModel().getSelectedIndex());
+    floorField.setDisable(true);
+    xCoordTextField.setEditable(false);
+    yCoordTextField.setEditable(false);
+    xCoordTextField.setText(String.valueOf((int) evt.getSceneX()));
+    yCoordTextField.setText(String.valueOf((int) evt.getSceneY()));
   }
 
   @FXML
@@ -678,8 +872,13 @@ public class LocationListController {
   }
 
   @FXML
-  private void addLocation(ActionEvent event) throws IOException {
+  private void cancelAddAlert(ActionEvent event) throws IOException {
+    addAlertPane.setVisible(false);
+    addAlertPane.setDisable(true);
+  }
 
+  @FXML
+  private void addLocation() throws IOException {
     // check if coords are valid
     if (Integer.parseInt(xCoordTextField.getText()) < 0
         || Integer.parseInt(xCoordTextField.getText()) > 1021) {
@@ -714,7 +913,7 @@ public class LocationListController {
 
     // generate a node id
     // generate numb
-    List<Location> locations = locDAO.getAllLocationsByFloor(floorField.getValue().toString());
+    List<Location> locations = facadeDAO.getAllLocationsByFloor(floorField.getValue().toString());
     int size =
         (int)
             locations.stream()
@@ -736,9 +935,9 @@ public class LocationListController {
     newLocation.setNodeID(newNodeID);
 
     // check if exists, if not add it
-    if (locDAO.getLocationByID(newNodeID).getNodeID() == null) {
+    if (facadeDAO.getLocationByID(newNodeID).getNodeID() == null) {
       // add it
-      locDAO.addLocation(newLocation);
+      facadeDAO.addLocation(newLocation);
     } else {
       return;
     }
@@ -747,12 +946,10 @@ public class LocationListController {
     int floorIndex = floorField.getSelectionModel().getSelectedIndex();
     changeFloor.getSelectionModel().select(floorIndex);
 
-    changeToFloor(changeFloor.getSelectionModel().getSelectedItem().toString());
-    refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
+    changeToFloor(changeFloor.getSelectionModel().getSelectedItem());
+    refreshMap(changeFloor.getSelectionModel().getSelectedItem());
 
-    activeLocation = newLocation;
     activeLabel = allLabels.get(allLabels.size() - 1);
-    displayLocationInformation();
 
     addLocationPane.setVisible(false);
     locationChangeDarkenPane.setVisible(false);
@@ -770,9 +967,7 @@ public class LocationListController {
 
     File file = fileChooser.showSaveDialog(stage);
 
-    // ControlCSV writer = new LocationControlCSV(file);
-    LocationDAOImpl writer = new LocationDAOImpl();
-    writer.exportToLocationCSV(file);
+    facadeDAO.exportLocationsToCSV(file);
   }
 
   public void importFromCSV(ActionEvent actionEvent) {
@@ -785,10 +980,7 @@ public class LocationListController {
 
     File file = fileChooser.showOpenDialog(stage);
 
-    // ControlCSV writer = new LocationControlCSV(file);
-    LocationDAOImpl writer = new LocationDAOImpl();
-
-    int numberConflicts = writer.importLocationFromCSV(file);
+    int numberConflicts = facadeDAO.importLocationsFromCSV(file);
 
     refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
     System.out.println(
@@ -798,8 +990,24 @@ public class LocationListController {
             + " trying to get deleted but still have equipment in it");
   }
 
-  public void showInfoDialog(Label labelEquip, Location loc, List<MedicalEquipment> equipment) {
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Location Map";
+  }
+
+  public static MapLabel getActiveLabel() {
+    return activeLabel;
+  }
+
+  /*public void showInfoDialog(Label labelEquip, Location loc, List<MedicalEquipment> equipment) {
     // Make the popup visible again, and reset the HBoxes' children.
+
+
     detailsPopup.setVisible(true);
     equipmentNames.getChildren().clear();
     equipmentQuantities.getChildren().clear();
@@ -874,5 +1082,238 @@ public class LocationListController {
     }
 
     return dict;
+  }*/
+
+  /*public void contextMenuClick(MouseEvent mouseEvent) throws IOException {
+    int id = rightClickMenu.getSelectionModel().getSelectedIndex();
+    rightClickMenu.setVisible(false);
+    rightClickMenu.setDisable(true);
+    rightClickMenu.getSelectionModel().clearSelection();
+    switch (id) {
+      case 0:
+        editLocationButtonClicked();
+        break;
+      case 1:
+        deleteLocationButtonClicked();
+        break;
+    }
+  }*/
+
+  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    double hScrollProportion =
+        (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
+    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    double vScrollProportion =
+        (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
+    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
+    return new Point2D(scrollXOffset, scrollYOffset);
+  }
+
+  private void repositionScroller(
+      Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
+    double scrollXOffset = scrollOffset.getX();
+    double scrollYOffset = scrollOffset.getY();
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    if (extraWidth > 0) {
+      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
+      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
+      scroller.setHvalue(
+          scroller.getHmin()
+              + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    if (extraHeight > 0) {
+      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
+      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
+      scroller.setVvalue(
+          scroller.getVmin()
+              + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+  }
+
+  @FXML
+  public void showAlertPane() throws IOException {
+    addAlertPane.setVisible(true);
+    alertLocationField.setText(activeLabel.getLocation().getNodeID());
+    submitAlert.setOnAction(
+        (e) -> {
+          createAlert(
+              alertCodeField.getSelectionModel().getSelectedItem().toString(),
+              activeLabel.getLocation());
+          addAlertPane.setVisible(false);
+        });
+  }
+
+  public void createAlert(String code, Location location) {
+    Alert newAlert = new Alert(Alert.AlertType.WARNING);
+    switch (code) {
+      case "Code Red":
+        ImageView redAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/RedAlert.png"));
+        newAlert.setTitle("Code Red Alert");
+        newAlert.setHeaderText("Code Red");
+        newAlert.setGraphic(redAlertIcon);
+        createAlertLabel(redAlertIcon, location);
+        if (location.getFloor().equals("1")) {
+          newAlert.setContentText(
+              "Fire at "
+                  + location.getLongName()
+                  + " on Floor "
+                  + location.getFloor()
+                  + ". The closest exit is "
+                  + findClosestExit(location).getLongName());
+        } else {
+          newAlert.setContentText(
+              "Fire at " + location.getLongName() + " on Floor " + location.getFloor());
+        }
+        findClosestExit(location);
+        break;
+      case "Code Grey":
+        ImageView greyAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreyAlert.png"));
+        newAlert.setTitle("Code Grey Alert");
+        newAlert.setHeaderText("Code Grey");
+        newAlert.setContentText(
+            "Security Personnel Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greyAlertIcon);
+        createAlertLabel(greyAlertIcon, location);
+        break;
+      case "Code Green":
+        System.out.println("green label");
+        ImageView greenAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreenAlert.png"));
+        newAlert.setTitle("Code Green Alert");
+        newAlert.setHeaderText("Code Green");
+        newAlert.setContentText(
+            "M.D. or Specialty Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greenAlertIcon);
+        createAlertLabel(greenAlertIcon, location);
+        break;
+      case "Code White":
+        ImageView whiteAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/WhiteAlert.png"));
+        newAlert.setTitle("Code White Alert");
+        newAlert.setHeaderText("Code White");
+        newAlert.setContentText(
+            "Bomb Threat at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(whiteAlertIcon);
+        createAlertLabel(whiteAlertIcon, location);
+        break;
+      case "Code Pink":
+        ImageView pinkAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/PinkAlert.png"));
+        newAlert.setTitle("Code Pink Alert");
+        newAlert.setHeaderText("Code Pink");
+        newAlert.setContentText(
+            "Infant Abduction at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(pinkAlertIcon);
+        createAlertLabel(pinkAlertIcon, location);
+        break;
+      case "Code Amber":
+        ImageView amberAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/AmberAlert.png"));
+        newAlert.setTitle("Code Amber Alert");
+        newAlert.setHeaderText("Code Amber");
+        newAlert.setContentText("Disaster Plan in Effect");
+        newAlert.setGraphic(amberAlertIcon);
+        createAlertLabel(amberAlertIcon, location);
+        break;
+      case "Code Blue":
+        ImageView blueAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/BlueAlert.png"));
+        newAlert.setTitle("Code Blue Alert");
+        newAlert.setHeaderText("Code Blue");
+        newAlert.setContentText(
+            "Immediate Medical Assistance Needed at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(blueAlertIcon);
+        createAlertLabel(blueAlertIcon, location);
+        break;
+      default:
+        break;
+    }
+
+    newAlert.show();
+    newAlert.setOnCloseRequest((e) -> {});
+  }
+
+  public void createAlertLabel(ImageView icon, Location location) {
+    ImageView locationIcon = icon;
+    DropShadow dropShadow = new DropShadow();
+    dropShadow.setRadius(5.0);
+    dropShadow.setOffsetX(3.0);
+    dropShadow.setOffsetY(3.0);
+    dropShadow.setColor(Color.GRAY);
+
+    ContextMenu contextMenu = new ContextMenu();
+    MenuItem menuItem1 = new MenuItem("Resolve alert");
+
+    // create the label
+    Label label = new Label();
+    label.setEffect(dropShadow);
+    label.setGraphic(locationIcon);
+    label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
+    label.setContextMenu(contextMenu);
+    contextMenu.getItems().add(menuItem1);
+    menuItem1.setOnAction(
+        (e) -> {
+          // remove from map
+        });
+    MapLabel mapLabel = new MapLabel.mapLabelBuilder().label(label).location(location).build();
+
+    // System.out.println("adding label");
+    // allLabels.add(mapLabel);
+  }
+
+  public Location findClosestExit(Location location) {
+    Location closestExit = new Location();
+    Location current = new Location();
+    double distance;
+    double bestDistance = 1000;
+    int index = 0;
+
+    for (int i = 0; i < totalLocations.size(); i++) {
+      if (totalLocations.get(i).getNodeType().equals("EXIT")
+          && totalLocations.get(i).getFloor().equals(location.getFloor())) {
+        current = totalLocations.get(i);
+        distance =
+            Math.sqrt(
+                (Math.pow((current.getXcoord() - location.getXcoord()), 2))
+                    + (Math.pow((current.getYcoord() - location.getYcoord()), 2)));
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          closestExit = current;
+          index = i;
+        }
+      }
+    }
+    System.out.println(closestExit.getLongName());
+    for (MapLabel label : allLabels) {
+      if (label.getLocation().getLongName().equals(closestExit.getLongName())) {
+        activeLabel = label;
+        System.out.println(activeLabel.getLocation().getLongName());
+        activeLabel.setScaleX(1);
+        activeLabel.setScaleY(1);
+      }
+    }
+    return closestExit;
   }
 }

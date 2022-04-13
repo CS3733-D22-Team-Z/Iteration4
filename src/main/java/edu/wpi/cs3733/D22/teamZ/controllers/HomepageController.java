@@ -1,85 +1,90 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import java.io.IOException;
+import java.util.Locale;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
-public class HomepageController {
+public class HomepageController implements IMenuAccess {
   @FXML private Label label;
-  @FXML private Button exitButton; // ??????
+  @FXML private Button exitButton;
   @FXML private Label welcomeMessage;
+  @FXML private Button upperFloorsDashboardButton;
+
+  private MenuController menu;
 
   private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
-  private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
-  private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
+  private String toUpperFloorsDashboardURL =
+      "edu/wpi/cs3733/D22/teamZ/views/UpperFloorsDashboard.fxml";
+  private String toEmployeeURL = "edu/wpi/cs3733/D22/teamZ/views/Employee.fxml";
+  private String toServerSwitchURL = "edu/wpi/cs3733/D22/teamZ/views/ServerSwitcher.fxml";
+  private final String toServiceRequestURL = "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
+  private String toGameURL = "edu/wpi/cs3733/D22/teamZ/views/Game.fxml";
+
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Home";
+  }
 
   @FXML
-  private void toLocations(ActionEvent event) throws IOException {
+  public void initialize() {
+    String name = MenuController.getLoggedInUser().getName();
+    name = name.substring(0, 1).toUpperCase(Locale.ROOT) + name.substring(1);
+    setWelcomeMessage(name);
+  }
+
+  @FXML
+  private void toLocations() throws IOException {
     System.out.println("navigating to locations from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLocationsURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    menu.selectMenu(1);
+    menu.load(toLocationsURL);
   }
 
   @FXML
-  private void toLandingPage(ActionEvent event) throws IOException {
+  private void toGame() throws IOException {
+    System.out.println("navigating to game from home");
+    menu.selectMenu(1);
+    menu.load(toGameURL);
+  }
+
+  @FXML
+  private void toServiceRequests() throws IOException {
+    System.out.println("navigating to servReq from landing page");
+    menu.load(toServiceRequestURL);
+  }
+
+  @FXML
+  private void toLandingPage() throws IOException {
     System.out.println("navigating to landing page from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toLandingPageURL));
-    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    menu.selectMenu(2);
+    menu.load(toLandingPageURL);
   }
 
   @FXML
-  private void toMedicalEquipmentRequest(ActionEvent event) throws IOException {
+  private void toMedicalEquipmentRequest() throws IOException {
     System.out.println("navigating to Medical Equipment Request page from home");
-    Parent root =
-        FXMLLoader.load(getClass().getClassLoader().getResource(toMedicalEquipmentRequestURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    menu.selectMenu(3);
+    menu.load(toMedicalEquipmentRequestURL);
   }
 
   @FXML
-  private void toHome(ActionEvent event) throws IOException {
-    System.out.println("navigating to home using home button on sidebar");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toHomeURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+  private void toUpperFloorsDashboard() throws IOException {
+    menu.load(toUpperFloorsDashboardURL);
   }
 
   @FXML
-  private void toExit(ActionEvent event) {
-    System.out.println("exit the app using exit button bottom left");
-    Stage stage = (Stage) exitButton.getScene().getWindow();
-    stage.close();
-  }
-
-  // when the medical equipment map menu button is clicked navigate to medical equipment map page
-  @FXML
-  private void toEquipmentMap(ActionEvent event) throws IOException {
-    System.out.println("navigating to medical equipment map from home");
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(toEquipmentMapURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+  private void toEmployeePage() throws IOException {
+    System.out.println("navigating to employee page from home");
+    menu.load(toEmployeeURL);
   }
 
   /**
@@ -88,7 +93,18 @@ public class HomepageController {
    * @param name username
    */
   public void setWelcomeMessage(String name) {
-    welcomeMessage.setText(String.format(welcomeMessage.getText(), name));
+    welcomeMessage.setText(
+        String.format("Hello %s, Welcome to the Brigham and Women's Hospital App", name));
+  }
+
+  /**
+   * Opens panel for switching database servers
+   *
+   * @param event
+   */
+  @FXML
+  public void SwitchServerClicked(ActionEvent event) throws IOException {
+    menu.load(toServerSwitchURL);
   }
 }
 // Link to location, Landing, & Medical Equipment Page

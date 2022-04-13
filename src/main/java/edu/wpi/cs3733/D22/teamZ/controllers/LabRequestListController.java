@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.database.LabRequestServiceDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.LabServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.IOException;
@@ -10,17 +10,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
-public class LabRequestListController implements Initializable {
+public class LabRequestListController implements Initializable, IMenuAccess {
   @FXML private TableView<LabServiceRequest> labRequestTable;
   @FXML private TableColumn<LabServiceRequest, ServiceRequest.RequestStatus> status;
   @FXML private TableColumn<LabServiceRequest, String> requestID;
@@ -32,29 +27,36 @@ public class LabRequestListController implements Initializable {
   private final String toLabServiceRequestListURL =
       "edu/wpi/cs3733/D22/teamZ/views/LabServiceRequest.fxml";
 
-  private LabRequestServiceDAOImpl labDatabase;
+  private FacadeDAO facadeDAO;
+
+  private MenuController menu;
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Lab Request List";
+  }
 
   @FXML
   private void toLabServiceRequest(ActionEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(getClass().getClassLoader().getResource(toLabServiceRequestListURL));
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+    menu.load(toLabServiceRequestListURL);
   }
 
   // loadDataFromDatabase when button loadData is clicked
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
-    labDatabase = new LabRequestServiceDAOImpl();
+    facadeDAO = FacadeDAO.getInstance();
 
     System.out.println("loading data");
     labRequestTable.getItems().clear();
 
     // get list of locations from db and transfer into ObservableList
     ObservableList<LabServiceRequest> data =
-        FXCollections.observableList(labDatabase.getAllLabServiceRequests());
+        FXCollections.observableList(facadeDAO.getAllLabServiceRequests());
 
     // link columnNames to data
     status.setCellValueFactory(
