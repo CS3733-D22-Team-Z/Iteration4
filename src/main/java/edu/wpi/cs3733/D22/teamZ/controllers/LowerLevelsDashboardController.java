@@ -77,4 +77,9 @@ public class LowerLevelsDashboardController implements IMenuAccess {
   public void setMenuController(MenuController menu) {
     this.menu = menu;
   }
+
+  @Override
+  public String getMenuName() {
+    return "Dashboard";
+  }
 }

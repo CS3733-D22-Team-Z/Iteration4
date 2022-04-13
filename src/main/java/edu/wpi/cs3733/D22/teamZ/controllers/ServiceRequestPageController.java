@@ -59,6 +59,11 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   }
 
   @Override
+  public String getMenuName() {
+    return "Landing Page";
+  }
+
+  @Override
   public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = FacadeDAO.getInstance();
     // Create labels for field values

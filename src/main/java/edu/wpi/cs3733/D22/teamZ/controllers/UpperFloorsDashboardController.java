@@ -46,6 +46,11 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     this.menu = menu;
   }
 
+  @Override
+  public String getMenuName() {
+    return "Dashboard";
+  }
+
   @FXML
   public void toLowerLevelDashboard(ActionEvent event) throws IOException {
     menu.load(toLowerLevel);
