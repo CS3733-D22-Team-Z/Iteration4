@@ -53,7 +53,7 @@
             <columns>
                 <TableColumn fx:id="idCol" editable="false" prefWidth="100.0" text="ID" />
                 <TableColumn fx:id="typeCol" editable="false" prefWidth="100.0" text="Type" />
-                <TableColumn fx:id="assigneeCol" editable="false" prefWidth="100.0" text="Assignee" />
+                <TableColumn fx:id="assigneeCol" editable="false" prefWidth="100.0" text="Assigned" />
                 <TableColumn fx:id="statusCol" editable="false" prefWidth="100.0" text="Status" />
             </columns>
             <columnResizePolicy>
