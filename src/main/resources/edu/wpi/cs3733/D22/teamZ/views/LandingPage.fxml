@@ -37,7 +37,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="159.0" onAction="#navMedicine" prefHeight="37.0" prefWidth="366.0" styleClass="landing-button" text="Medicine Delivery">
+      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="159.0" onAction="#toExternalPatientTransportation" prefHeight="37.0" prefWidth="366.0" styleClass="landing-button" text="External Patient Transportation ">
          <padding>
             <Insets right="230.0" />
          </padding>

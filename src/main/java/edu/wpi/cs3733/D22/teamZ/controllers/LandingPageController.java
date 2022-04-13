@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
@@ -13,7 +14,8 @@ public class LandingPageController implements IMenuAccess {
   private final String toMedicalEquipmentDeliveryURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentDelivery.fxml";
   private final String toLabRequestURL = "edu/wpi/cs3733/D22/teamZ/views/LabServiceRequest.fxml";
-  private final String toMedicineRequestURL = "edu/wpi/cs3733/D22/teamZ/views/MedicineRequest.fxml";
+  private final String toExternalPatientTransportationRequestURL =
+      "edu/wpi/cs3733/D22/teamZ/views/ExternalPatientTransportationRequest.fxml";
   private final String toMealRequestsURL = "edu/wpi/cs3733/D22/teamZ/views/MealService.fxml";
   private final String toLanguageInterpreterURL =
       "edu/wpi/cs3733/D22/teamZ/views/LanguageInterpreter.fxml";
@@ -84,12 +86,6 @@ public class LandingPageController implements IMenuAccess {
   }
 
   @FXML
-  private void navMedicine() throws IOException {
-    System.out.println("navigating to medicine from landing page");
-    menu.load(toMedicineRequestURL);
-  }
-
-  @FXML
   private void navMeal() throws IOException {
     System.out.println("navigating to meal from landing page");
     menu.load(toMealRequestsURL);
@@ -111,5 +107,11 @@ public class LandingPageController implements IMenuAccess {
   private void navComputer() throws IOException {
     System.out.println("navigating to computer from landing page");
     menu.load(toComputerServiceRequestURL);
+  }
+
+  @FXML
+  public void toExternalPatientTransportation(ActionEvent actionEvent) throws IOException {
+    System.out.println("navigating to transportation from landing page");
+    menu.load(toExternalPatientTransportationRequestURL);
   }
 }
