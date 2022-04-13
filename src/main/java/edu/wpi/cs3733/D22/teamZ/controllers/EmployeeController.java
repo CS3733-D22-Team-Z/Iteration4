@@ -82,6 +82,10 @@ public class EmployeeController implements IMenuAccess, Initializable {
     this.menu = menu;
   }
 
+  public String getMenuName() {
+    return "Employee";
+  }
+
   public void toHomePage(ActionEvent event) throws IOException {
     menu.load(toHomePageURL);
   }

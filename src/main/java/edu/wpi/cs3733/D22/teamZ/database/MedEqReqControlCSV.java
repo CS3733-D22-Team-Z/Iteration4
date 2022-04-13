@@ -38,15 +38,25 @@ public class MedEqReqControlCSV extends ControlCSV {
       String equipmentID = a.get(1);
 
       ServiceRequest request = requestDAO.getServiceRequestByID(requestID);
-
-      ret.add(
-          new MedicalEquipmentDeliveryRequest(
-              requestID,
-              request.getStatus(),
-              request.getIssuer(),
-              request.getHandler(),
-              equipmentID,
-              request.getTargetLocation()));
+      if (request.getHandler() == null) {
+        ret.add(
+            new MedicalEquipmentDeliveryRequest(
+                requestID,
+                request.getStatus(),
+                request.getIssuer(),
+                null,
+                equipmentID,
+                request.getTargetLocation()));
+      } else {
+        ret.add(
+            new MedicalEquipmentDeliveryRequest(
+                requestID,
+                request.getStatus(),
+                request.getIssuer(),
+                request.getHandler(),
+                equipmentID,
+                request.getTargetLocation()));
+      }
     }
     return ret;
   }

@@ -68,6 +68,7 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("EXTERNALTRANSPORTREQUEST");
     dropExistingTable("MEDEQUIPREQ");
     dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
@@ -128,6 +129,8 @@ public class DBInitializer {
               + "handlerID VARCHAR(15),"
               + "targetLocationID Varchar(15),"
               + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
+              + "constraint ISSUER_FK Foreign Key (issuerID) References EMPLOYEES(employeeID),"
+              + "constraint HANDLER_FK Foreign Key (handlerID) References EMPLOYEES(employeeID),"
               + "constraint TARGETLOC_FK Foreign Key (targetLocationID) References LOCATION(nodeID),"
               + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
 
@@ -155,6 +158,16 @@ public class DBInitializer {
               + "constraint MEALSERVICE_PK Primary Key (itemID),"
               + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
               + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
+
+      stmt.execute(
+          "CREATE TABLE EXTERNALTRANSPORTREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "patientID VARCHAR(15),"
+              + "patientName VARCHAR(50),"
+              + "destination VARCHAR(50),"
+              + "departureDate DATE,"
+              + "constraint TRANSPORTREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint TRANSPORTREQUESTID_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid))");
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
@@ -271,12 +284,12 @@ public class DBInitializer {
         pstmt.setString(2, request.getType().toString());
         pstmt.setString(3, request.getStatus().toString());
         if (request.getIssuer() == null) {
-          pstmt.setString(4, "null");
+          pstmt.setString(4, null);
         } else {
           pstmt.setString(4, request.getIssuer().getEmployeeID());
         }
         if (request.getHandler() == null) {
-          pstmt.setString(5, "null");
+          pstmt.setString(5, null);
         } else {
           pstmt.setString(5, request.getHandler().getEmployeeID());
         }

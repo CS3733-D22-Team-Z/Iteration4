@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #e5e5e5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.UpperFloorsDashboardController">
+   <children>
+      <Label id="FormLabel" layoutX="-112.0" layoutY="4.0" prefHeight="17.0" prefWidth="224.0" style="-fx-font-weight: bold; -fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Dashboard: Upper Levels">
+         <font>
+            <Font name="Garamond" size="12.0" />
+         </font>
+      </Label>
+      <Pane layoutX="7.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <TableView fx:id="upperFloor1Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP1" prefWidth="88.79998588562012" text="ID" />
+                  <TableColumn fx:id="locationColumnUP1" prefWidth="86.40003204345703" text="Location" />
+               </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane layoutX="207.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <TableView fx:id="upperFloor2Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP2" prefWidth="83.199951171875" text="ID" />
+                  <TableColumn fx:id="locationColumnUP2" prefWidth="92.00006103515625" text="Location" />
+               </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane layoutX="406.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <TableView fx:id="upperFloor3Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP3" prefWidth="89.5999755859375" text="ID" />
+                  <TableColumn fx:id="locationColumnUP3" prefWidth="85.60000610351562" text="Location" />
+               </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane layoutX="114.0" layoutY="218.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <TableView fx:id="upperFloor4Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP4" prefWidth="89.59998321533203" text="ID" />
+                  <TableColumn fx:id="locationColumnUP4" prefWidth="85.60003662109375" text="Location" />
+               </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane layoutX="313.0" layoutY="218.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <TableView fx:id="upperFloor5Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+               <columns>
+                  <TableColumn fx:id="idColumnUP5" prefWidth="89.5999755859375" text="ID" />
+                  <TableColumn fx:id="locationColumnUP5" prefWidth="85.60003662109375" text="Location" />
+               </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <MFXButton fx:id="lowerLevelButton" layoutX="440.0" layoutY="9.0" onAction="#toLowerLevelDashboard" prefHeight="26.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" text="Lower Level Dashboard" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+   </children>
+</AnchorPane>
