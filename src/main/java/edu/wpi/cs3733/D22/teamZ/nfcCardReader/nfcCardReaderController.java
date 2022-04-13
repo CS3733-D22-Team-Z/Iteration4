@@ -40,4 +40,16 @@ public class nfcCardReaderController {
         String tempPassword = new String(bytePassword, StandardCharsets.US_ASCII);
         password = tempPassword.replaceAll("\u0000","");
     }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
