@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
@@ -36,6 +37,8 @@ public class MenuController implements Initializable {
   @FXML VBox iconContainer;
   @FXML Label timeLabel;
   @FXML Label dateLabel;
+
+  private static Employee loggedInUser;
 
   // SVGS
   private String exitIcon =
@@ -231,5 +234,13 @@ public class MenuController implements Initializable {
   private void toExit() {
     Stage stage = (Stage) exitButton.getScene().getWindow();
     stage.close();
+  }
+
+  public static Employee getLoggedInUser() {
+    return loggedInUser;
+  }
+
+  public static void setLoggedInUser(Employee loggedInUser) {
+    MenuController.loggedInUser = loggedInUser;
   }
 }
