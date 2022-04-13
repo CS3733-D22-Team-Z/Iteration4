@@ -25,16 +25,19 @@ public class nfcCardReaderController {
 
     public void setUID() throws UnsupportedEncodingException {
         byte[] byteUID = reader.readCardUsingDefaultKey(0);
-        UID = new String(byteUID, StandardCharsets.US_ASCII);
+        String tempUID = new String(byteUID, StandardCharsets.US_ASCII);
+        UID = tempUID.replaceAll("\u0000","");
     }
 
     public void setUsername() throws UnsupportedEncodingException {
         byte[] byteUsername = reader.readCardUsingDefaultKey(1);
-        username = new String(byteUsername, StandardCharsets.US_ASCII);
+        String tempUsername = new String(byteUsername, StandardCharsets.US_ASCII);
+        username = tempUsername.replaceAll("\u0000","");
     }
 
     public void setPassword(String password) throws UnsupportedEncodingException{
         byte[] bytePassword = reader.readCardUsingDefaultKey(2);
-        password = new String(bytePassword, StandardCharsets.US_ASCII);
+        String tempPassword = new String(bytePassword, StandardCharsets.US_ASCII);
+        password = tempPassword.replaceAll("\u0000","");
     }
 }
