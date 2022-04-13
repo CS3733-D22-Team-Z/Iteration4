@@ -20,7 +20,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class GameController implements Initializable {
+public class GameController implements IMenuAccess, Initializable {
   @FXML private AnchorPane scene;
 
   @FXML private Circle circle;
@@ -30,6 +30,8 @@ public class GameController implements Initializable {
   @FXML private Rectangle bottomZone;
 
   @FXML private Button startButton;
+
+  private MenuController menu;
 
   private int paddleStartSize = 600;
 
@@ -195,5 +197,15 @@ public class GameController implements Initializable {
 
       System.out.println("Game over!");
     }
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Home";
   }
 }
