@@ -6,15 +6,22 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
-  private LocationDAOImpl locationDAO;
-  private MedicalEquipmentDAOImpl medicalEquipmentDAO;
-  private MedEquipReqDAOImpl medEquipReqDAO;
-  private EmployeeDAOImpl employeeDAO;
-  private PatientDAOImpl patientDAO;
-  private LabRequestServiceDAOImpl labRequestServiceDAO;
-  private ServiceRequestDAOImpl serviceRequestDAO;
+  private static FacadeDAO instance = new FacadeDAO();
 
-  public FacadeDAO() {
+  private final LocationDAOImpl locationDAO;
+  private final MedicalEquipmentDAOImpl medicalEquipmentDAO;
+  private final MedEquipReqDAOImpl medEquipReqDAO;
+  private final EmployeeDAOImpl employeeDAO;
+  private final PatientDAOImpl patientDAO;
+  private final LabRequestServiceDAOImpl labRequestServiceDAO;
+  private final ServiceRequestDAOImpl serviceRequestDAO;
+  private final ExternalPatientDAOImpl transportRequestDAO;
+
+  public static FacadeDAO getInstance() {
+    return instance;
+  }
+
+  private FacadeDAO() {
     locationDAO = new LocationDAOImpl();
     medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
     medEquipReqDAO = new MedEquipReqDAOImpl();
@@ -22,6 +29,7 @@ public class FacadeDAO {
     patientDAO = new PatientDAOImpl();
     labRequestServiceDAO = new LabRequestServiceDAOImpl();
     serviceRequestDAO = new ServiceRequestDAOImpl();
+    transportRequestDAO = new ExternalPatientDAOImpl();
   }
 
   // Get All methods
@@ -221,6 +229,16 @@ public class FacadeDAO {
             && labRequestServiceDAO.addLabRequest(labServiceRequest);
     return val;
   }
+  /**
+   * Adds a ExternalPatientTransportationRequest to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request) {
+    return serviceRequestDAO.addServiceRequest(request)
+        && transportRequestDAO.addPatientTransportRequest(request);
+  }
 
   // Delete methods
   /**
@@ -338,7 +356,7 @@ public class FacadeDAO {
    * @param serviceRequest ServiceRequest object that stores updated information
    * @return True if success, false otherwise
    */
-  private boolean updateServiceRequest(ServiceRequest serviceRequest) {
+  public boolean updateServiceRequest(ServiceRequest serviceRequest) {
     return serviceRequestDAO.updateServiceRequest(serviceRequest);
   }
   // not in use rn
@@ -490,6 +508,71 @@ public class FacadeDAO {
     return labRequestServiceDAO.exportToLabRequestCSV(labData);
   }
 
+  // Add from list functions
+  /**
+   * Insert locations into the database from given list
+   *
+   * @param list list of locations to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addLocationFromList(List<Location> list) {
+    return locationDAO.addLocationFromList(list);
+  }
+  /**
+   * Insert patients into database from given list
+   *
+   * @param list list of patients that need to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addPatientFromList(List<Patient> list) {
+    return patientDAO.addPatientFromList(list);
+  }
+  /**
+   * Inserts employees from a list
+   *
+   * @param list list of employees to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addEmployeeFromList(List<Employee> list) {
+    return employeeDAO.addEmployeeFromList(list);
+  }
+  /**
+   * Insert Medical Equipment into database from list
+   *
+   * @param list list of medical equipment to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addMedicalEquipmentFromList(List<MedicalEquipment> list) {
+    return medicalEquipmentDAO.addMedicalEquipmentFromList(list);
+  }
+  /**
+   * Insert service requests into the database from the given list
+   *
+   * @param list list of service requests to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addServiceRequestFromList(List<ServiceRequest> list) {
+    return serviceRequestDAO.addServiceRequestFromList(list);
+  }
+  /**
+   * Inserts lab requests into database from given list
+   *
+   * @param list list of lab requests to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addLabRequestFromList(List<LabServiceRequest> list) {
+    return labRequestServiceDAO.addLabRequestFromList(list);
+  }
+  /**
+   * Adds MedicalEquipmentDeliveryRequest into database from list
+   *
+   * @param list Request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addMedicalEquipmentRequestFromList(List<MedicalEquipmentDeliveryRequest> list) {
+    return medEquipReqDAO.addMedicalEquipReqFromList(list);
+  }
+
   // Special methods for location
   /**
    * Gets all the nodeIDs for the locations in database
@@ -507,6 +590,15 @@ public class FacadeDAO {
    */
   public List<Location> getAllLocationsByFloor(String floor) {
     return locationDAO.getAllLocationsByFloor(floor);
+  }
+  /**
+   * Gets all locations of the given type
+   *
+   * @param type type of location
+   * @return list of locations of the given type
+   */
+  public List<Location> getALlLocationsByType(String type) {
+    return locationDAO.getALlLocationsByType(type);
   }
 
   // Special methods for medical equipment
@@ -528,6 +620,15 @@ public class FacadeDAO {
   public String getFirstAvailableEquipmentByType(String equipment) {
     return medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipment);
   }
+  /**
+   * Get all Medical Equipment in given floor
+   *
+   * @param floor floor to be searched
+   * @return list of medical equipment for given floor
+   */
+  public List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor) {
+    return medicalEquipmentDAO.getAllMedicalEquipmentByFloor(floor);
+  }
 
   // Special methods for employee
   /**
@@ -543,6 +644,15 @@ public class FacadeDAO {
   // Special methods for patient
 
   // Special methods for service requests
+  /**
+   * Gets the ServiceRequests in the given locations
+   *
+   * @param loc location of service requests
+   * @return ServiceRequest at that location
+   */
+  public List<ServiceRequest> getServiceRequestsByLocation(Location loc) {
+    return serviceRequestDAO.getServiceRequestsByLocation(loc);
+  }
 
   // Special methods for medical equipment requests
 

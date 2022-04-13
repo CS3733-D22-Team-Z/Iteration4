@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
+
+.root {
+    -fx-background-color: #E5E5E5;
+}
+
+.object-header {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 12pt;
+    -fx-text-fill: #2e2e2e;
+}
+
+.object-body {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 600;
+    -fx-font-size: 9pt;
+    -fx-text-fill: #7B7B7B;
+}
+
+.form-header {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 600;
+    -fx-font-size: 9pt;
+    -fx-text-fill: #7B7B7B;
+}
+
+#confirmed .form-header {
+    -fx-font-family: inherit;
+    -fx-font-weight: inherit;
+    -fx-font-size: inherit;
+    -fx-text-fill: #43FF43;
+}
+
+#rejected .form-header {
+    -fx-font-family: inherit;
+    -fx-font-weight: inherit;
+    -fx-font-size: inherit;
+    -fx-text-fill: #FF4343;
+}
+
+.button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #FFFFFF;
+    
+    -fx-background-radius: 2px;
+    -fx-background-color: #0075FF;
+}
+
+.landing-button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #000000;
+
+    -fx-background-radius: 4px;
+    -fx-background-color: #FFFFFF;
+}
+
+.filter-button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 7.5pt;
+    -fx-text-fill: #000000;
+
+    -fx-background-radius: 0px;
+    -fx-background-color: #FFFFFF;
+}
+
+.menu-button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+
+    -fx-background-color: transparent;
+}
+
+.region-icon {
+    -fx-pref-width: 18;
+    -fx-pref-height: 18;
+    -fx-background-color: #000000;
+}
+
+.mfx-text-field {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 600;
+    -fx-font-size: 9pt;
+    -fx-text-fill: #9D9D9D;
+
+    -fx-border-width: 0px;
+
+    -fx-background-radius: 5px;
+    -fx-background-color: #FFFFFF;
+
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
+}
+
+.choice-box {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 600;
+    -fx-font-size: 9pt;
+    -fx-text-fill: #9D9D9D;
+
+    -fx-border-width: 0px;
+
+    -fx-background-radius: 5px;
+    -fx-background-color: #FFFFFF;
+
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
+}
+
+/*.mfx-table-view {*/
+/*    -fx-alignment: center;*/
+
+/*}*/
+/*.mfx-table-column {*/
+/*    -fx-font-family: 'Montserrat';*/
+/*    -fx-font-weight: 700;*/
+/*    -fx-font-size: 12pt;*/
+/*    -fx-text-fill: #2e2e2e;*/
+
+/*    !*-fx-min-width: 81;*!*/
+/*    !*-fx-max-width: 81;*!*/
+
+/*    -fx-alignment: center;*/
+/*    -fx-text-alignment: center;*/
+
+/*    -fx-border-width: 0 0 0 0;*/
+/*    -fx-padding: 0 0 0 0;*/
+/*    -fx-border-color: #D2D2D2;*/
+/*}*/
+
+/*.mfx-table-row-cell {*/
+/*    -fx-font-family: 'Montserrat';*/
+/*    -fx-font-weight: 600;*/
+/*    -fx-font-size: 7pt;*/
+/*    -fx-text-fill: #7B7B7B;*/
+
+/*    !*-fx-min-width: 81;*!*/
+/*    !*-fx-max-width: 81;*!*/
+
+/*    -fx-alignment: center;*/
+
+/*    -fx-border-width: 0 0 0 0;*/
+/*    -fx-border-color: #D2D2D2;*/
+
+/*    -fx-padding: 0 0 0 0;*/
+/*}*/
+
+/*.mfx-table-row:selected {*/
+/*    -fx-background-color: #0075FF2F;*/
+/*}*/
+
+/*.mfx-table-column .mfx-icon-wrapper {*/
+/*    -fx-min-width: 0;*/
+/*    -fx-max-width: 0;*/
+
+/*    -fx-min-height: 0;*/
+/*    -fx-max-height: 0;*/
+/*}*/
+
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 5px;
+
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
+}
+
+.table-view .column-header {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 7.5pt;
+    -fx-text-fill: #000000;
+
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #D2D2D2;
+}
+
+.table-view .scroll-bar * {
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+
+.table-view .table-cell{
+    -fx-background-color: #FFFFFF;
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 600;
+    -fx-font-size: 7pt;
+    -fx-text-fill: #7B7B7B;
+
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: #D2D2D2;
+
+    -fx-alignment: center;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #0075FF;
+}
+
+.table-view .filler {
+    -fx-min-width: 0;
+    -fx-max-width: 0;
+
+    -fx-min-height: 0;
+    -fx-max-height: 0;
+}

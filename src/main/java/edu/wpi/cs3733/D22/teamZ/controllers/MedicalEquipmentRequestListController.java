@@ -1,15 +1,14 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,40 +17,33 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class MedicalEquipmentRequestListController implements Initializable, IMenuAccess {
-
-  // Each column on the main request list.
-  @FXML private JFXTreeTableColumn<RequestRow, String> deviceColumn;
-  @FXML private JFXTreeTableColumn<RequestRow, String> idColumn;
-  @FXML private JFXTreeTableColumn<RequestRow, String> assigneeColumn;
-  @FXML private JFXTreeTableColumn<RequestRow, String> statusColumn;
-
-  // Table that lists all requests.
-  @FXML private JFXTreeTableView requestTable;
-
   // Button that re-fetches requests and refreshes table.
-  @FXML private JFXButton refreshButton;
+  @FXML private MFXButton refreshButton;
 
   // Buttons to select the sorting/filter parameters.
-  @FXML private JFXButton assigneeButton;
-  @FXML private JFXButton idButton;
-  @FXML private JFXButton deviceButton;
-  @FXML private JFXButton statusButton;
+  @FXML private MFXButton assigneeButton;
+  @FXML private MFXButton idButton;
+  @FXML private MFXButton deviceButton;
+  @FXML private MFXButton statusButton;
 
   // Drop-down box that selects which data type to filter by.
-  @FXML private JFXComboBox<String> filterCBox;
+  @FXML private ChoiceBox<String> filterCBox;
 
   // Details Table
   @FXML public TableView<TableColumnItems> statusTable;
   @FXML private TableColumn<TableColumnItems, String> labelsColumn;
   @FXML private TableColumn<TableColumnItems, String> detailsColumn;
+
+  // Main table
+  @FXML public TableView<RequestRow> tableContainer;
+  @FXML private TableColumn<RequestRow, String> idColumn;
+  @FXML private TableColumn<RequestRow, String> deviceColumn;
+  @FXML private TableColumn<RequestRow, String> assigneeColumn;
+  @FXML private TableColumn<RequestRow, String> statusColumn;
 
   private final String toHomepageURL = "views/Homepage.fxml";
 
@@ -73,7 +65,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   public MedicalEquipmentRequestListController() {
     // Create new database object
-    facadeDAO = new FacadeDAO();
+    facadeDAO = FacadeDAO.getInstance();
 
     // Grab data
     loadRequests();
@@ -82,6 +74,11 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   @Override
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Medical Equipment Request List";
   }
 
   @Override
@@ -95,43 +92,56 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     // Fill the filter box with test data
     filterCBox.getItems().addAll("Test 1", "Test 2", "Test 3");
 
-    // Replace with lambda eventually
-    // Set each column so that it displays the right value from each RequestRow
-    idColumn.setCellValueFactory(
-        new Callback<
-            TreeTableColumn.CellDataFeatures<RequestRow, String>, ObservableValue<String>>() {
-          @Override
-          public ObservableValue<String> call(
-              TreeTableColumn.CellDataFeatures<RequestRow, String> param) {
-            return param.getValue().getValue().id;
-          }
-        });
+    // Setup details window
+    int sWidth = 186 / 2;
+    labelsColumn.setCellValueFactory(tRow -> tRow.getValue().label);
+    labelsColumn.setPrefWidth(sWidth);
+    labelsColumn.setResizable(false);
+    labelsColumn.setReorderable(false);
 
-    deviceColumn.setCellValueFactory(param -> param.getValue().getValue().device);
-    assigneeColumn.setCellValueFactory(param -> param.getValue().getValue().assignee);
-    statusColumn.setCellValueFactory(param -> param.getValue().getValue().status);
+    detailsColumn.setCellValueFactory(tRow -> tRow.getValue().detail);
+    detailsColumn.setPrefWidth(sWidth);
+    detailsColumn.setResizable(false);
+    detailsColumn.setReorderable(false);
 
-    requests = FXCollections.observableArrayList();
+    // Setup main list
+    int width = 380 / 4;
 
-    // Add a selected listener
-    requestTable
+    idColumn.setCellValueFactory(rRow -> rRow.getValue().id);
+    idColumn.setPrefWidth(width);
+    idColumn.setResizable(false);
+    idColumn.setReorderable(false);
+
+    deviceColumn.setCellValueFactory(rRow -> rRow.getValue().device);
+    deviceColumn.setPrefWidth(width);
+    deviceColumn.setResizable(false);
+    deviceColumn.setReorderable(false);
+
+    assigneeColumn.setCellValueFactory(rRow -> rRow.getValue().assignee);
+    assigneeColumn.setPrefWidth(width);
+    assigneeColumn.setResizable(false);
+    assigneeColumn.setReorderable(false);
+
+    statusColumn.setCellValueFactory(rRow -> rRow.getValue().status);
+    statusColumn.setPrefWidth(width);
+    statusColumn.setResizable(false);
+    statusColumn.setReorderable(false);
+
+    tableContainer
         .getSelectionModel()
         .selectedItemProperty()
         .addListener(
-            (obs, oldSelection, newSelection) -> {
-              RecursiveTreeItem<RequestRow> sel = (RecursiveTreeItem) newSelection;
-              System.out.println("Selected #" + sel.getValue().id.getValue());
-              loadRow(sel.getValue().id.getValue());
-            });
-    requestTable.setShowRoot(false);
+            (obs, oldVal, newVal) ->
+                loadRow(tableContainer.getSelectionModel().getSelectedItem().id.get()));
 
     // Initialize requests
+    requests = FXCollections.observableArrayList();
     createRRList();
   }
 
   // Called whenever one of the filter buttons are clicked.
   public void filterClicked(ActionEvent event) {
-    JFXButton buttonPressed = (JFXButton) event.getTarget();
+    MFXButton buttonPressed = (MFXButton) event.getTarget();
     System.out.println(buttonPressed.getText());
   }
 
@@ -165,10 +175,12 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
               medicalEquipmentRequest.getStatus().toString()));
     }
 
-    // Set root's children to requests, and add root to table.
+    /*// Set root's children to requests, and add root to table.
     final TreeItem<RequestRow> root =
         new RecursiveTreeItem<>(requests, RecursiveTreeObject::getChildren);
-    requestTable.setRoot(root);
+    requestTable.setRoot(root);*/
+
+    tableContainer.setItems(requests);
   }
 
   // Load a MedEquipReq into the Details row.
@@ -182,9 +194,6 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     // statusTable.getColumns().add(labelsColumn);
     // statusTable.getColumns().add(detailsColumn);
 
-    labelsColumn.setCellValueFactory(new PropertyValueFactory<>("label"));
-    detailsColumn.setCellValueFactory(new PropertyValueFactory<>("detail"));
-
     statusTable.getItems().add(new TableColumnItems("ID", selectedReq.getRequestID()));
     statusTable.getItems().add(new TableColumnItems("Type", selectedReq.getType().toString()));
     statusTable.getItems().add(new TableColumnItems("Status", selectedReq.getStatus().toString()));
@@ -196,28 +205,12 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   }
 
   public class TableColumnItems {
-    String label = null;
-    String detail = null;
+    SimpleStringProperty label = null;
+    SimpleStringProperty detail = null;
 
     public TableColumnItems(String label, String detail) {
-      this.label = label;
-      this.detail = detail;
-    }
-
-    public String getLabel() {
-      return label;
-    }
-
-    public void setLabel(String label) {
-      this.label = label;
-    }
-
-    public String getDetail() {
-      return detail;
-    }
-
-    public void setDetail(String detail) {
-      this.detail = detail;
+      this.label = new SimpleStringProperty(label);
+      this.detail = new SimpleStringProperty(detail);
     }
   }
 
@@ -244,7 +237,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   // Data structure to represent a row in the request list.
   // Does this belong here or in an entity?
-  class RequestRow extends RecursiveTreeObject<RequestRow> {
+  class RequestRow {
     SimpleStringProperty id;
     SimpleStringProperty device;
     SimpleStringProperty assignee;

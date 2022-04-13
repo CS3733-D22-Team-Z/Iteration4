@@ -1,8 +1,12 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+
 public class MedicalEquipmentDeliveryRequest extends ServiceRequest {
 
   private String equipmentID;
+
+  FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   public MedicalEquipmentDeliveryRequest(
       String requestID,

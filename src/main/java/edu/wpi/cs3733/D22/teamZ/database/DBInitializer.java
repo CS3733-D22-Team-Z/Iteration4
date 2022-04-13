@@ -13,9 +13,11 @@ public class DBInitializer {
   private ServiceRequestControlCSV serviceControlCSV;
   private MedEqReqControlCSV medEqReqControlCSV;
 
-  static Connection connection = DatabaseConnection.getConnection();
+  static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  // DatabaseConnection.getConnection();
 
   public DBInitializer() {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
     File locData =
         new File(
             System.getProperty("user.dir")
@@ -66,10 +68,12 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("EXTERNALTRANSPORTREQUEST");
     dropExistingTable("MEDEQUIPREQ");
-    dropExistingTable("SERVICEREQUEST");
     dropExistingTable("LABRESULT");
+    dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
+    dropExistingTable("SERVICEREQUEST");
     dropExistingTable("MEDICALEQUIPMENT");
     dropExistingTable("PATIENTS");
     dropExistingTable("EMPLOYEES");
@@ -109,13 +113,42 @@ public class DBInitializer {
 
       stmt.execute(
           "CREATE TABLE MEDICALEQUIPMENT ("
-              + "itemID VARCHAR(15),"
+              + "equipmentID VARCHAR(15),"
               + "type VARCHAR(20),"
               + "status VARCHAR(20) DEFAULT 'Available',"
               + "currentLocation VARCHAR(15),"
-              + "constraint MEDEQUIPMENT_PK Primary Key (itemID),"
+              + "constraint MEDEQUIPMENT_PK Primary Key (equipmentID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
               + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
+
+      stmt.execute(
+          "CREATE TABLE SERVICEREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "type VARCHAR(20),"
+              + "status VARCHAR(20),"
+              + "issuerID VARCHAR(15),"
+              + "handlerID VARCHAR(15),"
+              + "targetLocationID Varchar(15),"
+              + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
+              + "constraint ISSUER_FK Foreign Key (issuerID) References EMPLOYEES(employeeID),"
+              + "constraint HANDLER_FK Foreign Key (handlerID) References EMPLOYEES(employeeID),"
+              + "constraint TARGETLOC_FK Foreign Key (targetLocationID) References LOCATION(nodeID),"
+              + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
+
+      stmt.execute(
+          "CREATE TABLE MEDEQUIPREQ ("
+              + "requestID VARCHAR(15),"
+              + "equipmentID VARCHAR(15),"
+              + "constraint MEDEQUIPREQ_PK Primary Key (requestID),"
+              + "constraint MEDEQUIPREQ_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
+              + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(equipmentID))");
+
+      stmt.execute(
+          "CREATE TABLE LABREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "labType VARCHAR(50),"
+              + "constraint LABREQUEST_PK Primary Key (requestID),"
+              + "constraint LABREQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID))");
 
       stmt.execute(
           "CREATE TABLE MEALSERVICE ("
@@ -128,34 +161,14 @@ public class DBInitializer {
               + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
 
       stmt.execute(
-          "CREATE TABLE LABRESULT ("
-              + "itemID VARCHAR(50),"
-              + "type VARCHAR(50),"
-              + "status VARCHAR(50) DEFAULT 'Available',"
-              + "currentLocation VARCHAR(15),"
-              + "constraint LABRESULTS_PK Primary Key (itemID),"
-              + "constraint LABRESULTS_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint labResultsStatusVal check (status in ('PROCESSING', 'DONE')))");
-
-      stmt.execute(
-          "CREATE TABLE SERVICEREQUEST ("
+          "CREATE TABLE EXTERNALTRANSPORTREQUEST ("
               + "requestID VARCHAR(15),"
-              + "type VARCHAR(20),"
-              + "status VARCHAR(20),"
-              + "issuerID VARCHAR(15),"
-              + "handlerID VARCHAR(15),"
-              + "targetLocationID Varchar(15),"
-              + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
-              + "constraint TARGETLOC_FK Foreign Key (targetLocationID) References LOCATION(nodeID),"
-              + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
-
-      stmt.execute(
-          "CREATE TABLE MEDEQUIPREQ ("
-              + "requestID VARCHAR(15),"
-              + "equipmentID VARCHAR(15),"
-              + "constraint MEDEQUIPREQ_PK Primary Key (requestID),"
-              + "constraint REQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
-              + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(itemID))");
+              + "patientID VARCHAR(15),"
+              + "patientName VARCHAR(50),"
+              + "destination VARCHAR(50),"
+              + "departureDate DATE,"
+              + "constraint TRANSPORTREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint TRANSPORTREQUESTID_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid))");
 
     } catch (SQLException e) {
       System.out.println("Failed to create tables");
@@ -242,9 +255,9 @@ public class DBInitializer {
       for (MedicalEquipment info : tempMedicalEquipment) {
         PreparedStatement pstmt =
             connection.prepareStatement(
-                "INSERT INTO MEDICALEQUIPMENT (ITEMID, TYPE, STATUS, CURRENTLOCATION) "
+                "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, TYPE, STATUS, CURRENTLOCATION) "
                     + "values (?, ?, ?, ?)");
-        pstmt.setString(1, info.getItemID());
+        pstmt.setString(1, info.getEquipmentID());
         pstmt.setString(2, info.getType());
         pstmt.setString(3, info.getStatus());
         pstmt.setString(4, info.getCurrentLocation().getNodeID());
@@ -272,12 +285,12 @@ public class DBInitializer {
         pstmt.setString(2, request.getType().toString());
         pstmt.setString(3, request.getStatus().toString());
         if (request.getIssuer() == null) {
-          pstmt.setString(4, "null");
+          pstmt.setString(4, null);
         } else {
           pstmt.setString(4, request.getIssuer().getEmployeeID());
         }
         if (request.getHandler() == null) {
-          pstmt.setString(5, "null");
+          pstmt.setString(5, null);
         } else {
           pstmt.setString(5, request.getHandler().getEmployeeID());
         }
@@ -322,5 +335,40 @@ public class DBInitializer {
       return false;
     }
     return true;
+  }
+
+  public boolean switchDatabase(String type) {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+
+    FacadeDAO dao = FacadeDAO.getInstance();
+
+    // transfer all stuff to temp lists
+    List<Location> tempLocation = dao.getAllLocations();
+    List<Employee> tempEmployee = dao.getAllEmployees();
+    List<Patient> tempPatient = dao.getAllPatients();
+    List<MedicalEquipment> tempMedicalEquipment = dao.getAllMedicalEquipment();
+    List<ServiceRequest> tempServiceRequests = dao.getAllServiceRequests();
+    List<MedicalEquipmentDeliveryRequest> tempMedicalDeliveryRequests =
+        dao.getAllMedicalEquipmentRequest();
+    List<LabServiceRequest> tempLabRequest = dao.getAllLabServiceRequests();
+
+    // change the connection type
+    EnumDatabaseConnection.CONNECTION.setConnection(type);
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+
+    // drop the tables in order of creation
+    createTables();
+
+    // bool checker
+    boolean val = true;
+    // reinsert info into new database
+    val = dao.addLocationFromList(tempLocation);
+    val = dao.addEmployeeFromList(tempEmployee);
+    val = dao.addPatientFromList(tempPatient);
+    val = dao.addMedicalEquipmentFromList(tempMedicalEquipment);
+    val = dao.addServiceRequestFromList(tempServiceRequests);
+    val = dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests);
+    val = dao.addLabRequestFromList(tempLabRequest);
+    return val;
   }
 }

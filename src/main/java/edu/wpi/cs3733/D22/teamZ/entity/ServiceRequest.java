@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
-import edu.wpi.cs3733.D22.teamZ.database.EmployeeDAOImpl;
-import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 
 public class ServiceRequest {
   protected String requestID;
@@ -11,8 +10,7 @@ public class ServiceRequest {
   protected Employee handler;
   protected Location targetLocation;
 
-  private EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
-  private LocationDAOImpl locationDAO = new LocationDAOImpl();
+  private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   public enum RequestType {
     MEDEQUIP("MEDEQUIP"),
@@ -21,7 +19,8 @@ public class ServiceRequest {
     MEAL("MEAL"),
     COMP("COMP"),
     LAUNDRY("LAUNDRY"),
-    LANG("LANG");
+    LANG("LANG"),
+    EXTERNAL("EXTRL");
 
     private final String typeStr;
 
@@ -61,6 +60,8 @@ public class ServiceRequest {
           return LAUNDRY;
         case "LANG":
           return LANG;
+        case "EXTRL":
+          return EXTERNAL;
         default:
           return null;
       }
@@ -142,10 +143,10 @@ public class ServiceRequest {
       String targetLocation) {
     this.requestID = requestID;
     this.type = type;
-    this.targetLocation = locationDAO.getLocationByID(targetLocation);
+    this.targetLocation = facadeDAO.getLocationByID(targetLocation);
     this.status = status;
-    this.issuer = employeeDAO.getEmployeeByID(issuer);
-    this.handler = employeeDAO.getEmployeeByID(handler);
+    this.issuer = facadeDAO.getEmployeeByID(issuer);
+    this.handler = facadeDAO.getEmployeeByID(handler);
   }
 
   /**
@@ -233,7 +234,7 @@ public class ServiceRequest {
   public boolean equals(Object o) {
     if (o instanceof ServiceRequest) {
       ServiceRequest objectRequest = (ServiceRequest) o;
-      return (this.getRequestID() == objectRequest.getRequestID());
+      return (this.getRequestID().equals(objectRequest.getRequestID()));
     } else {
       return false;
     }

@@ -11,13 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientDAOImpl implements IPatientDAO {
+class PatientDAOImpl implements IPatientDAO {
   List<Patient> patients;
   private PatientControlCSV patCSV;
 
-  static Connection connection = DatabaseConnection.getConnection();
+  static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  // DatabaseConnection.getConnection();
 
   public PatientDAOImpl() {
+    updateConnection();
     patients = new ArrayList<Patient>();
   }
 
@@ -27,6 +29,7 @@ public class PatientDAOImpl implements IPatientDAO {
    * @return List of patients
    */
   public List<Patient> getAllPatients() {
+    updateConnection();
     try {
       PreparedStatement pstmt = connection.prepareStatement("Select * From PATIENTS");
       ResultSet rset = pstmt.executeQuery();
@@ -53,6 +56,7 @@ public class PatientDAOImpl implements IPatientDAO {
    * @return Patient object with provided patientID
    */
   public Patient getPatientByID(String patientID) {
+    updateConnection();
     Patient pat = new Patient();
     try {
       PreparedStatement pstmt =
@@ -80,22 +84,13 @@ public class PatientDAOImpl implements IPatientDAO {
    * @return True if successful, false if not
    */
   public boolean addPatient(Patient pat) {
-    try {
-      PreparedStatement stmt =
-          connection.prepareStatement(
-              "INSERT INTO PATIENTS (PATIENTID, NAME, LOCATION)" + "values (?, ?, ?)");
-      stmt.setString(1, pat.getPatientID());
-      stmt.setString(2, pat.getName());
-      stmt.setObject(3, pat.getLocation());
-
-      stmt.executeUpdate();
-      connection.commit();
-    } catch (SQLException e) {
-      System.out.println("Statement failed");
-      return false;
+    updateConnection();
+    boolean val = false;
+    if (addToDatabase(pat)) {
+      val = true;
+      patients.add(pat);
     }
-    patients.add(pat);
-    return true;
+    return val;
   }
 
   /**
@@ -105,6 +100,7 @@ public class PatientDAOImpl implements IPatientDAO {
    * @return True if successful, false if not
    */
   public boolean updatePatient(Patient pat) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement("UPDATE PATIENTS SET NAME=?, LOCATION =? WHERE PATIENTID =?");
@@ -129,6 +125,7 @@ public class PatientDAOImpl implements IPatientDAO {
    * @return True if successful, false if not
    */
   public boolean deletePatient(Patient pat) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement("DELETE FROM PATIENTS WHERE PATIENTID=?");
@@ -149,6 +146,7 @@ public class PatientDAOImpl implements IPatientDAO {
    * @return True if successful, false if not
    */
   public boolean exportToPatientCSV(File data) {
+    updateConnection();
 
     data = new File(System.getProperty("user.dir") + "\\patient.csv");
     patCSV = new PatientControlCSV(data);
@@ -165,6 +163,7 @@ public class PatientDAOImpl implements IPatientDAO {
    */
   @Override
   public int importPatientsFromCSV(File patientData) {
+    updateConnection();
     patientData = new File(System.getProperty("user.dir") + "\\employee.csv");
     patCSV = new PatientControlCSV(patientData);
     int conflictCounter = 0;
@@ -198,5 +197,51 @@ public class PatientDAOImpl implements IPatientDAO {
       e.printStackTrace();
     }
     return conflictCounter;
+  }
+
+  /** Updates the connection */
+  private void updateConnection() {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  }
+
+  /**
+   * Insert patients into database from given list
+   *
+   * @param list list of patients that need to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addPatientFromList(List<Patient> list) {
+    updateConnection();
+    boolean val = true;
+    for (Patient patient : list) {
+      if (!addToDatabase(patient)) {
+        val = false;
+      }
+    }
+    return val;
+  }
+
+  /**
+   * Contains SQL command for inserting data
+   *
+   * @param pat patient to be inserted
+   * @return True if successful, false otherwise
+   */
+  private boolean addToDatabase(Patient pat) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "INSERT INTO PATIENTS (PATIENTID, NAME, LOCATION)" + "values (?, ?, ?)");
+      stmt.setString(1, pat.getPatientID());
+      stmt.setString(2, pat.getName());
+      stmt.setObject(3, pat.getLocation());
+
+      stmt.executeUpdate();
+      connection.commit();
+    } catch (SQLException e) {
+      System.out.println("Statement failed");
+      return false;
+    }
+    return true;
   }
 }
