@@ -334,6 +334,8 @@ public class LocationListController implements IMenuAccess {
           if (temp.size() > 0) {
             activeLabel = temp.get(0);
             System.out.println(activeLabel.getLocation().getLongName());
+            Draggable drag = new Draggable();
+            drag.makeDraggable(activeLabel);
             // displayLocationInformation();
           }
         });
