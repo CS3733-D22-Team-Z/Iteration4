@@ -68,7 +68,7 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
 
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
     Employee issuer = MenuController.getLoggedInUser();
-    Employee handler = dao.getEmployeeByID("nurse1");
+    Employee handler = null;
     Location tempLoc = dao.getLocationByID("zEXIT00101");
     String patientName = patientNameField.getText();
     String patientID = patientIDField.getText();

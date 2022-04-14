@@ -88,7 +88,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     String itemID = equipmentDropDown.getValue().toString();
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
     Employee issuer = MenuController.getLoggedInUser();
-    Employee handler = FacadeDAO.getInstance().getEmployeeByID("nurse1");
+    Employee handler = null;
 
     String equipmentID = equipmentDropDown.getValue().toString();
 
