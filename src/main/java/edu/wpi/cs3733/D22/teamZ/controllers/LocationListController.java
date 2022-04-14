@@ -832,6 +832,7 @@ public class LocationListController implements IMenuAccess {
     locationChangeDarkenPane.setVisible(true);
     deleteLocationPlane1.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
+    deleteLocationPlane1.setDisable(false);
     locationToDeleteTextField.setText(activeLabel.getLocation().getNodeID());
   }
 
