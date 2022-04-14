@@ -83,7 +83,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   }
 
   public void createTable() {
-    tableContainer.getItems().clear();
+    // tableContainer.getItems().clear();
     idCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
     typeCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestType>("type"));
