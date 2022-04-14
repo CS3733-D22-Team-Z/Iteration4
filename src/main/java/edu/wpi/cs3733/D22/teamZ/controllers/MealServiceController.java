@@ -62,6 +62,8 @@ public class MealServiceController extends ServiceRequestController {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     menuName = "Meal Request";
+    submitButton.setDisable(true);
+    System.out.println("Meal Request Submit button disabled");
 
     //    locationList =
     //        instanceDAO.getAllLocations().stream()
@@ -174,12 +176,16 @@ public class MealServiceController extends ServiceRequestController {
     roomNumberDropDown.setValue(null);
     mealOptionDropDown.setValue(null);
     orderStatusDropDown.setValue("IN PROGRESS");
+    submitButton.setDisable(true);
+    System.out.println("Meal Request Submit button disabled");
   }
 
   @Override
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     System.out.println("Reset Button Clicked");
-    infoLabel.setText("");
+    submitButton.setDisable(true);
+    System.out.println("Meal Request Submit button disabled");
+    //    infoLabel.setText("");
     enterPatientName.clear();
     enterPatientID.clear();
     enterStaffAssigned.clear();
@@ -219,5 +225,21 @@ public class MealServiceController extends ServiceRequestController {
     System.out.println("TESTING MOUSE CLICK");
     System.out.println(currentRequests.getFocusModel().getFocusedIndex()); // number starting at 0
     System.out.println(currentRequests.getFocusModel().getFocusedItem()); // string of selected
+    int orderIndex = currentRequests.getFocusModel().getFocusedIndex();
+
+    if (orderIndex > -1) {
+      ServiceRequest temp = mealRequestList.get(orderIndex);
+
+      //    enterPatientName.setText();
+      //    enterPatientID.setText();
+      //    enterStaffAssigned.setText();
+      roomNumberDropDown.setValue(temp.getTargetLocation().getShortName().substring(0, 4));
+      //    mealOptionDropDown.setValue()
+      orderStatusDropDown.setValue(temp.getStatus().toString());
+      submitButton.setDisable(
+          true); // TODO: Eventually set to false once all other fields are retrieved
+    } else {
+      System.out.println("OrderIndex: " + orderIndex);
+    }
   }
 }
