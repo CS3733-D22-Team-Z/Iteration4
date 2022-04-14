@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import io.github.palexdev.materialfx.controls.legacy.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<?import javafx.scene.control.TextField?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
       <SplitPane fx:id="splitPane" dividerPositions="0.75" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <items>
@@ -75,10 +87,7 @@
                            </color>
                         </DropShadow>
                      </effect></MFXLegacyComboBox>
-                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="62.0" onAction="#addLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Add Location" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
+                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="62.0" onAction="#addLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-font-size: 12;" text="Add Location" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -87,12 +96,12 @@
                         </ImageView>
                      </graphic>
                   </MFXButton>
-                  <MFXButton layoutX="13.0" layoutY="95.0" onAction="#exportToCSV" prefHeight="23.0" prefWidth="117.0" style="-fx-background-color: FFFFFF; -fx-border-color: C4C4C4; -fx-border-width: 2; -fx-border-radius: 2;" text="Export CSV" textFill="#c4c4c4">
+                  <MFXButton layoutX="13.0" layoutY="95.0" onAction="#exportToCSV" prefHeight="23.0" prefWidth="117.0" styleClass="button-inv" text="Export CSV" textFill="#c4c4c4">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton layoutX="13.0" layoutY="128.0" onAction="#importFromCSV" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: FFFFFF; -fx-border-color: C4C4C4; -fx-border-width: 2; -fx-border-radius: 2;" text="Import CSV" textFill="#c4c4c4">
+                  <MFXButton layoutX="13.0" layoutY="128.0" onAction="#importFromCSV" prefHeight="25.0" prefWidth="117.0" styleClass="button-inv" text="Import CSV" textFill="#c4c4c4">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
@@ -101,7 +110,7 @@
             </AnchorPane>
          </items>
       </SplitPane>
-      <TextField fx:id="searchField" layoutX="8.0" layoutY="8.0" onKeyTyped="#search" prefHeight="26.0" prefWidth="192.0" promptText="Search..." style="-fx-background-radius: 3; -fx-background-color: #FFFFFF;">
+      <TextField fx:id="searchField" layoutX="8.0" layoutY="8.0" onKeyTyped="#search" prefHeight="26.0" prefWidth="192.0" promptText="Search...">
          <font>
             <Font size="10.0" />
          </font>
