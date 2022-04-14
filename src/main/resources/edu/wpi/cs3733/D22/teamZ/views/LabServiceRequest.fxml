@@ -18,7 +18,7 @@
         <Label fx:id="patientIdLabel" layoutX="15.0" layoutY="188.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
         <MFXTextField fx:id="patientIdField" floatMode="DISABLED" layoutX="13.0" layoutY="209.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter patient ID" />
         <Label fx:id="labTypeLabel" layoutX="15.0" layoutY="255.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Lab Type" />
-        <ChoiceBox fx:id="labTypeChoiceBox" layoutX="15.0" layoutY="275.0" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" />
+        <ChoiceBox fx:id="labTypeChoiceBox" layoutX="15.0" layoutY="275.0" onKeyReleased="#validateButton" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" />
         <MFXButton fx:id="submitButton" layoutX="12.0" layoutY="334.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="79.0" text="Submit" />
         <MFXButton fx:id="resetButton" layoutX="104.0" layoutY="334.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="75.0" style="-fx-background-color: FF4343;" text="Reset" />
         <Label layoutX="286.0" layoutY="164.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
