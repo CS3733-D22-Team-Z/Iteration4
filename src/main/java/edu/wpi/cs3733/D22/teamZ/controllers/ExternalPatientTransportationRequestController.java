@@ -66,7 +66,6 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
 
     // Create entities for submission
 
-    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
     Location tempLoc = dao.getLocationByID("zEXIT00101");
@@ -77,7 +76,7 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
     ExternalPatientTransportationRequest temp =
         new ExternalPatientTransportationRequest(
             requestID,
-            ServiceRequest.RequestStatus.PROCESSING,
+            ServiceRequest.RequestStatus.UNASSIGNED,
             issuer,
             handler,
             tempLoc,

@@ -86,7 +86,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
     // Create entities for submission
     String itemID = equipmentDropDown.getValue().toString();
-    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
+    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
 

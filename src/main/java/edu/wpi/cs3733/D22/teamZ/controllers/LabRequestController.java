@@ -81,7 +81,7 @@ public class LabRequestController extends ServiceRequestController {
 
     // Create entities for submission
 
-    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
+    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
 
