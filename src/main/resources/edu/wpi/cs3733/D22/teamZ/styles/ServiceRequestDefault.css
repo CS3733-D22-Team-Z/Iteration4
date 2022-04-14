@@ -14,7 +14,7 @@
 .object-body {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 600;
-    -fx-font-size: 7pt;
+    -fx-font-size: 9pt;
     -fx-text-fill: #7B7B7B;
 }
 
@@ -23,20 +23,6 @@
     -fx-font-weight: 600;
     -fx-font-size: 9pt;
     -fx-text-fill: #7B7B7B;
-}
-
-#confirmed .form-header {
-    -fx-font-family: inherit;
-    -fx-font-weight: inherit;
-    -fx-font-size: inherit;
-    -fx-text-fill: #43FF43;
-}
-
-#rejected .form-header {
-    -fx-font-family: inherit;
-    -fx-font-weight: inherit;
-    -fx-font-size: inherit;
-    -fx-text-fill: #FF4343;
 }
 
 .button {
@@ -49,13 +35,27 @@
     -fx-background-color: #0075FF;
 }
 
+.button-inv {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #C4C4C4;
+
+    -fx-background-radius: 2px;
+    -fx-background-color: #FFFFFF;
+
+    -fx-border-width: 2px;
+    -fx-border-radius: 2px;
+    -fx-border-color: #C4C4C4
+}
+
 .landing-button {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 700;
     -fx-font-size: 10pt;
     -fx-text-fill: #000000;
 
-    -fx-background-radius: 2px;
+    -fx-background-radius: 4px;
     -fx-background-color: #FFFFFF;
 }
 
@@ -109,6 +109,13 @@
     -fx-background-color: #FFFFFF;
 
     -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
+}
+
+.mfx-radio-button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 600;
+    -fx-font-size: 8pt;
+    -fx-text-fill: #7B7B7B;
 }
 
 /*.mfx-table-view {*/
