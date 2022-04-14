@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
-import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
@@ -16,6 +15,7 @@ import java.util.List;
 class ServiceRequestDAOImpl implements IServiceRequestDAO {
   private HashMap<String, ServiceRequest> serviceRequests;
   private ServiceRequestControlCSV csvController;
+  private List<ServiceRequest> serviceRequestList;
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -23,6 +23,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   public ServiceRequestDAOImpl() {
     updateConnection();
     serviceRequests = new HashMap<>();
+    serviceRequestList = new ArrayList<>();
   }
 
   /**
@@ -32,8 +33,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
    */
   @Override
   public List<ServiceRequest> getAllServiceRequests() {
-    ArrayList<ServiceRequest> requestsList = new ArrayList<>(serviceRequests.values());
-    return requestsList;
+    // ArrayList<ServiceRequest> requestsList = new ArrayList<>(serviceRequests.values());
+    return serviceRequestList;
   }
 
   /**
@@ -46,12 +47,19 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
    */
   @Override
   public ServiceRequest getServiceRequestByID(String serviceRequestID) {
-    return serviceRequests.get(serviceRequestID);
+    int i = 0;
+    for (ServiceRequest req : serviceRequestList) {
+      if (req.getRequestID().equals(serviceRequestID)) {
+        return serviceRequestList.get(i);
+      }
+      i++;
+    }
+    return null;
   }
 
   /**
-   * Returns a list of ServiceRequest objects stored in the database that are located
-   * in the given target location
+   * Returns a list of ServiceRequest objects stored in the database that are located in the given
+   * target location
    *
    * @param target The location to search
    * @return A list of service requests that are located in the given location
@@ -63,13 +71,21 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     ArrayList<ServiceRequest> searchedRequests = new ArrayList<>();
     try {
       PreparedStatement stmt =
-              connection.prepareStatement("SELECT requestID FROM SERVICEREQUEST WHERE targetLocationID=?");
+          connection.prepareStatement(
+              "SELECT requestID FROM SERVICEREQUEST WHERE targetLocationID=?");
       stmt.setString(1, target.getNodeID());
       ResultSet rset = stmt.executeQuery();
 
-      while(rset.next()) {
+      while (rset.next()) {
         String requestID = rset.getString("requestID");
-        searchedRequests.add(serviceRequests.get(requestID));
+        int i = 0;
+        for (ServiceRequest req : serviceRequestList) {
+          if (req.getRequestID().equals(requestID)) {
+            searchedRequests.add(serviceRequestList.get(i));
+          }
+          i++;
+        }
+        // searchedRequests.add(serviceRequests.get(requestID));
       }
 
     } catch (SQLException e) {
@@ -93,7 +109,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     boolean val = false;
     if (addToDatabase(request)) {
       val = true;
-      serviceRequests.put(request.getRequestID(), request);
+      serviceRequestList.add(request);
+      // serviceRequests.put(request.getRequestID(), request);
     }
     return val;
   }
@@ -117,7 +134,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
       System.out.println("Failed to delete service request");
       return false;
     }
-    serviceRequests.remove(request.getRequestID());
+    serviceRequestList.remove(request);
+    // serviceRequests.remove(request.getRequestID());
     return true;
   }
 
@@ -140,8 +158,19 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
       stmt.executeUpdate();
       connection.commit();
-      serviceRequests.remove(request.getRequestID());
-      serviceRequests.put(request.getRequestID(), request);
+      // TODO another problem here is that the order of the list will change
+      // cannot simply delete then edit
+      for (ServiceRequest req : serviceRequestList) {
+        if (req.equals(request)) {
+          req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+          req.setHandler(request.getHandler());
+          return true;
+        }
+      }
+      // serviceRequestList.remove(request);
+      // serviceRequestList.add(request);
+      //      serviceRequests.remove(request.getRequestID());
+      //      serviceRequests.put(request.getRequestID(), request);
       return true;
     } catch (SQLException e) {
       System.out.println("Update failed");
@@ -165,7 +194,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   @Override
   public int importServiceRequestsFromCSV(File serviceRequestData) {
     updateConnection();
-    //serviceRequestData = new File(System.getProperty("user.dir") + "\\employee.csv");
+    // serviceRequestData = new File(System.getProperty("user.dir") + "\\employee.csv");
     csvController = new ServiceRequestControlCSV(serviceRequestData);
     int conflictCounter = 0;
     try {
@@ -188,8 +217,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
           // insert it
           pstmt.executeUpdate();
-
-          serviceRequests.put(info.getRequestID(), info);
+          serviceRequestList.add(info);
+          // serviceRequests.put(info.getRequestID(), info);
         }
       } catch (SQLException e) {
         conflictCounter++;
@@ -246,53 +275,19 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
       stmt.setString(2, request.getType().toString());
       stmt.setString(3, request.getStatus().toString());
       stmt.setString(4, request.getIssuer().getEmployeeID());
-      stmt.setString(5, request.getHandler().getEmployeeID());
+      if (request.getHandler() == null) {
+        stmt.setString(5, null);
+      } else {
+        stmt.setString(5, request.getHandler().getEmployeeID());
+      }
       stmt.setString(6, request.getTargetLocation().getNodeID());
 
       stmt.executeUpdate();
       connection.commit();
     } catch (SQLException e) {
-      System.out.println("Statement failed");
+      System.out.println("Failed to add service request");
       return false;
     }
     return true;
-  }
-
-  /**
-   * Gets the ServiceRequests in the given locations
-   *
-   * @param loc location of service requests
-   * @return ServiceRequest at that location
-   */
-  public List<ServiceRequest> getServiceRequestsByLocation(Location loc) {
-    updateConnection();
-    List<ServiceRequest> listServiceRequest = new ArrayList<>();
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement("Select * From SERVICEREQUEST WHERE TARGETLOCATIONID = ?");
-      pstmt.setString(1, loc.getNodeID());
-      ResultSet rset = pstmt.executeQuery();
-      while (rset.next()) {
-        String requestID = rset.getString("requestID");
-        String typeStr = rset.getString("type");
-        String statusStr = rset.getString("status");
-        String issuerID = rset.getString("issuerID");
-        String handlerID = rset.getString("handlerID");
-        String targetLocationID = rset.getString("targetLocationID");
-
-        listServiceRequest.add(
-            new ServiceRequest(
-                requestID,
-                ServiceRequest.RequestType.getRequestTypeByString(typeStr),
-                ServiceRequest.RequestStatus.getRequestStatusByString(statusStr),
-                issuerID,
-                handlerID,
-                targetLocationID));
-      }
-    } catch (SQLException e) {
-      System.out.println("Failed to get ServiceRequest by location");
-      e.printStackTrace();
-    }
-    return listServiceRequest;
   }
 }

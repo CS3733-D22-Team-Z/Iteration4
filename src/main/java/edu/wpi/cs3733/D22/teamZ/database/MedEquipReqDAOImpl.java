@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
@@ -11,15 +10,17 @@ import java.util.HashMap;
 import java.util.List;
 
 class MedEquipReqDAOImpl implements IMedEquipReqDAO {
-  private HashMap<String, MedicalEquipmentDeliveryRequest> medicalEquipmentRequests;
+  private HashMap<String, MedicalEquipmentDeliveryRequest> medEquipReq;
   private MedEqReqControlCSV reqCSV;
+  private List<MedicalEquipmentDeliveryRequest> medicalEquipmentRequests;
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
 
   public MedEquipReqDAOImpl() {
     updateConnection();
-    medicalEquipmentRequests = new HashMap<>();
+    // medicalEquipmentRequests = new HashMap<>();
+    medicalEquipmentRequests = new ArrayList<>();
   }
 
   /**
@@ -28,8 +29,9 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return list of MedicalEquipmentRequests
    */
   public List<MedicalEquipmentDeliveryRequest> getAllMedEquipReq() {
-    ArrayList<MedicalEquipmentDeliveryRequest> medRequestList = new ArrayList<>(medicalEquipmentRequests.values());
-    return medRequestList;
+    // ArrayList<MedicalEquipmentDeliveryRequest> medRequestList = new
+    // ArrayList<>(medicalEquipmentRequests.values());
+    return medicalEquipmentRequests;
   }
 
   /**
@@ -39,7 +41,14 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return MedicalEquipmentRequest of given ID, null if not found
    */
   public MedicalEquipmentDeliveryRequest getMedEquipReqByID(String id) {
-    return medicalEquipmentRequests.get(id);
+    int i = 0;
+    for (MedicalEquipmentDeliveryRequest req : medicalEquipmentRequests) {
+      if (req.getRequestID().equals(id)) {
+        return medicalEquipmentRequests.get(i);
+      }
+      i++;
+    }
+    return null;
   }
 
   /**
@@ -53,7 +62,8 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     boolean val = false;
     if (addToDatabase(request)) {
       val = true;
-      medicalEquipmentRequests.put(request.getEquipmentID(), request);
+      medicalEquipmentRequests.add(request);
+      // medicalEquipmentRequests.put(request.getEquipmentID(), request);
     }
     return val;
   }
@@ -69,15 +79,22 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "UPDATE MEDEQUIPREQ SET status =?, handler =? WHERE RequestID =?");
+              "UPDATE SERVICEREQUEST SET status =?, handlerID =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
       stmt.setString(2, request.getHandler().getEmployeeID());
       stmt.setString(3, request.getRequestID());
 
       stmt.executeUpdate();
       connection.commit();
-      medicalEquipmentRequests.remove(request.getRequestID());
-      medicalEquipmentRequests.put(request.getRequestID(), request);
+      for (MedicalEquipmentDeliveryRequest req : medicalEquipmentRequests) {
+        req.setHandler(request.getHandler());
+        req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+        return true;
+      }
+      // medicalEquipmentRequests.remove(request);
+      // medicalEquipmentRequests.add(request);
+      // medicalEquipmentRequests.remove(request.getRequestID());
+      // medicalEquipmentRequests.put(request.getRequestID(), request);
       return true;
     } catch (SQLException e) {
       System.out.println("Update failed");
@@ -99,7 +116,8 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
       stmt.setString(1, request.getRequestID());
       stmt.execute();
       connection.commit();
-      medicalEquipmentRequests.remove(request.getRequestID());
+      medicalEquipmentRequests.remove(request);
+      // medicalEquipmentRequests.remove(request.getRequestID());
       return true;
     } catch (SQLException e) {
       System.out.println("Failed to delete from MEDEQUIPREQ table");
@@ -150,8 +168,8 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
 
           // insert it
           pstmt.executeUpdate();
-
-          medicalEquipmentRequests.put(info.getRequestID(), info);
+          medicalEquipmentRequests.add(info);
+          // medicalEquipmentRequests.put(info.getRequestID(), info);
         }
       } catch (SQLException e) {
         conflictCounter++;

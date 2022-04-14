@@ -1,22 +1,20 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.LabServiceRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
-  private HashMap<String, LabServiceRequest> labRequests = new HashMap<>();
+  // private HashMap<String, LabServiceRequest> labRequests = new HashMap<>();
+  private List<LabServiceRequest> labRequests = new ArrayList<>();
   private LabRequestControlCSV reqCSV;
 
   /**
@@ -27,8 +25,7 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public List<LabServiceRequest> getAllLabServiceRequests() {
-    List<LabServiceRequest> requestList = new ArrayList<>(labRequests.values());
-    return requestList;
+    return labRequests;
   }
 
   /**
@@ -39,7 +36,14 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public LabServiceRequest getLabRequestByID(String requestID) {
-    return labRequests.get(requestID);
+    int i = 0;
+    for (LabServiceRequest req : labRequests) {
+      if (req.getRequestID().equals(requestID)) {
+        return labRequests.get(i);
+      }
+      i++;
+    }
+    return null;
   }
 
   /**
@@ -54,7 +58,8 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
     boolean val = false;
     if (addToDatabase(request)) {
       val = true;
-      labRequests.put(request.getRequestID(), request);
+      labRequests.add(request);
+      // labRequests.put(request.getRequestID(), request);
     }
     return val;
   }
@@ -90,7 +95,8 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
       System.out.println("Failed to delete service request");
       return false;
     }
-    labRequests.remove(req.getRequestID());
+    labRequests.remove(req);
+    // labRequests.remove(req.getRequestID());
     return true;
   }
 
@@ -135,7 +141,8 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
           // insert it
           pstmt.executeUpdate();
 
-          labRequests.put(info.getRequestID(), info);
+          labRequests.add(info);
+          // labRequests.put(info.getRequestID(), info);
         }
       } catch (SQLException e) {
         conflictCounter++;

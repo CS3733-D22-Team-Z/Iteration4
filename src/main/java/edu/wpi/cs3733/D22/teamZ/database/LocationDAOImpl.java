@@ -11,6 +11,7 @@ import java.util.List;
 class LocationDAOImpl implements ILocationDAO {
 
   private HashMap<String, Location> locations;
+  private List<Location> locationsList;
   private LocationControlCSV locCSV;
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -18,6 +19,7 @@ class LocationDAOImpl implements ILocationDAO {
   public LocationDAOImpl() {
     updateConnection();
     locations = new HashMap<String, Location>();
+    locationsList = new ArrayList<>();
   }
 
   /**
@@ -26,8 +28,8 @@ class LocationDAOImpl implements ILocationDAO {
    * @return List of locations
    */
   public List<Location> getAllLocations() {
-    List<Location> locationList = new ArrayList<>(locations.values());
-    return locationList;
+    // List<Location> locationList = new ArrayList<>(locations.values());
+    return locationsList;
   }
 
   /**
@@ -36,7 +38,10 @@ class LocationDAOImpl implements ILocationDAO {
    * @return list of nodeIDs
    */
   public List<String> getAllLocationNodeIDs() {
-    List<String> nodeIDList = new ArrayList<>(locations.keySet());
+    List<String> nodeIDList = new ArrayList<>();
+    for (int i = 0; i < locationsList.size(); i++) {
+      nodeIDList.add(locationsList.get(i).getNodeID());
+    }
     return nodeIDList;
   }
 
@@ -47,7 +52,14 @@ class LocationDAOImpl implements ILocationDAO {
    * @return Location object with provided nodeID, null if there is no location with that ID
    */
   public Location getLocationByID(String nodeID) {
-    return locations.get(nodeID);
+    int i = 0;
+    for (Location loc : locationsList) {
+      if (loc.getNodeID().equals(nodeID)) {
+        return locationsList.get(i);
+      }
+      i++;
+    }
+    return null;
   }
   /**
    * Adds a new location to database. Will automatically check if already in database
@@ -60,7 +72,7 @@ class LocationDAOImpl implements ILocationDAO {
     boolean val = false;
     if (addToDatabase(loc)) {
       val = true;
-      locations.put(loc.getNodeID(), loc);
+      locationsList.add(loc);
     }
     return val;
   }
@@ -85,8 +97,10 @@ class LocationDAOImpl implements ILocationDAO {
       System.out.println("Statement failed");
       return false;
     }
-    locations.remove(loc.getNodeID());
-    locations.put(loc.getNodeID(), loc);
+    locationsList.remove(loc);
+    locationsList.add(loc);
+    // locations.remove(loc.getNodeID());
+    // locations.put(loc.getNodeID(), loc);
     return true;
   }
 
@@ -106,7 +120,8 @@ class LocationDAOImpl implements ILocationDAO {
       System.out.println("Statement failed");
       return false;
     }
-    locations.remove(loc.getNodeID());
+    locationsList.remove(loc);
+    // locations.remove(loc.getNodeID());
     return true;
   }
 
@@ -142,7 +157,14 @@ class LocationDAOImpl implements ILocationDAO {
 
       while (rset.next()) {
         String nodeID = rset.getString("nodeID");
-        temp.add(locations.get(nodeID));
+        int i = 0;
+        for (Location loc : locationsList) {
+          if (loc.getNodeID().equals(nodeID)) {
+            temp.add(locationsList.get(i));
+          }
+          i++;
+        }
+        // temp.add(locations.get(nodeID));
       }
     } catch (SQLException e) {
       System.out.println("Failed to get locations");
@@ -169,7 +191,14 @@ class LocationDAOImpl implements ILocationDAO {
 
       while (rset.next()) {
         String nodeID = rset.getString("nodeID");
-        tempList.add(locations.get(nodeID));
+        int i = 0;
+        for (Location loc : locationsList) {
+          if (loc.getNodeID().equals(nodeID)) {
+            tempList.add(locationsList.get(i));
+          }
+          i++;
+        }
+        // tempList.add(locations.get(nodeID));
       }
     } catch (SQLException e) {
       System.out.println("Failed to get locations");
@@ -212,7 +241,9 @@ class LocationDAOImpl implements ILocationDAO {
           pstmt.setString(1, id);
           pstmt.executeUpdate();
 
-          locations.remove(id);
+          Location temp = new Location(id);
+          locationsList.remove(temp);
+          // locations.remove(id);
         } catch (SQLException e) {
           numberConflicts++;
           System.out.println(
@@ -243,7 +274,8 @@ class LocationDAOImpl implements ILocationDAO {
           // insert it
           pstmt.executeUpdate();
 
-          locations.put(newInfo.getNodeID(), newInfo);
+          locationsList.add(newInfo);
+          // locations.put(newInfo.getNodeID(), newInfo);
         }
         // if already exists: update
         else {
@@ -270,8 +302,10 @@ class LocationDAOImpl implements ILocationDAO {
           // update it
           pstmt.executeUpdate();
 
-          locations.remove(newInfo.getNodeID());
-          locations.put(newInfo.getNodeID(), newInfo);
+          locationsList.remove(newInfo);
+          locationsList.add(newInfo);
+          // locations.remove(newInfo.getNodeID());
+          // locations.put(newInfo.getNodeID(), newInfo);
         }
       }
     } catch (SQLException e) {

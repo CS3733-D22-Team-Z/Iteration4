@@ -44,10 +44,9 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
         String type = rset.getString("type");
         String status = rset.getString("status");
         String locationNodeID = rset.getString("currentLocation");
-        LocationDAOImpl tempDAO = new LocationDAOImpl();
-        Location tempLocation = tempDAO.getLocationByID(locationNodeID);
         MedicalEquipment medicalEquipment =
-            new MedicalEquipment(itemID, type, status, tempLocation);
+            new MedicalEquipment(
+                itemID, type, status, FacadeDAO.getInstance().getLocationByID(locationNodeID));
         if (!medicalEquipmentsList.contains(medicalEquipment)) {
           medicalEquipmentsList.add(medicalEquipment);
         }
@@ -78,11 +77,10 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
         String type = rset.getString("type");
         String status = rset.getString("status");
         String locationNodeID = rset.getString("currentLocation");
-        LocationDAOImpl tempDAO = new LocationDAOImpl();
-        Location tempLocation = tempDAO.getLocationByID(locationNodeID);
         medicalEquipment.setStatus(status);
         medicalEquipment.setType(type);
-        medicalEquipment.setCurrentLocation(tempLocation);
+        medicalEquipment.setCurrentLocation(
+            FacadeDAO.getInstance().getLocationByID(locationNodeID));
       }
     } catch (SQLException e) {
       System.out.println("Failed to get the Medical Equipment");
@@ -99,7 +97,6 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
   @Override
   public String getFirstAvailableEquipmentByType(String equipment) {
     updateConnection();
-    ILocationDAO locationDAO = new LocationDAOImpl();
 
     try {
       PreparedStatement pstmt =
@@ -147,10 +144,12 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
         String tempType = rset.getString("TYPE");
         String tempStatus = rset.getString("STATUS");
         String tempCurrentLocation = rset.getString("CURRENTLOCATION");
-        LocationDAOImpl tempDAO = new LocationDAOImpl();
-        Location tempLocation = tempDAO.getLocationByID(tempCurrentLocation);
         MedicalEquipment tempMedicalEquipment =
-            new MedicalEquipment(tempItemID, tempType, tempStatus, tempLocation);
+            new MedicalEquipment(
+                tempItemID,
+                tempType,
+                tempStatus,
+                FacadeDAO.getInstance().getLocationByID(tempCurrentLocation));
         medicalEquipmentLocationList.add(tempMedicalEquipment);
       }
     } catch (SQLException e) {
@@ -360,10 +359,9 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
         String type = rset.getString("TYPE");
         String status = rset.getString("STATUS");
         String currentLocation = rset.getString("CURRENTLOCATION");
-        LocationDAOImpl tempLocationDAO = new LocationDAOImpl();
         MedicalEquipment tempMedEquip =
             new MedicalEquipment(
-                id, type, status, tempLocationDAO.getLocationByID(currentLocation));
+                id, type, status, FacadeDAO.getInstance().getLocationByID(currentLocation));
         tempMedEquipList.add(tempMedEquip);
       }
     } catch (SQLException e) {

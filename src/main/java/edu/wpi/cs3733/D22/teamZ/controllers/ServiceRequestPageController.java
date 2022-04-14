@@ -79,18 +79,20 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
       employeeBox.getItems().add(employees.get(i).getEmployeeID());
     }
 
-    createTable();
-  }
-
-  public void createTable() {
-    tableContainer.getItems().clear();
     idCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
     typeCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestType>("type"));
     assigneeCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, Employee>("handler"));
     statusCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestStatus>("status"));
-    requests = FXCollections.observableList(facadeDAO.getAllServiceRequests());
+
+    createTable();
+  }
+
+  public void createTable() {
+    // tableContainer.getItems().clear();
+    tableContainer.refresh();
+    requests = FXCollections.observableList(FacadeDAO.getInstance().getAllServiceRequests());
     tableContainer.setItems(requests);
   }
 
@@ -123,6 +125,10 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
       handler.setHandler(facadeDAO.getEmployeeByID(employeeBox.getValue()));
       facadeDAO.updateServiceRequest(handler);
       createTable();
+      List<ServiceRequest> serviceRequests = FacadeDAO.getInstance().getAllServiceRequests();
+      for (ServiceRequest req : serviceRequests) {
+        System.out.println(req);
+      }
     }
   }
 

@@ -12,6 +12,7 @@ public class DBInitializer {
   private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
   private ServiceRequestControlCSV serviceControlCSV;
   private MedEqReqControlCSV medEqReqControlCSV;
+  private FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -191,7 +192,8 @@ public class DBInitializer {
       List<Location> tempLoc = locCSV.readLocCSV();
 
       for (Location info : tempLoc) {
-        PreparedStatement pstmt =
+        dao.addLocation(info);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO Location (nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) values (?, ?, ?, ?, ?, ?, ?, ?)");
         pstmt.setString(1, info.getNodeID());
@@ -205,12 +207,8 @@ public class DBInitializer {
 
         // insert it
         pstmt.executeUpdate();
-        connection.commit();
+        connection.commit();*/
       }
-
-    } catch (SQLException e) {
-      System.out.println("Failed to populate LOCATION table");
-      return false;
     } catch (IOException e) {
       System.out.println("Failed to read CSV");
       return false;
@@ -223,7 +221,8 @@ public class DBInitializer {
       List<Employee> employeeList = employeeCSV.readEmployeeCSV();
 
       for (Employee info : employeeList) {
-        PreparedStatement pstmt =
+        dao.addEmployee(info);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO EMPLOYEES (employeeID, name, accessType, username, password) values (?, ?, ?, ?, ?)");
         pstmt.setString(1, info.getEmployeeID());
@@ -234,12 +233,9 @@ public class DBInitializer {
 
         // insert it
         pstmt.executeUpdate();
-        connection.commit();
+        connection.commit();*/
       }
 
-    } catch (SQLException e) {
-      System.out.println("Failed to populate LOCATION table");
-      return false;
     } catch (IOException e) {
       System.out.println("Failed to read CSV");
       return false;
@@ -253,7 +249,8 @@ public class DBInitializer {
           medicalEquipmentControlCSV.readMedicalEquipmentCSV();
 
       for (MedicalEquipment info : tempMedicalEquipment) {
-        PreparedStatement pstmt =
+        dao.addMedicalEquipment(info);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, TYPE, STATUS, CURRENTLOCATION) "
                     + "values (?, ?, ?, ?)");
@@ -263,9 +260,9 @@ public class DBInitializer {
         pstmt.setString(4, info.getCurrentLocation().getNodeID());
 
         // insert it
-        pstmt.executeUpdate();
+        pstmt.executeUpdate();*/
       }
-    } catch (IOException | SQLException e) {
+    } catch (IOException e) {
       System.out.println("Failed to populate MedicalEquipment table");
       return false;
     }
@@ -277,7 +274,8 @@ public class DBInitializer {
       List<ServiceRequest> requestList = serviceControlCSV.readServiceRequestCSV();
 
       for (ServiceRequest request : requestList) {
-        PreparedStatement pstmt =
+        dao.addServiceRequest(request);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO SERVICEREQUEST (requestID, type, status, issuerID, handlerID, targetLocationID)"
                     + "values (?, ?, ?, ?, ?, ?)");
@@ -298,12 +296,8 @@ public class DBInitializer {
 
         // insert it
         pstmt.executeUpdate();
-        connection.commit();
+        connection.commit();*/
       }
-
-    } catch (SQLException e) {
-      System.out.println("Failed to populate ServiceRequest table");
-      return false;
     } catch (IOException e) {
       System.out.println("Failed to read CSV");
       return false;
@@ -316,7 +310,8 @@ public class DBInitializer {
       List<MedicalEquipmentDeliveryRequest> requestList = medEqReqControlCSV.readMedReqCSV();
 
       for (MedicalEquipmentDeliveryRequest medEqRequest : requestList) {
-        PreparedStatement pstmt =
+        dao.addMedicalEquipmentRequestToDatabase(medEqRequest);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO MEDEQUIPREQ (requestID, equipmentID) values (?, ?)");
         pstmt.setString(1, medEqRequest.getRequestID());
@@ -324,12 +319,9 @@ public class DBInitializer {
 
         // insert it
         pstmt.executeUpdate();
-        connection.commit();
+        connection.commit();*/
       }
 
-    } catch (SQLException e) {
-      System.out.println("Failed to populate MedEquipReq table");
-      return false;
     } catch (IOException e) {
       System.out.println("Failed to read MedEquipReq.csv");
       return false;

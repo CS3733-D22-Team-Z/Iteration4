@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MedicalEquipmentControlCSV extends ControlCSV {
 
-  private LocationDAOImpl locationDAO = new LocationDAOImpl();
+  private FacadeDAO dao = FacadeDAO.getInstance();
 
   private String[] headers = {"itemID", "type", "status", "currentLocation"};
 
@@ -27,9 +27,7 @@ public class MedicalEquipmentControlCSV extends ControlCSV {
   private List<MedicalEquipment> dataToObj(List<List<String>> data) {
     List<MedicalEquipment> ret = new ArrayList<>();
     for (List<String> a : data) {
-      ret.add(
-          new MedicalEquipment(
-              a.get(0), a.get(1), a.get(2), locationDAO.getLocationByID(a.get(3))));
+      ret.add(new MedicalEquipment(a.get(0), a.get(1), a.get(2), dao.getLocationByID(a.get(3))));
     }
     return ret;
   }

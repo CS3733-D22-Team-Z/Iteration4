@@ -5,18 +5,18 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 class EmployeeDAOImpl implements IEmployeeDAO {
-  private HashMap<String, Employee> employees;
+  // private HashMap<String, Employee> employees;
   private EmployeeControlCSV empCSV;
+  private List<Employee> employeeList;
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
 
   public EmployeeDAOImpl() {
-    employees = new HashMap<String, Employee>();
+    employeeList = new ArrayList<>();
     updateConnection();
   }
 
@@ -26,7 +26,6 @@ class EmployeeDAOImpl implements IEmployeeDAO {
    * @return List of employees
    */
   public List<Employee> getAllEmployees() {
-    List<Employee> employeeList = new ArrayList<>(employees.values());
     return employeeList;
   }
 
@@ -37,7 +36,14 @@ class EmployeeDAOImpl implements IEmployeeDAO {
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByID(String employeeID) {
-    return employees.get(employeeID);
+    int i = 0;
+    for (Employee emp : employeeList) {
+      if (emp.getEmployeeID().equals(employeeID)) {
+        return employeeList.get(i);
+      }
+      i++;
+    }
+    return null;
   }
 
   /**
@@ -48,22 +54,28 @@ class EmployeeDAOImpl implements IEmployeeDAO {
    */
   public Employee getEmployeeByUsername(String employeeUsername) {
     updateConnection();
-    Employee employee = null;
+    // Employee employee = null;
     try {
       PreparedStatement pstmt =
           connection.prepareStatement("Select employeeID From EMPLOYEES WHERE USERNAME = ?");
       pstmt.setString(1, employeeUsername);
       ResultSet rset = pstmt.executeQuery();
 
-      if(rset.next()) {
+      if (rset.next()) {
         String employeeID = rset.getString("employeeID");
-        employee = employees.get(employeeID);
+        int i = 0;
+        for (Employee emp : employeeList) {
+          if (emp.getEmployeeID().equals(employeeID)) {
+            return employeeList.get(i);
+          }
+          i++;
+        }
       }
     } catch (SQLException e) {
       System.out.println("Unable to find employee");
       e.printStackTrace();
     }
-    return employee;
+    return null;
   }
 
   /**
@@ -77,7 +89,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
     boolean val = false;
     if (addToDatabase(emp)) {
       val = true;
-      employees.put(emp.getEmployeeID(), emp);
+      employeeList.add(emp);
     }
     return val;
   }
@@ -105,8 +117,10 @@ class EmployeeDAOImpl implements IEmployeeDAO {
       return false;
     }
     String id = emp.getEmployeeID();
-    employees.remove(id);
-    employees.put(id, emp);
+    employeeList.remove(emp);
+    employeeList.add(emp);
+    // employees.remove(id);
+    // employees.put(id, emp);
     return true;
   }
 
@@ -128,7 +142,8 @@ class EmployeeDAOImpl implements IEmployeeDAO {
       e.printStackTrace();
       return false;
     }
-    employees.remove(emp.getEmployeeID());
+    employeeList.remove(emp);
+    // employees.remove(emp.getEmployeeID());
     return true;
   }
 
@@ -138,7 +153,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
    * @return True if successful, false if not
    */
   public boolean exportToEmployeeCSV(File empData) {
-    //TODO accept the given file as export path
+    // TODO accept the given file as export path
     empData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(empData);
     empCSV.writeEmployeeCSV(getAllEmployees());
@@ -156,7 +171,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
   public int importEmployeesFromCSV(File employeeData) {
     updateConnection();
 
-    //TODO accept given file as import path
+    // TODO accept given file as import path
     employeeData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(employeeData);
 
@@ -178,8 +193,8 @@ class EmployeeDAOImpl implements IEmployeeDAO {
 
           // insert it
           pstmt.executeUpdate();
-
-          employees.put(info.getEmployeeID(), info);
+          employeeList.add(info);
+          // employees.put(info.getEmployeeID(), info);
         }
       } catch (SQLException e) {
         conflictCounter++;
