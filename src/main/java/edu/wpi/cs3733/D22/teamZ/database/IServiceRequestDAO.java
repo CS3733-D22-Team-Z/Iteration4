@@ -74,4 +74,12 @@ public interface IServiceRequestDAO {
    * @return True if successful, false otherwise
    */
   boolean addServiceRequestFromList(List<ServiceRequest> list);
+
+  /**
+   * Gets the ServiceRequests in the given locations
+   *
+   * @param loc location of service requests
+   * @return ServiceRequest at that location
+   */
+  List<ServiceRequest> getServiceRequestsByLocation(Location loc);
 }

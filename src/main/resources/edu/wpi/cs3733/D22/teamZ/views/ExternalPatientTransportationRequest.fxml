@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ExternalPatientTransportationRequestController">
+    <children>
+        <Rectangle fx:id="warningBackground" arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="26.0" layoutX="15.0" layoutY="369.0" stroke="TRANSPARENT" strokeType="INSIDE" width="463.0" />
+        <MFXButton id="backButton" fx:id="backButton" layoutX="16.0" layoutY="14.0" onAction="#onBackButtonClicked" style="-fx-background-color: #0075FF;" text="Back to Landing Page" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></MFXButton>
+        <Label layoutX="14.0" layoutY="63.0" prefHeight="26.0" prefWidth="304.0" styleClass="object-header" text="External Patient Transportation Request">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+        <Label layoutX="17.0" layoutY="90.0" prefHeight="18.0" prefWidth="354.0" styleClass="object-body" text="Enter the fields below to request external patient transportation" textFill="#7b7b7b">
+         <font>
+            <Font size="9.0" />
+         </font></Label>
+        <Label fx:id="patientNameLabel" layoutX="14.0" layoutY="123.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
+        <MFXTextField fx:id="patientNameField" floatMode="DISABLED" layoutX="12.0" layoutY="145.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter patient name" />
+        <Label fx:id="patientIdLabel" layoutX="15.0" layoutY="188.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
+        <MFXTextField fx:id="patientIDField" floatMode="DISABLED" layoutX="13.0" layoutY="209.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter patient ID" />
+        <Label fx:id="labTypeLabel" layoutX="15.0" layoutY="255.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Destination" />
+        <MFXButton fx:id="submitButton" layoutX="12.0" layoutY="334.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="79.0" style="-fx-background-color: #0075FF;" text="Submit" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></MFXButton>
+        <MFXButton fx:id="resetButton" layoutX="104.0" layoutY="334.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="75.0" style="-fx-background-color: FF4343;" text="Reset" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></MFXButton>
+        <Label layoutX="260.0" layoutY="123.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Departure Date" />
+        <Label id="rejected" fx:id="errorSavingLabel" layoutX="18.0" layoutY="373.0" prefHeight="17.0" prefWidth="237.0" styleClass="form-header" text="Error saving request, no equipment available" />
+        <Label id="confirmed" fx:id="successfulSubmitLabel" layoutX="18.0" layoutY="373.0" prefHeight="17.0" prefWidth="237.0" styleClass="form-header" text="Successfully submitted lab request!" />
+      <MFXTextField fx:id="destinationField" floatMode="DISABLED" layoutX="13.0" layoutY="274.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter Destination" />
+      <MFXDatePicker fx:id="departureDateField" layoutX="256.0" layoutY="141.0" prefHeight="0.0" prefWidth="150.0" />
+    </children>
+</AnchorPane>

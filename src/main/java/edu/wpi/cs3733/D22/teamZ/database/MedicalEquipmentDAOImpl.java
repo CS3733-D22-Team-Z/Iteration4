@@ -109,7 +109,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       ResultSet rset = pstmt.executeQuery();
 
       rset.next();
-      String temp = rset.getString("ITEMID");
+      String temp = rset.getString("EQUIPMENTID");
       rset.close();
       if (temp != null) {
         pstmt =
@@ -338,5 +338,38 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       return false;
     }
     return true;
+  }
+
+  /**
+   * Get all Medical Equipment in given floor
+   *
+   * @param floor floor to be searched
+   * @return list of medical equipment for given floor
+   */
+  public List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor) {
+    updateConnection();
+    List<MedicalEquipment> tempMedEquipList = new ArrayList<>();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "SELECT * FROM MEDICALEQUIPMENT, LOCATION WHERE CURRENTLOCATION = NODEID AND FLOOR = ?");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        String id = rset.getString("EQUIPMENTID");
+        String type = rset.getString("TYPE");
+        String status = rset.getString("STATUS");
+        String currentLocation = rset.getString("CURRENTLOCATION");
+        LocationDAOImpl tempLocationDAO = new LocationDAOImpl();
+        MedicalEquipment tempMedEquip =
+            new MedicalEquipment(
+                id, type, status, tempLocationDAO.getLocationByID(currentLocation));
+        tempMedEquipList.add(tempMedEquip);
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed medical equipment by floor");
+      e.printStackTrace();
+    }
+    return tempMedEquipList;
   }
 }

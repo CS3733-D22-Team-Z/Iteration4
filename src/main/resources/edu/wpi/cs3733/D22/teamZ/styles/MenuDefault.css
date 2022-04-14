@@ -1,0 +1,38 @@
+.label {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #9D9D9D;
+}
+
+.menu-button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+
+    -fx-background-color: transparent;
+}
+
+.exit-button {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #FFFFFF;
+
+    -fx-background-radius: 2px;
+    -fx-background-color: #0075FF;
+}
+
+.region-icon {
+    -fx-pref-width: 18;
+    -fx-pref-height: 18;
+    -fx-background-color: #000000;
+}
+
+.menu-container {
+    -fx-border-color: #D2D2D2;
+}
+
+.split-pane *.split-pane-divider {
+    -fx-padding: 1 0 1 0;
+}

@@ -1,57 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="350.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LoginPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LoginPageController">
    <children>
-      <TextField fx:id="usernameField" layoutX="167.0" layoutY="235.0" promptText="Username">
-         <effect>
-            <DropShadow />
-         </effect>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </TextField>
-      <Label layoutX="100.0" layoutY="149.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Login">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="38.0" layoutY="166.0" prefHeight="17.0" prefWidth="155.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Enter your username and password below." textFill="#9d9d9d">
-         <font>
-            <Font name="Segoe UI Bold" size="7.5" />
-         </font>
-      </Label>
-      <JFXButton fx:id="loginButton" layoutX="80.0" layoutY="296.0" onAction="#loginButtonPressed" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Login" textFill="WHITE">
-         <font>
-            <Font name="Segoe UI Bold" size="10.0" />
-         </font>
-      </JFXButton>
-      <TextField fx:id="passwordField" layoutX="167.0" layoutY="268.0" promptText="Password">
-         <effect>
-            <DropShadow />
-         </effect>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </TextField>
-      <Label fx:id="errorLabel" layoutX="-65.0" layoutY="198.0" prefHeight="18.0" prefWidth="361.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Error: Login failed. Check your username and password and try again." textFill="#ff4f4f" visible="false">
-         <font>
-            <Font name="Segoe UI Bold" size="11.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="155.0" fitWidth="482.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="191.0" fitWidth="613.0" layoutX="-4.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Brigham-Womens-Hospital.jpg" />
          </image>
       </ImageView>
+      <Label alignment="TOP_CENTER" layoutX="277.0" layoutY="197.0" text="Login">
+         <font>
+            <Font name="Segoe UI Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_CENTER" layoutX="187.0" layoutY="219.0" text="Enter your username and password below." textFill="#9d9d9d" />
+      <MFXTextField fx:id="usernameField" floatMode="DISABLED" layoutX="180.0" layoutY="246.0" prefHeight="38.0" prefWidth="238.0" promptText="Username" style="-fx-border-color: #0075ff; -fx-border-width: 1.8;" />
+      <MFXPasswordField fx:id="passwordField" floatMode="DISABLED" layoutX="180.0" layoutY="294.0" prefHeight="38.0" prefWidth="238.0" promptText="Password" style="-fx-border-color: #0075ff; -fx-border-width: 1.8;" />
+      <MFXButton fx:id="loginButton" layoutX="180.0" layoutY="349.0" onAction="#loginButtonPressed" prefHeight="38.0" prefWidth="90.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Login" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></MFXButton>
+      <Label fx:id="errorLabel" layoutX="174.0" layoutY="368.0" text="Invalid Username or Password. Please try again." textFill="RED" visible="false" />
+      <MFXButton layoutX="282.0" layoutY="349.0" mnemonicParsing="false" onAction="#readCard" prefHeight="38.0" prefWidth="139.0" style="-fx-background-color: #0075ff;" text="Login With ID" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></MFXButton>
    </children>
 </AnchorPane>

@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 
 public class EmployeeController implements IMenuAccess, Initializable {
 
-  private final String toHomePageURL = "edu/wpi/cs3733/D22/teamZ/views/HomePage.fxml";
+  private final String toHomePageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
   private ObservableList<Employee> data;
 
   @FXML private MFXButton editEmp;
@@ -80,6 +80,10 @@ public class EmployeeController implements IMenuAccess, Initializable {
   @Override
   public void setMenuController(MenuController menu) {
     this.menu = menu;
+  }
+
+  public String getMenuName() {
+    return "Employee";
   }
 
   public void toHomePage(ActionEvent event) throws IOException {
