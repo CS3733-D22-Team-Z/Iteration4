@@ -124,6 +124,9 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
         && !enterNodeType.getSelectionModel().isEmpty()
         && !equipmentDropDown.getSelectionModel().isEmpty()) {
       submitButton.setDisable(false);
+    } else {
+      submitButton.setDisable(true);
+      System.out.println("Medical Equipment Request Submit Button disabled");
     }
   }
 
