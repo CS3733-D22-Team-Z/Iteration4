@@ -1,12 +1,10 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
 
 public class LandingPageController implements IMenuAccess {
@@ -23,15 +21,23 @@ public class LandingPageController implements IMenuAccess {
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
 
-  @FXML VBox iconContainer;
-  @FXML MFXToggleButton toggle;
-  @FXML private Label Daniel;
-  @FXML private Label Patrick;
-  @FXML private Label Maya;
-  @FXML private Label Neha;
-  @FXML private Label Alex;
-  @FXML private Label Jake;
-  @FXML private Label Nelson;
+  // @FXML VBox iconContainer;
+  // @FXML MFXToggleButton toggle;
+  // @FXML private Label Daniel;
+  // @FXML private Label Patrick;
+  // @FXML private Label Maya;
+  // @FXML private Label Neha;
+  // @FXML private Label Alex;
+  // @FXML private Label Jake;
+  // @FXML private Label Nelson;
+  @FXML private Region medRegion;
+  @FXML private Region labRegion;
+  @FXML private Region externalRegion;
+  @FXML private Region languageRegion;
+  @FXML private Region computerRegion;
+  @FXML private Region laundryRegion;
+  @FXML private Region mealRegion;
+  @FXML private ScrollPane scrollPane;
 
   private String[] icons = {
     "M20,6h-4V4c0-1.1-0.9-2-2-2h-4C8.9,2,8,2.9,8,4v2H4C2.9,6,2,6.9,2,8v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V8 C22,6.9,21.1,6,20,6z M10,4h4v2h-4V4z M20,20H4V8h16V20z",
@@ -49,27 +55,49 @@ public class LandingPageController implements IMenuAccess {
   private String svgCSSLine = "-fx-background-color: %s";
 
   public void initialize() {
-    toggle.setSelected(true);
-    for (int i = 0; i < iconContainer.getChildren().size(); i++) {
-      Region graphic = (Region) iconContainer.getChildren().get(i);
-      SVGPath icon = new SVGPath();
-      icon.setContent(icons[i]);
-      graphic.setShape(icon);
-      graphic.setStyle(String.format(svgCSSLine, grey));
-    }
+    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    // toggle.setSelected(true);
+    SVGPath icon = new SVGPath();
+    icon.setContent(icons[0]);
+    medRegion.setShape(icon);
+    medRegion.setStyle(String.format(svgCSSLine, grey));
+
+    SVGPath labIcon = new SVGPath();
+    labIcon.setContent(icons[1]);
+    labRegion.setShape(labIcon);
+    labRegion.setStyle(String.format(svgCSSLine, grey));
+
+    SVGPath externalIcon = new SVGPath();
+    externalIcon.setContent(icons[2]);
+    externalRegion.setShape(externalIcon);
+    externalRegion.setStyle(String.format(svgCSSLine, grey));
+
+    SVGPath languageIcon = new SVGPath();
+    languageIcon.setContent(icons[3]);
+    languageRegion.setShape(languageIcon);
+    languageRegion.setStyle(String.format(svgCSSLine, grey));
+
+    SVGPath computerIcon = new SVGPath();
+    computerIcon.setContent(icons[6]);
+    computerRegion.setShape(computerIcon);
+    computerRegion.setStyle(String.format(svgCSSLine, grey));
+
+    SVGPath laundryIcon = new SVGPath();
+    laundryIcon.setContent(icons[5]);
+    laundryRegion.setShape(laundryIcon);
+    laundryRegion.setStyle(String.format(svgCSSLine, grey));
+
+    SVGPath mealIcon = new SVGPath();
+    mealIcon.setContent(icons[4]);
+    mealRegion.setShape(mealIcon);
+    mealRegion.setStyle(String.format(svgCSSLine, grey));
   }
 
-  public void onToggleClicked() {
-    boolean set = toggle.isSelected();
-    Daniel.setVisible(set);
-    Patrick.setVisible(set);
-    Maya.setVisible(set);
-    Neha.setVisible(set);
-    Alex.setVisible(set);
-    Jake.setVisible(set);
-    Nelson.setVisible(set);
-  }
-
+  /**
+   * public void onToggleClicked() { boolean set = toggle.isSelected(); Daniel.setVisible(set);
+   * Patrick.setVisible(set); Maya.setVisible(set); Neha.setVisible(set); Alex.setVisible(set);
+   * Jake.setVisible(set); Nelson.setVisible(set); } *
+   */
   @Override
   public void setMenuController(MenuController menu) {
     this.menu = menu;
