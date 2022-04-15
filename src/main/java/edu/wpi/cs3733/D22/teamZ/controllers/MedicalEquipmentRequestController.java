@@ -86,14 +86,8 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
     // Create entities for submission
     String itemID = equipmentDropDown.getValue().toString();
-    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
-    Employee issuer =
-        new Employee(
-            "admin1",
-            "Pat",
-            Employee.AccessType.ADMIN,
-            "",
-            ""); // TO DO: be person who made request
+    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
+    Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
 
     String equipmentID = equipmentDropDown.getValue().toString();
@@ -130,6 +124,9 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
         && !enterNodeType.getSelectionModel().isEmpty()
         && !equipmentDropDown.getSelectionModel().isEmpty()) {
       submitButton.setDisable(false);
+    } else {
+      submitButton.setDisable(true);
+      System.out.println("Medical Equipment Request Submit Button disabled");
     }
   }
 

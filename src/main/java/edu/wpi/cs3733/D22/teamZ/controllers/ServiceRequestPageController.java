@@ -121,6 +121,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     } else {
       ServiceRequest handler = tableContainer.getSelectionModel().getSelectedItem();
       handler.setHandler(facadeDAO.getEmployeeByID(employeeBox.getValue()));
+      handler.setStatus(ServiceRequest.RequestStatus.getRequestStatusByString("PROCESSING"));
       facadeDAO.updateServiceRequest(handler);
       createTable();
     }

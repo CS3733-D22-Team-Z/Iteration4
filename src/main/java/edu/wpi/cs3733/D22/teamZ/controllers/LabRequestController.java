@@ -50,6 +50,10 @@ public class LabRequestController extends ServiceRequestController {
         && !patientIdField.getText().trim().isEmpty()
         && !labTypeChoiceBox.getSelectionModel().isEmpty()) {
       submitButton.setDisable(false);
+      System.out.println("Lab Request Submit Button enabled");
+    } else {
+      submitButton.setDisable(true);
+      System.out.println("Lab Request Submit Button disabled");
     }
   }
 
@@ -81,9 +85,9 @@ public class LabRequestController extends ServiceRequestController {
 
     // Create entities for submission
 
-    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
-    Employee issuer = new Employee("Pat" + id, "Pat", Employee.AccessType.ADMIN, "", "");
-    Employee handler = new Employee("Jake" + id, "Jake", Employee.AccessType.ADMIN, "", "");
+    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
+    Employee issuer = MenuController.getLoggedInUser();
+    Employee handler = null;
 
     LabServiceRequest temp =
         new LabServiceRequest(

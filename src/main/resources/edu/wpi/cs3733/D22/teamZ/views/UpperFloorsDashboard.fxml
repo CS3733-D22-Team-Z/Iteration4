@@ -21,12 +21,17 @@
             <DropShadow />
          </effect>
          <children>
-            <TableView fx:id="upperFloor1Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+            <TableView fx:id="upperFloor1Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
                <columns>
                   <TableColumn fx:id="idColumnUP1" prefWidth="88.79998588562012" text="ID" />
                   <TableColumn fx:id="locationColumnUP1" prefWidth="86.40003204345703" text="Location" />
                </columns>
             </TableView>
+            <Label layoutX="73.0" text="Floor 1">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane layoutX="207.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
@@ -34,12 +39,17 @@
             <DropShadow />
          </effect>
          <children>
-            <TableView fx:id="upperFloor2Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+            <TableView fx:id="upperFloor2Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
                <columns>
                   <TableColumn fx:id="idColumnUP2" prefWidth="83.199951171875" text="ID" />
                   <TableColumn fx:id="locationColumnUP2" prefWidth="92.00006103515625" text="Location" />
                </columns>
             </TableView>
+            <Label layoutX="74.0" text="Floor 2">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane layoutX="406.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
@@ -47,12 +57,17 @@
             <DropShadow />
          </effect>
          <children>
-            <TableView fx:id="upperFloor3Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+            <TableView fx:id="upperFloor3Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
                <columns>
                   <TableColumn fx:id="idColumnUP3" prefWidth="89.5999755859375" text="ID" />
                   <TableColumn fx:id="locationColumnUP3" prefWidth="85.60000610351562" text="Location" />
                </columns>
             </TableView>
+            <Label layoutX="73.0" layoutY="1.0" text="Floor 3">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane layoutX="114.0" layoutY="218.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
@@ -60,12 +75,17 @@
             <DropShadow />
          </effect>
          <children>
-            <TableView fx:id="upperFloor4Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+            <TableView fx:id="upperFloor4Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
                <columns>
                   <TableColumn fx:id="idColumnUP4" prefWidth="89.59998321533203" text="ID" />
                   <TableColumn fx:id="locationColumnUP4" prefWidth="85.60003662109375" text="Location" />
                </columns>
             </TableView>
+            <Label layoutX="74.0" layoutY="1.0" text="Floor 4">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane layoutX="313.0" layoutY="218.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
@@ -73,12 +93,17 @@
             <DropShadow />
          </effect>
          <children>
-            <TableView fx:id="upperFloor5Table" layoutX="4.0" layoutY="4.0" prefHeight="161.0" prefWidth="179.0">
+            <TableView fx:id="upperFloor5Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
                <columns>
-                  <TableColumn fx:id="idColumnUP5" prefWidth="89.5999755859375" text="ID" />
-                  <TableColumn fx:id="locationColumnUP5" prefWidth="85.60003662109375" text="Location" />
+                  <TableColumn fx:id="idColumnUP5" prefWidth="88.79998779296875" text="ID" />
+                  <TableColumn fx:id="locationColumnUP5" prefWidth="87.20001220703125" text="Location" />
                </columns>
             </TableView>
+            <Label layoutX="73.0" layoutY="2.0" text="Floor 5">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <MFXButton fx:id="lowerLevelButton" layoutX="440.0" layoutY="9.0" onAction="#toLowerLevelDashboard" prefHeight="26.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" text="Lower Level Dashboard" textFill="WHITE">
