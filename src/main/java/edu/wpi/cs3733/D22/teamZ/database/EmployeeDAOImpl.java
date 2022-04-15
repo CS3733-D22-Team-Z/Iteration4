@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 class EmployeeDAOImpl implements IEmployeeDAO {
-  private List<Employee> employees;
+  private final List<Employee> employees;
   private EmployeeControlCSV empCSV;
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
 
   public EmployeeDAOImpl() {
-    employees = new ArrayList<Employee>();
+    employees = new ArrayList<>();
     updateConnection();
   }
 
@@ -51,7 +51,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
   /**
    * Gets ONE employee from the database based on the provided employeeID
    *
-   * @param employeeID
+   * @param employeeID The id of the employee to be searched for
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByID(String employeeID) {
@@ -84,7 +84,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
   /**
    * Gets ONE employee from the database based on the provided username
    *
-   * @param employeeUsername
+   * @param employeeUsername The username of the employee to be searched for
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByUsername(String employeeUsername) {
@@ -118,7 +118,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
   /**
    * Adds a new employee to database. Will automatically check if already in database
    *
-   * @param emp
+   * @param emp The employee to be added
    * @return True if successful, false if not
    */
   public boolean addEmployee(Employee emp) {
@@ -134,7 +134,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
   /**
    * Updates a employee in the database. Will automatically check if exists in database
    *
-   * @param emp
+   * @param emp The employee to be updated
    * @return True if successful, false if not
    */
   public boolean updateEmployee(Employee emp) {
@@ -161,7 +161,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
   /**
    * Deletes a location from database. Will automatically check if exists in database already
    *
-   * @param emp
+   * @param emp The employee to be deleted
    * @return True if successful, false if not
    */
   public boolean deleteEmployee(Employee emp) {
@@ -190,7 +190,12 @@ class EmployeeDAOImpl implements IEmployeeDAO {
 
     empData = new File(System.getProperty("user.dir") + "\\employee.csv");
     empCSV = new EmployeeControlCSV(empData);
-    empCSV.writeEmployeeCSV(getAllEmployees());
+    try {
+      empCSV.writeEmployeeCSV(getAllEmployees());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
 
     return true;
   }

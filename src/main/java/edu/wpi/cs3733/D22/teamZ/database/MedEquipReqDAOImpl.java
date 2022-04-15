@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class MedEquipReqDAOImpl implements IMedEquipReqDAO {
-  private List<MedicalEquipmentDeliveryRequest> list;
+  private final List<MedicalEquipmentDeliveryRequest> list;
   private MedEqReqControlCSV reqCSV;
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -84,7 +84,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
       pstmt.setString(1, id);
       ResultSet rset = pstmt.executeQuery();
 
-      while (rset.next()) {
+      if (rset.next()) {
         String requestID = rset.getString("REQUESTID");
         String status = rset.getString("STATUS");
         String equipmentID = rset.getString("EQUIPMENTID");
@@ -186,7 +186,13 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     // reqData = new File(System.getProperty("user.dir") + "\\MedEquipReq.csv");
     reqCSV = new MedEqReqControlCSV(reqData);
 
-    reqCSV.writeMedReqCSV(getAllMedEquipReq());
+    try {
+      reqCSV.writeMedReqCSV(getAllMedEquipReq());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
     return true;
   }
 
@@ -257,7 +263,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
   /**
    * Contains SQL command for inserting MedicalEquipmentDeliveryRequests into database
    *
-   * @param request
+   * @param request The medical equipment delivery request to be added
    * @return True if successful, false otherwise
    */
   private boolean addToDatabase(MedicalEquipmentDeliveryRequest request) {

@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ServiceRequestDAOImpl implements IServiceRequestDAO {
-  private List<ServiceRequest> serviceRequestList;
+  private final List<ServiceRequest> serviceRequestList;
   private ServiceRequestControlCSV csvController;
 
-  private static IEmployeeDAO employeeDAO = new EmployeeDAOImpl();
-  private static ILocationDAO locationDAO = new LocationDAOImpl();
+  private static final LocationDAOImpl locationDAO = new LocationDAOImpl();
+  private static final EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -185,7 +185,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
    * Update a ServiceRequest object in database and list of service requests
    *
    * @param request ServiceRequest object that stores updated information
-   * @returnTrue if success, false otherwise
+   * @return True if success, false otherwise
    */
   @Override
   public boolean updateServiceRequest(ServiceRequest request) {
@@ -211,9 +211,16 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
   /** Writes the current database to a .csv file */
   @Override
-  public void exportToServiceRequestCSV() {
+  public boolean exportToServiceRequestCSV() {
     updateConnection();
-    csvController.writeServiceRequestCSV(serviceRequestList);
+    try {
+      csvController.writeServiceRequestCSV(serviceRequestList);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
   }
 
   /**
