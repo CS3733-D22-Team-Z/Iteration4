@@ -76,7 +76,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     filterBox.getItems().addAll("Test 1", "Test 2", "Test 3");
     List<Employee> employees = facadeDAO.getAllEmployees();
     for (int i = 0; i < employees.size(); i++) {
-      employeeBox.getItems().add(employees.get(i).getEmployeeID());
+      employeeBox.getItems().add(employees.get(i).getName());
     }
 
     createTable();
