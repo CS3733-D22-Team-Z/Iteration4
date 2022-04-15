@@ -58,13 +58,13 @@ public class LocationListController implements IMenuAccess {
   @FXML private MFXTextField alertLocationFieldDelete;
   @FXML private MFXButton submitAlert;
   // @FXML private MFXButton addAlertButton;
-  @FXML private ComboBox<String> alertCodeField;
+  //@FXML private ComboBox<String> alertCodeField;
   // @FXML private MFXButton addLocationButton;
-  @FXML private MFXButton deleteAlert;
-  @FXML private MFXButton addAlertButton;
+ // @FXML private MFXButton deleteAlert;
+ // @FXML private MFXButton addAlertButton;
   @FXML private ComboBox<String> alertCodeFieldAdd;
   @FXML private ComboBox<String> alertCodeFieldDelete;
-  @FXML private MFXButton addLocationButton;
+  //@FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
   @FXML private SplitPane splitPane;
   @FXML private Group group;
@@ -851,7 +851,7 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  private void cancelDeleteAlert(ActionEvent event) throws IOException {
+  private void cancelDeleteAlert() {
     deleteAlertPane.setVisible(false);
     deleteAlertPane.setDisable(true);
   }
