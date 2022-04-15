@@ -177,6 +177,11 @@ class LocationDAOImpl implements ILocationDAO {
     return true;
   }
 
+  /**
+   * Returns the default path for a location csv file to be saved
+   *
+   * @return The default path for a location csv file to be saved
+   */
   File getDefaultLocationCSVPath() {
     return locCSV.getDefaultPath();
   }

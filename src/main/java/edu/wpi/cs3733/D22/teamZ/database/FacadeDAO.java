@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
@@ -485,7 +484,7 @@ public class FacadeDAO {
   /** Writes the current database to a .csv file */
   // TODO fix the export services function
   public void exportServiceRequestsToCSV(File serviceRequestData) {
-    serviceRequestDAO.exportToServiceRequestCSV();
+    serviceRequestDAO.exportToServiceRequestCSV(serviceRequestData);
   }
   /**
    * Exports the MedicalEquipmentRequest database to specified file location for csv
@@ -508,7 +507,6 @@ public class FacadeDAO {
   }
 
   // Get default path methods
-
   /**
    * Returns the default path that location csv files are printed to
    *
@@ -516,6 +514,15 @@ public class FacadeDAO {
    */
   public File getDefaultLocationCSVPath() {
     return locationDAO.getDefaultLocationCSVPath();
+  }
+
+  /**
+   * Returns the default path that service request csv files are printed to
+   *
+   * @return The default path that service request csv files are printed to
+   */
+  public File getDefaultServiceRequestCSVPath() {
+    return serviceRequestDAO.getDefaultServiceRequestCSVPath();
   }
 
   // Add from list functions

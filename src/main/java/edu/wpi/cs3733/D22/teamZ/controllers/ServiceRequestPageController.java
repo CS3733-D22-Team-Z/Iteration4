@@ -128,7 +128,6 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   }
 
   public void exportToCSV(ActionEvent actionEvent) {
-
     FileChooser fileChooser = new FileChooser();
     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
     fileChooser.setTitle("Enter a .csv file...");
@@ -136,7 +135,18 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
+    File defaultFile = facadeDAO.getDefaultServiceRequestCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
+
     File file = fileChooser.showSaveDialog(stage);
-    facadeDAO.exportServiceRequestsToCSV(file);
+
+    if (file != null) {
+      facadeDAO.exportServiceRequestsToCSV(file);
+    }
   }
 }

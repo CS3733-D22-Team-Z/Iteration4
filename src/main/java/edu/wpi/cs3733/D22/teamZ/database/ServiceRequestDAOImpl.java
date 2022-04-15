@@ -14,7 +14,7 @@ import java.util.List;
 
 class ServiceRequestDAOImpl implements IServiceRequestDAO {
   private final List<ServiceRequest> serviceRequestList;
-  private ServiceRequestControlCSV csvController;
+  private final ServiceRequestControlCSV csvController;
 
   private static final LocationDAOImpl locationDAO = new LocationDAOImpl();
   private static final EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
@@ -28,42 +28,6 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     csvController = new ServiceRequestControlCSV(serviceRequestCSV);
 
     serviceRequestList = new ArrayList<>();
-
-    try {
-      PreparedStatement pstmt = connection.prepareStatement("Select * From SERVICEREQUEST");
-      ResultSet rset = pstmt.executeQuery();
-
-      // Read through all of the ResultSet before calling another DAO to prevent conflicts
-      List<List<String>> data = new ArrayList<>();
-      while (rset.next()) {
-        List<String> fields = new ArrayList<>();
-        fields.add(rset.getString("requestID"));
-        fields.add(rset.getString("type"));
-        fields.add(rset.getString("status"));
-        fields.add(rset.getString("issuerID"));
-        fields.add(rset.getString("handlerID"));
-        fields.add(rset.getString("targetLocationID"));
-
-        data.add(fields);
-      }
-
-      for (List<String> fields : data) {
-        String requestID = fields.get(0);
-        ServiceRequest.RequestType type =
-            ServiceRequest.RequestType.getRequestTypeByString(fields.get(1));
-        ServiceRequest.RequestStatus status =
-            ServiceRequest.RequestStatus.getRequestStatusByString(fields.get(2));
-        Employee issuer = employeeDAO.getEmployeeByID(fields.get(3));
-        Employee handler = employeeDAO.getEmployeeByID(fields.get(4));
-        Location targetLocation = locationDAO.getLocationByID(fields.get(5));
-
-        serviceRequestList.add(
-            new ServiceRequest(requestID, type, status, issuer, handler, targetLocation));
-      }
-    } catch (SQLException e) {
-      System.out.println("Something went wrong with the database connection.");
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -209,12 +173,44 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     }
   }
 
-  /** Writes the current database to a .csv file */
+  /**
+   * Returns the default path for a service request csv file to be saved
+   *
+   * @return The default path for a service request csv file to be saved
+   */
+  File getDefaultServiceRequestCSVPath() {
+    return csvController.getDefaultPath();
+  }
+
+  /**
+   * Writes the current database to a .csv file
+   *
+   * @return True if successful, false otherwise
+   */
   @Override
   public boolean exportToServiceRequestCSV() {
     updateConnection();
     try {
       csvController.writeServiceRequestCSV(serviceRequestList);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Writes the current database to a .csv file
+   *
+   * @param path The file path the csv will be written to
+   * @return True if successful, false otherwise
+   */
+  @Override
+  public boolean exportToServiceRequestCSV(File path) {
+    updateConnection();
+    try {
+      csvController.writeServiceRequestCSV(serviceRequestList, path);
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -232,11 +228,11 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   @Override
   public int importServiceRequestsFromCSV(File serviceRequestData) {
     updateConnection();
-    serviceRequestData = new File(System.getProperty("user.dir") + "\\employee.csv");
-    csvController = new ServiceRequestControlCSV(serviceRequestData);
+
     int conflictCounter = 0;
     try {
-      List<ServiceRequest> tempServiceRequest = csvController.readServiceRequestCSV();
+      List<ServiceRequest> tempServiceRequest =
+          csvController.readServiceRequestCSV(serviceRequestData);
       String temp = "";
 
       try {
