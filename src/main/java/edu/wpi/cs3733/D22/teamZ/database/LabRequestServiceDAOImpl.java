@@ -126,7 +126,6 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
   @Override
   public boolean exportToLabRequestCSV(File reqData) {
     reqCSV = new LabRequestControlCSV(reqData);
-    reqCSV.writeLabRequestCSV(getAllLabServiceRequests());
 
     try {
       reqCSV.writeLabRequestCSV(labRequests);
