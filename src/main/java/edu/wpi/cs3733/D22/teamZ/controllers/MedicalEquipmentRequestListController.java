@@ -171,7 +171,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
           new RequestRow(
               medicalEquipmentRequest.getRequestID(),
               medicalEquipmentRequest.getEquipmentID(),
-              medicalEquipmentRequest.getIssuer().getName(),
+              medicalEquipmentRequest.getHandler().getName(),
               medicalEquipmentRequest.getStatus().toString()));
     }
 

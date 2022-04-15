@@ -50,6 +50,10 @@ public class LabRequestController extends ServiceRequestController {
         && !patientIdField.getText().trim().isEmpty()
         && !labTypeChoiceBox.getSelectionModel().isEmpty()) {
       submitButton.setDisable(false);
+      System.out.println("Lab Request Submit Button enabled");
+    } else {
+      submitButton.setDisable(true);
+      System.out.println("Lab Request Submit Button disabled");
     }
   }
 

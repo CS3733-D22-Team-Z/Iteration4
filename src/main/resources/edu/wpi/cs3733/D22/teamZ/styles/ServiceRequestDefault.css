@@ -97,6 +97,20 @@
     -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
 }
 
+.mfx-password-field {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 600;
+    -fx-font-size: 9pt;
+    -fx-text-fill: #9D9D9D;
+
+    -fx-border-width: 0px;
+
+    -fx-background-radius: 5px;
+    -fx-background-color: #FFFFFF;
+
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
+}
+
 .choice-box {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 600;
