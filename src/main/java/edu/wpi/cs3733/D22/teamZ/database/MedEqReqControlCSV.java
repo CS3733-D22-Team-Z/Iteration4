@@ -8,14 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MedEqReqControlCSV extends ControlCSV {
-  private String[] headers = {"requestID", "itemID"};
+  private final String[] headers = {"requestID", "itemID"};
   private FacadeDAO dao = FacadeDAO.getInstance();
 
   public MedEqReqControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
-  protected void writeMedReqCSV(List<MedicalEquipmentDeliveryRequest> in) {
+  protected void writeMedReqCSV(List<MedicalEquipmentDeliveryRequest> in) throws IOException {
+    IMedicalEquipmentDAO medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
+    IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
 
     writeCSV(objToData(in), headers);
     // TODO this doesnt make sense

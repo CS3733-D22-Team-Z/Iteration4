@@ -14,7 +14,6 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
-  // private HashMap<String, LabServiceRequest> labRequests = new HashMap<>();
   private List<LabServiceRequest> labRequests = new ArrayList<>();
   private LabRequestControlCSV reqCSV;
 
@@ -22,7 +21,6 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    * Gets all lab service requests
    *
    * @return list of lab service requests
-   * @throws SQLException
    */
   @Override
   public List<LabServiceRequest> getAllLabServiceRequests() {
@@ -32,7 +30,7 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
   /**
    * Get a LabServiceRequest with provided requestID
    *
-   * @param requestID
+   * @param requestID The id of the request to be search for
    * @return LabServiceRequest object with given ID
    */
   @Override
@@ -129,6 +127,14 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
   public boolean exportToLabRequestCSV(File reqData) {
     reqCSV = new LabRequestControlCSV(reqData);
     reqCSV.writeLabRequestCSV(getAllLabServiceRequests());
+
+    try {
+      reqCSV.writeLabRequestCSV(labRequests);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
     return true;
   }
 

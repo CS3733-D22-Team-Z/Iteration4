@@ -9,20 +9,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 class ServiceRequestDAOImpl implements IServiceRequestDAO {
-  private HashMap<String, ServiceRequest> serviceRequests;
-  private ServiceRequestControlCSV csvController;
   private List<ServiceRequest> serviceRequestList;
+  private ServiceRequestControlCSV csvController;
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
 
   public ServiceRequestDAOImpl() {
     updateConnection();
-    serviceRequests = new HashMap<>();
     serviceRequestList = new ArrayList<>();
   }
 
@@ -143,7 +140,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
    * Update a ServiceRequest object in database and list of service requests
    *
    * @param request ServiceRequest object that stores updated information
-   * @returnTrue if success, false otherwise
+   * @return True if success, false otherwise
    */
   @Override
   public boolean updateServiceRequest(ServiceRequest request) {
@@ -179,9 +176,16 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
   /** Writes the current database to a .csv file */
   @Override
-  public void exportToServiceRequestCSV() {
+  public boolean exportToServiceRequestCSV() {
     updateConnection();
-    csvController.writeServiceRequestCSV(getAllServiceRequests());
+    try {
+      csvController.writeServiceRequestCSV(serviceRequestList);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
   }
 
   /**

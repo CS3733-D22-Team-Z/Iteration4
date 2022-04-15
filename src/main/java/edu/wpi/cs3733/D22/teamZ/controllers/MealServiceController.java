@@ -35,6 +35,7 @@ public class MealServiceController extends ServiceRequestController {
   // Lists
   private List<Location> locationList;
   private List<ServiceRequest> mealRequestList = new ArrayList<>();
+  private List<ServiceRequest> allServiceRequestList = new ArrayList<>();
 
   private ObservableList<String> currReq = FXCollections.observableList(new ArrayList<>());
 
@@ -57,11 +58,14 @@ public class MealServiceController extends ServiceRequestController {
     }
     currentRequests.setItems(currReq);
     currentRequests.refresh();
+    allServiceRequestList = instanceDAO.getAllServiceRequests();
   }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     menuName = "Meal Request";
+    submitButton.setDisable(true);
+    System.out.println("Meal Request Submit button disabled");
 
     //    locationList =
     //        instanceDAO.getAllLocations().stream()
@@ -72,6 +76,7 @@ public class MealServiceController extends ServiceRequestController {
         instanceDAO.getAllServiceRequests().stream()
             .filter(REQ -> REQ.getType() == ServiceRequest.RequestType.MEAL)
             .collect(Collectors.toList());
+    //    allServiceRequestList = instanceDAO.
 
     String temp = null;
     for (Location model : locationList) {
@@ -106,6 +111,7 @@ public class MealServiceController extends ServiceRequestController {
     orderStatusDropDown.setValue("IN PROGRESS");
     //    currReqLabel.setText("");
 
+    allServiceRequestList = instanceDAO.getAllServiceRequests();
     updateCurrentMealRequestList();
   }
 
@@ -121,12 +127,14 @@ public class MealServiceController extends ServiceRequestController {
 
     String id;
 
-    if (mealRequestList.isEmpty()) {
+    allServiceRequestList = instanceDAO.getAllServiceRequests();
+
+    if (allServiceRequestList.isEmpty()) {
       System.out.println("Meal is empty");
       id = "REQ0";
     } else {
-      //      List<ServiceRequest> currentList = instanceDAO.getAllServiceRequests();
-      ServiceRequest lastestReq = mealRequestList.get(mealRequestList.size() - 1);
+      List<ServiceRequest> currentList = database.getAllServiceRequests();
+      ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
       id = lastestReq.getRequestID();
     }
     // Create new REQID
@@ -138,8 +146,8 @@ public class MealServiceController extends ServiceRequestController {
     // Create entities for submission
     String mealServiceOption = mealOptionDropDown.getValue().toString();
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
-    Employee issuer = new Employee("Pat" + num, "Pat", Employee.AccessType.ADMIN, "", "");
-    Employee handler = new Employee("Jake" + num, "Jake", Employee.AccessType.ADMIN, "", "");
+    Employee issuer = MenuController.getLoggedInUser();
+    Employee handler = null;
 
     //     Update meal request table to show in use
     Location targetLocation = new Location();
@@ -165,6 +173,7 @@ public class MealServiceController extends ServiceRequestController {
     mealRequestList.add(temp);
 
     instanceDAO.addServiceRequestFromList(mealRequestList);
+    database.addServiceRequest(temp);
 
     updateCurrentMealRequestList();
 
@@ -174,12 +183,16 @@ public class MealServiceController extends ServiceRequestController {
     roomNumberDropDown.setValue(null);
     mealOptionDropDown.setValue(null);
     orderStatusDropDown.setValue("IN PROGRESS");
+    submitButton.setDisable(true);
+    System.out.println("Meal Request Submit button disabled");
   }
 
   @Override
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     System.out.println("Reset Button Clicked");
-    infoLabel.setText("");
+    submitButton.setDisable(true);
+    System.out.println("Meal Request Submit button disabled");
+    //    infoLabel.setText("");
     enterPatientName.clear();
     enterPatientID.clear();
     enterStaffAssigned.clear();
@@ -219,5 +232,21 @@ public class MealServiceController extends ServiceRequestController {
     System.out.println("TESTING MOUSE CLICK");
     System.out.println(currentRequests.getFocusModel().getFocusedIndex()); // number starting at 0
     System.out.println(currentRequests.getFocusModel().getFocusedItem()); // string of selected
+    int orderIndex = currentRequests.getFocusModel().getFocusedIndex();
+
+    if (orderIndex > -1) {
+      ServiceRequest temp = mealRequestList.get(orderIndex);
+
+      //    enterPatientName.setText();
+      //    enterPatientID.setText();
+      //    enterStaffAssigned.setText();
+      roomNumberDropDown.setValue(temp.getTargetLocation().getShortName().substring(0, 4));
+      //    mealOptionDropDown.setValue()
+      orderStatusDropDown.setValue(temp.getStatus().toString());
+      submitButton.setDisable(
+          true); // TODO: Eventually set to false once all other fields are retrieved
+    } else {
+      System.out.println("OrderIndex: " + orderIndex);
+    }
   }
 }

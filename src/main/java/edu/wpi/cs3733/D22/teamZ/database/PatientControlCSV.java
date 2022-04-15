@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PatientControlCSV extends ControlCSV {
-  private String[] headers = {"PatientID", "name", "location"};
+  private final String[] headers = {"PatientID", "name", "location"};
   private FacadeDAO dao = FacadeDAO.getInstance();
 
   public PatientControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
-  protected void writePatCSV(List<Patient> in) {
+  protected void writePatCSV(List<Patient> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 

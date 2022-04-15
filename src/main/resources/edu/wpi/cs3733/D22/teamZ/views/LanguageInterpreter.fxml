@@ -14,19 +14,19 @@
         <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="15.0" layoutY="13.0" onAction="#onBackButtonClicked" text=" Back to Landing Page" />
         <Label layoutX="16.0" layoutY="78.0" prefHeight="17.0" prefWidth="356.0" styleClass="object-body" text="Enter the fields below to request a language interpreter." />
         <Label layoutX="15.0" layoutY="168.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
-        <MFXTextField floatMode="DISABLED" layoutX="12.0" layoutY="190.0" prefWidth="149.0" promptText="Enter patient ID" />
+        <MFXTextField floatMode="DISABLED" layoutX="12.0" layoutY="190.0" onKeyReleased="#validateButton" prefWidth="149.0" promptText="Enter patient ID" />
         <Accordion layoutX="15.0" layoutY="194.0" />
-        <ChoiceBox layoutX="10.0" layoutY="314.0" prefHeight="25.0" prefWidth="149.0" />
+        <ChoiceBox layoutX="10.0" layoutY="314.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
         <Label layoutX="10.0" layoutY="292.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Language" />
         <Label layoutX="15.0" layoutY="106.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
-        <MFXTextField floatMode="DISABLED" layoutX="13.0" layoutY="131.0" prefWidth="149.0" promptText="Enter patient name" />
+        <MFXTextField floatMode="DISABLED" layoutX="13.0" layoutY="131.0" onKeyReleased="#validateButton" prefWidth="149.0" promptText="Enter patient name" />
         <MFXButton fx:id="submitButton" layoutX="12.0" layoutY="363.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="79.0" text="Submit" />
         <Label layoutX="12.0" layoutY="230.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
-        <MFXTextField floatMode="DISABLED" layoutX="11.0" layoutY="252.0" prefWidth="149.0" promptText="Enter room number" />
+        <MFXTextField floatMode="DISABLED" layoutX="11.0" layoutY="252.0" onKeyReleased="#validateButton" prefWidth="149.0" promptText="Enter room number" />
         <Label layoutX="265.0" layoutY="104.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Status" />
-        <ChoiceBox layoutX="264.0" layoutY="128.0" prefHeight="25.0" prefWidth="149.0" />
+        <ChoiceBox layoutX="264.0" layoutY="128.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
         <Label layoutX="265.0" layoutY="167.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Staff Assigned" />
-        <MFXTextField floatMode="DISABLED" layoutX="264.0" layoutY="188.0" prefWidth="149.0" />
+        <MFXTextField floatMode="DISABLED" layoutX="264.0" layoutY="188.0" onKeyReleased="#validateButton" prefWidth="149.0" />
         <MFXLegacyListView layoutX="264.0" layoutY="248.0" prefHeight="131.0" prefWidth="269.0" />
         <Label layoutX="264.0" layoutY="226.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
       <MFXButton fx:id="resetButton" layoutX="101.0" layoutY="361.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="79.0" style="-fx-background-color: #FF4C4C;" text="Reset" />

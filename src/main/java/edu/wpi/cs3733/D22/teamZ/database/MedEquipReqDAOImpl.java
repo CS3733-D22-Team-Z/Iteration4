@@ -6,11 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 class MedEquipReqDAOImpl implements IMedEquipReqDAO {
-  private HashMap<String, MedicalEquipmentDeliveryRequest> medEquipReq;
   private MedEqReqControlCSV reqCSV;
   private List<MedicalEquipmentDeliveryRequest> medicalEquipmentRequests;
 
@@ -41,12 +39,10 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
    * @return MedicalEquipmentRequest of given ID, null if not found
    */
   public MedicalEquipmentDeliveryRequest getMedEquipReqByID(String id) {
-    int i = 0;
     for (MedicalEquipmentDeliveryRequest req : medicalEquipmentRequests) {
       if (req.getRequestID().equals(id)) {
-        return medicalEquipmentRequests.get(i);
+        return req;
       }
-      i++;
     }
     return null;
   }
@@ -139,7 +135,13 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     // reqData = new File(System.getProperty("user.dir") + "\\MedEquipReq.csv");
     reqCSV = new MedEqReqControlCSV(reqData);
 
-    reqCSV.writeMedReqCSV(getAllMedEquipReq());
+    try {
+      reqCSV.writeMedReqCSV(getAllMedEquipReq());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
     return true;
   }
 
@@ -213,7 +215,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
   /**
    * Contains SQL command for inserting MedicalEquipmentDeliveryRequests into database
    *
-   * @param request
+   * @param request The medical equipment delivery request to be added
    * @return True if successful, false otherwise
    */
   private boolean addToDatabase(MedicalEquipmentDeliveryRequest request) {

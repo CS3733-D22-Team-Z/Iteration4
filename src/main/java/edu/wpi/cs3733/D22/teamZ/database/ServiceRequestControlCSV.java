@@ -15,10 +15,10 @@ public class ServiceRequestControlCSV extends ControlCSV {
   };
 
   public ServiceRequestControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
-  protected void writeServiceRequestCSV(List<ServiceRequest> in) {
+  protected void writeServiceRequestCSV(List<ServiceRequest> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 
