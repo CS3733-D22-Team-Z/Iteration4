@@ -304,7 +304,11 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
       stmt.setString(2, request.getType().toString());
       stmt.setString(3, request.getStatus().toString());
       stmt.setString(4, request.getIssuer().getEmployeeID());
-      stmt.setString(5, request.getHandler().getEmployeeID());
+      if (request.getHandler() == null) {
+        stmt.setString(5, null);
+      } else {
+        stmt.setString(5, request.getHandler().getEmployeeID());
+      }
       stmt.setString(6, request.getTargetLocation().getNodeID());
 
       stmt.executeUpdate();
