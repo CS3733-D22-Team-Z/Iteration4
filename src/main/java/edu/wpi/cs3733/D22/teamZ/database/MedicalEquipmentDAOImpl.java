@@ -155,9 +155,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       }
     } catch (SQLException e) {
       System.out.println("failed to get medical equipment by location");
-      for (int i = 0; i < medicalEquipmentLocationList.size(); i++) {
-        medicalEquipmentLocationList.remove(i);
-      }
+      medicalEquipmentLocationList.clear();
     }
     return medicalEquipmentLocationList;
   }
@@ -242,7 +240,13 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
   public boolean exportToMedicalEquipmentCSV(File equipmentData) {
     updateConnection();
     medicalEquipmentControlCSV = new MedicalEquipmentControlCSV(equipmentData);
-    medicalEquipmentControlCSV.writeMedicalEquipmentCSV(medicalEquipmentsList);
+    try {
+      medicalEquipmentControlCSV.writeMedicalEquipmentCSV(medicalEquipmentsList);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
     return true;
   }
 

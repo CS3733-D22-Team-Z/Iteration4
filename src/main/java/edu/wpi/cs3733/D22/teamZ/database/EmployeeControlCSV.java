@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeControlCSV extends ControlCSV {
-  private String[] headers = {"EmployeeID", "name", "accessType", "username", "password"};
+  private final String[] headers = {"EmployeeID", "name", "accessType", "username", "password"};
 
   public EmployeeControlCSV(File path) {
     this.setDefaultPath(path);
   }
 
-  protected void writeEmployeeCSV(List<Employee> in) {
+  protected void writeEmployeeCSV(List<Employee> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 class LocationDAOImpl implements ILocationDAO {
 
-  private List<Location> locations;
+  private final List<Location> locations;
   private LocationControlCSV locCSV;
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -17,7 +17,7 @@ class LocationDAOImpl implements ILocationDAO {
 
   public LocationDAOImpl() {
     updateConnection();
-    locations = new ArrayList<Location>();
+    locations = new ArrayList<>();
   }
 
   /**
@@ -77,9 +77,9 @@ class LocationDAOImpl implements ILocationDAO {
   }
 
   /**
-   * Gets ONE lcoation from the database based on the provided nodeID
+   * Gets ONE location from the database based on the provided nodeID
    *
-   * @param nodeID
+   * @param nodeID The id of the location node being searched for
    * @return Location object with provided nodeID
    */
   public Location getLocationByID(String nodeID) {
@@ -116,7 +116,7 @@ class LocationDAOImpl implements ILocationDAO {
   /**
    * Adds a new location to database. Will automatically check if already in database
    *
-   * @param loc
+   * @param loc The location to be added
    * @return True if successful, false if not
    */
   public boolean addLocation(Location loc) {
@@ -132,7 +132,7 @@ class LocationDAOImpl implements ILocationDAO {
   /**
    * Updates a location in the database. Will automatically check if exists in database
    *
-   * @param loc
+   * @param loc The location to be updated
    * @return True if successful, false if not
    */
   public boolean updateLocation(Location loc) {
@@ -157,7 +157,7 @@ class LocationDAOImpl implements ILocationDAO {
   /**
    * Deletes a location from database. Will automatically check if exists in database already
    *
-   * @param loc
+   * @param loc The location to be deleted
    * @return True if successful, false if not
    */
   public boolean deleteLocation(Location loc) {
@@ -184,7 +184,12 @@ class LocationDAOImpl implements ILocationDAO {
 
     // File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
     locCSV = new LocationControlCSV(locData);
-    locCSV.writeLocCSV(getAllLocations(), locData);
+    try {
+      locCSV.writeLocCSV(getAllLocations(), locData);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
 
     return true;
   }
@@ -192,7 +197,7 @@ class LocationDAOImpl implements ILocationDAO {
   /**
    * Gets all locations on the given floor
    *
-   * @param floor
+   * @param floor The floor the locations will be on
    * @return list of locations
    */
   @Override
@@ -264,7 +269,7 @@ class LocationDAOImpl implements ILocationDAO {
   /**
    * Imports data from CSV into location database
    *
-   * @param locData
+   * @param locData The file location that contains a CSV of location data
    * @return number of times there are conflicts when trying to import
    */
   @Override
@@ -277,8 +282,8 @@ class LocationDAOImpl implements ILocationDAO {
 
       List<String> newLocations = new ArrayList<>();
 
-      for (int i = 0; i < tempLoc.size(); i++) {
-        newLocations.add(tempLoc.get(i).getNodeID());
+      for (Location loc : tempLoc) {
+        newLocations.add(loc.getNodeID());
       }
 
       List<String> currentNodeIDs = getAllLocationNodeIDs();

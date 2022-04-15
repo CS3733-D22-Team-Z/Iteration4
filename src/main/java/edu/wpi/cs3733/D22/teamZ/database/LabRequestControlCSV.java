@@ -15,7 +15,7 @@ public class LabRequestControlCSV extends ControlCSV {
     this.setDefaultPath(path);
   }
 
-  public void writeLabRequestCSV(List<LabServiceRequest> in) {
+  public void writeLabRequestCSV(List<LabServiceRequest> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 

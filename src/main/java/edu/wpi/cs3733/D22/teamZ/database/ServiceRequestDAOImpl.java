@@ -13,11 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ServiceRequestDAOImpl implements IServiceRequestDAO {
-  private List<ServiceRequest> serviceRequestList;
+  private final List<ServiceRequest> serviceRequestList;
   private ServiceRequestControlCSV csvController;
 
-  private static IEmployeeDAO employeeDAO = new EmployeeDAOImpl();
-  private static ILocationDAO locationDAO = new LocationDAOImpl();
+  private static final FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -53,9 +52,9 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
             ServiceRequest.RequestType.getRequestTypeByString(fields.get(1));
         ServiceRequest.RequestStatus status =
             ServiceRequest.RequestStatus.getRequestStatusByString(fields.get(2));
-        Employee issuer = employeeDAO.getEmployeeByID(fields.get(3));
-        Employee handler = employeeDAO.getEmployeeByID(fields.get(4));
-        Location targetLocation = locationDAO.getLocationByID(fields.get(5));
+        Employee issuer = facadeDAO.getEmployeeByID(fields.get(3));
+        Employee handler = facadeDAO.getEmployeeByID(fields.get(4));
+        Location targetLocation = facadeDAO.getLocationByID(fields.get(5));
 
         serviceRequestList.add(
             new ServiceRequest(requestID, type, status, issuer, handler, targetLocation));
@@ -133,9 +132,9 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     ServiceRequest.RequestType type = ServiceRequest.RequestType.getRequestTypeByString(typeStr);
     ServiceRequest.RequestStatus status =
         ServiceRequest.RequestStatus.getRequestStatusByString(statusStr);
-    Employee issuer = employeeDAO.getEmployeeByID(issuerID);
-    Employee handler = employeeDAO.getEmployeeByID(handlerID);
-    Location targetLocation = locationDAO.getLocationByID(targetLocationID);
+    Employee issuer = facadeDAO.getEmployeeByID(issuerID);
+    Employee handler = facadeDAO.getEmployeeByID(handlerID);
+    Location targetLocation = facadeDAO.getLocationByID(targetLocationID);
 
     return new ServiceRequest(requestID, type, status, issuer, handler, targetLocation);
   }
@@ -185,7 +184,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
    * Update a ServiceRequest object in database and list of service requests
    *
    * @param request ServiceRequest object that stores updated information
-   * @returnTrue if success, false otherwise
+   * @return True if success, false otherwise
    */
   @Override
   public boolean updateServiceRequest(ServiceRequest request) {
@@ -211,9 +210,16 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
   /** Writes the current database to a .csv file */
   @Override
-  public void exportToServiceRequestCSV() {
+  public boolean exportToServiceRequestCSV() {
     updateConnection();
-    csvController.writeServiceRequestCSV(serviceRequestList);
+    try {
+      csvController.writeServiceRequestCSV(serviceRequestList);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
   }
 
   /**
