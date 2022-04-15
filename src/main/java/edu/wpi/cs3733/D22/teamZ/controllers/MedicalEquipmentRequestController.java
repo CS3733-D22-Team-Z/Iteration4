@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.database.*;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.IOException;
 import java.net.URL;
@@ -20,8 +19,8 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   @FXML private Label equipmentLabel;
   @FXML private TextField enterRoomNumber;
   @FXML private TextField enterFloorNumber;
-  @FXML private ChoiceBox enterNodeType;
-  @FXML private ChoiceBox equipmentDropDown;
+  @FXML private ChoiceBox<String> nodeTypeDropDown;
+  @FXML private ChoiceBox<String> equipmentDropDown;
   @FXML private Label errorSavingLabel;
 
   // URLs
@@ -45,7 +44,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
     equipmentDropDown.setItems(
         FXCollections.observableArrayList("Bed", "Recliner", "X-Ray", "Infusion Pump"));
-    enterNodeType.setItems(
+    nodeTypeDropDown.setItems(
         FXCollections.observableArrayList(
             "DEPT", "EXIT", "HALL", "INFO", "LABS", "RETL", "SERV", "STAI", "ELEV", "BATH", "STOR",
             "PATI"));
@@ -57,7 +56,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     enterRoomNumber.clear();
     enterFloorNumber.clear();
-    enterNodeType.setValue(null);
+    nodeTypeDropDown.setValue(null);
     equipmentDropDown.setValue(null);
   }
 
@@ -66,7 +65,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     // Debug
     System.out.println("Room Number: " + enterRoomNumber.getText());
     System.out.println("Floor Number: " + enterFloorNumber.getText());
-    System.out.println("nodeType: " + enterNodeType.getValue());
+    System.out.println("nodeType: " + nodeTypeDropDown.getValue());
     System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
     String id;
@@ -86,9 +85,9 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
     // Create entities for submission
     String itemID = equipmentDropDown.getValue().toString();
-    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
+    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
-    Employee handler = FacadeDAO.getInstance().getEmployeeByID("nurse1");
+    Employee handler = null;
 
     String equipmentID = equipmentDropDown.getValue().toString();
 
@@ -103,7 +102,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
       // Update medical equipment table to show in use
       String nodeID =
           Location.createNodeID(
-              enterNodeType.getValue().toString(),
+              nodeTypeDropDown.getValue().toString(),
               enterRoomNumber.getText(),
               enterFloorNumber.getText());
       Location targetLoc = database.getLocationByID(nodeID);
@@ -121,9 +120,12 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   private void validateButton() {
     if (!enterRoomNumber.getText().trim().isEmpty()
         && !enterFloorNumber.getText().trim().isEmpty()
-        && !enterNodeType.getSelectionModel().isEmpty()
-        && !equipmentDropDown.getSelectionModel().isEmpty()) {
+        && !nodeTypeDropDown.getValue().isEmpty()
+        && !equipmentDropDown.getValue().isEmpty()) {
       submitButton.setDisable(false);
+    } else {
+      submitButton.setDisable(true);
+      System.out.println("Medical Equipment Request Submit Button disabled");
     }
   }
 

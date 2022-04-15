@@ -201,7 +201,7 @@ public class FacadeDAO {
    * @param serviceRequest The request to be added
    * @return true if successfully added, false otherwise
    */
-  private boolean addServiceRequest(ServiceRequest serviceRequest) {
+  public boolean addServiceRequest(ServiceRequest serviceRequest) {
     return serviceRequestDAO.addServiceRequest(serviceRequest);
   }
   /**
@@ -284,7 +284,7 @@ public class FacadeDAO {
    * @param serviceRequest The request to be deleted
    * @return true if the deletion was successful, false otherwise
    */
-  private boolean deleteServiceRequest(ServiceRequest serviceRequest) {
+  public boolean deleteServiceRequest(ServiceRequest serviceRequest) {
     return serviceRequestDAO.deleteServiceRequest(serviceRequest);
   }
   /**
