@@ -384,7 +384,6 @@ public class FacadeDAO {
     boolean val = false;
     if (serviceRequestDAO.updateServiceRequest(serviceRequest)) {
       if (serviceRequest.getType().equals(ServiceRequest.RequestType.MEDEQUIP)) {
-        // TODO doesn't work for refresh after the first one
         MedicalEquipmentDeliveryRequest req =
             new MedicalEquipmentDeliveryRequest(
                 serviceRequest.getRequestID(),
