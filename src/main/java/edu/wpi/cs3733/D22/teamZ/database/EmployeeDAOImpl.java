@@ -97,10 +97,12 @@ class EmployeeDAOImpl implements IEmployeeDAO {
       ResultSet rset = pstmt.executeQuery();
 
       while (rset.next()) {
+        String employeeID = rset.getString("EmployeeID");
         String name = rset.getString("name");
         Employee.AccessType accessType = Employee.AccessType.valueOf(rset.getString("accessType"));
         String username = rset.getString("username");
         String password = rset.getString("password");
+        emp.setEmployeeID(employeeID);
         emp.setName(name);
         emp.setAccesstype(accessType);
         emp.setUsername(username);

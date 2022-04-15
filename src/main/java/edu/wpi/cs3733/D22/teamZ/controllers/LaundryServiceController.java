@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.scene.input.KeyEvent;
 
 public class LaundryServiceController extends ServiceRequestController {
   @Override
@@ -21,4 +22,6 @@ public class LaundryServiceController extends ServiceRequestController {
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     // Reset fields here!
   }
+
+  public void validateButton(KeyEvent keyEvent) {}
 }

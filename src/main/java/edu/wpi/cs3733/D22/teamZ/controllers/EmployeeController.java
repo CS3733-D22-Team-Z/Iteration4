@@ -67,7 +67,6 @@ public class EmployeeController implements IMenuAccess, Initializable {
    * @return void
    */
   public void createTable() {
-    employeeTable.getItems().clear();
     IDColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("employeeID"));
     nameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("name"));
     accessColumn.setCellValueFactory(
