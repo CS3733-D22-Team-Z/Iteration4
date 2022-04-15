@@ -55,7 +55,7 @@
          <columns>
             <TableColumn fx:id="idColumn" editable="false" prefWidth="100.0" text="ID" />
             <TableColumn fx:id="deviceColumn" editable="false" prefWidth="100.0" text="Device" />
-            <TableColumn fx:id="assigneeColumn" editable="false" prefWidth="100.0" text="Assignee" />
+            <TableColumn fx:id="assigneeColumn" editable="false" prefWidth="100.0" text="Handler" />
             <TableColumn fx:id="statusColumn" editable="false" prefWidth="100.0" text="Status" />
          </columns>
          <columnResizePolicy>

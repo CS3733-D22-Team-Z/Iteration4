@@ -20,7 +20,7 @@ class PatientDAOImpl implements IPatientDAO {
 
   public PatientDAOImpl() {
     updateConnection();
-    patients = new ArrayList<Patient>();
+    patients = new ArrayList<>();
   }
 
   /**
@@ -52,7 +52,7 @@ class PatientDAOImpl implements IPatientDAO {
   /**
    * Gets ONE patients from the database based on the provided patientID
    *
-   * @param patientID
+   * @param patientID The id of the patient to be searched for
    * @return Patient object with provided patientID
    */
   public Patient getPatientByID(String patientID) {
@@ -80,7 +80,7 @@ class PatientDAOImpl implements IPatientDAO {
   /**
    * Adds a new patient to database. Will automatically check if already in database
    *
-   * @param pat
+   * @param pat The patient to be added
    * @return True if successful, false if not
    */
   public boolean addPatient(Patient pat) {
@@ -96,7 +96,7 @@ class PatientDAOImpl implements IPatientDAO {
   /**
    * Updates a patients in the database. Will automatically check if exists in database
    *
-   * @param pat
+   * @param pat The patient to be updated
    * @return True if successful, false if not
    */
   public boolean updatePatient(Patient pat) {
@@ -121,7 +121,7 @@ class PatientDAOImpl implements IPatientDAO {
   /**
    * Deletes a patient from database. Will automatically check if exists in database already
    *
-   * @param pat
+   * @param pat The patient to be deleted
    * @return True if successful, false if not
    */
   public boolean deletePatient(Patient pat) {
@@ -150,7 +150,12 @@ class PatientDAOImpl implements IPatientDAO {
 
     data = new File(System.getProperty("user.dir") + "\\patient.csv");
     patCSV = new PatientControlCSV(data);
-    patCSV.writePatCSV(getAllPatients());
+    try {
+      patCSV.writePatCSV(getAllPatients());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
 
     return true;
   }

@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -10,15 +11,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 public class MedicalEquipmentRequestController extends ServiceRequestController {
   @FXML private Label header;
   @FXML private Label objectBodyText;
   @FXML private Label roomNumberLabel;
   @FXML private Label equipmentLabel;
-  @FXML private TextField enterRoomNumber;
-  @FXML private TextField enterFloorNumber;
+  @FXML private MFXTextField enterRoomNumber;
+  @FXML private MFXTextField enterFloorNumber;
   @FXML private ChoiceBox<String> nodeTypeDropDown;
   @FXML private ChoiceBox<String> equipmentDropDown;
   @FXML private Label errorSavingLabel;
@@ -33,6 +33,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
+
     menuName = "Medical Equipment Request";
 
     locationList = database.getAllLocations();
@@ -49,6 +50,10 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
             "DEPT", "EXIT", "HALL", "INFO", "LABS", "RETL", "SERV", "STAI", "ELEV", "BATH", "STOR",
             "PATI"));
     // //example
+    nodeTypeDropDown.getSelectionModel().select(0);
+    equipmentDropDown.getSelectionModel().select(0);
+    System.out.println(
+        "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
   }
 
@@ -56,8 +61,11 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     enterRoomNumber.clear();
     enterFloorNumber.clear();
-    nodeTypeDropDown.setValue(null);
-    equipmentDropDown.setValue(null);
+    nodeTypeDropDown.getSelectionModel().select(0);
+    equipmentDropDown.getSelectionModel().select(0);
+    //    nodeTypeDropDown.setValue(null);
+    //    equipmentDropDown.setValue(null);
+    validateButton();
   }
 
   @FXML
@@ -120,8 +128,8 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   private void validateButton() {
     if (!enterRoomNumber.getText().trim().isEmpty()
         && !enterFloorNumber.getText().trim().isEmpty()
-        && !nodeTypeDropDown.getValue().isEmpty()
-        && !equipmentDropDown.getValue().isEmpty()) {
+        && !nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty()
+        && !equipmentDropDown.getSelectionModel().getSelectedItem().isEmpty()) {
       submitButton.setDisable(false);
     } else {
       submitButton.setDisable(true);

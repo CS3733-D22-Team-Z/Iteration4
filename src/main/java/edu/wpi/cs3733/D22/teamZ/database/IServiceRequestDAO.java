@@ -49,7 +49,7 @@ public interface IServiceRequestDAO {
   boolean updateServiceRequest(ServiceRequest request);
 
   /** Writes the current database to a .csv file */
-  void exportToServiceRequestCSV();
+  boolean exportToServiceRequestCSV();
 
   /**
    * Import ServiceRequest to database from a specified file location for csv

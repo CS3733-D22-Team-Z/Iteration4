@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.legacy.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
+<?import javafx.scene.control.TextField?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
       <SplitPane fx:id="splitPane" dividerPositions="0.75" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
@@ -279,12 +268,12 @@
                   <Font name="System Bold" size="11.0" />
                </font>
             </Text>
-            <Text fill="#7b7b7b" layoutX="12.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location to be deleted" wrappingWidth="144.21630859375">
+            <Text fill="#7b7b7b" layoutX="12.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alert Location" wrappingWidth="144.21630859375">
                <font>
                   <Font size="8.0" />
                </font>
             </Text>
-            <MFXTextField fx:id="alertLocationField" floatMode="DISABLED" layoutX="12.0" layoutY="44.0" prefHeight="23.0" prefWidth="79.0" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
+            <MFXTextField fx:id="alertLocationFieldAdd" floatMode="DISABLED" layoutX="12.0" layoutY="44.0" prefHeight="23.0" prefWidth="79.0" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
                <font>
                   <Font size="7.0" />
                </font>
@@ -294,7 +283,7 @@
                   <Font size="7.0" />
                </font>
             </MFXButton>
-            <MFXButton fx:id="cancelAlertPane" layoutX="83.0" layoutY="127.0" prefHeight="21.0" prefWidth="54.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Cancel" textFill="WHITE">
+            <MFXButton fx:id="cancelAlertPane" layoutX="83.0" layoutY="127.0" onAction="#cancelAddAlert" prefHeight="21.0" prefWidth="54.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Cancel" textFill="WHITE">
                <font>
                   <Font size="7.0" />
                </font>
@@ -304,7 +293,7 @@
                   <Font size="8.0" />
                </font>
             </Text>
-            <ComboBox fx:id="alertCodeField" layoutX="12.0" layoutY="90.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;">
+            <ComboBox fx:id="alertCodeFieldAdd" layoutX="12.0" layoutY="90.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;">
                <effect>
                   <DropShadow>
                      <color>
@@ -416,6 +405,61 @@
             <MFXButton contentDisplay="CENTER" layoutX="164.0" layoutY="1.0" onAction="#cancelAddLocation" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: #f6f6f6;" textFill="#f5f5f500">
                <graphic>
                   <ImageView fx:id="exitEdit3" fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/exitPopup.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MFXButton>
+         </children>
+      </Pane>
+      <Pane fx:id="deleteAlertPane" layoutX="233.0" layoutY="236.0" prefHeight="160.0" prefWidth="200.0" style="-fx-background-color: #f6f6f6; -fx-background-radius: 5;" visible="false">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Text layoutX="12.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete Alert" wrappingWidth="144.21630859375">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font>
+            </Text>
+            <Text fill="#7b7b7b" layoutX="12.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alert Location" wrappingWidth="144.21630859375">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Text>
+            <MFXTextField fx:id="alertLocationFieldDelete" floatMode="DISABLED" layoutX="12.0" layoutY="44.0" prefHeight="23.0" prefWidth="79.0" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
+               <font>
+                  <Font size="7.0" />
+               </font>
+            </MFXTextField>
+            <MFXButton fx:id="deleteAlert" layoutX="12.0" layoutY="127.0" prefHeight="21.0" prefWidth="54.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Delete" textFill="WHITE">
+               <font>
+                  <Font size="7.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="cancelAlertPane1" layoutX="83.0" layoutY="127.0" onAction="#cancelDeleteAlert" prefHeight="21.0" prefWidth="54.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Cancel" textFill="WHITE">
+               <font>
+                  <Font size="7.0" />
+               </font>
+            </MFXButton>
+            <Text fill="#7b7b7b" layoutX="12.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select code" wrappingWidth="144.21630859375">
+               <font>
+                  <Font size="8.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="alertCodeFieldDelete" layoutX="12.0" layoutY="90.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.30000001192092896" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </ComboBox>
+            <MFXButton contentDisplay="CENTER" layoutX="165.0" layoutY="1.0" onAction="#cancelDeleteAlert" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: #f6f6f6;" textFill="#f5f5f500">
+               <graphic>
+                  <ImageView fx:id="exitEdit21" fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/exitPopup.png" />
                      </image>

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
-  private static FacadeDAO instance = new FacadeDAO();
+  private static final FacadeDAO instance = new FacadeDAO();
 
   private final LocationDAOImpl locationDAO;
   private final MedicalEquipmentDAOImpl medicalEquipmentDAO;
@@ -69,7 +69,6 @@ public class FacadeDAO {
    * Gets all lab service requests
    *
    * @return list of lab service requests
-   * @throws SQLException
    */
   public List<LabServiceRequest> getAllLabServiceRequests() {
     return labRequestServiceDAO.getAllLabServiceRequests();
@@ -95,7 +94,7 @@ public class FacadeDAO {
   /**
    * Gets ONE lcoation from the database based on the provided nodeID
    *
-   * @param id
+   * @param id The od of the location to be searched for
    * @return Location object with provided nodeID
    */
   public Location getLocationByID(String id) {
@@ -113,7 +112,7 @@ public class FacadeDAO {
   /**
    * Gets ONE Employee from the database based on the provided EmployeeID
    *
-   * @param id
+   * @param id The id of the employee to be searched for
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByID(String id) {
@@ -122,7 +121,7 @@ public class FacadeDAO {
   /**
    * Gets ONE patient from the database based on the provided patientID
    *
-   * @param id
+   * @param id The id of the patient to be searched for
    * @return Patient object with provided patientID
    */
   public Patient getPatientByID(String id) {
@@ -151,7 +150,7 @@ public class FacadeDAO {
   /**
    * Get a LabServiceRequest with provided requestID
    *
-   * @param id
+   * @param id The id of the lab service request to be searched for
    * @return LabServiceRequest object with given ID
    */
   public LabServiceRequest getLabServiceRequestByID(String id) {
@@ -162,7 +161,7 @@ public class FacadeDAO {
   /**
    * Adds a new location to database. Will automatically check if already in database
    *
-   * @param loc
+   * @param loc The location to be added
    * @return True if successful, false if not
    */
   public boolean addLocation(Location loc) {
@@ -180,7 +179,7 @@ public class FacadeDAO {
   /**
    * Adds a new Patient to database. Will automatically check if already in database
    *
-   * @param patient
+   * @param patient The patient to be added
    * @return True if successful, false if not
    */
   public boolean addPatient(Patient patient) {
@@ -189,7 +188,7 @@ public class FacadeDAO {
   /**
    * Adds a new Employee to database. Will automatically check if already in database
    *
-   * @param employee
+   * @param employee The employee to be added
    * @return True if successful, false if not
    */
   public boolean addEmployee(Employee employee) {
@@ -244,7 +243,7 @@ public class FacadeDAO {
   /**
    * Deletes a location from database. Will automatically check if exists in database already
    *
-   * @param loc
+   * @param loc The location to be deleted
    * @return True if successful, false if not
    */
   public boolean deleteLocation(Location loc) {
@@ -262,7 +261,7 @@ public class FacadeDAO {
   /**
    * Deletes a patient from database. Will automatically check if exists in database
    *
-   * @param patient
+   * @param patient The patient to be deleted
    * @return True if successful, false if not
    */
   public boolean deletePatient(Patient patient) {
@@ -271,7 +270,7 @@ public class FacadeDAO {
   /**
    * Deletes a Employee from database. Will automatically check if exists in database
    *
-   * @param employee
+   * @param employee The employee to be deleted
    * @return True if successful, false if not
    */
   public boolean deleteEmployee(Employee employee) {
@@ -317,7 +316,7 @@ public class FacadeDAO {
   /**
    * Updates a location in the database. Will automatically check if exists in database
    *
-   * @param loc
+   * @param loc The location to be updated
    * @return True if successful, false if not
    */
   public boolean updateLocation(Location loc) {
@@ -335,7 +334,7 @@ public class FacadeDAO {
   /**
    * Updates a Employee in the database. Will automatically check if exists in database
    *
-   * @param employee
+   * @param employee The employee to be updated
    * @return True if successful, false if not
    */
   public boolean updateEmployee(Employee employee) {
@@ -344,7 +343,7 @@ public class FacadeDAO {
   /**
    * Updates a patient in the database. Will automatically check if exists in database
    *
-   * @param patient
+   * @param patient The patient to be updated
    * @return True if successful, false if not
    */
   public boolean updatePatient(Patient patient) {
@@ -386,7 +385,7 @@ public class FacadeDAO {
   /**
    * Imports data from CSV into location database
    *
-   * @param locData
+   * @param locData The file path to the location csv that will be imported
    * @return number of times there are conflicts when trying to import
    */
   public int importLocationsFromCSV(File locData) {
@@ -508,6 +507,17 @@ public class FacadeDAO {
     return labRequestServiceDAO.exportToLabRequestCSV(labData);
   }
 
+  // Get default path methods
+
+  /**
+   * Returns the default path that location csv files are printed to
+   *
+   * @return The default path that location csv files are printed to
+   */
+  public File getDefaultLocationCSVPath() {
+    return locationDAO.getDefaultLocationCSVPath();
+  }
+
   // Add from list functions
   /**
    * Insert locations into the database from given list
@@ -585,7 +595,7 @@ public class FacadeDAO {
   /**
    * Gets all locations on the given floor
    *
-   * @param floor
+   * @param floor The floor to be searched
    * @return list of locations
    */
   public List<Location> getAllLocationsByFloor(String floor) {
@@ -634,7 +644,7 @@ public class FacadeDAO {
   /**
    * Gets ONE Employee from the database based on the provided Username
    *
-   * @param employeeUsername
+   * @param employeeUsername The username being searched for
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByUsername(String employeeUsername) {
