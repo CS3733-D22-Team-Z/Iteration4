@@ -84,7 +84,7 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
       pstmt.setString(1, id);
       ResultSet rset = pstmt.executeQuery();
 
-      if(rset.next()) {
+      if (rset.next()) {
         String requestID = rset.getString("REQUESTID");
         String status = rset.getString("STATUS");
         String equipmentID = rset.getString("EQUIPMENTID");

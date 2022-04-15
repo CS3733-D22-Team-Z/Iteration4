@@ -16,7 +16,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   private final List<ServiceRequest> serviceRequestList;
   private ServiceRequestControlCSV csvController;
 
-  private static final FacadeDAO facadeDAO = FacadeDAO.getInstance();
+  private static final LocationDAOImpl locationDAO = new LocationDAOImpl();
+  private static final EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -52,9 +53,9 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
             ServiceRequest.RequestType.getRequestTypeByString(fields.get(1));
         ServiceRequest.RequestStatus status =
             ServiceRequest.RequestStatus.getRequestStatusByString(fields.get(2));
-        Employee issuer = facadeDAO.getEmployeeByID(fields.get(3));
-        Employee handler = facadeDAO.getEmployeeByID(fields.get(4));
-        Location targetLocation = facadeDAO.getLocationByID(fields.get(5));
+        Employee issuer = employeeDAO.getEmployeeByID(fields.get(3));
+        Employee handler = employeeDAO.getEmployeeByID(fields.get(4));
+        Location targetLocation = locationDAO.getLocationByID(fields.get(5));
 
         serviceRequestList.add(
             new ServiceRequest(requestID, type, status, issuer, handler, targetLocation));
@@ -132,9 +133,9 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     ServiceRequest.RequestType type = ServiceRequest.RequestType.getRequestTypeByString(typeStr);
     ServiceRequest.RequestStatus status =
         ServiceRequest.RequestStatus.getRequestStatusByString(statusStr);
-    Employee issuer = facadeDAO.getEmployeeByID(issuerID);
-    Employee handler = facadeDAO.getEmployeeByID(handlerID);
-    Location targetLocation = facadeDAO.getLocationByID(targetLocationID);
+    Employee issuer = employeeDAO.getEmployeeByID(issuerID);
+    Employee handler = employeeDAO.getEmployeeByID(handlerID);
+    Location targetLocation = locationDAO.getLocationByID(targetLocationID);
 
     return new ServiceRequest(requestID, type, status, issuer, handler, targetLocation);
   }

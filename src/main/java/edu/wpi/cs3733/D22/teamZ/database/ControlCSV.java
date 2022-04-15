@@ -16,7 +16,9 @@ abstract class ControlCSV {
     this.defaultPath = defaultPath;
   }
 
-  File getDefaultPath() { return this.defaultPath; }
+  File getDefaultPath() {
+    return this.defaultPath;
+  }
 
   final void writeCSV(List<List<String>> in, String... headers) throws IOException {
     writeCSV(in, defaultPath, headers);
