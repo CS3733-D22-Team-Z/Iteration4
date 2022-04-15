@@ -1,100 +1,289 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
-<?import javafx.geometry.Insets?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LandingPageController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: F6F6F6;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LandingPageController">
     <children>
-        <Label layoutX="24.0" layoutY="10.0" styleClass="object-header" text="Service Request Systems">
+        <Label layoutX="24.0" layoutY="18.0" styleClass="object-header" text="Service Request Systems">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <Label layoutX="23.0" layoutY="36.0" styleClass="object-body" text="Select and submit a service request" textFill="#9d9d9d">
+        <Label layoutX="23.0" layoutY="44.0" styleClass="object-body" text="Select and submit a service request" textFill="#9d9d9d">
             <font>
                 <Font size="9.0" />
             </font>
         </Label>
-      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="67.0" onAction="#navMedicalEquipment" prefHeight="37.0" prefWidth="365.0" styleClass="landing-button" text="Medical Equipment ">
-         <padding>
-            <Insets right="210.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="23.0" layoutY="113.0" onAction="#navLab" prefHeight="37.0" prefWidth="365.0" styleClass="landing-button" text="Lab">
-         <padding>
-            <Insets right="320.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="159.0" onAction="#navMedicine" prefHeight="37.0" prefWidth="366.0" styleClass="landing-button" text="Medicine Delivery">
-         <padding>
-            <Insets right="230.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="21.0" layoutY="206.0" onAction="#navLanguage" prefHeight="37.0" prefWidth="369.0" styleClass="landing-button" text="Language Interpreter">
-         <padding>
-            <Insets right="200.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="20.0" layoutY="251.0" onAction="#navMeal" prefHeight="37.0" prefWidth="371.0" styleClass="landing-button" text="Meal Service">
-         <padding>
-            <Insets right="265.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="21.0" layoutY="295.0" onAction="#navLaundry" prefHeight="37.0" prefWidth="369.0" styleClass="landing-button" text="Laundry Service">
-         <padding>
-            <Insets right="245.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="20.0" layoutY="340.0" onAction="#navComputer" prefHeight="37.0" prefWidth="371.0" styleClass="landing-button" text="Computer Service">
-         <padding>
-            <Insets right="235.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <VBox fx:id="iconContainer" layoutX="354.0" layoutY="80.0" prefHeight="291.0" prefWidth="18.0" spacing="28.0">
-         <children>
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-         </children>
-      </VBox>
-      <Label fx:id="Daniel" layoutX="408.0" layoutY="79.0" text="Daniel Correa" />
-      <Label fx:id="Patrick" layoutX="408.0" layoutY="124.0" text="Patrick Hunter" />
-      <Label fx:id="Maya" layoutX="408.0" layoutY="169.0" text="Maya Angeles" />
-      <Label fx:id="Neha" layoutX="410.0" layoutY="217.0" prefHeight="17.0" prefWidth="119.0" text="Neha Kuchipudi" />
-      <Label fx:id="Alex" layoutX="412.0" layoutY="261.0" text="Alex Brattstrom" />
-      <Label fx:id="Jake" layoutX="412.0" layoutY="305.0" text="Jake Leavitt" />
-      <Label fx:id="Nelson" layoutX="411.0" layoutY="352.0" text="Nelson Diaz" />
-      <MFXToggleButton fx:id="toggle" layoutX="535.0" layoutY="6.0" onMouseClicked="#onToggleClicked" />
+      <MFXScrollPane fx:id="scrollPane" layoutY="75.0" prefHeight="158.0" prefWidth="600.0" style="-fx-background-color: #F6F6F6;">
+         <content>
+            <GridPane prefHeight="142.0" prefWidth="980.0" translateX="24.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <MFXButton onAction="#navMedicalEquipment" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label layoutY="71.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Medical Equipment" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="medRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navLab" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="1">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutY="71.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Lab Service" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="labRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#toExternalPatientTransportation" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="2">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="108.0" translateX="-4.0">
+                           <children>
+                              <Label layoutX="-1.0" layoutY="63.0" prefHeight="66.0" prefWidth="113.0" styleClass="landing-button" text="External Patient Transportation" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="externalRegion" layoutX="33.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navLanguage" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="3">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label layoutY="71.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Language Interpreter" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="languageRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navMeal" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="6">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutY="71.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Meal Service" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="mealRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navLaundry" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="5">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutY="71.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Laundry Service " textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="laundryRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navComputer" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="4">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutY="71.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Computer Service" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="computerRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+               </children>
+            </GridPane>
+         </content>
+      </MFXScrollPane>
     </children>
 </AnchorPane>

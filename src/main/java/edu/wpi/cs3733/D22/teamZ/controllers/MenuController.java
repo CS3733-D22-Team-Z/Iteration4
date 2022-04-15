@@ -203,7 +203,7 @@ public class MenuController implements Initializable {
   }
 
   public static Employee getLoggedInUser() {
-    return loggedInUser;
+    return MenuController.loggedInUser;
   }
 
   public static void setLoggedInUser(Employee loggedInUser) {

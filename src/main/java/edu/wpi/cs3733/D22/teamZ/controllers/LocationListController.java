@@ -53,11 +53,18 @@ public class LocationListController implements IMenuAccess {
 
   // alert
   @FXML private Pane addAlertPane;
-  @FXML private MFXTextField alertLocationField;
+  @FXML private Pane deleteAlertPane;
+  @FXML private MFXTextField alertLocationFieldAdd;
+  @FXML private MFXTextField alertLocationFieldDelete;
   @FXML private MFXButton submitAlert;
   // @FXML private MFXButton addAlertButton;
   @FXML private ComboBox<String> alertCodeField;
   // @FXML private MFXButton addLocationButton;
+  @FXML private MFXButton deleteAlert;
+  @FXML private MFXButton addAlertButton;
+  @FXML private ComboBox<String> alertCodeFieldAdd;
+  @FXML private ComboBox<String> alertCodeFieldDelete;
+  @FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
   @FXML private SplitPane splitPane;
   @FXML private Group group;
@@ -197,13 +204,20 @@ public class LocationListController implements IMenuAccess {
     floorField.getItems().add("4");
     floorField.getItems().add("5");
 
-    alertCodeField.getItems().add("Code Red");
-    alertCodeField.getItems().add("Code Grey");
-    alertCodeField.getItems().add("Code Blue");
-    alertCodeField.getItems().add("Code Green");
-    alertCodeField.getItems().add("Code White");
-    alertCodeField.getItems().add("Code Pink");
-    alertCodeField.getItems().add("Code Amber");
+    alertCodeFieldAdd.getItems().add("Code Red");
+    alertCodeFieldAdd.getItems().add("Code Grey");
+    alertCodeFieldAdd.getItems().add("Code Blue");
+    alertCodeFieldAdd.getItems().add("Code Green");
+    alertCodeFieldAdd.getItems().add("Code White");
+    alertCodeFieldAdd.getItems().add("Code Pink");
+    alertCodeFieldAdd.getItems().add("Code Amber");
+    alertCodeFieldDelete.getItems().add("Code Red");
+    alertCodeFieldDelete.getItems().add("Code Grey");
+    alertCodeFieldDelete.getItems().add("Code Blue");
+    alertCodeFieldDelete.getItems().add("Code Green");
+    alertCodeFieldDelete.getItems().add("Code White");
+    alertCodeFieldDelete.getItems().add("Code Pink");
+    alertCodeFieldDelete.getItems().add("Code Amber");
 
     // floorLocations.remove(0, floorLocations.size());
 
@@ -352,18 +366,27 @@ public class LocationListController implements IMenuAccess {
             e.printStackTrace();
           }
         });
-    MenuItem alert = new MenuItem("Alert");
-    alert.setOnAction(
+    MenuItem addAlert = new MenuItem("Add Alert");
+    addAlert.setOnAction(
         event -> {
           try {
-            showAlertPane();
+            showAddAlertPane();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+    MenuItem deleteAlert = new MenuItem("Delete Alert");
+    deleteAlert.setOnAction(
+        event -> {
+          try {
+            showDeleteAlertPane();
           } catch (IOException e) {
             e.printStackTrace();
           }
         });
     // prop.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
 
-    rightClickMenu = new ContextMenu(edit, delete, prop, alert);
+    rightClickMenu = new ContextMenu(edit, delete, prop, addAlert, deleteAlert);
 
     rightClickMenu.setPrefHeight(82);
     rightClickMenu.setPrefWidth(120);
@@ -781,6 +804,7 @@ public class LocationListController implements IMenuAccess {
     locationChangeDarkenPane.setVisible(true);
     deleteLocationPlane1.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
+    deleteLocationPlane1.setDisable(false);
     locationToDeleteTextField.setText(activeLabel.getLocation().getNodeID());
   }
 
@@ -824,6 +848,12 @@ public class LocationListController implements IMenuAccess {
   private void cancelAddAlert() {
     addAlertPane.setVisible(false);
     addAlertPane.setDisable(true);
+  }
+
+  @FXML
+  private void cancelDeleteAlert(ActionEvent event) throws IOException {
+    deleteAlertPane.setVisible(false);
+    deleteAlertPane.setDisable(true);
   }
 
   @FXML
@@ -911,9 +941,19 @@ public class LocationListController implements IMenuAccess {
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
+    File defaultFile = facadeDAO.getDefaultLocationCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
+
     File file = fileChooser.showSaveDialog(stage);
 
-    facadeDAO.exportLocationsToCSV(file);
+    if (file != null) {
+      facadeDAO.exportLocationsToCSV(file);
+    }
   }
 
   public void importFromCSV(ActionEvent actionEvent) {
@@ -923,10 +963,20 @@ public class LocationListController implements IMenuAccess {
     FileChooser.ExtensionFilter extFilter =
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
+    fileChooser.setInitialDirectory(facadeDAO.getDefaultLocationCSVPath());
+
+    File defaultFile = facadeDAO.getDefaultLocationCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
 
     File file = fileChooser.showOpenDialog(stage);
 
-    int numberConflicts = facadeDAO.importLocationsFromCSV(file);
+    if (file != null) {
+      int numberConflicts = facadeDAO.importLocationsFromCSV(file);
 
     refreshMap(changeFloor.getSelectionModel().getSelectedItem());
     System.out.println(
@@ -934,6 +984,7 @@ public class LocationListController implements IMenuAccess {
             + numberConflicts
             + " locations that are"
             + " trying to get deleted but still have equipment in it");
+  }
   }
 
   @Override
@@ -993,14 +1044,32 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  public void showAlertPane() throws IOException {
+  public void showAddAlertPane() throws IOException {
     addAlertPane.setVisible(true);
-    alertLocationField.setText(activeLabel.getLocation().getNodeID());
+    alertLocationFieldAdd.setText(activeLabel.getLocation().getNodeID());
+    alertCodeFieldAdd.valueProperty().set(null);
+    addAlertPane.setDisable(false);
     submitAlert.setOnAction(
         (e) -> {
           createAlert(
-              alertCodeField.getSelectionModel().getSelectedItem(), activeLabel.getLocation());
+              alertCodeFieldAdd.getSelectionModel().getSelectedItem().toString(),
+              activeLabel.getLocation());
           addAlertPane.setVisible(false);
+        });
+  }
+
+  @FXML
+  public void showDeleteAlertPane() throws IOException {
+    deleteAlertPane.setVisible(true);
+    alertLocationFieldDelete.setText(activeLabel.getLocation().getNodeID());
+    alertCodeFieldDelete.valueProperty().set(null);
+    deleteAlertPane.setDisable(false);
+    submitAlert.setOnAction(
+        (e) -> {
+          createAlert(
+              alertCodeFieldDelete.getSelectionModel().getSelectedItem().toString(),
+              activeLabel.getLocation());
+          deleteAlertPane.setVisible(false);
         });
   }
 
