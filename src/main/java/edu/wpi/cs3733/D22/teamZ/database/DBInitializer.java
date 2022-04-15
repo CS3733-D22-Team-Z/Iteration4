@@ -93,6 +93,11 @@ public class DBInitializer {
               + "longName VARCHAR(50),"
               + "shortName Varchar(50),"
               + "constraint LOCATION_PK Primary Key (nodeID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create location tables");
+      return false;
+    }
+    try {
 
       stmt.execute(
           "CREATE TABLE EMPLOYEES("
@@ -103,7 +108,12 @@ public class DBInitializer {
               + "password VARCHAR(20),"
               + "CONSTRAINT EMPLOYEES_PK PRIMARY KEY (employeeID),"
               + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('ADMIN', 'DOCTOR', 'NURSE')))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create employee tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE PATIENTS("
               + "patientID VARCHAR(15),"
@@ -111,7 +121,12 @@ public class DBInitializer {
               + "location VARCHAR(15),"
               + "CONSTRAINT PATIENTS_PK PRIMARY KEY (patientID),"
               + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create patient tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE MEDICALEQUIPMENT ("
               + "equipmentID VARCHAR(15),"
@@ -121,7 +136,12 @@ public class DBInitializer {
               + "constraint MEDEQUIPMENT_PK Primary Key (equipmentID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
               + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create medical equipment tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
               + "requestID VARCHAR(15),"
@@ -135,7 +155,12 @@ public class DBInitializer {
               + "constraint HANDLER_FK Foreign Key (handlerID) References EMPLOYEES(employeeID),"
               + "constraint TARGETLOC_FK Foreign Key (targetLocationID) References LOCATION(nodeID),"
               + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create service request tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE MEDEQUIPREQ ("
               + "requestID VARCHAR(15),"
@@ -143,14 +168,24 @@ public class DBInitializer {
               + "constraint MEDEQUIPREQ_PK Primary Key (requestID),"
               + "constraint MEDEQUIPREQ_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
               + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(equipmentID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create medical equipment request tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE LABREQUEST ("
               + "requestID VARCHAR(15),"
               + "labType VARCHAR(50),"
               + "constraint LABREQUEST_PK Primary Key (requestID),"
               + "constraint LABREQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create lab request tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE MEALSERVICE ("
               + "itemID VARCHAR(50),"
@@ -160,7 +195,12 @@ public class DBInitializer {
               + "constraint MEALSERVICE_PK Primary Key (itemID),"
               + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
               + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create meal service tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE EXTERNALTRANSPORTREQUEST ("
               + "requestID VARCHAR(15),"
@@ -170,15 +210,15 @@ public class DBInitializer {
               + "departureDate DATE,"
               + "constraint TRANSPORTREQUEST_PK PRIMARY KEY (requestID),"
               + "constraint TRANSPORTREQUESTID_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid))");
-
     } catch (SQLException e) {
-      System.out.println("Failed to create tables");
+      System.out.println("Failed to create external patient transport tables");
       return false;
     }
     return true;
   }
 
   private void dropExistingTable(String tableName) {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
     try {
       Statement stmt = connection.createStatement();
       stmt.execute("DROP TABLE " + tableName);
@@ -343,6 +383,12 @@ public class DBInitializer {
     List<MedicalEquipmentDeliveryRequest> tempMedicalDeliveryRequests =
         dao.getAllMedicalEquipmentRequest();
     List<LabServiceRequest> tempLabRequest = dao.getAllLabServiceRequests();
+
+    try {
+      connection.close();
+    } catch (SQLException e) {
+      System.out.println("connection closed");
+    }
 
     // change the connection type
     EnumDatabaseConnection.CONNECTION.setConnection(type);

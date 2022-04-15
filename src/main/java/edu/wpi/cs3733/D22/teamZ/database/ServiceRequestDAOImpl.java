@@ -158,7 +158,6 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
       stmt.executeUpdate();
       connection.commit();
-      // TODO another problem here is that the order of the list will change
       // cannot simply delete then edit
       for (ServiceRequest req : serviceRequestList) {
         if (req.equals(request)) {

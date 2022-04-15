@@ -6,7 +6,7 @@ zDEPT00401,700,500,1,Tower,DEPT,Sharf Admitting Center,Sharf Center
 zDEPT00501,930,650,1,Tower,DEPT,Emergency Department,Emergency
 zDEPT00601,700,385,1,Tower,DEPT,International Patient Center,IPC
 zEXIT00101,887,157,1,Tower,EXIT,Shattuck Street Lobby Exit,Shattuck St. Exit
-zEXIT00201,450,800,1,Tower,EXIT,75 Francis Valet Drop-off,75 Francis Exit
+zEXIT00201,618,780,1,Tower,EXIT,75 Francis Valet Drop-off,75 Francis Exit
 zEXIT00301,969,719,1,Tower,EXIT,Emergency Department Entrance,Emergency Entrance
 zHALL00101,969,269,1,Tower,HALL,Lower Pike Hallway Exit Lobby,Hallway F00101
 zHALL00201,922,271,1,Tower,HALL,Lobby Shattuck Street,Hallway F00201
@@ -125,7 +125,7 @@ zELEV00LL2,681,286,L2,Tower,ELEV,Elevator L Floor L2,Elevator LL2
 zELEV00ML2,714,646,L2,Tower,ELEV,Elevator M Floor L2,Elevator ML2
 zHALL007L2,639,849,L2,Tower,HALL,Hallway Connector 7 Floor L2,Hallway W07L2
 zSTOR001L1,487,180,L1,Tower,STOR,OR Bed Park,Bed Park
-zSTOR00101,405,286,1,Tower,STOR,West Plaza,West Plaza
+zSTOR00101,380,286,1,Tower,STOR,West Plaza,West Plaza
 zSTOR00103,430,438,3,Tower,STOR,Pod C Clean Storage,Pod C Clean
 zSTOR00203,430,141,3,Tower,STOR,Pod B Clean Storage,Pod B Clean
 zDIRT00103,495,286,3,Tower,DIRT,Floor 3 Dirty Pickup,Floor 3 Dirty

@@ -1,12 +1,10 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.Patient;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ class PatientDAOImpl implements IPatientDAO {
    */
   public List<Patient> getAllPatients() {
     updateConnection();
-    try {
+    /*try {
       PreparedStatement pstmt = connection.prepareStatement("Select * From PATIENTS");
       ResultSet rset = pstmt.executeQuery();
 
@@ -45,7 +43,7 @@ class PatientDAOImpl implements IPatientDAO {
       }
     } catch (SQLException e) {
       System.out.println("Failed to get all Patients");
-    }
+    }*/
     return patients;
   }
 
@@ -57,7 +55,7 @@ class PatientDAOImpl implements IPatientDAO {
    */
   public Patient getPatientByID(String patientID) {
     updateConnection();
-    Patient pat = new Patient();
+    /*Patient pat = new Patient();
     try {
       PreparedStatement pstmt =
           connection.prepareStatement("Select * From PATIENTS WHERE PATIENTID = ?");
@@ -73,8 +71,13 @@ class PatientDAOImpl implements IPatientDAO {
       }
     } catch (SQLException e) {
       System.out.println("Unable to find patient");
+    }*/
+    for (Patient patient : patients) {
+      if (patient.getPatientID().equals(patientID)) {
+        return patient;
+      }
     }
-    return pat;
+    return null;
   }
 
   /**
@@ -109,12 +112,19 @@ class PatientDAOImpl implements IPatientDAO {
       stmt.setString(3, pat.getPatientID());
 
       stmt.executeUpdate();
+      for (Patient patient : patients) {
+        if (patient.equals(pat)) {
+          patient.setName(pat.getName());
+          patient.setLocation(pat.getLocation());
+          return true;
+        }
+      }
     } catch (SQLException e) {
       System.out.println("Statement failed");
       return false;
     }
-    patients.remove(getPatientByID(pat.getPatientID()));
-    patients.add(pat);
+    // patients.remove(getPatientByID(pat.getPatientID()));
+    // patients.add(pat);
     return true;
   }
 
@@ -150,7 +160,7 @@ class PatientDAOImpl implements IPatientDAO {
 
     data = new File(System.getProperty("user.dir") + "\\patient.csv");
     patCSV = new PatientControlCSV(data);
-    patCSV.writePatCSV(getAllPatients());
+    patCSV.writePatCSV(patients);
 
     return true;
   }

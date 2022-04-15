@@ -87,9 +87,11 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
       stmt.executeUpdate();
       connection.commit();
       for (MedicalEquipmentDeliveryRequest req : medicalEquipmentRequests) {
-        req.setHandler(request.getHandler());
-        req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
-        return true;
+        if (req.equals(request)) {
+          req.setHandler(request.getHandler());
+          req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+          return true;
+        }
       }
       // medicalEquipmentRequests.remove(request);
       // medicalEquipmentRequests.add(request);

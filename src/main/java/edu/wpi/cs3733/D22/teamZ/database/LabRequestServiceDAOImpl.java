@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.LabServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
@@ -36,12 +37,10 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
    */
   @Override
   public LabServiceRequest getLabRequestByID(String requestID) {
-    int i = 0;
     for (LabServiceRequest req : labRequests) {
       if (req.getRequestID().equals(requestID)) {
-        return labRequests.get(i);
+        return req;
       }
-      i++;
     }
     return null;
   }
@@ -67,14 +66,34 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
   /**
    * Updates an existing LabServiceRequest in database with new request
    *
-   * @param req LabServiceRequest to be updated
+   * @param request LabServiceRequest to be updated
    * @return True if successful, false otherwise
    */
   @Override
-  public boolean updateLabRequest(LabServiceRequest req) {
+  public boolean updateLabRequest(LabServiceRequest request) {
     updateConnection();
-    // TODO implement updateLabRequest
-    return false;
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "UPDATE SERVICEREQUEST SET status =?, handlerID =? WHERE RequestID =?");
+      stmt.setString(1, request.getStatus().toString());
+      stmt.setString(2, request.getHandler().getEmployeeID());
+      stmt.setString(3, request.getRequestID());
+
+      stmt.executeUpdate();
+      connection.commit();
+      for (LabServiceRequest req : labRequests) {
+        if (req.equals(request)) {
+          req.setHandler(request.getHandler());
+          req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+          return true;
+        }
+      }
+      return true;
+    } catch (SQLException e) {
+      System.out.println("Lab service update failed");
+      return false;
+    }
   }
 
   /**

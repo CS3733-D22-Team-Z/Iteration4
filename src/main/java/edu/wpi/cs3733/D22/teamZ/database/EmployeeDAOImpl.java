@@ -36,12 +36,10 @@ class EmployeeDAOImpl implements IEmployeeDAO {
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByID(String employeeID) {
-    int i = 0;
     for (Employee emp : employeeList) {
       if (emp.getEmployeeID().equals(employeeID)) {
-        return employeeList.get(i);
+        return emp;
       }
-      i++;
     }
     return null;
   }
@@ -63,14 +61,14 @@ class EmployeeDAOImpl implements IEmployeeDAO {
 
       if (rset.next()) {
         String employeeID = rset.getString("employeeID");
-        int i = 0;
         for (Employee emp : employeeList) {
           if (emp.getEmployeeID().equals(employeeID)) {
-            return employeeList.get(i);
+            return emp;
           }
-          i++;
         }
       }
+      rset.close();
+      pstmt.close();
     } catch (SQLException e) {
       System.out.println("Unable to find employee");
       e.printStackTrace();
@@ -111,14 +109,19 @@ class EmployeeDAOImpl implements IEmployeeDAO {
       stmt.setString(3, emp.getEmployeeID());
 
       stmt.executeUpdate();
+      stmt.close();
+      connection.commit();
+      for (Employee employee : employeeList) {
+        if (employee.equals(emp)) {
+          employee.setName(emp.getName());
+          employee.setAccesstype(emp.getAccesstype());
+        }
+      }
     } catch (SQLException e) {
       System.out.println("Statement failed");
       e.printStackTrace();
       return false;
     }
-    String id = emp.getEmployeeID();
-    employeeList.remove(emp);
-    employeeList.add(emp);
     // employees.remove(id);
     // employees.put(id, emp);
     return true;
@@ -137,6 +140,8 @@ class EmployeeDAOImpl implements IEmployeeDAO {
           connection.prepareStatement("DELETE FROM EMPLOYEES WHERE EmployeeID=?");
       stmt.setString(1, emp.getEmployeeID());
       stmt.executeUpdate();
+      stmt.close();
+      connection.commit();
     } catch (SQLException e) {
       System.out.println("Statement failed");
       e.printStackTrace();
@@ -193,6 +198,8 @@ class EmployeeDAOImpl implements IEmployeeDAO {
 
           // insert it
           pstmt.executeUpdate();
+          pstmt.close();
+          connection.commit();
           employeeList.add(info);
           // employees.put(info.getEmployeeID(), info);
         }
@@ -247,6 +254,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
       stmt.setString(5, emp.getPassword());
 
       stmt.executeUpdate();
+      stmt.close();
       connection.commit();
     } catch (SQLException e) {
       System.out.println("Statement failed");
