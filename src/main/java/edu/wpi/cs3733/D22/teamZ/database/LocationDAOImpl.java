@@ -10,7 +10,7 @@ import java.util.List;
 class LocationDAOImpl implements ILocationDAO {
 
   private final List<Location> locations;
-  private LocationControlCSV locCSV;
+  private final LocationControlCSV locCSV;
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -18,6 +18,9 @@ class LocationDAOImpl implements ILocationDAO {
   public LocationDAOImpl() {
     updateConnection();
     locations = new ArrayList<>();
+
+    File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
+    locCSV = new LocationControlCSV(locData);
   }
 
   /**
@@ -174,18 +177,36 @@ class LocationDAOImpl implements ILocationDAO {
     return true;
   }
 
+  File getDefaultLocationCSVPath() {
+    return locCSV.getDefaultPath();
+  }
+
   /**
-   * Exports the Location table into a csv file to the working directory
+   * Exports the Locations table into a CSV at the given path
    *
-   * @return True if successful, false if not
+   * @param locData The path the CSV will be written to
+   * @return True if success, false otherwise
    */
+  @Override
   public boolean exportToLocationCSV(File locData) {
     updateConnection();
 
-    // File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
-    locCSV = new LocationControlCSV(locData);
     try {
       locCSV.writeLocCSV(getAllLocations(), locData);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public boolean exportToLocationCSV() {
+    updateConnection();
+
+    try {
+      locCSV.writeLocCSV(getAllLocations());
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -277,7 +298,6 @@ class LocationDAOImpl implements ILocationDAO {
     updateConnection();
     int numberConflicts = 0;
     try {
-      locCSV = new LocationControlCSV(locData);
       List<Location> tempLoc = locCSV.readLocCSV(locData);
 
       List<String> newLocations = new ArrayList<>();
