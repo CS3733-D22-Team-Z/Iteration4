@@ -10,7 +10,7 @@ public class PatientControlCSV extends ControlCSV {
   private String[] headers = {"PatientID", "name", "location"};
 
   public PatientControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
   protected void writePatCSV(List<Patient> in) {

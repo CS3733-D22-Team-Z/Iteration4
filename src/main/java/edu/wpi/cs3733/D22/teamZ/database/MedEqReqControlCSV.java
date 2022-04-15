@@ -11,7 +11,7 @@ public class MedEqReqControlCSV extends ControlCSV {
   private String[] headers = {"requestID", "itemID"};
 
   public MedEqReqControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
   protected void writeMedReqCSV(List<MedicalEquipmentDeliveryRequest> in) {

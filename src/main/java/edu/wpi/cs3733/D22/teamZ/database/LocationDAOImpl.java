@@ -184,7 +184,7 @@ class LocationDAOImpl implements ILocationDAO {
 
     // File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
     locCSV = new LocationControlCSV(locData);
-    locCSV.writeLocCSV(getAllLocations());
+    locCSV.writeLocCSV(getAllLocations(), locData);
 
     return true;
   }
@@ -273,7 +273,7 @@ class LocationDAOImpl implements ILocationDAO {
     int numberConflicts = 0;
     try {
       locCSV = new LocationControlCSV(locData);
-      List<Location> tempLoc = locCSV.readLocCSV();
+      List<Location> tempLoc = locCSV.readLocCSV(locData);
 
       List<String> newLocations = new ArrayList<>();
 

@@ -12,7 +12,7 @@ public class LocationControlCSV extends ControlCSV {
   };
 
   public LocationControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
   protected void writeLocCSV(List<Location> in) {
@@ -21,6 +21,14 @@ public class LocationControlCSV extends ControlCSV {
 
   public List<Location> readLocCSV() throws IOException {
     return dataToObj(readCSV());
+  }
+
+  protected void writeLocCSV(List<Location> in, File path) {
+    writeCSV(objToData(in), path, headers);
+  }
+
+  public List<Location> readLocCSV(File path) throws IOException {
+    return dataToObj(readCSV(path));
   }
 
   private List<Location> dataToObj(List<List<String>> data) {

@@ -13,7 +13,7 @@ public class MedicalEquipmentControlCSV extends ControlCSV {
   private String[] headers = {"itemID", "type", "status", "currentLocation"};
 
   public MedicalEquipmentControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
   protected void writeMedicalEquipmentCSV(List<MedicalEquipment> in) {

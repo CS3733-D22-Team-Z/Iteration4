@@ -10,7 +10,7 @@ public class EmployeeControlCSV extends ControlCSV {
   private String[] headers = {"EmployeeID", "name", "accessType", "username", "password"};
 
   public EmployeeControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
   protected void writeEmployeeCSV(List<Employee> in) {

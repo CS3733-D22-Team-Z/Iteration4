@@ -6,17 +6,25 @@ import java.util.List;
 
 public abstract class ControlCSV {
 
-  private File path;
+  private File defaultPath;
 
   public ControlCSV() {
-    path = new File("");
+    defaultPath = new File("");
   }
 
-  public void setPath(File path) {
-    this.path = path;
+  public void setDefaultPath(File defaultPath) {
+    this.defaultPath = defaultPath;
   }
 
   protected final void writeCSV(List<List<String>> in, String... headers) {
+    writeCSV(in, defaultPath, headers);
+  }
+
+  protected final List<List<String>> readCSV() throws IOException {
+    return readCSV(defaultPath);
+  }
+
+  protected final void writeCSV(List<List<String>> in, File path, String... headers) {
     String fLine = String.join(",", headers);
     FileWriter file = null;
     try {
@@ -54,7 +62,7 @@ public abstract class ControlCSV {
     }
   }
 
-  protected final List<List<String>> readCSV() throws IOException {
+  protected final List<List<String>> readCSV(File path) throws IOException {
     FileReader temp = null;
     try {
       temp = new FileReader(path);
