@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
@@ -69,7 +68,6 @@ public class FacadeDAO {
    * Gets all lab service requests
    *
    * @return list of lab service requests
-   * @throws SQLException
    */
   public List<LabServiceRequest> getAllLabServiceRequests() {
     return labRequestServiceDAO.getAllLabServiceRequests();

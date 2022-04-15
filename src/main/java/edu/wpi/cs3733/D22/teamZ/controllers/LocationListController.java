@@ -383,7 +383,7 @@ public class LocationListController implements IMenuAccess {
         .selectedToggleProperty()
         .addListener(
             (observable, oldValue, newValue) ->
-                showLocations(changeFloor.getSelectionModel().getSelectedItem()));
+                refreshMap(changeFloor.getSelectionModel().getSelectedItem()));
 
     refreshMap("1");
   }
@@ -485,7 +485,8 @@ public class LocationListController implements IMenuAccess {
   }
 
   private void showLocations(String floor) {
-    group.getChildren().removeIf(child -> child instanceof MapLabel);
+    group.getChildren().removeIf(child -> child instanceof MapLabel || child instanceof Polygon);
+    group.getChildren().addAll(generateVoronoi(floor));
 
     for (MapLabel temp : allLabels) {
       if (temp.isOnFloor(floor)) {
@@ -502,6 +503,8 @@ public class LocationListController implements IMenuAccess {
             if (temp.getEquip().size() > 0) {
               locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
               locationIcon = new ImageView(locationImg);
+              temp.setTranslateX(-18);
+              temp.setTranslateY(-18);
               temp.setGraphic(locationIcon);
               group.getChildren().add(temp);
             }
@@ -511,6 +514,8 @@ public class LocationListController implements IMenuAccess {
             if (temp.getReqs().size() > 0) {
               locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/servicerequest.png");
               locationIcon = new ImageView(locationImg);
+              temp.setTranslateX(-18);
+              temp.setTranslateY(-18);
               temp.setGraphic(locationIcon);
               group.getChildren().add(temp);
             }
@@ -676,15 +681,16 @@ public class LocationListController implements IMenuAccess {
     // loc.getFloor().equalsIgnoreCase(nFloor)));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + nFloor + ".png"));
 
-    generateVoronoi(nFloor);
     showLocations(nFloor);
   }
 
   private void initLabels() {
     allLabels.remove(0, allLabels.size());
-    //  ObservableList<Polygon>
+    ObservableList<Polygon> allPolys = FXCollections.observableList(new ArrayList<>());
+    for (String floor : changeFloor.getItems()) {
+      allPolys.addAll(generateVoronoi(floor));
+    }
     for (Location current : totalLocations) {
-
       MapLabel label =
           new MapLabel.mapLabelBuilder()
               .location(current)
@@ -703,7 +709,6 @@ public class LocationListController implements IMenuAccess {
       // create the label
       label.setEffect(dropShadow);
       // label.setGraphic(locationIcon);
-
       label
           .focusedProperty()
           .addListener(
@@ -726,6 +731,11 @@ public class LocationListController implements IMenuAccess {
           (label.getLocation().getXcoord()) * (map.getFitWidth() / 1021),
           (label.getLocation().getYcoord()) * (map.getFitHeight() / 850));
 
+      label.setBound(
+          allPolys.stream()
+              .filter(poly -> poly.contains(label.getLayoutX(), label.getLayoutY()))
+              .collect(Collectors.toList())
+              .get(0));
       label.setContextMenu(rightClickMenu);
       label.setOnContextMenuRequested(
           event -> rightClickMenu.show(label, event.getScreenX(), event.getScreenY()));
@@ -1176,7 +1186,7 @@ public class LocationListController implements IMenuAccess {
     ObservableList<Polygon> voronoiPolys = FXCollections.observableList(new ArrayList<>());
     for (PointD[] poly : polys) {
       Polygon n = new Polygon();
-      n.setFill(new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), .4));
+      n.setFill(new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), .6));
       for (PointD point : poly) {
         n.getPoints().addAll(point.x, point.y);
       }
