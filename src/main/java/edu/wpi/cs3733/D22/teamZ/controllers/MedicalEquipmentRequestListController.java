@@ -48,7 +48,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   private final String toHomepageURL = "views/Homepage.fxml";
 
   // List of identifiers for each
-  private String[] identifiers = {
+  private final String[] identifiers = {
     "ID", "Device", "Assignee", "Handler", "Status", "Target Location"
   };
 
@@ -61,7 +61,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   private ObservableList<RequestRow> requests;
 
   // Database object
-  private FacadeDAO facadeDAO;
+  private final FacadeDAO facadeDAO;
 
   public MedicalEquipmentRequestListController() {
     // Create new database object
@@ -84,9 +84,9 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     // Create labels for field values
-    for (int i = 0; i < identifiers.length; i++) {
+    for (String identifier : identifiers) {
       Label ID = new Label();
-      ID.setText(identifiers[i]);
+      ID.setText(identifier);
     }
 
     // Fill the filter box with test data
@@ -186,7 +186,8 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   // Load a MedEquipReq into the Details row.
   public void loadRow(String MeqID) {
     // Clear out current details data
-    statusTable.getItems().clear();
+    statusTable.refresh();
+    // statusTable.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
     MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(MeqID);
@@ -204,9 +205,9 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
         .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
   }
 
-  public class TableColumnItems {
-    SimpleStringProperty label = null;
-    SimpleStringProperty detail = null;
+  public static class TableColumnItems {
+    SimpleStringProperty label;
+    SimpleStringProperty detail;
 
     public TableColumnItems(String label, String detail) {
       this.label = new SimpleStringProperty(label);
@@ -215,11 +216,11 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   }
 
   public void loadRequests() {
-    rawRequests = facadeDAO.getAllMedicalEquipmentRequest();
+    rawRequests = FacadeDAO.getInstance().getAllMedicalEquipmentRequest();
   }
 
   public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) {
-    return facadeDAO.getMedicalEquipmentRequestByID(MeqID);
+    return FacadeDAO.getInstance().getMedicalEquipmentRequestByID(MeqID);
   }
 
   public void exportToCSV(ActionEvent actionEvent) {
@@ -237,7 +238,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   // Data structure to represent a row in the request list.
   // Does this belong here or in an entity?
-  class RequestRow {
+  static class RequestRow {
     SimpleStringProperty id;
     SimpleStringProperty device;
     SimpleStringProperty assignee;

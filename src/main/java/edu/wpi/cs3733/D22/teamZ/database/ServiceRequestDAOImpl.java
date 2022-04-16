@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
-import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
@@ -16,18 +15,20 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   private final List<ServiceRequest> serviceRequestList;
   private final ServiceRequestControlCSV csvController;
 
-  private static final LocationDAOImpl locationDAO = new LocationDAOImpl();
-  private static final EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
-
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
 
   public ServiceRequestDAOImpl() {
     updateConnection();
-    File serviceRequestCSV = new File(System.getProperty("user.dir") + "\\ServiceRequest.csv");
-    csvController = new ServiceRequestControlCSV(serviceRequestCSV);
-
     serviceRequestList = new ArrayList<>();
+
+    File serviceRequestData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "ServiceRequest.csv");
+
+    csvController = new ServiceRequestControlCSV(serviceRequestData);
   }
 
   /**
@@ -37,22 +38,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
    */
   @Override
   public List<ServiceRequest> getAllServiceRequests() {
-    updateConnection();
-
-    try {
-      PreparedStatement pstmt = connection.prepareStatement("Select * from SERVICEREQUEST");
-      ResultSet rset = pstmt.executeQuery();
-
-      while (rset.next()) {
-        ServiceRequest temp = serviceRequestFromResultSet(rset);
-        if (!serviceRequestList.contains(temp)) {
-          serviceRequestList.add(temp);
-        }
-      }
-    } catch (SQLException e) {
-      System.out.println("Failed to add service request");
-    }
-    return this.serviceRequestList;
+    // ArrayList<ServiceRequest> requestsList = new ArrayList<>(serviceRequests.values());
+    return serviceRequestList;
   }
 
   /**
@@ -65,43 +52,53 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
    */
   @Override
   public ServiceRequest getServiceRequestByID(String serviceRequestID) {
-    updateConnection();
-    ServiceRequest request = null;
-
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement("Select * From SERVICEREQUEST WHERE requestID = ?");
-      pstmt.setString(1, serviceRequestID);
-      ResultSet rset = pstmt.executeQuery();
-
-      if (rset.next()) {
-        request = serviceRequestFromResultSet(rset);
+    int i = 0;
+    for (ServiceRequest req : serviceRequestList) {
+      if (req.getRequestID().equals(serviceRequestID)) {
+        return serviceRequestList.get(i);
       }
-    } catch (SQLException e) {
-      System.out.println("Something went wrong with the database connection.");
-      e.printStackTrace();
+      i++;
     }
-
-    return request;
+    return null;
   }
 
-  private ServiceRequest serviceRequestFromResultSet(ResultSet rset) throws SQLException {
+  /**
+   * Returns a list of ServiceRequest objects stored in the database that are located in the given
+   * target location
+   *
+   * @param target The location to search
+   * @return A list of service requests that are located in the given location
+   */
+  @Override
+  public List<ServiceRequest> getServiceRequestsByLocation(Location target) {
     updateConnection();
-    String requestID = rset.getString("requestID");
-    String typeStr = rset.getString("type");
-    String statusStr = rset.getString("status");
-    String issuerID = rset.getString("issuerID");
-    String handlerID = rset.getString("handlerID");
-    String targetLocationID = rset.getString("targetLocationID");
 
-    ServiceRequest.RequestType type = ServiceRequest.RequestType.getRequestTypeByString(typeStr);
-    ServiceRequest.RequestStatus status =
-        ServiceRequest.RequestStatus.getRequestStatusByString(statusStr);
-    Employee issuer = employeeDAO.getEmployeeByID(issuerID);
-    Employee handler = employeeDAO.getEmployeeByID(handlerID);
-    Location targetLocation = locationDAO.getLocationByID(targetLocationID);
+    ArrayList<ServiceRequest> searchedRequests = new ArrayList<>();
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "SELECT requestID FROM SERVICEREQUEST WHERE targetLocationID=?");
+      stmt.setString(1, target.getNodeID());
+      ResultSet rset = stmt.executeQuery();
 
-    return new ServiceRequest(requestID, type, status, issuer, handler, targetLocation);
+      while (rset.next()) {
+        String requestID = rset.getString("requestID");
+        int i = 0;
+        for (ServiceRequest req : serviceRequestList) {
+          if (req.getRequestID().equals(requestID)) {
+            searchedRequests.add(serviceRequestList.get(i));
+          }
+          i++;
+        }
+        // searchedRequests.add(serviceRequests.get(requestID));
+      }
+
+    } catch (SQLException e) {
+      System.out.println("Failed to query service request table");
+      return searchedRequests;
+    }
+
+    return searchedRequests;
   }
 
   /**
@@ -164,8 +161,18 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
       stmt.executeUpdate();
       connection.commit();
-      serviceRequestList.remove(request);
-      serviceRequestList.add(request);
+      // cannot simply delete then edit
+      for (ServiceRequest req : serviceRequestList) {
+        if (req.equals(request)) {
+          req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+          req.setHandler(request.getHandler());
+          return true;
+        }
+      }
+      // serviceRequestList.remove(request);
+      // serviceRequestList.add(request);
+      //      serviceRequests.remove(request.getRequestID());
+      //      serviceRequests.put(request.getRequestID(), request);
       return true;
     } catch (SQLException e) {
       System.out.println("Update failed");
@@ -251,6 +258,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
 
           // insert it
           pstmt.executeUpdate();
+          serviceRequestList.add(info);
+          // serviceRequests.put(info.getRequestID(), info);
         }
       } catch (SQLException e) {
         conflictCounter++;
@@ -317,47 +326,9 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
       stmt.executeUpdate();
       connection.commit();
     } catch (SQLException e) {
-      System.out.println("Statement failed");
+      System.out.println("Failed to add service request");
       return false;
     }
     return true;
-  }
-
-  /**
-   * Gets the ServiceRequests in the given locations
-   *
-   * @param loc location of service requests
-   * @return ServiceRequest at that location
-   */
-  public List<ServiceRequest> getServiceRequestsByLocation(Location loc) {
-    updateConnection();
-    List<ServiceRequest> listServiceRequest = new ArrayList<>();
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement("Select * From SERVICEREQUEST WHERE TARGETLOCATIONID = ?");
-      pstmt.setString(1, loc.getNodeID());
-      ResultSet rset = pstmt.executeQuery();
-      while (rset.next()) {
-        String requestID = rset.getString("requestID");
-        String typeStr = rset.getString("type");
-        String statusStr = rset.getString("status");
-        String issuerID = rset.getString("issuerID");
-        String handlerID = rset.getString("handlerID");
-        String targetLocationID = rset.getString("targetLocationID");
-
-        listServiceRequest.add(
-            new ServiceRequest(
-                requestID,
-                ServiceRequest.RequestType.getRequestTypeByString(typeStr),
-                ServiceRequest.RequestStatus.getRequestStatusByString(statusStr),
-                issuerID,
-                handlerID,
-                targetLocationID));
-      }
-    } catch (SQLException e) {
-      System.out.println("Failed to get ServiceRequest by location");
-      e.printStackTrace();
-    }
-    return listServiceRequest;
   }
 }

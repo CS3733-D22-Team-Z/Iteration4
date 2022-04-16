@@ -40,6 +40,7 @@ public class FacadeDAO {
   public List<Location> getAllLocations() {
     return locationDAO.getAllLocations();
   }
+
   /**
    * Get all MedicalEquipment in the database
    *
@@ -48,6 +49,7 @@ public class FacadeDAO {
   public List<MedicalEquipment> getAllMedicalEquipment() {
     return medicalEquipmentDAO.getAllMedicalEquipment();
   }
+
   /**
    * Gets all MedicalEquipmentRequests from database
    *
@@ -56,6 +58,7 @@ public class FacadeDAO {
   public List<MedicalEquipmentDeliveryRequest> getAllMedicalEquipmentRequest() {
     return medEquipReqDAO.getAllMedEquipReq();
   }
+
   /**
    * Returns all the service requests currently stored
    *
@@ -64,6 +67,7 @@ public class FacadeDAO {
   public List<ServiceRequest> getAllServiceRequests() {
     return serviceRequestDAO.getAllServiceRequests();
   }
+
   /**
    * Gets all lab service requests
    *
@@ -72,6 +76,7 @@ public class FacadeDAO {
   public List<LabServiceRequest> getAllLabServiceRequests() {
     return labRequestServiceDAO.getAllLabServiceRequests();
   }
+
   /**
    * Gets all of the employees in the database
    *
@@ -80,6 +85,7 @@ public class FacadeDAO {
   public List<Employee> getAllEmployees() {
     return employeeDAO.getAllEmployees();
   }
+
   /**
    * Gets all of the patients in the database
    *
@@ -97,8 +103,12 @@ public class FacadeDAO {
    * @return Location object with provided nodeID
    */
   public Location getLocationByID(String id) {
+    if (locationDAO.getLocationByID(id) == null) {
+      return new Location();
+    }
     return locationDAO.getLocationByID(id);
   }
+
   /**
    * Get MedicalEquipment with the given ID
    *
@@ -108,6 +118,7 @@ public class FacadeDAO {
   public MedicalEquipment getMedicalEquipmentByID(String id) {
     return medicalEquipmentDAO.getMedicalEquipmentByID(id);
   }
+
   /**
    * Gets ONE Employee from the database based on the provided EmployeeID
    *
@@ -117,6 +128,7 @@ public class FacadeDAO {
   public Employee getEmployeeByID(String id) {
     return employeeDAO.getEmployeeByID(id);
   }
+
   /**
    * Gets ONE patient from the database based on the provided patientID
    *
@@ -126,6 +138,7 @@ public class FacadeDAO {
   public Patient getPatientByID(String id) {
     return patientDAO.getPatientByID(id);
   }
+
   /**
    * Returns a single ServiceRequest object that is stored in the database and has the id that is
    * provided
@@ -214,6 +227,17 @@ public class FacadeDAO {
         serviceRequestDAO.addServiceRequest(medicalEquipmentDeliveryRequest)
             && medEquipReqDAO.addMedEquipReq(medicalEquipmentDeliveryRequest);
     return val;
+  }
+
+  /**
+   * ONLY USE THIS TO POPULATE DB: will add to MedEquipReq table
+   *
+   * @param medicalEquipmentDeliveryRequest reqeust to be added
+   * @return true if successsful, false otherwise
+   */
+  public boolean addMedicalEquipmentRequestToDatabase(
+      MedicalEquipmentDeliveryRequest medicalEquipmentDeliveryRequest) {
+    return medEquipReqDAO.addMedEquipReq(medicalEquipmentDeliveryRequest);
   }
   /**
    * Adds a LabServiceRequest to the database
@@ -355,7 +379,25 @@ public class FacadeDAO {
    * @return True if success, false otherwise
    */
   public boolean updateServiceRequest(ServiceRequest serviceRequest) {
-    return serviceRequestDAO.updateServiceRequest(serviceRequest);
+    boolean val = false;
+    if (serviceRequestDAO.updateServiceRequest(serviceRequest)) {
+      if (serviceRequest.getType().equals(ServiceRequest.RequestType.MEDEQUIP)) {
+        MedicalEquipmentDeliveryRequest req =
+            new MedicalEquipmentDeliveryRequest(
+                serviceRequest.getRequestID(),
+                serviceRequest.getStatus(),
+                serviceRequest.getIssuer(),
+                serviceRequest.getHandler(),
+                null,
+                serviceRequest.getTargetLocation());
+        val = medEquipReqDAO.updateMedEquipReq(req);
+      } else if (serviceRequest.getType().equals(ServiceRequest.RequestType.LABS)) {
+        val = labRequestServiceDAO.updateLabRequest((LabServiceRequest) serviceRequest);
+      } else if (serviceRequest.getType().equals(ServiceRequest.RequestType.EXTERNAL)) {
+        // TODO implement update function for external patient transport
+      }
+    }
+    return val;
   }
   // not in use rn
   /**
@@ -637,11 +679,12 @@ public class FacadeDAO {
   public String getFirstAvailableEquipmentByType(String equipment) {
     return medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipment);
   }
+
   /**
-   * Get all Medical Equipment in given floor
+   * Gets all medical equipment on particular floor
    *
-   * @param floor floor to be searched
-   * @return list of medical equipment for given floor
+   * @param floor floor to be inspected
+   * @return list of medical equipment on a particular floor
    */
   public List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor) {
     return medicalEquipmentDAO.getAllMedicalEquipmentByFloor(floor);
@@ -664,11 +707,11 @@ public class FacadeDAO {
   /**
    * Gets the ServiceRequests in the given locations
    *
-   * @param loc location of service requests
+   * @param target location of service requests
    * @return ServiceRequest at that location
    */
-  public List<ServiceRequest> getServiceRequestsByLocation(Location loc) {
-    return serviceRequestDAO.getServiceRequestsByLocation(loc);
+  public List<ServiceRequest> getServiceRequestsByLocation(Location target) {
+    return serviceRequestDAO.getServiceRequestsByLocation(target);
   }
 
   // Special methods for medical equipment requests
