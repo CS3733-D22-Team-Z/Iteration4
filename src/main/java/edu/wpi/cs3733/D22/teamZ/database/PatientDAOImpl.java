@@ -11,7 +11,7 @@ import java.util.List;
 
 class PatientDAOImpl implements IPatientDAO {
   List<Patient> patients;
-  private PatientControlCSV patCSV;
+  private PatientControlCSV patientCSV;
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -159,9 +159,9 @@ class PatientDAOImpl implements IPatientDAO {
     updateConnection();
 
     data = new File(System.getProperty("user.dir") + "\\patient.csv");
-    patCSV = new PatientControlCSV(data);
+    patientCSV = new PatientControlCSV(data);
     try {
-      patCSV.writePatCSV(getAllPatients());
+      patientCSV.writePatCSV(getAllPatients());
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -180,10 +180,10 @@ class PatientDAOImpl implements IPatientDAO {
   public int importPatientsFromCSV(File patientData) {
     updateConnection();
     patientData = new File(System.getProperty("user.dir") + "\\employee.csv");
-    patCSV = new PatientControlCSV(patientData);
+    patientCSV = new PatientControlCSV(patientData);
     int conflictCounter = 0;
     try {
-      List<Patient> tempPatient = patCSV.readPatCSV();
+      List<Patient> tempPatient = patientCSV.readPatientCSV();
       String temp = "";
       try {
         for (Patient info : tempPatient) {
