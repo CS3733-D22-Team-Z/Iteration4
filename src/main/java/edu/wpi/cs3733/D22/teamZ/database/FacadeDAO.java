@@ -103,6 +103,7 @@ public class FacadeDAO {
    * @return Location object with provided nodeID
    */
   public Location getLocationByID(String id) {
+    // TODO is this necessary
     if (locationDAO.getLocationByID(id) == null) {
       return new Location();
     }
