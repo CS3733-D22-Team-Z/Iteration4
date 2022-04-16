@@ -60,7 +60,7 @@ public class LocationListController implements IMenuAccess {
   @FXML private ComboBox<String> alertCodeFieldDelete;
   @FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
-  @FXML private SplitPane splitPane;
+  @FXML private SplitPane splitPane;2
   @FXML private Group group;
   @FXML private ScrollPane scrollPane;
   MenuController menu;
@@ -345,8 +345,9 @@ public class LocationListController implements IMenuAccess {
           if (temp.size() > 0) {
             activeLabel = temp.get(0);
             System.out.println(activeLabel.getLocation().getLongName());
-            Draggable drag = new Draggable();
+            Draggable drag = new Draggable(scrollPane, activeLabel.getLocation());
             drag.makeDraggable(activeLabel);
+
             // displayLocationInformation();
           }
         });
