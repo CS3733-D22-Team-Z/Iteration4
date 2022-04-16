@@ -9,6 +9,7 @@ import java.util.List;
 public class DBInitializer {
   private LocationControlCSV locCSV;
   private EmployeeControlCSV employeeCSV;
+  private PatientControlCSV patientCSV;
   private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
   private ServiceRequestControlCSV serviceControlCSV;
   private MedEqReqControlCSV medEqReqControlCSV;
@@ -29,6 +30,10 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "Employees.csv");
+    File patientData =
+            new File (System.getProperty("user.dir")
+            + System.getProperty("file.separator")
+            + "Patients.csv");
     File medicalEquipmentData =
         new File(
             System.getProperty("user.dir")
@@ -47,6 +52,7 @@ public class DBInitializer {
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
+    patientCSV = new PatientControlCSV(patientData);
     medicalEquipmentControlCSV = new MedicalEquipmentControlCSV(medicalEquipmentData);
     serviceControlCSV = new ServiceRequestControlCSV(serviceRequestData);
     medEqReqControlCSV = new MedEqReqControlCSV(medEquipReqData);
@@ -270,6 +276,31 @@ public class DBInitializer {
         pstmt.setString(3, info.getAccesstype().toString());
         pstmt.setString(4, info.getUsername());
         pstmt.setString(5, info.getPassword());
+
+        // insert it
+        pstmt.executeUpdate();
+        connection.commit();*/
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read CSV");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populatePatientTable() {
+    try {
+      List<Patient> patientList = patientCSV.readPatientCSV();
+
+      for (Patient info : patientList) {
+        dao.addPatient(info);
+        /*PreparedStatement pstmt =
+            connection.prepareStatement(
+                "INSERT INTO PATIENTS (patientID, name, Location) values (?, ?, ?)");
+        pstmt.setString(1, info.getPatientID());
+        pstmt.setString(2, info.getName());
+        pstmt.setString(3, info.getLocation().getNodeType());
 
         // insert it
         pstmt.executeUpdate();
