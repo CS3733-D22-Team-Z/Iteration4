@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -23,39 +24,25 @@
             <children>
                 <MFXButton fx:id="exportCSVButton" mnemonicParsing="false" onAction="#exportToCSV" style="-fx-background-color: #0075ff;" text="Export to CSV..." textFill="WHITE" />
                 <MFXButton fx:id="refresh" onAction="#refreshClicked" prefHeight="29.0" prefWidth="73.0" style="-fx-background-color: #0075ff;" text="Refresh" textFill="WHITE" />
-                <Label styleClass="object-body" text="Filter &amp; Sort">
+                <Label styleClass="object-body" text="Filter By">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Label>
                 <HBox alignment="CENTER">
                     <children>
-                        <MFXButton fx:id="idFilter" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 5 0 0 5;" styleClass="filter-button" text="ID">
-                     <font>
-                        <Font size="10.0" />
-                     </font></MFXButton>
-                        <MFXButton fx:id="typeFilter" onAction="#filterClicked" prefHeight="29.0" style="-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Type">
-                     <font>
-                        <Font size="10.0" />
-                     </font></MFXButton>
-                        <MFXButton fx:id="statusFilter" onAction="#filterClicked" prefHeight="29.0" style="-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Status">
-                     <font>
-                        <Font size="10.0" />
-                     </font></MFXButton>
-                        <MFXButton fx:id="assigneeFilter" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 0 5 5 0;" styleClass="filter-button" text="Assignee">
-                     <font>
-                        <Font size="10.0" />
-                     </font></MFXButton>
+                  <MFXRectangleToggleNode fx:id="issuerSelect" onAction="#issuerFilter" text="Issuer" />
+                  <MFXRectangleToggleNode fx:id="handlerSelect" onAction="#handlerFilter" text="Handler" />
                     </children>
                 </HBox>
-                <ChoiceBox fx:id="filterBox" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+                <ChoiceBox fx:id="filterBox" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
             </children>
         </VBox>
       <MFXButton fx:id="setEmpButton" layoutX="453.0" layoutY="303.0" mnemonicParsing="false" onAction="#setEmployee" style="-fx-background-color: #0075ff;" text="Set Employee" textFill="WHITE" />
-      <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="264.0" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
-      <TabPane layoutX="32.0" layoutY="56.0" prefHeight="352.0" prefWidth="372.0" tabClosingPolicy="UNAVAILABLE">
+      <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="264.0" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+      <TabPane fx:id="tabs" layoutX="32.0" layoutY="56.0" prefHeight="352.0" prefWidth="372.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="All Service Requests">
+          <Tab fx:id="all" text="All Service Requests">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -74,7 +61,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Outstanding Service Requests">
+          <Tab fx:id="outstanding" text="Outstanding Service Requests">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -92,5 +79,10 @@
           </Tab>
         </tabs>
       </TabPane>
+      <Label layoutX="415.0" layoutY="242.0" text="Add Employee to Request">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
