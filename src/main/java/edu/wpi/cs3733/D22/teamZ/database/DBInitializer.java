@@ -7,13 +7,13 @@ import java.sql.*;
 import java.util.List;
 
 public class DBInitializer {
-  private LocationControlCSV locCSV;
-  private EmployeeControlCSV employeeCSV;
-  private PatientControlCSV patientCSV;
-  private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
-  private ServiceRequestControlCSV serviceControlCSV;
-  private MedEqReqControlCSV medEqReqControlCSV;
-  private FacadeDAO dao = FacadeDAO.getInstance();
+  private final LocationControlCSV locCSV;
+  private final EmployeeControlCSV employeeCSV;
+  private final PatientControlCSV patientCSV;
+  private final MedicalEquipmentControlCSV medicalEquipmentControlCSV;
+  private final ServiceRequestControlCSV serviceControlCSV;
+  private final MedEqReqControlCSV medEqReqControlCSV;
+  private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -58,13 +58,12 @@ public class DBInitializer {
   }
 
   public boolean createTables() {
-    Statement stmt = null;
-
     if (connection == null) {
       System.out.println("Connection is null.");
       return false;
     }
 
+    Statement stmt;
     try {
       stmt = connection.createStatement();
     } catch (SQLException e) {
@@ -428,15 +427,15 @@ public class DBInitializer {
     createTables();
 
     // bool checker
-    boolean val = true;
     // reinsert info into new database
-    val = dao.addLocationFromList(tempLocation);
-    val = dao.addEmployeeFromList(tempEmployee);
-    val = dao.addPatientFromList(tempPatient);
-    val = dao.addMedicalEquipmentFromList(tempMedicalEquipment);
-    val = dao.addServiceRequestFromList(tempServiceRequests);
-    val = dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests);
-    val = dao.addLabRequestFromList(tempLabRequest);
+    boolean val =
+        dao.addLocationFromList(tempLocation)
+            && dao.addEmployeeFromList(tempEmployee)
+            && dao.addPatientFromList(tempPatient)
+            && dao.addMedicalEquipmentFromList(tempMedicalEquipment)
+            && dao.addServiceRequestFromList(tempServiceRequests)
+            && dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests)
+            && dao.addLabRequestFromList(tempLabRequest);
     return val;
   }
 }

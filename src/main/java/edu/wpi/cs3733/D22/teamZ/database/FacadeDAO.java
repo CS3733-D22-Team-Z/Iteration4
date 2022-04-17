@@ -527,7 +527,7 @@ public class FacadeDAO {
   /** Writes the current database to a .csv file */
   // TODO fix the export services function
   public void exportServiceRequestsToCSV(File serviceRequestData) {
-    serviceRequestDAO.exportToServiceRequestCSV();
+    serviceRequestDAO.exportToServiceRequestCSV(serviceRequestData);
   }
   /**
    * Exports the MedicalEquipmentRequest database to specified file location for csv
@@ -550,7 +550,6 @@ public class FacadeDAO {
   }
 
   // Get default path methods
-
   /**
    * Returns the default path that location csv files are printed to
    *
@@ -558,6 +557,33 @@ public class FacadeDAO {
    */
   public File getDefaultLocationCSVPath() {
     return locationDAO.getDefaultLocationCSVPath();
+  }
+
+  /**
+   * Returns the default path that service request csv files are printed to
+   *
+   * @return The default path that service request csv files are printed to
+   */
+  public File getDefaultServiceRequestCSVPath() {
+    return serviceRequestDAO.getDefaultServiceRequestCSVPath();
+  }
+
+  /**
+   * Returns the default path that service request csv files are printed to
+   *
+   * @return The default path that service request csv files are printed to
+   */
+  public File getDefaultEmployeeCSVPath() {
+    return employeeDAO.getDefaultEmployeeCSVPath();
+  }
+
+  /**
+   * Returns the default path that medical equipment delivery request csv files are printed to
+   *
+   * @return The default path that medical equipment delivery request csv files are printed to
+   */
+  public File getDefaultMedEquipReqCSVPath() {
+    return medEquipReqDAO.getDefaultMedEquipReqCSVPath();
   }
 
   // Add from list functions

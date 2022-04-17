@@ -479,12 +479,8 @@ public class LocationListController implements IMenuAccess {
     Tab medInfoTab = new Tab("Medical Equipment Info");
     Tab servReqTab = new Tab("Service Request Info");
 
+    root.getTabs().addAll(medInfoTab, servReqTab, locInfoTab);
 
-    AnchorPane medPane = new AnchorPane();
-    loadMedPane(medPane);
-    medInfoTab.setContent(medPane);
-
-    root.getTabs().addAll(locInfoTab, medInfoTab, servReqTab);
     root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
     FXMLLoader loader1 = new FXMLLoader();
@@ -518,21 +514,21 @@ public class LocationListController implements IMenuAccess {
   private void showLocations(String floor) {
     group.getChildren().removeIf(child -> child instanceof MapLabel);
 
-    for (int i = 0; i < allLabels.size(); i++) {
-      if (allLabels.get(i).isOnFloor(floor)) {
+    for (MapLabel label : allLabels) {
+      if (label.isOnFloor(floor)) {
         switch (radioGroup.getSelectedToggle().getUserData().toString()) {
           case "Locations":
-            group.getChildren().add(allLabels.get(i));
+            group.getChildren().add(label);
             break;
           case "Equipment":
-            if (allLabels.get(i).getEquip().size() > 0) {
-              group.getChildren().add(allLabels.get(i));
+            if (label.getEquip().size() > 0) {
+              group.getChildren().add(label);
             }
             break;
           case "Service Requests":
             System.out.println("serv");
-            if (allLabels.get(i).getReqs().size() > 0) {
-              group.getChildren().add(allLabels.get(i));
+            if (label.getReqs().size() > 0) {
+              group.getChildren().add(label);
             }
             break;
           default:
@@ -561,15 +557,12 @@ public class LocationListController implements IMenuAccess {
   /**
    * Will update location data in database given text inputs on app
    *
-   * @param event
-   * @throws IOException
+   * @param event The button event that triggers this method
    */
   @FXML
-  private void submitEditLocationButtonClicked(ActionEvent event) throws IOException {
+  private void submitEditLocationButtonClicked(ActionEvent event) {
 
-    if (Integer.parseInt(changeNumberTextField.getText()) > 0) {
-      // good do nothing
-    } else {
+    if (!(Integer.parseInt(changeNumberTextField.getText()) > 0)) {
       return;
     }
 
@@ -607,13 +600,9 @@ public class LocationListController implements IMenuAccess {
       }
 
       // check if there are medical equipment stuff there
-      if (medicalEquipmentList.isEmpty()) {
-        // do nothing
-      }
-      // there is equipment so update to new location
-      else {
-        for (int i = 0; i < medicalEquipmentList.size(); i++) {
-          MedicalEquipment tempMedEquip = medicalEquipmentList.get(i);
+      if (!medicalEquipmentList.isEmpty()) {
+        for (MedicalEquipment equipment : medicalEquipmentList) {
+          MedicalEquipment tempMedEquip = equipment;
           tempMedEquip.setCurrentLocation(tempLocation);
           facadeDAO.updateMedicalEquipment(tempMedEquip);
         }
@@ -639,7 +628,7 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  private void clearEditLocationButtonClicked(ActionEvent event) throws IOException {
+  private void clearEditLocationButtonClicked(ActionEvent event) {
     typeChoiceTextField.setValue("DEPT");
     floorChoiceTextField.setValue("1");
     changeNumberTextField.setText("");
@@ -657,7 +646,7 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  private void exitEditLocationButtonClicked(ActionEvent event) throws IOException {
+  private void exitEditLocationButtonClicked(ActionEvent event) {
     locationChangeDarkenPane.setVisible(false);
     editLocationPane.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
@@ -668,8 +657,7 @@ public class LocationListController implements IMenuAccess {
   @FXML
   public void search(KeyEvent keyEvent) {
     searchField.requestFocus();
-    List<ISearchable> tempResultList = new ArrayList<>();
-    tempResultList = filter.filterList(searchField.getText());
+    List<ISearchable> tempResultList = filter.filterList(searchField.getText());
     List<String> longNames = new ArrayList<>();
     for (ISearchable loc : tempResultList) {
       longNames.add(loc.getDisplayName());
@@ -714,15 +702,12 @@ public class LocationListController implements IMenuAccess {
 
   private void initLabels() {
     allLabels.remove(0, allLabels.size());
-    for (int i = 0; i < totalLocations.size(); i++) {
-
-      Location current = totalLocations.get(i);
-
+    for (Location loc : totalLocations) {
       MapLabel label =
           new MapLabel.mapLabelBuilder()
-              .location(current)
-              .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
-              .requests(facadeDAO.getServiceRequestsByLocation(current))
+              .location(loc)
+              .equipment(facadeDAO.getAllMedicalEquipmentByLocation(loc))
+              .requests(facadeDAO.getServiceRequestsByLocation(loc))
               .build();
 
       // stylize label icon
@@ -773,10 +758,7 @@ public class LocationListController implements IMenuAccess {
 
       label.setScaleX(.7);
       label.setScaleY(.7);
-      label.setOnMouseClicked(
-          evt -> {
-            label.requestFocus();
-          });
+      label.setOnMouseClicked(evt -> label.requestFocus());
       // place label at correct coords
       label.relocate(
           (label.getLocation().getXcoord() - 12) * (map.getFitWidth() / 1021),
@@ -803,9 +785,9 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  public void deleteLocation() throws IOException {
+  public void deleteLocation() {
     Location temp = facadeDAO.getLocationByID(locationToDeleteTextField.getText());
-    if (temp.getNodeID().equals(null)) {
+    if (temp == null) {
       System.out.println("Did not find location in database");
       return;
     }
@@ -824,7 +806,7 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  public void cancelLocationToDelete() throws IOException {
+  public void cancelLocationToDelete() {
     locationChangeDarkenPane.setVisible(false);
     deleteLocationPlane1.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
@@ -841,7 +823,7 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  private void addLocationButtonClicked(ActionEvent evt) throws IOException {
+  private void addLocationButtonClicked(ActionEvent evt) {
     locationChangeDarkenPane.setVisible(true);
     addLocationPane.setVisible(true);
     locationChangeDarkenPane.setDisable(false);
@@ -869,7 +851,7 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  private void cancelAddLocation(ActionEvent event) throws IOException {
+  private void cancelAddLocation(ActionEvent event) {
     locationChangeDarkenPane.setVisible(false);
     addLocationPane.setVisible(false);
     locationChangeDarkenPane.setDisable(true);
@@ -877,19 +859,19 @@ public class LocationListController implements IMenuAccess {
   }
 
   @FXML
-  private void cancelAddAlert(ActionEvent event) throws IOException {
+  private void cancelAddAlert(ActionEvent event) {
     addAlertPane.setVisible(false);
     addAlertPane.setDisable(true);
   }
 
   @FXML
-  private void cancelDeleteAlert(ActionEvent event) throws IOException {
+  private void cancelDeleteAlert(ActionEvent event) {
     deleteAlertPane.setVisible(false);
     deleteAlertPane.setDisable(true);
   }
 
   @FXML
-  private void addLocation() throws IOException {
+  private void addLocation() {
     // check if coords are valid
     if (Integer.parseInt(xCoordTextField.getText()) < 0
         || Integer.parseInt(xCoordTextField.getText()) > 1021) {
@@ -1305,7 +1287,6 @@ public class LocationListController implements IMenuAccess {
   }
 
   public void createAlertLabel(ImageView icon, Location location) {
-    ImageView locationIcon = icon;
     DropShadow dropShadow = new DropShadow();
     dropShadow.setRadius(5.0);
     dropShadow.setOffsetX(3.0);
@@ -1318,7 +1299,7 @@ public class LocationListController implements IMenuAccess {
     // create the label
     Label label = new Label();
     label.setEffect(dropShadow);
-    label.setGraphic(locationIcon);
+    label.setGraphic(icon);
     label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
     label.setContextMenu(contextMenu);
     contextMenu.getItems().add(menuItem1);
@@ -1334,15 +1315,14 @@ public class LocationListController implements IMenuAccess {
 
   public Location findClosestExit(Location location) {
     Location closestExit = new Location();
-    Location current = new Location();
     double distance;
     double bestDistance = 1000;
     int index = 0;
 
-    for (int i = 0; i < totalLocations.size(); i++) {
-      if (totalLocations.get(i).getNodeType().equals("EXIT")
-          && totalLocations.get(i).getFloor().equals(location.getFloor())) {
-        current = totalLocations.get(i);
+    for (Location loc : totalLocations) {
+      if (loc.getNodeType().equals("EXIT")
+          && loc.getFloor().equals(location.getFloor())) {
+        Location current = loc;
         distance =
             Math.sqrt(
                 (Math.pow((current.getXcoord() - location.getXcoord()), 2))
@@ -1350,7 +1330,6 @@ public class LocationListController implements IMenuAccess {
         if (distance < bestDistance) {
           bestDistance = distance;
           closestExit = current;
-          index = i;
         }
       }
     }

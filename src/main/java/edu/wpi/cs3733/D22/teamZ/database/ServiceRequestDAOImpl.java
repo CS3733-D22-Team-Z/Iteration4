@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ServiceRequestDAOImpl implements IServiceRequestDAO {
-  private List<ServiceRequest> serviceRequestList;
-  private ServiceRequestControlCSV csvController;
+  private final List<ServiceRequest> serviceRequestList;
+  private final ServiceRequestControlCSV csvController;
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -21,6 +21,14 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   public ServiceRequestDAOImpl() {
     updateConnection();
     serviceRequestList = new ArrayList<>();
+
+    File serviceRequestData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "ServiceRequest.csv");
+
+    csvController = new ServiceRequestControlCSV(serviceRequestData);
   }
 
   /**
@@ -107,7 +115,6 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     if (addToDatabase(request)) {
       val = true;
       serviceRequestList.add(request);
-      // serviceRequests.put(request.getRequestID(), request);
     }
     return val;
   }
@@ -132,7 +139,6 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
       return false;
     }
     serviceRequestList.remove(request);
-    // serviceRequests.remove(request.getRequestID());
     return true;
   }
 
@@ -174,12 +180,44 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     }
   }
 
-  /** Writes the current database to a .csv file */
+  /**
+   * Returns the default path for a service request csv file to be saved
+   *
+   * @return The default path for a service request csv file to be saved
+   */
+  File getDefaultServiceRequestCSVPath() {
+    return csvController.getDefaultPath();
+  }
+
+  /**
+   * Writes the current database to a .csv file
+   *
+   * @return True if successful, false otherwise
+   */
   @Override
   public boolean exportToServiceRequestCSV() {
     updateConnection();
     try {
       csvController.writeServiceRequestCSV(serviceRequestList);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Writes the current database to a .csv file
+   *
+   * @param path The file path the csv will be written to
+   * @return True if successful, false otherwise
+   */
+  @Override
+  public boolean exportToServiceRequestCSV(File path) {
+    updateConnection();
+    try {
+      csvController.writeServiceRequestCSV(serviceRequestList, path);
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -197,13 +235,13 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   @Override
   public int importServiceRequestsFromCSV(File serviceRequestData) {
     updateConnection();
-    // serviceRequestData = new File(System.getProperty("user.dir") + "\\employee.csv");
-    csvController = new ServiceRequestControlCSV(serviceRequestData);
+
     int conflictCounter = 0;
     try {
-      List<ServiceRequest> tempServiceRequest = csvController.readServiceRequestCSV();
-
+      List<ServiceRequest> tempServiceRequest =
+          csvController.readServiceRequestCSV(serviceRequestData);
       String temp = "";
+
       try {
         for (ServiceRequest info : tempServiceRequest) {
           PreparedStatement pstmt =
