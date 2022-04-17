@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MealServiceController">
     <children>
         <Label id="FormLabel" layoutX="15.0" layoutY="52.0" prefHeight="25.0" prefWidth="321.0" styleClass="object-header" text="Meal Service Request Form" />
-        <Label layoutX="15.0" layoutY="76.0" prefHeight="17.0" prefWidth="245.0" styleClass="object-body" text="Enter the fields below to request a meal service." />
+        <Label layoutX="15.0" layoutY="76.0" prefHeight="17.0" prefWidth="437.0" styleClass="object-body" text="Enter the fields below to request a meal service." />
         <Label layoutX="17.0" layoutY="105.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
         <MFXTextField fx:id="enterPatientName" floatMode="DISABLED" layoutX="15.0" layoutY="127.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter patient name" />
         <Label layoutX="16.0" layoutY="162.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />

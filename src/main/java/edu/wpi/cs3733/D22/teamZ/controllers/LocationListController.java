@@ -126,13 +126,13 @@ public class LocationListController implements IMenuAccess {
   @FXML final ToggleGroup radioGroup = new ToggleGroup();
 
   // urls to other pages
-  private String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
-  private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
-  private String toMedicalEquipmentRequestURL =
+  private final String toLocationsURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
+  private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+  private final String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
-  private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
-  private String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
-  private String toServiceRequestProperties =
+  private final String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
+  private final String toEquipmentMapURL = "edu/wpi/cs3733/D22/teamZ/views/EquipmentMap.fxml";
+  private final String toServiceRequestProperties =
       "edu/wpi/cs3733/D22/teamZ/views/ServiceRequestProperties.fxml";
 
   // init LocationDAOImpl to use sql methods from db
@@ -992,9 +992,19 @@ public class LocationListController implements IMenuAccess {
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
+    File defaultFile = facadeDAO.getDefaultLocationCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
+
     File file = fileChooser.showSaveDialog(stage);
 
-    facadeDAO.exportLocationsToCSV(file);
+    if (file != null) {
+      facadeDAO.exportLocationsToCSV(file);
+    }
   }
 
   public void importFromCSV(ActionEvent actionEvent) {
@@ -1004,17 +1014,28 @@ public class LocationListController implements IMenuAccess {
     FileChooser.ExtensionFilter extFilter =
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
+    fileChooser.setInitialDirectory(facadeDAO.getDefaultLocationCSVPath());
+
+    File defaultFile = facadeDAO.getDefaultLocationCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
 
     File file = fileChooser.showOpenDialog(stage);
 
-    int numberConflicts = facadeDAO.importLocationsFromCSV(file);
+    if (file != null) {
+      int numberConflicts = facadeDAO.importLocationsFromCSV(file);
 
-    refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
-    System.out.println(
-        "Detected "
-            + numberConflicts
-            + " locations that are"
-            + " trying to get deleted but still have equipment in it");
+      refreshMap(changeFloor.getSelectionModel().getSelectedItem().toString());
+      System.out.println(
+          "Detected "
+              + numberConflicts
+              + " locations that are"
+              + " trying to get deleted but still have equipment in it");
+    }
   }
 
   @Override

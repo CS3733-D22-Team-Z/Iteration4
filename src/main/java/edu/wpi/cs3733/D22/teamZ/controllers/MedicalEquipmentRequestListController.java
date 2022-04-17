@@ -171,7 +171,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
           new RequestRow(
               medicalEquipmentRequest.getRequestID(),
               medicalEquipmentRequest.getEquipmentID(),
-              medicalEquipmentRequest.getIssuer().getName(),
+              medicalEquipmentRequest.getHandler().getName(),
               medicalEquipmentRequest.getStatus().toString()));
     }
 
@@ -186,7 +186,8 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   // Load a MedEquipReq into the Details row.
   public void loadRow(String MeqID) {
     // Clear out current details data
-    statusTable.getItems().clear();
+    statusTable.refresh();
+    // statusTable.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
     MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(MeqID);
@@ -215,11 +216,11 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   }
 
   public void loadRequests() {
-    rawRequests = facadeDAO.getAllMedicalEquipmentRequest();
+    rawRequests = FacadeDAO.getInstance().getAllMedicalEquipmentRequest();
   }
 
   public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) {
-    return facadeDAO.getMedicalEquipmentRequestByID(MeqID);
+    return FacadeDAO.getInstance().getMedicalEquipmentRequestByID(MeqID);
   }
 
   public void exportToCSV(ActionEvent actionEvent) {

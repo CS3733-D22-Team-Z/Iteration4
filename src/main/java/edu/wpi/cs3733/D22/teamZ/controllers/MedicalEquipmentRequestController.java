@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.database.*;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -11,17 +11,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 public class MedicalEquipmentRequestController extends ServiceRequestController {
   @FXML private Label header;
   @FXML private Label objectBodyText;
   @FXML private Label roomNumberLabel;
   @FXML private Label equipmentLabel;
-  @FXML private TextField enterRoomNumber;
-  @FXML private TextField enterFloorNumber;
-  @FXML private ChoiceBox enterNodeType;
-  @FXML private ChoiceBox equipmentDropDown;
+  @FXML private MFXTextField enterRoomNumber;
+  @FXML private MFXTextField enterFloorNumber;
+  @FXML private ChoiceBox<String> nodeTypeDropDown;
+  @FXML private ChoiceBox<String> equipmentDropDown;
   @FXML private Label errorSavingLabel;
 
   // URLs
@@ -34,6 +33,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
+
     menuName = "Medical Equipment Request";
 
     locationList = database.getAllLocations();
@@ -45,11 +45,15 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
     equipmentDropDown.setItems(
         FXCollections.observableArrayList("Bed", "Recliner", "X-Ray", "Infusion Pump"));
-    enterNodeType.setItems(
+    nodeTypeDropDown.setItems(
         FXCollections.observableArrayList(
             "DEPT", "EXIT", "HALL", "INFO", "LABS", "RETL", "SERV", "STAI", "ELEV", "BATH", "STOR",
             "PATI"));
     // //example
+    nodeTypeDropDown.getSelectionModel().select(0);
+    equipmentDropDown.getSelectionModel().select(0);
+    System.out.println(
+        "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
   }
 
@@ -57,8 +61,11 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     enterRoomNumber.clear();
     enterFloorNumber.clear();
-    enterNodeType.setValue(null);
-    equipmentDropDown.setValue(null);
+    nodeTypeDropDown.getSelectionModel().select(0);
+    equipmentDropDown.getSelectionModel().select(0);
+    //    nodeTypeDropDown.setValue(null);
+    //    equipmentDropDown.setValue(null);
+    validateButton();
   }
 
   @FXML
@@ -66,7 +73,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     // Debug
     System.out.println("Room Number: " + enterRoomNumber.getText());
     System.out.println("Floor Number: " + enterFloorNumber.getText());
-    System.out.println("nodeType: " + enterNodeType.getValue());
+    System.out.println("nodeType: " + nodeTypeDropDown.getValue());
     System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
     String id;
@@ -103,7 +110,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
       // Update medical equipment table to show in use
       String nodeID =
           Location.createNodeID(
-              enterNodeType.getValue().toString(),
+              nodeTypeDropDown.getValue().toString(),
               enterRoomNumber.getText(),
               enterFloorNumber.getText());
       Location targetLoc = database.getLocationByID(nodeID);
@@ -121,8 +128,8 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   private void validateButton() {
     if (!enterRoomNumber.getText().trim().isEmpty()
         && !enterFloorNumber.getText().trim().isEmpty()
-        && !enterNodeType.getSelectionModel().isEmpty()
-        && !equipmentDropDown.getSelectionModel().isEmpty()) {
+        && !nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty()
+        && !equipmentDropDown.getSelectionModel().getSelectedItem().isEmpty()) {
       submitButton.setDisable(false);
     } else {
       submitButton.setDisable(true);

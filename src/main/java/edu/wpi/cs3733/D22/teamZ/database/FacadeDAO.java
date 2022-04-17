@@ -2,11 +2,10 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
-  private static FacadeDAO instance = new FacadeDAO();
+  private static final FacadeDAO instance = new FacadeDAO();
 
   private final LocationDAOImpl locationDAO;
   private final MedicalEquipmentDAOImpl medicalEquipmentDAO;
@@ -41,6 +40,7 @@ public class FacadeDAO {
   public List<Location> getAllLocations() {
     return locationDAO.getAllLocations();
   }
+
   /**
    * Get all MedicalEquipment in the database
    *
@@ -49,6 +49,7 @@ public class FacadeDAO {
   public List<MedicalEquipment> getAllMedicalEquipment() {
     return medicalEquipmentDAO.getAllMedicalEquipment();
   }
+
   /**
    * Gets all MedicalEquipmentRequests from database
    *
@@ -57,6 +58,7 @@ public class FacadeDAO {
   public List<MedicalEquipmentDeliveryRequest> getAllMedicalEquipmentRequest() {
     return medEquipReqDAO.getAllMedEquipReq();
   }
+
   /**
    * Returns all the service requests currently stored
    *
@@ -65,15 +67,16 @@ public class FacadeDAO {
   public List<ServiceRequest> getAllServiceRequests() {
     return serviceRequestDAO.getAllServiceRequests();
   }
+
   /**
    * Gets all lab service requests
    *
    * @return list of lab service requests
-   * @throws SQLException
    */
   public List<LabServiceRequest> getAllLabServiceRequests() {
     return labRequestServiceDAO.getAllLabServiceRequests();
   }
+
   /**
    * Gets all of the employees in the database
    *
@@ -82,6 +85,7 @@ public class FacadeDAO {
   public List<Employee> getAllEmployees() {
     return employeeDAO.getAllEmployees();
   }
+
   /**
    * Gets all of the patients in the database
    *
@@ -95,12 +99,16 @@ public class FacadeDAO {
   /**
    * Gets ONE lcoation from the database based on the provided nodeID
    *
-   * @param id
+   * @param id The od of the location to be searched for
    * @return Location object with provided nodeID
    */
   public Location getLocationByID(String id) {
+    if (locationDAO.getLocationByID(id) == null) {
+      return new Location();
+    }
     return locationDAO.getLocationByID(id);
   }
+
   /**
    * Get MedicalEquipment with the given ID
    *
@@ -110,24 +118,27 @@ public class FacadeDAO {
   public MedicalEquipment getMedicalEquipmentByID(String id) {
     return medicalEquipmentDAO.getMedicalEquipmentByID(id);
   }
+
   /**
    * Gets ONE Employee from the database based on the provided EmployeeID
    *
-   * @param id
+   * @param id The id of the employee to be searched for
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByID(String id) {
     return employeeDAO.getEmployeeByID(id);
   }
+
   /**
    * Gets ONE patient from the database based on the provided patientID
    *
-   * @param id
+   * @param id The id of the patient to be searched for
    * @return Patient object with provided patientID
    */
   public Patient getPatientByID(String id) {
     return patientDAO.getPatientByID(id);
   }
+
   /**
    * Returns a single ServiceRequest object that is stored in the database and has the id that is
    * provided
@@ -151,7 +162,7 @@ public class FacadeDAO {
   /**
    * Get a LabServiceRequest with provided requestID
    *
-   * @param id
+   * @param id The id of the lab service request to be searched for
    * @return LabServiceRequest object with given ID
    */
   public LabServiceRequest getLabServiceRequestByID(String id) {
@@ -162,7 +173,7 @@ public class FacadeDAO {
   /**
    * Adds a new location to database. Will automatically check if already in database
    *
-   * @param loc
+   * @param loc The location to be added
    * @return True if successful, false if not
    */
   public boolean addLocation(Location loc) {
@@ -180,7 +191,7 @@ public class FacadeDAO {
   /**
    * Adds a new Patient to database. Will automatically check if already in database
    *
-   * @param patient
+   * @param patient The patient to be added
    * @return True if successful, false if not
    */
   public boolean addPatient(Patient patient) {
@@ -189,7 +200,7 @@ public class FacadeDAO {
   /**
    * Adds a new Employee to database. Will automatically check if already in database
    *
-   * @param employee
+   * @param employee The employee to be added
    * @return True if successful, false if not
    */
   public boolean addEmployee(Employee employee) {
@@ -216,6 +227,17 @@ public class FacadeDAO {
         serviceRequestDAO.addServiceRequest(medicalEquipmentDeliveryRequest)
             && medEquipReqDAO.addMedEquipReq(medicalEquipmentDeliveryRequest);
     return val;
+  }
+
+  /**
+   * ONLY USE THIS TO POPULATE DB: will add to MedEquipReq table
+   *
+   * @param medicalEquipmentDeliveryRequest reqeust to be added
+   * @return true if successsful, false otherwise
+   */
+  public boolean addMedicalEquipmentRequestToDatabase(
+      MedicalEquipmentDeliveryRequest medicalEquipmentDeliveryRequest) {
+    return medEquipReqDAO.addMedEquipReq(medicalEquipmentDeliveryRequest);
   }
   /**
    * Adds a LabServiceRequest to the database
@@ -244,7 +266,7 @@ public class FacadeDAO {
   /**
    * Deletes a location from database. Will automatically check if exists in database already
    *
-   * @param loc
+   * @param loc The location to be deleted
    * @return True if successful, false if not
    */
   public boolean deleteLocation(Location loc) {
@@ -262,7 +284,7 @@ public class FacadeDAO {
   /**
    * Deletes a patient from database. Will automatically check if exists in database
    *
-   * @param patient
+   * @param patient The patient to be deleted
    * @return True if successful, false if not
    */
   public boolean deletePatient(Patient patient) {
@@ -271,7 +293,7 @@ public class FacadeDAO {
   /**
    * Deletes a Employee from database. Will automatically check if exists in database
    *
-   * @param employee
+   * @param employee The employee to be deleted
    * @return True if successful, false if not
    */
   public boolean deleteEmployee(Employee employee) {
@@ -317,7 +339,7 @@ public class FacadeDAO {
   /**
    * Updates a location in the database. Will automatically check if exists in database
    *
-   * @param loc
+   * @param loc The location to be updated
    * @return True if successful, false if not
    */
   public boolean updateLocation(Location loc) {
@@ -335,7 +357,7 @@ public class FacadeDAO {
   /**
    * Updates a Employee in the database. Will automatically check if exists in database
    *
-   * @param employee
+   * @param employee The employee to be updated
    * @return True if successful, false if not
    */
   public boolean updateEmployee(Employee employee) {
@@ -344,7 +366,7 @@ public class FacadeDAO {
   /**
    * Updates a patient in the database. Will automatically check if exists in database
    *
-   * @param patient
+   * @param patient The patient to be updated
    * @return True if successful, false if not
    */
   public boolean updatePatient(Patient patient) {
@@ -357,7 +379,25 @@ public class FacadeDAO {
    * @return True if success, false otherwise
    */
   public boolean updateServiceRequest(ServiceRequest serviceRequest) {
-    return serviceRequestDAO.updateServiceRequest(serviceRequest);
+    boolean val = false;
+    if (serviceRequestDAO.updateServiceRequest(serviceRequest)) {
+      if (serviceRequest.getType().equals(ServiceRequest.RequestType.MEDEQUIP)) {
+        MedicalEquipmentDeliveryRequest req =
+            new MedicalEquipmentDeliveryRequest(
+                serviceRequest.getRequestID(),
+                serviceRequest.getStatus(),
+                serviceRequest.getIssuer(),
+                serviceRequest.getHandler(),
+                null,
+                serviceRequest.getTargetLocation());
+        val = medEquipReqDAO.updateMedEquipReq(req);
+      } else if (serviceRequest.getType().equals(ServiceRequest.RequestType.LABS)) {
+        val = labRequestServiceDAO.updateLabRequest((LabServiceRequest) serviceRequest);
+      } else if (serviceRequest.getType().equals(ServiceRequest.RequestType.EXTERNAL)) {
+        // TODO implement update function for external patient transport
+      }
+    }
+    return val;
   }
   // not in use rn
   /**
@@ -386,7 +426,7 @@ public class FacadeDAO {
   /**
    * Imports data from CSV into location database
    *
-   * @param locData
+   * @param locData The file path to the location csv that will be imported
    * @return number of times there are conflicts when trying to import
    */
   public int importLocationsFromCSV(File locData) {
@@ -508,6 +548,17 @@ public class FacadeDAO {
     return labRequestServiceDAO.exportToLabRequestCSV(labData);
   }
 
+  // Get default path methods
+
+  /**
+   * Returns the default path that location csv files are printed to
+   *
+   * @return The default path that location csv files are printed to
+   */
+  public File getDefaultLocationCSVPath() {
+    return locationDAO.getDefaultLocationCSVPath();
+  }
+
   // Add from list functions
   /**
    * Insert locations into the database from given list
@@ -585,7 +636,7 @@ public class FacadeDAO {
   /**
    * Gets all locations on the given floor
    *
-   * @param floor
+   * @param floor The floor to be searched
    * @return list of locations
    */
   public List<Location> getAllLocationsByFloor(String floor) {
@@ -620,11 +671,12 @@ public class FacadeDAO {
   public String getFirstAvailableEquipmentByType(String equipment) {
     return medicalEquipmentDAO.getFirstAvailableEquipmentByType(equipment);
   }
+
   /**
-   * Get all Medical Equipment in given floor
+   * Gets all medical equipment on particular floor
    *
-   * @param floor floor to be searched
-   * @return list of medical equipment for given floor
+   * @param floor floor to be inspected
+   * @return list of medical equipment on a particular floor
    */
   public List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor) {
     return medicalEquipmentDAO.getAllMedicalEquipmentByFloor(floor);
@@ -634,7 +686,7 @@ public class FacadeDAO {
   /**
    * Gets ONE Employee from the database based on the provided Username
    *
-   * @param employeeUsername
+   * @param employeeUsername The username being searched for
    * @return Employee object with provided employeeID
    */
   public Employee getEmployeeByUsername(String employeeUsername) {
@@ -647,11 +699,11 @@ public class FacadeDAO {
   /**
    * Gets the ServiceRequests in the given locations
    *
-   * @param loc location of service requests
+   * @param target location of service requests
    * @return ServiceRequest at that location
    */
-  public List<ServiceRequest> getServiceRequestsByLocation(Location loc) {
-    return serviceRequestDAO.getServiceRequestsByLocation(loc);
+  public List<ServiceRequest> getServiceRequestsByLocation(Location target) {
+    return serviceRequestDAO.getServiceRequestsByLocation(target);
   }
 
   // Special methods for medical equipment requests

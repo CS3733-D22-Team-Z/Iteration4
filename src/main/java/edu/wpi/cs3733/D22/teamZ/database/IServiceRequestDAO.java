@@ -24,6 +24,15 @@ public interface IServiceRequestDAO {
   ServiceRequest getServiceRequestByID(String serviceRequestID);
 
   /**
+   * Returns a list of ServiceRequest objects stored in the database that are located in the given
+   * target location
+   *
+   * @param target The location to search
+   * @return A list of service requests that are located in the given location
+   */
+  List<ServiceRequest> getServiceRequestsByLocation(Location target);
+
+  /**
    * Adds the given ServiceRequest object to the database
    *
    * @param request The request to be added
@@ -49,7 +58,7 @@ public interface IServiceRequestDAO {
   boolean updateServiceRequest(ServiceRequest request);
 
   /** Writes the current database to a .csv file */
-  void exportToServiceRequestCSV();
+  boolean exportToServiceRequestCSV();
 
   /**
    * Import ServiceRequest to database from a specified file location for csv
@@ -66,12 +75,4 @@ public interface IServiceRequestDAO {
    * @return True if successful, false otherwise
    */
   boolean addServiceRequestFromList(List<ServiceRequest> list);
-
-  /**
-   * Gets the ServiceRequests in the given locations
-   *
-   * @param loc location of service requests
-   * @return ServiceRequest at that location
-   */
-  List<ServiceRequest> getServiceRequestsByLocation(Location loc);
 }

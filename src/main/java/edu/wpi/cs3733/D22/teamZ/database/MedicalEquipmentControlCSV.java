@@ -8,15 +8,15 @@ import java.util.List;
 
 public class MedicalEquipmentControlCSV extends ControlCSV {
 
-  private LocationDAOImpl locationDAO = new LocationDAOImpl();
+  private static FacadeDAO dao = FacadeDAO.getInstance();
 
-  private String[] headers = {"itemID", "type", "status", "currentLocation"};
+  private final String[] headers = {"itemID", "type", "status", "currentLocation"};
 
   public MedicalEquipmentControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
-  protected void writeMedicalEquipmentCSV(List<MedicalEquipment> in) {
+  protected void writeMedicalEquipmentCSV(List<MedicalEquipment> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 
@@ -27,9 +27,7 @@ public class MedicalEquipmentControlCSV extends ControlCSV {
   private List<MedicalEquipment> dataToObj(List<List<String>> data) {
     List<MedicalEquipment> ret = new ArrayList<>();
     for (List<String> a : data) {
-      ret.add(
-          new MedicalEquipment(
-              a.get(0), a.get(1), a.get(2), locationDAO.getLocationByID(a.get(3))));
+      ret.add(new MedicalEquipment(a.get(0), a.get(1), a.get(2), dao.getLocationByID(a.get(3))));
     }
     return ret;
   }

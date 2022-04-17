@@ -12,10 +12,10 @@ public class LabRequestControlCSV extends ControlCSV {
   private final String[] headers = {"requestID", "labType"};
 
   public LabRequestControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
-  public void writeLabRequestCSV(List<LabServiceRequest> in) {
+  public void writeLabRequestCSV(List<LabServiceRequest> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 
