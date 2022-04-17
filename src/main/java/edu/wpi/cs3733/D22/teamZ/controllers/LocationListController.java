@@ -60,7 +60,7 @@ public class LocationListController implements IMenuAccess {
   @FXML private ComboBox<String> alertCodeFieldDelete;
   @FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
-  @FXML private SplitPane splitPane;2
+  @FXML private SplitPane splitPane;
   @FXML private Group group;
   @FXML private ScrollPane scrollPane;
   MenuController menu;
