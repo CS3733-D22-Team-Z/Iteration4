@@ -707,6 +707,16 @@ public class FacadeDAO {
     return serviceRequestDAO.getServiceRequestsByLocation(target);
   }
 
+  /**
+   * Gets the ServiceRequests of a given status
+   *
+   * @param status
+   * @return ServiceRequest of that Status
+   */
+  public List<ServiceRequest> getServiceRequestsByStatus(ServiceRequest.RequestStatus status) {
+    return serviceRequestDAO.getServiceRequestsByStatus(status);
+  }
+
   // Special methods for medical equipment requests
 
   // Special methods for lab requests

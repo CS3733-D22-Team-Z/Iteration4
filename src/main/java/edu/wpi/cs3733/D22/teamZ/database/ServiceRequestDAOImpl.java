@@ -293,4 +293,43 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     }
     return true;
   }
+
+  /**
+   * Gets the ServiceRequests in the given locations
+   *
+   * @param status
+   * @return ServiceRequests of that status
+   */
+  public List<ServiceRequest> getServiceRequestsByStatus(ServiceRequest.RequestStatus status) {
+    updateConnection();
+    List<ServiceRequest> listServiceRequest = new ArrayList<>();
+    String stat = status.toString();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement("Select * From SERVICEREQUEST WHERE STATUS = ?");
+      pstmt.setString(1, stat);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        String requestID = rset.getString("requestID");
+        String typeStr = rset.getString("type");
+        String statusStr = rset.getString("status");
+        String issuerID = rset.getString("issuerID");
+        String handlerID = rset.getString("handlerID");
+        String targetLocationID = rset.getString("targetLocationID");
+
+        listServiceRequest.add(
+            new ServiceRequest(
+                requestID,
+                ServiceRequest.RequestType.getRequestTypeByString(typeStr),
+                ServiceRequest.RequestStatus.getRequestStatusByString(statusStr),
+                issuerID,
+                handlerID,
+                targetLocationID));
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to get ServiceRequest by status");
+      e.printStackTrace();
+    }
+    return listServiceRequest;
+  }
 }
