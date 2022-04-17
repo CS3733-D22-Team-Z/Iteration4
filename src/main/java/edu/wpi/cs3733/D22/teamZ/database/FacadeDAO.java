@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
@@ -662,6 +661,16 @@ public class FacadeDAO {
    */
   public List<ServiceRequest> getServiceRequestsByLocation(Location loc) {
     return serviceRequestDAO.getServiceRequestsByLocation(loc);
+  }
+
+  /**
+   * Gets the ServiceRequests of a given status
+   *
+   * @param status
+   * @return ServiceRequest of that Status
+   */
+  public List<ServiceRequest> getServiceRequestsByStatus(ServiceRequest.RequestStatus status) {
+    return serviceRequestDAO.getServiceRequestsByStatus(status);
   }
 
   // Special methods for medical equipment requests

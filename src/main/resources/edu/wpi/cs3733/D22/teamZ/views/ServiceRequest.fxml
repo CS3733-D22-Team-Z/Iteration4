@@ -3,6 +3,8 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -49,18 +51,46 @@
                 <ChoiceBox fx:id="filterBox" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
             </children>
         </VBox>
-        <TableView fx:id="tableContainer" layoutX="23.0" layoutY="54.0" prefHeight="326.0" prefWidth="374.0">
-            <columns>
-                <TableColumn fx:id="idCol" editable="false" prefWidth="100.0" text="ID" />
-                <TableColumn fx:id="typeCol" editable="false" prefWidth="100.0" text="Type" />
-                <TableColumn fx:id="assigneeCol" editable="false" prefWidth="100.0" text="Assigned" />
-                <TableColumn fx:id="statusCol" editable="false" prefWidth="100.0" text="Status" />
-            </columns>
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-            </columnResizePolicy>
-        </TableView>
       <MFXButton fx:id="setEmpButton" layoutX="453.0" layoutY="303.0" mnemonicParsing="false" onAction="#setEmployee" style="-fx-background-color: #0075ff;" text="Set Employee" textFill="WHITE" />
       <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="264.0" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+      <TabPane layoutX="32.0" layoutY="56.0" prefHeight="352.0" prefWidth="372.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="All Service Requests">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                          <TableView fx:id="tableContainer" prefHeight="301.0" prefWidth="374.0">
+                              <columns>
+                                  <TableColumn fx:id="idCol" editable="false" prefWidth="93.5" text="ID" />
+                                  <TableColumn fx:id="typeCol" editable="false" prefWidth="93.5" text="Type" />
+                                  <TableColumn fx:id="assignedCol" editable="false" prefWidth="100.0" text="Assigned" />
+                                  <TableColumn fx:id="statusCol" editable="false" prefWidth="100.0" text="Status" />
+                              </columns>
+                              <columnResizePolicy>
+                                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                              </columnResizePolicy>
+                          </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Outstanding Service Requests">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="outstandingTable" prefHeight="301.0" prefWidth="372.0">
+                          <columns>
+                            <TableColumn fx:id="idColO" prefWidth="93.0" text="ID" />
+                            <TableColumn fx:id="typeColO" prefWidth="93.0" text="Type" />
+                              <TableColumn fx:id="assignedColO" prefWidth="93.0" text="Assigned" />
+                              <TableColumn fx:id="statusColO" prefWidth="93.0" text="Status" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
     </children>
 </AnchorPane>

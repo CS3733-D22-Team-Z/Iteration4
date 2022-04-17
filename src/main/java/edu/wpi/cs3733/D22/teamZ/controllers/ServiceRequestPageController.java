@@ -40,8 +40,14 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   @FXML public TableView<ServiceRequest> tableContainer;
   @FXML private TableColumn<ServiceRequest, String> idCol;
   @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestType> typeCol;
-  @FXML private TableColumn<ServiceRequest, Employee> assigneeCol;
+  @FXML private TableColumn<ServiceRequest, Employee> assignedCol;
   @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestStatus> statusCol;
+
+  @FXML public TableView<ServiceRequest> outstandingTable;
+  @FXML private TableColumn<ServiceRequest, String> idColO;
+  @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestType> typeColO;
+  @FXML private TableColumn<ServiceRequest, Employee> assignedColO;
+  @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestStatus> statusColO;
 
   private final String toHomepageURL = "views/Homepage.fxml";
 
@@ -80,6 +86,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     }
 
     createTable();
+    createOutstandingTable();
   }
 
   public void createTable() {
@@ -87,11 +94,28 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     idCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
     typeCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestType>("type"));
-    assigneeCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, Employee>("handler"));
+    assignedCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, Employee>("handler"));
     statusCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestStatus>("status"));
     requests = FXCollections.observableList(facadeDAO.getAllServiceRequests());
     tableContainer.setItems(requests);
+  }
+
+  public void createOutstandingTable() {
+    outstandingTable.getItems().clear();
+    idColO.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
+    typeColO.setCellValueFactory(
+        new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestType>("type"));
+    assignedColO.setCellValueFactory(new PropertyValueFactory<ServiceRequest, Employee>("handler"));
+    statusColO.setCellValueFactory(
+        new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestStatus>("status"));
+    requests =
+        FXCollections.observableList(
+            facadeDAO.getServiceRequestsByStatus(ServiceRequest.RequestStatus.PROCESSING));
+    requests.addAll(
+        FXCollections.observableList(
+            facadeDAO.getServiceRequestsByStatus(ServiceRequest.RequestStatus.UNASSIGNED)));
+    outstandingTable.setItems(requests);
   }
 
   // Called whenever one of the filter buttons are clicked.
