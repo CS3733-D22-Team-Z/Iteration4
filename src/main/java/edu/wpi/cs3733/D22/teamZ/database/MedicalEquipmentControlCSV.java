@@ -20,6 +20,14 @@ public class MedicalEquipmentControlCSV extends ControlCSV {
     writeCSV(objToData(in), headers);
   }
 
+  protected void writeMedicalEquipmentCSV(List<MedicalEquipment> in, File path) throws IOException {
+    writeCSV(objToData(in), path, headers);
+  }
+
+  protected List<MedicalEquipment> readMedicalEquipmentCSV(File path) throws IOException {
+    return dataToObj(readCSV(path));
+  }
+
   protected List<MedicalEquipment> readMedicalEquipmentCSV() throws IOException {
     return dataToObj(readCSV());
   }

@@ -167,11 +167,15 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
     // Iterate through each MedEquipReq in entity and create RequestRow for each
     for (MedicalEquipmentDeliveryRequest medicalEquipmentRequest : rawRequests) {
+      String handlerName =
+          (medicalEquipmentRequest.getHandler() != null)
+              ? medicalEquipmentRequest.getHandler().getName()
+              : "null";
       requests.add(
           new RequestRow(
               medicalEquipmentRequest.getRequestID(),
               medicalEquipmentRequest.getEquipmentID(),
-              medicalEquipmentRequest.getHandler().getName(),
+              handlerName,
               medicalEquipmentRequest.getStatus().toString()));
     }
 
@@ -194,12 +198,14 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
     // statusTable.getColumns().add(labelsColumn);
     // statusTable.getColumns().add(detailsColumn);
+    String handlerName =
+        (selectedReq.getHandler() != null) ? selectedReq.getHandler().getName() : "null";
 
     statusTable.getItems().add(new TableColumnItems("ID", selectedReq.getRequestID()));
     statusTable.getItems().add(new TableColumnItems("Type", selectedReq.getType().toString()));
     statusTable.getItems().add(new TableColumnItems("Status", selectedReq.getStatus().toString()));
     statusTable.getItems().add(new TableColumnItems("Issuer", selectedReq.getIssuer().getName()));
-    statusTable.getItems().add(new TableColumnItems("Handler", selectedReq.getHandler().getName()));
+    statusTable.getItems().add(new TableColumnItems("Handler", handlerName));
     statusTable
         .getItems()
         .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
@@ -231,6 +237,14 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     FileChooser.ExtensionFilter extFilter =
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
+
+    File defaultFile = facadeDAO.getDefaultMedEquipReqCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
 
     File file = fileChooser.showSaveDialog(stage);
     facadeDAO.exportMedicalEquipmentRequestsToCSV(file);

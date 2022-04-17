@@ -576,6 +576,15 @@ public class FacadeDAO {
     return employeeDAO.getDefaultEmployeeCSVPath();
   }
 
+  /**
+   * Returns the default path that medical equipment delivery request csv files are printed to
+   *
+   * @return The default path that medical equipment delivery request csv files are printed to
+   */
+  public File getDefaultMedEquipReqCSVPath() {
+    return medEquipReqDAO.getDefaultMedEquipReqCSVPath();
+  }
+
   // Add from list functions
   /**
    * Insert locations into the database from given list

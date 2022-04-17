@@ -61,9 +61,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
     addEmployeeAccessType.getItems().addAll("ADMIN", "DOCTOR", "NURSE");
   }
 
-  /**
-   * Populate the table with the current database
-   */
+  /** Populate the table with the current database */
   public void createTable() {
     IDColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("employeeID"));
     nameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("name"));
@@ -225,8 +223,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * New employee ID that doesn't already exist
    *
-   * @param accessType the access type for the
-   *        employee that will eventually be created
+   * @param accessType the access type for the employee that will eventually be created
    */
   public void newID(String accessType) {
     String ID = accessType.toLowerCase();
