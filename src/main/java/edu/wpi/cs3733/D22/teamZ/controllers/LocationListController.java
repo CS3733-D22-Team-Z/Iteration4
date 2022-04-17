@@ -463,7 +463,7 @@ public class LocationListController implements IMenuAccess {
     loadMedPane(medPane);
     medInfoTab.setContent(medPane);
 
-    root.getTabs().addAll(medInfoTab, servReqTab, locInfoTab);
+    root.getTabs().addAll(locInfoTab, medInfoTab, servReqTab);
     root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
     Pane locPane = new Pane();

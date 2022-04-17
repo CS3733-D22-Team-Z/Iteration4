@@ -18,7 +18,7 @@ public class PatientControlCSV extends ControlCSV {
     writeCSV(objToData(in), headers);
   }
 
-  protected List<Patient> readPatCSV() throws IOException {
+  protected List<Patient> readPatientCSV() throws IOException {
     return dataToObj(readCSV());
   }
 
