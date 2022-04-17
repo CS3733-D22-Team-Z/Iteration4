@@ -167,11 +167,15 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
     // Iterate through each MedEquipReq in entity and create RequestRow for each
     for (MedicalEquipmentDeliveryRequest medicalEquipmentRequest : rawRequests) {
+      String handler = "";
+      if (medicalEquipmentRequest.getHandler() != null) {
+        handler = medicalEquipmentRequest.getHandler().getName();
+      }
       requests.add(
           new RequestRow(
               medicalEquipmentRequest.getRequestID(),
               medicalEquipmentRequest.getEquipmentID(),
-              medicalEquipmentRequest.getHandler().getName(),
+              handler,
               medicalEquipmentRequest.getStatus().toString()));
     }
 
@@ -186,20 +190,20 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   // Load a MedEquipReq into the Details row.
   public void loadRow(String MeqID) {
     // Clear out current details data
+    statusTable.getItems().clear();
     statusTable.refresh();
-    // statusTable.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
     MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(MeqID);
 
-    // statusTable.getColumns().add(labelsColumn);
-    // statusTable.getColumns().add(detailsColumn);
+    String handler = "";
+    if (selectedReq.getHandler() != null) handler = selectedReq.getHandler().toString();
 
     statusTable.getItems().add(new TableColumnItems("ID", selectedReq.getRequestID()));
     statusTable.getItems().add(new TableColumnItems("Type", selectedReq.getType().toString()));
     statusTable.getItems().add(new TableColumnItems("Status", selectedReq.getStatus().toString()));
     statusTable.getItems().add(new TableColumnItems("Issuer", selectedReq.getIssuer().getName()));
-    statusTable.getItems().add(new TableColumnItems("Handler", selectedReq.getHandler().getName()));
+    statusTable.getItems().add(new TableColumnItems("Handler", handler));
     statusTable
         .getItems()
         .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));

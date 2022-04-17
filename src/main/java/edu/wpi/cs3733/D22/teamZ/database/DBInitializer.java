@@ -31,9 +31,8 @@ public class DBInitializer {
                 + System.getProperty("file.separator")
                 + "Employees.csv");
     File patientData =
-            new File (System.getProperty("user.dir")
-            + System.getProperty("file.separator")
-            + "Patients.csv");
+        new File(
+            System.getProperty("user.dir") + System.getProperty("file.separator") + "Patients.csv");
     File medicalEquipmentData =
         new File(
             System.getProperty("user.dir")
@@ -75,9 +74,9 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("MEALSERVICEREQUEST");
     dropExistingTable("EXTERNALTRANSPORTREQUEST");
     dropExistingTable("MEDEQUIPREQ");
-    dropExistingTable("LABRESULT");
     dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
     dropExistingTable("SERVICEREQUEST");
@@ -220,6 +219,20 @@ public class DBInitializer {
       System.out.println("Failed to create external patient transport tables");
       return false;
     }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE MEALSERVICEREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "patientID VARCHAR(15),"
+              + "constraint MEALSERVICEREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint MEALSERVICEREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid),"
+              + "constraint MEALSERVICEREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create meal service request tables");
+      return false;
+    }
+
     return true;
   }
 
