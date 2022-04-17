@@ -12,7 +12,7 @@
         <Rectangle fx:id="warningBackground" arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="26.0" layoutX="15.0" layoutY="369.0" stroke="TRANSPARENT" strokeType="INSIDE" width="257.0" />
         <MFXButton id="backButton" fx:id="backButton" layoutX="16.0" layoutY="14.0" onAction="#onBackButtonClicked" text="Back to Landing Page" />
         <Label layoutX="14.0" layoutY="63.0" prefHeight="25.0" prefWidth="225.0" styleClass="object-header" text="Lab Request Form" />
-        <Label layoutX="17.0" layoutY="90.0" prefHeight="17.0" prefWidth="315.0" styleClass="object-body" text="Enter the fields below to request a lab for a patient." />
+        <Label layoutX="17.0" layoutY="90.0" prefHeight="17.0" prefWidth="477.0" styleClass="object-body" text="Enter the fields below to request a lab for a patient." />
         <Label fx:id="patientNameLabel" layoutX="14.0" layoutY="123.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
         <MFXTextField fx:id="patientNameField" floatMode="DISABLED" layoutX="12.0" layoutY="145.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter patient name" />
         <Label fx:id="patientIdLabel" layoutX="15.0" layoutY="188.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
