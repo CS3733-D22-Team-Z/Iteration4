@@ -7,13 +7,13 @@ import java.sql.*;
 import java.util.List;
 
 public class DBInitializer {
-  private LocationControlCSV locCSV;
-  private EmployeeControlCSV employeeCSV;
-  private PatientControlCSV patientCSV;
-  private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
-  private ServiceRequestControlCSV serviceControlCSV;
-  private MedEqReqControlCSV medEqReqControlCSV;
-  private FacadeDAO dao = FacadeDAO.getInstance();
+  private final LocationControlCSV locCSV;
+  private final EmployeeControlCSV employeeCSV;
+  private final PatientControlCSV patientCSV;
+  private final MedicalEquipmentControlCSV medicalEquipmentControlCSV;
+  private final ServiceRequestControlCSV serviceControlCSV;
+  private final MedEqReqControlCSV medEqReqControlCSV;
+  private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -31,9 +31,8 @@ public class DBInitializer {
                 + System.getProperty("file.separator")
                 + "Employees.csv");
     File patientData =
-            new File (System.getProperty("user.dir")
-            + System.getProperty("file.separator")
-            + "Patients.csv");
+        new File(
+            System.getProperty("user.dir") + System.getProperty("file.separator") + "Patients.csv");
     File medicalEquipmentData =
         new File(
             System.getProperty("user.dir")

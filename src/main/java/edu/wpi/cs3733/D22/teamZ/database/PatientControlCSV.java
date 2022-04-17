@@ -14,7 +14,7 @@ public class PatientControlCSV extends ControlCSV {
     this.setDefaultPath(path);
   }
 
-  protected void writePatCSV(List<Patient> in) throws IOException {
+  protected void writePatientCSV(List<Patient> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 
