@@ -297,44 +297,6 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
   /**
    * Gets the ServiceRequests in the given locations
    *
-   * @param loc location of service requests
-   * @return ServiceRequest at that location
-   */
-  public List<ServiceRequest> getServiceRequestsByLocation(Location loc) {
-    updateConnection();
-    List<ServiceRequest> listServiceRequest = new ArrayList<>();
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement("Select * From SERVICEREQUEST WHERE TARGETLOCATIONID = ?");
-      pstmt.setString(1, loc.getNodeID());
-      ResultSet rset = pstmt.executeQuery();
-      while (rset.next()) {
-        String requestID = rset.getString("requestID");
-        String typeStr = rset.getString("type");
-        String statusStr = rset.getString("status");
-        String issuerID = rset.getString("issuerID");
-        String handlerID = rset.getString("handlerID");
-        String targetLocationID = rset.getString("targetLocationID");
-
-        listServiceRequest.add(
-            new ServiceRequest(
-                requestID,
-                ServiceRequest.RequestType.getRequestTypeByString(typeStr),
-                ServiceRequest.RequestStatus.getRequestStatusByString(statusStr),
-                issuerID,
-                handlerID,
-                targetLocationID));
-      }
-    } catch (SQLException e) {
-      System.out.println("Failed to get ServiceRequest by location");
-      e.printStackTrace();
-    }
-    return listServiceRequest;
-  }
-
-  /**
-   * Gets the ServiceRequests in the given locations
-   *
    * @param status
    * @return ServiceRequests of that status
    */

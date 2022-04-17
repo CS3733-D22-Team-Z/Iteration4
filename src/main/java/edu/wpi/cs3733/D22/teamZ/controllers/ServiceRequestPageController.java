@@ -111,7 +111,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
 
   /** creates table of all service requests */
   public void createTable() {
-    tableContainer.getItems().clear();
+    tableContainer.refresh();
     idCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
     typeCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestType>("type"));
@@ -124,7 +124,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
 
   /** creates table of all outstanding service requests */
   public void createOutstandingTable() {
-    outstandingTable.getItems().clear();
+    outstandingTable.refresh();
     idColO.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
     typeColO.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestType>("type"));
@@ -215,7 +215,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
 
     for (ServiceRequest req : reqs) {
       if (handler) {
-        if (req.getHandler().equals(emp)) {
+        if (req.getHandler() != null && req.getHandler().equals(emp)) {
           filteredRequests.add(req);
         }
       } else {
@@ -226,10 +226,10 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     }
 
     if (all.isSelected()) {
-      tableContainer.getItems().clear();
+      tableContainer.refresh();
       tableContainer.setItems(filteredRequests);
     } else {
-      outstandingTable.getItems().clear();
+      outstandingTable.refresh();
       outstandingTable.setItems(filteredRequests);
     }
   }
