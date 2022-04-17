@@ -103,6 +103,7 @@ public class FacadeDAO {
    * @return Location object with provided nodeID
    */
   public Location getLocationByID(String id) {
+    // TODO is this necessary
     if (locationDAO.getLocationByID(id) == null) {
       return new Location();
     }
@@ -730,6 +731,16 @@ public class FacadeDAO {
    */
   public List<ServiceRequest> getServiceRequestsByLocation(Location target) {
     return serviceRequestDAO.getServiceRequestsByLocation(target);
+  }
+
+  /**
+   * Gets the ServiceRequests of a given status
+   *
+   * @param status
+   * @return ServiceRequest of that Status
+   */
+  public List<ServiceRequest> getServiceRequestsByStatus(ServiceRequest.RequestStatus status) {
+    return serviceRequestDAO.getServiceRequestsByStatus(status);
   }
 
   // Special methods for medical equipment requests
