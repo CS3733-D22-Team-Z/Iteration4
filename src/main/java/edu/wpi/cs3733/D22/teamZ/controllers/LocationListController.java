@@ -1320,8 +1320,7 @@ public class LocationListController implements IMenuAccess {
     int index = 0;
 
     for (Location loc : totalLocations) {
-      if (loc.getNodeType().equals("EXIT")
-          && loc.getFloor().equals(location.getFloor())) {
+      if (loc.getNodeType().equals("EXIT") && loc.getFloor().equals(location.getFloor())) {
         Location current = loc;
         distance =
             Math.sqrt(
