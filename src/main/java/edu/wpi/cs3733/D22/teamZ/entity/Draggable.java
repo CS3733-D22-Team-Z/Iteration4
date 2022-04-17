@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 
@@ -11,17 +12,18 @@ public class Draggable {
   private Location location;
   private FacadeDAO facadeDAO;
   private ScrollPane scrollPane;
-
-  public Draggable(ScrollPane scrollpane) {
-
-    facadeDAO = FacadeDAO.getInstance();
-    this.scrollPane = scrollpane;
-  }
+  private List<MedicalEquipment> medicalEquipment;
 
   public Draggable(ScrollPane scrollpane, Location location) {
     facadeDAO = FacadeDAO.getInstance();
     this.scrollPane = scrollpane;
     this.location = location;
+  }
+
+  public Draggable(ScrollPane scrollpane, List<MedicalEquipment> medicalEquipment) {
+    facadeDAO = FacadeDAO.getInstance();
+    this.scrollPane = scrollpane;
+    this.medicalEquipment = medicalEquipment;
   }
 
   /**
@@ -51,6 +53,9 @@ public class Draggable {
             location.setXcoord((int) mouseEvent.getSceneX());
             location.setYcoord((int) mouseEvent.getSceneY());
             facadeDAO.updateLocation(location);
+          }
+          if (!(medicalEquipment == null)) {
+            System.out.println("medequipt"); // I imagine this is where you would snap to location
           }
           scrollPane.setPannable(true);
         });
