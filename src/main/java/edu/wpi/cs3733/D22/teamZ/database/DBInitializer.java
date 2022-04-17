@@ -9,9 +9,11 @@ import java.util.List;
 public class DBInitializer {
   private LocationControlCSV locCSV;
   private EmployeeControlCSV employeeCSV;
+  private PatientControlCSV patientCSV;
   private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
   private ServiceRequestControlCSV serviceControlCSV;
   private MedEqReqControlCSV medEqReqControlCSV;
+  private FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -28,6 +30,10 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "Employees.csv");
+    File patientData =
+            new File (System.getProperty("user.dir")
+            + System.getProperty("file.separator")
+            + "Patients.csv");
     File medicalEquipmentData =
         new File(
             System.getProperty("user.dir")
@@ -46,6 +52,7 @@ public class DBInitializer {
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
+    patientCSV = new PatientControlCSV(patientData);
     medicalEquipmentControlCSV = new MedicalEquipmentControlCSV(medicalEquipmentData);
     serviceControlCSV = new ServiceRequestControlCSV(serviceRequestData);
     medEqReqControlCSV = new MedEqReqControlCSV(medEquipReqData);
@@ -92,6 +99,11 @@ public class DBInitializer {
               + "longName VARCHAR(50),"
               + "shortName Varchar(50),"
               + "constraint LOCATION_PK Primary Key (nodeID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create location tables");
+      return false;
+    }
+    try {
 
       stmt.execute(
           "CREATE TABLE EMPLOYEES("
@@ -102,7 +114,12 @@ public class DBInitializer {
               + "password VARCHAR(20),"
               + "CONSTRAINT EMPLOYEES_PK PRIMARY KEY (employeeID),"
               + "CONSTRAINT ACCESSTYPE_VAL CHECK (accessType in ('ADMIN', 'DOCTOR', 'NURSE')))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create employee tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE PATIENTS("
               + "patientID VARCHAR(15),"
@@ -110,7 +127,12 @@ public class DBInitializer {
               + "location VARCHAR(15),"
               + "CONSTRAINT PATIENTS_PK PRIMARY KEY (patientID),"
               + "CONSTRAINT LOCATION_FK FOREIGN KEY (location) REFERENCES LOCATION(nodeID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create patient tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE MEDICALEQUIPMENT ("
               + "equipmentID VARCHAR(15),"
@@ -120,7 +142,12 @@ public class DBInitializer {
               + "constraint MEDEQUIPMENT_PK Primary Key (equipmentID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
               + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create medical equipment tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
               + "requestID VARCHAR(15),"
@@ -134,7 +161,12 @@ public class DBInitializer {
               + "constraint HANDLER_FK Foreign Key (handlerID) References EMPLOYEES(employeeID),"
               + "constraint TARGETLOC_FK Foreign Key (targetLocationID) References LOCATION(nodeID),"
               + "constraint statusVal check (status in ('UNASSIGNED', 'PROCESSING', 'DONE')))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create service request tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE MEDEQUIPREQ ("
               + "requestID VARCHAR(15),"
@@ -142,14 +174,24 @@ public class DBInitializer {
               + "constraint MEDEQUIPREQ_PK Primary Key (requestID),"
               + "constraint MEDEQUIPREQ_FK Foreign Key (requestID) References SERVICEREQUEST(requestID),"
               + "constraint EQUIPMENT_FK Foreign Key (equipmentID) References MEDICALEQUIPMENT(equipmentID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create medical equipment request tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE LABREQUEST ("
               + "requestID VARCHAR(15),"
               + "labType VARCHAR(50),"
               + "constraint LABREQUEST_PK Primary Key (requestID),"
               + "constraint LABREQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create lab request tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE MEALSERVICE ("
               + "itemID VARCHAR(50),"
@@ -159,7 +201,12 @@ public class DBInitializer {
               + "constraint MEALSERVICE_PK Primary Key (itemID),"
               + "constraint MEALSERVICE_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
               + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create meal service tables");
+      return false;
+    }
 
+    try {
       stmt.execute(
           "CREATE TABLE EXTERNALTRANSPORTREQUEST ("
               + "requestID VARCHAR(15),"
@@ -169,15 +216,15 @@ public class DBInitializer {
               + "departureDate DATE,"
               + "constraint TRANSPORTREQUEST_PK PRIMARY KEY (requestID),"
               + "constraint TRANSPORTREQUESTID_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid))");
-
     } catch (SQLException e) {
-      System.out.println("Failed to create tables");
+      System.out.println("Failed to create external patient transport tables");
       return false;
     }
     return true;
   }
 
   private void dropExistingTable(String tableName) {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
     try {
       Statement stmt = connection.createStatement();
       stmt.execute("DROP TABLE " + tableName);
@@ -191,7 +238,8 @@ public class DBInitializer {
       List<Location> tempLoc = locCSV.readLocCSV();
 
       for (Location info : tempLoc) {
-        PreparedStatement pstmt =
+        dao.addLocation(info);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO Location (nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) values (?, ?, ?, ?, ?, ?, ?, ?)");
         pstmt.setString(1, info.getNodeID());
@@ -205,12 +253,8 @@ public class DBInitializer {
 
         // insert it
         pstmt.executeUpdate();
-        connection.commit();
+        connection.commit();*/
       }
-
-    } catch (SQLException e) {
-      System.out.println("Failed to populate LOCATION table");
-      return false;
     } catch (IOException e) {
       System.out.println("Failed to read CSV");
       return false;
@@ -223,7 +267,8 @@ public class DBInitializer {
       List<Employee> employeeList = employeeCSV.readEmployeeCSV();
 
       for (Employee info : employeeList) {
-        PreparedStatement pstmt =
+        dao.addEmployee(info);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO EMPLOYEES (employeeID, name, accessType, username, password) values (?, ?, ?, ?, ?)");
         pstmt.setString(1, info.getEmployeeID());
@@ -234,12 +279,34 @@ public class DBInitializer {
 
         // insert it
         pstmt.executeUpdate();
-        connection.commit();
+        connection.commit();*/
       }
 
-    } catch (SQLException e) {
-      System.out.println("Failed to populate LOCATION table");
+    } catch (IOException e) {
+      System.out.println("Failed to read CSV");
       return false;
+    }
+    return true;
+  }
+
+  public boolean populatePatientTable() {
+    try {
+      List<Patient> patientList = patientCSV.readPatientCSV();
+
+      for (Patient info : patientList) {
+        dao.addPatient(info);
+        /*PreparedStatement pstmt =
+            connection.prepareStatement(
+                "INSERT INTO PATIENTS (patientID, name, Location) values (?, ?, ?)");
+        pstmt.setString(1, info.getPatientID());
+        pstmt.setString(2, info.getName());
+        pstmt.setString(3, info.getLocation().getNodeType());
+
+        // insert it
+        pstmt.executeUpdate();
+        connection.commit();*/
+      }
+
     } catch (IOException e) {
       System.out.println("Failed to read CSV");
       return false;
@@ -253,7 +320,8 @@ public class DBInitializer {
           medicalEquipmentControlCSV.readMedicalEquipmentCSV();
 
       for (MedicalEquipment info : tempMedicalEquipment) {
-        PreparedStatement pstmt =
+        dao.addMedicalEquipment(info);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, TYPE, STATUS, CURRENTLOCATION) "
                     + "values (?, ?, ?, ?)");
@@ -263,9 +331,9 @@ public class DBInitializer {
         pstmt.setString(4, info.getCurrentLocation().getNodeID());
 
         // insert it
-        pstmt.executeUpdate();
+        pstmt.executeUpdate();*/
       }
-    } catch (IOException | SQLException e) {
+    } catch (IOException e) {
       System.out.println("Failed to populate MedicalEquipment table");
       return false;
     }
@@ -277,7 +345,8 @@ public class DBInitializer {
       List<ServiceRequest> requestList = serviceControlCSV.readServiceRequestCSV();
 
       for (ServiceRequest request : requestList) {
-        PreparedStatement pstmt =
+        dao.addServiceRequest(request);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO SERVICEREQUEST (requestID, type, status, issuerID, handlerID, targetLocationID)"
                     + "values (?, ?, ?, ?, ?, ?)");
@@ -298,12 +367,8 @@ public class DBInitializer {
 
         // insert it
         pstmt.executeUpdate();
-        connection.commit();
+        connection.commit();*/
       }
-
-    } catch (SQLException e) {
-      System.out.println("Failed to populate ServiceRequest table");
-      return false;
     } catch (IOException e) {
       System.out.println("Failed to read CSV");
       return false;
@@ -316,7 +381,8 @@ public class DBInitializer {
       List<MedicalEquipmentDeliveryRequest> requestList = medEqReqControlCSV.readMedReqCSV();
 
       for (MedicalEquipmentDeliveryRequest medEqRequest : requestList) {
-        PreparedStatement pstmt =
+        dao.addMedicalEquipmentRequestToDatabase(medEqRequest);
+        /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO MEDEQUIPREQ (requestID, equipmentID) values (?, ?)");
         pstmt.setString(1, medEqRequest.getRequestID());
@@ -324,12 +390,9 @@ public class DBInitializer {
 
         // insert it
         pstmt.executeUpdate();
-        connection.commit();
+        connection.commit();*/
       }
 
-    } catch (SQLException e) {
-      System.out.println("Failed to populate MedEquipReq table");
-      return false;
     } catch (IOException e) {
       System.out.println("Failed to read MedEquipReq.csv");
       return false;
@@ -351,6 +414,12 @@ public class DBInitializer {
     List<MedicalEquipmentDeliveryRequest> tempMedicalDeliveryRequests =
         dao.getAllMedicalEquipmentRequest();
     List<LabServiceRequest> tempLabRequest = dao.getAllLabServiceRequests();
+
+    try {
+      connection.close();
+    } catch (SQLException e) {
+      System.out.println("connection closed");
+    }
 
     // change the connection type
     EnumDatabaseConnection.CONNECTION.setConnection(type);
