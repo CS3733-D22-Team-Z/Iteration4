@@ -22,6 +22,7 @@ public class LandingPageController implements IMenuAccess {
   private final String toLaundryServiceURL = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
+  private final String toGiftServicesURL = "edu/wpi/cs3733/D22/teamZ/views/GiftServices.fxml";
 
   @FXML VBox iconContainer;
   @FXML MFXToggleButton toggle;
@@ -120,5 +121,11 @@ public class LandingPageController implements IMenuAccess {
   public void toExternalPatientTransportation(ActionEvent actionEvent) throws IOException {
     System.out.println("navigating to transportation from landing page");
     menu.load(toExternalPatientTransportationRequestURL);
+  }
+
+  @FXML
+  private void navGifts() throws IOException {
+    System.out.println("navigating to gift services from landing page");
+    menu.load(toGiftServicesURL);
   }
 }
