@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
+import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.awt.*;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
@@ -31,6 +33,8 @@ public class MealServiceController extends ServiceRequestController {
   @FXML private ChoiceBox<String> orderStatusDropDown;
   @FXML private ListView<String> currentRequests;
   @FXML private Label infoLabel;
+  @FXML private MFXFilterComboBox testDropDown;
+  @FXML private ComboBox testDropDown2;
 
   // Lists
   private List<Location> locationList;
@@ -110,6 +114,14 @@ public class MealServiceController extends ServiceRequestController {
         FXCollections.observableArrayList("IN PROGRESS", "PROCESSING", "COMPLETED"));
     orderStatusDropDown.setValue("IN PROGRESS");
     //    currReqLabel.setText("");
+    testDropDown.setItems(
+        FXCollections.observableArrayList(
+            "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"));
+    //    testDropDown.filterFunctionProperty();
+    testDropDown.setValue("Five");
+    testDropDown2.setItems(
+        FXCollections.observableArrayList(
+            "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"));
 
     allServiceRequestList = instanceDAO.getAllServiceRequests();
     updateCurrentMealRequestList();
