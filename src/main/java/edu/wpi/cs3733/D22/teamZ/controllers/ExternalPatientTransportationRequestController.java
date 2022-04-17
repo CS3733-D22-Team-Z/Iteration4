@@ -96,6 +96,7 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
     patientNameField.clear();
     patientIDField.clear();
     destinationField.clear();
+    departureDateField.setValue(null);
     // departureTimeField.clear();
     departureDateField.setValue(null);
     successfulSubmitLabel.setVisible(false);
@@ -110,6 +111,9 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
         // && !departureTimeField.getText().trim().isEmpty()
         && !departureDateField.getText().trim().isEmpty()) {
       submitButton.setDisable(false);
+    } else {
+      submitButton.setDisable(true);
+      errorSavingLabel.setVisible(true);
     }
   }
 }

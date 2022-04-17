@@ -61,6 +61,9 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     enterRoomNumber.clear();
     enterFloorNumber.clear();
+    submitButton.setDisable(true);
+    nodeTypeDropDown.setValue(null);
+    equipmentDropDown.setValue(null);
     nodeTypeDropDown.getSelectionModel().select(0);
     equipmentDropDown.getSelectionModel().select(0);
     //    nodeTypeDropDown.setValue(null);
@@ -133,6 +136,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
       submitButton.setDisable(false);
     } else {
       submitButton.setDisable(true);
+      errorSavingLabel.setVisible(true);
       System.out.println("Medical Equipment Request Submit Button disabled");
     }
   }
