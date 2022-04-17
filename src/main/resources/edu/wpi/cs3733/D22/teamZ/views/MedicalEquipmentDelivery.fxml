@@ -10,7 +10,7 @@
     <children>
         <MFXButton fx:id="backButton" layoutX="17.0" layoutY="25.0" onAction="#onBackButtonClicked" text="Back to Landing Page" />
         <Label layoutX="17.0" layoutY="59.0" prefHeight="25.0" prefWidth="340.0" styleClass="object-header" text="Medical Equipment Request" />
-        <Label layoutX="13.0" layoutY="80.0" prefHeight="17.0" prefWidth="317.0" styleClass="object-body" text="Enter the fields below to request medical equipment." />
+        <Label layoutX="13.0" layoutY="80.0" prefHeight="17.0" prefWidth="467.0" styleClass="object-body" text="Enter the fields below to request medical equipment." />
         <Label layoutX="15.0" layoutY="108.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
         <MFXTextField fx:id="enterRoomNumber" floatMode="DISABLED" layoutX="13.0" layoutY="128.0" onKeyReleased="#validateButton" prefWidth="149.0" promptText="Enter room number" />
         <Label layoutX="16.0" layoutY="273.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Equipment" />

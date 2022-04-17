@@ -479,7 +479,12 @@ public class LocationListController implements IMenuAccess {
     Tab medInfoTab = new Tab("Medical Equipment Info");
     Tab servReqTab = new Tab("Service Request Info");
 
-    root.getTabs().addAll(medInfoTab, servReqTab, locInfoTab);
+
+    AnchorPane medPane = new AnchorPane();
+    loadMedPane(medPane);
+    medInfoTab.setContent(medPane);
+
+    root.getTabs().addAll(locInfoTab, medInfoTab, servReqTab);
     root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
     FXMLLoader loader1 = new FXMLLoader();
