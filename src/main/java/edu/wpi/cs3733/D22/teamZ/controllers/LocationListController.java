@@ -467,6 +467,7 @@ public class LocationListController implements IMenuAccess {
     // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     root.setPrefWidth(600);
     root.setPrefHeight(440);
+    root.getStylesheets().add("edu/wpi/cs3733/D22/teamZ/styles/MenuDefault.css");
 
     // 3 tabs: do service request tab
 
