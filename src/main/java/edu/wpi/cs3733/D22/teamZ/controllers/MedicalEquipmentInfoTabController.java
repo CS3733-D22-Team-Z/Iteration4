@@ -6,11 +6,11 @@ import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 public class MedicalEquipmentInfoTabController {
@@ -19,7 +19,7 @@ public class MedicalEquipmentInfoTabController {
   @FXML private MFXTextField equipmentTypeField;
   @FXML private MFXTextField equipmentStatusField;
   @FXML private MFXTextField equipmentLocationField;
-  @FXML private MFXLegacyComboBox<String> equipmentComboBox;
+  @FXML private ChoiceBox<String> equipmentComboBox;
   @FXML private Label errorLabel;
   @FXML private MFXTextField equipmentIDField;
   @FXML private MFXButton exitButton;

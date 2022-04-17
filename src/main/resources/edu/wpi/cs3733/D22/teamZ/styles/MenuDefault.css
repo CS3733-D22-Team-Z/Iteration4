@@ -1,3 +1,17 @@
+menu-not-selected {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #9D9D9D;
+}
+
+menu-selected {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #0075FF;
+}
+
 .label {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 700;
@@ -35,4 +49,28 @@
 
 .split-pane *.split-pane-divider {
     -fx-padding: 1 0 1 0;
+}
+
+.content-pane {
+    -fx-background-color: #E5E5E5;
+}
+
+.context-menu {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 5;
+}
+
+.menu-item .label {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #9D9D9D;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: #0075FF;
+}
+
+.menu-item:focused {
+    -fx-background-color: #FFFFFF;
 }
