@@ -9,6 +9,7 @@ import java.util.List;
 
 public class MedEqReqControlCSV extends ControlCSV {
   private final String[] headers = {"requestID", "itemID"};
+  private FacadeDAO dao = FacadeDAO.getInstance();
 
   public MedEqReqControlCSV(File path) {
     this.setDefaultPath(path);
@@ -20,7 +21,7 @@ public class MedEqReqControlCSV extends ControlCSV {
 
     writeCSV(objToData(in), headers);
     // TODO this doesnt make sense
-    requestDAO.exportToServiceRequestCSV();
+    // dao.exportToServiceRequestCSV();
   }
 
   protected List<MedicalEquipmentDeliveryRequest> readMedReqCSV() throws IOException {
@@ -29,15 +30,12 @@ public class MedEqReqControlCSV extends ControlCSV {
 
   private List<MedicalEquipmentDeliveryRequest> dataToObj(List<List<String>> data) {
     List<MedicalEquipmentDeliveryRequest> ret = new ArrayList<>();
-    IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
-    IEmployeeDAO employeeDAO = new EmployeeDAOImpl();
-    ILocationDAO locationDAO = new LocationDAOImpl();
 
     for (List<String> a : data) {
       String requestID = a.get(0);
       String equipmentID = a.get(1);
 
-      ServiceRequest request = requestDAO.getServiceRequestByID(requestID);
+      ServiceRequest request = dao.getServiceRequestByID(requestID);
       if (request.getHandler() == null) {
         ret.add(
             new MedicalEquipmentDeliveryRequest(
