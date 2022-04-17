@@ -109,6 +109,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
             });
   }
 
+  /** creates table of all service requests */
   public void createTable() {
     tableContainer.getItems().clear();
     idCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
@@ -121,6 +122,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     tableContainer.setItems(requests);
   }
 
+  /** creates table of all outstanding service requests */
   public void createOutstandingTable() {
     outstandingTable.getItems().clear();
     idColO.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
@@ -138,6 +140,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     outstandingTable.setItems(outstandingRequests);
   }
 
+  /** when refrsh button is clicked */
   // Called whenever the refresh button is clicked.
   public void refreshClicked(ActionEvent event) {
     // System.out.println(refresh.getText());
@@ -145,8 +148,17 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
 
     // Reload table
     createTable();
+    createOutstandingTable();
+    issuerSelect.setSelected(false);
+    handlerSelect.setSelected(false);
+    filterBox.getSelectionModel().clearSelection();
+    employeeBox.getSelectionModel().clearSelection();
   }
 
+  /**
+   * called when an employee is selected from drop down list determins which table we are on, which
+   * employee is seleceted and which toggle button is selected
+   */
   public void filterList(ActionEvent event) {
     if (filterBox.getSelectionModel().getSelectedItem() == null) {
       createTable();
@@ -197,6 +209,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     }
   }
 
+  /** helper function for filterList filters the lists and refreshes the table */
   public void filter(ObservableList<ServiceRequest> reqs, Boolean handler, Employee emp) {
     ObservableList<ServiceRequest> filteredRequests = FXCollections.observableArrayList();
 
@@ -221,19 +234,22 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     }
   }
 
+  /** when set employee button is clicked sets employee to service request */
   public void setEmployee(ActionEvent actionEvent) {
-    if (tableContainer.getSelectionModel().getSelectedItem() == null
-        || employeeBox.getValue() == null) {
-      System.out.println("nope");
-    } else {
+    if (!(tableContainer.getSelectionModel().getSelectedItem() == null
+        || employeeBox.getValue() == null)) {
       ServiceRequest handler = tableContainer.getSelectionModel().getSelectedItem();
       handler.setHandler(facadeDAO.getEmployeeByID(employeeBox.getValue()));
       handler.setStatus(ServiceRequest.RequestStatus.getRequestStatusByString("PROCESSING"));
       facadeDAO.updateServiceRequest(handler);
       createTable();
+      employeeBox.getSelectionModel().clearSelection();
     }
   }
 
+  /**
+   * when issuer toggle button is clicked deselects handler button and disables any previous filter
+   */
   public void issuerFilter(ActionEvent actionEvent) {
     handlerSelect.setSelected(false);
     createTable();
@@ -241,6 +257,9 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     filterBox.getSelectionModel().clearSelection();
   }
 
+  /**
+   * when handler toggle button is clicked deselects issuer button and disables any previous filter
+   */
   public void handlerFilter(ActionEvent actionEvent) {
     issuerSelect.setSelected(false);
     createTable();
@@ -248,22 +267,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     filterBox.getSelectionModel().clearSelection();
   }
 
-  /*public void clearASRItems(Event event) {
-    handlerSelect.setSelected(false);
-    issuerSelect.setSelected(false);
-    createTable();
-    createOutstandingTable();
-    filterBox.getSelectionModel().clearSelection();
-  }
-
-  public void clearOSRItems(Event event) {
-    handlerSelect.setSelected(false);
-    issuerSelect.setSelected(false);
-    createTable();
-    createOutstandingTable();
-    filterBox.getSelectionModel().clearSelection();
-  }*/
-
+  /** EXPORT to CSV button is clicked */
   public void exportToCSV(ActionEvent actionEvent) {
 
     FileChooser fileChooser = new FileChooser();
