@@ -85,8 +85,12 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     // Fill the filter box with test data
     List<Employee> employees = facadeDAO.getAllEmployees();
     for (int i = 0; i < employees.size(); i++) {
-      employeeBox.getItems().add(employees.get(i).getEmployeeID());
-      filterBox.getItems().add(employees.get(i).getEmployeeID());
+      employeeBox
+          .getItems()
+          .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
+      filterBox
+          .getItems()
+          .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
     }
 
     createTable();
@@ -165,13 +169,15 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
       createOutstandingTable();
       return;
     }
+    int end = filterBox.getSelectionModel().getSelectedItem().indexOf(":");
     if (issuerSelect.isSelected()) {
       if (all.isSelected()) {
         requests = FXCollections.observableList(facadeDAO.getAllServiceRequests());
         filter(
             requests,
             false,
-            facadeDAO.getEmployeeByID(filterBox.getSelectionModel().getSelectedItem()));
+            facadeDAO.getEmployeeByID(
+                filterBox.getSelectionModel().getSelectedItem().substring(0, end)));
       } else {
         outstandingRequests =
             FXCollections.observableList(
@@ -182,7 +188,8 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
         filter(
             outstandingRequests,
             false,
-            facadeDAO.getEmployeeByID(filterBox.getSelectionModel().getSelectedItem()));
+            facadeDAO.getEmployeeByID(
+                filterBox.getSelectionModel().getSelectedItem().substring(0, end)));
       }
     } else if (handlerSelect.isSelected()) {
       if (all.isSelected()) {
@@ -190,7 +197,8 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
         filter(
             requests,
             true,
-            facadeDAO.getEmployeeByID(filterBox.getSelectionModel().getSelectedItem()));
+            facadeDAO.getEmployeeByID(
+                filterBox.getSelectionModel().getSelectedItem().substring(0, end)));
       } else {
         outstandingRequests =
             FXCollections.observableList(
@@ -201,7 +209,8 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
         filter(
             outstandingRequests,
             true,
-            facadeDAO.getEmployeeByID(filterBox.getSelectionModel().getSelectedItem()));
+            facadeDAO.getEmployeeByID(
+                filterBox.getSelectionModel().getSelectedItem().substring(0, end)));
       }
     } else {
       createTable();
@@ -238,11 +247,18 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   public void setEmployee(ActionEvent actionEvent) {
     if (!(tableContainer.getSelectionModel().getSelectedItem() == null
         || employeeBox.getValue() == null)) {
+      int end = employeeBox.getSelectionModel().getSelectedItem().indexOf(":");
       ServiceRequest handler = tableContainer.getSelectionModel().getSelectedItem();
-      handler.setHandler(facadeDAO.getEmployeeByID(employeeBox.getValue()));
+      handler.setHandler(
+          facadeDAO.getEmployeeByID(
+              employeeBox.getSelectionModel().getSelectedItem().substring(0, end)));
       handler.setStatus(ServiceRequest.RequestStatus.getRequestStatusByString("PROCESSING"));
       facadeDAO.updateServiceRequest(handler);
       createTable();
+      createOutstandingTable();
+      issuerSelect.setSelected(false);
+      handlerSelect.setSelected(false);
+      filterBox.getSelectionModel().clearSelection();
       employeeBox.getSelectionModel().clearSelection();
     }
   }
