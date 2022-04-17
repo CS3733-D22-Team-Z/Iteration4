@@ -9,15 +9,6 @@ public class MedicalEquipment {
   // Constructors
 
   /**
-   * Basic constructor for only MedicalEquipment with equipmentID
-   *
-   * @param equipmentID
-   */
-  public MedicalEquipment(String equipmentID) {
-    this.equipmentID = equipmentID;
-  }
-
-  /**
    * Full constructor for MedicalEquipment
    *
    * @param equipmentID
@@ -31,6 +22,9 @@ public class MedicalEquipment {
     this.type = type;
     this.status = status;
     this.currentLocation = currentLocation;
+    if (!this.currentLocation.getEquipmentList().contains(this)) {
+      this.currentLocation.addEquipmentToList(this);
+    }
   }
 
   /**
@@ -75,7 +69,13 @@ public class MedicalEquipment {
    * @param currentLocation
    */
   public void setCurrentLocation(Location currentLocation) {
+    if (this.currentLocation != null) {
+      this.getCurrentLocation().removeEquipmentFromList(this);
+    }
     this.currentLocation = currentLocation;
+    if (!currentLocation.getEquipmentList().contains(this)) {
+      currentLocation.addEquipmentToList(this);
+    }
   }
 
   /**
