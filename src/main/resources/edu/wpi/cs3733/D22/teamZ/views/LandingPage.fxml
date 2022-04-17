@@ -2,6 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -29,10 +30,11 @@
         </Label>
       <MFXScrollPane fx:id="scrollPane" layoutY="75.0" prefHeight="158.0" prefWidth="600.0" style="-fx-background-color: #F6F6F6;">
          <content>
-            <GridPane prefHeight="142.0" prefWidth="980.0" translateX="24.0">
+            <GridPane prefHeight="142.0" prefWidth="1052.0" translateX="24.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -73,6 +75,11 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="medRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="danLabel2" layoutX="1.0" layoutY="115.0" text="Daniel Correa">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
                      </graphic>
@@ -107,11 +114,16 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="labRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="danLabel" layoutX="-3.0" layoutY="116.0" text="Daniel Correa">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#toExternalPatientTransportation" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="2">
+                  <MFXButton onAction="#toExternalPatientTransportation" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="3">
                      <effect>
                         <DropShadow>
                            <color>
@@ -141,11 +153,16 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="externalRegion" layoutX="33.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="mayaLabel" layoutX="9.0" layoutY="116.0" text="Maya Angeles">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navLanguage" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="3">
+                  <MFXButton onAction="#navLanguage" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="4">
                      <effect>
                         <DropShadow>
                            <color>
@@ -175,11 +192,16 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="languageRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="nehaLabel" layoutX="-2.0" layoutY="115.0" text="Neha Kuchipudi">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navMeal" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="6">
+                  <MFXButton onAction="#navMeal" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="7">
                      <effect>
                         <DropShadow>
                            <color>
@@ -209,11 +231,16 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="mealRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="alexLabel" layoutX="6.0" layoutY="117.0" text="Alex Brattstrom">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navLaundry" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="5">
+                  <MFXButton onAction="#navLaundry" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="6">
                      <effect>
                         <DropShadow>
                            <color>
@@ -243,11 +270,16 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="laundryRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="jacobLabel" layoutX="5.0" layoutY="117.0" text="Jacob Leavitt">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navComputer" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="4">
+                  <MFXButton onAction="#navComputer" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="5">
                      <effect>
                         <DropShadow>
                            <color>
@@ -277,6 +309,50 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="computerRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="nelsonLabel" layoutX="7.0" layoutY="119.0" text="Nelson Diaz">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navLab" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="2">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutY="71.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Gift Services" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="giftRegion" layoutX="23.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="claireLabel" layoutX="-8.0" layoutY="116.0" text="Claire Higginson">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
                      </graphic>
@@ -285,5 +361,6 @@
             </GridPane>
          </content>
       </MFXScrollPane>
+      <MFXToggleButton id="toggleNames" fx:id="toggleNames" layoutX="533.0" layoutY="15.0" length="28.0" onMouseClicked="#showNameLabels" prefHeight="0.0" prefWidth="61.0" radius="8.0" />
     </children>
 </AnchorPane>
