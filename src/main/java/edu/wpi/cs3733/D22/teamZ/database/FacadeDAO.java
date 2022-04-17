@@ -567,6 +567,15 @@ public class FacadeDAO {
     return serviceRequestDAO.getDefaultServiceRequestCSVPath();
   }
 
+  /**
+   * Returns the default path that service request csv files are printed to
+   *
+   * @return The default path that service request csv files are printed to
+   */
+  public File getDefaultEmployeeCSVPath() {
+    return employeeDAO.getDefaultEmployeeCSVPath();
+  }
+
   // Add from list functions
   /**
    * Insert locations into the database from given list

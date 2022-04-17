@@ -398,13 +398,14 @@ public class DBInitializer {
 
     // bool checker
     // reinsert info into new database
-    boolean val = dao.addLocationFromList(tempLocation)
-          && dao.addEmployeeFromList(tempEmployee)
-          && dao.addPatientFromList(tempPatient)
-          && dao.addMedicalEquipmentFromList(tempMedicalEquipment)
-          && dao.addServiceRequestFromList(tempServiceRequests)
-          && dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests)
-          && dao.addLabRequestFromList(tempLabRequest);
+    boolean val =
+        dao.addLocationFromList(tempLocation)
+            && dao.addEmployeeFromList(tempEmployee)
+            && dao.addPatientFromList(tempPatient)
+            && dao.addMedicalEquipmentFromList(tempMedicalEquipment)
+            && dao.addServiceRequestFromList(tempServiceRequests)
+            && dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests)
+            && dao.addLabRequestFromList(tempLabRequest);
     return val;
   }
 }

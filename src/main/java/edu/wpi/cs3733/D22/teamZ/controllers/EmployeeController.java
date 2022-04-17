@@ -63,8 +63,6 @@ public class EmployeeController implements IMenuAccess, Initializable {
 
   /**
    * Populate the table with the current database
-   *
-   * @return void
    */
   public void createTable() {
     IDColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("employeeID"));
@@ -92,8 +90,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * set everything to how it starts when you first open the page
    *
-   * @param actionEvent
-   * @return void
+   * @param actionEvent the event trigger
    */
   public void refresh(ActionEvent actionEvent) {
     editEmp.setDisable(true);
@@ -104,8 +101,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * Export to CSV via file director
    *
-   * @param actionEvent
-   * @return void
+   * @param actionEvent the button event that triggers this method
    */
   public void exportToCSV(ActionEvent actionEvent) {
     FileChooser fileChooser = new FileChooser();
@@ -115,16 +111,26 @@ public class EmployeeController implements IMenuAccess, Initializable {
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
+    File defaultFile = facadeDAO.getDefaultEmployeeCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
+
     File file = fileChooser.showSaveDialog(stage);
-    facadeDAO.exportEmployeesToCSV(file);
-    createTable();
+
+    if (file != null) {
+      facadeDAO.exportEmployeesToCSV(file);
+      createTable();
+    }
   }
 
   /**
    * Import from CSV via file director
    *
-   * @param actionEvent
-   * @return void
+   * @param actionEvent The button event that triggers this method
    */
   public void importFromCSV(ActionEvent actionEvent) {
     FileChooser fileChooser = new FileChooser();
@@ -134,18 +140,28 @@ public class EmployeeController implements IMenuAccess, Initializable {
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
+    File defaultFile = facadeDAO.getDefaultEmployeeCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
+
     File file = fileChooser.showOpenDialog(stage);
-    facadeDAO.importEmployeesFromCSV(file);
-    createTable();
+
+    if (file != null) {
+      facadeDAO.importEmployeesFromCSV(file);
+      createTable();
+    }
   }
 
   /**
    * modify popup for Adding New Employee
    *
-   * @param actionEvent
-   * @return void
+   * @param actionEvent The button event that triggers this method
    */
-  public void addEmployee(ActionEvent actionEvent) throws IOException {
+  public void addEmployee(ActionEvent actionEvent) {
     addEmployeeName.clear();
     addEmployeeUsername.clear();
     addEmployeeAccessType.setValue(null);
@@ -157,10 +173,9 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * submit button for both adding new employee and editing employee
    *
-   * @param actionEvent
-   * @return void
+   * @param actionEvent The event that triggers this method
    */
-  public void submitNewEmployee(ActionEvent actionEvent) throws IOException {
+  public void submitNewEmployee(ActionEvent actionEvent) {
     if (!addEmployeeName.getText().equals("")
         && !addEmployeeUsername.getText().equals("")
         && !(addEmployeeAccessType.getValue() == null)) {
@@ -185,7 +200,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * submitting an employee to a database
    *
-   * @param employeeID
+   * @param employeeID the employee's id
    * @return boolean true if successfully submits a new employee
    */
   public boolean submitEmployee(String employeeID) {
@@ -210,8 +225,8 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * New employee ID that doesn't already exist
    *
-   * @param accessType
-   * @return void
+   * @param accessType the access type for the
+   *        employee that will eventually be created
    */
   public void newID(String accessType) {
     String ID = accessType.toLowerCase();
@@ -227,10 +242,9 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * clear fields
    *
-   * @param actionEvent
-   * @return void
+   * @param actionEvent The event that triggers this method
    */
-  public void clearNewEmployee(ActionEvent actionEvent) throws IOException {
+  public void clearNewEmployee(ActionEvent actionEvent) {
     addEmployeeName.clear();
     addEmployeeUsername.clear();
     addEmployeeAccessType.setValue(null);
@@ -239,10 +253,9 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * Sets edit employee pop up with fields filled in
    *
-   * @param actionEvent
-   * @return void
+   * @param actionEvent The button event that triggers this method
    */
-  public void editEmployee(ActionEvent actionEvent) throws IOException {
+  public void editEmployee(ActionEvent actionEvent) {
     editFields.setText("Edit Location");
     Employee temp = employeeTable.getSelectionModel().getSelectedItem();
     addEmployeeName.setText(temp.getName());
@@ -255,8 +268,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * deletes employee and refreshes table
    *
-   * @param actionEvent
-   * @return void
+   * @param actionEvent The event that triggers this method
    */
   public void deleteEmployee(ActionEvent actionEvent) {
     facadeDAO.deleteEmployee(employeeTable.getSelectionModel().getSelectedItem());
@@ -266,8 +278,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * Buttons are enabled when an employee is selected
    *
-   * @param mouseEvent
-   * @return void
+   * @param mouseEvent The mouse event that triggers this method
    */
   public void buttonsAppear(MouseEvent mouseEvent) {
     editEmp.setDisable(false);
@@ -277,8 +288,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   /**
    * close popup
    *
-   * @param mouseEvent
-   * @return void
+   * @param mouseEvent The mouse event that triggers this method
    */
   public void closeAddEmployee(MouseEvent mouseEvent) {
     addEmployeePane.setVisible(false);
