@@ -58,13 +58,13 @@ public class LocationListController implements IMenuAccess {
   @FXML private MFXTextField alertLocationFieldDelete;
   @FXML private MFXButton submitAlert;
   // @FXML private MFXButton addAlertButton;
-  //@FXML private ComboBox<String> alertCodeField;
+  // @FXML private ComboBox<String> alertCodeField;
   // @FXML private MFXButton addLocationButton;
- // @FXML private MFXButton deleteAlert;
- // @FXML private MFXButton addAlertButton;
+  // @FXML private MFXButton deleteAlert;
+  // @FXML private MFXButton addAlertButton;
   @FXML private ComboBox<String> alertCodeFieldAdd;
   @FXML private ComboBox<String> alertCodeFieldDelete;
-  //@FXML private MFXButton addLocationButton;
+  // @FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
   @FXML private SplitPane splitPane;
   @FXML private Group group;
@@ -143,6 +143,7 @@ public class LocationListController implements IMenuAccess {
       FXCollections.observableList(new ArrayList<>());
   // private ObservableList<Label> alertLabels = FXCollections.observableList(new ArrayList<>());
 
+  VoronoiResults[] accessable = new VoronoiResults[7];
   private ContextMenu rightClickMenu;
 
   // initialize location labels to display on map
@@ -323,7 +324,8 @@ public class LocationListController implements IMenuAccess {
             pane.requestFocus();
           }
 
-          List<MapLabel> temp = allLabels.filtered(l -> l.equals(clicked));
+          List<MapLabel> temp =
+              allLabels.filtered(l -> l.equals(clicked) || l.getBound().equals(clicked));
           if (temp.size() > 0) {
             activeLabel = temp.get(0);
             System.out.println(activeLabel.getLocation().getLongName());
@@ -509,7 +511,6 @@ public class LocationListController implements IMenuAccess {
 
   private void showLocations(String floor) {
     group.getChildren().removeIf(child -> child instanceof MapLabel || child instanceof Polygon);
-    group.getChildren().addAll(generateVoronoi(floor));
 
     for (MapLabel temp : allLabels) {
       if (temp.isOnFloor(floor)) {
@@ -520,7 +521,7 @@ public class LocationListController implements IMenuAccess {
             locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
             locationIcon = new ImageView(locationImg);
             temp.setGraphic(locationIcon);
-            group.getChildren().add(temp);
+            group.getChildren().addAll(temp.getBound(), temp);
             break;
           case "Equipment":
             if (temp.getEquip().size() > 0) {
@@ -529,7 +530,7 @@ public class LocationListController implements IMenuAccess {
               temp.setTranslateX(-18);
               temp.setTranslateY(-18);
               temp.setGraphic(locationIcon);
-              group.getChildren().add(temp);
+              group.getChildren().addAll(temp, temp.getBound());
             }
             break;
           case "Service Requests":
@@ -540,7 +541,7 @@ public class LocationListController implements IMenuAccess {
               temp.setTranslateX(-18);
               temp.setTranslateY(-18);
               temp.setGraphic(locationIcon);
-              group.getChildren().add(temp);
+              group.getChildren().addAll(temp, temp.getBound());
             }
             break;
           default:
@@ -709,10 +710,11 @@ public class LocationListController implements IMenuAccess {
 
   private void initLabels() {
     allLabels.remove(0, allLabels.size());
-    ObservableList<Polygon> allPolys = FXCollections.observableList(new ArrayList<>());
+
     for (String floor : changeFloor.getItems()) {
-      allPolys.addAll(generateVoronoi(floor));
+      generateVoronoi(floor);
     }
+
     for (Location current : totalLocations) {
       MapLabel label =
           new MapLabel.mapLabelBuilder()
@@ -754,14 +756,22 @@ public class LocationListController implements IMenuAccess {
           (label.getLocation().getXcoord()) * (map.getFitWidth() / 1021),
           (label.getLocation().getYcoord()) * (map.getFitHeight() / 850));
 
-      label.setBound(
-          allPolys.stream()
-              .filter(poly -> poly.contains(label.getLayoutX(), label.getLayoutY()))
-              .collect(Collectors.toList())
-              .get(0));
-      label.setContextMenu(rightClickMenu);
+      for (int m = 0; m < changeFloor.getItems().size(); m++) {
+        for (int i = 0; i < accessable[m].generatorSites.length; i++) {
+          if (accessable[m].generatorSites[i].x == label.getLayoutX()
+              && accessable[m].generatorSites[i].y == label.getLayoutY()
+              && changeFloor.getItems().get(m).equals(label.getLocation().getFloor())) {
+            label.setBound(pointDtoPoly(accessable[m].voronoiRegions()[i]));
+          }
+        }
+      }
+      label.getBound().setOnMouseClicked(evt -> label.requestFocus());
       label.setOnContextMenuRequested(
           event -> rightClickMenu.show(label, event.getScreenX(), event.getScreenY()));
+      label
+          .getBound()
+          .setOnContextMenuRequested(
+              event -> rightClickMenu.show(label, event.getScreenX(), event.getScreenY()));
       allLabels.add(label);
     }
   }
@@ -978,13 +988,13 @@ public class LocationListController implements IMenuAccess {
     if (file != null) {
       int numberConflicts = facadeDAO.importLocationsFromCSV(file);
 
-    refreshMap(changeFloor.getSelectionModel().getSelectedItem());
-    System.out.println(
-        "Detected "
-            + numberConflicts
-            + " locations that are"
-            + " trying to get deleted but still have equipment in it");
-  }
+      refreshMap(changeFloor.getSelectionModel().getSelectedItem());
+      System.out.println(
+          "Detected "
+              + numberConflicts
+              + " locations that are"
+              + " trying to get deleted but still have equipment in it");
+    }
   }
 
   @Override
@@ -1232,7 +1242,7 @@ public class LocationListController implements IMenuAccess {
     return closestExit;
   }
 
-  private ObservableList<Polygon> generateVoronoi(String floor) {
+  private void generateVoronoi(String floor) {
     Set<PointD> pointDList =
         totalLocations.stream()
             .filter(location -> location.getFloor().equals(floor))
@@ -1245,23 +1255,21 @@ public class LocationListController implements IMenuAccess {
 
     PointD[] points = new PointD[pointDList.size()];
     pointDList.toArray(points);
-    VoronoiResults results =
+
+    accessable[changeFloor.getItems().indexOf(floor)] =
         Voronoi.findAll(
             points, new RectD(new PointD(0, 0), new PointD(map.getFitWidth(), map.getFitHeight())));
+  }
 
-    PointD[][] polys = results.voronoiRegions();
-
+  private Polygon pointDtoPoly(PointD[] points) {
+    Polygon ret = new Polygon();
     Random rand = new Random();
-    ObservableList<Polygon> voronoiPolys = FXCollections.observableList(new ArrayList<>());
-    for (PointD[] poly : polys) {
-      Polygon n = new Polygon();
-      n.setFill(new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), .6));
-      for (PointD point : poly) {
-        n.getPoints().addAll(point.x, point.y);
-      }
-      voronoiPolys.add(n);
+
+    ret.setFill(new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), .6));
+    for (PointD point : points) {
+      ret.getPoints().addAll(point.x, point.y);
     }
 
-    return voronoiPolys;
+    return ret;
   }
 }

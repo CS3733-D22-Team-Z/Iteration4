@@ -31,9 +31,8 @@ public class DBInitializer {
                 + System.getProperty("file.separator")
                 + "Employees.csv");
     File patientData =
-            new File (System.getProperty("user.dir")
-            + System.getProperty("file.separator")
-            + "Patients.csv");
+        new File(
+            System.getProperty("user.dir") + System.getProperty("file.separator") + "Patients.csv");
     File medicalEquipmentData =
         new File(
             System.getProperty("user.dir")
