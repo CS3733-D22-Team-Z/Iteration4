@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.stage.Window;
 
 public class Draggable {
 
@@ -14,23 +15,18 @@ public class Draggable {
   private FacadeDAO facadeDAO;
   private ScrollPane scrollPane;
   private List<MedicalEquipment> medicalEquipment;
-  private double scaleFactor;
   private ImageView map;
 
-  public Draggable(ScrollPane scrollpane, Location location, double scaleFactor) {
+  public Draggable(ScrollPane scrollpane, Location location) {
     facadeDAO = FacadeDAO.getInstance();
     this.scrollPane = scrollpane;
     this.location = location;
-    this.scaleFactor = scaleFactor;
-    System.out.println(scaleFactor);
   }
 
-  public Draggable(
-      ScrollPane scrollpane, List<MedicalEquipment> medicalEquipment, double scaleFactor) {
+  public Draggable(ScrollPane scrollpane, List<MedicalEquipment> medicalEquipment) {
     facadeDAO = FacadeDAO.getInstance();
     this.scrollPane = scrollpane;
     this.medicalEquipment = medicalEquipment;
-    this.scaleFactor = scaleFactor;
   }
 
   /**
@@ -42,17 +38,19 @@ public class Draggable {
   public void makeDraggable(Node node) {
     node.setOnMousePressed(
         mouseEvent -> {
-          mouseAnchorX = mouseEvent.getSceneX() - node.getTranslateX();
-          mouseAnchorY = mouseEvent.getSceneY() - node.getTranslateY();
+          mouseAnchorX = mouseEvent.getSceneX();
+          mouseAnchorY = mouseEvent.getSceneY();
           scrollPane.setPannable(false);
-          System.out.println(map.getLayoutX());
         });
 
     node.setOnMouseDragged(
         mouseEvent -> {
           // node.startDragAndDrop(TransferMode.ANY);
-          node.setTranslateX((mouseEvent.getSceneX() - mouseAnchorX) / scaleFactor);
-          node.setTranslateY((mouseEvent.getSceneY() - mouseAnchorY) / scaleFactor);
+          Node home = (Node) mouseEvent.getSource();
+          Window view = home.getScene().getWindow();
+          System.out.println(view.getWidth());
+          node.setTranslateX((mouseEvent.getSceneX() - mouseAnchorX) / (view.getWidth() / 1200));
+          node.setTranslateY((mouseEvent.getSceneY() - mouseAnchorY) / (view.getHeight() / 800));
         });
     node.setOnMouseReleased(
         mouseEvent -> {

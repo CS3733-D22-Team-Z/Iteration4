@@ -347,12 +347,11 @@ public class LocationListController implements IMenuAccess {
             System.out.println(activeLabel.getLocation().getLongName());
             Draggable drag;
             if (locRadio.isSelected()) {
-              drag = new Draggable(scrollPane, activeLabel.getLocation(), group.getScaleX());
+              drag = new Draggable(scrollPane, activeLabel.getLocation());
             } else {
-              drag = new Draggable(scrollPane, activeLabel.getEquip(), group.getScaleX());
+              drag = new Draggable(scrollPane, activeLabel.getEquip());
             }
             drag.makeDraggable(activeLabel);
-
             // displayLocationInformation();
           }
         });
