@@ -376,4 +376,31 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     }
     return tempMedEquipList;
   }
+
+  /**
+   * Get the count of dirty infusion pumps
+   *
+   * @param floor floor to check
+   * @return number of dirty infusion pumps
+   */
+  public int countDirtyInfusionPumpsInFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              ""
+                  + "SELECT COUNT(MEDICALEQUIPMENT.EQUIPMENTID) AS COUNT FROM MEDICALEQUIPMENT, LOCATION "
+                  + "WHERE LOCATION.NODEID = MEDICALEQUIPMENT.CURRENTLOCATION "
+                  + "AND FLOOR = ? AND LOCATION.NODETYPE = 'DIRT' AND MEDICALEQUIPMENT.TYPE = 'IPumps'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        return rset.getInt("COUNT");
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to count dirty infusion pumps");
+      e.printStackTrace();
+    }
+    return 0;
+  }
 }

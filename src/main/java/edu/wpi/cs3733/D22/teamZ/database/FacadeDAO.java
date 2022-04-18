@@ -708,6 +708,15 @@ public class FacadeDAO {
   public List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor) {
     return medicalEquipmentDAO.getAllMedicalEquipmentByFloor(floor);
   }
+  /**
+   * Get the count of dirty infusion pumps
+   *
+   * @param floor floor to check
+   * @return number of dirty infusion pumps
+   */
+  public int countDirtyInfusionPumpsInFloor(String floor) {
+    return medicalEquipmentDAO.countDirtyInfusionPumpsInFloor(floor);
+  }
 
   // Special methods for employee
   /**

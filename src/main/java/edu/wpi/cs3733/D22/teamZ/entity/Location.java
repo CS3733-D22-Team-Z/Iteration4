@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
+import edu.wpi.cs3733.D22.teamZ.controllers.MenuController;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +115,35 @@ public class Location implements ISearchable {
   public void addEquipmentToList(MedicalEquipment equipment) {
     if (!this.equipmentList.contains(equipment)) {
       this.equipmentList.add(equipment);
+      if(this.nodeType.equals("DIRT")){
+        //THIS IS FOR 10 OR MORE
+        if(FacadeDAO.getInstance().countDirtyInfusionPumpsInFloor(this.floor) > 9){
+          for(MedicalEquipment equipmentObj : this.equipmentList){
+            String id;
+            // Check for empty db and set first request (will appear as REQ1 in the db)
+
+            if (FacadeDAO.getInstance().getAllServiceRequests().isEmpty()) {
+              System.out.println("Service requests are empty");
+              id = "REQ0";
+            } else {
+              List<ServiceRequest> currentList = FacadeDAO.getInstance().getAllServiceRequests();
+              ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
+              id = lastestReq.getRequestID();
+            }
+            // Create new REQID
+            int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
+            String requestID = "REQ" + num;
+            ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
+            Employee issuer = MenuController.getLoggedInUser();
+            Employee handler = null;
+            MedicalEquipmentDeliveryRequest request = new MedicalEquipmentDeliveryRequest(requestID, status, issuer,
+                    handler, equipmentObj.getEquipmentID(), FacadeDAO.getInstance().getLocationByID("zSTOR00101"));
+            FacadeDAO.getInstance().addMedicalEquipmentRequest(request);
+
+            //CREATE ALERT
+          }
+        }
+      }
     }
   }
 

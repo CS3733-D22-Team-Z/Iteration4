@@ -92,4 +92,12 @@ public interface IMedicalEquipmentDAO {
    * @return list of medical equipment for given floor
    */
   List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor);
+
+  /**
+   * Get the count of dirty infusion pumps
+   *
+   * @param floor floor to check
+   * @return number of dirty infusion pumps
+   */
+  int countDirtyInfusionPumpsInFloor(String floor);
 }
