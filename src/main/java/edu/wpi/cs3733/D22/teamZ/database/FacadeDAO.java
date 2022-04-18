@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
@@ -638,6 +637,25 @@ public class FacadeDAO {
    */
   public List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor) {
     return medicalEquipmentDAO.getAllMedicalEquipmentByFloor(floor);
+  }
+  /**
+   * Get dirty equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty equipment
+   */
+  public int countDirtyEquipmentByFloor(String floor) {
+    return medicalEquipmentDAO.countDirtyEquipmentByFloor(floor);
+  }
+
+  /**
+   * Get clean equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty equipment
+   */
+  public int countCleanEquipmentByFloor(String floor) {
+    return medicalEquipmentDAO.countCleanEquipmentByFloor(floor);
   }
 
   // Special methods for employee

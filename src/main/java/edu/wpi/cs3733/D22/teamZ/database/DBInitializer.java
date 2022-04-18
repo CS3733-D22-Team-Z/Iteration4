@@ -119,7 +119,7 @@ public class DBInitializer {
               + "currentLocation VARCHAR(15),"
               + "constraint MEDEQUIPMENT_PK Primary Key (equipmentID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available', 'Dirty', 'Clean')))");
 
       stmt.execute(
           "CREATE TABLE SERVICEREQUEST ("
