@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import edu.wpi.cs3733.D22.teamZ.observers.MedicalEquipmentObserver;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 public class UpperFloorsDashboardController implements IMenuAccess {
 
@@ -26,6 +28,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML private Button lowerLevelButton;
 
   private ObservableList<DashboardEquipment> data;
+  @FXML private AnchorPane root;
   @FXML private TableView upperFloor1Table;
   @FXML private TableView upperFloor2Table;
   @FXML private TableView upperFloor3Table;
@@ -63,6 +66,8 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML private MFXButton lowerLevel1Button;
   @FXML private MFXButton lowerLevel2Button;
 
+  private FacadeDAO database;
+
   private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
 
   @Override
@@ -82,6 +87,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
   @FXML
   public void initialize() {
+    database = FacadeDAO.getInstance();
     createTableUP1();
     createTableUP2();
     createTableUP3();
@@ -101,6 +107,14 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     createBarUP4Clean();
     createBarUP5Dirty();
     createBarUP5Clean();
+
+    // Create a new observer for each existing medical equipment
+    MedicalEquipmentObserver dashObserver = new MedicalEquipmentObserver(this);
+    dashObserver.setSubjects(dao.getAllMedicalEquipment());
+    dao.addMedEquipObserver(dashObserver);
+
+    // When the root is removed (its parent is changed), then remove all observers.
+    root.parentProperty().addListener(parent -> dao.removeMedEquipObserver());
   }
 
   private void createBarUP5Dirty() {
@@ -110,7 +124,8 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirtyValue = dirty / total;
     floor5Dirty.setProgress(dirtyValue);
   }
-  //None of the equipment has "Clean" as the status, so nothing shows up under the clean progress bar
+  // None of the equipment has "Clean" as the status, so nothing shows up under the clean progress
+  // bar
   private void createBarUP5Clean() {
     floor5Clean.setStyle("-fx-accent: green;");
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("5").size();
@@ -276,4 +291,8 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   public void toLowerLevel1(ActionEvent actionEvent) {}
 
   public void toLowerLevel2(ActionEvent actionEvent) {}
+
+  public void medEquipUpdate(MedicalEquipment equip) {
+    // TODO: count stuff
+  }
 }

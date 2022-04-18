@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.observers.MedicalEquipmentObserver;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +11,7 @@ public class MedicalEquipment {
   private String type;
   private MedicalEquipment.EquipmentStatus status;
   private Location currentLocation;
+  private List<MedicalEquipmentObserver> observers;
 
   // Constructors
 
@@ -29,6 +32,7 @@ public class MedicalEquipment {
     if (!this.currentLocation.getEquipmentList().contains(this)) {
       this.currentLocation.addEquipmentToList(this);
     }
+    this.observers = new ArrayList<>();
   }
 
   public enum EquipmentStatus {
@@ -101,6 +105,22 @@ public class MedicalEquipment {
    */
   public void setStatus(EquipmentStatus status) {
     this.status = status;
+    notifyAllObservers();
+  }
+
+  public void notifyAllObservers() {
+    for (MedicalEquipmentObserver obs : observers) {
+      obs.update(this);
+    }
+  }
+
+  public void attach(MedicalEquipmentObserver observer) {
+    observers.add(observer);
+    observer.update(this);
+  }
+
+  public void detatch(MedicalEquipmentObserver observer) {
+    observers.remove(observer);
   }
 
   /** Check if parent location has 6+ dirty beds. */
