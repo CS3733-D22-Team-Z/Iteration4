@@ -190,7 +190,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
           connection.prepareStatement(
               ""
                   + "UPDATE MEDICALEQUIPMENT SET status = ?, currentLocation = ? WHERE EQUIPMENTID = ?");
-      pstmt.setString(1, equipment.getStatus());
+      pstmt.setString(1, equipment.getStatus().toString());
       pstmt.setString(2, equipment.getCurrentLocation().getNodeID());
       pstmt.setString(3, equipment.getEquipmentID());
 
@@ -224,6 +224,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       pstmt.setString(1, equipment.getEquipmentID());
 
       pstmt.executeUpdate();
+      equipment.getCurrentLocation().removeEquipmentFromList(equipment);
       medicalEquipmentsList.remove(equipment);
     } catch (SQLException e) {
       System.out.println("Failed to delete from database");
@@ -277,7 +278,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
           temp = info.getEquipmentID();
           pstmt.setString(1, info.getEquipmentID());
           pstmt.setString(2, info.getType());
-          pstmt.setString(3, info.getStatus());
+          pstmt.setString(3, info.getStatus().toString());
           pstmt.setString(4, info.getCurrentLocation().getNodeID());
 
           // insert it
@@ -335,7 +336,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
                   + "values (?, ?, ?, ?)");
       pstmt.setString(1, equipment.getEquipmentID());
       pstmt.setString(2, equipment.getType());
-      pstmt.setString(3, equipment.getStatus());
+      pstmt.setString(3, equipment.getStatus().toString());
       pstmt.setString(4, equipment.getCurrentLocation().getNodeID());
 
       pstmt.executeUpdate();
@@ -363,18 +364,68 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       ResultSet rset = pstmt.executeQuery();
       while (rset.next()) {
         String id = rset.getString("EQUIPMENTID");
-        String type = rset.getString("TYPE");
-        String status = rset.getString("STATUS");
-        String currentLocation = rset.getString("CURRENTLOCATION");
-        MedicalEquipment tempMedEquip =
-            new MedicalEquipment(
-                id, type, status, FacadeDAO.getInstance().getLocationByID(currentLocation));
-        tempMedEquipList.add(tempMedEquip);
+        for (MedicalEquipment equipment : medicalEquipmentsList) {
+          if (equipment.getEquipmentID().equals(id)) {
+            tempMedEquipList.add(equipment);
+          }
+        }
       }
     } catch (SQLException e) {
       System.out.println("Failed medical equipment by floor");
       e.printStackTrace();
     }
     return tempMedEquipList;
+  }
+
+  /**
+   * Get dirty equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty equipment
+   */
+  public int countDirtyEquipmentByFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "SELECT COUNT(EQUIPMENTID) AS COUNT "
+                  + "FROM MEDICALEQUIPMENT, LOCATION WHERE MEDICALEQUIPMENT.CURRENTLOCATION = LOCATION.NODEID "
+                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'Dirty'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        return rset.getInt("COUNT");
+      }
+    } catch (SQLException e) {
+      System.out.println("Count dirty equipment by floor failed");
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+  /**
+   * Get clean equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of clean equipment
+   */
+  public int countCleanEquipmentByFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "SELECT COUNT(EQUIPMENTID) AS COUNT "
+                  + "FROM MEDICALEQUIPMENT, LOCATION WHERE MEDICALEQUIPMENT.CURRENTLOCATION = LOCATION.NODEID "
+                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'Clean'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        return rset.getInt("COUNT");
+      }
+    } catch (SQLException e) {
+      System.out.println("Count clean equipment by floor failed");
+      e.printStackTrace();
+    }
+    return 0;
   }
 }

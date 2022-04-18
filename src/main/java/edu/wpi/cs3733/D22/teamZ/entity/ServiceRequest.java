@@ -21,7 +21,8 @@ public class ServiceRequest {
     LAUNDRY("LAUNDRY"),
     LANG("LANG"),
     EXTERNAL("EXTRL"),
-    GIFT("GIFT");
+    GIFT("GIFT"),
+    MEALSERV("MEALSERV");
 
     private final String typeStr;
 
@@ -65,6 +66,8 @@ public class ServiceRequest {
           return EXTERNAL;
         case "GIFT":
           return GIFT;
+        case "MEALSERV":
+          return MEALSERV;
         default:
           return null;
       }

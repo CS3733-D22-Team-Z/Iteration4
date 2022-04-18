@@ -17,6 +17,7 @@ public class FacadeDAO {
   private final ServiceRequestDAOImpl serviceRequestDAO;
   private final ExternalPatientDAOImpl transportRequestDAO;
   private final GiftServiceRequestDAOImpl giftRequestDAO;
+  private final MealServiceRequestDAOImpl mealServiceRequestDAO;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -32,6 +33,7 @@ public class FacadeDAO {
     serviceRequestDAO = new ServiceRequestDAOImpl();
     transportRequestDAO = new ExternalPatientDAOImpl();
     giftRequestDAO = new GiftServiceRequestDAOImpl();
+    mealServiceRequestDAO = new MealServiceRequestDAOImpl();
   }
 
   // Get All methods
@@ -116,6 +118,7 @@ public class FacadeDAO {
    * @return Location object with provided nodeID
    */
   public Location getLocationByID(String id) {
+    // TODO is this necessary
     if (locationDAO.getLocationByID(id) == null) {
       return new Location();
     }
@@ -228,6 +231,15 @@ public class FacadeDAO {
    */
   public boolean addEmployee(Employee employee) {
     return employeeDAO.addEmployee(employee);
+  }
+  /**
+   * Adds a new Meal Service Request to database. Will automatically check if already in database
+   *
+   * @param request The meal request to be added
+   * @return True if successful, false if not
+   */
+  public boolean addMealServiceRequest(MealServiceRequest request) {
+    return mealServiceRequestDAO.addMealServReq(request);
   }
   /**
    * Adds the given ServiceRequest object to the database
@@ -592,7 +604,7 @@ public class FacadeDAO {
   /** Writes the current database to a .csv file */
   // TODO fix the export services function
   public void exportServiceRequestsToCSV(File serviceRequestData) {
-    serviceRequestDAO.exportToServiceRequestCSV();
+    serviceRequestDAO.exportToServiceRequestCSV(serviceRequestData);
   }
   /**
    * Exports the MedicalEquipmentRequest database to specified file location for csv
@@ -625,7 +637,6 @@ public class FacadeDAO {
   }
 
   // Get default path methods
-
   /**
    * Returns the default path that location csv files are printed to
    *
@@ -633,6 +644,33 @@ public class FacadeDAO {
    */
   public File getDefaultLocationCSVPath() {
     return locationDAO.getDefaultLocationCSVPath();
+  }
+
+  /**
+   * Returns the default path that service request csv files are printed to
+   *
+   * @return The default path that service request csv files are printed to
+   */
+  public File getDefaultServiceRequestCSVPath() {
+    return serviceRequestDAO.getDefaultServiceRequestCSVPath();
+  }
+
+  /**
+   * Returns the default path that service request csv files are printed to
+   *
+   * @return The default path that service request csv files are printed to
+   */
+  public File getDefaultEmployeeCSVPath() {
+    return employeeDAO.getDefaultEmployeeCSVPath();
+  }
+
+  /**
+   * Returns the default path that medical equipment delivery request csv files are printed to
+   *
+   * @return The default path that medical equipment delivery request csv files are printed to
+   */
+  public File getDefaultMedEquipReqCSVPath() {
+    return medEquipReqDAO.getDefaultMedEquipReqCSVPath();
   }
 
   // Add from list functions
@@ -767,6 +805,25 @@ public class FacadeDAO {
   public List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor) {
     return medicalEquipmentDAO.getAllMedicalEquipmentByFloor(floor);
   }
+  /**
+   * Get dirty equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty equipment
+   */
+  public int countDirtyEquipmentByFloor(String floor) {
+    return medicalEquipmentDAO.countDirtyEquipmentByFloor(floor);
+  }
+
+  /**
+   * Get clean equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty equipment
+   */
+  public int countCleanEquipmentByFloor(String floor) {
+    return medicalEquipmentDAO.countCleanEquipmentByFloor(floor);
+  }
 
   // Special methods for employee
   /**
@@ -790,6 +847,16 @@ public class FacadeDAO {
    */
   public List<ServiceRequest> getServiceRequestsByLocation(Location target) {
     return serviceRequestDAO.getServiceRequestsByLocation(target);
+  }
+
+  /**
+   * Gets the ServiceRequests of a given status
+   *
+   * @param status
+   * @return ServiceRequest of that Status
+   */
+  public List<ServiceRequest> getServiceRequestsByStatus(ServiceRequest.RequestStatus status) {
+    return serviceRequestDAO.getServiceRequestsByStatus(status);
   }
 
   // Special methods for medical equipment requests

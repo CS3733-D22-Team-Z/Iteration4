@@ -44,18 +44,19 @@ public class ServiceRequestPropertiesController implements Initializable {
     requests.clear();
 
     for (ServiceRequest req : rawRequests) {
+      String handlerName = (req.getHandler() != null) ? req.getHandler().toString() : "null";
       requests.add(
           new ServiceRow(
               req.getRequestID(),
               req.getType().toString(),
               req.getStatus().toString(),
               req.getIssuer().toString(),
-              req.getHandler().toString(),
+              handlerName,
               req.getTargetLocation().toString()));
     }
   }
 
-  class ServiceRow {
+  static class ServiceRow {
     SimpleStringProperty id;
     SimpleStringProperty type;
     SimpleStringProperty status;

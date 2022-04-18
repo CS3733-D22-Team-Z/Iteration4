@@ -14,7 +14,7 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
-  private List<LabServiceRequest> labRequests = new ArrayList<>();
+  private final List<LabServiceRequest> labRequests = new ArrayList<>();
   private LabRequestControlCSV reqCSV;
 
   /**

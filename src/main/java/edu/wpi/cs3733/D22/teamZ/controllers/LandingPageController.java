@@ -65,8 +65,8 @@ public class LandingPageController implements IMenuAccess {
   };
 
   private MenuController menu;
-  private String grey = "#0075FF";
-  private String svgCSSLine = "-fx-background-color: %s";
+  private final String grey = "#0075FF";
+  private final String svgCSSLine = "-fx-background-color: %s";
 
   public void initialize() {
     toggleNames.setSelected(true);
