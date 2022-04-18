@@ -94,6 +94,22 @@ public interface IMedicalEquipmentDAO {
   List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor);
 
   /**
+   * Get dirty equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty equipment
+   */
+  int countDirtyEquipmentByFloor(String floor);
+
+  /**
+   * Get clean equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of clean equipment
+   */
+  int countCleanEquipmentByFloor(String floor);
+
+  /**
    * Get the count of dirty infusion pumps
    *
    * @param floor floor to check

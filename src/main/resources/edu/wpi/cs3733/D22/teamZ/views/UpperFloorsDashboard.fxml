@@ -2,6 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
@@ -9,104 +10,156 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #e5e5e5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.UpperFloorsDashboardController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #e5e5e5;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.UpperFloorsDashboardController">
    <children>
       <Label id="FormLabel" layoutX="-112.0" layoutY="4.0" prefHeight="17.0" prefWidth="224.0" style="-fx-font-weight: bold; -fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Dashboard: Upper Levels">
          <font>
             <Font name="Garamond" size="12.0" />
          </font>
       </Label>
-      <Pane layoutX="7.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <TableView fx:id="upperFloor1Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
-               <columns>
-                  <TableColumn fx:id="idColumnUP1" prefWidth="88.79998588562012" text="ID" />
-                  <TableColumn fx:id="locationColumnUP1" prefWidth="86.40003204345703" text="Location" />
-               </columns>
-            </TableView>
-            <Label layoutX="73.0" text="Floor 1">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane layoutX="207.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <TableView fx:id="upperFloor2Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
-               <columns>
-                  <TableColumn fx:id="idColumnUP2" prefWidth="83.199951171875" text="ID" />
-                  <TableColumn fx:id="locationColumnUP2" prefWidth="92.00006103515625" text="Location" />
-               </columns>
-            </TableView>
-            <Label layoutX="74.0" text="Floor 2">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane layoutX="406.0" layoutY="42.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <TableView fx:id="upperFloor3Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
-               <columns>
-                  <TableColumn fx:id="idColumnUP3" prefWidth="89.5999755859375" text="ID" />
-                  <TableColumn fx:id="locationColumnUP3" prefWidth="85.60000610351562" text="Location" />
-               </columns>
-            </TableView>
-            <Label layoutX="73.0" layoutY="1.0" text="Floor 3">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane layoutX="114.0" layoutY="218.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <TableView fx:id="upperFloor4Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
-               <columns>
-                  <TableColumn fx:id="idColumnUP4" prefWidth="89.59998321533203" text="ID" />
-                  <TableColumn fx:id="locationColumnUP4" prefWidth="85.60003662109375" text="Location" />
-               </columns>
-            </TableView>
-            <Label layoutX="74.0" layoutY="1.0" text="Floor 4">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane layoutX="313.0" layoutY="218.0" prefHeight="168.0" prefWidth="186.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10 10;">
-         <effect>
-            <DropShadow />
-         </effect>
-         <children>
-            <TableView fx:id="upperFloor5Table" layoutX="4.0" layoutY="19.0" prefHeight="146.0" prefWidth="179.0">
-               <columns>
-                  <TableColumn fx:id="idColumnUP5" prefWidth="88.79998779296875" text="ID" />
-                  <TableColumn fx:id="locationColumnUP5" prefWidth="87.20001220703125" text="Location" />
-               </columns>
-            </TableView>
-            <Label layoutX="73.0" layoutY="2.0" text="Floor 5">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
       <MFXButton fx:id="lowerLevelButton" layoutX="440.0" layoutY="9.0" onAction="#toLowerLevelDashboard" prefHeight="26.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" text="Lower Level Dashboard" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <TableView fx:id="upperFloor1Table" layoutX="7.0" layoutY="53.0" prefHeight="146.0" prefWidth="179.0" visible="false">
+         <columns>
+            <TableColumn fx:id="idColumnUP1" prefWidth="88.79998588562012" text="ID" />
+            <TableColumn fx:id="locationColumnUP1" prefWidth="86.40003204345703" text="Location" />
+         </columns>
+      </TableView>
+      <TableView fx:id="upperFloor2Table" layoutX="210.0" layoutY="53.0" prefHeight="146.0" prefWidth="179.0" visible="false">
+         <columns>
+            <TableColumn fx:id="idColumnUP2" prefWidth="83.199951171875" text="ID" />
+            <TableColumn fx:id="locationColumnUP2" prefWidth="92.00006103515625" text="Location" />
+         </columns>
+      </TableView>
+      <TableView fx:id="upperFloor3Table" layoutX="409.0" layoutY="53.0" prefHeight="146.0" prefWidth="179.0" visible="false">
+         <columns>
+            <TableColumn fx:id="idColumnUP3" prefWidth="89.5999755859375" text="ID" />
+            <TableColumn fx:id="locationColumnUP3" prefWidth="85.60000610351562" text="Location" />
+         </columns>
+      </TableView>
+      <TableView fx:id="upperFloor4Table" layoutX="96.0" layoutY="239.0" prefHeight="146.0" prefWidth="179.0" visible="false">
+         <columns>
+            <TableColumn fx:id="idColumnUP4" prefWidth="89.59998321533203" text="ID" />
+            <TableColumn fx:id="locationColumnUP4" prefWidth="85.60003662109375" text="Location" />
+         </columns>
+      </TableView>
+      <TableView fx:id="upperFloor5Table" layoutX="337.0" layoutY="229.0" prefHeight="146.0" prefWidth="179.0" visible="false">
+         <columns>
+            <TableColumn fx:id="idColumnUP5" prefWidth="88.79998779296875" text="ID" />
+            <TableColumn fx:id="locationColumnUP5" prefWidth="87.20001220703125" text="Location" />
+         </columns>
+      </TableView>
+      <Pane layoutX="120.0" layoutY="53.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
+            <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
+            <ProgressBar fx:id="floor5Dirty" layoutX="80.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor5Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+         </children>
+      </Pane>
+      <Pane layoutX="120.0" layoutY="100.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
+            <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
+            <ProgressBar fx:id="floor4Dirty" layoutX="80.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor4Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+         </children>
+      </Pane>
+      <Pane layoutX="120.0" layoutY="147.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
+            <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
+            <ProgressBar fx:id="floor3Dirty" layoutX="80.0" layoutY="7.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor3Clean" layoutX="80.0" layoutY="25.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+         </children>
+      </Pane>
+      <Pane layoutX="120.0" layoutY="194.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
+            <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
+            <ProgressBar fx:id="floor2Dirty" layoutX="80.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor2Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+         </children>
+      </Pane>
+      <Pane layoutX="120.0" layoutY="242.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
+            <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
+            <ProgressBar fx:id="floor1Dirty" layoutX="80.0" layoutY="9.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor1Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+         </children>
+      </Pane>
+      <Pane layoutX="120.0" layoutY="290.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
+            <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
+            <ProgressBar fx:id="lowerLevel1Dirty" layoutX="80.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="lowerLevel1Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+         </children>
+      </Pane>
+      <Pane layoutX="120.0" layoutY="338.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
+            <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
+            <ProgressBar fx:id="lowerLevel2Dirty" layoutX="80.0" layoutY="7.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="lowerLevel2Clean" layoutX="80.0" layoutY="25.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+         </children>
+      </Pane>
+      <MFXButton fx:id="floor5Button" layoutX="26.0" layoutY="59.0" onAction="#toFloor5" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #0075FF;" text="Floor 5" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="floor4Button" layoutX="26.0" layoutY="106.0" onAction="#toFloor4" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #0075FF;" text="Floor 4" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="floor3Button" layoutX="26.0" layoutY="153.0" onAction="#toFloor3" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #0075FF;" text="Floor 3" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="floor2Button" layoutX="26.0" layoutY="200.0" onAction="#toFloor2" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #0075FF;" text="Floor 2" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="floor1Button" layoutX="26.0" layoutY="248.0" onAction="#toFloor1" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #0075FF;" text="Floor 1" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="lowerLevel1Button" layoutX="26.0" layoutY="296.0" onAction="#toLowerLevel1" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #0075FF;" text="LL1" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXButton fx:id="lowerLevel2Button" layoutX="26.0" layoutY="344.0" onAction="#toLowerLevel2" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #0075FF;" text="LL 2" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

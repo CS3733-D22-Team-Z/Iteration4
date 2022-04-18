@@ -13,6 +13,7 @@ public class DBInitializer {
   private final MedicalEquipmentControlCSV medicalEquipmentControlCSV;
   private final ServiceRequestControlCSV serviceControlCSV;
   private final MedEqReqControlCSV medEqReqControlCSV;
+  private final MealServReqControlCSV mealServReqControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -48,6 +49,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "MedEquipReq.csv");
+    File mealServReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "MealServReq.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -55,6 +61,7 @@ public class DBInitializer {
     medicalEquipmentControlCSV = new MedicalEquipmentControlCSV(medicalEquipmentData);
     serviceControlCSV = new ServiceRequestControlCSV(serviceRequestData);
     medEqReqControlCSV = new MedEqReqControlCSV(medEquipReqData);
+    mealServReqControlCSV = new MealServReqControlCSV(mealServReqData);
   }
 
   public boolean createTables() {
@@ -73,9 +80,10 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("GIFTSERVICEREQUEST");
+    dropExistingTable("MEALSERVICEREQUEST");
     dropExistingTable("EXTERNALTRANSPORTREQUEST");
     dropExistingTable("MEDEQUIPREQ");
-    dropExistingTable("LABRESULT");
     dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
     dropExistingTable("SERVICEREQUEST");
@@ -135,11 +143,11 @@ public class DBInitializer {
           "CREATE TABLE MEDICALEQUIPMENT ("
               + "equipmentID VARCHAR(15),"
               + "type VARCHAR(20),"
-              + "status VARCHAR(20) DEFAULT 'Available',"
+              + "status VARCHAR(20) DEFAULT 'CLEAN',"
               + "currentLocation VARCHAR(15),"
               + "constraint MEDEQUIPMENT_PK Primary Key (equipmentID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available')))");
+              + "constraint medEquipmentStatusVal check (status in ('CLEAN', 'CLEANING', 'DIRTY', 'INUSE')))");
     } catch (SQLException e) {
       System.out.println("Failed to create medical equipment tables");
       return false;
@@ -218,6 +226,38 @@ public class DBInitializer {
       System.out.println("Failed to create external patient transport tables");
       return false;
     }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE GIFTSERVICEREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "patientName VARCHAR(50),"
+              + "patientID VARCHAR(15),"
+              + "giftType VARCHAR(25),"
+              + "constraint GIFTSERVICEREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint GIFTSERVICEREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid),"
+              + "constraint GIFTSERVICEREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create gift service request tables");
+      return false;
+    }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE MEALSERVICEREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "patientID VARCHAR(15),"
+              + "drink VARCHAR(15),"
+              + "entree VARCHAR(15),"
+              + "side VARCHAR(15),"
+              + "constraint MEALSERVICEREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint MEALSERVICEREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid),"
+              + "constraint MEALSERVICEREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create meal service request tables");
+      return false;
+    }
+
     return true;
   }
 
@@ -333,6 +373,31 @@ public class DBInitializer {
       }
     } catch (IOException e) {
       System.out.println("Failed to populate MedicalEquipment table");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateMealServiceRequestsTable() {
+    try {
+      List<MealServiceRequest> tempMealServRequests = mealServReqControlCSV.readMealServReqCSV();
+
+      for (MealServiceRequest info : tempMealServRequests) {
+        dao.addMealServiceRequest(info);
+        /*PreparedStatement pstmt =
+            connection.prepareStatement(
+                "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, TYPE, STATUS, CURRENTLOCATION) "
+                    + "values (?, ?, ?, ?)");
+        pstmt.setString(1, info.getEquipmentID());
+        pstmt.setString(2, info.getType());
+        pstmt.setString(3, info.getStatus());
+        pstmt.setString(4, info.getCurrentLocation().getNodeID());
+
+        // insert it
+        pstmt.executeUpdate();*/
+      }
+    } catch (IOException e) {
+      System.out.println("Failed to populate MealServiceRequest table");
       return false;
     }
     return true;
