@@ -26,7 +26,7 @@ public class GiftServicesController extends ServiceRequestController {
   @FXML private ChoiceBox<String> nodeTypeDropDown;
   @FXML private ChoiceBox<String> giftDropDown;
   private ObservableList roomNumberNames;
-  @FXML private Label errorSavingLabel;
+  @FXML private Label submittedLabel;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -55,6 +55,7 @@ public class GiftServicesController extends ServiceRequestController {
 
     nodeTypeDropDown.setOnAction(event -> validateButton());
     giftDropDown.setOnAction(event -> validateButton());
+    submittedLabel.setVisible(false);
   }
 
   @Override
@@ -107,6 +108,13 @@ public class GiftServicesController extends ServiceRequestController {
             giftDropDown.getValue());
 
     FacadeDAO.getInstance().addGiftRequest(gift);
+
+    submittedLabel.setVisible(true);
+    try {
+      onResetButtonClicked(event);
+    } catch (IOException e) {
+      System.out.println("failed to clear fields");
+    }
   }
 
   @Override
