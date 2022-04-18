@@ -191,7 +191,6 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   public void loadRow(String MeqID) {
     // Clear out current details data
     statusTable.refresh();
-    // statusTable.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
     MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(MeqID);

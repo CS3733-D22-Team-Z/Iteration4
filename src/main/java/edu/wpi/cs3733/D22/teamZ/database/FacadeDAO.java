@@ -15,6 +15,7 @@ public class FacadeDAO {
   private final LabRequestServiceDAOImpl labRequestServiceDAO;
   private final ServiceRequestDAOImpl serviceRequestDAO;
   private final ExternalPatientDAOImpl transportRequestDAO;
+  private final MealServiceRequestDAOImpl mealServiceRequestDAO;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -29,6 +30,7 @@ public class FacadeDAO {
     labRequestServiceDAO = new LabRequestServiceDAOImpl();
     serviceRequestDAO = new ServiceRequestDAOImpl();
     transportRequestDAO = new ExternalPatientDAOImpl();
+    mealServiceRequestDAO = new MealServiceRequestDAOImpl();
   }
 
   // Get All methods
@@ -206,6 +208,15 @@ public class FacadeDAO {
    */
   public boolean addEmployee(Employee employee) {
     return employeeDAO.addEmployee(employee);
+  }
+  /**
+   * Adds a new Meal Service Request to database. Will automatically check if already in database
+   *
+   * @param request The meal request to be added
+   * @return True if successful, false if not
+   */
+  public boolean addMealServiceRequest(MealServiceRequest request) {
+    return mealServiceRequestDAO.addMealServReq(request);
   }
   /**
    * Adds the given ServiceRequest object to the database
