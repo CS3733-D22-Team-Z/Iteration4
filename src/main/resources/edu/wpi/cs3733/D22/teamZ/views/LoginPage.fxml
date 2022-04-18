@@ -55,7 +55,7 @@
             <Font size="10.0" />
          </font>
          <padding>
-            <Insets bottom="4.0" right="40.0" top="4.0" />
+            <Insets bottom="4.0" right="30.0" top="4.0" />
          </padding>
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
