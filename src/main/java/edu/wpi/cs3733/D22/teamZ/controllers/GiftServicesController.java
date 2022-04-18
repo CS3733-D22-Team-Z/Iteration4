@@ -35,6 +35,11 @@ public class GiftServicesController extends ServiceRequestController {
     roomNumbers = roomList.stream().map(loc -> loc.getLongName()).collect(Collectors.toList());
     roomNumberNames = FXCollections.observableList(roomNumbers);
     roomNumberNames.add(0, "");
+    try {
+      giftRequestList = FacadeDAO.getInstance().getAllGiftRequests();
+    } catch (SQLException e) {
+      System.out.println("failed to make gift list");
+    }
 
     giftDropDown.setItems(
         FXCollections.observableArrayList(
@@ -57,8 +62,8 @@ public class GiftServicesController extends ServiceRequestController {
     String id;
     // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (giftRequestList.isEmpty()) {
-      System.out.println("Equipment is empty");
+    if (FacadeDAO.getInstance().getAllServiceRequests().isEmpty()) {
+      System.out.println("Gift is empty");
       id = "REQ0";
     } else {
       List<ServiceRequest> currentList = database.getAllServiceRequests();

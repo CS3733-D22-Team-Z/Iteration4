@@ -301,7 +301,7 @@ public class FacadeDAO {
    * Adds a GiftRequest to the database
    *
    * @param request request to be added
-   * @return True if succesful, false otherwise
+   * @return True if successful, false otherwise
    */
   public boolean addGiftRequest(GiftServiceRequest request) {
     return serviceRequestDAO.addServiceRequest(request) && giftRequestDAO.addGiftRequest(request);
