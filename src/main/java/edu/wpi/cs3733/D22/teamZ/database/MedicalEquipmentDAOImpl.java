@@ -224,6 +224,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       pstmt.setString(1, equipment.getEquipmentID());
 
       pstmt.executeUpdate();
+      equipment.getCurrentLocation().removeEquipmentFromList(equipment);
       medicalEquipmentsList.remove(equipment);
     } catch (SQLException e) {
       System.out.println("Failed to delete from database");
@@ -363,13 +364,11 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       ResultSet rset = pstmt.executeQuery();
       while (rset.next()) {
         String id = rset.getString("EQUIPMENTID");
-        String type = rset.getString("TYPE");
-        String status = rset.getString("STATUS");
-        String currentLocation = rset.getString("CURRENTLOCATION");
-        MedicalEquipment tempMedEquip =
-            new MedicalEquipment(
-                id, type, status, FacadeDAO.getInstance().getLocationByID(currentLocation));
-        tempMedEquipList.add(tempMedEquip);
+        for (MedicalEquipment equipment : medicalEquipmentsList) {
+          if (equipment.getEquipmentID().equals(id)) {
+            tempMedEquipList.add(equipment);
+          }
+        }
       }
     } catch (SQLException e) {
       System.out.println("Failed medical equipment by floor");

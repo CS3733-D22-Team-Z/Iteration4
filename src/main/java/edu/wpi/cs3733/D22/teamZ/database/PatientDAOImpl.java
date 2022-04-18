@@ -161,7 +161,7 @@ class PatientDAOImpl implements IPatientDAO {
     data = new File(System.getProperty("user.dir") + "\\patient.csv");
     patientCSV = new PatientControlCSV(data);
     try {
-      patientCSV.writePatCSV(getAllPatients());
+      patientCSV.writePatientCSV(getAllPatients());
     } catch (IOException e) {
       e.printStackTrace();
       return false;

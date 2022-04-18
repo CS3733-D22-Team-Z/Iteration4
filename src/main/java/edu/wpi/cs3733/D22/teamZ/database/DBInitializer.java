@@ -65,13 +65,12 @@ public class DBInitializer {
   }
 
   public boolean createTables() {
-    Statement stmt = null;
-
     if (connection == null) {
       System.out.println("Connection is null.");
       return false;
     }
 
+    Statement stmt;
     try {
       stmt = connection.createStatement();
     } catch (SQLException e) {
@@ -477,15 +476,15 @@ public class DBInitializer {
     createTables();
 
     // bool checker
-    boolean val = true;
     // reinsert info into new database
-    val = dao.addLocationFromList(tempLocation);
-    val = dao.addEmployeeFromList(tempEmployee);
-    val = dao.addPatientFromList(tempPatient);
-    val = dao.addMedicalEquipmentFromList(tempMedicalEquipment);
-    val = dao.addServiceRequestFromList(tempServiceRequests);
-    val = dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests);
-    val = dao.addLabRequestFromList(tempLabRequest);
+    boolean val =
+        dao.addLocationFromList(tempLocation)
+            && dao.addEmployeeFromList(tempEmployee)
+            && dao.addPatientFromList(tempPatient)
+            && dao.addMedicalEquipmentFromList(tempMedicalEquipment)
+            && dao.addServiceRequestFromList(tempServiceRequests)
+            && dao.addMedicalEquipmentRequestFromList(tempMedicalDeliveryRequests)
+            && dao.addLabRequestFromList(tempLabRequest);
     return val;
   }
 }

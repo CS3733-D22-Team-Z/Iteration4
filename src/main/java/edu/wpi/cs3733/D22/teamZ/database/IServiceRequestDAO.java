@@ -57,8 +57,20 @@ public interface IServiceRequestDAO {
    */
   boolean updateServiceRequest(ServiceRequest request);
 
-  /** Writes the current database to a .csv file */
+  /**
+   * Writes the current database to a .csv file
+   *
+   * @return True if successful, false otherwise
+   */
   boolean exportToServiceRequestCSV();
+
+  /**
+   * Writes the current database to a .csv file
+   *
+   * @param path The file path the csv will be written to
+   * @return True if successful, false otherwise
+   */
+  boolean exportToServiceRequestCSV(File path);
 
   /**
    * Import ServiceRequest to database from a specified file location for csv

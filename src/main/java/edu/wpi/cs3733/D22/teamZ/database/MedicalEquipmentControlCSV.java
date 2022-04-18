@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MedicalEquipmentControlCSV extends ControlCSV {
 
-  private static FacadeDAO dao = FacadeDAO.getInstance();
+  private static final FacadeDAO dao = FacadeDAO.getInstance();
 
   private final String[] headers = {"itemID", "type", "status", "currentLocation"};
 
@@ -18,6 +18,14 @@ public class MedicalEquipmentControlCSV extends ControlCSV {
 
   protected void writeMedicalEquipmentCSV(List<MedicalEquipment> in) throws IOException {
     writeCSV(objToData(in), headers);
+  }
+
+  protected void writeMedicalEquipmentCSV(List<MedicalEquipment> in, File path) throws IOException {
+    writeCSV(objToData(in), path, headers);
+  }
+
+  protected List<MedicalEquipment> readMedicalEquipmentCSV(File path) throws IOException {
+    return dataToObj(readCSV(path));
   }
 
   protected List<MedicalEquipment> readMedicalEquipmentCSV() throws IOException {
