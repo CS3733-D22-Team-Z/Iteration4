@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
+import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class Location implements ISearchable {
   private String shortName;
   private List<MedicalEquipment> equipmentList;
   private List<DirtyBedObserver> bedObservers;
+  private List<DashboardBedAlertObserver> alertObserver;
 
   public Location() {}
 
@@ -38,6 +40,7 @@ public class Location implements ISearchable {
     this.shortName = shortName;
     this.equipmentList = new ArrayList<>();
     this.bedObservers = new ArrayList<>();
+    this.alertObserver = new ArrayList<>();
   }
 
   public Location(String nodeID) {
@@ -179,5 +182,14 @@ public class Location implements ISearchable {
 
   public void detachBedObs(DirtyBedObserver observer) {
     bedObservers.remove(observer);
+  }
+
+  public void detachAlertObs(DashboardBedAlertObserver observer) {
+    alertObserver.remove(observer);
+  }
+
+  public void attachAlertObs(DashboardBedAlertObserver observer) {
+    alertObserver.add(observer);
+    observer.update();
   }
 }

@@ -4,9 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
@@ -53,9 +51,13 @@ public class App extends Application {
 
     // Create observers for each dirty location
     FacadeDAO dao = FacadeDAO.getInstance();
-    List<Location> dirtyTest = List.of(dao.getLocationByID("zDIRT00103"),dao.getLocationByID("zDIRT00104"),dao.getLocationByID("zDIRT00105"));
+    List<Location> dirtyTest =
+        List.of(
+            dao.getLocationByID("zDIRT00103"),
+            dao.getLocationByID("zDIRT00104"),
+            dao.getLocationByID("zDIRT00105"));
 
-    for(Location dirtyLocation : dirtyTest) {
+    for (Location dirtyLocation : dirtyTest) {
       new DirtyBedObserver(dirtyLocation);
     }
   }

@@ -2,7 +2,9 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,6 +109,16 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     createBarUP5Dirty();
     createBarUP5Clean();
 
+    // Create observers for each dirty location
+    List<Location> dirtyTest =
+        List.of(
+            dao.getLocationByID("zDIRT00103"),
+            dao.getLocationByID("zDIRT00104"),
+            dao.getLocationByID("zDIRT00105"));
+
+    for (Location dirtyLocation : dirtyTest) {
+      new DashboardBedAlertObserver(dirtyLocation, this);
+    }
     /*// Create a new observer for each existing medical equipment
     DirtyBedObserver dashObserver = new DirtyBedObserver(this);
     dashObserver.setSubjects(dao.getAllMedicalEquipment());
