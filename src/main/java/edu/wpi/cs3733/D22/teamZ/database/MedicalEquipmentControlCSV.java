@@ -50,7 +50,7 @@ public class MedicalEquipmentControlCSV extends ControlCSV {
                   new String[] {
                     a.getEquipmentID(),
                     a.getType(),
-                    a.getStatus(),
+                    a.getStatus().toString(),
                     a.getCurrentLocation().getNodeID(),
                   }));
       ret.add(entry);

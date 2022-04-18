@@ -190,7 +190,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
           connection.prepareStatement(
               ""
                   + "UPDATE MEDICALEQUIPMENT SET status = ?, currentLocation = ? WHERE EQUIPMENTID = ?");
-      pstmt.setString(1, equipment.getStatus());
+      pstmt.setString(1, equipment.getStatus().toString());
       pstmt.setString(2, equipment.getCurrentLocation().getNodeID());
       pstmt.setString(3, equipment.getEquipmentID());
 
@@ -278,7 +278,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
           temp = info.getEquipmentID();
           pstmt.setString(1, info.getEquipmentID());
           pstmt.setString(2, info.getType());
-          pstmt.setString(3, info.getStatus());
+          pstmt.setString(3, info.getStatus().toString());
           pstmt.setString(4, info.getCurrentLocation().getNodeID());
 
           // insert it
@@ -336,7 +336,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
                   + "values (?, ?, ?, ?)");
       pstmt.setString(1, equipment.getEquipmentID());
       pstmt.setString(2, equipment.getType());
-      pstmt.setString(3, equipment.getStatus());
+      pstmt.setString(3, equipment.getStatus().toString());
       pstmt.setString(4, equipment.getCurrentLocation().getNodeID());
 
       pstmt.executeUpdate();
