@@ -14,6 +14,6 @@ public class DashboardBedAlertObserver {
   }
 
   public void update() {
-    System.out.println();
+    // Line 37 to line 44; if statement for alert
   }
 }
