@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/LoginDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LoginPageController">
+<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#enterButtonPressed" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../styles/LoginDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LoginPageController">
    <children>
       <Label alignment="TOP_CENTER" layoutX="41.0" layoutY="95.0" styleClass="login-label" text="Login">
       </Label>
@@ -45,7 +45,7 @@
             <Font size="9.0" />
          </font>
       </Label>
-      <ImageView fitHeight="24.0" fitWidth="23.0" layoutX="41.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="27.0" fitWidth="26.0" layoutX="41.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Hospital-Logo.png" />
          </image>
@@ -55,7 +55,7 @@
             <Font size="10.0" />
          </font>
          <padding>
-            <Insets bottom="4.0" right="50.0" top="4.0" />
+            <Insets bottom="4.0" right="40.0" top="4.0" />
          </padding>
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
