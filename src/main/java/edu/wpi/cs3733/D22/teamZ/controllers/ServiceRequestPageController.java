@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,6 +32,9 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   @FXML private MFXButton deviceFilter;
   @FXML private MFXButton statusFilter;
   @FXML private MFXButton setEmpButton;
+
+  // Labels
+  @FXML private Label errorLabel;
 
   // Drop-down box that selects which data type to filter by.
   @FXML private ChoiceBox<String> filterBox;
@@ -78,7 +82,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     for (int i = 0; i < employees.size(); i++) {
       employeeBox.getItems().add(employees.get(i).getEmployeeID());
     }
-
+    errorLabel.setVisible(false);
     createTable();
   }
 
@@ -118,11 +122,13 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     if (tableContainer.getSelectionModel().getSelectedItem() == null
         || employeeBox.getValue() == null) {
       System.out.println("nope");
+      errorLabel.setVisible(true);
     } else {
       ServiceRequest handler = tableContainer.getSelectionModel().getSelectedItem();
       handler.setHandler(facadeDAO.getEmployeeByID(employeeBox.getValue()));
       handler.setStatus(ServiceRequest.RequestStatus.getRequestStatusByString("PROCESSING"));
       facadeDAO.updateServiceRequest(handler);
+      errorLabel.setVisible(false);
       createTable();
     }
   }
