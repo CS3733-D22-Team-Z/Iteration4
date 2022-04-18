@@ -20,7 +20,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class MealServiceController extends ServiceRequestController {
@@ -124,6 +123,14 @@ public class MealServiceController extends ServiceRequestController {
             "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"));
 
     allServiceRequestList = instanceDAO.getAllServiceRequests();
+
+    roomNumberDropDown.setValue(null);
+    mealOptionDropDown.setValue(null);
+
+    roomNumberDropDown.setOnAction(event -> validateButton());
+    mealOptionDropDown.setOnAction(event -> validateButton());
+    orderStatusDropDown.setOnAction(event -> validateButton());
+
     updateCurrentMealRequestList();
   }
 
@@ -225,13 +232,13 @@ public class MealServiceController extends ServiceRequestController {
 
   public void enterStaffAssigned(ActionEvent event) {}
 
-  public void validateButton(KeyEvent keyEvent) {
+  public void validateButton() {
     if (!enterPatientName.getText().trim().isEmpty()
         && !enterPatientID.getText().trim().isEmpty()
         && !enterStaffAssigned.getText().trim().isEmpty()
-        && !roomNumberDropDown.getValue().isEmpty()
-        && !mealOptionDropDown.getValue().isEmpty()
-        && !orderStatusDropDown.getValue().isEmpty()) {
+        && !(roomNumberDropDown.getSelectionModel().getSelectedItem() == null)
+        && !(mealOptionDropDown.getSelectionModel().getSelectedItem() == null)
+        && !(orderStatusDropDown.getSelectionModel().getSelectedItem() == null)) {
       submitButton.setDisable(false);
       System.out.println("Meal Request Submit button enabled");
     } else {
