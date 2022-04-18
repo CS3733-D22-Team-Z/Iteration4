@@ -37,7 +37,10 @@ public class DirtyBedObserver {
     List<MedicalEquipment> totalList = subject.getEquipmentList();
     List<MedicalEquipment> dirtyList =
         totalList.stream()
-            .filter(medEquip -> medEquip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY))
+            .filter(
+                medEquip ->
+                    (medEquip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)
+                        && medEquip.getType().equals("Bed")))
             .collect(Collectors.toList());
     FacadeDAO dao = FacadeDAO.getInstance();
     List<MedicalEquipment> equipmentRequestList = dao.getAllMedicalEquipment();
@@ -69,9 +72,6 @@ public class DirtyBedObserver {
                 dirtyEquip.getEquipmentID(),
                 "zSTOR001L1");
         dao.addMedicalEquipmentRequest(newReq);
-
-        // Set equipment status to w so it is no longer considered in future updates.
-        dirtyEquip.setStatus(MedicalEquipment.EquipmentStatus.CLEANING);
       }
     }
     // }
