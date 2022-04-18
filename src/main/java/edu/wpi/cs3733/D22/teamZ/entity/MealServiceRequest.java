@@ -4,7 +4,9 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 
 public class MealServiceRequest extends ServiceRequest {
   private Patient patient;
-  private String mealServiceOption;
+  private String drink;
+  private String entree;
+  private String side;
 
   private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
@@ -15,10 +17,14 @@ public class MealServiceRequest extends ServiceRequest {
       Employee handler,
       Location targetLocation,
       Patient patient,
-      String mealServiceOption) {
-    super(requestID, ServiceRequest.RequestType.MEAL, status, issuer, handler, targetLocation);
+      String drink,
+      String entree,
+      String side) {
+    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation);
     this.patient = patient;
-    this.mealServiceOption = mealServiceOption;
+    this.drink = drink;
+    this.entree = entree;
+    this.side = side;
   }
 
   public MealServiceRequest(
@@ -28,10 +34,14 @@ public class MealServiceRequest extends ServiceRequest {
       String handler,
       String targetLocation,
       String patient,
-      String mealServiceOption) {
-    super(requestID, ServiceRequest.RequestType.MEAL, status, issuer, handler, targetLocation);
+      String drink,
+      String entree,
+      String side) {
+    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation);
     this.patient = facadeDAO.getPatientByID(patient);
-    this.mealServiceOption = mealServiceOption;
+    this.drink = drink;
+    this.entree = entree;
+    this.side = side;
   }
 
   // GetterFunctions
@@ -39,8 +49,16 @@ public class MealServiceRequest extends ServiceRequest {
     return this.patient;
   }
 
-  public String getMealServiceOption() {
-    return this.mealServiceOption;
+  public String getDrink() {
+    return drink;
+  }
+
+  public String getEntree() {
+    return entree;
+  }
+
+  public String getSide() {
+    return side;
   }
 
   // SetterFunction
@@ -48,7 +66,15 @@ public class MealServiceRequest extends ServiceRequest {
     this.patient = patient;
   }
 
-  public void setMealServiceOption(String mealServiceOption) {
-    this.mealServiceOption = mealServiceOption;
+  public void setDrink(String drink) {
+    this.drink = drink;
+  }
+
+  public void setEntree(String entree) {
+    this.entree = entree;
+  }
+
+  public void setSide(String side) {
+    this.side = side;
   }
 }

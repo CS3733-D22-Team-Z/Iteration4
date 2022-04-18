@@ -249,7 +249,7 @@ class PatientDAOImpl implements IPatientDAO {
               "INSERT INTO PATIENTS (PATIENTID, NAME, LOCATION)" + "values (?, ?, ?)");
       stmt.setString(1, pat.getPatientID());
       stmt.setString(2, pat.getName());
-      stmt.setObject(3, pat.getLocation());
+      stmt.setObject(3, pat.getLocation().getNodeID());
 
       stmt.executeUpdate();
       connection.commit();

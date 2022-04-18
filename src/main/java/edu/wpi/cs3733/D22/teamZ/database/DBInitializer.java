@@ -13,6 +13,7 @@ public class DBInitializer {
   private MedicalEquipmentControlCSV medicalEquipmentControlCSV;
   private ServiceRequestControlCSV serviceControlCSV;
   private MedEqReqControlCSV medEqReqControlCSV;
+  private MealServReqControlCSV mealServReqControlCSV;
   private FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -48,6 +49,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "MedEquipReq.csv");
+    File mealServReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "MealServReq.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -55,6 +61,7 @@ public class DBInitializer {
     medicalEquipmentControlCSV = new MedicalEquipmentControlCSV(medicalEquipmentData);
     serviceControlCSV = new ServiceRequestControlCSV(serviceRequestData);
     medEqReqControlCSV = new MedEqReqControlCSV(medEquipReqData);
+    mealServReqControlCSV = new MealServReqControlCSV(mealServReqData);
   }
 
   public boolean createTables() {
@@ -225,6 +232,9 @@ public class DBInitializer {
           "CREATE TABLE MEALSERVICEREQUEST ("
               + "requestID VARCHAR(15),"
               + "patientID VARCHAR(15),"
+              + "drink VARCHAR(15),"
+              + "entree VARCHAR(15),"
+              + "side VARCHAR(15),"
               + "constraint MEALSERVICEREQUEST_PK PRIMARY KEY (requestID),"
               + "constraint MEALSERVICEREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid),"
               + "constraint MEALSERVICEREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
@@ -348,6 +358,31 @@ public class DBInitializer {
       }
     } catch (IOException e) {
       System.out.println("Failed to populate MedicalEquipment table");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateMealServiceRequestsTable() {
+    try {
+      List<MealServiceRequest> tempMealServRequests = mealServReqControlCSV.readMealServReqCSV();
+
+      for (MealServiceRequest info : tempMealServRequests) {
+        dao.addMealServiceRequest(info);
+        /*PreparedStatement pstmt =
+            connection.prepareStatement(
+                "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, TYPE, STATUS, CURRENTLOCATION) "
+                    + "values (?, ?, ?, ?)");
+        pstmt.setString(1, info.getEquipmentID());
+        pstmt.setString(2, info.getType());
+        pstmt.setString(3, info.getStatus());
+        pstmt.setString(4, info.getCurrentLocation().getNodeID());
+
+        // insert it
+        pstmt.executeUpdate();*/
+      }
+    } catch (IOException e) {
+      System.out.println("Failed to populate MealServiceRequest table");
       return false;
     }
     return true;
