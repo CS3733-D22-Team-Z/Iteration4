@@ -41,6 +41,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import lombok.Getter;
 
 // issues: getAllLocations doesn't work if the DB is disconnected, is this how it's supposed to
 // work?
@@ -67,7 +68,7 @@ public class LocationListController implements IMenuAccess {
   // init ui components
   @FXML private AnchorPane pane;
   @FXML private MFXLegacyComboBox<String> changeFloor;
-  @FXML private ImageView map;
+  @FXML @Getter private ImageView map;
   @FXML private MFXButton editLocation;
   @FXML private MFXButton deleteLocation;
 
@@ -347,9 +348,9 @@ public class LocationListController implements IMenuAccess {
             System.out.println(activeLabel.getLocation().getLongName());
             Draggable drag;
             if (locRadio.isSelected()) {
-              drag = new Draggable(scrollPane, activeLabel.getLocation(), group.getScaleX());
+              drag = new Draggable(scrollPane, activeLabel.getLocation(), group.getScaleX(), this);
             } else {
-              drag = new Draggable(scrollPane, activeLabel.getEquip(), group.getScaleY());
+              drag = new Draggable(scrollPane, activeLabel.getEquip(), group.getScaleY(), this);
             }
             drag.makeDraggable(activeLabel);
             // displayLocationInformation();
@@ -818,7 +819,7 @@ public class LocationListController implements IMenuAccess {
     }
   }
 
-  private void refreshMap(String floor) {
+  public void refreshMap(String floor) {
     totalLocations.remove(0, totalLocations.size());
     totalLocations.addAll(facadeDAO.getAllLocations());
     initLabels();
