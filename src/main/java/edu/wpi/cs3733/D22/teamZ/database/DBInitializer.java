@@ -488,7 +488,7 @@ public class DBInitializer {
       List<CleaningRequest> requestList = cleaningReqControlCSV.readCleanReqCSV();
 
       for (CleaningRequest cleaningRequest : requestList) {
-        // dao.addMedicalEquipmentRequestToDatabase(cleaningRequest);
+        dao.addCleaningRequest(cleaningRequest);
       }
 
     } catch (IOException e) {

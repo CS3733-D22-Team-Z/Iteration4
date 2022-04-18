@@ -1,2 +1,3 @@
-CleanReq1, spill
-CleanReq2, Pick up bed
+requestID,type
+CleanReq1,spill
+CleanReq2,Pick up bed
