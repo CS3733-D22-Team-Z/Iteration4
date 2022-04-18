@@ -42,12 +42,13 @@ public class LandingPageController implements IMenuAccess {
   @FXML private Region mealRegion;
   @FXML private Region giftRegion;
   @FXML private Label danLabel;
-  @FXML private Label danLabel2;
+  @FXML private Label patrickLabel;
   @FXML private Label claireLabel;
   @FXML private Label mayaLabel;
   @FXML private Label jacobLabel;
   @FXML private Label nehaLabel;
   @FXML private Label nelsonLabel;
+  @FXML private Label alexLabel;
   @FXML private MFXToggleButton toggleNames;
   @FXML private ScrollPane scrollPane;
 
@@ -182,7 +183,8 @@ public class LandingPageController implements IMenuAccess {
     mayaLabel.setVisible(set);
     jacobLabel.setVisible(set);
     nehaLabel.setVisible(set);
-    danLabel2.setVisible(set);
+    patrickLabel.setVisible(set);
     nelsonLabel.setVisible(set);
+    alexLabel.setVisible(set);
   }
 }

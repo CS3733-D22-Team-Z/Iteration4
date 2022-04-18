@@ -4,10 +4,8 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.GiftServicesController">
    <children>
@@ -18,19 +16,13 @@
       </Label>
       <Label layoutX="25.0" layoutY="86.0" prefHeight="17.0" prefWidth="331.0" styleClass="object-body" text="Enter the fields below to request a gift service." />
       <Label layoutX="27.0" layoutY="115.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
-      <MFXTextField fx:id="enterPatientName" floatMode="DISABLED" layoutX="25.0" layoutY="137.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter patient name" />
+      <MFXTextField fx:id="enterPatientName" floatMode="DISABLED" layoutX="25.0" layoutY="137.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="192.0" promptText="Enter patient name" />
       <Label layoutX="26.0" layoutY="172.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
-      <MFXTextField fx:id="enterPatientID" floatMode="DISABLED" layoutX="26.0" layoutY="195.0" onAction="#enterPatientID" onKeyReleased="#validateButton" prefWidth="149.0" promptText="Enter patient ID" />
+      <MFXTextField fx:id="enterPatientID" floatMode="DISABLED" layoutX="26.0" layoutY="195.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="192.0" promptText="Enter patient ID" />
       <Label layoutX="28.0" layoutY="234.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
-      <ChoiceBox fx:id="roomNumberDropDown" layoutX="27.0" layoutY="258.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
+      <ChoiceBox fx:id="nodeTypeDropDown" layoutX="27.0" layoutY="258.0" prefHeight="25.0" prefWidth="192.0" />
       <Label layoutX="27.0" layoutY="294.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Gift Service Option" />
-      <ChoiceBox fx:id="mealOptionDropDown" layoutX="27.0" layoutY="315.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
-      <Label layoutX="269.0" layoutY="116.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Status" />
-      <ChoiceBox fx:id="orderStatusDropDown" layoutX="268.0" layoutY="135.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
-      <Label layoutX="270.0" layoutY="172.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Staff Assigned" />
-      <MFXTextField fx:id="enterStaffAssigned" floatMode="DISABLED" layoutX="269.0" layoutY="195.0" onKeyReleased="#validateButton" prefWidth="149.0" />
-      <ListView fx:id="currentRequests" layoutX="271.0" layoutY="249.0" onMouseClicked="#onMouseClick" prefHeight="140.0" prefWidth="245.0" />
-      <Label layoutX="269.0" layoutY="230.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
+      <ChoiceBox fx:id="giftDropDown" layoutX="27.0" layoutY="315.0" prefHeight="25.0" prefWidth="192.0" />
       <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="24.0" layoutY="24.0" onAction="#onBackButtonClicked" text=" Back to Landing Page">
          <font>
             <Font name="System Bold" size="12.0" />
