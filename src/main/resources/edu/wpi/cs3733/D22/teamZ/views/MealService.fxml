@@ -24,7 +24,7 @@
         <Label layoutX="259.0" layoutY="106.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Status" />
         <ChoiceBox fx:id="orderStatusDropDown" layoutX="259.0" layoutY="125.0" prefHeight="25.0" prefWidth="149.0" />
         <Label layoutX="260.0" layoutY="162.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Staff Assigned" />
-        <MFXTextField fx:id="enterStaffAssigned" floatMode="DISABLED" layoutX="259.0" layoutY="185.0" onKeyReleased="#validateButton" prefWidth="149.0" />
+        <MFXTextField fx:id="enterStaffAssigned" floatMode="DISABLED" layoutX="259.0" layoutY="184.0" onKeyReleased="#validateButton" prefWidth="149.0" />
         <ListView fx:id="currentRequests" layoutX="258.0" layoutY="239.0" onMouseClicked="#onMouseClick" prefHeight="140.0" prefWidth="245.0" />
         <Label layoutX="259.0" layoutY="220.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
       <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="14.0" layoutY="14.0" onAction="#onBackButtonClicked" text=" Back to Landing Page" />
@@ -32,5 +32,6 @@
       <MFXButton fx:id="resetButton" layoutX="101.0" layoutY="356.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
       <Separator layoutX="16.0" layoutY="99.0" prefHeight="2.0" prefWidth="484.0" />
       <ComboBox fx:id="testDropDown2" layoutX="425.0" layoutY="125.0" prefHeight="25.0" prefWidth="149.0" promptText="Choose Room #..." style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);" />
+      <ComboBox fx:id="testDropDown" layoutX="425.0" layoutY="184.0" prefHeight="26.0" prefWidth="149.0" promptText="Choose Room #..." />
     </children>
 </AnchorPane>
