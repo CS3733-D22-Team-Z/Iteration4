@@ -183,10 +183,9 @@ public class MealServiceController extends ServiceRequestController {
 
     MealServiceRequest temp =
         new MealServiceRequest(
-            requestID, status, issuer, handler, targetLocation, patient, mealServiceOption);
+            requestID, status, issuer, handler, targetLocation, patient, "1", "2", "3");
     temp.setTargetLocation(targetLocation);
     temp.setPatient(patient);
-    temp.setMealServiceOption(mealServiceOption);
 
     mealRequestList.add(temp);
 

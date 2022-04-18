@@ -48,7 +48,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   private final String toHomepageURL = "views/Homepage.fxml";
 
   // List of identifiers for each
-  private String[] identifiers = {
+  private final String[] identifiers = {
     "ID", "Device", "Assignee", "Handler", "Status", "Target Location"
   };
 
@@ -61,7 +61,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   private ObservableList<RequestRow> requests;
 
   // Database object
-  private FacadeDAO facadeDAO;
+  private final FacadeDAO facadeDAO;
 
   public MedicalEquipmentRequestListController() {
     // Create new database object
@@ -84,9 +84,9 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     // Create labels for field values
-    for (int i = 0; i < identifiers.length; i++) {
+    for (String identifier : identifiers) {
       Label ID = new Label();
-      ID.setText(identifiers[i]);
+      ID.setText(identifier);
     }
 
     // Fill the filter box with test data
@@ -167,11 +167,15 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
     // Iterate through each MedEquipReq in entity and create RequestRow for each
     for (MedicalEquipmentDeliveryRequest medicalEquipmentRequest : rawRequests) {
+      String handlerName =
+          (medicalEquipmentRequest.getHandler() != null)
+              ? medicalEquipmentRequest.getHandler().getName()
+              : "null";
       requests.add(
           new RequestRow(
               medicalEquipmentRequest.getRequestID(),
               medicalEquipmentRequest.getEquipmentID(),
-              medicalEquipmentRequest.getHandler().getName(),
+              handlerName,
               medicalEquipmentRequest.getStatus().toString()));
     }
 
@@ -187,27 +191,28 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   public void loadRow(String MeqID) {
     // Clear out current details data
     statusTable.refresh();
-    // statusTable.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
     MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(MeqID);
 
     // statusTable.getColumns().add(labelsColumn);
     // statusTable.getColumns().add(detailsColumn);
+    String handlerName =
+        (selectedReq.getHandler() != null) ? selectedReq.getHandler().getName() : "null";
 
     statusTable.getItems().add(new TableColumnItems("ID", selectedReq.getRequestID()));
     statusTable.getItems().add(new TableColumnItems("Type", selectedReq.getType().toString()));
     statusTable.getItems().add(new TableColumnItems("Status", selectedReq.getStatus().toString()));
     statusTable.getItems().add(new TableColumnItems("Issuer", selectedReq.getIssuer().getName()));
-    statusTable.getItems().add(new TableColumnItems("Handler", selectedReq.getHandler().getName()));
+    statusTable.getItems().add(new TableColumnItems("Handler", handlerName));
     statusTable
         .getItems()
         .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
   }
 
-  public class TableColumnItems {
-    SimpleStringProperty label = null;
-    SimpleStringProperty detail = null;
+  public static class TableColumnItems {
+    SimpleStringProperty label;
+    SimpleStringProperty detail;
 
     public TableColumnItems(String label, String detail) {
       this.label = new SimpleStringProperty(label);
@@ -232,13 +237,21 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
+    File defaultFile = facadeDAO.getDefaultMedEquipReqCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
+
     File file = fileChooser.showSaveDialog(stage);
     facadeDAO.exportMedicalEquipmentRequestsToCSV(file);
   }
 
   // Data structure to represent a row in the request list.
   // Does this belong here or in an entity?
-  class RequestRow {
+  static class RequestRow {
     SimpleStringProperty id;
     SimpleStringProperty device;
     SimpleStringProperty assignee;

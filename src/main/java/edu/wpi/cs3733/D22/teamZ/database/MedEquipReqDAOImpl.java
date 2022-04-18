@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class MedEquipReqDAOImpl implements IMedEquipReqDAO {
-  private MedEqReqControlCSV reqCSV;
-  private List<MedicalEquipmentDeliveryRequest> medicalEquipmentRequests;
+  private final MedEqReqControlCSV reqCSV;
+  private final List<MedicalEquipmentDeliveryRequest> medicalEquipmentRequests;
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -19,6 +19,13 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
     updateConnection();
     // medicalEquipmentRequests = new HashMap<>();
     medicalEquipmentRequests = new ArrayList<>();
+
+    File reqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "MedEquipReq.csv");
+    this.reqCSV = new MedEqReqControlCSV(reqData);
   }
 
   /**
@@ -132,11 +139,9 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
   @Override
   public boolean exportToMedEquipReqCSV(File reqData) {
     updateConnection();
-    // reqData = new File(System.getProperty("user.dir") + "\\MedEquipReq.csv");
-    reqCSV = new MedEqReqControlCSV(reqData);
 
     try {
-      reqCSV.writeMedReqCSV(getAllMedEquipReq());
+      reqCSV.writeMedReqCSV(getAllMedEquipReq(), reqData);
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -154,12 +159,11 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
   @Override
   public int importMedEquipReqFromCSV(File data) {
     updateConnection();
-    reqCSV = new MedEqReqControlCSV(data);
 
     int conflictCounter = 0;
     String temp = "";
     try {
-      List<MedicalEquipmentDeliveryRequest> tempMedicalEquipment = reqCSV.readMedReqCSV();
+      List<MedicalEquipmentDeliveryRequest> tempMedicalEquipment = reqCSV.readMedReqCSV(data);
 
       try {
         for (MedicalEquipmentDeliveryRequest info : tempMedicalEquipment) {
@@ -188,6 +192,15 @@ class MedEquipReqDAOImpl implements IMedEquipReqDAO {
       System.out.println("Failed to populate Medical Equipment Request table");
     }
     return conflictCounter;
+  }
+
+  /**
+   * Returns the default path that medical equipment delivery request csv files are printed to
+   *
+   * @return The default path that medical equipment delivery request csv files are printed to
+   */
+  File getDefaultMedEquipReqCSVPath() {
+    return reqCSV.getDefaultPath();
   }
 
   /** Updates the connection */
