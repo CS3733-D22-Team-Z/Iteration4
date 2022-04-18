@@ -28,7 +28,7 @@ Recliner6,Recliner,Available,zHALL00603
 XRay1,XRay,Available,zPATI00103
 IPump1,IPumps,Available,zSTOR00103
 IPump2,IPumps,Available,zSTOR00203
-IPump3,IPumps,Available,zDIRT00103
+IPump3,IPumps,Dirty,zDIRT00103
 IPump4,IPumps,Available,zPATI00103
 IPump5,IPumps,Available,zPATI00203
 IPump6,IPumps,Available,zPATI00303
@@ -51,10 +51,10 @@ IPump22,IPumps,Available,zPATI01903
 IPump23,IPumps,Available,zPATI02003
 IPump24,IPumps,Available,zSTOR00103
 IPump25,IPumps,Available,zSTOR00203
-IPump26,IPumps,Available,zDIRT00103
+IPump26,IPumps,Dirty,zDIRT00103
 IPump27,IPumps,Available,zSTOR00103
 IPump28,IPumps,Available,zSTOR00203
-IPump29,IPumps,Available,zDIRT00103
+IPump29,IPumps,Dirty,zDIRT00103
 IPump30,IPumps,Available,zSTOR00103
 Bed21,Bed,Available,zPATI00104
 Bed22,Bed,Available,zPATI00204
@@ -74,7 +74,7 @@ Recliner11,Recliner,Available,zPATI00504
 XRay2,XRay,Available,zPATI00104
 IPump31,IPumps,Available,zSTOR00104
 IPump32,IPumps,Available,zSTOR00204
-IPump33,IPumps,Available,zDIRT00104
+IPump33,IPumps,Dirty,zDIRT00104
 IPump34,IPumps,Available,zPATI00104
 IPump35,IPumps,Available,zPATI00204
 IPump36,IPumps,Available,zPATI00304
@@ -105,7 +105,7 @@ Recliner16,Recliner,Available,zPATI00505
 XRay3,XRay,Available,zPATI00105
 IPump46,IPumps,Available,zSTOR00105
 IPump47,IPumps,Available,zSTOR00205
-IPump48,IPumps,Available,zDIRT00105
+IPump48,IPumps,Dirty,zDIRT00105
 IPump49,IPumps,Available,zPATI00105
 IPump50,IPumps,Available,zPATI00205
 IPump51,IPumps,Available,zPATI00305
