@@ -887,8 +887,8 @@ public class LocationListController implements IMenuAccess {
     floorField.setDisable(true);
     xCoordTextField.setEditable(false);
     yCoordTextField.setEditable(false);
-    xCoordTextField.setText(String.valueOf((int) evt.getSceneX()));
-    yCoordTextField.setText(String.valueOf((int) evt.getSceneY()));
+    xCoordTextField.setText(String.valueOf((int) evt.getX()));
+    yCoordTextField.setText(String.valueOf((int) evt.getY()));
   }
 
   @FXML

@@ -11,6 +11,8 @@ public class Draggable {
 
   private double mouseAnchorX;
   private double mouseAnchorY;
+  private double prevTransX = 0;
+  private double prevTransY = 0;
   private Location location;
   private FacadeDAO facadeDAO;
   private ScrollPane scrollPane;
@@ -42,36 +44,39 @@ public class Draggable {
   public void makeDraggable(Node node) {
     node.setOnMousePressed(
         mouseEvent -> {
-          Node home = (Node) mouseEvent.getSource();
-          Window view = home.getScene().getWindow();
-          mouseAnchorX = mouseEvent.getSceneX() - node.getTranslateX();
-          mouseAnchorY = mouseEvent.getSceneY() - node.getTranslateY();
+          mouseAnchorX = mouseEvent.getSceneX();
+          mouseAnchorY = mouseEvent.getSceneY();
           scrollPane.setPannable(false);
         });
 
     node.setOnMouseDragged(
         mouseEvent -> {
-          // node.startDragAndDrop(TransferMode.ANY);
           Node home = (Node) mouseEvent.getSource();
           Window view = home.getScene().getWindow();
           // System.out.println(view.getWidth());
           node.setTranslateX(
-              (mouseEvent.getSceneX() - mouseAnchorX) / (view.getWidth() / 775) / scaleFactor);
+              (mouseEvent.getSceneX() - mouseAnchorX + prevTransX)
+                  / (view.getWidth() / 775)
+                  / scaleFactor);
           node.setTranslateY(
-              (mouseEvent.getSceneY() - mouseAnchorY) / (view.getHeight() / 450) / scaleFactor);
+              (mouseEvent.getSceneY() - mouseAnchorY + prevTransY)
+                  / (view.getHeight() / 450)
+                  / scaleFactor);
         });
     node.setOnMouseReleased(
         mouseEvent -> {
-          Node home = (Node) mouseEvent.getSource();
-          Window view = home.getScene().getWindow();
           if (!(location == null)) { // updates location X and Y coord
-            location.setXcoord((int) (mouseAnchorX + node.getTranslateX()));
-            location.setYcoord((int) (mouseAnchorY + node.getTranslateY()));
+            location.setXcoord(
+                (int) (location.getXcoord() - (mouseAnchorX - mouseEvent.getSceneX())));
+            location.setYcoord(
+                (int) (location.getYcoord() - (mouseAnchorY - mouseEvent.getSceneY())));
             facadeDAO.updateLocation(location);
           }
           if (!(medicalEquipment == null)) {
             System.out.println("medequip"); // I imagine this is where you would snap to location
           }
+          prevTransX = node.getTranslateX();
+          prevTransY = node.getTranslateY();
           scrollPane.setPannable(true);
         });
   }
