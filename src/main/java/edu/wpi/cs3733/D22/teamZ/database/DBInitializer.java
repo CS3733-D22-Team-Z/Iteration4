@@ -142,11 +142,11 @@ public class DBInitializer {
           "CREATE TABLE MEDICALEQUIPMENT ("
               + "equipmentID VARCHAR(15),"
               + "type VARCHAR(20),"
-              + "status VARCHAR(20) DEFAULT 'Available',"
+              + "status VARCHAR(20) DEFAULT 'CLEAN',"
               + "currentLocation VARCHAR(15),"
               + "constraint MEDEQUIPMENT_PK Primary Key (equipmentID),"
               + "constraint MEDEQUIPMENT_CURRENTLOC_FK Foreign Key (currentLocation) References LOCATION(nodeID),"
-              + "constraint medEquipmentStatusVal check (status in ('In-Use', 'Available', 'Dirty', 'Clean')))");
+              + "constraint medEquipmentStatusVal check (status in ('CLEAN', 'CLEANING', 'DIRTY', 'INUSE')))");
     } catch (SQLException e) {
       System.out.println("Failed to create medical equipment tables");
       return false;

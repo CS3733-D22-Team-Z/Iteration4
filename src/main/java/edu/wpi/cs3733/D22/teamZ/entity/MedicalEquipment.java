@@ -3,7 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.entity;
 public class MedicalEquipment {
   private String equipmentID;
   private String type;
-  private String status;
+  private MedicalEquipment.EquipmentStatus status;
   private Location currentLocation;
 
   // Constructors
@@ -20,10 +20,55 @@ public class MedicalEquipment {
       String equipmentID, String type, String status, Location currentLocation) {
     this.equipmentID = equipmentID;
     this.type = type;
-    this.status = status;
+    this.status = EquipmentStatus.getRequestStatusByString(status);
     this.currentLocation = currentLocation;
     if (!this.currentLocation.getEquipmentList().contains(this)) {
       this.currentLocation.addEquipmentToList(this);
+    }
+  }
+
+  public enum EquipmentStatus {
+    CLEAN("CLEAN"),
+    DIRTY("DIRTY"),
+    CLEANING("CLEANING"),
+    INUSE("INUSE");
+
+    private final String statusStr;
+
+    EquipmentStatus(String statusStr) {
+      this.statusStr = statusStr;
+    }
+
+    /**
+     * Converts this RequestStatus into a String
+     *
+     * @return A String representing this RequestStatus
+     */
+    public String toString() {
+      return this.statusStr;
+    }
+
+    /**
+     * Returns a RequestStatus based on the String provided
+     *
+     * @param statusStr The String used to base the RequestStatus on
+     * @return The RequestStatus associated with the String provided or null if no RequestStatus is
+     *     found
+     */
+    public static MedicalEquipment.EquipmentStatus getRequestStatusByString(String statusStr) {
+      switch (statusStr) {
+        case "CLEAN":
+          return CLEAN;
+        case "DIRTY":
+          return DIRTY;
+        case "CLEANING":
+          return CLEANING;
+        case "INUSE":
+          return INUSE;
+        default:
+          System.out.println("No EquipmentStatus found for the string: |" + statusStr + "|");
+          return null;
+      }
     }
   }
 
@@ -41,7 +86,7 @@ public class MedicalEquipment {
    *
    * @return status of MedicalEquipment availability
    */
-  public String getStatus() {
+  public EquipmentStatus getStatus() {
     return status;
   }
 
@@ -50,7 +95,7 @@ public class MedicalEquipment {
    *
    * @param status
    */
-  public void setStatus(String status) {
+  public void setStatus(EquipmentStatus status) {
     this.status = status;
   }
 
