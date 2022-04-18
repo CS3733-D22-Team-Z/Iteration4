@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
-import edu.wpi.cs3733.D22.teamZ.observers.MedicalEquipmentObserver;
+import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class FacadeDAO {
   private final ServiceRequestDAOImpl serviceRequestDAO;
   private final ExternalPatientDAOImpl transportRequestDAO;
   private final MealServiceRequestDAOImpl mealServiceRequestDAO;
-  private final List<MedicalEquipmentObserver> medEquipObs;
+  private final List<DirtyBedObserver> medEquipObs;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -781,27 +781,27 @@ public class FacadeDAO {
 
   // Special methods for lab requests
 
-  /**
-   * Add a Medical Equipment observer to list of observers
-   *
-   * @param observer the Medical Equipment observer to be added
-   */
-  public void addMedEquipObserver(MedicalEquipmentObserver observer) {
-    medEquipObs.add(observer);
-  }
-
-  /**
-   * Gets the list of medical equipment observers currently available.
-   *
-   * @return the list of observers currently available
-   */
-  public List<MedicalEquipmentObserver> getMedEquipObservers() {
-    return medEquipObs;
-  }
-
-  /** Clears the observer list */
-  public void removeMedEquipObserver() {
-    for (MedicalEquipmentObserver observer : medEquipObs) observer.removeSubjects();
-    medEquipObs.clear();
-  }
+  //  /**
+  //   * Add a Medical Equipment observer to list of observers
+  //   *
+  //   * @param observer the Medical Equipment observer to be added
+  //   */
+  //  public void addMedEquipObserver(MedicalEquipmentObserver observer) {
+  //    medEquipObs.add(observer);
+  //  }
+  //
+  //  /**
+  //   * Gets the list of medical equipment observers currently available.
+  //   *
+  //   * @return the list of observers currently available
+  //   */
+  //  public List<MedicalEquipmentObserver> getMedEquipObservers() {
+  //    return medEquipObs;
+  //  }
+  //
+  //  /** Clears the observer list */
+  //  public void removeMedEquipObserver() {
+  //    for (MedicalEquipmentObserver observer : medEquipObs) observer.removeSubjects();
+  //    medEquipObs.clear();
+  //  }
 }

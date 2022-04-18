@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
-import edu.wpi.cs3733.D22.teamZ.observers.MedicalEquipmentObserver;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -108,13 +107,13 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     createBarUP5Dirty();
     createBarUP5Clean();
 
-    // Create a new observer for each existing medical equipment
-    MedicalEquipmentObserver dashObserver = new MedicalEquipmentObserver(this);
+    /*// Create a new observer for each existing medical equipment
+    DirtyBedObserver dashObserver = new DirtyBedObserver(this);
     dashObserver.setSubjects(dao.getAllMedicalEquipment());
-    dao.addMedEquipObserver(dashObserver);
+    // dao.addMedEquipObserver(dashObserver);
 
     // When the root is removed (its parent is changed), then remove all observers.
-    root.parentProperty().addListener(parent -> dao.removeMedEquipObserver());
+    root.parentProperty().addListener(parent -> dashObserver.removeSubjects());*/
   }
 
   private void createBarUP5Dirty() {
@@ -291,8 +290,4 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   public void toLowerLevel1(ActionEvent actionEvent) {}
 
   public void toLowerLevel2(ActionEvent actionEvent) {}
-
-  public void medEquipUpdate(MedicalEquipment equip) {
-    // TODO: count stuff
-  }
 }

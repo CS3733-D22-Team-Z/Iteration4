@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
+import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Location implements ISearchable {
   private String longName;
   private String shortName;
   private List<MedicalEquipment> equipmentList;
+  private List<DirtyBedObserver> bedObservers;
 
   public Location() {}
 
@@ -35,6 +37,7 @@ public class Location implements ISearchable {
     this.longName = longName;
     this.shortName = shortName;
     this.equipmentList = new ArrayList<>();
+    this.bedObservers = new ArrayList<>();
   }
 
   public Location(String nodeID) {
@@ -113,6 +116,7 @@ public class Location implements ISearchable {
     if (!this.equipmentList.contains(equipment)) {
       this.equipmentList.add(equipment);
     }
+    notifyAllObservers();
   }
 
   public void removeEquipmentFromList(MedicalEquipment equipment) {
@@ -159,5 +163,21 @@ public class Location implements ISearchable {
     } else {
       return false;
     }
+  }
+
+  // Observers
+  public void notifyAllObservers() {
+    for (DirtyBedObserver obs : bedObservers) {
+      obs.update();
+    }
+  }
+
+  public void attachBedObs(DirtyBedObserver observer) {
+    bedObservers.add(observer);
+    observer.update();
+  }
+
+  public void detachBedObs(DirtyBedObserver observer) {
+    bedObservers.remove(observer);
   }
 }
