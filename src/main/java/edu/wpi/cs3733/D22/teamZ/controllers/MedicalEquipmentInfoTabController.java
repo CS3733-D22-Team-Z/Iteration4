@@ -74,7 +74,7 @@ public class MedicalEquipmentInfoTabController {
     MedicalEquipment selectedEquipment =
         getMedicalEquipmentbyID(equipmentComboBox.getSelectionModel().getSelectedItem().toString());
     equipmentTypeField.setText(selectedEquipment.getType());
-    equipmentStatusField.setText(selectedEquipment.getStatus());
+    equipmentStatusField.setText(selectedEquipment.getStatus().toString());
     equipmentIDField.setText(selectedEquipment.getEquipmentID());
     equipmentLocationField.setText(selectedEquipment.getCurrentLocation().getNodeID());
     editButton.setDisable(false);

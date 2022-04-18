@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.nfcCardReader.NFCCardReaderController;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +18,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
@@ -26,6 +30,8 @@ public class LoginPageController implements Initializable {
   @FXML private TextField usernameField;
   @FXML private TextField passwordField;
   @FXML private Label errorLabel;
+  @FXML private MFXButton loginButton;
+  @FXML private AnchorPane loginPane;
 
   public ObservableList<Transform> initialStates;
   public double initialHeight;
@@ -74,6 +80,18 @@ public class LoginPageController implements Initializable {
         errorLabel.setText("Invalid password for this username. Try again.");
         enterErrorState();
       }
+    }
+  }
+
+  /**
+   * binds loginButton to enter key
+   *
+   * @param event
+   */
+  @FXML
+  private void enterButtonPressed(KeyEvent event) {
+    if (event.getCode() == KeyCode.ENTER) {
+      loginButton.fire();
     }
   }
 
