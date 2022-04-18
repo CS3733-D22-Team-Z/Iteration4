@@ -151,7 +151,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="externalRegion" layoutX="27.0" layoutY="14.0" prefHeight="37.0" prefWidth="55.0" />
-                              <Label fx:id="mayaLabel" layoutX="-1.0" layoutY="111.0" prefHeight="13.0" prefWidth="111.0" text="Maya Angeles">
+                              <Label fx:id="mayaLabel" layoutY="111.0" prefHeight="13.0" prefWidth="111.0" text="Maya Angeles">
                                  <font>
                                     <Font size="9.0" />
                                  </font>

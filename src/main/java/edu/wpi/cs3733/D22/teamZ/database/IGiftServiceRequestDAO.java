@@ -1,27 +1,25 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.GiftServiceRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.LabServiceRequest;
-
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
 public interface IGiftServiceRequestDAO {
 
-    List<GiftServiceRequest> getAllLabServiceRequests() throws SQLException;
+  List<GiftServiceRequest> getAllGiftServiceRequests() throws SQLException;
 
-    LabServiceRequest getLabRequestByID(String requestID);
+  GiftServiceRequest getGiftRequestByID(String requestID);
 
-    boolean addLabRequest(LabServiceRequest request);
+  boolean addGiftRequest(GiftServiceRequest request);
 
-    boolean updateLabRequest(LabServiceRequest request);
+  boolean updateGiftRequest(GiftServiceRequest request);
 
-    boolean deleteLabRequest(LabServiceRequest request);
+  boolean deleteGiftRequest(GiftServiceRequest request);
 
-    boolean exportToLabRequestCSV(File data);
+  boolean exportToGiftRequestCSV(File data);
 
-    int importLabRequestFromCSV(File data);
+  int importGiftRequestFromCSV(File data);
 
-    boolean addLabRequestFromList(List<LabServiceRequest> list);
+  boolean addGiftRequestFromList(List<GiftServiceRequest> list);
 }

@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
@@ -15,6 +16,7 @@ public class FacadeDAO {
   private final LabRequestServiceDAOImpl labRequestServiceDAO;
   private final ServiceRequestDAOImpl serviceRequestDAO;
   private final ExternalPatientDAOImpl transportRequestDAO;
+  private final GiftServiceRequestDAOImpl giftRequestDAO;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -29,6 +31,7 @@ public class FacadeDAO {
     labRequestServiceDAO = new LabRequestServiceDAOImpl();
     serviceRequestDAO = new ServiceRequestDAOImpl();
     transportRequestDAO = new ExternalPatientDAOImpl();
+    giftRequestDAO = new GiftServiceRequestDAOImpl();
   }
 
   // Get All methods
@@ -93,6 +96,16 @@ public class FacadeDAO {
    */
   public List<Patient> getAllPatients() {
     return patientDAO.getAllPatients();
+  }
+
+  /**
+   * Gets all the GiftServiceRequests in the database
+   *
+   * @return List of gift requests
+   * @throws SQLException
+   */
+  public List<GiftServiceRequest> getAllGiftRequests() throws SQLException {
+    return giftRequestDAO.getAllGiftServiceRequests();
   }
 
   // Get By ID methods
@@ -167,6 +180,16 @@ public class FacadeDAO {
    */
   public LabServiceRequest getLabServiceRequestByID(String id) {
     return labRequestServiceDAO.getLabRequestByID(id);
+  }
+
+  /**
+   * Get a GiftServiceRequest with provided requestID
+   *
+   * @param id the id of the gift service request to be searched for
+   * @return GiftSerivceRequest object with given ID
+   */
+  public GiftServiceRequest getGiftServiceRequestByID(String id) {
+    return giftRequestDAO.getGiftRequestByID(id);
   }
 
   // Add methods
@@ -262,6 +285,16 @@ public class FacadeDAO {
         && transportRequestDAO.addPatientTransportRequest(request);
   }
 
+  /**
+   * Adds a GiftRequest to the database
+   *
+   * @param request request to be added
+   * @return True if succesful, false otherwise
+   */
+  public boolean addGiftRequest(GiftServiceRequest request) {
+    return serviceRequestDAO.addServiceRequest(request) && giftRequestDAO.addGiftRequest(request);
+  }
+
   // Delete methods
   /**
    * Deletes a location from database. Will automatically check if exists in database already
@@ -333,6 +366,19 @@ public class FacadeDAO {
         labRequestServiceDAO.deleteLabRequest(labServiceRequest)
             && serviceRequestDAO.deleteServiceRequest(labServiceRequest);
     return labRequestServiceDAO.deleteLabRequest(labServiceRequest);
+  }
+
+  /**
+   * Deletes a GiftServiceRequest from the database
+   *
+   * @param request GiftServiceRequest to be deleted
+   * @return True if successful, false otherwise
+   */
+  public boolean deleteGiftRequest(GiftServiceRequest request) {
+    boolean val =
+        giftRequestDAO.deleteGiftRequest(request)
+            && serviceRequestDAO.deleteServiceRequest(request);
+    return giftRequestDAO.deleteGiftRequest(request);
   }
 
   // Update methods
@@ -422,6 +468,16 @@ public class FacadeDAO {
         && labRequestServiceDAO.updateLabRequest(labServiceRequest);
   }
 
+  /**
+   * updates an existing GiftServiceRequest in database with new request
+   *
+   * @param request GiftServiceRequest to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateGiftRequest(GiftServiceRequest request) {
+    return updateServiceRequest(request) && giftRequestDAO.updateGiftRequest(request);
+  }
+
   // Import methods
   /**
    * Imports data from CSV into location database
@@ -488,6 +544,16 @@ public class FacadeDAO {
     return labRequestServiceDAO.importLabRequestFromCSV(labRequestData);
   }
 
+  /**
+   * imports all GiftServiceRequests in specified file location of csv into the database
+   *
+   * @param request file location of csv
+   * @return True if successful, false otherwise
+   */
+  public int importGiftRequestFromCSV(File request) {
+    return giftRequestDAO.importGiftRequestFromCSV(request);
+  }
+
   // Export methods
   /**
    * Exports the Location table into a csv file to the working directory
@@ -546,6 +612,16 @@ public class FacadeDAO {
    */
   public boolean exportLabRequestsToCSV(File labData) {
     return labRequestServiceDAO.exportToLabRequestCSV(labData);
+  }
+
+  /**
+   * Exports all GiftServiceRequests in the database to specified file location of csv
+   *
+   * @param giftData file location of csv
+   * @return True if successful, false otherwise
+   */
+  public boolean exportGiftRequestToCSV(File giftData) {
+    return giftRequestDAO.exportToGiftRequestCSV(giftData);
   }
 
   // Get default path methods
@@ -622,6 +698,16 @@ public class FacadeDAO {
    */
   public boolean addMedicalEquipmentRequestFromList(List<MedicalEquipmentDeliveryRequest> list) {
     return medEquipReqDAO.addMedicalEquipReqFromList(list);
+  }
+
+  /**
+   * Adds GiftServiceRequest into database from list
+   *
+   * @param list Request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addGiftRequestFromList(List<GiftServiceRequest> list) {
+    return giftRequestDAO.addGiftRequestFromList(list);
   }
 
   // Special methods for location
