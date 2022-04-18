@@ -80,6 +80,7 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("GIFTSERVICEREQUEST");
     dropExistingTable("MEALSERVICEREQUEST");
     dropExistingTable("EXTERNALTRANSPORTREQUEST");
     dropExistingTable("MEDEQUIPREQ");
@@ -223,6 +224,21 @@ public class DBInitializer {
               + "constraint TRANSPORTREQUESTID_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid))");
     } catch (SQLException e) {
       System.out.println("Failed to create external patient transport tables");
+      return false;
+    }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE GIFTSERVICEREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "patientName VARCHAR(50),"
+              + "patientID VARCHAR(15),"
+              + "giftType VARCHAR(25),"
+              + "constraint GIFTSERVICEREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint GIFTSERVICEREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid),"
+              + "constraint GIFTSERVICEREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create gift service request tables");
       return false;
     }
 
