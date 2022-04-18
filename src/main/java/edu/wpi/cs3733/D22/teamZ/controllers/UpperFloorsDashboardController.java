@@ -110,7 +110,8 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirtyValue = dirty / total;
     floor5Dirty.setProgress(dirtyValue);
   }
-  //None of the equipment has "Clean" as the status, so nothing shows up under the clean progress bar
+  // None of the equipment has "Clean" as the status, so nothing shows up under the clean progress
+  // bar
   private void createBarUP5Clean() {
     floor5Clean.setStyle("-fx-accent: green;");
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("5").size();

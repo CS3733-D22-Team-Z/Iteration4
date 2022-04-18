@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,23 +25,35 @@ public class MealServiceController extends ServiceRequestController {
   @FXML private MFXTextField enterPatientName;
   @FXML private MFXTextField enterPatientID;
   @FXML private MFXTextField enterStaffAssigned;
-  @FXML private ChoiceBox<String> roomNumberDropDown;
-  @FXML private ChoiceBox<String> mealOptionDropDown;
+  @FXML private ComboBox<String> roomNumberDropDown;
+  @FXML private ComboBox<String> mealOptionDropDown;
   @FXML private ChoiceBox<String> orderStatusDropDown;
   @FXML private ListView<String> currentRequests;
-  @FXML private Label infoLabel;
-  @FXML private ComboBox testDropDown;
-  @FXML private ComboBox testDropDown2;
+  @FXML private Label mealRequestIndicator;
 
   // Lists
   private List<Location> locationList;
-  private List<ServiceRequest> mealRequestList = new ArrayList<>();
+  private List<MealServiceRequest> mealRequestList = new ArrayList<>();
   private List<ServiceRequest> allServiceRequestList = new ArrayList<>();
+
+  private List<String> breakfastDrinksList = new ArrayList<>();
+  private List<String> breakfastEntreesList = new ArrayList<>();
+  private List<String> breakfastSidesList = new ArrayList<>();
+  private List<String> lunchDrinksList = new ArrayList<>();
+  private List<String> lunchEntreesList = new ArrayList<>();
+  private List<String> lunchSidesList = new ArrayList<>();
+  private List<String> dinnerDrinksList = new ArrayList<>();
+  private List<String> dinnerEntreesList = new ArrayList<>();
+  private List<String> dinnerSidesList = new ArrayList<>();
 
   private ObservableList<String> currReq = FXCollections.observableList(new ArrayList<>());
 
+  private final String toMealServiceRequestListURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MealServiceRequestList.fxml";
+
   FacadeDAO instanceDAO = FacadeDAO.getInstance();
 
+  /** Updates the CurrentRequests ListView table in FXML */
   private void updateCurrentMealRequestList() {
     String requestCon = null;
     currReq.clear();
@@ -59,6 +70,7 @@ public class MealServiceController extends ServiceRequestController {
       currReq.add(requestCon);
     }
     currentRequests.setItems(currReq);
+    //    currentRequests.get
     currentRequests.refresh();
     allServiceRequestList = instanceDAO.getAllServiceRequests();
   }
@@ -74,10 +86,10 @@ public class MealServiceController extends ServiceRequestController {
     //            .filter(Location -> Location.getNodeType() == "PATI")
     //            .collect(Collectors.toList());
     locationList = instanceDAO.getALlLocationsByType("PATI");
-    mealRequestList =
-        instanceDAO.getAllServiceRequests().stream()
-            .filter(REQ -> REQ.getType() == ServiceRequest.RequestType.MEAL)
-            .collect(Collectors.toList());
+    mealRequestList = instanceDAO.getAllMealServiceRequests();
+    //        instanceDAO.getAllServiceRequests().stream()
+    //            .filter(REQ -> REQ.getType() == ServiceRequest.RequestType.MEAL)
+    //            .collect(Collectors.toList());
     //    allServiceRequestList = instanceDAO.
 
     String temp = null;
@@ -108,18 +120,21 @@ public class MealServiceController extends ServiceRequestController {
     }
     roomNumberDropDown.setItems(FXCollections.observableArrayList(roomList));
     mealOptionDropDown.setItems(FXCollections.observableArrayList("BREAKFAST", "LUNCH", "DINNER"));
-    orderStatusDropDown.setItems(
-        FXCollections.observableArrayList("IN PROGRESS", "PROCESSING", "COMPLETED"));
-    orderStatusDropDown.setValue("IN PROGRESS");
+    //    orderStatusDropDown.setItems(
+    //        FXCollections.observableArrayList("IN PROGRESS", "PROCESSING", "COMPLETED"));
+    //    orderStatusDropDown.setValue("IN PROGRESS");
     //    currReqLabel.setText("");
-    testDropDown.setItems(
-        FXCollections.observableArrayList(
-            "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"));
-    //    testDropDown.filterFunctionProperty();
-    testDropDown.setValue("Five");
-    testDropDown2.setItems(
-        FXCollections.observableArrayList(
-            "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"));
+
+    breakfastDrinksList.add(
+        "none" + "Water" + "Coffee" + "Tea" + "Apple Juice" + "Orange Juice" + "Cranberry Juice");
+    breakfastEntreesList.add("none" + "Belgium Waffle" + "Omlette" + "Pancakes");
+    breakfastSidesList.add("none" + "Apple Sauce" + "Blueberry Muffin" + "Fruit Bowl");
+    lunchDrinksList.add("none" + "Water" + "Coffee" + "Tea");
+    lunchEntreesList.add("none" + "Caesar Salad" + "Cheeseburger" + "Chicken Sandwich");
+    lunchSidesList.add("none" + "Corn Bread" + "Fruit Bowl" + "Pretzel");
+    dinnerDrinksList.add("none" + "Water" + "Coffee" + "Tea" + "Coca Cola" + "Sprite");
+    dinnerEntreesList.add("none" + "Cheese Pizza" + "Chicken Parmigiana" + "Spaghetti & Meatballs");
+    dinnerSidesList.add("none" + "Brownie" + "Chocolate Chip Cookie" + "Tiramisu");
 
     allServiceRequestList = instanceDAO.getAllServiceRequests();
 
@@ -128,9 +143,9 @@ public class MealServiceController extends ServiceRequestController {
 
     roomNumberDropDown.setOnAction(event -> validateButton());
     mealOptionDropDown.setOnAction(event -> validateButton());
-    orderStatusDropDown.setOnAction(event -> validateButton());
+    //    orderStatusDropDown.setOnAction(event -> validateButton());
 
-    updateCurrentMealRequestList();
+    //    updateCurrentMealRequestList();
   }
 
   @Override
@@ -141,7 +156,7 @@ public class MealServiceController extends ServiceRequestController {
     System.out.println("Room Number: " + roomNumberDropDown.getValue());
     System.out.println("Staff Assigned: " + enterStaffAssigned.getText().trim());
     System.out.println("Meal Option: " + mealOptionDropDown.getValue());
-    System.out.println("Order Status: " + orderStatusDropDown.getValue());
+    //    System.out.println("Order Status: " + orderStatusDropDown.getValue());
 
     String id;
 
@@ -163,15 +178,14 @@ public class MealServiceController extends ServiceRequestController {
 
     // Create entities for submission
     String mealServiceOption = mealOptionDropDown.getValue().toString();
-    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
+    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
 
     //     Update meal request table to show in use
-    Location targetLocation = new Location();
-    Patient patient =
-        new Patient(
-            enterPatientID.getText().trim(), enterPatientName.getText().trim(), targetLocation);
+    Patient patient = instanceDAO.getPatientByID(enterPatientID.getText());
+
+    Location targetLocation = null;
     for (Location model : locationList) {
       if (model
           .getShortName()
@@ -184,22 +198,20 @@ public class MealServiceController extends ServiceRequestController {
     MealServiceRequest temp =
         new MealServiceRequest(
             requestID, status, issuer, handler, targetLocation, patient, "1", "2", "3");
-    temp.setTargetLocation(targetLocation);
-    temp.setPatient(patient);
 
-    mealRequestList.add(temp);
+    instanceDAO.addMealServiceRequest(temp);
+    //    mealRequestList.add(temp);
 
-    instanceDAO.addServiceRequestFromList(mealRequestList);
-    database.addServiceRequest(temp);
+    //    instanceDAO.addServiceRequestFromList(mealRequestList);
+    //    database.addServiceRequest(temp);
 
-    updateCurrentMealRequestList();
+    //    updateCurrentMealRequestList();
 
     enterPatientName.clear();
     enterPatientID.clear();
     enterStaffAssigned.clear();
     roomNumberDropDown.setValue(null);
     mealOptionDropDown.setValue(null);
-    orderStatusDropDown.setValue("IN PROGRESS");
     submitButton.setDisable(true);
     System.out.println("Meal Request Submit button disabled");
   }
@@ -215,7 +227,6 @@ public class MealServiceController extends ServiceRequestController {
     enterStaffAssigned.clear();
     roomNumberDropDown.setValue(null);
     mealOptionDropDown.setValue(null);
-    orderStatusDropDown.setValue("IN PROGRESS");
   }
 
   public void enterPatientName(ActionEvent event) {}
@@ -235,8 +246,7 @@ public class MealServiceController extends ServiceRequestController {
         && !enterPatientID.getText().trim().isEmpty()
         && !enterStaffAssigned.getText().trim().isEmpty()
         && !(roomNumberDropDown.getSelectionModel().getSelectedItem() == null)
-        && !(mealOptionDropDown.getSelectionModel().getSelectedItem() == null)
-        && !(orderStatusDropDown.getSelectionModel().getSelectedItem() == null)) {
+        && !(mealOptionDropDown.getSelectionModel().getSelectedItem() == null)) {
       submitButton.setDisable(false);
       System.out.println("Meal Request Submit button enabled");
     } else {
@@ -245,25 +255,35 @@ public class MealServiceController extends ServiceRequestController {
     }
   }
 
-  public void onMouseClick(MouseEvent mouseEvent) {
-    System.out.println("TESTING MOUSE CLICK");
-    System.out.println(currentRequests.getFocusModel().getFocusedIndex()); // number starting at 0
-    System.out.println(currentRequests.getFocusModel().getFocusedItem()); // string of selected
-    int orderIndex = currentRequests.getFocusModel().getFocusedIndex();
+//  public void onMouseClick(MouseEvent mouseEvent) {
+//    System.out.println("TESTING MOUSE CLICK");
+//    System.out.println(currentRequests.getFocusModel().getFocusedIndex()); // number starting at 0
+//    System.out.println(currentRequests.getFocusModel().getFocusedItem()); // string of selected
+//    int orderIndex = currentRequests.getFocusModel().getFocusedIndex();
+//
+//    if (orderIndex > -1) {
+//      ServiceRequest temp = mealRequestList.get(orderIndex);
+//
+//      //    enterPatientName.setText();
+//      //    enterPatientID.setText();
+//      //    enterStaffAssigned.setText();
+//      roomNumberDropDown.setValue(temp.getTargetLocation().getShortName().substring(0, 4));
+//      //    mealOptionDropDown.setValue()
+//      orderStatusDropDown.setValue(temp.getStatus().toString());
+//      submitButton.setDisable(
+//          true); // TODO: Eventually set to false once all other fields are retrieved
+//    } else {
+//      System.out.println("OrderIndex: " + orderIndex);
+//    }
+//  }
 
-    if (orderIndex > -1) {
-      ServiceRequest temp = mealRequestList.get(orderIndex);
-
-      //    enterPatientName.setText();
-      //    enterPatientID.setText();
-      //    enterStaffAssigned.setText();
-      roomNumberDropDown.setValue(temp.getTargetLocation().getShortName().substring(0, 4));
-      //    mealOptionDropDown.setValue()
-      orderStatusDropDown.setValue(temp.getStatus().toString());
-      submitButton.setDisable(
-          true); // TODO: Eventually set to false once all other fields are retrieved
-    } else {
-      System.out.println("OrderIndex: " + orderIndex);
+  public void onNavigateToMealRequestList(ActionEvent event) throws IOException {
+    try {
+      menu.load(toMealServiceRequestListURL);
+    } catch (IOException e) {
+      System.out.println("Error: Failed to load Meal Service Request List URL");
+      e.printStackTrace();
+      throw new IOException();
     }
   }
 }

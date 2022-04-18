@@ -97,6 +97,15 @@ public class FacadeDAO {
     return patientDAO.getAllPatients();
   }
 
+  /**
+   * Gets all meal service requests in the database
+   *
+   * @return List of meal service requests
+   */
+  public List<MealServiceRequest> getAllMealServiceRequests() {
+    return mealServiceRequestDAO.getAllMealServiceReq();
+  }
+
   // Get By ID methods
   /**
    * Gets ONE lcoation from the database based on the provided nodeID
@@ -216,7 +225,8 @@ public class FacadeDAO {
    * @return True if successful, false if not
    */
   public boolean addMealServiceRequest(MealServiceRequest request) {
-    return mealServiceRequestDAO.addMealServReq(request);
+    return serviceRequestDAO.addServiceRequest(request)
+        && mealServiceRequestDAO.addMealServReq(request);
   }
   /**
    * Adds the given ServiceRequest object to the database
