@@ -8,24 +8,24 @@ import java.util.List;
 
 public class PatientControlCSV extends ControlCSV {
   private final String[] headers = {"PatientID", "name", "location"};
+  private final FacadeDAO dao = FacadeDAO.getInstance();
 
   public PatientControlCSV(File path) {
     this.setDefaultPath(path);
   }
 
-  protected void writePatCSV(List<Patient> in) throws IOException {
+  protected void writePatientCSV(List<Patient> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 
-  protected List<Patient> readPatCSV() throws IOException {
+  protected List<Patient> readPatientCSV() throws IOException {
     return dataToObj(readCSV());
   }
 
   private List<Patient> dataToObj(List<List<String>> data) {
-    ILocationDAO loc = new LocationDAOImpl();
     List<Patient> ret = new ArrayList<>();
     for (List<String> a : data) {
-      ret.add(new Patient(a.get(0), a.get(1), loc.getLocationByID(a.get(2))));
+      ret.add(new Patient(a.get(0), a.get(1), dao.getLocationByID(a.get(2))));
     }
     return ret;
   }

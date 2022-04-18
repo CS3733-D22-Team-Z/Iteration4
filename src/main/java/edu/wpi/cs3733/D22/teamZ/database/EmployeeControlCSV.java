@@ -17,8 +17,16 @@ public class EmployeeControlCSV extends ControlCSV {
     writeCSV(objToData(in), headers);
   }
 
+  protected void writeEmployeeCSV(List<Employee> in, File path) throws IOException {
+    writeCSV(objToData(in), path, headers);
+  }
+
   protected List<Employee> readEmployeeCSV() throws IOException {
     return dataToObj(readCSV());
+  }
+
+  protected List<Employee> readEmployeeCSV(File path) throws IOException {
+    return dataToObj(readCSV(path));
   }
 
   private List<Employee> dataToObj(List<List<String>> data) {
