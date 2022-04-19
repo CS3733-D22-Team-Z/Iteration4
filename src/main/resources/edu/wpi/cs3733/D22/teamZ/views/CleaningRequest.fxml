@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.JanitorRequestController">
+   <children>
+      <Rectangle fx:id="warningBackground" arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="26.0" layoutX="25.0" layoutY="379.0" stroke="TRANSPARENT" strokeType="INSIDE" width="257.0" />
+      <MFXButton id="backButton" fx:id="backButton" layoutX="26.0" layoutY="24.0" onAction="#onBackButtonClicked" text="Back to Landing Page" />
+      <Label layoutX="24.0" layoutY="73.0" prefHeight="25.0" prefWidth="225.0" styleClass="object-header" text="Cleaning Request Form" />
+      <Label layoutX="27.0" layoutY="100.0" prefHeight="17.0" prefWidth="477.0" styleClass="object-body" text="Enter the fields below to request a lab for a patient." />
+      <Label fx:id="patientNameLabel" layoutX="25.0" layoutY="125.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
+      <MFXTextField fx:id="patientNameField" floatMode="DISABLED" layoutX="23.0" layoutY="142.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter room number" />
+      <Label fx:id="patientIdLabel" layoutX="25.0" layoutY="174.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Floor Number" />
+      <MFXTextField fx:id="patientIdField" floatMode="DISABLED" layoutX="23.0" layoutY="194.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter floor number" />
+      <Label fx:id="labTypeLabel" layoutX="25.0" layoutY="230.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Location Type" />
+      <ChoiceBox fx:id="labTypeChoiceBox" layoutX="23.0" layoutY="247.0" onKeyReleased="#validateButton" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" />
+      <MFXButton fx:id="submitButton" layoutX="22.0" layoutY="344.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="79.0" text="Submit" />
+      <MFXButton fx:id="resetButton" layoutX="114.0" layoutY="344.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="75.0" style="-fx-background-color: FF4343;" text="Reset" />
+      <Label layoutX="296.0" layoutY="174.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
+      <Label id="rejected" fx:id="errorSavingLabel" layoutX="28.0" layoutY="383.0" prefHeight="17.0" prefWidth="373.0" styleClass="form-header" text="Error saving request, no equipment available" />
+      <Label id="confirmed" fx:id="successfulSubmitLabel" layoutX="32.0" layoutY="384.0" prefHeight="17.0" prefWidth="359.0" styleClass="form-header" text="Successfully submitted lab request!" />
+      <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="269.0" layoutY="195.0" onAction="#toLabServiceRequestList" text="Cleaning Request List" />
+      <Label fx:id="patientIdLabel1" layoutX="22.0" layoutY="273.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Request" />
+      <MFXTextField fx:id="patientIdField1" floatMode="DISABLED" layoutX="23.0" layoutY="290.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter request" />
+   </children>
+</AnchorPane>

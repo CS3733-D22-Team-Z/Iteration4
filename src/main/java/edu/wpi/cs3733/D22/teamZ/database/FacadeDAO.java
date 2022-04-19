@@ -1,9 +1,8 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.*;
-import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
 import java.io.File;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeDAO {
@@ -17,8 +16,9 @@ public class FacadeDAO {
   private final LabRequestServiceDAOImpl labRequestServiceDAO;
   private final ServiceRequestDAOImpl serviceRequestDAO;
   private final ExternalPatientDAOImpl transportRequestDAO;
+  private final GiftServiceRequestDAOImpl giftRequestDAO;
   private final MealServiceRequestDAOImpl mealServiceRequestDAO;
-  private final List<DirtyBedObserver> medEquipObs;
+  private final CleaningRequestDAOImpl cleaningRequestDAO;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -33,8 +33,9 @@ public class FacadeDAO {
     labRequestServiceDAO = new LabRequestServiceDAOImpl();
     serviceRequestDAO = new ServiceRequestDAOImpl();
     transportRequestDAO = new ExternalPatientDAOImpl();
+    giftRequestDAO = new GiftServiceRequestDAOImpl();
     mealServiceRequestDAO = new MealServiceRequestDAOImpl();
-    medEquipObs = new ArrayList<>();
+    cleaningRequestDAO = new CleaningRequestDAOImpl();
   }
 
   // Get All methods
@@ -99,6 +100,26 @@ public class FacadeDAO {
    */
   public List<Patient> getAllPatients() {
     return patientDAO.getAllPatients();
+  }
+
+  /**
+   * Gets all the GiftServiceRequests in the database
+   *
+   * @return List of gift requests
+   * @throws SQLException
+   */
+  public List<GiftServiceRequest> getAllGiftRequests() throws SQLException {
+    return giftRequestDAO.getAllGiftServiceRequests();
+  }
+
+  /**
+   * Gets all CleaningRequests in the database
+   *
+   * @return List of cleaning requests
+   * @throws SQLException
+   */
+  public List<CleaningRequest> getAllCleaningRequests() throws SQLException {
+    return cleaningRequestDAO.getAllCleaningServiceRequests();
   }
 
   // Get By ID methods
@@ -176,6 +197,26 @@ public class FacadeDAO {
     return labRequestServiceDAO.getLabRequestByID(id);
   }
 
+  /**
+   * Get a GiftServiceRequest with provided requestID
+   *
+   * @param id the id of the gift service request to be searched for
+   * @return GiftSerivceRequest object with given ID
+   */
+  public GiftServiceRequest getGiftServiceRequestByID(String id) {
+    return giftRequestDAO.getGiftRequestByID(id);
+  }
+
+  /**
+   * Get a CleaningRequest with provided requestID
+   *
+   * @param id the id of the cleaning request to be searched for
+   * @return CleaningRequest object with given ID
+   */
+  public CleaningRequest getCleaningRequestByID(String id) {
+    return cleaningRequestDAO.getCleaningRequestByID(id);
+  }
+
   // Add methods
   /**
    * Adds a new location to database. Will automatically check if already in database
@@ -246,6 +287,17 @@ public class FacadeDAO {
   }
 
   /**
+   * Adds a CleaningRequest to the database
+   *
+   * @param cleaningRequest CleaningRequest to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addCleaningRequest(CleaningRequest cleaningRequest) {
+    boolean val = cleaningRequestDAO.addCleaningRequest(cleaningRequest);
+    return val;
+  }
+
+  /**
    * ONLY USE THIS TO POPULATE DB: will add to MedEquipReq table
    *
    * @param medicalEquipmentDeliveryRequest reqeust to be added
@@ -276,6 +328,27 @@ public class FacadeDAO {
   public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request) {
     return serviceRequestDAO.addServiceRequest(request)
         && transportRequestDAO.addPatientTransportRequest(request);
+  }
+
+  /**
+   * Adds a CleaningRequest to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addCleaningRequesttoDatabase(CleaningRequest request) {
+    return serviceRequestDAO.addServiceRequest(request)
+        && cleaningRequestDAO.addCleaningRequest(request);
+  }
+
+  /**
+   * Adds a GiftRequest to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addGiftRequest(GiftServiceRequest request) {
+    return serviceRequestDAO.addServiceRequest(request) && giftRequestDAO.addGiftRequest(request);
   }
 
   // Delete methods
@@ -349,6 +422,32 @@ public class FacadeDAO {
         labRequestServiceDAO.deleteLabRequest(labServiceRequest)
             && serviceRequestDAO.deleteServiceRequest(labServiceRequest);
     return labRequestServiceDAO.deleteLabRequest(labServiceRequest);
+  }
+
+  /**
+   * Deletes a GiftServiceRequest from the database
+   *
+   * @param request GiftServiceRequest to be deleted
+   * @return True if successful, false otherwise
+   */
+  public boolean deleteGiftRequest(GiftServiceRequest request) {
+    boolean val =
+        giftRequestDAO.deleteGiftRequest(request)
+            && serviceRequestDAO.deleteServiceRequest(request);
+    return giftRequestDAO.deleteGiftRequest(request);
+  }
+
+  /**
+   * Deletes a CleaningRequest from the database
+   *
+   * @param request CleaningRequest to be deleted
+   * @return True if successful, false otherwise
+   */
+  public boolean deleteCleaningRequest(CleaningRequest request) {
+    boolean val =
+        cleaningRequestDAO.deleteCleaningRequest(request)
+            && serviceRequestDAO.deleteServiceRequest(request);
+    return val;
   }
 
   // Update methods
@@ -438,6 +537,26 @@ public class FacadeDAO {
         && labRequestServiceDAO.updateLabRequest(labServiceRequest);
   }
 
+  /**
+   * updates an existing GiftServiceRequest in database with new request
+   *
+   * @param request GiftServiceRequest to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateGiftRequest(GiftServiceRequest request) {
+    return updateServiceRequest(request) && giftRequestDAO.updateGiftRequest(request);
+  }
+
+  /**
+   * updates an existing CleaningRequest in database with new request
+   *
+   * @param request CleaningRequest to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateCleaningRequest(CleaningRequest request) {
+    return updateServiceRequest(request) && cleaningRequestDAO.updateCleaningRequest(request);
+  }
+
   // Import methods
   /**
    * Imports data from CSV into location database
@@ -504,6 +623,16 @@ public class FacadeDAO {
     return labRequestServiceDAO.importLabRequestFromCSV(labRequestData);
   }
 
+  /**
+   * imports all GiftServiceRequests in specified file location of csv into the database
+   *
+   * @param request file location of csv
+   * @return True if successful, false otherwise
+   */
+  public int importGiftRequestFromCSV(File request) {
+    return giftRequestDAO.importGiftRequestFromCSV(request);
+  }
+
   // Export methods
   /**
    * Exports the Location table into a csv file to the working directory
@@ -562,6 +691,16 @@ public class FacadeDAO {
    */
   public boolean exportLabRequestsToCSV(File labData) {
     return labRequestServiceDAO.exportToLabRequestCSV(labData);
+  }
+
+  /**
+   * Exports all GiftServiceRequests in the database to specified file location of csv
+   *
+   * @param giftData file location of csv
+   * @return True if successful, false otherwise
+   */
+  public boolean exportGiftRequestToCSV(File giftData) {
+    return giftRequestDAO.exportToGiftRequestCSV(giftData);
   }
 
   // Get default path methods
@@ -664,6 +803,16 @@ public class FacadeDAO {
    */
   public boolean addMedicalEquipmentRequestFromList(List<MedicalEquipmentDeliveryRequest> list) {
     return medEquipReqDAO.addMedicalEquipReqFromList(list);
+  }
+
+  /**
+   * Adds GiftServiceRequest into database from list
+   *
+   * @param list Request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addGiftRequestFromList(List<GiftServiceRequest> list) {
+    return giftRequestDAO.addGiftRequestFromList(list);
   }
 
   // Special methods for location
@@ -780,28 +929,4 @@ public class FacadeDAO {
   // Special methods for medical equipment requests
 
   // Special methods for lab requests
-
-  //  /**
-  //   * Add a Medical Equipment observer to list of observers
-  //   *
-  //   * @param observer the Medical Equipment observer to be added
-  //   */
-  //  public void addMedEquipObserver(MedicalEquipmentObserver observer) {
-  //    medEquipObs.add(observer);
-  //  }
-  //
-  //  /**
-  //   * Gets the list of medical equipment observers currently available.
-  //   *
-  //   * @return the list of observers currently available
-  //   */
-  //  public List<MedicalEquipmentObserver> getMedEquipObservers() {
-  //    return medEquipObs;
-  //  }
-  //
-  //  /** Clears the observer list */
-  //  public void removeMedEquipObserver() {
-  //    for (MedicalEquipmentObserver observer : medEquipObs) observer.removeSubjects();
-  //    medEquipObs.clear();
-  //  }
 }
