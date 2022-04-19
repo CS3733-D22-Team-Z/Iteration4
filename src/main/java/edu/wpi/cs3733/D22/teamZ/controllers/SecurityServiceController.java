@@ -53,7 +53,7 @@ public class SecurityServiceController extends ServiceRequestController {
               null,
               tryGet,
               urgencyBox.getSelectionModel().getSelectedItem(),
-              reasonTextField.getText().substring(0,39));
+              reasonTextField.getText().substring(0, 39));
       facadeDAO.addSecurityServiceRequest(req);
       errorLabel.setVisible(false);
     } else {
