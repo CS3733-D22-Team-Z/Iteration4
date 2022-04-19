@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
 public class LandingPageController implements IMenuAccess {
@@ -75,7 +76,7 @@ public class LandingPageController implements IMenuAccess {
   private final String svgCSSLine = "-fx-background-color: %s";
 
   public void initialize() {
-    toggleNames.setSelected(true);
+    toggleNames.setMainColor(Color.rgb(0, 117, 225));
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     // toggle.setSelected(true);
     SVGPath icon = new SVGPath();
