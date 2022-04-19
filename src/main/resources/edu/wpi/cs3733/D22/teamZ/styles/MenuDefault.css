@@ -44,7 +44,8 @@ menu-selected {
 }
 
 .menu-container {
-    -fx-border-color: #D2D2D2;
+    -fx-border-color: #F4F4F4;
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
 }
 
 .split-pane *.split-pane-divider {
