@@ -427,8 +427,7 @@ public class FacadeDAO {
    * @return True if successful, false otherwise
    */
   public boolean addCleaningRequestToDatabase(CleaningRequest request) {
-    return serviceRequestDAO.addServiceRequest(request)
-        && cleaningRequestDAO.addCleaningRequest(request);
+    return cleaningRequestDAO.addCleaningRequest(request);
   }
   /**
    * Adds a GiftRequest to the database
