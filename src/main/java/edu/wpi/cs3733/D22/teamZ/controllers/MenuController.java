@@ -121,8 +121,9 @@ public class MenuController implements Initializable {
     // Initialize logout menu
     SVGPath LogoutIcon = new SVGPath();
     LogoutIcon.setContent(logoutIcon);
-    logoutGraphic.setShape(LogoutIcon);
-    logoutGraphic.setStyle(String.format(svgCSSLine, "#FFFFFF"));
+    /*phic.setShape(LogoutIcon);
+    logoutGraphic.setStyle(String.format(svgCSSLine, "#FFFFFF"));*/
+    // TOFO fix later
 
     // Setup timer
     DateTimeFormatter timeFormatA = DateTimeFormatter.ofPattern("hh:mm a");

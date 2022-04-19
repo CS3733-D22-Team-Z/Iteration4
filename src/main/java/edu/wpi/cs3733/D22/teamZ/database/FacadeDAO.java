@@ -293,7 +293,9 @@ public class FacadeDAO {
    * @return True if successful, false otherwise
    */
   public boolean addCleaningRequest(CleaningRequest cleaningRequest) {
-    boolean val = cleaningRequestDAO.addCleaningRequest(cleaningRequest);
+    boolean val =
+        serviceRequestDAO.addServiceRequest(cleaningRequest)
+            && cleaningRequestDAO.addCleaningRequest(cleaningRequest);
     return val;
   }
 

@@ -22,6 +22,7 @@ public class CleaningRequestController extends ServiceRequestController {
   @FXML private Label equipmentLabel;
   @FXML private MFXTextField enterRoomNumber;
   @FXML private MFXTextField enterFloorNumber;
+  @FXML private MFXTextField enterRequest;
   @FXML private ChoiceBox<String> nodeTypeDropDown;
   @FXML private Label errorSavingLabel;
   @FXML private Region backRegion;
@@ -46,7 +47,7 @@ public class CleaningRequestController extends ServiceRequestController {
     backRegion.setShape(icon);
     backRegion.setStyle(String.format(svgCSSLine, white));
 
-    menuName = "Medical Equipment Request";
+    menuName = "Cleaning Request";
 
     locationList = database.getAllLocations();
     try {
@@ -74,11 +75,9 @@ public class CleaningRequestController extends ServiceRequestController {
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     enterRoomNumber.clear();
     enterFloorNumber.clear();
+    enterRequest.clear();
     submitButton.setDisable(true);
-    nodeTypeDropDown.setValue(null);
     nodeTypeDropDown.getSelectionModel().select(0);
-    //    nodeTypeDropDown.setValue(null);
-    //    equipmentDropDown.setValue(null);
     validateButton();
   }
 
@@ -88,20 +87,16 @@ public class CleaningRequestController extends ServiceRequestController {
     System.out.println("Room Number: " + enterRoomNumber.getText());
     System.out.println("Floor Number: " + enterFloorNumber.getText());
     System.out.println("nodeType: " + nodeTypeDropDown.getValue());
-    System.out.println("Request: ");
+    System.out.println("Request: " + enterRequest.getText());
 
     String id;
     // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (cleaningList.isEmpty()) {
-      System.out.println("Cleaning is empty");
-      errorSavingLabel.setVisible(true);
-      id = "REQ0";
-    } else {
-      List<ServiceRequest> currentList = database.getAllServiceRequests();
-      ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
-      id = lastestReq.getRequestID();
-    }
+    id = "REQ0";
+    List<ServiceRequest> currentList = database.getAllServiceRequests();
+    ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
+    id = lastestReq.getRequestID();
+
     // Create new REQID
     int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
     String requestID = "REQ" + num;
@@ -111,6 +106,8 @@ public class CleaningRequestController extends ServiceRequestController {
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
 
+    String request = enterRequest.getText();
+
     // Update medical equipment table to show in use
     String nodeID =
         Location.createNodeID(
@@ -118,31 +115,28 @@ public class CleaningRequestController extends ServiceRequestController {
             enterRoomNumber.getText(),
             enterFloorNumber.getText());
     Location targetLoc = database.getLocationByID(nodeID);
+    if (targetLoc.getNodeID() == null) {
+      errorSavingLabel.setVisible(true);
+    } else {
+      CleaningRequest temp =
+          new CleaningRequest(requestID, status, issuer, handler, targetLoc, request);
 
-    /*MedicalEquipmentDeliveryRequest temp =
-            new MedicalEquipmentDeliveryRequest(
-                    requestID, status, issuer, handler, equipmentID, targetLoc);
+      database.addCleaningRequest(temp);
 
-    database.addMedicalEquipmentRequest(temp);*/
-
-    // errorSavingLabel.setVisible(false);
+      errorSavingLabel.setVisible(false);
+    }
   }
 
   @FXML
   private void validateButton() {
     if (!enterRoomNumber.getText().trim().isEmpty()
         && !enterFloorNumber.getText().trim().isEmpty()
-        && !nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty()) {
-      // && !equipmentDropDown.getSelectionModel().getSelectedItem().isEmpty()) {
+        && !nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty()
+        && !enterRequest.getText().trim().isEmpty()) {
       submitButton.setDisable(false);
     } else {
       submitButton.setDisable(true);
       System.out.println("Cleaning Request Submit Button disabled");
     }
-  }
-
-  public void onNavigateToMedicalRequestList() throws IOException {
-    menu.selectMenu(3);
-    // menu.load(toMedicalEquipmentRequestURL);
   }
 }

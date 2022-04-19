@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="MedicalEquipmentDeliveryMedicalEquipmentDelivery" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: F3F3F3;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: F3F3F3;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.CleaningRequestController">
    <children>
       <MFXButton fx:id="backButton" layoutX="26.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
          <graphic>
@@ -40,8 +40,8 @@
          </padding>
       </ChoiceBox>
       <Label layoutX="428.0" layoutY="159.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" visible="false" />
-      <MFXButton fx:id="navigateToMedicalRequestList" layoutX="405.0" layoutY="202.0" onAction="#onNavigateToMedicalRequestList" prefHeight="32.0" prefWidth="165.0" text="See Requests" />
-      <Label fx:id="errorSavingLabel" alignment="CENTER" layoutX="23.0" layoutY="358.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request, no equipment available." textFill="#ff4444" visible="false">
+      <MFXButton layoutX="405.0" layoutY="202.0" prefHeight="32.0" prefWidth="165.0" text="See Requests" />
+      <Label fx:id="errorSavingLabel" alignment="CENTER" layoutX="23.0" layoutY="358.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request, location does not exist." textFill="#ff4444" visible="false">
          <font>
             <Font size="10.0" />
          </font>
@@ -73,7 +73,7 @@
       </MFXTextField>
       <Line endX="3.0" endY="386.5" layoutX="368.0" layoutY="22.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
       <Label alignment="CENTER" layoutX="389.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" />
-      <MFXTextField animated="false" floatMode="DISABLED" layoutX="196.0" layoutY="240.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Request">
+      <MFXTextField fx:id="enterRequest" animated="false" floatMode="DISABLED" layoutX="196.0" layoutY="240.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Request">
          <padding>
             <Insets left="10.0" />
          </padding>
