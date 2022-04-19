@@ -52,9 +52,11 @@ public class SecurityServiceController extends ServiceRequestController {
               ServiceRequest.RequestStatus.UNASSIGNED,
               MenuController.getLoggedInUser(),
               null,
-              tryGet, urgencyBox.getSelectionModel().getSelectedItem(), reasonTextField.getText());
+              tryGet,
+              urgencyBox.getSelectionModel().getSelectedItem(),
+              reasonTextField.getText());
       //    facadeDAO.add(req);
-      //TODO: DAO implementation
+      // TODO: DAO implementation
       errorLabel.setVisible(false);
     } else {
       errorLabel.setVisible(true);
