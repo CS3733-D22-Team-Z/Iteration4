@@ -1,4 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akshar:wght@300&family=Montserrat:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akshar:wght@300&family=Montserrat:wght@600&display=swap');
+
+
 
 .root {
     -fx-background-color: #E5E5E5;
@@ -12,23 +16,23 @@
 }
 
 .object-header {
-    -fx-font-family: 'Montserrat';
+    -fx-font-family: 'Montserrat', sans-serif;
     -fx-font-weight: 700;
     -fx-font-size: 12pt;
-    -fx-text-fill: #2e2e2e;
+    -fx-text-fill: #000000;
 }
 
 .object-body {
-    -fx-font-family: 'Montserrat';
-    -fx-font-weight: 600;
+    -fx-font-family: 'Montserrat', sans-serif;
+    -fx-font-weight: 200;
     -fx-font-size: 9pt;
-    -fx-text-fill: #7B7B7B;
+    -fx-text-fill: #9D9D9D;
 }
 
 .form-header {
     -fx-font-family: 'Montserrat';
-    -fx-font-weight: 600;
-    -fx-font-size: 9pt;
+    -fx-font-weight: 200;
+    -fx-font-size: 10pt;
     -fx-text-fill: #7B7B7B;
 }
 
@@ -61,6 +65,7 @@
     -fx-font-weight: 700;
     -fx-font-size: 10pt;
     -fx-text-fill: #000000;
+
 
     -fx-background-radius: 4px;
     -fx-background-color: #FFFFFF;
@@ -120,12 +125,25 @@
     -fx-font-size: 9pt;
     -fx-text-fill: #9D9D9D;
 
-    -fx-border-width: 0px;
+
 
     -fx-background-radius: 5px;
     -fx-background-color: #FFFFFF;
 
     -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
+}
+
+.mfx-text-field:visited{
+    -fx-border-width: 2px;
+    -fx-border-color: #0075ff;
+
+}
+
+.mfx-text-field:hover{
+
+    -fx-border-width: 2px;
+    -fx-border-color: #0075ff;
+
 }
 
 .mfx-password-field {
@@ -177,18 +195,15 @@
     -fx-text-fill: #7B7B7B;
 }
 
-/* For MFX drop down */
-.mfx-list-view .virtual-flow {
-    -fx-background-radius: 0 0 10 10;
-    -fx-border-width: 0;
+.error-label {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 300;
+    -fx-font-size: 8pt;
+    -fx-text-fill:  #ff4444;
 }
 
-.mfx-list-view .virtual-flow .mfx-list-cell {
-    -fx-background-color: transparent;
-    -fx-border-width: 0;
-}
+/*.mfx-table-view {*/
 
-    /*.mfx-table-view {*/
 /*    -fx-alignment: center;*/
 
 /*}*/

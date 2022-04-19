@@ -14,6 +14,8 @@ public class DBInitializer {
   private final ServiceRequestControlCSV serviceControlCSV;
   private final MedEqReqControlCSV medEqReqControlCSV;
   private final MealServReqControlCSV mealServReqControlCSV;
+  private final CleaningReqControlCSV cleaningReqControlCSV;
+  private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -54,6 +56,16 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "MealServReq.csv");
+    File cleanReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "CleaningReq.csv");
+    File purchaseReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "PurchaseReq.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -62,6 +74,8 @@ public class DBInitializer {
     serviceControlCSV = new ServiceRequestControlCSV(serviceRequestData);
     medEqReqControlCSV = new MedEqReqControlCSV(medEquipReqData);
     mealServReqControlCSV = new MealServReqControlCSV(mealServReqData);
+    cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
+    purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
   }
 
   public boolean createTables() {
@@ -80,9 +94,11 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("EQUIPMENTPURCHASE");
     dropExistingTable("GIFTSERVICEREQUEST");
     dropExistingTable("MEALSERVICEREQUEST");
     dropExistingTable("EXTERNALTRANSPORTREQUEST");
+    dropExistingTable("CLEANINGREQUEST");
     dropExistingTable("MEDEQUIPREQ");
     dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
@@ -214,6 +230,18 @@ public class DBInitializer {
 
     try {
       stmt.execute(
+          "CREATE TABLE CLEANINGREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "type VARCHAR(50),"
+              + "constraint CLEANINGREQUEST_PK Primary Key (requestID),"
+              + "constraint CLEANINGREQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create cleaning request tables");
+      return false;
+    }
+
+    try {
+      stmt.execute(
           "CREATE TABLE EXTERNALTRANSPORTREQUEST ("
               + "requestID VARCHAR(15),"
               + "patientID VARCHAR(15),"
@@ -255,6 +283,19 @@ public class DBInitializer {
               + "constraint MEALSERVICEREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
     } catch (SQLException e) {
       System.out.println("Failed to create meal service request tables");
+      return false;
+    }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE EQUIPMENTPURCHASE ("
+              + "requestID VARCHAR(15),"
+              + "equipmentType VARCHAR(15),"
+              + "paymentMethod VARCHAR(20),"
+              + "constraint EQUIPMENTPURCHASE_PK PRIMARY KEY (requestID),"
+              + "constraint EQUIPMENTPURCHASE_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(REQUESTID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create equipment purchase request table");
       return false;
     }
 
@@ -459,6 +500,35 @@ public class DBInitializer {
 
     } catch (IOException e) {
       System.out.println("Failed to read MedEquipReq.csv");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateCleaningServiceRequestTable() {
+    try {
+      List<CleaningRequest> requestList = cleaningReqControlCSV.readCleanReqCSV();
+
+      for (CleaningRequest cleaningRequest : requestList) {
+        dao.addCleaningRequest(cleaningRequest);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read CleaningReq.csv");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateEquipmentPurchaseTable() {
+    try {
+      List<EquipmentPurchaseRequest> requestList =
+          purchaseReqControlCSV.readEquipmentPurchaseRequestCSV();
+      for (EquipmentPurchaseRequest request : requestList) {
+        dao.addEquipmentPurchaseRequestToDatabase(request);
+      }
+    } catch (IOException e) {
+      System.out.println("Failed to read PurchaseReq.csv");
       return false;
     }
     return true;
