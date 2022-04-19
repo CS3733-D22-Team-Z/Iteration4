@@ -231,15 +231,17 @@
     -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
 }
 
-.table-view .column-header {
+.column-header {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #D2D2D2;
+}
+
+.column-header .label {
     -fx-font-family: 'Montserrat';
     -fx-font-weight: 700;
     -fx-font-size: 7.5pt;
     -fx-text-fill: #000000;
-
-    -fx-background-color: #FFFFFF;
-    -fx-border-width: 0 0 1 0;
-    -fx-border-color: #D2D2D2;
 }
 
 .table-view .scroll-bar * {
@@ -291,8 +293,34 @@
     -fx-text-fill: #000000;
 
     -fx-background-color: #FFFFFF;
-    -fx-border-width: 1 0 0 0;
+    -fx-border-width: 1 1 0 0;
     -fx-border-color: #D2D2D2;
+}
+
+
+.dropdown-table-view .filler {
+    -fx-min-width: 0;
+    -fx-max-width: 0;
+
+    -fx-min-height: 0;
+    -fx-max-height: 0;
+}
+
+.table-view *.scroll-bar:horizontal *.increment-button,
+.table-view *.scroll-bar:horizontal *.decrement-button {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.table-view *.scroll-bar:horizontal *.increment-arrow,
+.table-view *.scroll-bar:horizontal *.decrement-arrow {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
 }
 
 .map-window {
@@ -308,6 +336,8 @@
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 5px;
 
+    -fx-padding: 5px;
+
     -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
 }
 
@@ -315,8 +345,17 @@
     -fx-background-color: #FFFFFF;
 }
 
-/* ??? */
-/* Remove JavaFX crap */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Making the scroll bar pretty */
 .scroll-bar,
 .scroll-bar .decrement-arrow,
 .scroll-bar .increment-arrow {
@@ -389,12 +428,12 @@
     -fx-padding: 5 0.5 5 0.5;
 }
 
-.scroll-bar:horizontal {
-    -fx-background-color: transparent;
-    -fx-pref-width: 12;
-    -fx-pref-height: 12;
-    -fx-padding: 0.5 5 0.5 5;
-}
+/*.scroll-bar:horizontal {*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-pref-width: 12;*/
+/*    -fx-pref-height: 12;*/
+/*    -fx-padding: 0.5 5 0.5 5;*/
+/*}*/
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {

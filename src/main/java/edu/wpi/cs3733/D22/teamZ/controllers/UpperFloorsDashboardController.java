@@ -9,6 +9,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -175,14 +176,6 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     setupDropdown(floor1Container, "1");
     setupDropdown(LL1Container, "LL1");
     setupDropdown(LL2Container, "LL2");
-
-    /*// Create a new observer for each existing medical equipment
-    DirtyBedObserver dashObserver = new DirtyBedObserver(this);
-    dashObserver.setSubjects(dao.getAllMedicalEquipment());
-    // dao.addMedEquipObserver(dashObserver);
-
-    // When the root is removed (its parent is changed), then remove all observers.
-    root.parentProperty().addListener(parent -> dashObserver.removeSubjects());*/
   }
 
   private void createBarUP5Dirty() {
@@ -379,8 +372,18 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
     // Add data to table
     List<MedicalEquipment> floorEquipment = dao.getAllMedicalEquipmentByFloor(floor);
+
+    // Filter
+    List<MedicalEquipment> necessaryEquipment =
+        floorEquipment.stream()
+            .filter(
+                equip ->
+                    equip.getCurrentLocation().getNodeType().equals("DIRT")
+                        || equip.getCurrentLocation().getNodeType().equals("STOR"))
+            .collect(Collectors.toList());
+
     ObservableList<DropdownRow> tableRows = FXCollections.observableArrayList();
-    for (MedicalEquipment equipment : floorEquipment)
+    for (MedicalEquipment equipment : necessaryEquipment)
       tableRows.add(
           new DropdownRow(
               equipment.getType(),
@@ -388,12 +391,22 @@ public class UpperFloorsDashboardController implements IMenuAccess {
               equipment.getCurrentLocation().getLongName()));
 
     // Idk why it says redundant
-    ((TableColumn<DropdownRow, String>) (table.getColumns().get(0)))
-        .setCellValueFactory(dRow -> dRow.getValue().type);
-    ((TableColumn<DropdownRow, String>) (table.getColumns().get(1)))
-        .setCellValueFactory(dRow -> dRow.getValue().location);
-    ((TableColumn<DropdownRow, String>) (table.getColumns().get(2)))
-        .setCellValueFactory(dRow -> dRow.getValue().status);
+    //noinspection unchecked
+    TableColumn<DropdownRow, String> col1 =
+        (TableColumn<DropdownRow, String>) table.getColumns().get(0);
+    col1.setReorderable(false);
+    col1.setCellValueFactory(dRow -> dRow.getValue().type);
+    //noinspection unchecked
+    TableColumn<DropdownRow, String> col2 =
+        (TableColumn<DropdownRow, String>) table.getColumns().get(1);
+    col2.setReorderable(false);
+    col2.setCellValueFactory(dRow -> dRow.getValue().location);
+    //noinspection unchecked
+    TableColumn<DropdownRow, String> col3 =
+        (TableColumn<DropdownRow, String>) table.getColumns().get(2);
+    col3.setReorderable(false);
+    col3.setCellValueFactory(dRow -> dRow.getValue().status);
+    col3.setCellFactory(tableCol -> new DropdownCell<>());
 
     table.setItems(tableRows);
   }
@@ -433,6 +446,22 @@ public class UpperFloorsDashboardController implements IMenuAccess {
       this.type = new SimpleStringProperty(type);
       this.status = new SimpleStringProperty(status);
       this.location = new SimpleStringProperty(location);
+    }
+  }
+
+  static class DropdownCell<DropdownRow, String> extends TableCell<DropdownRow, String> {
+    @Override
+    protected void updateItem(String item, boolean empty) {
+      super.updateItem(item, empty);
+
+      if (!empty) {
+        setText((java.lang.String) item);
+        if (item.equals("CLEAN")) {
+          this.setStyle("-fx-text-fill: #09BA10;");
+        } else {
+          this.setStyle("-fx-text-fill: #E00303;");
+        }
+      }
     }
   }
 }
