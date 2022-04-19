@@ -44,14 +44,14 @@
                      </VBox.margin></MFXButton>
                </children>
             </VBox>
-            <MFXButton fx:id="exitButton" buttonType="RAISED" layoutX="30.0" layoutY="365.0" onAction="#toExit" prefHeight="25.0" prefWidth="90.0" styleClass="exit-button" text="Exit">
+            <MFXButton fx:id="exitButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="14.0" layoutY="386.0" onAction="#toExit" prefHeight="35.0" prefWidth="122.0" styleClass="exit-button" text="Exit">
                <graphic>
-                  <Region fx:id="exitGraphic" styleClass="region-icon" />
+                  <Region fx:id="exitGraphic" styleClass="region-icon" translateX="-35.0" />
                </graphic>
             </MFXButton>
-            <MFXButton fx:id="logoutButton" buttonType="RAISED" layoutX="30.0" layoutY="323.0" onAction="#toLogout" prefHeight="25.0" prefWidth="90.0" styleClass="exit-button" text="Logout">
+            <MFXButton fx:id="logoutButton" buttonType="RAISED" layoutX="14.0" layoutY="338.0" onAction="#toLogout" prefHeight="35.0" prefWidth="122.0" styleClass="exit-button" text="Logout">
                <graphic>
-                  <Region fx:id="logoutGraphic" styleClass="region-icon" />
+                  <Region fx:id="logoutGraphic" styleClass="region-icon" translateX="-10.0" />
                </graphic>
             </MFXButton>
          </children>
