@@ -112,8 +112,7 @@ public class SecurityRequestDAOImpl implements ISecurityRequestDAO {
         for (SecurityServiceRequest info : tempSecurityRequests) {
           PreparedStatement pstmt =
               connection.prepareStatement(
-                  "INSERT INTO SECURITYREQUEST (REQUESTID, URGENCY, REASON) "
-                      + "values (?, ?, ?)");
+                  "INSERT INTO SECURITYREQUEST (REQUESTID, URGENCY, REASON) " + "values (?, ?, ?)");
           temp = info.getRequestID();
           pstmt.setString(1, info.getRequestID());
           pstmt.setString(2, info.getUrgency());
