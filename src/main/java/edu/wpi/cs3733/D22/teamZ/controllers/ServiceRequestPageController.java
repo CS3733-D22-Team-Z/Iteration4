@@ -32,6 +32,9 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   // Buttons to select the sorting/filter parameters.
   @FXML private MFXButton setEmpButton;
 
+  // Labels
+  @FXML private Label errorLabel;
+
   @FXML private MFXRectangleToggleNode issuerSelect;
   @FXML private MFXRectangleToggleNode handlerSelect;
 
@@ -92,7 +95,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
           .getItems()
           .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
     }
-
+    errorLabel.setVisible(false);
     createTable();
     createOutstandingTable();
 
@@ -255,11 +258,14 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
       handler.setStatus(ServiceRequest.RequestStatus.getRequestStatusByString("PROCESSING"));
       facadeDAO.updateServiceRequest(handler);
       createTable();
+      errorLabel.setVisible(false);
       createOutstandingTable();
       issuerSelect.setSelected(false);
       handlerSelect.setSelected(false);
       filterBox.getSelectionModel().clearSelection();
       employeeBox.getSelectionModel().clearSelection();
+    } else {
+      errorLabel.setVisible(true);
     }
   }
 
