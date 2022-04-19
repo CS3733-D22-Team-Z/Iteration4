@@ -324,8 +324,7 @@ public class FacadeDAO {
    * @param request request to be added
    * @return true if successful, false otherwise
    */
-  public boolean addEquipmentPurchaseRequestToDatabase(
-          EquipmentPurchaseRequest request) {
+  public boolean addEquipmentPurchaseRequestToDatabase(EquipmentPurchaseRequest request) {
     return equipmentPurchaseDAO.addEquipmentPurchaseRequest(request);
   }
   /**
