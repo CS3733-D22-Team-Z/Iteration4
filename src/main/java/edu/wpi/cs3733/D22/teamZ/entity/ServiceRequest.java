@@ -23,7 +23,8 @@ public class ServiceRequest {
     EXTERNAL("EXTRL"),
     GIFT("GIFT"),
     CLEANING("CLEANING"),
-    MEALSERV("MEALSERV");
+    MEALSERV("MEALSERV"),
+    SECURITY("SECURE");
 
     private final String typeStr;
 
