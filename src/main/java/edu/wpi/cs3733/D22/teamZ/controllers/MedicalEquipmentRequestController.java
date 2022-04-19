@@ -25,6 +25,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   @FXML private ChoiceBox<String> equipmentDropDown;
   @FXML private Label errorSavingLabel;
   @FXML private Region backRegion;
+  @FXML private Label successfulSubmitLabel;
 
   // URLs
   private String toMedicalEquipmentRequestURL =
@@ -136,6 +137,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
               requestID, status, issuer, handler, equipmentID, targetLoc);
 
       database.addMedicalEquipmentRequest(temp);
+      successfulSubmitLabel.setVisible(true);
     }
     errorSavingLabel.setVisible(false);
   }

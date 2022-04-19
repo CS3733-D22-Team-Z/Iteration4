@@ -24,19 +24,19 @@
         <Label layoutX="25.0" layoutY="102.0" prefHeight="17.0" prefWidth="340.0" styleClass="object-body" text="Enter the fields to request medical equipment." />
         <Label layoutX="25.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
         <Label layoutX="199.0" layoutY="216.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Equipment" />
-        <ChoiceBox fx:id="equipmentDropDown" layoutX="198.0" layoutY="240.0" onMouseReleased="#validateButton" prefHeight="35.0" prefWidth="149.0">
+        <ChoiceBox fx:id="equipmentDropDown" layoutX="198.0" layoutY="242.0" onMouseReleased="#validateButton" prefHeight="35.0" prefWidth="149.0">
          <padding>
             <Insets left="10.0" />
          </padding></ChoiceBox>
         <MFXButton fx:id="submitButton" disable="true" layoutX="23.0" layoutY="308.0" onAction="#onSubmitButtonClicked" prefHeight="31.0" prefWidth="111.0" text="Submit" />
         <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="308.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
         <Label layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Floor Number" />
-        <MFXTextField fx:id="enterFloorNumber" animated="false" floatMode="DISABLED" layoutX="196.0" layoutY="158.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter floor number">
+        <MFXTextField fx:id="enterFloorNumber" animated="false" floatMode="DISABLED" layoutX="196.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter floor number">
          <padding>
             <Insets left="10.0" />
          </padding></MFXTextField>
         <Label layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Location Type" />
-        <ChoiceBox fx:id="nodeTypeDropDown" layoutX="23.0" layoutY="240.0" onMouseReleased="#validateButton" prefHeight="35.0" prefWidth="149.0">
+        <ChoiceBox fx:id="nodeTypeDropDown" layoutX="23.0" layoutY="242.0" onMouseReleased="#validateButton" prefHeight="35.0" prefWidth="149.0">
          <padding>
             <Insets left="10.0" />
          </padding></ChoiceBox>
@@ -74,5 +74,30 @@
       </MFXTextField>
       <Line endX="3.0" endY="386.5" layoutX="368.0" layoutY="22.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
       <Label alignment="CENTER" layoutX="389.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" />
+      <Label fx:id="successfulSubmitLabel" alignment="CENTER" layoutX="21.0" layoutY="358.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #16A709; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #16A709;" styleClass="error-label" text="Successfully submitted lab request!" textFill="#1fbc1c" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+               <image>
+                  <Image url="@../images/successIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
     </children>
 </AnchorPane>
