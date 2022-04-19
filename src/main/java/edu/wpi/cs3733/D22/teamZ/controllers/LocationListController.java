@@ -3,9 +3,10 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXRadioButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.controls.legacy.MFXLegacyComboBox;
+import io.github.palexdev.materialfx.controls.cell.MFXListCell;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -16,6 +17,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,7 +65,7 @@ public class LocationListController implements IMenuAccess {
   // @FXML private MFXButton addLocationButton;
   // @FXML private MFXButton deleteAlert;
   // @FXML private MFXButton addAlertButton;
-  @FXML private ComboBox<String> alertCodeFieldAdd;
+  @FXML private ChoiceBox<String> alertCodeFieldAdd;
   @FXML private ComboBox<String> alertCodeFieldDelete;
   // @FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
@@ -73,15 +75,15 @@ public class LocationListController implements IMenuAccess {
   MenuController menu;
   // init ui components
   @FXML private AnchorPane pane;
-  @FXML private MFXLegacyComboBox<String> changeFloor;
+  @FXML private ChoiceBox<String> changeFloor;
   // @FXML private MFXButton editLocation;
   // @FXML private MFXButton deleteLocation;
   @FXML @Getter private ImageView map;
 
   // Andrew's stuff
   @FXML private MFXTextField selectLocationTextField;
-  @FXML private MFXLegacyComboBox<String> typeChoiceTextField;
-  @FXML private MFXLegacyComboBox<String> floorChoiceTextField;
+  @FXML private ChoiceBox<String> typeChoiceTextField;
+  @FXML private ChoiceBox<String> floorChoiceTextField;
   @FXML private TextField changeNumberTextField;
   @FXML private TextField changeNameTextField;
   @FXML private TextField abbreviationTextField;
@@ -97,7 +99,7 @@ public class LocationListController implements IMenuAccess {
 
   // Casey's
   @FXML private TextField searchField;
-  @FXML private ListView<String> searchResultList;
+  @FXML private MFXListView<String> searchResultList;
   private SearchControl filter;
   private final BooleanProperty multiFocusProperty = new SimpleBooleanProperty();
   private final ObservableList<String> displayResult =
@@ -119,8 +121,8 @@ public class LocationListController implements IMenuAccess {
   // text fields
   @FXML private MFXTextField xCoordTextField;
   @FXML private MFXTextField yCoordTextField;
-  @FXML private MFXLegacyComboBox<String> locationTypeField;
-  @FXML private MFXLegacyComboBox<String> floorField;
+  @FXML private ChoiceBox<String> locationTypeField;
+  @FXML private ChoiceBox<String> floorField;
   @FXML private MFXTextField locationNameTextField;
   @FXML private MFXTextField nameAbbreviationTextField;
 
@@ -288,16 +290,20 @@ public class LocationListController implements IMenuAccess {
         (ListChangeListener<String>)
             c -> {
               searchResultList.setPrefHeight(
-                  this.displayResult.size() * 19 // row height
+                  this.displayResult.size() * 32 // row height
                       + 2); // this gets called way too much, but whatever
               // System.out.println("height changed");
             });
 
+    /*                super.updateItem(item, empty);
+                setText(item);
+                setFont(Font.font(9));
+
     searchResultList.setCellFactory(
         new Callback<>() {
           @Override
-          public ListCell<String> call(ListView<String> param) {
-            return new ListCell<>() {
+          public MFXListCell<String> call(ListView<String> param) {
+            return new MFXListCell<>() {
               @Override
               protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -307,6 +313,18 @@ public class LocationListController implements IMenuAccess {
             };
           }
         });
+
+    searchResultList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+      @Override
+      public ListCell<String> call(ListView<String> param) {
+        return new MFXListCell<>() {{
+          text
+        }};
+      }
+    });
+    }});*/
+
+    searchResultList.setCellFactory(param -> new MFXListCell<>(searchResultList, param));
 
     // if user has clicked out of label, and on an empty part of the pane, disable buttons and
     // unenlarge previous label
@@ -424,6 +442,7 @@ public class LocationListController implements IMenuAccess {
     // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     root.setPrefWidth(600);
     root.setPrefHeight(440);
+    root.getStylesheets().add("edu/wpi/cs3733/D22/teamZ/styles/MenuDefault.css");
 
     // 3 tabs: do service request tab
 
@@ -435,68 +454,32 @@ public class LocationListController implements IMenuAccess {
     Tab medInfoTab = new Tab("Medical Equipment Info");
     Tab servReqTab = new Tab("Service Request Info");
 
-    AnchorPane medPane = new AnchorPane();
-    loadMedPane(medPane);
-    medInfoTab.setContent(medPane);
-
     root.getTabs().addAll(medInfoTab, servReqTab, locInfoTab);
+
     root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-    Pane locPane = new Pane();
-    ObservableList<String> locationHeads = FXCollections.observableList(new ArrayList<>());
-    ObservableList<String> locationInfo = FXCollections.observableList(new ArrayList<>());
+    FXMLLoader loader1 = new FXMLLoader();
+    FXMLLoader loader2 = new FXMLLoader();
+    FXMLLoader loader3 = new FXMLLoader();
 
-    locationInfo.add(activeLabel.getLocation().getLongName());
-    locationInfo.add(activeLabel.getLocation().getShortName());
-    locationInfo.add(activeLabel.getLocation().getNodeID());
-    locationInfo.add(activeLabel.getLocation().getNodeType());
-    locationInfo.add(activeLabel.getLocation().getFloor());
-    locationInfo.add(String.valueOf(activeLabel.getLocation().getXcoord()));
-    locationInfo.add(String.valueOf(activeLabel.getLocation().getYcoord()));
+    // Med Info
+    loader1.setLocation(getClass().getClassLoader().getResource(toMedicalInfoProperties));
+    Node page1 = loader1.load();
+    medInfoTab.setContent(page1);
 
-    locationHeads.add("Long name:");
-    locationHeads.add("Short name:");
-    locationHeads.add("Node ID:");
-    locationHeads.add("Node Type:");
-    locationHeads.add("Floor:");
-    locationHeads.add("XCoord:");
-    locationHeads.add("YCoord:");
+    // Location properties
+    loader2.setLocation(getClass().getClassLoader().getResource(toLocationProperties));
+    Node page2 = loader2.load();
+    ((LocationPropertiesController) (loader2.getController()))
+        .setLocation(activeLabel.getLocation());
+    locInfoTab.setContent(page2);
 
-    ListView<String> info = new ListView<>(locationInfo);
-    ListView<String> heads = new ListView<>(locationHeads);
-    heads.setPrefWidth(85);
-    info.setPrefWidth(300);
-    info.setPrefHeight(7 * 24);
-    heads.setPrefHeight(7 * 24);
-    info.relocate(85, 0);
-
-    info.getSelectionModel()
-        .selectedIndexProperty()
-        .addListener(
-            (observable, oldValue, newValue) ->
-                Platform.runLater(() -> info.getSelectionModel().select(-1)));
-    heads
-        .getSelectionModel()
-        .selectedIndexProperty()
-        .addListener(
-            (observable, oldValue, newValue) ->
-                Platform.runLater(() -> heads.getSelectionModel().select(-1)));
-
-    locPane.getChildren().addAll(info, heads);
-
-    locInfoTab.setContent(locPane);
-
-    // Service Request page stuff
-    FXMLLoader loader = new FXMLLoader();
-    // urls to other pages
-    String toServiceRequestProperties =
-        "edu/wpi/cs3733/D22/teamZ/views/ServiceRequestProperties.fxml";
-    loader.setLocation(getClass().getClassLoader().getResource(toServiceRequestProperties));
-    Node serviceReqPage = loader.load();
-    ((ServiceRequestPropertiesController) (loader.getController()))
+    // Service Requests
+    loader3.setLocation(getClass().getClassLoader().getResource(toServiceRequestProperties));
+    Node page3 = loader3.load();
+    ((ServiceRequestPropertiesController) (loader3.getController()))
         .setRequests(activeLabel.getReqs());
-
-    servReqTab.setContent(serviceReqPage);
+    servReqTab.setContent(page3);
 
     Scene window = new Scene(root);
     stage.setScene(window);
@@ -689,7 +672,10 @@ public class LocationListController implements IMenuAccess {
   public void resultMouseClick() {
     // System.out.println(searchResultList.getSelectionModel().getSelectedItem());
 
-    String searched = searchResultList.getSelectionModel().getSelectedItem();
+    // MaterialFX goofy
+    ObservableMap<Integer, String> selections = searchResultList.getSelectionModel().getSelection();
+    String searched = "";
+    for (Integer k : selections.keySet()) searched = selections.get(k);
 
     for (MapLabel label : allLabels) {
       if (label.getLocation().getLongName().equals(searched)) {
@@ -725,9 +711,9 @@ public class LocationListController implements IMenuAccess {
     for (Location current : totalLocations) {
       MapLabel label =
           new MapLabel.mapLabelBuilder()
-              .location(current)
-              .equipment(facadeDAO.getAllMedicalEquipmentByLocation(current))
-              .requests(facadeDAO.getServiceRequestsByLocation(current))
+              .location(loc)
+              .equipment(facadeDAO.getAllMedicalEquipmentByLocation(loc))
+              .requests(facadeDAO.getServiceRequestsByLocation(loc))
               .build();
 
       // stylize label icon
@@ -794,6 +780,10 @@ public class LocationListController implements IMenuAccess {
   @FXML
   public void deleteLocation() {
     Location temp = facadeDAO.getLocationByID(locationToDeleteTextField.getText());
+    if (temp == null) {
+      System.out.println("Did not find location in database");
+      return;
+    }
     if (facadeDAO.deleteLocation(temp)) {
       System.out.println("Deletion Successful");
       // TODO: fix

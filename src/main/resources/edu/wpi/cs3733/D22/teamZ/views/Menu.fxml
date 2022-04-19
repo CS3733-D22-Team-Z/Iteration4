@@ -40,7 +40,7 @@
       </Pane>
       <VBox>
          <children>
-            <AnchorPane fx:id="contentPane" prefHeight="400.0" prefWidth="600.0" />
+            <AnchorPane fx:id="contentPane" prefHeight="400.0" prefWidth="600.0" styleClass="content-pane" />
             <BorderPane maxHeight="35.0" maxWidth="600.0" prefHeight="35.0" prefWidth="600.0" style="-fx-border-width: 1 0 0 0;" styleClass="menu-container">
                <right>
                   <HBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">

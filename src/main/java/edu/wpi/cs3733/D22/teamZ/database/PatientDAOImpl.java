@@ -161,7 +161,7 @@ class PatientDAOImpl implements IPatientDAO {
     data = new File(System.getProperty("user.dir") + "\\patient.csv");
     patientCSV = new PatientControlCSV(data);
     try {
-      patientCSV.writePatCSV(getAllPatients());
+      patientCSV.writePatientCSV(getAllPatients());
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -249,7 +249,7 @@ class PatientDAOImpl implements IPatientDAO {
               "INSERT INTO PATIENTS (PATIENTID, NAME, LOCATION)" + "values (?, ?, ?)");
       stmt.setString(1, pat.getPatientID());
       stmt.setString(2, pat.getName());
-      stmt.setObject(3, pat.getLocation());
+      stmt.setObject(3, pat.getLocation().getNodeID());
 
       stmt.executeUpdate();
       connection.commit();

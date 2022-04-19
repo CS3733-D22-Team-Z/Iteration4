@@ -8,13 +8,13 @@ import java.util.List;
 
 public class PatientControlCSV extends ControlCSV {
   private final String[] headers = {"PatientID", "name", "location"};
-  private FacadeDAO dao = FacadeDAO.getInstance();
+  private final FacadeDAO dao = FacadeDAO.getInstance();
 
   public PatientControlCSV(File path) {
     this.setDefaultPath(path);
   }
 
-  protected void writePatCSV(List<Patient> in) throws IOException {
+  protected void writePatientCSV(List<Patient> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 

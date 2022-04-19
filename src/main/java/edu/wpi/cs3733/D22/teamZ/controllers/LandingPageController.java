@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.SVGPath;
@@ -20,6 +22,7 @@ public class LandingPageController implements IMenuAccess {
   private final String toLaundryServiceURL = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
+  private final String toGiftServicesURL = "edu/wpi/cs3733/D22/teamZ/views/GiftServices.fxml";
 
   // @FXML VBox iconContainer;
   // @FXML MFXToggleButton toggle;
@@ -37,6 +40,16 @@ public class LandingPageController implements IMenuAccess {
   @FXML private Region computerRegion;
   @FXML private Region laundryRegion;
   @FXML private Region mealRegion;
+  @FXML private Region giftRegion;
+  @FXML private Label danLabel;
+  @FXML private Label patrickLabel;
+  @FXML private Label claireLabel;
+  @FXML private Label mayaLabel;
+  @FXML private Label jacobLabel;
+  @FXML private Label nehaLabel;
+  @FXML private Label nelsonLabel;
+  @FXML private Label alexLabel;
+  @FXML private MFXToggleButton toggleNames;
   @FXML private ScrollPane scrollPane;
 
   private String[] icons = {
@@ -47,14 +60,16 @@ public class LandingPageController implements IMenuAccess {
     "M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z",
     "M16 6v8h3v8h2V2c-2.76 0-5 2.24-5 4zm-5 3H9V2H7v7H5V2H3v7c0 2.21 1.79 4 4 4v9h2v-9c2.21 0 4-1.79 4-4V2h-2v7z",
     "M12 19c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm2.36-7.36c1.3 1.3 1.3 3.42 0 4.72-1.3 1.3-3.42 1.3-4.72 0l4.72-4.72z",
-    "M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"
+    "M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z",
+    "M880 310H732.4C746 288.6 754 263.2 754 236C754 159.9 692.1 98 616 98C574.6 98 537.3 116.4 512 145.4C486.7 116.4 449.4 98 408 98C331.9 98 270 159.9 270 236C270 263.2 277.9 288.6 291.6 310H144C126.3 310 112 324.3 112 342V542C112 546.4 115.6 550 120 550H160V894C160 911.7 174.3 926 192 926H832C849.7 926 864 911.7 864 894V550H904C908.4 550 912 546.4 912 542V342C912 324.3 897.7 310 880 310ZM546 236C546 197.4 577.4 166 616 166C654.6 166 686 197.4 686 236C686 274.6 654.6 306 616 306H546V236ZM408 166C446.6 166 478 197.4 478 236V306H408C369.4 306 338 274.6 338 236C338 197.4 369.4 166 408 166ZM180 482V378H478V482H180ZM228 550H478V858H228V550ZM796 858H546V550H796V858ZM844 482H546V378H844V482Z",
   };
 
   private MenuController menu;
-  private String grey = "#0075FF";
-  private String svgCSSLine = "-fx-background-color: %s";
+  private final String grey = "#0075FF";
+  private final String svgCSSLine = "-fx-background-color: %s";
 
   public void initialize() {
+    toggleNames.setSelected(true);
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     // toggle.setSelected(true);
     SVGPath icon = new SVGPath();
@@ -91,6 +106,11 @@ public class LandingPageController implements IMenuAccess {
     mealIcon.setContent(icons[4]);
     mealRegion.setShape(mealIcon);
     mealRegion.setStyle(String.format(svgCSSLine, grey));
+
+    SVGPath giftIcon = new SVGPath();
+    giftIcon.setContent(icons[7]);
+    giftRegion.setShape(giftIcon);
+    giftRegion.setStyle(String.format(svgCSSLine, grey));
   }
 
   /**
@@ -148,5 +168,23 @@ public class LandingPageController implements IMenuAccess {
   public void toExternalPatientTransportation(ActionEvent actionEvent) throws IOException {
     System.out.println("navigating to transportation from landing page");
     menu.load(toExternalPatientTransportationRequestURL);
+  }
+
+  @FXML
+  private void navGifts() throws IOException {
+    System.out.println("navigating to gift services from landing page");
+    menu.load(toGiftServicesURL);
+  }
+
+  public void showNameLabels() {
+    boolean set = toggleNames.isSelected();
+    danLabel.setVisible(set);
+    claireLabel.setVisible(set);
+    mayaLabel.setVisible(set);
+    jacobLabel.setVisible(set);
+    nehaLabel.setVisible(set);
+    patrickLabel.setVisible(set);
+    nelsonLabel.setVisible(set);
+    alexLabel.setVisible(set);
   }
 }

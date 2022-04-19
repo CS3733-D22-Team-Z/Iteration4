@@ -8,17 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 class EmployeeDAOImpl implements IEmployeeDAO {
-  private final List<Employee> employees;
-  private EmployeeControlCSV empCSV;
-  private List<Employee> employeeList;
+  private final EmployeeControlCSV empCSV;
+  private final List<Employee> employeeList;
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
 
   public EmployeeDAOImpl() {
-    employees = new ArrayList<>();
     employeeList = new ArrayList<>();
     updateConnection();
+
+    File empData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "Employees.csv");
+    this.empCSV = new EmployeeControlCSV(empData);
   }
 
   /**
@@ -159,11 +164,8 @@ class EmployeeDAOImpl implements IEmployeeDAO {
    * @return True if successful, false if not
    */
   public boolean exportToEmployeeCSV(File empData) {
-    // TODO accept the given file as export path
-    empData = new File(System.getProperty("user.dir") + "\\employee.csv");
-    empCSV = new EmployeeControlCSV(empData);
     try {
-      empCSV.writeEmployeeCSV(getAllEmployees());
+      empCSV.writeEmployeeCSV(getAllEmployees(), empData);
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -182,16 +184,12 @@ class EmployeeDAOImpl implements IEmployeeDAO {
   public int importEmployeesFromCSV(File employeeData) {
     updateConnection();
 
-    // TODO accept given file as import path
-    employeeData = new File(System.getProperty("user.dir") + "\\employee.csv");
-    empCSV = new EmployeeControlCSV(employeeData);
-
     int conflictCounter = 0;
     try {
-      List<Employee> tempEmployee = empCSV.readEmployeeCSV();
+      List<Employee> tempEmployee = empCSV.readEmployeeCSV(employeeData);
 
-      try {
-        for (Employee info : tempEmployee) {
+      for (Employee info : tempEmployee) {
+        try {
           PreparedStatement pstmt =
               connection.prepareStatement(
                   "INSERT INTO EMPLOYEES (EMPLOYEEID, NAME, ACCESSTYPE, USERNAME, PASSWORD) "
@@ -208,16 +206,26 @@ class EmployeeDAOImpl implements IEmployeeDAO {
           connection.commit();
           employeeList.add(info);
           // employees.put(info.getEmployeeID(), info);
+        } catch (SQLException e) {
+          conflictCounter++;
+          System.out.println("Found " + conflictCounter + " conflicts.");
         }
-      } catch (SQLException e) {
-        conflictCounter++;
-        System.out.println("Found " + conflictCounter + " conflicts.");
       }
+
     } catch (IOException e) {
       System.out.println("Failed to insert into Employee table");
       e.printStackTrace();
     }
     return conflictCounter;
+  }
+
+  /**
+   * Returns the default path for an employee csv file to be saved
+   *
+   * @return The default path for an employee csv file to be saved
+   */
+  File getDefaultEmployeeCSVPath() {
+    return empCSV.getDefaultPath();
   }
 
   /** Updates the connection */

@@ -9,8 +9,8 @@ import java.util.List;
 
 class LocationDAOImpl implements ILocationDAO {
 
-  private List<Location> locationsList;
-  private LocationControlCSV locCSV;
+  private final List<Location> locationsList;
+  private final LocationControlCSV locCSV;
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
 
@@ -39,8 +39,8 @@ class LocationDAOImpl implements ILocationDAO {
    */
   public List<String> getAllLocationNodeIDs() {
     List<String> nodeIDList = new ArrayList<>();
-    for (int i = 0; i < locationsList.size(); i++) {
-      nodeIDList.add(locationsList.get(i).getNodeID());
+    for (Location loc : locationsList) {
+      nodeIDList.add(loc.getNodeID());
     }
     return nodeIDList;
   }
@@ -123,6 +123,11 @@ class LocationDAOImpl implements ILocationDAO {
     return true;
   }
 
+  /**
+   * Returns the default path for a location csv file to be saved
+   *
+   * @return The default path for a location csv file to be saved
+   */
   File getDefaultLocationCSVPath() {
     return locCSV.getDefaultPath();
   }

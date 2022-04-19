@@ -4,19 +4,19 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode;
 import java.io.File;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -25,12 +25,15 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   // Button that re-fetches requests and refreshes table.
   @FXML private MFXButton refresh;
 
+  @FXML private TabPane tabs;
+  @FXML private Tab all;
+  @FXML private Tab outstanding;
+
   // Buttons to select the sorting/filter parameters.
-  @FXML private MFXButton assigneeFilter;
-  @FXML private MFXButton idFilter;
-  @FXML private MFXButton deviceFilter;
-  @FXML private MFXButton statusFilter;
   @FXML private MFXButton setEmpButton;
+
+  @FXML private MFXRectangleToggleNode issuerSelect;
+  @FXML private MFXRectangleToggleNode handlerSelect;
 
   // Drop-down box that selects which data type to filter by.
   @FXML private ChoiceBox<String> filterBox;
@@ -40,8 +43,14 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   @FXML public TableView<ServiceRequest> tableContainer;
   @FXML private TableColumn<ServiceRequest, String> idCol;
   @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestType> typeCol;
-  @FXML private TableColumn<ServiceRequest, Employee> assigneeCol;
+  @FXML private TableColumn<ServiceRequest, Employee> assignedCol;
   @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestStatus> statusCol;
+
+  @FXML public TableView<ServiceRequest> outstandingTable;
+  @FXML private TableColumn<ServiceRequest, String> idColO;
+  @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestType> typeColO;
+  @FXML private TableColumn<ServiceRequest, Employee> assignedColO;
+  @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestStatus> statusColO;
 
   private final String toHomepageURL = "views/Homepage.fxml";
 
@@ -53,6 +62,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
 
   // List of RequestRows currently being displayed on the table
   private ObservableList<ServiceRequest> requests;
+  private ObservableList<ServiceRequest> outstandingRequests;
 
   // Database object
   private FacadeDAO facadeDAO;
@@ -73,35 +83,68 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     // Create labels for field values
 
     // Fill the filter box with test data
-    filterBox.getItems().addAll("Test 1", "Test 2", "Test 3");
     List<Employee> employees = facadeDAO.getAllEmployees();
     for (int i = 0; i < employees.size(); i++) {
-      employeeBox.getItems().add(employees.get(i).getName());
+      employeeBox
+          .getItems()
+          .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
+      filterBox
+          .getItems()
+          .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
     }
 
+    createTable();
+    createOutstandingTable();
+
+    tabs.getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            new ChangeListener<Tab>() {
+
+              @Override
+              public void changed(
+                  ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
+                issuerSelect.setSelected(false);
+                handlerSelect.setSelected(false);
+                createTable();
+                createOutstandingTable();
+                filterBox.getSelectionModel().clearSelection();
+              }
+            });
+  }
+
+  /** creates table of all service requests */
+  public void createTable() {
+    tableContainer.refresh();
     idCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
     typeCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestType>("type"));
-    assigneeCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, Employee>("handler"));
+    assignedCol.setCellValueFactory(new PropertyValueFactory<ServiceRequest, Employee>("handler"));
     statusCol.setCellValueFactory(
         new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestStatus>("status"));
-
-    createTable();
-  }
-
-  public void createTable() {
-    // tableContainer.getItems().clear();
-    tableContainer.refresh();
-    requests = FXCollections.observableList(FacadeDAO.getInstance().getAllServiceRequests());
+    requests = FXCollections.observableList(facadeDAO.getAllServiceRequests());
     tableContainer.setItems(requests);
   }
 
-  // Called whenever one of the filter buttons are clicked.
-  public void filterClicked(ActionEvent event) {
-    MFXButton buttonPressed = (MFXButton) event.getTarget();
-    System.out.println(buttonPressed.getText());
+  /** creates table of all outstanding service requests */
+  public void createOutstandingTable() {
+    outstandingTable.refresh();
+    idColO.setCellValueFactory(new PropertyValueFactory<ServiceRequest, String>("requestID"));
+    typeColO.setCellValueFactory(
+        new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestType>("type"));
+    assignedColO.setCellValueFactory(new PropertyValueFactory<ServiceRequest, Employee>("handler"));
+    statusColO.setCellValueFactory(
+        new PropertyValueFactory<ServiceRequest, ServiceRequest.RequestStatus>("status"));
+    outstandingRequests =
+        FXCollections.observableList(
+            facadeDAO.getServiceRequestsByStatus(ServiceRequest.RequestStatus.PROCESSING));
+    outstandingRequests.addAll(
+        FXCollections.observableList(
+            facadeDAO.getServiceRequestsByStatus(ServiceRequest.RequestStatus.UNASSIGNED)));
+    outstandingTable.setItems(outstandingRequests);
   }
 
+  /** when refrsh button is clicked */
   // Called whenever the refresh button is clicked.
   public void refreshClicked(ActionEvent event) {
     // System.out.println(refresh.getText());
@@ -109,32 +152,139 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
 
     // Reload table
     createTable();
+    createOutstandingTable();
+    issuerSelect.setSelected(false);
+    handlerSelect.setSelected(false);
+    filterBox.getSelectionModel().clearSelection();
+    employeeBox.getSelectionModel().clearSelection();
   }
 
-  // Called whenever the filter select was set?
-  public void filterSet(ActionEvent event) {
-    System.out.println(filterBox.getSelectionModel().getSelectedItem());
-  }
-
-  public void setEmployee(ActionEvent actionEvent) {
-    if (tableContainer.getSelectionModel().getSelectedItem() == null
-        || employeeBox.getValue() == null) {
-      System.out.println("nope");
-    } else {
-      ServiceRequest handler = tableContainer.getSelectionModel().getSelectedItem();
-      handler.setHandler(facadeDAO.getEmployeeByID(employeeBox.getValue()));
-      handler.setStatus(ServiceRequest.RequestStatus.getRequestStatusByString("PROCESSING"));
-      facadeDAO.updateServiceRequest(handler);
+  /**
+   * called when an employee is selected from drop down list determins which table we are on, which
+   * employee is seleceted and which toggle button is selected
+   */
+  public void filterList(ActionEvent event) {
+    if (filterBox.getSelectionModel().getSelectedItem() == null) {
       createTable();
-      List<ServiceRequest> serviceRequests = FacadeDAO.getInstance().getAllServiceRequests();
-      for (ServiceRequest req : serviceRequests) {
-        System.out.println(req);
+      createOutstandingTable();
+      return;
+    }
+    int end = filterBox.getSelectionModel().getSelectedItem().indexOf(":");
+    if (issuerSelect.isSelected()) {
+      if (all.isSelected()) {
+        requests = FXCollections.observableList(facadeDAO.getAllServiceRequests());
+        filter(
+            requests,
+            false,
+            facadeDAO.getEmployeeByID(
+                filterBox.getSelectionModel().getSelectedItem().substring(0, end)));
+      } else {
+        outstandingRequests =
+            FXCollections.observableList(
+                facadeDAO.getServiceRequestsByStatus(ServiceRequest.RequestStatus.PROCESSING));
+        outstandingRequests.addAll(
+            FXCollections.observableList(
+                facadeDAO.getServiceRequestsByStatus(ServiceRequest.RequestStatus.UNASSIGNED)));
+        filter(
+            outstandingRequests,
+            false,
+            facadeDAO.getEmployeeByID(
+                filterBox.getSelectionModel().getSelectedItem().substring(0, end)));
       }
+    } else if (handlerSelect.isSelected()) {
+      if (all.isSelected()) {
+        requests = FXCollections.observableList(facadeDAO.getAllServiceRequests());
+        filter(
+            requests,
+            true,
+            facadeDAO.getEmployeeByID(
+                filterBox.getSelectionModel().getSelectedItem().substring(0, end)));
+      } else {
+        outstandingRequests =
+            FXCollections.observableList(
+                facadeDAO.getServiceRequestsByStatus(ServiceRequest.RequestStatus.PROCESSING));
+        outstandingRequests.addAll(
+            FXCollections.observableList(
+                facadeDAO.getServiceRequestsByStatus(ServiceRequest.RequestStatus.UNASSIGNED)));
+        filter(
+            outstandingRequests,
+            true,
+            facadeDAO.getEmployeeByID(
+                filterBox.getSelectionModel().getSelectedItem().substring(0, end)));
+      }
+    } else {
+      createTable();
+      createOutstandingTable();
     }
   }
 
-  public void exportToCSV(ActionEvent actionEvent) {
+  /** helper function for filterList filters the lists and refreshes the table */
+  public void filter(ObservableList<ServiceRequest> reqs, Boolean handler, Employee emp) {
+    ObservableList<ServiceRequest> filteredRequests = FXCollections.observableArrayList();
 
+    for (ServiceRequest req : reqs) {
+      if (handler) {
+        if (req.getHandler() != null && req.getHandler().equals(emp)) {
+          filteredRequests.add(req);
+        }
+      } else {
+        if (req.getIssuer().equals(emp)) {
+          filteredRequests.add(req);
+        }
+      }
+    }
+
+    if (all.isSelected()) {
+      tableContainer.refresh();
+      tableContainer.setItems(filteredRequests);
+    } else {
+      outstandingTable.refresh();
+      outstandingTable.setItems(filteredRequests);
+    }
+  }
+
+  /** when set employee button is clicked sets employee to service request */
+  public void setEmployee(ActionEvent actionEvent) {
+    if (!(tableContainer.getSelectionModel().getSelectedItem() == null
+        || employeeBox.getValue() == null)) {
+      int end = employeeBox.getSelectionModel().getSelectedItem().indexOf(":");
+      ServiceRequest handler = tableContainer.getSelectionModel().getSelectedItem();
+      handler.setHandler(
+          facadeDAO.getEmployeeByID(
+              employeeBox.getSelectionModel().getSelectedItem().substring(0, end)));
+      handler.setStatus(ServiceRequest.RequestStatus.getRequestStatusByString("PROCESSING"));
+      facadeDAO.updateServiceRequest(handler);
+      createTable();
+      createOutstandingTable();
+      issuerSelect.setSelected(false);
+      handlerSelect.setSelected(false);
+      filterBox.getSelectionModel().clearSelection();
+      employeeBox.getSelectionModel().clearSelection();
+    }
+  }
+
+  /**
+   * when issuer toggle button is clicked deselects handler button and disables any previous filter
+   */
+  public void issuerFilter(ActionEvent actionEvent) {
+    handlerSelect.setSelected(false);
+    createTable();
+    createOutstandingTable();
+    filterBox.getSelectionModel().clearSelection();
+  }
+
+  /**
+   * when handler toggle button is clicked deselects issuer button and disables any previous filter
+   */
+  public void handlerFilter(ActionEvent actionEvent) {
+    issuerSelect.setSelected(false);
+    createTable();
+    createOutstandingTable();
+    filterBox.getSelectionModel().clearSelection();
+  }
+
+  /** EXPORT to CSV button is clicked */
+  public void exportToCSV(ActionEvent actionEvent) {
     FileChooser fileChooser = new FileChooser();
     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
     fileChooser.setTitle("Enter a .csv file...");
@@ -142,7 +292,18 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
+    File defaultFile = facadeDAO.getDefaultServiceRequestCSVPath();
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
+    }
+
     File file = fileChooser.showSaveDialog(stage);
-    facadeDAO.exportServiceRequestsToCSV(file);
+
+    if (file != null) {
+      facadeDAO.exportServiceRequestsToCSV(file);
+    }
   }
 }

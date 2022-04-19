@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Location implements ISearchable {
@@ -12,6 +13,7 @@ public class Location implements ISearchable {
   private String nodeType;
   private String longName;
   private String shortName;
+  private List<MedicalEquipment> equipmentList;
 
   public Location() {}
 
@@ -32,6 +34,7 @@ public class Location implements ISearchable {
     this.nodeType = nodeType;
     this.longName = longName;
     this.shortName = shortName;
+    this.equipmentList = new ArrayList<>();
   }
 
   public Location(String nodeID) {
@@ -100,6 +103,20 @@ public class Location implements ISearchable {
 
   public void setShortName(String shortName) {
     this.shortName = shortName;
+  }
+
+  public List<MedicalEquipment> getEquipmentList() {
+    return equipmentList;
+  }
+
+  public void addEquipmentToList(MedicalEquipment equipment) {
+    if (!this.equipmentList.contains(equipment)) {
+      this.equipmentList.add(equipment);
+    }
+  }
+
+  public void removeEquipmentFromList(MedicalEquipment equipment) {
+    this.equipmentList.remove(equipment);
   }
 
   @Override
