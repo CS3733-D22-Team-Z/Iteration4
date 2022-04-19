@@ -14,6 +14,7 @@ public class DBInitializer {
   private final ServiceRequestControlCSV serviceControlCSV;
   private final MedEqReqControlCSV medEqReqControlCSV;
   private final MealServReqControlCSV mealServReqControlCSV;
+  private final CleaningReqControlCSV cleaningReqControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -54,6 +55,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "MealServReq.csv");
+    File cleanReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "CleaningReq.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -62,6 +68,7 @@ public class DBInitializer {
     serviceControlCSV = new ServiceRequestControlCSV(serviceRequestData);
     medEqReqControlCSV = new MedEqReqControlCSV(medEquipReqData);
     mealServReqControlCSV = new MealServReqControlCSV(mealServReqData);
+    cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
   }
 
   public boolean createTables() {
@@ -83,6 +90,7 @@ public class DBInitializer {
     dropExistingTable("GIFTSERVICEREQUEST");
     dropExistingTable("MEALSERVICEREQUEST");
     dropExistingTable("EXTERNALTRANSPORTREQUEST");
+    dropExistingTable("CLEANINGREQUEST");
     dropExistingTable("MEDEQUIPREQ");
     dropExistingTable("LABREQUEST");
     dropExistingTable("MEALSERVICE");
@@ -209,6 +217,18 @@ public class DBInitializer {
               + "constraint mealStatusVal check (status in ('In-Use', 'Available')))");
     } catch (SQLException e) {
       System.out.println("Failed to create meal service tables");
+      return false;
+    }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE CLEANINGREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "type VARCHAR(50),"
+              + "constraint CLEANINGREQUEST_PK Primary Key (requestID),"
+              + "constraint CLEANINGREQUEST_FK Foreign Key (requestID) References SERVICEREQUEST(requestID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create cleaning request tables");
       return false;
     }
 
@@ -458,6 +478,21 @@ public class DBInitializer {
 
     } catch (IOException e) {
       System.out.println("Failed to read MedEquipReq.csv");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateCleaningServiceRequestTable() {
+    try {
+      List<CleaningRequest> requestList = cleaningReqControlCSV.readCleanReqCSV();
+
+      for (CleaningRequest cleaningRequest : requestList) {
+        dao.addCleaningRequest(cleaningRequest);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read CleaningReq.csv");
       return false;
     }
     return true;

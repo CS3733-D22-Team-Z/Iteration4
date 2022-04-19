@@ -18,6 +18,7 @@ public class FacadeDAO {
   private final ExternalPatientDAOImpl transportRequestDAO;
   private final GiftServiceRequestDAOImpl giftRequestDAO;
   private final MealServiceRequestDAOImpl mealServiceRequestDAO;
+  private final CleaningRequestDAOImpl cleaningRequestDAO;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -34,6 +35,7 @@ public class FacadeDAO {
     transportRequestDAO = new ExternalPatientDAOImpl();
     giftRequestDAO = new GiftServiceRequestDAOImpl();
     mealServiceRequestDAO = new MealServiceRequestDAOImpl();
+    cleaningRequestDAO = new CleaningRequestDAOImpl();
   }
 
   // Get All methods
@@ -108,6 +110,16 @@ public class FacadeDAO {
    */
   public List<GiftServiceRequest> getAllGiftRequests() throws SQLException {
     return giftRequestDAO.getAllGiftServiceRequests();
+  }
+
+  /**
+   * Gets all CleaningRequests in the database
+   *
+   * @return List of cleaning requests
+   * @throws SQLException
+   */
+  public List<CleaningRequest> getAllCleaningRequests() throws SQLException {
+    return cleaningRequestDAO.getAllCleaningServiceRequests();
   }
 
   // Get By ID methods
@@ -195,6 +207,16 @@ public class FacadeDAO {
     return giftRequestDAO.getGiftRequestByID(id);
   }
 
+  /**
+   * Get a CleaningRequest with provided requestID
+   *
+   * @param id the id of the cleaning request to be searched for
+   * @return CleaningRequest object with given ID
+   */
+  public CleaningRequest getCleaningRequestByID(String id) {
+    return cleaningRequestDAO.getCleaningRequestByID(id);
+  }
+
   // Add methods
   /**
    * Adds a new location to database. Will automatically check if already in database
@@ -265,6 +287,17 @@ public class FacadeDAO {
   }
 
   /**
+   * Adds a CleaningRequest to the database
+   *
+   * @param cleaningRequest CleaningRequest to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addCleaningRequest(CleaningRequest cleaningRequest) {
+    boolean val = cleaningRequestDAO.addCleaningRequest(cleaningRequest);
+    return val;
+  }
+
+  /**
    * ONLY USE THIS TO POPULATE DB: will add to MedEquipReq table
    *
    * @param medicalEquipmentDeliveryRequest reqeust to be added
@@ -295,6 +328,17 @@ public class FacadeDAO {
   public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request) {
     return serviceRequestDAO.addServiceRequest(request)
         && transportRequestDAO.addPatientTransportRequest(request);
+  }
+
+  /**
+   * Adds a CleaningRequest to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addCleaningRequesttoDatabase(CleaningRequest request) {
+    return serviceRequestDAO.addServiceRequest(request)
+        && cleaningRequestDAO.addCleaningRequest(request);
   }
 
   /**
@@ -393,6 +437,19 @@ public class FacadeDAO {
     return giftRequestDAO.deleteGiftRequest(request);
   }
 
+  /**
+   * Deletes a CleaningRequest from the database
+   *
+   * @param request CleaningRequest to be deleted
+   * @return True if successful, false otherwise
+   */
+  public boolean deleteCleaningRequest(CleaningRequest request) {
+    boolean val =
+        cleaningRequestDAO.deleteCleaningRequest(request)
+            && serviceRequestDAO.deleteServiceRequest(request);
+    return val;
+  }
+
   // Update methods
   /**
    * Updates a location in the database. Will automatically check if exists in database
@@ -488,6 +545,16 @@ public class FacadeDAO {
    */
   public boolean updateGiftRequest(GiftServiceRequest request) {
     return updateServiceRequest(request) && giftRequestDAO.updateGiftRequest(request);
+  }
+
+  /**
+   * updates an existing CleaningRequest in database with new request
+   *
+   * @param request CleaningRequest to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateCleaningRequest(CleaningRequest request) {
+    return updateServiceRequest(request) && cleaningRequestDAO.updateCleaningRequest(request);
   }
 
   // Import methods
