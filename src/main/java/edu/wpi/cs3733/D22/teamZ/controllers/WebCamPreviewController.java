@@ -53,6 +53,7 @@ public class WebCamPreviewController implements Initializable {
           setImageViewSize();
         });
   }
+   //hi
 
   protected void setImageViewSize() {
 
