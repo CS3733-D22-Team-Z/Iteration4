@@ -24,6 +24,7 @@ public class FacadeDAO {
     return instance;
   }
 
+
   private FacadeDAO() {
     locationDAO = new LocationDAOImpl();
     medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
