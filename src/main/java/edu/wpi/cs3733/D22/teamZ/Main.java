@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D22.teamZ;
 
 import edu.wpi.cs3733.D22.teamZ.database.DBInitializer;
 import edu.wpi.cs3733.D22.teamZ.database.EnumDatabaseConnection;
-import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 
 public class Main {
 
