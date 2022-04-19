@@ -111,10 +111,12 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
     // Create observers for each dirty location
     List<Location> dirtyTest =
-        List.of(
-            dao.getLocationByID("zDIRT00103"),
-            dao.getLocationByID("zDIRT00104"),
-            dao.getLocationByID("zDIRT00105"));
+            List.of(
+                    dao.getLocationByID("zSTOR00305"),
+                    dao.getLocationByID("zSTOR00303"),
+                    dao.getLocationByID("zSTOR00403"),
+                    dao.getLocationByID("zSTOR00304"),
+                    dao.getLocationByID("zSTOR00404"));
 
     for (Location dirtyLocation : dirtyTest) {
       new DashboardBedAlertObserver(dirtyLocation, this);
