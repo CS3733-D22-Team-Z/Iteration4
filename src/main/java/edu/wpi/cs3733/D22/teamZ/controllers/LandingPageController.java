@@ -23,6 +23,8 @@ public class LandingPageController implements IMenuAccess {
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
   private final String toGiftServicesURL = "edu/wpi/cs3733/D22/teamZ/views/GiftServices.fxml";
+  private final String toCleaningServicesURL =
+      "edu/wpi/cs3733/D22/teamZ/views/CleaningRequest.fxml";
 
   // @FXML VBox iconContainer;
   // @FXML MFXToggleButton toggle;
@@ -182,6 +184,12 @@ public class LandingPageController implements IMenuAccess {
   private void navGifts() throws IOException {
     System.out.println("navigating to gift services from landing page");
     menu.load(toGiftServicesURL);
+  }
+
+  @FXML
+  private void navCleaning() throws IOException {
+    System.out.println("navigating to gift services from landing page");
+    menu.load(toCleaningServicesURL);
   }
 
   public void showNameLabels() {
