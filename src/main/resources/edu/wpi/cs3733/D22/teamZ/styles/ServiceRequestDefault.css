@@ -341,6 +341,13 @@
     -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
 }
 
+.warning-window {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 5px;
+
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
+}
+
 .dropdown-table-view .column-header-background .filler {
     -fx-background-color: #FFFFFF;
 }

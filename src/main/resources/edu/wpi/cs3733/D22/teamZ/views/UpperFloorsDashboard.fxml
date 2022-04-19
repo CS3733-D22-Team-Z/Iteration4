@@ -90,9 +90,9 @@
                               </FlowPane>
                               <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="450.0" styleClass="dropdown-table-view" visible="false">
                                 <columns>
-                                  <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Equipment" />
-                                  <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Location" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Status" />
+                                  <TableColumn editable="false" prefWidth="75.0" text="Equipment" />
+                                  <TableColumn editable="false" prefWidth="75.0" text="Location" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Status" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -137,9 +137,9 @@
                               </FlowPane>
                               <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="450.0" styleClass="dropdown-table-view" visible="false">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Equipment" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Location" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Status" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Equipment" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Location" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Status" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -184,9 +184,9 @@
                               </FlowPane>
                               <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="450.0" styleClass="dropdown-table-view" visible="false">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Equipment" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Location" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Status" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Equipment" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Location" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Status" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -231,9 +231,9 @@
                               </FlowPane>
                               <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="450.0" styleClass="dropdown-table-view" visible="false">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Equipment" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Location" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Status" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Equipment" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Location" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Status" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -278,9 +278,9 @@
                               </FlowPane>
                               <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="450.0" styleClass="dropdown-table-view" visible="false">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Equipment" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Location" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Status" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Equipment" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Location" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Status" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -325,9 +325,9 @@
                               </FlowPane>
                               <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="450.0" styleClass="dropdown-table-view" visible="false">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Equipment" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Location" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Status" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Equipment" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Location" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Status" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -372,9 +372,9 @@
                               </FlowPane>
                               <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="450.0" styleClass="dropdown-table-view" visible="false">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Equipment" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Location" />
-                                    <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Status" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Equipment" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Location" />
+                                    <TableColumn editable="false" prefWidth="75.0" text="Status" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

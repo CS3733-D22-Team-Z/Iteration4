@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
 import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
@@ -118,7 +119,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   }
 
   @FXML
-  public void initialize() {
+  public void initialize() throws IOException {
     database = FacadeDAO.getInstance();
     createTableUP1();
     createTableUP2();
@@ -176,6 +177,8 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     setupDropdown(floor1Container, "1");
     setupDropdown(LL1Container, "LL1");
     setupDropdown(LL2Container, "LL2");
+
+    PopupLoader.loadPopup("WarningMessage", root, 10, 10);
   }
 
   private void createBarUP5Dirty() {
