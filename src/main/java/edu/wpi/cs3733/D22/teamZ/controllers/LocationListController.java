@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -37,11 +36,9 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import lombok.Getter;
 import org.kynosarges.tektosyne.geometry.PointD;
 import org.kynosarges.tektosyne.geometry.RectD;
@@ -150,6 +147,13 @@ public class LocationListController implements IMenuAccess {
 
   VoronoiResults[] accessable = new VoronoiResults[7];
   private ContextMenu rightClickMenu;
+
+  private final String toServiceRequestProperties =
+      "edu/wpi/cs3733/D22/teamZ/views/ServiceRequestProperties.fxml";
+  private final String toLocationProperties =
+      "edu/wpi/cs3733/D22/teamZ/views/LocationProperties.fxml";
+  private final String toMedicalInfoProperties =
+      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentInfoTab.fxml";
 
   // initialize location labels to display on map
   @FXML
@@ -708,7 +712,7 @@ public class LocationListController implements IMenuAccess {
       generateVoronoi(floor);
     }
 
-    for (Location current : totalLocations) {
+    for (Location loc : totalLocations) {
       MapLabel label =
           new MapLabel.mapLabelBuilder()
               .location(loc)
