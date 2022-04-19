@@ -19,8 +19,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
+import javafx.scene.shape.SVGPath;
 
 public class UpperFloorsDashboardController implements IMenuAccess {
+
+  private final String dashboardAlert =
+      "M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z";
 
   private FacadeDAO dao = FacadeDAO.getInstance();
   private MenuController menu;
@@ -66,6 +71,13 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML private MFXButton floor1Button;
   @FXML private MFXButton lowerLevel1Button;
   @FXML private MFXButton lowerLevel2Button;
+  @FXML private Region dashRegion5;
+  @FXML private Region dashRegion4;
+  @FXML private Region dashRegion3;
+  @FXML private Region dashRegion2;
+  @FXML private Region dashRegion1;
+  @FXML private Region dashRegionLL1;
+  @FXML private Region dashRegionLL2;
 
   private FacadeDAO database;
 
@@ -109,14 +121,30 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     createBarUP5Dirty();
     createBarUP5Clean();
 
+    SVGPath Icon = new SVGPath();
+    Icon.setContent(dashboardAlert);
+    List<Region> dashRegions =
+        List.of(
+            dashRegion1,
+            dashRegion2,
+            dashRegion3,
+            dashRegion4,
+            dashRegion5,
+            dashRegionLL1,
+            dashRegionLL2);
+    for (Region dashRegion : dashRegions) {
+      dashRegion.setShape(Icon);
+      dashRegion.setStyle("-fx-background-color: #FF4343;");
+    }
+
     // Create observers for each dirty location
     List<Location> dirtyTest =
-            List.of(
-                    dao.getLocationByID("zSTOR00305"),
-                    dao.getLocationByID("zSTOR00303"),
-                    dao.getLocationByID("zSTOR00403"),
-                    dao.getLocationByID("zSTOR00304"),
-                    dao.getLocationByID("zSTOR00404"));
+        List.of(
+            dao.getLocationByID("zSTOR00305"),
+            dao.getLocationByID("zSTOR00303"),
+            dao.getLocationByID("zSTOR00403"),
+            dao.getLocationByID("zSTOR00304"),
+            dao.getLocationByID("zSTOR00404"));
 
     for (Location dirtyLocation : dirtyTest) {
       new DashboardBedAlertObserver(dirtyLocation, this);
@@ -304,4 +332,14 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   public void toLowerLevel1(ActionEvent actionEvent) {}
 
   public void toLowerLevel2(ActionEvent actionEvent) {}
+
+  public void floorAlert(String floor) {
+    if (floor.equals("5")) {
+      dashRegion5.setVisible(true);
+    } else if (floor.equals("4")) {
+      dashRegion4.setVisible(true);
+    } else if (floor.equals("3")) {
+      dashRegion3.setVisible(true);
+    }
+  }
 }
