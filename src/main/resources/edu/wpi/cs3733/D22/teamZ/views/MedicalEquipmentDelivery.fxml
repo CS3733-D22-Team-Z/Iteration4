@@ -74,5 +74,30 @@
       </MFXTextField>
       <Line endX="3.0" endY="386.5" layoutX="368.0" layoutY="22.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
       <Label alignment="CENTER" layoutX="389.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" />
+      <Label fx:id="successfulSubmitLabel" alignment="CENTER" layoutX="21.0" layoutY="358.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #16A709; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #16A709;" styleClass="error-label" text="Successfully submitted lab request!" textFill="#1fbc1c" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+               <image>
+                  <Image url="@../images/successIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
     </children>
 </AnchorPane>
