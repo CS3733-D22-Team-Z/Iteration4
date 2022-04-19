@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ServiceRequestPageController">
@@ -21,46 +29,87 @@
             <children>
                 <MFXButton fx:id="exportCSVButton" mnemonicParsing="false" onAction="#exportToCSV" style="-fx-background-color: #0075ff;" text="Export to CSV..." textFill="WHITE" />
                 <MFXButton fx:id="refresh" onAction="#refreshClicked" prefHeight="29.0" prefWidth="73.0" style="-fx-background-color: #0075ff;" text="Refresh" textFill="WHITE" />
-                <Label styleClass="object-body" text="Filter &amp; Sort">
+                <Label styleClass="object-body" text="Filter By">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Label>
                 <HBox alignment="CENTER">
                     <children>
-                        <MFXButton fx:id="idFilter" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 5 0 0 5;" styleClass="filter-button" text="ID">
-                     <font>
-                        <Font size="10.0" />
-                     </font></MFXButton>
-                        <MFXButton fx:id="typeFilter" onAction="#filterClicked" prefHeight="29.0" style="-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Type">
-                     <font>
-                        <Font size="10.0" />
-                     </font></MFXButton>
-                        <MFXButton fx:id="statusFilter" onAction="#filterClicked" prefHeight="29.0" style="-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Status">
-                     <font>
-                        <Font size="10.0" />
-                     </font></MFXButton>
-                        <MFXButton fx:id="assigneeFilter" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 0 5 5 0;" styleClass="filter-button" text="Assignee">
-                     <font>
-                        <Font size="10.0" />
-                     </font></MFXButton>
+                  <MFXRectangleToggleNode fx:id="issuerSelect" onAction="#issuerFilter" text="Issuer" />
+                  <MFXRectangleToggleNode fx:id="handlerSelect" onAction="#handlerFilter" text="Handler" />
                     </children>
                 </HBox>
-                <ChoiceBox fx:id="filterBox" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+                <ChoiceBox fx:id="filterBox" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
             </children>
         </VBox>
-        <TableView fx:id="tableContainer" layoutX="23.0" layoutY="54.0" prefHeight="326.0" prefWidth="374.0">
-            <columns>
-                <TableColumn fx:id="idCol" editable="false" prefWidth="100.0" text="ID" />
-                <TableColumn fx:id="typeCol" editable="false" prefWidth="100.0" text="Type" />
-                <TableColumn fx:id="assigneeCol" editable="false" prefWidth="100.0" text="Assigned" />
-                <TableColumn fx:id="statusCol" editable="false" prefWidth="100.0" text="Status" />
-            </columns>
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-            </columnResizePolicy>
-        </TableView>
       <MFXButton fx:id="setEmpButton" layoutX="453.0" layoutY="303.0" mnemonicParsing="false" onAction="#setEmployee" style="-fx-background-color: #0075ff;" text="Set Employee" textFill="WHITE" />
-      <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="264.0" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+      <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="264.0" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+        <Label fx:id="errorLabel" alignment="CENTER" layoutX="40.0" layoutY="13.0" prefHeight="36.0" prefWidth="341.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2;" text="Select both a service and employee" textFill="#ff4444" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <padding>
+                <Insets bottom="4.0" right="50.0" top="4.0" />
+            </padding>
+            <graphic>
+                <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+                    <image>
+                        <Image url="@../images/LoginErrorIcon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <effect>
+                <DropShadow>
+                    <color>
+                        <Color opacity="0.31168830394744873" />
+                    </color>
+                </DropShadow>
+            </effect>
+        </Label>
+      <TabPane fx:id="tabs" layoutX="32.0" layoutY="56.0" prefHeight="352.0" prefWidth="372.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="all" text="All Service Requests">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                          <TableView fx:id="tableContainer" prefHeight="301.0" prefWidth="374.0">
+                              <columns>
+                                  <TableColumn fx:id="idCol" editable="false" prefWidth="93.5" text="ID" />
+                                  <TableColumn fx:id="typeCol" editable="false" prefWidth="93.5" text="Type" />
+                                  <TableColumn fx:id="assignedCol" editable="false" prefWidth="100.0" text="Assigned" />
+                                  <TableColumn fx:id="statusCol" editable="false" prefWidth="100.0" text="Status" />
+                              </columns>
+                              <columnResizePolicy>
+                                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                              </columnResizePolicy>
+                          </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="outstanding" text="Outstanding Service Requests">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="outstandingTable" prefHeight="301.0" prefWidth="372.0">
+                          <columns>
+                            <TableColumn fx:id="idColO" prefWidth="93.0" text="ID" />
+                            <TableColumn fx:id="typeColO" prefWidth="93.0" text="Type" />
+                              <TableColumn fx:id="assignedColO" prefWidth="93.0" text="Assigned" />
+                              <TableColumn fx:id="statusColO" prefWidth="93.0" text="Status" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Label layoutX="415.0" layoutY="242.0" text="Add Employee to Request">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

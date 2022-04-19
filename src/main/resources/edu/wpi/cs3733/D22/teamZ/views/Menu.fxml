@@ -49,6 +49,11 @@
                   <Region fx:id="exitGraphic" styleClass="region-icon" />
                </graphic>
             </MFXButton>
+            <MFXButton fx:id="logoutButton" buttonType="RAISED" layoutX="30.0" layoutY="323.0" onAction="#toLogout" prefHeight="25.0" prefWidth="90.0" styleClass="exit-button" text="Logout">
+               <graphic>
+                  <Region fx:id="logoutGraphic" styleClass="region-icon" />
+               </graphic>
+            </MFXButton>
          </children>
          <effect>
             <DropShadow />

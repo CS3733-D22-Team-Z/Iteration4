@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MedicalEquipmentControlCSV extends ControlCSV {
 
-  private static final FacadeDAO facadeDAO = FacadeDAO.getInstance();
+  private static final FacadeDAO dao = FacadeDAO.getInstance();
 
   private final String[] headers = {"itemID", "type", "status", "currentLocation"};
 
@@ -20,6 +20,14 @@ public class MedicalEquipmentControlCSV extends ControlCSV {
     writeCSV(objToData(in), headers);
   }
 
+  protected void writeMedicalEquipmentCSV(List<MedicalEquipment> in, File path) throws IOException {
+    writeCSV(objToData(in), path, headers);
+  }
+
+  protected List<MedicalEquipment> readMedicalEquipmentCSV(File path) throws IOException {
+    return dataToObj(readCSV(path));
+  }
+
   protected List<MedicalEquipment> readMedicalEquipmentCSV() throws IOException {
     return dataToObj(readCSV());
   }
@@ -27,8 +35,7 @@ public class MedicalEquipmentControlCSV extends ControlCSV {
   private List<MedicalEquipment> dataToObj(List<List<String>> data) {
     List<MedicalEquipment> ret = new ArrayList<>();
     for (List<String> a : data) {
-      ret.add(
-          new MedicalEquipment(a.get(0), a.get(1), a.get(2), facadeDAO.getLocationByID(a.get(3))));
+      ret.add(new MedicalEquipment(a.get(0), a.get(1), a.get(2), dao.getLocationByID(a.get(3))));
     }
     return ret;
   }
@@ -43,7 +50,7 @@ public class MedicalEquipmentControlCSV extends ControlCSV {
                   new String[] {
                     a.getEquipmentID(),
                     a.getType(),
-                    a.getStatus(),
+                    a.getStatus().toString(),
                     a.getCurrentLocation().getNodeID(),
                   }));
       ret.add(entry);
