@@ -8,14 +8,13 @@ public class SecurityServiceRequest extends ServiceRequest {
 
   public SecurityServiceRequest(
       String requestID,
-      RequestType type,
       RequestStatus status,
       Employee issuer,
       Employee handler,
       Location targetLocation,
       String urgency,
       String reason) {
-    super(requestID, type, status, issuer, handler, targetLocation);
+    super(requestID, RequestType.SECURITY, status, issuer, handler, targetLocation);
     this.urgency = urgency;
     this.reason = reason;
   }

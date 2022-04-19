@@ -48,15 +48,13 @@ public class SecurityServiceController extends ServiceRequestController {
       SecurityServiceRequest req =
           new SecurityServiceRequest(
               genID,
-              ServiceRequest.RequestType.SECURITY,
               ServiceRequest.RequestStatus.UNASSIGNED,
               MenuController.getLoggedInUser(),
               null,
               tryGet,
               urgencyBox.getSelectionModel().getSelectedItem(),
               reasonTextField.getText());
-      //    facadeDAO.add(req);
-      // TODO: DAO implementation
+      facadeDAO.addSecurityServiceRequest(req);
       errorLabel.setVisible(false);
     } else {
       errorLabel.setVisible(true);
