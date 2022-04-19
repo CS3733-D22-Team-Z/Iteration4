@@ -477,8 +477,10 @@ class LocationDAOImpl implements ILocationDAO {
         return fourthFloorBed[num];
       case ("L1"):
         return "zSTOR001L1";
+      case("1"):
+        return "zSTOR00101";
       default:
-        return "zSTOR001L1";
+        return "zSTOR00101";
     }
   }
 }
