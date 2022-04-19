@@ -66,9 +66,8 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
 
     // Create entities for submission
 
-    ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.PROCESSING;
     Employee issuer = MenuController.getLoggedInUser();
-    Employee handler = dao.getEmployeeByID("nurse1");
+    Employee handler = null;
     Location tempLoc = dao.getLocationByID("zEXIT00101");
     String patientName = patientNameField.getText();
     String patientID = patientIDField.getText();
@@ -77,7 +76,7 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
     ExternalPatientTransportationRequest temp =
         new ExternalPatientTransportationRequest(
             requestID,
-            ServiceRequest.RequestStatus.PROCESSING,
+            ServiceRequest.RequestStatus.UNASSIGNED,
             issuer,
             handler,
             tempLoc,
@@ -97,6 +96,7 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
     patientNameField.clear();
     patientIDField.clear();
     destinationField.clear();
+    departureDateField.setValue(null);
     // departureTimeField.clear();
     departureDateField.setValue(null);
     successfulSubmitLabel.setVisible(false);
@@ -111,6 +111,9 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
         // && !departureTimeField.getText().trim().isEmpty()
         && !departureDateField.getText().trim().isEmpty()) {
       submitButton.setDisable(false);
+    } else {
+      submitButton.setDisable(true);
+      errorSavingLabel.setVisible(true);
     }
   }
 }

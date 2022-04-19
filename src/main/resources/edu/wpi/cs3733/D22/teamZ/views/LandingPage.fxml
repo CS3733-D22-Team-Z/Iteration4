@@ -1,100 +1,404 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LandingPageController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: F6F6F6;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LandingPageController">
     <children>
-        <Label layoutX="24.0" layoutY="10.0" styleClass="object-header" text="Service Request Systems">
+        <Label layoutX="24.0" layoutY="18.0" styleClass="object-header" text="Service Request Systems">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <Label layoutX="23.0" layoutY="36.0" styleClass="object-body" text="Select and submit a service request" textFill="#9d9d9d">
+        <Label layoutX="23.0" layoutY="44.0" styleClass="object-body" text="Select and submit a service request" textFill="#9d9d9d">
             <font>
                 <Font size="9.0" />
             </font>
         </Label>
-      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="67.0" onAction="#navMedicalEquipment" prefHeight="37.0" prefWidth="365.0" styleClass="landing-button" text="Medical Equipment ">
-         <padding>
-            <Insets right="210.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="23.0" layoutY="113.0" onAction="#navLab" prefHeight="37.0" prefWidth="365.0" styleClass="landing-button" text="Lab">
-         <padding>
-            <Insets right="320.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="22.0" layoutY="159.0" onAction="#toExternalPatientTransportation" prefHeight="37.0" prefWidth="366.0" styleClass="landing-button" text="External Patient Transportation ">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-         <padding>
-            <Insets right="130.0" />
-         </padding>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="21.0" layoutY="206.0" onAction="#navLanguage" prefHeight="37.0" prefWidth="369.0" styleClass="landing-button" text="Language Interpreter">
-         <padding>
-            <Insets right="200.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="20.0" layoutY="251.0" onAction="#navMeal" prefHeight="37.0" prefWidth="371.0" styleClass="landing-button" text="Meal Service">
-         <padding>
-            <Insets right="265.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="21.0" layoutY="295.0" onAction="#navLaundry" prefHeight="37.0" prefWidth="369.0" styleClass="landing-button" text="Laundry Service">
-         <padding>
-            <Insets right="245.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <MFXButton buttonType="RAISED" layoutX="20.0" layoutY="340.0" onAction="#navComputer" prefHeight="37.0" prefWidth="371.0" styleClass="landing-button" text="Computer Service">
-         <padding>
-            <Insets right="235.0" />
-         </padding>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </MFXButton>
-      <VBox fx:id="iconContainer" layoutX="354.0" layoutY="80.0" prefHeight="291.0" prefWidth="18.0" spacing="28.0">
-         <children>
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-            <Region prefHeight="200.0" prefWidth="200.0" styleClass="region-icon" />
-         </children>
-      </VBox>
-      <Label fx:id="Daniel" layoutX="408.0" layoutY="79.0" text="Daniel Correa" />
-      <Label fx:id="Patrick" layoutX="408.0" layoutY="124.0" text="Patrick Hunter" />
-      <Label fx:id="Maya" layoutX="408.0" layoutY="169.0" text="Maya Angeles" />
-      <Label fx:id="Neha" layoutX="410.0" layoutY="217.0" prefHeight="17.0" prefWidth="119.0" text="Neha Kuchipudi" />
-      <Label fx:id="Alex" layoutX="412.0" layoutY="261.0" text="Alex Brattstrom" />
-      <Label fx:id="Jake" layoutX="412.0" layoutY="305.0" text="Jake Leavitt" />
-      <Label fx:id="Nelson" layoutX="411.0" layoutY="352.0" text="Nelson Diaz" />
-      <MFXToggleButton fx:id="toggle" layoutX="535.0" layoutY="6.0" onMouseClicked="#onToggleClicked" />
+      <MFXScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="-2.0" layoutY="61.0" prefHeight="324.0" prefWidth="600.0" style="-fx-background-color: #F6F6F6;">
+         <content>
+            <GridPane alignment="CENTER" prefHeight="480.0" prefWidth="626.0" translateX="24.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="140.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="140.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="139.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="194.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="179.0" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="245.0" minHeight="0.0" prefHeight="144.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="167.0" minHeight="10.0" prefHeight="149.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <MFXButton onAction="#navMedicalEquipment" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label layoutX="-13.0" layoutY="72.0" prefHeight="47.0" prefWidth="118.0" styleClass="landing-button" text="Medical Equipment" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="medRegion" layoutX="25.0" layoutY="23.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="danLabel" layoutY="114.0" prefHeight="13.0" prefWidth="120.0" text="Daniel Correa">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navLab" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="1">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutX="-13.0" layoutY="72.0" prefHeight="47.0" prefWidth="118.0" styleClass="landing-button" text="Lab Service" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="labRegion" layoutX="26.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="patrickLabel" layoutX="-6.0" layoutY="108.0" prefHeight="13.0" prefWidth="125.0" text="Patrick Hunter">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#toExternalPatientTransportation" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="3">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="108.0" translateX="-4.0">
+                           <children>
+                              <Label layoutX="-4.0" layoutY="63.0" prefHeight="66.0" prefWidth="116.0" styleClass="landing-button" text="Ext. Patient Transport" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                              <Region fx:id="externalRegion" layoutX="32.0" layoutY="23.0" prefHeight="40.0" prefWidth="44.0" />
+                              <Label fx:id="mayaLabel" layoutY="111.0" prefHeight="13.0" prefWidth="111.0" text="Maya Angeles">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navLanguage" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.rowIndex="1">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label layoutX="-12.0" layoutY="72.0" prefHeight="47.0" prefWidth="116.0" styleClass="landing-button" text="Language Interpreter" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="languageRegion" layoutX="26.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="nehaLabel" layoutX="-13.0" layoutY="108.0" prefHeight="13.0" prefWidth="118.0" text="Neha Kuchipudi">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navMeal" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutX="1.0" layoutY="74.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Meal Service" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="mealRegion" layoutX="23.0" layoutY="27.0" prefHeight="44.0" prefWidth="43.0" />
+                              <Label fx:id="alexLabel" layoutX="-8.0" layoutY="108.0" prefHeight="13.0" prefWidth="133.0" text="Alex Brattstrom">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navLaundry" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutY="73.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Laundry Service " textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="laundryRegion" layoutX="19.0" layoutY="29.0" prefHeight="37.0" prefWidth="50.0" />
+                              <Label fx:id="jacobLabel" layoutY="108.0" prefHeight="13.0" prefWidth="115.0" text="Jacob Leavitt">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navComputer" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutY="73.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Computer Service" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="computerRegion" layoutX="21.0" layoutY="27.0" prefHeight="40.0" prefWidth="46.0" />
+                              <Label fx:id="nelsonLabel" layoutX="6.0" layoutY="108.0" prefHeight="13.0" prefWidth="108.0" text="Nelson Diaz">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navGifts" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="2">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
+                           <children>
+                              <Label alignment="CENTER" layoutX="-6.0" layoutY="72.0" prefHeight="47.0" prefWidth="106.0" styleClass="landing-button" text="Gift Services" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                              </Label>
+                              <Region fx:id="giftRegion" layoutX="26.0" layoutY="26.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="claireLabel" layoutX="-12.0" layoutY="108.0" prefHeight="13.0" prefWidth="148.0" text="Claire Higginson">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#navLanguage" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.rowIndex="2">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </MFXButton>
+                  <Pane prefHeight="135.0" prefWidth="91.0" GridPane.rowIndex="2">
+                     <children>
+                        <Label layoutX="7.0" layoutY="59.0" prefHeight="47.0" prefWidth="111.0" styleClass="landing-button" text="Cleaning Service" textAlignment="CENTER" wrapText="true">
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                        <Region fx:id="cleaningRegion" layoutX="42.0" layoutY="19.0" prefHeight="40.0" prefWidth="40.0" />
+                        <Label fx:id="oliviaLabel" layoutX="4.0" layoutY="106.0" prefHeight="13.0" prefWidth="118.0" text="Olivia Raisbeck">
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </GridPane>
+         </content>
+      </MFXScrollPane>
+      <MFXToggleButton id="toggleNames" fx:id="toggleNames" layoutX="533.0" layoutY="15.0" length="28.0" onMouseClicked="#showNameLabels" prefHeight="0.0" prefWidth="61.0" radius="8.0" />
     </children>
 </AnchorPane>

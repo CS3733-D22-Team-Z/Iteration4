@@ -12,8 +12,12 @@ public class Main {
     init.populateLocationTable();
     init.populateMedicalEquipmentTable();
     init.populateEmployeeTable();
+    init.populatePatientTable();
     init.populateServiceRequestTable();
     init.populateMedicalEquipmentServiceRequestTable();
+    init.populateMealServiceRequestsTable();
+    init.populateCleaningServiceRequestTable();
+
     /*FacadeDAO dao = FacadeDAO.getInstance();
     for (ServiceRequest test :
         dao.getServiceRequestsByLocation(dao.getLocationByID("zDIRT00103"))) {

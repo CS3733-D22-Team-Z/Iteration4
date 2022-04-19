@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import io.github.palexdev.materialfx.controls.legacy.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXListView?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
-      <SplitPane fx:id="splitPane" dividerPositions="0.75" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+      <SplitPane fx:id="splitPane" dividerPositions="0.75" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-border-width: 0;" styleClass="root">
          <items>
             <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ScrollPane fx:id="scrollPane" pannable="true" prefHeight="400.0" prefWidth="446.0">
+                  <MFXScrollPane fx:id="scrollPane" pannable="true" prefHeight="400.0" prefWidth="446.0" styleClass="root">
                      <content>
                         <Group fx:id="group">
                            <children>
@@ -29,56 +44,41 @@
                            </children>
                         </Group>
                      </content>
-                  </ScrollPane>
-                  <Pane fx:id="locationChangeDarkenPane" opacity="0.26" prefHeight="399.0" prefWidth="599.0" style="-fx-background-color: #000000;" visible="false" />
+                  </MFXScrollPane>
+                  <Pane fx:id="locationChangeDarkenPane" opacity="0.26" prefHeight="399.0" prefWidth="599.0" visible="false" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="rightPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <AnchorPane fx:id="rightPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: #D2D2D2; -fx-border-width: 0 0 0 1;" styleClass="root">
                <children>
-                  <MFXRadioButton fx:id="locRadio" gap="6.0" layoutX="14.0" layoutY="167.0" radioGap="2.5" radius="5.0" selected="true" text="Locations" textFill="#7b7b7b">
-                     <effect>
-                        <ColorAdjust hue="-0.25" />
-                     </effect>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="radioGroup" />
-                     </toggleGroup>
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
-                  </MFXRadioButton>
-                  <MFXRadioButton fx:id="equipRadio" gap="6.0" layoutX="14.0" layoutY="187.0" radioGap="2.5" radius="5.0" text="Equipment" textFill="#7b7b7b">
-                     <effect>
-                        <ColorAdjust hue="-0.25" />
-                     </effect>
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
-                  </MFXRadioButton>
-                  <MFXRadioButton fx:id="servRadio" gap="6.0" layoutX="14.0" layoutY="208.0" radioGap="2.5" radius="5.0" text="Service Requests" textFill="#7b7b7b">
-                     <effect>
-                        <ColorAdjust hue="-0.25" />
-                     </effect>
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
-                  </MFXRadioButton>
-                  <Label layoutX="12.0" layoutY="6.0" text="Change Floor" textFill="#7b7b7b">
+                  <VBox layoutX="14.0" layoutY="167.0" spacing="5.0">
+                     <children>
+                        <MFXRadioButton fx:id="locRadio" gap="6.0" radioGap="2.5" radius="5.0" selected="true" text="Locations">
+                           <effect>
+                              <ColorAdjust hue="-0.25" />
+                           </effect>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="radioGroup" />
+                           </toggleGroup>
+                        </MFXRadioButton>
+                        <MFXRadioButton fx:id="equipRadio" gap="6.0" radioGap="2.5" radius="5.0" text="Equipment" toggleGroup="$radioGroup">
+                           <effect>
+                              <ColorAdjust hue="-0.25" />
+                           </effect>
+                        </MFXRadioButton>
+                        <MFXRadioButton fx:id="servRadio" gap="6.0" radioGap="2.5" radius="5.0" text="Service Requests" toggleGroup="$radioGroup">
+                           <effect>
+                              <ColorAdjust hue="-0.25" />
+                           </effect>
+                        </MFXRadioButton>
+                     </children>
+                  </VBox>
+                  <Label layoutX="12.0" layoutY="6.0" styleClass="form-header" text="Change Floor" textFill="#7b7b7b">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Label>
-                  <MFXLegacyComboBox fx:id="changeFloor" layoutX="13.0" layoutY="27.0" prefHeight="23.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF;" unfocusedLineColor="#ffffff00">
-                     <effect>
-                        <DropShadow>
-                           <color>
-                              <Color opacity="0.411255419254303" />
-                           </color>
-                        </DropShadow>
-                     </effect></MFXLegacyComboBox>
-                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="62.0" onAction="#addLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 2;" text="Add Location" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
+                  <ChoiceBox fx:id="changeFloor" layoutX="13.0" layoutY="27.0" prefHeight="23.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF;" />
+                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="62.0" onAction="#addLocationButtonClicked" prefHeight="23.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-font-size: 12;" text="Add Location">
                      <graphic>
                         <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -87,122 +87,121 @@
                         </ImageView>
                      </graphic>
                   </MFXButton>
-                  <MFXButton layoutX="13.0" layoutY="95.0" onAction="#exportToCSV" prefHeight="23.0" prefWidth="117.0" style="-fx-background-color: FFFFFF; -fx-border-color: C4C4C4; -fx-border-width: 2; -fx-border-radius: 2;" text="Export CSV" textFill="#c4c4c4">
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton layoutX="13.0" layoutY="128.0" onAction="#importFromCSV" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: FFFFFF; -fx-border-color: C4C4C4; -fx-border-width: 2; -fx-border-radius: 2;" text="Import CSV" textFill="#c4c4c4">
-                     <font>
-                        <Font name="System Bold" size="10.0" />
-                     </font>
-                  </MFXButton>
+                  <MFXButton layoutX="13.0" layoutY="95.0" onAction="#exportToCSV" prefHeight="23.0" prefWidth="117.0" styleClass="button-inv" text="Export CSV" />
+                  <MFXButton layoutX="13.0" layoutY="128.0" onAction="#importFromCSV" prefHeight="25.0" prefWidth="117.0" styleClass="button-inv" text="Import CSV" />
                </children>
             </AnchorPane>
          </items>
       </SplitPane>
-      <TextField fx:id="searchField" layoutX="8.0" layoutY="8.0" onKeyTyped="#search" prefHeight="26.0" prefWidth="192.0" promptText="Search..." style="-fx-background-radius: 3; -fx-background-color: #FFFFFF;">
-         <font>
-            <Font size="10.0" />
-         </font>
-         <effect>
-            <DropShadow blurType="ONE_PASS_BOX" height="10.0" offsetX="2.0" offsetY="2.0" radius="4.5" width="10.0">
-               <color>
-                  <Color red="0.5052631497383118" green="0.49590644240379333" blue="0.49590644240379333" />
-               </color>
-            </DropShadow>
-         </effect>
-      </TextField>
-      <ListView fx:id="searchResultList" layoutX="7.0" layoutY="38.0" onMouseClicked="#resultMouseClick" prefHeight="132.0" prefWidth="192.0" style="-fx-background-radius: 4;" visible="false" />
-      <Pane fx:id="editLocationPane" layoutX="224.0" layoutY="165.0" prefHeight="212.0" prefWidth="200.0" style="-fx-border-radius: 5; -fx-background-color: #f6f6f6; -fx-background-radius: 5;" visible="false">
-         <effect>
-            <DropShadow />
-         </effect>
+      <TextField fx:id="searchField" layoutX="8.0" layoutY="8.0" onKeyTyped="#search" prefHeight="26.0" prefWidth="315.0" promptText="Search..." styleClass="search-box" />
+      <MFXListView fx:id="searchResultList" layoutX="8.0" layoutY="30.0" onMouseClicked="#resultMouseClick" prefHeight="58.0" prefWidth="315.0" visible="false" />
+      <Pane fx:id="editLocationPane" layoutX="126.0" layoutY="146.0" prefHeight="232.0" prefWidth="300.0" styleClass="map-window" visible="false">
          <children>
-            <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Location">
+            <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Edit Location">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
             </Text>
-            <Text fill="#7b7b7b" layoutX="10.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="109.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit location type">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="10.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit floor">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="109.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit location number">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="10.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit long name">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="108.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit short name">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <MFXTextField fx:id="selectLocationTextField" floatMode="DISABLED" layoutX="10.0" layoutY="48.0" prefHeight="0.0" prefWidth="84.0" style="-fx-border-color: #0075ff; -fx-border-radius: 2; -fx-background-color: #FFFFFF;">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXTextField fx:id="abbreviationTextField" floatMode="DISABLED" layoutX="108.0" layoutY="144.0" prefHeight="23.0" prefWidth="81.0" promptText="Abbreviation" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXTextField fx:id="changeNumberTextField" floatMode="DISABLED" layoutX="108.0" layoutY="98.0" prefHeight="23.0" prefWidth="80.0" promptText="Location Number" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXTextField fx:id="changeNameTextField" floatMode="DISABLED" layoutX="10.0" layoutY="145.0" prefHeight="0.0" prefWidth="84.0" promptText="Location Name" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXLegacyComboBox fx:id="floorChoiceTextField" invalidLineColor="#ff0400" layoutX="10.0" layoutY="97.0" lineColor="#0075ff" prefHeight="23.0" prefWidth="85.0" style="-fx-background-color: #FFFFFF;" unfocusedLineColor="#4d4d4d00">
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color opacity="0.30000001192092896" />
-                     </color>
-                  </DropShadow>
-               </effect>
-            </MFXLegacyComboBox>
-            <MFXLegacyComboBox fx:id="typeChoiceTextField" invalidLineColor="#ff0400" layoutX="109.0" layoutY="48.0" lineColor="#0075ff" prefHeight="23.0" prefWidth="79.0" style="-fx-background-color: #FFFFFF;" unfocusedLineColor="#4d4d4d00">
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color opacity="0.30000001192092896" />
-                     </color>
-                  </DropShadow>
-               </effect>
-            </MFXLegacyComboBox>
-            <MFXButton fx:id="submitButton" layoutX="10.0" layoutY="180.0" onAction="#submitEditLocationButtonClicked" prefHeight="21.0" prefWidth="54.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Submit" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="7.0" />
-               </font>
-            </MFXButton>
-            <MFXButton fx:id="clearButton" layoutX="82.0" layoutY="179.0" onAction="#clearEditLocationButtonClicked" prefHeight="21.0" prefWidth="54.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Clear" textFill="WHITE">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXButton>
-            <MFXButton contentDisplay="CENTER" layoutX="164.0" layoutY="2.0" onAction="#exitEditLocationButtonClicked" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: #f6f6f6;" textFill="#f5f5f500">
+            <FlowPane hgap="20.0" layoutX="10.0" layoutY="27.0" prefHeight="198.0" prefWidth="288.0" vgap="8.0">
+               <children>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Location">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="selectLocationTextField" floatMode="DISABLED" prefHeight="27.0" prefWidth="125.0">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Edit location type">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="typeChoiceTextField" prefHeight="27.0" prefWidth="125.0" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Edit floor">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="floorChoiceTextField" prefHeight="27.0" prefWidth="125.0" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Edit location number">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="changeNumberTextField" floatMode="DISABLED" prefHeight="27.0" prefWidth="125.0" promptText="Location Number">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Edit long name">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="changeNameTextField" floatMode="DISABLED" prefHeight="27.0" prefWidth="125.0" promptText="Location Name">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Edit short name">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="abbreviationTextField" floatMode="DISABLED" prefHeight="27.0" prefWidth="125.0" promptText="Abbreviation" />
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" spacing="45.0">
+                     <children>
+                        <MFXButton fx:id="submitButton" onAction="#submitEditLocationButtonClicked" prefHeight="30.0" prefWidth="100.0" rippleColor="#0c4ee7" text="Submit" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="7.0" />
+                           </font>
+                        </MFXButton>
+                        <MFXButton fx:id="clearButton" onAction="#clearEditLocationButtonClicked" prefHeight="21.0" prefWidth="100.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Clear" textFill="WHITE">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <FlowPane.margin>
+                        <Insets />
+                     </FlowPane.margin>
+                     <padding>
+                        <Insets left="12.0" right="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </FlowPane>
+            <MFXButton contentDisplay="GRAPHIC_ONLY" ellipsisString="" layoutX="265.0" layoutY="1.0" onAction="#exitEditLocationButtonClicked" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: transparent;">
                <graphic>
                   <ImageView fx:id="exitEdit" fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -216,94 +215,116 @@
             <Insets top="-4.0" />
          </opaqueInsets>
       </Pane>
-      <Pane fx:id="deleteLocationPlane1" layoutX="223.0" layoutY="269.0" prefHeight="106.0" prefWidth="200.0" style="-fx-background-color: #f6f6f6; -fx-background-radius: 5;" visible="false">
-         <effect>
-            <DropShadow />
-         </effect>
+      <Pane fx:id="deleteLocationPlane1" layoutX="172.0" layoutY="250.0" prefHeight="126.0" prefWidth="251.0" styleClass="map-window" visible="false">
          <children>
-            <Text layoutX="10.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete Location" wrappingWidth="144.21630859375">
+            <Text layoutX="3.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Delete Location" wrappingWidth="220.96875">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
             </Text>
-            <Text fill="#7b7b7b" layoutX="11.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location to be deleted" wrappingWidth="144.21630859375">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <MFXTextField fx:id="locationToDeleteTextField" floatMode="DISABLED" layoutX="11.0" layoutY="43.0" prefHeight="23.0" prefWidth="79.0" style="-fx-border-radius: 2; -fx-border-color: #0075ff;">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXButton fx:id="deleteMapLocation" layoutX="11.0" layoutY="75.0" onAction="#deleteLocation" prefHeight="21.0" prefWidth="54.0" rippleColor="#0075ff" style="-fx-background-color: #0075ff;" text="Delete" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="7.0" />
-               </font>
-            </MFXButton>
-            <MFXButton fx:id="cancelLocationSelection" layoutX="78.0" layoutY="75.0" onAction="#cancelLocationToDelete" prefHeight="21.0" prefWidth="54.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Cancel" textFill="WHITE">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXButton>
-            <MFXButton contentDisplay="CENTER" layoutX="164.0" layoutY="1.0" onAction="#cancelLocationToDelete" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: #f6f6f6;" textFill="#f5f5f500">
-               <graphic>
-                  <ImageView fx:id="exitEdit1" fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/exitPopup.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </MFXButton>
+            <VBox alignment="CENTER" layoutX="2.0" layoutY="27.0" prefHeight="93.0" prefWidth="245.0" spacing="15.0">
+               <children>
+                  <VBox alignment="CENTER" spacing="3.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Location to be deleted">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="locationToDeleteTextField" floatMode="DISABLED" prefHeight="23.0" prefWidth="125.0">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" spacing="25.0">
+                     <children>
+                        <MFXButton fx:id="deleteMapLocation" onAction="#deleteLocation" prefHeight="21.0" prefWidth="70.0" rippleColor="#0075ff" style="-fx-background-color: #0075ff;" text="Delete" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="7.0" />
+                           </font>
+                        </MFXButton>
+                        <MFXButton fx:id="cancelLocationSelection" onAction="#cancelLocationToDelete" prefHeight="21.0" prefWidth="70.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Cancel" textFill="WHITE">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <MFXButton contentDisplay="GRAPHIC_ONLY" layoutX="164.0" layoutY="1.0" onAction="#cancelLocationToDelete" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: transparent;" />
+            <ImageView fx:id="exitEdit1" fitHeight="17.0" fitWidth="17.0" layoutX="226.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/exitPopup.png" />
+               </image>
+            </ImageView>
          </children>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </Pane>
-      <Pane fx:id="addAlertPane" layoutX="223.0" layoutY="226.0" prefHeight="160.0" prefWidth="200.0" style="-fx-background-color: #f6f6f6; -fx-background-radius: 5;" visible="false">
+      <Pane fx:id="addAlertPane" layoutX="237.0" layoutY="224.0" prefHeight="172.0" prefWidth="196.0" styleClass="map-window" visible="false">
          <effect>
             <DropShadow />
          </effect>
          <children>
-            <Text layoutX="12.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Alert" wrappingWidth="144.21630859375">
+            <Text layoutX="10.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Add Alert" wrappingWidth="144.21630859375">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
             </Text>
-            <Text fill="#7b7b7b" layoutX="12.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location to be deleted" wrappingWidth="144.21630859375">
-               <font>
-                  <Font size="8.0" />
-               </font>
-            </Text>
-            <MFXTextField fx:id="alertLocationField" floatMode="DISABLED" layoutX="12.0" layoutY="44.0" prefHeight="23.0" prefWidth="79.0" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXButton fx:id="submitAlert" layoutX="12.0" layoutY="127.0" prefHeight="21.0" prefWidth="54.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Add" textFill="WHITE">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXButton>
-            <MFXButton fx:id="cancelAlertPane" layoutX="83.0" layoutY="127.0" prefHeight="21.0" prefWidth="54.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Cancel" textFill="WHITE">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXButton>
-            <Text fill="#7b7b7b" layoutX="12.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select code" wrappingWidth="144.21630859375">
-               <font>
-                  <Font size="8.0" />
-               </font>
-            </Text>
-            <ComboBox fx:id="alertCodeField" layoutX="12.0" layoutY="90.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;">
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color opacity="0.30000001192092896" />
-                     </color>
-                  </DropShadow>
-               </effect></ComboBox>
-            <MFXButton contentDisplay="CENTER" layoutX="165.0" layoutY="1.0" onAction="#cancelAddAlert" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: #f6f6f6;" textFill="#f5f5f500">
+            <FlowPane hgap="20.0" layoutX="10.0" layoutY="29.0" prefHeight="130.0" prefWidth="185.0" vgap="8.0">
+               <children>
+                  <VBox spacing="3.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Alert Location" wrappingWidth="144.21630859375">
+                           <font>
+                              <Font size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="alertLocationFieldAdd" floatMode="DISABLED" prefHeight="23.0" prefWidth="125.0" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Select code" wrappingWidth="144.21630859375">
+                           <font>
+                              <Font size="8.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="alertCodeFieldAdd" prefWidth="125.0" style="-fx-background-color: #FFFFFF;">
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color opacity="0.30000001192092896" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </ChoiceBox>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" spacing="30.0">
+                     <children>
+                        <MFXButton fx:id="submitAlert" prefHeight="21.0" prefWidth="50.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Add" textFill="WHITE">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </MFXButton>
+                        <MFXButton fx:id="cancelAlertPane" onAction="#cancelAddAlert" prefHeight="21.0" prefWidth="75.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Cancel" textFill="WHITE">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </FlowPane>
+            <MFXButton contentDisplay="GRAPHIC_ONLY" layoutX="165.0" layoutY="1.0" onAction="#cancelAddAlert" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: transparent;" textFill="#f5f5f500">
                <graphic>
                   <ImageView fx:id="exitEdit2" fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -314,99 +335,188 @@
             </MFXButton>
          </children>
       </Pane>
-      <Pane fx:id="addLocationPane" layoutX="223.0" layoutY="27.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-border-radius: 10; -fx-background-color: #f6f6f6;" visible="false">
+      <Pane fx:id="addLocationPane" layoutX="143.0" layoutY="27.0" prefHeight="230.0" prefWidth="280.0" styleClass="map-window" visible="false">
          <children>
-            <Text layoutX="12.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Location">
+            <Text layoutX="10.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Add Location">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
             </Text>
-            <Text fill="#7b7b7b" layoutX="12.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X Coordinate">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="103.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location type">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Floor">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="12.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location name">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="103.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name abbreviation">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <Text fill="#7b7b7b" layoutX="102.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y Coordinate">
-               <font>
-                  <Font name="System Bold" size="8.0" />
-               </font>
-            </Text>
-            <MFXTextField fx:id="nameAbbreviationTextField" floatMode="DISABLED" layoutX="103.0" layoutY="134.0" prefHeight="21.0" prefWidth="87.0" promptText="Abbreviation" style="-fx-border-color: #0075ff; -fx-border-radius: 2;">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXTextField fx:id="locationNameTextField" floatMode="DISABLED" layoutX="12.0" layoutY="134.0" prefHeight="23.0" prefWidth="78.0" promptText="Location Name" style="-fx-border-color: #0075ff; -fx-border-radius: 2;">
-               <font>
-                  <Font name="System Italic" size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXTextField fx:id="yCoordTextField" floatMode="DISABLED" layoutX="102.0" layoutY="44.0" prefHeight="24.0" prefWidth="56.0" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXTextField floatMode="DISABLED" layoutX="12.0" layoutY="45.0" prefHeight="23.0" prefWidth="54.0" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;" fx:id="xCoordTextField">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXTextField>
-            <MFXLegacyComboBox fx:id="locationTypeField" invalidLineColor="#ff0400" layoutX="103.0" layoutY="88.0" lineColor="#0075ff" style="-fx-background-color: #FFFFFF;" unfocusedLineColor="#4d4d4d00">
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color opacity="0.30000001192092896" />
-                     </color>
-                  </DropShadow>
-               </effect>
-            </MFXLegacyComboBox>
-            <MFXLegacyComboBox fx:id="floorField" invalidLineColor="#ff0400" layoutX="12.0" layoutY="88.0" lineColor="#0075ff" style="-fx-background-color: #FFFFFF;" unfocusedLineColor="#4d4d4d00">
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color opacity="0.30000001192092896" />
-                     </color>
-                  </DropShadow>
-               </effect>
-            </MFXLegacyComboBox>
-            <MFXButton fx:id="submitAddLocation" layoutX="12.0" layoutY="167.0" onAction="#addLocation" prefHeight="21.0" prefWidth="54.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Submit" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="7.0" />
-               </font>
-            </MFXButton>
-            <MFXButton fx:id="clearAddLocation" layoutX="84.0" layoutY="167.0" prefHeight="21.0" prefWidth="54.0" rippleColor="#e83737" style="-fx-background-color: #FF4343; -fx-border-color: #FF4343; -fx-border-radius: 2;" text="Clear" textFill="WHITE">
-               <font>
-                  <Font size="7.0" />
-               </font>
-            </MFXButton>
+            <FlowPane hgap="20.0" layoutX="10.0" layoutY="30.0" prefHeight="185.0" prefWidth="267.0" vgap="8.0">
+               <children>
+                  <VBox spacing="3.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="X Coordinate">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField floatMode="DISABLED" prefHeight="23.0" prefWidth="120.0" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;" fx:id="xCoordTextField">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Location type">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="locationTypeField" prefHeight="23.0" prefWidth="120.0" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Floor">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="floorField" prefHeight="23.0" prefWidth="120.0" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Location name">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="locationNameTextField" floatMode="DISABLED" prefHeight="23.0" prefWidth="120.0" promptText="Location Name" style="-fx-border-color: #0075ff; -fx-border-radius: 2;">
+                           <font>
+                              <Font name="System Italic" size="7.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Name abbreviation">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="nameAbbreviationTextField" floatMode="DISABLED" prefHeight="21.0" prefWidth="120.0" promptText="Abbreviation" style="-fx-border-color: #0075ff; -fx-border-radius: 2;">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </VBox>
+                  <VBox spacing="3.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Y Coordinate">
+                           <font>
+                              <Font name="System Bold" size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="yCoordTextField" floatMode="DISABLED" prefHeight="24.0" prefWidth="120.0" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </VBox>
+                  <HBox spacing="65.0">
+                     <children>
+                        <MFXButton fx:id="submitAddLocation" onAction="#addLocation" prefHeight="21.0" prefWidth="75.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Submit" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="7.0" />
+                           </font>
+                        </MFXButton>
+                        <MFXButton fx:id="clearAddLocation" prefHeight="21.0" prefWidth="75.0" rippleColor="#e83737" style="-fx-background-color: #FF4343; -fx-border-color: #FF4343; -fx-border-radius: 2;" text="Clear" textFill="WHITE">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="25.0" right="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </FlowPane>
             <Text fx:id="alreadyExistsText" fill="RED" layoutX="14.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location already exists. Try again." visible="false">
                <font>
                   <Font size="8.0" />
                </font>
             </Text>
-            <MFXButton contentDisplay="CENTER" layoutX="164.0" layoutY="1.0" onAction="#cancelAddLocation" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: #f6f6f6;" textFill="#f5f5f500">
+            <MFXButton contentDisplay="GRAPHIC_ONLY" layoutX="245.0" onAction="#cancelAddLocation" prefHeight="31.0" prefWidth="35.0" style="-fx-background-color: transparent;" textFill="#f5f5f500">
                <graphic>
                   <ImageView fx:id="exitEdit3" fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/exitPopup.png" />
+                     </image>
+                  </ImageView>
+               </graphic></MFXButton>
+         </children>
+      </Pane>
+      <Pane fx:id="deleteAlertPane" layoutX="233.0" layoutY="206.0" prefHeight="190.0" prefWidth="200.0" styleClass="map-window" visible="false">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Text layoutX="10.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="header" text="Delete Alert" wrappingWidth="144.21630859375">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font>
+            </Text>
+            <FlowPane hgap="20.0" layoutX="10.0" layoutY="32.0" prefHeight="112.0" prefWidth="188.0" vgap="8.0">
+               <children>
+                  <VBox spacing="8.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Alert Location" wrappingWidth="144.21630859375">
+                           <font>
+                              <Font size="8.0" />
+                           </font>
+                        </Text>
+                        <MFXTextField fx:id="alertLocationFieldDelete" floatMode="DISABLED" prefHeight="23.0" prefWidth="79.0" style="-fx-border-color: #0075ff; -fx-background-color: #FFFFFF; -fx-border-radius: 2;">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </VBox>
+                  <VBox spacing="8.0">
+                     <children>
+                        <Text fill="#7b7b7b" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="form-header" text="Select code" wrappingWidth="144.21630859375">
+                           <font>
+                              <Font size="8.0" />
+                           </font>
+                        </Text>
+                        <ComboBox fx:id="alertCodeFieldDelete" prefWidth="150.0" style="-fx-background-color: #FFFFFF;">
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color opacity="0.30000001192092896" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </ComboBox>
+                     </children>
+                  </VBox>
+                  <HBox spacing="20.0">
+                     <children>
+                        <MFXButton fx:id="deleteAlert" prefHeight="21.0" prefWidth="80.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff;" text="Delete" textFill="WHITE">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXButton>
+                        <MFXButton fx:id="cancelAlertPane1" onAction="#cancelDeleteAlert" prefHeight="21.0" prefWidth="80.0" rippleColor="#e83737" style="-fx-background-color: #FF4343;" text="Cancel" textFill="WHITE">
+                           <font>
+                              <Font size="7.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </FlowPane>
+            <MFXButton contentDisplay="GRAPHIC_ONLY" layoutX="165.0" layoutY="1.0" onAction="#cancelDeleteAlert" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: transparent;" textFill="#f5f5f500">
+               <graphic>
+                  <ImageView fx:id="exitEdit21" fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/exitPopup.png" />
                      </image>

@@ -2,23 +2,16 @@ package edu.wpi.cs3733.D22.teamZ.entity;
 
 import java.util.List;
 import javafx.scene.control.Label;
+import javafx.scene.shape.Polygon;
+import lombok.Getter;
+import lombok.Setter;
 
 public class MapLabel extends Label {
-
   private Location location;
-
-  public List<MedicalEquipment> getEquip() {
-    return equip;
-  }
-
-  public List<ServiceRequest> getReqs() {
-    return reqs;
-  }
-
-  private List<MedicalEquipment> equip;
+  @Getter private List<MedicalEquipment> equip;
   private List<Employee> employee;
-  private List<ServiceRequest> reqs;
-  private Label label;
+  @Getter private List<ServiceRequest> reqs;
+  @Getter @Setter private Polygon bound;
   // etc
 
   public MapLabel(mapLabelBuilder b) {
@@ -26,7 +19,7 @@ public class MapLabel extends Label {
     this.employee = b.employee;
     this.equip = b.equip;
     this.reqs = b.reqs;
-    this.label = this.label;
+    this.bound = b.bound;
     createLabel();
   }
 
@@ -45,15 +38,10 @@ public class MapLabel extends Label {
     private List<MedicalEquipment> equip = null;
     private List<Employee> employee = null;
     private List<ServiceRequest> reqs = null;
-    private Label label;
+    private Polygon bound = null;
 
     public mapLabelBuilder location(Location loc) {
       location = loc;
-      return this;
-    }
-
-    public mapLabelBuilder label(Label label) {
-      this.label = label;
       return this;
     }
 
@@ -69,6 +57,11 @@ public class MapLabel extends Label {
 
     public mapLabelBuilder requests(List<ServiceRequest> reqs) {
       this.reqs = reqs;
+      return this;
+    }
+
+    public mapLabelBuilder bounds(Polygon bound) {
+      this.bound = bound;
       return this;
     }
 

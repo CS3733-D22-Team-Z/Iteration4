@@ -15,15 +15,23 @@ public class ServiceRequestControlCSV extends ControlCSV {
   };
 
   public ServiceRequestControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
-  protected void writeServiceRequestCSV(List<ServiceRequest> in) {
+  protected void writeServiceRequestCSV(List<ServiceRequest> in) throws IOException {
     writeCSV(objToData(in), headers);
+  }
+
+  protected void writeServiceRequestCSV(List<ServiceRequest> in, File path) throws IOException {
+    writeCSV(objToData(in), path, headers);
   }
 
   protected List<ServiceRequest> readServiceRequestCSV() throws IOException {
     return dataToObj(readCSV());
+  }
+
+  protected List<ServiceRequest> readServiceRequestCSV(File path) throws IOException {
+    return dataToObj(readCSV(path));
   }
 
   private List<ServiceRequest> dataToObj(List<List<String>> data) {
@@ -65,7 +73,7 @@ public class ServiceRequestControlCSV extends ControlCSV {
                       a.getType().toString(),
                       a.getStatus().toString(),
                       a.getIssuer().getEmployeeID(),
-                      null,
+                      "null",
                       a.getTargetLocation().getNodeID()
                     }));
         ret.add(entry);
