@@ -9,35 +9,37 @@ import java.util.List;
 
 public class MedEqReqControlCSV extends ControlCSV {
   private final String[] headers = {"requestID", "itemID"};
+  private final FacadeDAO dao = FacadeDAO.getInstance();
 
   public MedEqReqControlCSV(File path) {
     this.setDefaultPath(path);
   }
 
   protected void writeMedReqCSV(List<MedicalEquipmentDeliveryRequest> in) throws IOException {
-    IMedicalEquipmentDAO medicalEquipmentDAO = new MedicalEquipmentDAOImpl();
-    IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
-
     writeCSV(objToData(in), headers);
-    // TODO this doesnt make sense
-    requestDAO.exportToServiceRequestCSV();
+  }
+
+  protected void writeMedReqCSV(List<MedicalEquipmentDeliveryRequest> in, File path)
+      throws IOException {
+    writeCSV(objToData(in), path, headers);
   }
 
   protected List<MedicalEquipmentDeliveryRequest> readMedReqCSV() throws IOException {
     return dataToObj(readCSV());
   }
 
+  protected List<MedicalEquipmentDeliveryRequest> readMedReqCSV(File path) throws IOException {
+    return dataToObj(readCSV(path));
+  }
+
   private List<MedicalEquipmentDeliveryRequest> dataToObj(List<List<String>> data) {
     List<MedicalEquipmentDeliveryRequest> ret = new ArrayList<>();
-    IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
-    IEmployeeDAO employeeDAO = new EmployeeDAOImpl();
-    ILocationDAO locationDAO = new LocationDAOImpl();
 
     for (List<String> a : data) {
       String requestID = a.get(0);
       String equipmentID = a.get(1);
 
-      ServiceRequest request = requestDAO.getServiceRequestByID(requestID);
+      ServiceRequest request = dao.getServiceRequestByID(requestID);
       if (request.getHandler() == null) {
         ret.add(
             new MedicalEquipmentDeliveryRequest(
