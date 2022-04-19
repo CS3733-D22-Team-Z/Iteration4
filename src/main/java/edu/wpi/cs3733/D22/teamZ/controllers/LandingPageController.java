@@ -67,6 +67,7 @@ public class LandingPageController implements IMenuAccess {
     "M770.25 549.375H592.5V494.438H770.25V549.375ZM888.75 769.125H711V714.188H888.75V769.125ZM829.5 659.25H651.75V604.312H829.5V659.25Z"
   };
 
+
   private MenuController menu;
   private final String grey = "#0075FF";
   private final String svgCSSLine = "-fx-background-color: %s";
