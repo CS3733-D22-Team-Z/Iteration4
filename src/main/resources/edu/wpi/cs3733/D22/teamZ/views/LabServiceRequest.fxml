@@ -2,28 +2,87 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LabRequestController">
     <children>
-        <Rectangle fx:id="warningBackground" arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="26.0" layoutX="15.0" layoutY="369.0" stroke="TRANSPARENT" strokeType="INSIDE" width="257.0" />
-        <MFXButton id="backButton" fx:id="backButton" layoutX="16.0" layoutY="14.0" onAction="#onBackButtonClicked" text="Back to Landing Page" />
-        <Label layoutX="14.0" layoutY="63.0" prefHeight="25.0" prefWidth="225.0" styleClass="object-header" text="Lab Request Form" />
-        <Label layoutX="17.0" layoutY="90.0" prefHeight="17.0" prefWidth="477.0" styleClass="object-body" text="Enter the fields below to request a lab for a patient." />
-        <Label fx:id="patientNameLabel" layoutX="14.0" layoutY="123.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
-        <MFXTextField fx:id="patientNameField" floatMode="DISABLED" layoutX="12.0" layoutY="145.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter patient name" />
-        <Label fx:id="patientIdLabel" layoutX="15.0" layoutY="188.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
-        <MFXTextField fx:id="patientIdField" floatMode="DISABLED" layoutX="13.0" layoutY="209.0" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="149.0" promptText="Enter patient ID" />
-        <Label fx:id="labTypeLabel" layoutX="15.0" layoutY="255.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Lab Type" />
-        <ChoiceBox fx:id="labTypeChoiceBox" layoutX="15.0" layoutY="275.0" onKeyReleased="#validateButton" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" />
-        <MFXButton fx:id="submitButton" layoutX="12.0" layoutY="334.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="79.0" text="Submit" />
-        <MFXButton fx:id="resetButton" layoutX="104.0" layoutY="334.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="75.0" style="-fx-background-color: FF4343;" text="Reset" />
-        <Label layoutX="286.0" layoutY="164.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
-        <Label id="rejected" fx:id="errorSavingLabel" layoutX="18.0" layoutY="373.0" prefHeight="17.0" prefWidth="373.0" styleClass="form-header" text="Error saving request, no equipment available" />
-        <Label id="confirmed" fx:id="successfulSubmitLabel" layoutX="22.0" layoutY="374.0" prefHeight="17.0" prefWidth="359.0" styleClass="form-header" text="Successfully submitted lab request!" />
-        <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="259.0" layoutY="185.0" onAction="#toLabServiceRequestList" text="Lab Service Request List" />
+        <Label layoutX="25.0" layoutY="74.0" prefHeight="25.0" prefWidth="225.0" styleClass="object-header" text="Lab Request Form" />
+        <Label fx:id="patientNameLabel" layoutX="25.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
+        <MFXTextField fx:id="patientNameField" floatMode="DISABLED" layoutX="23.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient name" />
+        <Label fx:id="patientIdLabel" layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
+        <MFXTextField fx:id="patientIdField" floatMode="DISABLED" layoutX="196.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient ID" />
+        <Label fx:id="labTypeLabel" layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Lab Type" />
+        <ChoiceBox fx:id="labTypeChoiceBox" layoutX="24.0" layoutY="242.0" onKeyReleased="#validateButton" onMouseExited="#validateButton" prefHeight="35.0" prefWidth="149.0" />
+        <MFXButton fx:id="submitButton" disable="true" layoutX="23.0" layoutY="301.0" onAction="#onSubmitButtonClicked" prefHeight="31.0" prefWidth="111.0" text="Submit" />
+        <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="301.0" onAction="#onResetButtonClicked" prefHeight="31.0" prefWidth="111.0" style="-fx-background-color: FF4343;" text="Reset" />
+        <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="405.0" layoutY="202.0" onAction="#toLabServiceRequestList" prefHeight="32.0" text="Lab Service Request List" />
+      <MFXButton fx:id="backButton" layoutX="26.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
+         <graphic>
+            <Region fx:id="backRegion" prefHeight="12.0" prefWidth="6.0" translateX="-4.0" />
+         </graphic>
+      </MFXButton>
+      <Label layoutX="25.0" layoutY="102.0" prefHeight="17.0" prefWidth="340.0" styleClass="object-body" text="Enter the fields to request medical equipment." />
+      <Label fx:id="errorSavingLabel" alignment="CENTER" layoutX="21.0" layoutY="350.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request, no equipment available." textFill="#ff4444" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+               <image>
+                  <Image url="@../images/LoginErrorIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <Label fx:id="successfulSubmitLabel" alignment="CENTER" layoutX="21.0" layoutY="350.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #16A709; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #16A709;" styleClass="error-label" text="Successfully submitted lab request!" textFill="#1fbc1c" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+               <image>
+                  <Image url="@../images/successIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <Line endX="3.0" endY="365.0" layoutX="378.0" layoutY="32.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
+      <Label alignment="CENTER" layoutX="400.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
     </children>
 </AnchorPane>

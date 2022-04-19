@@ -2,27 +2,77 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="MedicalEquipmentDeliveryMedicalEquipmentDelivery" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestController">
+<AnchorPane fx:id="MedicalEquipmentDeliveryMedicalEquipmentDelivery" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: F3F3F3;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestController">
     <children>
-        <MFXButton fx:id="backButton" layoutX="17.0" layoutY="25.0" onAction="#onBackButtonClicked" text="Back to Landing Page" />
-        <Label layoutX="17.0" layoutY="59.0" prefHeight="25.0" prefWidth="340.0" styleClass="object-header" text="Medical Equipment Request" />
-        <Label layoutX="13.0" layoutY="80.0" prefHeight="17.0" prefWidth="467.0" styleClass="object-body" text="Enter the fields below to request medical equipment." />
-        <Label layoutX="15.0" layoutY="108.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
-        <MFXTextField fx:id="enterRoomNumber" floatMode="DISABLED" layoutX="13.0" layoutY="128.0" onKeyReleased="#validateButton" prefWidth="149.0" promptText="Enter room number" />
-        <Label layoutX="16.0" layoutY="273.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Equipment" />
-        <ChoiceBox fx:id="equipmentDropDown" layoutX="15.0" layoutY="293.0" onMouseReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
-        <MFXButton fx:id="submitButton" disable="true" layoutX="11.0" layoutY="335.0" onAction="#onSubmitButtonClicked" prefWidth="111.0" text="Submit" />
-        <MFXButton fx:id="resetButton" layoutX="141.0" layoutY="336.0" onAction="#onResetButtonClicked" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
-        <Label layoutX="15.0" layoutY="167.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Floor Number" />
-        <MFXTextField fx:id="enterFloorNumber" floatMode="DISABLED" layoutX="14.0" layoutY="185.0" onKeyReleased="#validateButton" prefWidth="149.0" promptText="Enter floor number" />
-        <Label layoutX="15.0" layoutY="221.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Location Type" />
-        <ChoiceBox fx:id="nodeTypeDropDown" layoutX="14.0" layoutY="239.0" onMouseReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
-        <Label layoutX="269.0" layoutY="159.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" />
-        <MFXButton fx:id="navigateToMedicalRequestList" layoutX="238.0" layoutY="184.0" onAction="#onNavigateToMedicalRequestList" prefHeight="28.0" prefWidth="165.0" text="See Requests" />
-        <Label fx:id="errorSavingLabel" layoutX="11.0" layoutY="373.0" prefHeight="17.0" prefWidth="243.0" style="-fx-text-fill: #FF4C4C;" styleClass="form-header" text="Error saving request, no equipment available" />
+        <MFXButton fx:id="backButton" layoutX="26.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
+         <graphic>
+            <Region fx:id="backRegion" prefHeight="12.0" prefWidth="6.0" translateX="-4.0" />
+         </graphic></MFXButton>
+        <Label layoutX="25.0" layoutY="74.0" prefHeight="25.0" prefWidth="340.0" styleClass="object-header" text="Medical Equipment Request" />
+        <Label layoutX="25.0" layoutY="102.0" prefHeight="17.0" prefWidth="340.0" styleClass="object-body" text="Enter the fields to request medical equipment." />
+        <Label layoutX="25.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
+        <Label layoutX="199.0" layoutY="216.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Equipment" />
+        <ChoiceBox fx:id="equipmentDropDown" layoutX="198.0" layoutY="240.0" onMouseReleased="#validateButton" prefHeight="35.0" prefWidth="149.0">
+         <padding>
+            <Insets left="10.0" />
+         </padding></ChoiceBox>
+        <MFXButton fx:id="submitButton" disable="true" layoutX="23.0" layoutY="308.0" onAction="#onSubmitButtonClicked" prefHeight="31.0" prefWidth="111.0" text="Submit" />
+        <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="308.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
+        <Label layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Floor Number" />
+        <MFXTextField fx:id="enterFloorNumber" animated="false" floatMode="DISABLED" layoutX="196.0" layoutY="158.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter floor number">
+         <padding>
+            <Insets left="10.0" />
+         </padding></MFXTextField>
+        <Label layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Location Type" />
+        <ChoiceBox fx:id="nodeTypeDropDown" layoutX="23.0" layoutY="240.0" onMouseReleased="#validateButton" prefHeight="35.0" prefWidth="149.0">
+         <padding>
+            <Insets left="10.0" />
+         </padding></ChoiceBox>
+        <Label layoutX="428.0" layoutY="159.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" visible="false" />
+        <MFXButton fx:id="navigateToMedicalRequestList" layoutX="405.0" layoutY="202.0" onAction="#onNavigateToMedicalRequestList" prefHeight="32.0" prefWidth="165.0" text="See Requests" />
+      <Label fx:id="errorSavingLabel" alignment="CENTER" layoutX="23.0" layoutY="358.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request, no equipment available." textFill="#ff4444" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+               <image>
+                  <Image url="@../images/LoginErrorIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <MFXTextField fx:id="enterRoomNumber" animated="false" floatMode="DISABLED" layoutX="23.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter floor number" styleClass="mfx-text-field" text="Enter room number">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </MFXTextField>
+      <Line endX="3.0" endY="386.5" layoutX="368.0" layoutY="22.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
+      <Label alignment="CENTER" layoutX="389.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" />
     </children>
 </AnchorPane>
