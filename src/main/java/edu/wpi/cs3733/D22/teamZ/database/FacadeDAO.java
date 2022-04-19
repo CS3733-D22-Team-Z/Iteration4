@@ -184,6 +184,17 @@ public class FacadeDAO {
   public MedicalEquipmentDeliveryRequest getMedicalEquipmentRequestByID(String id) {
     return medEquipReqDAO.getMedEquipReqByID(id);
   }
+
+  /**
+   * Gets a MealServiceRequest of the given requestID
+   *
+   * @param id ID of request to be fetched
+   * @return MealServiceRequest of given ID, null if not found
+   */
+  public MealServiceRequest getMealServiceRequestByID(String id) {
+    return mealServiceRequestDAO.getMealServReqByID(id);
+  }
+
   /**
    * Get a LabServiceRequest with provided requestID
    *
@@ -250,6 +261,15 @@ public class FacadeDAO {
   public boolean addMealServiceRequest(MealServiceRequest request) {
     return serviceRequestDAO.addServiceRequest(request)
         && mealServiceRequestDAO.addMealServReq(request);
+  }
+  /**
+   * ONLY USE THIS TO POPULATE DB: will add to MealServReq table
+   *
+   * @param mealServiceRequest reqeust to be added
+   * @return true if successsful, false otherwise
+   */
+  public boolean addMealServiceRequestToDatabase(MealServiceRequest mealServiceRequest) {
+    return mealServiceRequestDAO.addMealServReq(mealServiceRequest);
   }
   /**
    * Adds the given ServiceRequest object to the database
@@ -616,6 +636,7 @@ public class FacadeDAO {
   public void exportServiceRequestsToCSV(File serviceRequestData) {
     serviceRequestDAO.exportToServiceRequestCSV(serviceRequestData);
   }
+
   /**
    * Exports the MedicalEquipmentRequest database to specified file location for csv
    *
@@ -625,6 +646,17 @@ public class FacadeDAO {
   public boolean exportMedicalEquipmentRequestsToCSV(File equipmentData) {
     return medEquipReqDAO.exportToMedEquipReqCSV(equipmentData);
   }
+
+  /**
+   * Exports the MealServiceRequest database to specified file location for csv
+   *
+   * @param mealData file location for csv
+   * @return True if successful, false otherwise
+   */
+  public boolean exportMealServiceRequestsToCSV(File mealData) {
+    return mealServiceRequestDAO.exportToMealServReqCSV(mealData);
+  }
+
   // TODO create csv controller for lab requests
   /**
    * Exports all LabServiceRequests in the database to specified file location of csv
@@ -681,6 +713,10 @@ public class FacadeDAO {
    */
   public File getDefaultMedEquipReqCSVPath() {
     return medEquipReqDAO.getDefaultMedEquipReqCSVPath();
+  }
+
+  public File getDefaultMealServReqCSVPath() {
+    return mealServiceRequestDAO.getDefaultMealServReqCSVPath();
   }
 
   // Add from list functions

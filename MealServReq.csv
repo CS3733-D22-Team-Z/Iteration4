@@ -1,2 +1,6 @@
 requestID,patientID,drink,entree,side
-REQ6,PAT2,Water,Chicken_Sandwich,Pretzel
+REQ6,PAT1,Water,Chicken_Sandwich,Pretzel
+REQ7,PAT2,Sprite,Cheeseburger,Fruit_Bowl
+REQ8,PAT3,Tea,Chicken_Sandwich,Pretzel
+REQ9,PAT4,Coffee,Chicken_Sandwich,Pretzel
+REQ10,PAT5,Orange_Juice,Belgium_Waffle,Fruit_Bowl

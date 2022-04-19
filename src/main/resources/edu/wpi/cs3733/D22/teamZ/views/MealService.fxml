@@ -13,8 +13,8 @@
         <Label id="FormLabel" layoutX="15.0" layoutY="52.0" prefHeight="25.0" prefWidth="321.0" styleClass="object-header" text="Meal Service Request Form" />
         <Label layoutX="15.0" layoutY="76.0" prefHeight="17.0" prefWidth="437.0" styleClass="object-body" text="Enter the fields below to request a meal service." />
         <Label layoutX="15.0" layoutY="105.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Choose Patient ID..." />
-        <Label layoutX="16.0" layoutY="162.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Choose Patient Name..." />
-        <Label layoutX="17.0" layoutY="225.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Choose Room Number..." />
+        <Label layoutX="16.0" layoutY="162.0" prefHeight="17.0" prefWidth="160.0" styleClass="form-header" text="Choose Patient Name..." />
+        <Label layoutX="17.0" layoutY="225.0" prefHeight="17.0" prefWidth="160.0" styleClass="form-header" text="Choose Room Number..." />
         <Label layoutX="17.0" layoutY="283.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Choose Meal Time..." />
       <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="356.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="74.0" text="Submit" />
       <MFXButton fx:id="resetButton" layoutX="101.0" layoutY="356.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
@@ -27,7 +27,7 @@
       <Label layoutX="225.0" layoutY="282.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Snack Choice..." />
       <MFXButton id="LanguageBackButton" fx:id="navigateToMealRequestList" layoutX="407.0" layoutY="38.0" onAction="#onNavigateToMealRequestList" text="View Current Requests" />
       <Label layoutX="411.0" layoutY="105.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Select Any Allergies..." />
-      <RadioButton fx:id="dairyChoice" layoutX="424.0" layoutY="132.0" mnemonicParsing="false" text="Dairy" />
+      <RadioButton fx:id="dairyChoice" layoutX="424.0" layoutY="132.0" mnemonicParsing="false" onAction="#validateButton" text="Dairy" />
       <RadioButton fx:id="eggChoice" layoutX="424.0" layoutY="162.0" mnemonicParsing="false" text="Egg" />
       <RadioButton fx:id="peanutChoice" layoutX="424.0" layoutY="192.0" mnemonicParsing="false" text="Peanut" />
       <RadioButton fx:id="treenutChoice" layoutX="424.0" layoutY="222.0" mnemonicParsing="false" text="Tree Nut" />

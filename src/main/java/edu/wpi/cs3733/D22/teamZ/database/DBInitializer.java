@@ -247,9 +247,9 @@ public class DBInitializer {
           "CREATE TABLE MEALSERVICEREQUEST ("
               + "requestID VARCHAR(15),"
               + "patientID VARCHAR(15),"
-              + "drink VARCHAR(15),"
-              + "entree VARCHAR(15),"
-              + "side VARCHAR(15),"
+              + "drink VARCHAR(50),"
+              + "entree VARCHAR(50),"
+              + "side VARCHAR(50),"
               + "constraint MEALSERVICEREQUEST_PK PRIMARY KEY (requestID),"
               + "constraint MEALSERVICEREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid),"
               + "constraint MEALSERVICEREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
@@ -383,7 +383,8 @@ public class DBInitializer {
       List<MealServiceRequest> tempMealServRequests = mealServReqControlCSV.readMealServReqCSV();
 
       for (MealServiceRequest info : tempMealServRequests) {
-        dao.addMealServiceRequest(info);
+        //        dao.addMealServiceRequest(info);
+        dao.addMealServiceRequestToDatabase(info);
         /*PreparedStatement pstmt =
             connection.prepareStatement(
                 "INSERT INTO MEDICALEQUIPMENT (EQUIPMENTID, TYPE, STATUS, CURRENTLOCATION) "
