@@ -97,4 +97,28 @@ public interface ILocationDAO {
    * @return true if successful, false otherwise
    */
   boolean addLocationFromList(List<Location> list);
+
+  /**
+   * Get the nodeID of a dirty location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the dirty location
+   */
+  String getDirtyNodeIDbyFloor(String floor);
+
+  /**
+   * Get the nodeID of a clean storage location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the clean location
+   */
+  String getCleanNodeIDbyFloor(String floor);
+
+  /**
+   * Get the nodeID of a random bed park on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the bed park
+   */
+  String getRandomBedParkNodeIDByFloor(String floor);
 }

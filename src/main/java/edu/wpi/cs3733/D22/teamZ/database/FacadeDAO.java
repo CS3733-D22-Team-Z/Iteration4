@@ -775,6 +775,33 @@ public class FacadeDAO {
   public List<Location> getALlLocationsByType(String type) {
     return locationDAO.getALlLocationsByType(type);
   }
+  /**
+   * Get the nodeID of a dirty location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the dirty location; default is dirty location on thrid floor
+   */
+  public String getDirtyNodeIDbyFloor(String floor) {
+    return locationDAO.getDirtyNodeIDbyFloor(floor);
+  }
+  /**
+   * Get the nodeID of a clean storage location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the clean location
+   */
+  public String getCleanNodeIDbyFloor(String floor) {
+    return "";
+  }
+  /**
+   * Get the nodeID of a random bed park on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the bed park
+   */
+  public String getRandomBedParkNodeIDByFloor(String floor) {
+    return locationDAO.getRandomBedParkNodeIDByFloor(floor);
+  }
 
   // Special methods for medical equipment
   /**

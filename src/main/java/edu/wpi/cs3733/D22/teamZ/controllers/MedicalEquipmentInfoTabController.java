@@ -1,13 +1,13 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -17,7 +17,7 @@ public class MedicalEquipmentInfoTabController {
 
   public MFXButton resetButton;
   @FXML private MFXTextField equipmentTypeField;
-  @FXML private MFXTextField equipmentStatusField;
+  @FXML private ChoiceBox equipmentStatusChoice;
   @FXML private MFXTextField equipmentLocationField;
   @FXML private ChoiceBox<String> equipmentComboBox;
   @FXML private Label errorLabel;
@@ -26,6 +26,7 @@ public class MedicalEquipmentInfoTabController {
   @FXML private MFXButton editButton;
   @FXML private MFXButton saveButton;
 
+  ObservableList<String> listOfStatus;
   FacadeDAO facadeDAO = FacadeDAO.getInstance();
   ArrayList<MedicalEquipment> medicalEquipmentList;
   ArrayList<String> medicalEquipmentIDs;
@@ -38,6 +39,12 @@ public class MedicalEquipmentInfoTabController {
     medicalEquipmentIDs = new ArrayList<String>();
     // Get all medical equipment
     medicalEquipmentList = new ArrayList<>(facadeDAO.getAllMedicalEquipment());
+    listOfStatus = FXCollections.observableList(new ArrayList<>());
+    listOfStatus.setAll(
+        MedicalEquipment.EquipmentStatus.DIRTY.toString(),
+        MedicalEquipment.EquipmentStatus.INUSE.toString(),
+        MedicalEquipment.EquipmentStatus.CLEAN.toString(),
+        MedicalEquipment.EquipmentStatus.CLEANING.toString());
 
     setLabel(LocationListController.getActiveLabel());
 
@@ -56,7 +63,7 @@ public class MedicalEquipmentInfoTabController {
     // Set all fields to uneditable
     equipmentIDField.setDisable(true);
     equipmentLocationField.setDisable(true);
-    equipmentStatusField.setDisable(true);
+    equipmentStatusChoice.setDisable(true);
     equipmentTypeField.setDisable(true);
 
     // Hide buttons
@@ -68,20 +75,63 @@ public class MedicalEquipmentInfoTabController {
     errorLabel.setVisible(false);
 
     exitButton.setVisible(false);
+
+    // listener
+    equipmentStatusChoice
+        .valueProperty()
+        .addListener(
+            observable -> {
+              if (getMedicalEquipmentbyID(equipmentComboBox.getValue()).getType().equals("Bed")) {
+                if (equipmentStatusChoice.getValue().equals("DIRTY")) {
+                  equipmentLocationField.setText(
+                      FacadeDAO.getInstance()
+                          .getLocationByID(
+                              FacadeDAO.getInstance()
+                                  .getRandomBedParkNodeIDByFloor(
+                                      getMedicalEquipmentbyID(equipmentComboBox.getValue())
+                                          .getCurrentLocation()
+                                          .getFloor()))
+                          .getNodeID());
+                  equipmentLocationField.setDisable(true);
+                }
+              }
+              else if (getMedicalEquipmentbyID(equipmentComboBox.getValue())
+                  .getType()
+                  .equals("IPumps")) {
+                if (equipmentStatusChoice.getValue().equals("DIRTY")) {
+                  equipmentLocationField.setText(
+                      FacadeDAO.getInstance()
+                          .getLocationByID(
+                              FacadeDAO.getInstance()
+                                  .getDirtyNodeIDbyFloor(
+                                      getMedicalEquipmentbyID(equipmentComboBox.getValue())
+                                          .getCurrentLocation()
+                                          .getFloor()))
+                          .getNodeID());
+                  equipmentLocationField.setDisable(true);
+                } else {
+                  equipmentLocationField.setText(
+                      getMedicalEquipmentbyID(equipmentComboBox.getValue())
+                          .getCurrentLocation()
+                          .getNodeID());
+                  equipmentLocationField.setDisable(false);
+                }
+              }
+            });
   }
 
   public void onSelectMedicalEquipment(ActionEvent actionEvent) {
     MedicalEquipment selectedEquipment =
         getMedicalEquipmentbyID(equipmentComboBox.getSelectionModel().getSelectedItem().toString());
     equipmentTypeField.setText(selectedEquipment.getType());
-    equipmentStatusField.setText(selectedEquipment.getStatus().toString());
+    equipmentStatusChoice.setItems(listOfStatus);
     equipmentIDField.setText(selectedEquipment.getEquipmentID());
     equipmentLocationField.setText(selectedEquipment.getCurrentLocation().getNodeID());
     editButton.setDisable(false);
   }
 
   public void onEditEquipment(ActionEvent actionEvent) {
-
+    equipmentStatusChoice.setDisable(false);
     equipmentLocationField.setDisable(false);
     editButton.setVisible(false);
     saveButton.setVisible(true);
@@ -92,7 +142,12 @@ public class MedicalEquipmentInfoTabController {
 
     MedicalEquipment editedMedicalEquipment = getMedicalEquipmentbyID(equipmentIDField.getText());
 
-    editedMedicalEquipment.setCurrentLocation(new Location(equipmentLocationField.getText()));
+    editedMedicalEquipment.setStatus(
+        MedicalEquipment.EquipmentStatus.getRequestStatusByString(
+            equipmentStatusChoice.getValue().toString()));
+
+    editedMedicalEquipment.setCurrentLocation(
+        FacadeDAO.getInstance().getLocationByID(equipmentLocationField.getText()));
 
     if (facadeDAO.updateMedicalEquipment(editedMedicalEquipment)) {
       equipmentLocationField.setDisable(true);
@@ -125,6 +180,8 @@ public class MedicalEquipmentInfoTabController {
   public void onResetButtonClicked(ActionEvent actionEvent) {
     equipmentLocationField.setText(
         getMedicalEquipmentbyID(equipmentComboBox.getValue()).getCurrentLocation().getNodeID());
+    equipmentStatusChoice.setValue(
+        getMedicalEquipmentbyID(equipmentComboBox.getValue()).getStatus());
     errorLabel.setVisible(false);
     saveButton.setVisible(false);
     editButton.setVisible(true);
