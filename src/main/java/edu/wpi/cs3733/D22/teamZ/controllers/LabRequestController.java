@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
@@ -106,7 +105,15 @@ public class LabRequestController extends ServiceRequestController {
             status,
             issuer,
             handler,
-            FacadeDAO.getInstance().getLocationByID("zLABS00101"),
+            new Location(
+                "zLABS00101",
+                717,
+                609,
+                "1",
+                "Tower",
+                "LABS",
+                "Obstetrics Admitting",
+                "Obs Admitting"),
             labTypeChoiceBox.getSelectionModel().getSelectedItem());
 
     database.addLabServiceRequest(temp);
