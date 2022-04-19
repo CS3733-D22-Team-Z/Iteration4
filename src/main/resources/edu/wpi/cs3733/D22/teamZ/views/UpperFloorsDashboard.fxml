@@ -60,9 +60,11 @@
          <children>
             <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
             <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
-            <ProgressBar fx:id="floor5Dirty" layoutX="80.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <ProgressBar fx:id="floor5Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <Region fx:id="dashRegion5" layoutX="285.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <ProgressBar fx:id="floor5Dirty" layoutX="110.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor5Clean" layoutX="110.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <Region fx:id="dashRegion5" layoutX="316.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <Label fx:id="floor5DirtyLabel" layoutX="61.0" layoutY="3.0" text="Label" />
+            <Label fx:id="floor5CleanLabel" layoutX="61.0" layoutY="20.0" text="Label" />
          </children>
       </Pane>
       <Pane layoutX="120.0" layoutY="100.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
@@ -72,9 +74,11 @@
          <children>
             <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
             <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
-            <ProgressBar fx:id="floor4Dirty" layoutX="80.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <ProgressBar fx:id="floor4Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <Region fx:id="dashRegion4" layoutX="285.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <ProgressBar fx:id="floor4Dirty" layoutX="110.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor4Clean" layoutX="110.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <Region fx:id="dashRegion4" layoutX="316.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <Label fx:id="floor4DirtyLabel" layoutX="61.0" layoutY="3.0" text="Label" />
+            <Label fx:id="floor4CleanLabel" layoutX="61.0" layoutY="20.0" text="Label" />
          </children>
       </Pane>
       <Pane layoutX="120.0" layoutY="147.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
@@ -84,9 +88,11 @@
          <children>
             <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
             <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
-            <ProgressBar fx:id="floor3Dirty" layoutX="80.0" layoutY="7.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <ProgressBar fx:id="floor3Clean" layoutX="80.0" layoutY="25.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <Region fx:id="dashRegion3" layoutX="285.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <ProgressBar fx:id="floor3Dirty" layoutX="110.0" layoutY="7.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor3Clean" layoutX="110.0" layoutY="25.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <Region fx:id="dashRegion3" layoutX="316.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <Label fx:id="floor3DirtyLabel" layoutX="61.0" layoutY="3.0" text="Label" />
+            <Label fx:id="floor3CleanLabel" layoutX="61.0" layoutY="20.0" text="Label" />
          </children>
       </Pane>
       <Pane layoutX="120.0" layoutY="194.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
@@ -96,9 +102,11 @@
          <children>
             <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
             <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
-            <ProgressBar fx:id="floor2Dirty" layoutX="80.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <ProgressBar fx:id="floor2Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <Region fx:id="dashRegion2" layoutX="285.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <ProgressBar fx:id="floor2Dirty" layoutX="110.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor2Clean" layoutX="110.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <Region fx:id="dashRegion2" layoutX="316.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <Label fx:id="floor2DirtyLabel" layoutX="61.0" layoutY="3.0" text="Label" />
+            <Label fx:id="floor2CleanLabel" layoutX="61.0" layoutY="20.0" text="Label" />
          </children>
       </Pane>
       <Pane layoutX="120.0" layoutY="242.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
@@ -108,9 +116,11 @@
          <children>
             <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
             <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
-            <ProgressBar fx:id="floor1Dirty" layoutX="80.0" layoutY="9.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <ProgressBar fx:id="floor1Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <Region fx:id="dashRegion1" layoutX="285.0" layoutY="3.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <ProgressBar fx:id="floor1Dirty" layoutX="110.0" layoutY="9.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="floor1Clean" layoutX="110.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <Region fx:id="dashRegion1" layoutX="316.0" layoutY="3.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <Label fx:id="floor1DirtyLabel" layoutX="61.0" layoutY="3.0" text="Label" />
+            <Label fx:id="floor1CleanLabel" layoutX="61.0" layoutY="20.0" text="Label" />
          </children>
       </Pane>
       <Pane layoutX="120.0" layoutY="290.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
@@ -120,9 +130,11 @@
          <children>
             <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
             <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
-            <ProgressBar fx:id="lowerLevel1Dirty" layoutX="80.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <ProgressBar fx:id="lowerLevel1Clean" layoutX="80.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <Region fx:id="dashRegionLL1" layoutX="285.0" layoutY="3.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <ProgressBar fx:id="lowerLevel1Dirty" layoutX="110.0" layoutY="6.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="lowerLevel1Clean" layoutX="110.0" layoutY="23.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <Region fx:id="dashRegionLL1" layoutX="316.0" layoutY="3.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <Label fx:id="lowerLevel1DirtyLabel" layoutX="61.0" layoutY="3.0" text="Label" />
+            <Label fx:id="lowerLevel1CleanLabel" layoutX="61.0" layoutY="20.0" text="Label" />
          </children>
       </Pane>
       <Pane layoutX="120.0" layoutY="338.0" prefHeight="42.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
@@ -132,9 +144,11 @@
          <children>
             <Label layoutX="15.0" layoutY="3.0" prefHeight="17.0" text="Dirty:" />
             <Label layoutX="12.0" layoutY="20.0" prefHeight="17.0" text="Clean:" />
-            <ProgressBar fx:id="lowerLevel2Dirty" layoutX="80.0" layoutY="7.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <ProgressBar fx:id="lowerLevel2Clean" layoutX="80.0" layoutY="25.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
-            <Region fx:id="dashRegionLL2" layoutX="285.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <ProgressBar fx:id="lowerLevel2Dirty" layoutX="110.0" layoutY="7.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <ProgressBar fx:id="lowerLevel2Clean" layoutX="110.0" layoutY="25.0" prefHeight="11.0" prefWidth="200.0" progress="0.5" />
+            <Region fx:id="dashRegionLL2" layoutX="316.0" layoutY="4.0" prefHeight="34.0" prefWidth="34.0" visible="false" />
+            <Label fx:id="lowerLevel2DirtyLabel" layoutX="61.0" layoutY="3.0" text="Label" />
+            <Label fx:id="lowerLevel2CleanLabel" layoutX="61.0" layoutY="20.0" text="Label" />
          </children>
       </Pane>
       <MFXButton fx:id="floor5Button" layoutX="26.0" layoutY="59.0" onAction="#toFloor5" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #0075FF;" text="Floor 5" textFill="WHITE">

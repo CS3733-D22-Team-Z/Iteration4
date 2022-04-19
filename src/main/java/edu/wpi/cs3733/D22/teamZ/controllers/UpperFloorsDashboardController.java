@@ -13,10 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -78,6 +75,20 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML private Region dashRegion1;
   @FXML private Region dashRegionLL1;
   @FXML private Region dashRegionLL2;
+  @FXML private Label floor5DirtyLabel;
+  @FXML private Label floor5CleanLabel;
+  @FXML private Label floor4DirtyLabel;
+  @FXML private Label floor4CleanLabel;
+  @FXML private Label floor3DirtyLabel;
+  @FXML private Label floor3CleanLabel;
+  @FXML private Label floor2DirtyLabel;
+  @FXML private Label floor2CleanLabel;
+  @FXML private Label floor1DirtyLabel;
+  @FXML private Label floor1CleanLabel;
+  @FXML private Label lowerLevel1DirtyLabel;
+  @FXML private Label lowerLevel1CleanLabel;
+  @FXML private Label lowerLevel2DirtyLabel;
+  @FXML private Label lowerLevel2CleanLabel;
 
   private FacadeDAO database;
 
@@ -164,6 +175,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("5");
     double dirtyValue = dirty / total;
     floor5Dirty.setProgress(dirtyValue);
+    floor5DirtyLabel.setText(Integer.toString((int) dirty));
   }
   // None of the equipment has "Clean" as the status, so nothing shows up under the clean progress
   // bar
@@ -173,6 +185,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("5");
     double cleanValue = clean / total;
     floor5Clean.setProgress(cleanValue);
+    floor5CleanLabel.setText(Integer.toString((int) clean));
   }
 
   private void createBarUP4Dirty() {
@@ -181,6 +194,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("4");
     double dirtyValue = dirty / total;
     floor4Clean.setProgress(dirtyValue);
+    floor4DirtyLabel.setText(Integer.toString((int) dirty));
   }
 
   private void createBarUP4Clean() {
@@ -189,6 +203,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("4");
     double cleanValue = clean / total;
     floor4Clean.setProgress(cleanValue);
+    floor4CleanLabel.setText(Integer.toString((int) clean));
   }
 
   private void createBarUP3Dirty() {
@@ -196,6 +211,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("3").size();
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("3");
     floor3Dirty.setProgress(dirty / total);
+    floor3DirtyLabel.setText(Integer.toString((int) dirty));
   }
 
   private void createBarUP3Clean() {
@@ -203,6 +219,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("3").size();
     double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("3");
     floor3Clean.setProgress(clean / total);
+    floor3CleanLabel.setText(Integer.toString((int) clean));
   }
 
   private void createBarUP2Dirty() {
@@ -210,6 +227,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("2").size();
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("2");
     floor2Dirty.setProgress(dirty / total);
+    floor2DirtyLabel.setText(Integer.toString((int) dirty));
   }
 
   private void createBarUP2Clean() {
@@ -217,6 +235,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("2").size();
     double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("2");
     floor2Clean.setProgress(clean / total);
+    floor2CleanLabel.setText(Integer.toString((int) clean));
   }
 
   private void createBarUP1Dirty() {
@@ -224,6 +243,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("1").size();
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("1");
     floor1Dirty.setProgress(dirty / total);
+    floor1DirtyLabel.setText(Integer.toString((int) dirty));
   }
 
   private void createBarUP1Clean() {
@@ -231,6 +251,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("1").size();
     double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("1");
     floor1Clean.setProgress(clean / total);
+    floor1CleanLabel.setText(Integer.toString((int) clean));
   }
 
   private void createBarLL1Dirty() {
@@ -238,6 +259,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("LL1").size();
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("LL1");
     lowerLevel1Dirty.setProgress(dirty / total);
+    lowerLevel1DirtyLabel.setText(Integer.toString((int) dirty));
   }
 
   private void createBarLL1Clean() {
@@ -245,6 +267,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("LL1").size();
     double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("LL1");
     lowerLevel1Clean.setProgress(clean / total);
+    lowerLevel1CleanLabel.setText(Integer.toString((int) clean));
   }
 
   private void createBarLL2Dirty() {
@@ -252,6 +275,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("LL2").size();
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("LL2");
     lowerLevel2Dirty.setProgress(dirty / total);
+    lowerLevel2DirtyLabel.setText(Integer.toString((int) dirty));
   }
 
   private void createBarLL2Clean() {
@@ -259,6 +283,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("LL2").size();
     double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("LL2");
     lowerLevel2Clean.setProgress(clean / total);
+    lowerLevel2CleanLabel.setText(Integer.toString((int) clean));
   }
 
   public void createTableUP1() {
