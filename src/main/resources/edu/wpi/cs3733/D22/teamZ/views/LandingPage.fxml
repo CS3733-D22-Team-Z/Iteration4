@@ -28,14 +28,14 @@
                 <Font size="9.0" />
             </font>
         </Label>
-      <MFXScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutY="115.0" prefHeight="324.0" prefWidth="600.0" style="-fx-background-color: #F6F6F6;">
+      <MFXScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="-2.0" layoutY="61.0" prefHeight="324.0" prefWidth="600.0" style="-fx-background-color: #F6F6F6;">
          <content>
-            <GridPane alignment="CENTER" hgap="1.0" prefHeight="434.0" prefWidth="550.0" translateX="24.0">
+            <GridPane alignment="CENTER" prefHeight="480.0" prefWidth="626.0" translateX="24.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="70.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="70.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="92.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="70.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="140.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="140.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="139.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="194.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="179.0" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
@@ -54,7 +54,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label layoutX="-13.0" layoutY="54.0" prefHeight="47.0" prefWidth="118.0" styleClass="landing-button" text="Medical Equipment" textAlignment="CENTER" wrapText="true">
+                              <Label layoutX="-13.0" layoutY="72.0" prefHeight="47.0" prefWidth="118.0" styleClass="landing-button" text="Medical Equipment" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -72,8 +72,8 @@
                                     </LinearGradient>
                                  </textFill>
                               </Label>
-                              <Region fx:id="medRegion" layoutX="25.0" layoutY="14.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="danLabel" layoutY="108.0" prefHeight="13.0" prefWidth="120.0" text="Daniel Correa">
+                              <Region fx:id="medRegion" layoutX="25.0" layoutY="23.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="danLabel" layoutY="114.0" prefHeight="13.0" prefWidth="120.0" text="Daniel Correa">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -93,7 +93,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label alignment="CENTER" layoutX="-13.0" layoutY="61.0" prefHeight="47.0" prefWidth="118.0" styleClass="landing-button" text="Lab Service" wrapText="true">
+                              <Label alignment="CENTER" layoutX="-13.0" layoutY="72.0" prefHeight="47.0" prefWidth="118.0" styleClass="landing-button" text="Lab Service" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -111,7 +111,7 @@
                                     </LinearGradient>
                                  </textFill>
                               </Label>
-                              <Region fx:id="labRegion" layoutX="26.0" layoutY="14.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Region fx:id="labRegion" layoutX="26.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
                               <Label fx:id="patrickLabel" layoutX="-6.0" layoutY="108.0" prefHeight="13.0" prefWidth="125.0" text="Patrick Hunter">
                                  <font>
                                     <Font size="9.0" />
@@ -132,7 +132,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="108.0" translateX="-4.0">
                            <children>
-                              <Label layoutX="-4.0" layoutY="51.0" prefHeight="66.0" prefWidth="116.0" styleClass="landing-button" text="External Patient Transportation" textAlignment="CENTER" wrapText="true">
+                              <Label layoutX="-4.0" layoutY="63.0" prefHeight="66.0" prefWidth="116.0" styleClass="landing-button" text="Ext. Patient Transport" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -149,8 +149,11 @@
                                        </stops>
                                     </LinearGradient>
                                  </textFill>
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
                               </Label>
-                              <Region fx:id="externalRegion" layoutX="27.0" layoutY="14.0" prefHeight="37.0" prefWidth="55.0" />
+                              <Region fx:id="externalRegion" layoutX="32.0" layoutY="23.0" prefHeight="40.0" prefWidth="44.0" />
                               <Label fx:id="mayaLabel" layoutY="111.0" prefHeight="13.0" prefWidth="111.0" text="Maya Angeles">
                                  <font>
                                     <Font size="9.0" />
@@ -171,7 +174,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label layoutX="-12.0" layoutY="54.0" prefHeight="47.0" prefWidth="116.0" styleClass="landing-button" text="Language Interpreter" textAlignment="CENTER" wrapText="true">
+                              <Label layoutX="-12.0" layoutY="72.0" prefHeight="47.0" prefWidth="116.0" styleClass="landing-button" text="Language Interpreter" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -189,7 +192,7 @@
                                     </LinearGradient>
                                  </textFill>
                               </Label>
-                              <Region fx:id="languageRegion" layoutX="26.0" layoutY="14.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Region fx:id="languageRegion" layoutX="26.0" layoutY="24.0" prefHeight="40.0" prefWidth="40.0" />
                               <Label fx:id="nehaLabel" layoutX="-13.0" layoutY="108.0" prefHeight="13.0" prefWidth="118.0" text="Neha Kuchipudi">
                                  <font>
                                     <Font size="9.0" />
@@ -210,7 +213,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label alignment="CENTER" layoutX="1.0" layoutY="61.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Meal Service" textAlignment="CENTER" wrapText="true">
+                              <Label alignment="CENTER" layoutX="1.0" layoutY="74.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Meal Service" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -228,7 +231,7 @@
                                     </LinearGradient>
                                  </textFill>
                               </Label>
-                              <Region fx:id="mealRegion" layoutX="26.0" layoutY="14.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Region fx:id="mealRegion" layoutX="23.0" layoutY="27.0" prefHeight="44.0" prefWidth="43.0" />
                               <Label fx:id="alexLabel" layoutX="-8.0" layoutY="108.0" prefHeight="13.0" prefWidth="133.0" text="Alex Brattstrom">
                                  <font>
                                     <Font size="9.0" />
@@ -249,7 +252,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label alignment="CENTER" layoutY="54.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Laundry Service " textAlignment="CENTER" wrapText="true">
+                              <Label alignment="CENTER" layoutY="73.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Laundry Service " textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -267,7 +270,7 @@
                                     </LinearGradient>
                                  </textFill>
                               </Label>
-                              <Region fx:id="laundryRegion" layoutX="26.0" layoutY="14.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Region fx:id="laundryRegion" layoutX="19.0" layoutY="29.0" prefHeight="37.0" prefWidth="50.0" />
                               <Label fx:id="jacobLabel" layoutY="108.0" prefHeight="13.0" prefWidth="115.0" text="Jacob Leavitt">
                                  <font>
                                     <Font size="9.0" />
@@ -288,7 +291,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label alignment="CENTER" layoutY="54.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Computer Service" textAlignment="CENTER" wrapText="true">
+                              <Label alignment="CENTER" layoutY="73.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Computer Service" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -306,7 +309,7 @@
                                     </LinearGradient>
                                  </textFill>
                               </Label>
-                              <Region fx:id="computerRegion" layoutX="26.0" layoutY="14.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Region fx:id="computerRegion" layoutX="21.0" layoutY="27.0" prefHeight="40.0" prefWidth="46.0" />
                               <Label fx:id="nelsonLabel" layoutX="6.0" layoutY="108.0" prefHeight="13.0" prefWidth="108.0" text="Nelson Diaz">
                                  <font>
                                     <Font size="9.0" />
@@ -327,7 +330,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label alignment="CENTER" layoutX="-6.0" layoutY="61.0" prefHeight="47.0" prefWidth="106.0" styleClass="landing-button" text="Gift Services" wrapText="true">
+                              <Label alignment="CENTER" layoutX="-6.0" layoutY="72.0" prefHeight="47.0" prefWidth="106.0" styleClass="landing-button" text="Gift Services" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -345,7 +348,7 @@
                                     </LinearGradient>
                                  </textFill>
                               </Label>
-                              <Region fx:id="giftRegion" layoutX="26.0" layoutY="14.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Region fx:id="giftRegion" layoutX="26.0" layoutY="26.0" prefHeight="40.0" prefWidth="40.0" />
                               <Label fx:id="claireLabel" layoutX="-12.0" layoutY="108.0" prefHeight="13.0" prefWidth="148.0" text="Claire Higginson">
                                  <font>
                                     <Font size="9.0" />
