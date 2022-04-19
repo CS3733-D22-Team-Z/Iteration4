@@ -26,6 +26,7 @@ public class LandingPageController implements IMenuAccess {
   private final String toGiftServicesURL = "edu/wpi/cs3733/D22/teamZ/views/GiftServices.fxml";
   private final String toEquipmentPurchaseServiceURL =
       "edu/wpi/cs3733/D22/teamZ/views/EquipmentPurchaseRequest.fxml";
+  private final String toSecurityServiceURL = "edu/wpi/cs3733/D22/teamZ/views/SecurityRequest.fxml";
 
   // @FXML VBox iconContainer;
   // @FXML MFXToggleButton toggle;

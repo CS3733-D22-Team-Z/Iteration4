@@ -16,6 +16,7 @@ public class DBInitializer {
   private final MealServReqControlCSV mealServReqControlCSV;
   private final CleaningReqControlCSV cleaningReqControlCSV;
   private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
+  private final SecurityRequestControlCSV securityRequestControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -66,6 +67,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "PurchaseReq.csv");
+    File securityReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "SecurityReq.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -76,6 +82,7 @@ public class DBInitializer {
     mealServReqControlCSV = new MealServReqControlCSV(mealServReqData);
     cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
     purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
+    securityRequestControlCSV = new SecurityRequestControlCSV(securityReqData);
   }
 
   public boolean createTables() {
@@ -94,6 +101,7 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("SECURITYREQUEST");
     dropExistingTable("EQUIPMENTPURCHASE");
     dropExistingTable("GIFTSERVICEREQUEST");
     dropExistingTable("MEALSERVICEREQUEST");
@@ -296,6 +304,19 @@ public class DBInitializer {
               + "constraint EQUIPMENTPURCHASE_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(REQUESTID))");
     } catch (SQLException e) {
       System.out.println("Failed to create equipment purchase request table");
+      return false;
+    }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE SECURITYREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "urgency VARCHAR(9),"
+              + "reason VARCHAR(40),"
+              + "constraint SECURITYREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint SECURITYREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(REQUESTID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create security request table");
       return false;
     }
 
@@ -528,6 +549,20 @@ public class DBInitializer {
       }
     } catch (IOException e) {
       System.out.println("Failed to read PurchaseReq.csv");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateSecurityRequestTable() {
+    try {
+      List<SecurityServiceRequest> requestList =
+          securityRequestControlCSV.readSecurityServiceRequestCSV();
+      for (SecurityServiceRequest request : requestList) {
+        dao.addSecurityServiceRequestToDatabase(request);
+      }
+    } catch (IOException e) {
+      System.out.println("Failed to read SecurityReq.csv");
       return false;
     }
     return true;

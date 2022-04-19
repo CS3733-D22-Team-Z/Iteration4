@@ -24,6 +24,7 @@ public class ServiceRequest {
     GIFT("GIFT"),
     CLEANING("CLEANING"),
     MEALSERV("MEALSERV"),
+    SECURITY("SECURE"),
     BUYEQUIP("BUYEQUIP");
 
     private final String typeStr;
@@ -74,6 +75,8 @@ public class ServiceRequest {
           return CLEANING;
         case "BUYEQUIP":
           return BUYEQUIP;
+        case "SECURE":
+          return SECURITY;
         default:
           return null;
       }
