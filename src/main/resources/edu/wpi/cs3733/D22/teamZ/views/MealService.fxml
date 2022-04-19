@@ -19,9 +19,9 @@
       <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="356.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="74.0" text="Submit" />
       <MFXButton fx:id="resetButton" layoutX="101.0" layoutY="356.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
       <Separator layoutX="16.0" layoutY="99.0" prefHeight="0.0" prefWidth="548.0" />
-      <ComboBox fx:id="drinkOptionDropDown" layoutX="225.0" layoutY="186.0" prefHeight="26.0" prefWidth="149.0" />
-      <ComboBox fx:id="entreeOptionDropDown" layoutX="225.0" layoutY="248.0" prefHeight="26.0" prefWidth="149.0" />
-      <ComboBox fx:id="snackOptionDropDown" layoutX="225.0" layoutY="305.0" prefHeight="26.0" prefWidth="149.0" />
+      <ComboBox fx:id="drinkOptionDropDown" layoutX="225.0" layoutY="186.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="7" />
+      <ComboBox fx:id="entreeOptionDropDown" layoutX="225.0" layoutY="248.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="5" />
+      <ComboBox fx:id="snackOptionDropDown" layoutX="225.0" layoutY="305.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="4" />
       <Label layoutX="225.0" layoutY="163.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Drink Choice..." />
       <Label layoutX="225.0" layoutY="225.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Entrée Choice..." />
       <Label layoutX="225.0" layoutY="282.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Snack Choice..." />
@@ -36,9 +36,9 @@
       <RadioButton fx:id="fishChoice" layoutX="424.0" layoutY="312.0" mnemonicParsing="false" text="Fish" />
       <RadioButton fx:id="shellfishChoice" layoutX="424.0" layoutY="342.0" mnemonicParsing="false" text="Shellfish" />
       <Label fx:id="mealRequestIndicator" layoutX="192.0" layoutY="361.0" prefHeight="17.0" prefWidth="218.0" styleClass="form-header" text="Meal Request Submitted Successfully..." />
-      <ComboBox fx:id="roomNumberDropDown" layoutX="16.0" layoutY="248.0" prefHeight="26.0" prefWidth="149.0" />
-      <ComboBox fx:id="mealOptionDropDown" layoutX="16.0" layoutY="305.0" prefHeight="26.0" prefWidth="149.0" />
+      <ComboBox fx:id="roomNumberDropDown" layoutX="16.0" layoutY="248.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="5" />
+      <ComboBox fx:id="mealOptionDropDown" layoutX="16.0" layoutY="305.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="4" />
       <ComboBox fx:id="patientIDDropDown" layoutX="16.0" layoutY="128.0" prefHeight="26.0" prefWidth="149.0" />
-      <ComboBox fx:id="patientNameDropDown" layoutX="16.0" layoutY="185.0" prefHeight="26.0" prefWidth="149.0" />
+      <ComboBox fx:id="patientNameDropDown" layoutX="16.0" layoutY="185.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="7" />
     </children>
 </AnchorPane>
