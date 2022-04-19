@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class MealServiceRequestDAOImpl implements IMealServiceRequestDAO {
+  private final MealServReqControlCSV reqCSV;
 
   Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
@@ -21,6 +22,13 @@ class MealServiceRequestDAOImpl implements IMealServiceRequestDAO {
   public MealServiceRequestDAOImpl() {
     updateConnection();
     mealServiceRequestsList = new ArrayList<>();
+
+    File reqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "MealServReq.csv");
+    this.reqCSV = new MealServReqControlCSV(reqData);
   }
 
   /**
@@ -288,6 +296,15 @@ class MealServiceRequestDAOImpl implements IMealServiceRequestDAO {
       System.out.println("Failed to populate MealServiceRequest table");
     }
     return conflictCounter;
+  }
+
+  /**
+   * Returns the default path that medical equipment delivery request csv files are printed to
+   *
+   * @return The default path that medical equipment delivery request csv files are printed to
+   */
+  File getDefaultMealServReqCSVPath() {
+    return reqCSV.getDefaultPath();
   }
 
   /** Updates the connection */
