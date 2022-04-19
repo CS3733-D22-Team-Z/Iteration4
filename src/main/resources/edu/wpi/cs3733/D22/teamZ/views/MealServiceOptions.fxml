@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MealServiceController">
+    <children>
+        <Label id="FormLabel" layoutX="17.0" layoutY="52.0" prefHeight="25.0" prefWidth="321.0" styleClass="object-header" text="Meal Options" />
+        <Label layoutX="17.0" layoutY="76.0" prefHeight="17.0" prefWidth="437.0" styleClass="object-body" text="Enter the fields below for meal options." />
+        <Label layoutX="17.0" layoutY="105.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Meal Type" />
+        <Label layoutX="17.0" layoutY="162.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Drink" />
+        <Label layoutX="18.0" layoutY="224.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Entrée" />
+        <Label layoutX="17.0" layoutY="284.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Side/Dessert" />
+        <Label layoutX="186.0" layoutY="106.0" prefHeight="17.0" prefWidth="57.0" styleClass="form-header" text="Quantity" />
+      <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="15.0" layoutY="14.0" onAction="#onBackButtonClicked" text=" Back to Request Page" />
+      <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="356.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="74.0" text="Submit" />
+      <MFXButton fx:id="resetButton" layoutX="101.0" layoutY="356.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
+      <Label layoutX="309.0" layoutY="162.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Drink" />
+      <Label layoutX="310.0" layoutY="224.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Snack" />
+      <ChoiceBox fx:id="roomNumberDropDown3" layoutX="309.0" layoutY="248.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
+      <Label layoutX="309.0" layoutY="284.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Dessert" />
+      <ChoiceBox fx:id="mealOptionDropDown1" layoutX="309.0" layoutY="305.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
+      <ChoiceBox fx:id="roomNumberDropDown21" layoutX="309.0" layoutY="187.0" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="149.0" />
+      <Label layoutX="477.0" layoutY="162.0" prefHeight="17.0" prefWidth="57.0" styleClass="form-header" text="Quantity" />
+      <Spinner layoutX="185.0" layoutY="128.0" prefHeight="25.0" prefWidth="57.0" />
+      <Spinner layoutX="185.0" layoutY="188.0" prefHeight="25.0" prefWidth="57.0" />
+      <Spinner layoutX="185.0" layoutY="250.0" prefHeight="25.0" prefWidth="57.0" />
+      <Spinner layoutX="185.0" layoutY="306.0" prefHeight="25.0" prefWidth="57.0" />
+      <Spinner layoutX="476.0" layoutY="188.0" prefHeight="25.0" prefWidth="57.0" />
+      <Spinner layoutX="476.0" layoutY="249.0" prefHeight="25.0" prefWidth="57.0" />
+      <Spinner layoutX="476.0" layoutY="306.0" prefHeight="25.0" prefWidth="57.0" />
+      <ComboBox fx:id="mealTypeDropDown" layoutX="17.0" layoutY="127.0" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);" />
+      <ComboBox fx:id="mealTypeDropDown1" layoutX="17.0" layoutY="306.0" prefHeight="25.0" prefWidth="149.0" promptText="Choose Side..." style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);" />
+      <ComboBox fx:id="mealTypeDropDown2" layoutX="18.0" layoutY="246.0" prefHeight="25.0" prefWidth="149.0" promptText="Choose Entrée..." style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);" />
+      <ComboBox fx:id="mealTypeDropDown3" layoutX="17.0" layoutY="187.0" prefHeight="25.0" prefWidth="149.0" promptText="Choose Drink..." style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);" />
+    </children>
+</AnchorPane>

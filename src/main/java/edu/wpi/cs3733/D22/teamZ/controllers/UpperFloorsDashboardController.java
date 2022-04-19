@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import edu.wpi.cs3733.D22.teamZ.observers.MedicalEquipmentObserver;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,13 +12,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class UpperFloorsDashboardController implements IMenuAccess {
+public class UpperFloorsDashboardController implements IMenuAccess, MedicalEquipmentObserver {
 
   private FacadeDAO dao = FacadeDAO.getInstance();
   private MenuController menu;
@@ -63,7 +61,15 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML private MFXButton lowerLevel1Button;
   @FXML private MFXButton lowerLevel2Button;
 
-  private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
+  @FXML private Label LL2Label;
+  @FXML private Label LL1Label;
+  @FXML private Label F1Label;
+  @FXML private Label F2Label;
+  @FXML private Label F3Label;
+  @FXML private Label F4Label;
+  @FXML private Label F5Label;
+
+  private final String goBack = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
 
   @Override
   public void setMenuController(MenuController menu) {
@@ -77,11 +83,12 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
   @FXML
   public void toLowerLevelDashboard(ActionEvent event) throws IOException {
-    menu.load(toLowerLevel);
+    menu.load(goBack);
   }
 
   @FXML
   public void initialize() {
+    dao.getAllMedicalEquipment().get(0).registerObserver(this);
     createTableUP1();
     createTableUP2();
     createTableUP3();
@@ -105,104 +112,209 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
   private void createBarUP5Dirty() {
     floor5Dirty.setStyle("-fx-accent: red;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("5").size();
-    double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("5");
+    // Set default values
+    double dirty = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to dirty if it's dirty
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("5")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) dirty++;
+    }
+    // Set progress
     double dirtyValue = dirty / total;
     floor5Dirty.setProgress(dirtyValue);
+    F5Label.setText((int) dirty + " / " + (int) total);
   }
   // None of the equipment has "Clean" as the status, so nothing shows up under the clean progress
   // bar
   private void createBarUP5Clean() {
     floor5Clean.setStyle("-fx-accent: green;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("5").size();
-    double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("5");
+    // Set default values
+    double clean = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to clean if it's clean
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("5")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) clean++;
+    }
+    // Set progress
     double cleanValue = clean / total;
     floor5Clean.setProgress(cleanValue);
   }
 
   private void createBarUP4Dirty() {
     floor4Dirty.setStyle("-fx-accent: red;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("4").size();
-    double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("4");
+    // Set default values
+    double dirty = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to dirty if it's dirty
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("4")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) dirty++;
+    }
+    // Set progress
     double dirtyValue = dirty / total;
-    floor4Clean.setProgress(dirtyValue);
+    floor4Dirty.setProgress(dirtyValue);
+    F4Label.setText((int) dirty + " / " + (int) total);
   }
 
   private void createBarUP4Clean() {
     floor4Clean.setStyle("-fx-accent: green;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("4").size();
-    double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("4");
+    // Set default values
+    double clean = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to clean if it's clean
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("4")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) clean++;
+    }
+    // Set progress
     double cleanValue = clean / total;
     floor4Clean.setProgress(cleanValue);
   }
 
   private void createBarUP3Dirty() {
     floor3Dirty.setStyle("-fx-accent: red;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("3").size();
-    double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("3");
+    // Set default values
+    double dirty = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to dirty if it's dirty
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("3")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) dirty++;
+    }
+    // Set progress
     floor3Dirty.setProgress(dirty / total);
+    F3Label.setText((int) dirty + " / " + (int) total);
   }
 
   private void createBarUP3Clean() {
     floor3Clean.setStyle("-fx-accent: green;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("3").size();
-    double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("3");
+    // Set default values
+    double clean = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to clean if it's clean
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("3")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) clean++;
+    }
+    // Set progress
     floor3Clean.setProgress(clean / total);
   }
 
   private void createBarUP2Dirty() {
     floor2Dirty.setStyle("-fx-accent: red;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("2").size();
-    double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("2");
+    // Set default values
+    double dirty = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to dirty if it's dirty
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("2")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) dirty++;
+    }
+    // Set progress
     floor2Dirty.setProgress(dirty / total);
+    F2Label.setText((int) dirty + " / " + (int) total);
   }
 
   private void createBarUP2Clean() {
     floor2Clean.setStyle("-fx-accent: green;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("2").size();
-    double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("2");
+    // Set default values
+    double clean = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to clean if it's clean
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("2")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) clean++;
+    }
+    // Set progress
     floor2Clean.setProgress(clean / total);
   }
 
   private void createBarUP1Dirty() {
     floor1Dirty.setStyle("-fx-accent: red;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("1").size();
-    double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("1");
+    // Set default values
+    double dirty = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to dirty if it's dirty
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("1")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) dirty++;
+    }
+    // Set progress
     floor1Dirty.setProgress(dirty / total);
+    F1Label.setText((int) dirty + " / " + (int) total);
   }
 
   private void createBarUP1Clean() {
     floor1Clean.setStyle("-fx-accent: green;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("1").size();
-    double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("1");
+    // Set default values
+    double clean = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to clean if it's clean
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("1")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) clean++;
+    }
+    // Set progress
     floor1Clean.setProgress(clean / total);
   }
 
   private void createBarLL1Dirty() {
     lowerLevel1Dirty.setStyle("-fx-accent: red;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("LL1").size();
-    double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("LL1");
+    // Set default values
+    double dirty = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to dirty if it's dirty
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("LL1")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) dirty++;
+    }
+    // Set progress
     lowerLevel1Dirty.setProgress(dirty / total);
+    LL1Label.setText((int) dirty + " / " + (int) total);
   }
 
   private void createBarLL1Clean() {
     lowerLevel1Clean.setStyle("-fx-accent: green;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("LL1").size();
-    double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("LL1");
+    // Set default values
+    double clean = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to clean if it's clean
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("LL1")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) clean++;
+    }
+    // Set progress
     lowerLevel1Clean.setProgress(clean / total);
   }
 
   private void createBarLL2Dirty() {
     lowerLevel2Dirty.setStyle("-fx-accent: red;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("LL2").size();
-    double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("LL2");
+    // Set default values
+    double dirty = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to dirty if it's dirty
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("LL2")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) dirty++;
+    }
+    // Set progress
     lowerLevel2Dirty.setProgress(dirty / total);
+    LL2Label.setText((int) dirty + " / " + (int) total);
   }
 
   private void createBarLL2Clean() {
     lowerLevel2Clean.setStyle("-fx-accent: green;");
-    double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("LL2").size();
-    double clean = FacadeDAO.getInstance().countCleanEquipmentByFloor("LL2");
+    // Set default values
+    double clean = 0;
+    double total = 0;
+    // For each medical equipment on the floor, add one to total and add to clean if it's clean
+    for (MedicalEquipment me : dao.getAllMedicalEquipmentByFloor("LL2")) {
+      total++;
+      if (me.getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) clean++;
+    }
+    // Set progress
     lowerLevel2Clean.setProgress(clean / total);
   }
 
@@ -277,4 +389,9 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   public void toLowerLevel1(ActionEvent actionEvent) {}
 
   public void toLowerLevel2(ActionEvent actionEvent) {}
+
+  @Override
+  public void update(MedicalEquipment equipment) {
+    initialize();
+  }
 }
