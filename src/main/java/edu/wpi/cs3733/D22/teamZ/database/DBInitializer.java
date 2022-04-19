@@ -102,6 +102,7 @@ public class DBInitializer {
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
     dropExistingTable("SECURITYREQUEST");
+    dropExistingTable("LAUNDRYREQUEST");
     dropExistingTable("EQUIPMENTPURCHASE");
     dropExistingTable("GIFTSERVICEREQUEST");
     dropExistingTable("MEALSERVICEREQUEST");
@@ -317,6 +318,19 @@ public class DBInitializer {
               + "constraint SECURITYREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(REQUESTID))");
     } catch (SQLException e) {
       System.out.println("Failed to create security request table");
+      return false;
+    }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE LAUNDRYREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "laundryType VARCHAR(20),"
+              + "laundryStatus VARCHAR(20),"
+              + "constraint LAUNDRYREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint LAUNDRYREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(REQUESTID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create laundry service request table");
       return false;
     }
 
