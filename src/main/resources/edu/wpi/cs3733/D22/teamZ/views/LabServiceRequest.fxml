@@ -23,8 +23,8 @@
         <MFXTextField fx:id="patientIdField" floatMode="DISABLED" layoutX="196.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient ID" />
         <Label fx:id="labTypeLabel" layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Lab Type" />
         <ChoiceBox fx:id="labTypeChoiceBox" layoutX="24.0" layoutY="242.0" onKeyReleased="#validateButton" onMouseExited="#validateButton" prefHeight="35.0" prefWidth="149.0" />
-        <MFXButton fx:id="submitButton" disable="true" layoutX="23.0" layoutY="301.0" onAction="#onSubmitButtonClicked" prefHeight="31.0" prefWidth="111.0" text="Submit" />
-        <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="301.0" onAction="#onResetButtonClicked" prefHeight="31.0" prefWidth="111.0" style="-fx-background-color: FF4343;" text="Reset" />
+        <MFXButton fx:id="submitButton" disable="true" layoutX="23.0" layoutY="301.0" onAction="#onSubmitButtonClicked" prefHeight="32.0" prefWidth="111.0" text="Submit" />
+        <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="301.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: FF4343;" text="Reset" />
         <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="405.0" layoutY="202.0" onAction="#toLabServiceRequestList" prefHeight="32.0" text="Lab Service Request List" />
       <MFXButton fx:id="backButton" layoutX="26.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
          <graphic>
