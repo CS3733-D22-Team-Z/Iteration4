@@ -23,6 +23,8 @@ public class LandingPageController implements IMenuAccess {
   private final String toComputerServiceRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequest.fxml";
   private final String toGiftServicesURL = "edu/wpi/cs3733/D22/teamZ/views/GiftServices.fxml";
+  private final String toEquipmentPurchaseServiceURL =
+      "edu/wpi/cs3733/D22/teamZ/views/EquipmentPurchaseRequest.fxml";
 
   // @FXML VBox iconContainer;
   // @FXML MFXToggleButton toggle;
@@ -42,6 +44,7 @@ public class LandingPageController implements IMenuAccess {
   @FXML private Region mealRegion;
   @FXML private Region giftRegion;
   @FXML private Region cleaningRegion;
+  @FXML private Region purchaseRegion;
   @FXML private Label danLabel;
   @FXML private Label patrickLabel;
   @FXML private Label claireLabel;
@@ -51,6 +54,7 @@ public class LandingPageController implements IMenuAccess {
   @FXML private Label nelsonLabel;
   @FXML private Label alexLabel;
   @FXML private Label oliviaLabel;
+  @FXML private Label andrewLabel;
   @FXML private MFXToggleButton toggleNames;
   @FXML private ScrollPane scrollPane;
 
@@ -64,7 +68,8 @@ public class LandingPageController implements IMenuAccess {
     "M12 19c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm2.36-7.36c1.3 1.3 1.3 3.42 0 4.72-1.3 1.3-3.42 1.3-4.72 0l4.72-4.72z",
     "M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z",
     "M880 310H732.4C746 288.6 754 263.2 754 236C754 159.9 692.1 98 616 98C574.6 98 537.3 116.4 512 145.4C486.7 116.4 449.4 98 408 98C331.9 98 270 159.9 270 236C270 263.2 277.9 288.6 291.6 310H144C126.3 310 112 324.3 112 342V542C112 546.4 115.6 550 120 550H160V894C160 911.7 174.3 926 192 926H832C849.7 926 864 911.7 864 894V550H904C908.4 550 912 546.4 912 542V342C912 324.3 897.7 310 880 310ZM546 236C546 197.4 577.4 166 616 166C654.6 166 686 197.4 686 236C686 274.6 654.6 306 616 306H546V236ZM408 166C446.6 166 478 197.4 478 236V306H408C369.4 306 338 274.6 338 236C338 197.4 369.4 166 408 166ZM180 482V378H478V482H180ZM228 550H478V858H228V550ZM796 858H546V550H796V858ZM844 482H546V378H844V482Z",
-    "M770.25 549.375H592.5V494.438H770.25V549.375ZM888.75 769.125H711V714.188H888.75V769.125ZM829.5 659.25H651.75V604.312H829.5V659.25Z"
+    "M770.25 549.375H592.5V494.438H770.25V549.375ZM888.75 769.125H711V714.188H888.75V769.125ZM829.5 659.25H651.75V604.312H829.5V659.25Z",
+    "M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4l-3.87 7H8.53L4.27 2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2z"
   };
 
   private MenuController menu;
@@ -119,6 +124,11 @@ public class LandingPageController implements IMenuAccess {
     cleaningIcon.setContent(icons[8]);
     cleaningRegion.setShape(giftIcon);
     cleaningRegion.setStyle(String.format(svgCSSLine, grey));
+
+    SVGPath purchaseIcon = new SVGPath();
+    purchaseIcon.setContent(icons[9]);
+    purchaseRegion.setShape(purchaseIcon);
+    purchaseRegion.setStyle(String.format(svgCSSLine, grey));
   }
 
   /**
@@ -184,6 +194,12 @@ public class LandingPageController implements IMenuAccess {
     menu.load(toGiftServicesURL);
   }
 
+  @FXML
+  private void navPurchase(ActionEvent event) throws IOException {
+    System.out.println("navigating to equipment purchase services from landing page");
+    menu.load(toEquipmentPurchaseServiceURL);
+  }
+
   public void showNameLabels() {
     boolean set = toggleNames.isSelected();
     danLabel.setVisible(set);
@@ -195,5 +211,6 @@ public class LandingPageController implements IMenuAccess {
     nelsonLabel.setVisible(set);
     alexLabel.setVisible(set);
     oliviaLabel.setVisible(set);
+    andrewLabel.setVisible(set);
   }
 }

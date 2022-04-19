@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LabRequestControlCSV extends ControlCSV {
-  private final IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
   private final String[] headers = {"requestID", "labType"};
 
   public LabRequestControlCSV(File path) {
@@ -30,7 +29,7 @@ public class LabRequestControlCSV extends ControlCSV {
       String requestID = entry.get(0);
       String labTypeStr = entry.get(1);
 
-      ServiceRequest request = requestDAO.getServiceRequestByID(requestID);
+      ServiceRequest request = FacadeDAO.getInstance().getServiceRequestByID(requestID);
 
       labRequestList.add(
           new LabServiceRequest(
