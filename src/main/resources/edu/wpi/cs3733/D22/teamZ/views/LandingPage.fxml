@@ -366,7 +366,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label alignment="CENTER" layoutY="54.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Equipment Purchase" textAlignment="CENTER" wrapText="true">
+                              <Label alignment="CENTER" layoutY="74.0" prefHeight="47.0" prefWidth="91.0" styleClass="landing-button" text="Equipment Purchase" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -384,7 +384,7 @@
                                     </LinearGradient>
                                  </textFill>
                               </Label>
-                              <Region fx:id="purchaseRegion" layoutX="26.0" layoutY="14.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Region fx:id="purchaseRegion" layoutX="25.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
                               <Label fx:id="andrewLabel" layoutX="6.0" layoutY="108.0" prefHeight="13.0" prefWidth="108.0" text="Andrew Hariyanto" visible="false">
                                  <font>
                                     <Font size="9.0" />
@@ -405,7 +405,7 @@
                   </MFXButton>
                   <Pane prefHeight="135.0" prefWidth="91.0" GridPane.rowIndex="2">
                      <children>
-                        <Label layoutX="7.0" layoutY="74.0" prefHeight="47.0" prefWidth="111.0" styleClass="landing-button" text="Cleaning Service" textAlignment="CENTER" wrapText="true">
+                        <Label layoutX="4.0" layoutY="74.0" prefHeight="47.0" prefWidth="111.0" styleClass="landing-button" text="Cleaning Service" textAlignment="CENTER" wrapText="true">
                            <textFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>
