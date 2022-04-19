@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -92,7 +91,8 @@ public class MedicalEquipmentInfoTabController {
 
     MedicalEquipment editedMedicalEquipment = getMedicalEquipmentbyID(equipmentIDField.getText());
 
-    editedMedicalEquipment.setCurrentLocation(new Location(equipmentLocationField.getText()));
+    editedMedicalEquipment.setCurrentLocation(
+        facadeDAO.getLocationByID(equipmentLocationField.getText()));
 
     if (facadeDAO.updateMedicalEquipment(editedMedicalEquipment)) {
       equipmentLocationField.setDisable(true);
@@ -128,6 +128,6 @@ public class MedicalEquipmentInfoTabController {
     errorLabel.setVisible(false);
     saveButton.setVisible(false);
     editButton.setVisible(true);
-    equipmentLocationField.setDisable(false);
+    equipmentLocationField.setDisable(true);
   }
 }

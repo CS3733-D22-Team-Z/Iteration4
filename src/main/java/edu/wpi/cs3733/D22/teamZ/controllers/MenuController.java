@@ -25,6 +25,7 @@ import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -37,6 +38,7 @@ public class MenuController implements Initializable {
   @FXML Button exitButton;
   @FXML Button logoutButton;
   @FXML VBox menuContainer;
+  @FXML VBox sliderContainer;
   @FXML Region exitGraphic;
   @FXML Region logoutGraphic;
   @FXML VBox iconContainer;
@@ -121,8 +123,9 @@ public class MenuController implements Initializable {
     // Initialize logout menu
     SVGPath LogoutIcon = new SVGPath();
     LogoutIcon.setContent(logoutIcon);
-    logoutGraphic.setShape(LogoutIcon);
-    logoutGraphic.setStyle(String.format(svgCSSLine, "#FFFFFF"));
+    /*phic.setShape(LogoutIcon);
+    logoutGraphic.setStyle(String.format(svgCSSLine, "#FFFFFF"));*/
+    // TOFO fix later
 
     // Setup timer
     DateTimeFormatter timeFormatA = DateTimeFormatter.ofPattern("hh:mm a");
@@ -178,6 +181,8 @@ public class MenuController implements Initializable {
     oldMenuItem.setStyle(String.format(textCSSLine, grey));
     Region oldGraphic = (Region) iconContainer.getChildren().get(selectedItem);
     oldGraphic.setStyle(String.format(svgCSSLine, grey));
+    Rectangle oldSlider = (Rectangle) sliderContainer.getChildren().get(selectedItem);
+    oldSlider.setVisible(false);
 
     // Select current item
     selectedItem = item;
@@ -187,6 +192,8 @@ public class MenuController implements Initializable {
     newMenuItem.setStyle(String.format(textCSSLine, blue));
     Region newGraphic = (Region) iconContainer.getChildren().get(selectedItem);
     newGraphic.setStyle(String.format(svgCSSLine, blue));
+    Rectangle newSlider = (Rectangle) sliderContainer.getChildren().get(selectedItem);
+    newSlider.setVisible(true);
   }
 
   @FXML

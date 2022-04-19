@@ -17,20 +17,17 @@
    <children>
       <Label alignment="TOP_CENTER" layoutX="41.0" layoutY="95.0" styleClass="login-label" text="Login">
       </Label>
-      <Label alignment="TOP_CENTER" layoutX="41.0" layoutY="124.0" text="Enter your login details below." textFill="#9d9d9d">
-         <font>
-            <Font size="11.0" />
-         </font></Label>
+      <Label alignment="TOP_CENTER" layoutX="41.0" layoutY="124.0" text="Enter your login details below." textFill="#9d9d9d" />
       <MFXTextField fx:id="usernameField" floatMode="DISABLED" layoutX="41.0" layoutY="153.0" prefHeight="37.0" prefWidth="213.0" promptText="Username" style="-fx-border-color: #0075ff; -fx-border-width: 1.8;">
          <font>
             <Font size="11.0" />
          </font></MFXTextField>
       <MFXPasswordField fx:id="passwordField" borderGap="5.0" floatMode="DISABLED" floatingTextGap="2.0" graphicTextGap="5.0" layoutX="41.0" layoutY="196.0" prefHeight="38.0" prefWidth="213.0" promptText="Password" style="-fx-border-color: #0075ff; -fx-border-width: 1.8;" />
-      <MFXButton fx:id="loginButton" layoutX="41.0" layoutY="251.0" onAction="#loginButtonPressed" prefHeight="32.0" prefWidth="213.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 3;" text="Login" textFill="WHITE">
+      <MFXButton fx:id="loginButton" layoutX="41.0" layoutY="251.0" onAction="#loginButtonPressed" prefHeight="32.0" prefWidth="213.0" rippleColor="#0c4ee7" style="-fx-background-color: #0075ff; -fx-background-radius: 3;" styleClass="submit-label" text="Login" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></MFXButton>
-      <MFXButton layoutX="40.0" layoutY="315.0" mnemonicParsing="false" onAction="#readCard" prefHeight="32.0" prefWidth="213.0" style="-fx-border-radius: 3; -fx-border-width: 1.5; -fx-border-color: #cdcdcd;" text="Login With Card ID" textFill="#656565">
+      <MFXButton layoutX="40.0" layoutY="315.0" mnemonicParsing="false" onAction="#readCard" prefHeight="32.0" prefWidth="213.0" style="-fx-border-radius: 3; -fx-border-width: 1.5; -fx-border-color: #cdcdcd;" styleClass="rfid-label" text="Login With Card ID" textFill="#656565">
          <font>
             <Font size="11.0" />
          </font></MFXButton>
@@ -55,7 +52,7 @@
             <Font size="10.0" />
          </font>
          <padding>
-            <Insets bottom="4.0" right="30.0" top="4.0" />
+            <Insets bottom="4.0" right="10.0" top="4.0" />
          </padding>
          <graphic>
             <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
