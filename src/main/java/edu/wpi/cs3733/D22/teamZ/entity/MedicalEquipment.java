@@ -1,10 +1,15 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.observers.MedicalEquipmentObservable;
+import edu.wpi.cs3733.D22.teamZ.observers.MedicalEquipmentObserver;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MedicalEquipment {
+public class MedicalEquipment implements MedicalEquipmentObservable {
+  private static ArrayList<MedicalEquipmentObserver> medicalEquipmentObservers = new ArrayList<>();
+
   private String equipmentID;
   private String type;
   private MedicalEquipment.EquipmentStatus status;
@@ -29,6 +34,26 @@ public class MedicalEquipment {
     if (!this.currentLocation.getEquipmentList().contains(this)) {
       this.currentLocation.addEquipmentToList(this);
     }
+  }
+
+  @Override
+  public void registerObserver(MedicalEquipmentObserver observer) {
+    if (!medicalEquipmentObservers.contains(observer)) medicalEquipmentObservers.add(observer);
+  }
+
+  @Override
+  public void notifyObservers() {
+    if (!medicalEquipmentObservers.isEmpty()) {
+      for (MedicalEquipmentObserver ob : medicalEquipmentObservers) {
+        ob.update(this);
+        System.out.println("UPDATED " + this.getEquipmentID());
+      }
+    }
+  }
+
+  @Override
+  public void removeObserver(MedicalEquipmentObserver observer) {
+    medicalEquipmentObservers.remove(observer);
   }
 
   public enum EquipmentStatus {
@@ -101,6 +126,7 @@ public class MedicalEquipment {
    */
   public void setStatus(EquipmentStatus status) {
     this.status = status;
+    notifyObservers();
   }
 
   /** Check if parent location has 6+ dirty beds. */
