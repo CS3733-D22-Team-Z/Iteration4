@@ -40,11 +40,11 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import lombok.Getter;
 import org.kynosarges.tektosyne.geometry.PointD;
 import org.kynosarges.tektosyne.geometry.RectD;
 import org.kynosarges.tektosyne.geometry.Voronoi;
 import org.kynosarges.tektosyne.geometry.VoronoiResults;
-import lombok.Getter;
 
 // issues: getAllLocations doesn't work if the DB is disconnected, is this how it's supposed to
 // work?
@@ -68,7 +68,7 @@ public class LocationListController implements IMenuAccess {
   // @FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
   @FXML private SplitPane splitPane;
-  @FXML private Group group;
+  @FXML @Getter private Group group;
   @FXML private ScrollPane scrollPane;
   MenuController menu;
   // init ui components
@@ -127,8 +127,8 @@ public class LocationListController implements IMenuAccess {
   // pane
   @FXML private Pane addLocationPane;
 
-  @FXML private MFXRadioButton locRadio;
-  @FXML private MFXRadioButton equipRadio;
+  @FXML @Getter private MFXRadioButton locRadio;
+  @FXML @Getter private MFXRadioButton equipRadio;
   @FXML private MFXRadioButton servRadio;
   @FXML final ToggleGroup radioGroup = new ToggleGroup();
 
@@ -140,6 +140,8 @@ public class LocationListController implements IMenuAccess {
   // ArrayList<>());
   private final ObservableList<Location> totalLocations =
       FXCollections.observableList(new ArrayList<>());
+
+  @Getter
   private final ObservableList<MapLabel> allLabels =
       FXCollections.observableList(new ArrayList<>());
   // private ObservableList<Label> alertLabels = FXCollections.observableList(new ArrayList<>());
@@ -330,12 +332,7 @@ public class LocationListController implements IMenuAccess {
           if (temp.size() > 0) {
             activeLabel = temp.get(0);
             System.out.println(activeLabel.getLocation().getLongName());
-            Draggable drag;
-            if (locRadio.isSelected()) {
-              drag = new Draggable(scrollPane, activeLabel.getLocation(), group.getScaleX(), this);
-            } else {
-              drag = new Draggable(scrollPane, activeLabel.getEquip(), group.getScaleY(), this);
-            }
+            Draggable drag = new Draggable(scrollPane, activeLabel, group.getScaleX(), this);
             drag.makeDraggable(activeLabel);
             // displayLocationInformation();
           }
@@ -538,7 +535,9 @@ public class LocationListController implements IMenuAccess {
               temp.setTranslateX(-18);
               temp.setTranslateY(-18);
               temp.setGraphic(locationIcon);
-              group.getChildren().addAll(temp, temp.getBound());
+              group.getChildren().addAll(temp.getBound(), temp);
+            } else {
+              group.getChildren().add(temp.getBound());
             }
             break;
           case "Service Requests":
@@ -1271,9 +1270,8 @@ public class LocationListController implements IMenuAccess {
 
   private Polygon pointDtoPoly(PointD[] points) {
     Polygon ret = new Polygon();
-    Random rand = new Random();
 
-    ret.setFill(new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), .6));
+    ret.setFill(Color.TRANSPARENT);
     for (PointD point : points) {
       ret.getPoints().addAll(point.x, point.y);
     }

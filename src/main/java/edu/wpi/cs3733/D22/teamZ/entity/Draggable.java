@@ -3,9 +3,11 @@ package edu.wpi.cs3733.D22.teamZ.entity;
 import edu.wpi.cs3733.D22.teamZ.controllers.LocationListController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Window;
 
 public class Draggable {
@@ -23,24 +25,13 @@ public class Draggable {
   private LocationListController mapRef;
 
   public Draggable(
-      ScrollPane scrollpane, Location location, double scaleFactor, LocationListController mapRef) {
+      ScrollPane scrollpane, MapLabel active, double scaleFactor, LocationListController mapRef) {
     facadeDAO = FacadeDAO.getInstance();
     this.scrollPane = scrollpane;
-    this.location = location;
+    this.location = active.getLocation();
     this.scaleFactor = scaleFactor;
     this.mapRef = mapRef;
-  }
-
-  public Draggable(
-      ScrollPane scrollpane,
-      List<MedicalEquipment> medicalEquipment,
-      double scaleFactor,
-      LocationListController mapRef) {
-    facadeDAO = FacadeDAO.getInstance();
-    this.scrollPane = scrollpane;
-    this.medicalEquipment = medicalEquipment;
-    this.scaleFactor = scaleFactor;
-    this.mapRef = mapRef;
+    this.medicalEquipment = active.getEquip();
   }
 
   /**
@@ -70,10 +61,23 @@ public class Draggable {
               (mouseEvent.getSceneY() - mouseAnchorY + prevTransY)
                   / (view.getHeight() / 450)
                   / scaleFactor);
+          if (mapRef.getEquipRadio().isSelected()) {
+            for (MapLabel label :
+                mapRef.getAllLabels().stream()
+                    .filter(ml -> ml.isOnFloor(location.getFloor()))
+                    .collect(Collectors.toList())) {
+              if (mouseEvent.getPickResult().getIntersectedNode().equals(label.getBound())
+                  || mouseEvent.getPickResult().getIntersectedNode().equals(label)) {
+                label.getBound().setStroke(new Color(0, .459, 1, 1));
+              } else {
+                label.getBound().setStroke(Color.TRANSPARENT);
+              }
+            }
+          }
         });
     node.setOnMouseReleased(
         mouseEvent -> {
-          if (!(location == null)) { // updates location X and Y coord
+          if (mapRef.getLocRadio().isSelected()) { // updates location X and Y coord
             location.setXcoord(
                 (int)
                     ((location.getXcoord() * (mapRef.getMap().getFitWidth() / 1021)
@@ -85,10 +89,23 @@ public class Draggable {
                             + node.getTranslateY())
                         / (mapRef.getMap().getFitHeight() / 850)));
             facadeDAO.updateLocation(location);
+          } else {
+            System.out.println("intersected: " + mouseEvent.getPickResult().getIntersectedNode());
+            for (MapLabel label :
+                mapRef.getAllLabels().stream()
+                    .filter(ml -> ml.isOnFloor(location.getFloor()))
+                    .collect(Collectors.toList())) {
+              if (mouseEvent.getPickResult().getIntersectedNode().equals(label.getBound())
+                  || mouseEvent.getPickResult().getIntersectedNode().equals(label)) {
+                System.out.println("found: " + label.getLocation().getLongName());
+                for (MedicalEquipment meds : medicalEquipment) {
+                  meds.setCurrentLocation(label.getLocation());
+                  facadeDAO.updateMedicalEquipment(meds);
+                }
+              }
+            }
           }
-          if (!(medicalEquipment == null)) {
-            System.out.println("medequip"); // I imagine this is where you would snap to location
-          }
+
           prevTransX = node.getTranslateX();
           prevTransY = node.getTranslateY();
           scrollPane.setPannable(true);
