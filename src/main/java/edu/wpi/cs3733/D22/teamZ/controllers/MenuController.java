@@ -28,6 +28,7 @@ import javafx.util.Duration;
 
 /** The controller for the Menu FXML. */
 public class MenuController implements Initializable {
+  @FXML Pane menuPane;
   @FXML SplitPane rootElement;
   @FXML Pane contentPane;
   @FXML Button exitButton;
