@@ -216,5 +216,6 @@ public class LandingPageController implements IMenuAccess {
     alexLabel.setVisible(set);
     oliviaLabel.setVisible(set);
     andrewLabel.setVisible(set);
+
   }
 }
