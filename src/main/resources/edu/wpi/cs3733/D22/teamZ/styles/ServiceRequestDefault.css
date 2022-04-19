@@ -273,10 +273,139 @@
     -fx-max-height: 0;
 }
 
+.dropdown-table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 5px;
+
+    -fx-effect: none;
+}
+
+.dropdown-table-view:focused {
+    -fx-border-width: 100;
+}
+
+.dropdown-table-view .column-header {
+    -fx-font-family: 'Montserrat';
+    -fx-font-weight: 700;
+    -fx-font-size: 7.5pt;
+    -fx-text-fill: #000000;
+
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #D2D2D2;
+}
+
 .map-window {
-    -fx-border-radius: 5;
+    -fx-border-radius: 5px;
     -fx-background-color: #F6F6F6;
     -fx-background-radius: 5px;
 
     -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
+}
+
+.dropdown-window {
+    -fx-border-radius: 5px;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 5px;
+
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
+}
+
+.dropdown-table-view .column-header-background .filler {
+    -fx-background-color: #FFFFFF;
+}
+
+/* ??? */
+/* Remove JavaFX crap */
+.scroll-bar,
+.scroll-bar .decrement-arrow,
+.scroll-bar .increment-arrow {
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+
+.scroll-bar:horizontal .increment-button,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0.0em;
+    -fx-padding: 0.0 0.0 10.0 0.0;
+}
+
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0.0em;
+    -fx-padding: 0.0 10.0 0.0 0.0;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0.15em 0.0;
+}
+
+.scroll-bar:horizontal .increment-arrow,
+.scroll-bar:horizontal .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0.0 0.05em;
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0.0 0.05em;
+}
+
+/*!* Customize ScrollBars *!*/
+
+.scroll-bar:horizontal .track {
+    -fx-background-color: #C4C4C4;
+    -fx-border-color: transparent;
+    -fx-background-radius: 2.0em;
+    -fx-border-radius: 2.0em;
+    -fx-background-insets: 3;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: #C4C4C4;
+    -fx-border-color: transparent;
+    -fx-background-radius: 2.0em;
+    -fx-border-radius: 2.0em;
+    -fx-background-insets: 3;
+}
+
+.scroll-bar .decrement-arrow,
+.scroll-bar .increment-arrow {
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12;
+    -fx-pref-height: 12;
+    -fx-padding: 5 0.5 5 0.5;
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12;
+    -fx-pref-height: 12;
+    -fx-padding: 0.5 5 0.5 5;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #7B7B7B;
+    -fx-background-insets: 2.0, 0.0, 0.0;
+    -fx-background-radius: 2.0em;
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #0075FF;
+    -fx-background-insets: 1.5, 0.0, 0.0;
+    -fx-background-radius: 2.0em;
 }

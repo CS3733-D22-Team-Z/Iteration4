@@ -9,14 +9,14 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.scene.shape.SVGPath;
 
 public class UpperFloorsDashboardController implements IMenuAccess {
@@ -89,6 +89,13 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML private Label lowerLevel1CleanLabel;
   @FXML private Label lowerLevel2DirtyLabel;
   @FXML private Label lowerLevel2CleanLabel;
+  @FXML private VBox floor5Container;
+  @FXML private VBox floor4Container;
+  @FXML private VBox floor3Container;
+  @FXML private VBox floor2Container;
+  @FXML private VBox floor1Container;
+  @FXML private VBox LL1Container;
+  @FXML private VBox LL2Container;
 
   private FacadeDAO database;
 
@@ -160,6 +167,15 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     for (Location dirtyLocation : dirtyTest) {
       new DashboardBedAlertObserver(dirtyLocation, this);
     }
+
+    setupDropdown(floor5Container, "5");
+    setupDropdown(floor4Container, "4");
+    setupDropdown(floor3Container, "3");
+    setupDropdown(floor2Container, "2");
+    setupDropdown(floor1Container, "1");
+    setupDropdown(LL1Container, "LL1");
+    setupDropdown(LL2Container, "LL2");
+
     /*// Create a new observer for each existing medical equipment
     DirtyBedObserver dashObserver = new DirtyBedObserver(this);
     dashObserver.setSubjects(dao.getAllMedicalEquipment());
@@ -344,6 +360,44 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     data = FXCollections.observableList(dashboardEquipmentList);
   }
 
+  /**
+   * Sets up the given dropdown pane
+   *
+   * @param dropdownPane the Pane that holds the contents
+   * @param floor the floor the dropdown represents
+   */
+  private void setupDropdown(VBox dropdownPane, String floor) {
+    // Setup button
+    FlowPane topComponents = (FlowPane) dropdownPane.getChildren().get(0);
+    TableView<DropdownRow> table = (TableView) dropdownPane.getChildren().get(1);
+    MFXButton dropDownButton =
+        (MFXButton) topComponents.getChildren().get(topComponents.getChildren().size() - 1);
+    table
+        .visibleProperty()
+        .addListener(listener -> table.setPrefHeight(table.isVisible() ? 200 : 0));
+    dropDownButton.setOnAction(event -> table.setVisible(!table.isVisible()));
+
+    // Add data to table
+    List<MedicalEquipment> floorEquipment = dao.getAllMedicalEquipmentByFloor(floor);
+    ObservableList<DropdownRow> tableRows = FXCollections.observableArrayList();
+    for (MedicalEquipment equipment : floorEquipment)
+      tableRows.add(
+          new DropdownRow(
+              equipment.getType(),
+              equipment.getStatus().toString(),
+              equipment.getCurrentLocation().getLongName()));
+
+    // Idk why it says redundant
+    ((TableColumn<DropdownRow, String>) (table.getColumns().get(0)))
+        .setCellValueFactory(dRow -> dRow.getValue().type);
+    ((TableColumn<DropdownRow, String>) (table.getColumns().get(1)))
+        .setCellValueFactory(dRow -> dRow.getValue().location);
+    ((TableColumn<DropdownRow, String>) (table.getColumns().get(2)))
+        .setCellValueFactory(dRow -> dRow.getValue().status);
+
+    table.setItems(tableRows);
+  }
+
   public void toFloor5(ActionEvent actionEvent) {}
 
   public void toFloor4(ActionEvent actionEvent) {}
@@ -365,6 +419,20 @@ public class UpperFloorsDashboardController implements IMenuAccess {
       dashRegion4.setVisible(true);
     } else if (floor.equals("3")) {
       dashRegion3.setVisible(true);
+    }
+  }
+
+  static class DropdownRow {
+    // SimpleStringProperty id;
+    SimpleStringProperty type;
+    SimpleStringProperty status;
+    SimpleStringProperty location;
+
+    public DropdownRow(String type, String status, String location) {
+      // this.id = new SimpleStringProperty(id);
+      this.type = new SimpleStringProperty(type);
+      this.status = new SimpleStringProperty(status);
+      this.location = new SimpleStringProperty(location);
     }
   }
 }
