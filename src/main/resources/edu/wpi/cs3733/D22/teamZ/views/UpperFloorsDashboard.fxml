@@ -86,8 +86,8 @@
                                     </VBox>
                                     <VBox alignment="CENTER">
                                        <children>
-                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
-                                          <Label fx:id="floor5TotalLabel" styleClass="header" text="14" />
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" visible="false" />
+                                          <Label fx:id="floor5TotalLabel" styleClass="header" text="14" visible="false" />
                                        </children>
                                     </VBox>
                                     <Region fx:id="dashRegion5" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
@@ -139,8 +139,8 @@
                                     </VBox>
                                     <VBox alignment="CENTER">
                                        <children>
-                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
-                                          <Label fx:id="floor4TotalLabel" styleClass="header" text="14" />
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" visible="false" />
+                                          <Label fx:id="floor4TotalLabel" styleClass="header" text="14" visible="false" />
                                        </children>
                                     </VBox>
                                     <Region fx:id="dashRegion4" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
@@ -192,8 +192,8 @@
                                     </VBox>
                                     <VBox alignment="CENTER">
                                        <children>
-                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
-                                          <Label fx:id="floor3TotalLabel" styleClass="header" text="14" />
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" visible="false" />
+                                          <Label fx:id="floor3TotalLabel" styleClass="header" text="14" visible="false" />
                                        </children>
                                     </VBox>
                                     <Region fx:id="dashRegion3" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
@@ -245,8 +245,8 @@
                                     </VBox>
                                     <VBox alignment="CENTER">
                                        <children>
-                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
-                                          <Label fx:id="floor2TotalLabel" styleClass="header" text="14" />
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" visible="false" />
+                                          <Label fx:id="floor2TotalLabel" styleClass="header" text="14" visible="false" />
                                        </children>
                                     </VBox>
                                     <Region fx:id="dashRegion2" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
@@ -298,8 +298,8 @@
                                     </VBox>
                                     <VBox alignment="CENTER">
                                        <children>
-                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
-                                          <Label fx:id="floor1TotalLabel" styleClass="header" text="14" />
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" visible="false" />
+                                          <Label fx:id="floor1TotalLabel" styleClass="header" text="14" visible="false" />
                                        </children>
                                     </VBox>
                                     <Region fx:id="dashRegion1" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
@@ -351,8 +351,8 @@
                                     </VBox>
                                     <VBox alignment="CENTER">
                                        <children>
-                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
-                                          <Label fx:id="lowerLevel1TotalLabel" styleClass="header" text="14" />
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" visible="false" />
+                                          <Label fx:id="lowerLevel1TotalLabel" styleClass="header" text="14" visible="false" />
                                        </children>
                                     </VBox>
                                     <Region fx:id="dashRegionLL1" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
@@ -404,8 +404,8 @@
                                     </VBox>
                                     <VBox alignment="CENTER">
                                        <children>
-                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
-                                          <Label fx:id="lowerLevel2TotalLabel" styleClass="header" text="14" />
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" visible="false" />
+                                          <Label fx:id="lowerLevel2TotalLabel" styleClass="header" text="14" visible="false" />
                                        </children>
                                     </VBox>
                                     <Region fx:id="dashRegionLL2" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
