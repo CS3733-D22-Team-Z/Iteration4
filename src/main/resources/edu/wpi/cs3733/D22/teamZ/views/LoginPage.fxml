@@ -25,9 +25,9 @@
             <Font size="11.0" />
          </font></MFXTextField>
       <MFXPasswordField fx:id="passwordField" borderGap="5.0" floatMode="DISABLED" floatingTextGap="2.0" graphicTextGap="5.0" layoutX="41.0" layoutY="196.0" prefHeight="38.0" prefWidth="213.0" promptText="Password" style="-fx-border-color: #0067b1; -fx-border-width: 1.8;" />
-      <MFXButton fx:id="loginButton" layoutX="41.0" layoutY="251.0" onAction="#loginButtonPressed" prefHeight="32.0" prefWidth="213.0" rippleColor="#0c4ee7" style="-fx-background-color: #012d5a; -fx-background-radius: 3;" text="Login" textFill="WHITE">
+      <MFXButton fx:id="loginButton" layoutX="41.0" layoutY="251.0" onAction="#loginButtonPressed" prefHeight="32.0" prefWidth="213.0" rippleColor="#0c4ee7" styleClass="login-button" text="Login" textFill="WHITE">
          <font>
-            <Font name="Open Sans ExtraBold Italic" size="13.0" />
+            <Font name="Open Sans ExtraBold" size="13.0" />
          </font></MFXButton>
       <MFXButton layoutX="40.0" layoutY="315.0" mnemonicParsing="false" onAction="#readCard" prefHeight="32.0" prefWidth="213.0" style="-fx-border-radius: 3; -fx-border-width: 1.5; -fx-border-color: #cdcdcd;" styleClass="rfid-label" text="Login With Card ID" textFill="#656565">
          <font>
