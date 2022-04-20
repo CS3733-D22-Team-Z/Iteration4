@@ -12,8 +12,8 @@ public class DashAlert {
   public DashAlert(String floor) {
     warningBase = new ArrayList<>();
     warningBase.add("There are %d dirty beds on this floor.");
-    warningBase.add("CLEAN the %d dirty infusion pumps on this floor.");
-    warningBase.add("Only %d clean infusion pumps on this floor. CLEAN MORE.");
+    warningBase.add("There are %d dirty infusion pumps on this floor.");
+    warningBase.add("There are %d clean infusion pumps on this floor.");
     warningData = new ArrayList<>();
     warningData.add(0);
     warningData.add(0);

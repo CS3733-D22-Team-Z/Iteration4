@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ServiceRequestPageController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ServiceRequestPageController">
     <children>
         <Label layoutX="19.0" layoutY="15.0" style="-fx-text-fill: #012d5a;" styleClass="object-header" text="List of Service Requests">
             <font>
@@ -44,11 +44,25 @@
                   <MFXRectangleToggleNode fx:id="handlerSelect" onAction="#handlerFilter" text="Handler" translateY="10.0" />
                     </children>
                 </HBox>
-                <ChoiceBox fx:id="filterBox" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" translateY="10.0" />
+                <ChoiceBox fx:id="filterBox" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" translateY="10.0">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.3125" />
+                     </color>
+                  </DropShadow>
+               </effect></ChoiceBox>
             </children>
         </VBox>
       <MFXButton fx:id="setEmpButton" layoutX="431.0" layoutY="334.0" mnemonicParsing="false" onAction="#setEmployee" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #0067B1;" text="Set Employee" textFill="WHITE" />
-      <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="282.0" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+      <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="282.0" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;">
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.278253436088562" />
+               </color>
+            </DropShadow>
+         </effect></ChoiceBox>
         <Label fx:id="errorLabel" alignment="CENTER" layoutX="40.0" layoutY="13.0" prefHeight="36.0" prefWidth="341.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2;" text="Select both a service and employee" textFill="#ff4444" visible="false">
             <font>
                 <Font size="10.0" />

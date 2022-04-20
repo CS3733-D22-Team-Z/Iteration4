@@ -26,13 +26,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
 /**
- * This was the controller for WebCamPreview FXML, repurposed for CCTVPreview FXML
- * and CS3733 Iteration 3 Application
+ * This was the controller for WebCamPreview FXML, repurposed for CCTVPreview FXML and CS3733
+ * Iteration 3 Application
  *
- * Controller based on the JavaFX and FXML example for Sarxos's Webcam Capture API by Rakesh Bhatt (rakeshbhatt10)
- * Webcam Capture API
- * https://github.com/sarxos/webcam-capture
- * JavaFX Example
+ * <p>Controller based on the JavaFX and FXML example for Sarxos's Webcam Capture API by Rakesh
+ * Bhatt (rakeshbhatt10) Webcam Capture API https://github.com/sarxos/webcam-capture JavaFX Example
  * https://github.com/sarxos/webcam-capture/tree/master/webcam-capture-examples/webcam-capture-javafx-fxml
  */
 public class WebCamPreviewController implements Initializable, IMenuAccess {

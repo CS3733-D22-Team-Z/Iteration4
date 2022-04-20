@@ -43,7 +43,7 @@ public class DirtyBedObserver {
                         && medEquip.getType().equals("Bed")))
             .collect(Collectors.toList());
     FacadeDAO dao = FacadeDAO.getInstance();
-    List<MedicalEquipment> equipmentRequestList = dao.getAllMedicalEquipment();
+    List<ServiceRequest> equipmentRequestList = dao.getAllServiceRequests();
     if (dirtyList.size() >= 6) {
       // Create a Medical Equipment Delivery service request for each dirty equipment
       for (MedicalEquipment dirtyEquip : dirtyList) {

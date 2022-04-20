@@ -41,19 +41,19 @@ public class MedicalEquipmentInfoTabController {
     medicalEquipmentList = new ArrayList<>(facadeDAO.getAllMedicalEquipment());
     listOfStatus = FXCollections.observableList(new ArrayList<>());
     listOfStatus.setAll(
-            MedicalEquipment.EquipmentStatus.DIRTY.toString(),
-            MedicalEquipment.EquipmentStatus.INUSE.toString(),
-            MedicalEquipment.EquipmentStatus.CLEAN.toString(),
-            MedicalEquipment.EquipmentStatus.CLEANING.toString());
+        MedicalEquipment.EquipmentStatus.DIRTY.toString(),
+        MedicalEquipment.EquipmentStatus.INUSE.toString(),
+        MedicalEquipment.EquipmentStatus.CLEAN.toString(),
+        MedicalEquipment.EquipmentStatus.CLEANING.toString());
 
     setLabel(LocationListController.getActiveLabel());
 
     // Get all id's into arrayList
     for (MedicalEquipment medicalEquipment : medicalEquipmentList) {
       if (medicalEquipment
-              .getCurrentLocation()
-              .getNodeID()
-              .equals(activeLabel.getLocation().getNodeID())) {
+          .getCurrentLocation()
+          .getNodeID()
+          .equals(activeLabel.getLocation().getNodeID())) {
         medicalEquipmentIDs.add(medicalEquipment.getEquipmentID());
       }
     }
@@ -94,8 +94,7 @@ public class MedicalEquipmentInfoTabController {
                           .getNodeID());
                   equipmentLocationField.setDisable(true);
                 }
-              }
-              else if (getMedicalEquipmentbyID(equipmentComboBox.getValue())
+              } else if (getMedicalEquipmentbyID(equipmentComboBox.getValue())
                   .getType()
                   .equals("IPumps")) {
                 if (equipmentStatusChoice.getValue().equals("DIRTY")) {
@@ -122,7 +121,7 @@ public class MedicalEquipmentInfoTabController {
 
   public void onSelectMedicalEquipment(ActionEvent actionEvent) {
     MedicalEquipment selectedEquipment =
-            getMedicalEquipmentbyID(equipmentComboBox.getSelectionModel().getSelectedItem().toString());
+        getMedicalEquipmentbyID(equipmentComboBox.getSelectionModel().getSelectedItem().toString());
     equipmentTypeField.setText(selectedEquipment.getType());
     equipmentStatusChoice.setItems(listOfStatus);
     equipmentIDField.setText(selectedEquipment.getEquipmentID());

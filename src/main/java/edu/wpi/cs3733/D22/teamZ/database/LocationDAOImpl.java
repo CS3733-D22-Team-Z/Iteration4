@@ -461,7 +461,7 @@ class LocationDAOImpl implements ILocationDAO {
    * @return nodeID of the bed park; default is OR Bed Park
    */
   public String getRandomBedParkNodeIDByFloor(String floor) {
-    String thirdFloorBed[] = {"zSTOR00303", "zSTOR00403"};
+    String thirdFloorBed[] = {"zSTOR00403", "zSTOR00403"};
     String fourthFloorBed[] = {"zSTOR00304", "zSTOR00404"};
     String fifthFloorBed[] = {"zSTOR00305"};
     int num = 0;
@@ -477,7 +477,7 @@ class LocationDAOImpl implements ILocationDAO {
         return fourthFloorBed[num];
       case ("L1"):
         return "zSTOR001L1";
-      case("1"):
+      case ("1"):
         return "zSTOR00101";
       default:
         return "zSTOR00101";

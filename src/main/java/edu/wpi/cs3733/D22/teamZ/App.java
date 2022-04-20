@@ -54,7 +54,7 @@ public class App extends Application {
     primaryStage.setMinHeight(initialHeight); // initial size. doesnt work if less so ignore lol.
     primaryStage.setMinWidth(initialWidth);
 
-    //TODO fix scaling on other login pages after logout
+    // TODO fix scaling on other login pages after logout
 
     initialRatio = initialHeight / initialWidth;
     primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
