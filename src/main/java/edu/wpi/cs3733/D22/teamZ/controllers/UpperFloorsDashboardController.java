@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.DashAlert;
 import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
@@ -16,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
@@ -98,10 +100,22 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML private VBox floor1Container;
   @FXML private VBox LL1Container;
   @FXML private VBox LL2Container;
+  @FXML private Label floor5TotalLabel;
+  @FXML private Label floor4TotalLabel;
+  @FXML private Label floor3TotalLabel;
+  @FXML private Label floor2TotalLabel;
+  @FXML private Label floor1TotalLabel;
+  @FXML private Label lowerLevel1TotalLabel;
+  @FXML private Label lowerLevel2TotalLabel;
 
   private FacadeDAO database;
 
-  private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
+  private Pane currentPopup = null;
+
+  private List<DashAlert> alerts;
+
+  // private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
+  private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
 
   @Override
   public void setMenuController(MenuController menu) {
@@ -114,13 +128,13 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   }
 
   @FXML
-  public void toLowerLevelDashboard(ActionEvent event) throws IOException {
-    menu.load(toLowerLevel);
-  }
-
-  @FXML
   public void initialize() throws IOException {
     database = FacadeDAO.getInstance();
+    alerts = new ArrayList<>();
+    List<String> floors = List.of("5", "4", "3", "2", "1", "LL1", "LL2");
+    for (String floor : floors) {
+      alerts.add(new DashAlert(floor));
+    }
     createTableUP1();
     createTableUP2();
     createTableUP3();
@@ -178,7 +192,26 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     setupDropdown(LL1Container, "LL1");
     setupDropdown(LL2Container, "LL2");
 
-    PopupLoader.loadPopup("WarningMessage", root, 10, 10);
+    // root.addEventFilter(MouseEvent.ANY, e -> System.out.println(e));
+    List<Region> dashList =
+        List.of(
+            dashRegion5,
+            dashRegion4,
+            dashRegion3,
+            dashRegion2,
+            dashRegion1,
+            dashRegionLL1,
+            dashRegionLL2);
+    for (Region dashRegion : dashList) {
+      dashRegion.setOnMouseEntered(
+          (event) -> {
+            try {
+              alertHovered(dashRegion);
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          });
+    }
   }
 
   private void createBarUP5Dirty() {
@@ -188,6 +221,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirtyValue = dirty / total;
     floor5Dirty.setProgress(dirtyValue);
     floor5DirtyLabel.setText(Integer.toString((int) dirty));
+    floor5TotalLabel.setText(Integer.toString((int) total));
   }
   // None of the equipment has "Clean" as the status, so nothing shows up under the clean progress
   // bar
@@ -207,6 +241,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirtyValue = dirty / total;
     floor4Dirty.setProgress(dirtyValue);
     floor4DirtyLabel.setText(Integer.toString((int) dirty));
+    floor4TotalLabel.setText(Integer.toString((int) total));
   }
 
   private void createBarUP4Clean() {
@@ -224,6 +259,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("3");
     floor3Dirty.setProgress(dirty / total);
     floor3DirtyLabel.setText(Integer.toString((int) dirty));
+    floor3TotalLabel.setText(Integer.toString((int) total));
   }
 
   private void createBarUP3Clean() {
@@ -240,6 +276,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("2");
     floor2Dirty.setProgress(dirty / total);
     floor2DirtyLabel.setText(Integer.toString((int) dirty));
+    floor2TotalLabel.setText(Integer.toString((int) total));
   }
 
   private void createBarUP2Clean() {
@@ -256,6 +293,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("1");
     floor1Dirty.setProgress(dirty / total);
     floor1DirtyLabel.setText(Integer.toString((int) dirty));
+    floor1TotalLabel.setText(Integer.toString((int) total));
   }
 
   private void createBarUP1Clean() {
@@ -272,6 +310,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("LL1");
     lowerLevel1Dirty.setProgress(dirty / total);
     lowerLevel1DirtyLabel.setText(Integer.toString((int) dirty));
+    lowerLevel1TotalLabel.setText(Integer.toString((int) total));
   }
 
   private void createBarLL1Clean() {
@@ -288,6 +327,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("LL2");
     lowerLevel2Dirty.setProgress(dirty / total);
     lowerLevel2DirtyLabel.setText(Integer.toString((int) dirty));
+    lowerLevel2TotalLabel.setText(Integer.toString((int) total));
   }
 
   private void createBarLL2Clean() {
@@ -414,19 +454,53 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     table.setItems(tableRows);
   }
 
-  public void toFloor5(ActionEvent actionEvent) {}
+  public void toFloor5(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("5");
+  }
 
-  public void toFloor4(ActionEvent actionEvent) {}
+  public void toFloor4(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("4");
+  }
 
-  public void toFloor3(ActionEvent actionEvent) {}
+  public void toFloor3(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("3");
+  }
 
-  public void toFloor2(ActionEvent actionEvent) {}
+  public void toFloor2(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("2");
+  }
 
-  public void toFloor1(ActionEvent actionEvent) {}
+  public void toFloor1(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("1");
+  }
 
-  public void toLowerLevel1(ActionEvent actionEvent) {}
+  public void toLowerLevel1(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("L1");
+  }
 
-  public void toLowerLevel2(ActionEvent actionEvent) {}
+  public void toLowerLevel2(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("L2");
+  }
+
+  public void updateBedAlert(String floor, int dirtyBeds) {
+    // Idk.
+    DashAlert floorAlert =
+        alerts.stream()
+            .filter(alert -> alert.getFloor().equals(floor))
+            .collect(Collectors.toList())
+            .get(0);
+    if (floorAlert.getWarnings().size() == 0) {
+      floorAlert.addWarning(0, "There are %d dirty beds on this floor.");
+    }
+    floorAlert.setWarningData(0, dirtyBeds);
+  }
 
   public void floorAlert(String floor) {
     if (floor.equals("5")) {
@@ -435,6 +509,70 @@ public class UpperFloorsDashboardController implements IMenuAccess {
       dashRegion4.setVisible(true);
     } else if (floor.equals("3")) {
       dashRegion3.setVisible(true);
+    } else if (floor.equals("2")) {
+      dashRegion2.setVisible(true);
+    } else if (floor.equals("1")) {
+      dashRegion1.setVisible(true);
+    } else if (floor.equals("L1")) {
+      dashRegionLL1.setVisible(true);
+    } else if (floor.equals("L2")) {
+      dashRegionLL2.setVisible(true);
+    }
+  }
+
+  /**
+   * Ran whenever the mouse hovers over
+   *
+   * @param alert the dashRegion for the alert
+   */
+  @FXML
+  private void alertHovered(Region alert) throws IOException {
+    // Only run if alert is active
+    if (alert.isVisible()) {
+      // Count dirty equipment on floor
+      String floor = alert.getId().substring(10);
+      List<MedicalEquipment> equipment = dao.getAllMedicalEquipmentByFloor(floor);
+      equipment =
+          equipment.stream()
+              .filter(equip -> equip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY))
+              .collect(Collectors.toList());
+
+      // Create a popup window at alert
+      Bounds boundsInScene = root.sceneToLocal(alert.localToScene(alert.getBoundsInLocal()));
+      if (currentPopup != null) root.getChildren().remove(currentPopup);
+      int add = 80;
+      if (List.of("LL1", "LL2", "1").contains(floor)) add = -80;
+      currentPopup =
+          PopupLoader.loadPopup(
+              "WarningMessage",
+              root,
+              (int) boundsInScene.getCenterX(),
+              (int) boundsInScene.getCenterY() + add);
+
+      // Get floor alert
+      DashAlert floorAlert =
+          alerts.stream()
+              .filter(alertEnt -> alertEnt.getFloor().equals(floor))
+              .collect(Collectors.toList())
+              .get(0);
+
+      for (String message : floorAlert.getWarnings()) {
+        Label infoLabel = new Label();
+        infoLabel.setText(message);
+        VBox labelContainer = (VBox) currentPopup.lookup("#warningContainer");
+        labelContainer.getChildren().add(infoLabel);
+        infoLabel.setWrapText(true);
+      }
+    }
+  }
+
+  /** Runs when the mouse leaves the alert region */
+  @FXML
+  private void alertExit() {
+    if (currentPopup != null) {
+      // Remove from root & set to null
+      root.getChildren().remove(currentPopup);
+      currentPopup = null;
     }
   }
 

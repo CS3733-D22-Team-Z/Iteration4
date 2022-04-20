@@ -87,10 +87,10 @@
                                     <VBox alignment="CENTER">
                                        <children>
                                           <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
-                                          <Label styleClass="header" text="14" />
+                                          <Label fx:id="floor5TotalLabel" styleClass="header" text="14" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion5" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <Region fx:id="dashRegion5" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -133,11 +133,17 @@
                                     </VBox>
                                     <VBox alignment="CENTER" spacing="6.0">
                                        <children>
-                                          <ProgressBar fx:id="floor4Dirty" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
-                                          <ProgressBar fx:id="floor4Clean" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor4Dirty" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor4Clean" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion4" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
+                                          <Label fx:id="floor4TotalLabel" styleClass="header" text="14" />
+                                       </children>
+                                    </VBox>
+                                    <Region fx:id="dashRegion4" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -180,11 +186,17 @@
                                     </VBox>
                                     <VBox alignment="CENTER" spacing="6.0">
                                        <children>
-                                          <ProgressBar fx:id="floor3Dirty" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
-                                          <ProgressBar fx:id="floor3Clean" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor3Dirty" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor3Clean" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion3" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
+                                          <Label fx:id="floor3TotalLabel" styleClass="header" text="14" />
+                                       </children>
+                                    </VBox>
+                                    <Region fx:id="dashRegion3" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -227,11 +239,17 @@
                                     </VBox>
                                     <VBox alignment="CENTER" spacing="6.0">
                                        <children>
-                                          <ProgressBar fx:id="floor2Dirty" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
-                                          <ProgressBar fx:id="floor2Clean" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor2Dirty" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor2Clean" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion2" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
+                                          <Label fx:id="floor2TotalLabel" styleClass="header" text="14" />
+                                       </children>
+                                    </VBox>
+                                    <Region fx:id="dashRegion2" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -274,11 +292,17 @@
                                     </VBox>
                                     <VBox alignment="CENTER" spacing="6.0">
                                        <children>
-                                          <ProgressBar fx:id="floor1Dirty" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
-                                          <ProgressBar fx:id="floor1Clean" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor1Dirty" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor1Clean" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion1" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
+                                          <Label fx:id="floor1TotalLabel" styleClass="header" text="14" />
+                                       </children>
+                                    </VBox>
+                                    <Region fx:id="dashRegion1" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -321,11 +345,17 @@
                                     </VBox>
                                     <VBox alignment="CENTER" spacing="6.0">
                                        <children>
-                                          <ProgressBar fx:id="lowerLevel1Dirty" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
-                                          <ProgressBar fx:id="lowerLevel1Clean" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
+                                          <ProgressBar fx:id="lowerLevel1Dirty" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
+                                          <ProgressBar fx:id="lowerLevel1Clean" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegionLL1" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
+                                          <Label fx:id="lowerLevel1TotalLabel" styleClass="header" text="14" />
+                                       </children>
+                                    </VBox>
+                                    <Region fx:id="dashRegionLL1" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -368,11 +398,17 @@
                                     </VBox>
                                     <VBox alignment="CENTER" spacing="6.0">
                                        <children>
-                                          <ProgressBar fx:id="lowerLevel2Dirty" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
-                                          <ProgressBar fx:id="lowerLevel2Clean" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
+                                          <ProgressBar fx:id="lowerLevel2Dirty" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
+                                          <ProgressBar fx:id="lowerLevel2Clean" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegionLL2" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
+                                          <Label fx:id="lowerLevel2TotalLabel" styleClass="header" text="14" />
+                                       </children>
+                                    </VBox>
+                                    <Region fx:id="dashRegionLL2" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
