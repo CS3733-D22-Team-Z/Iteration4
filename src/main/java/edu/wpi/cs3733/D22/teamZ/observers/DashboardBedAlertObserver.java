@@ -31,6 +31,7 @@ public class DashboardBedAlertObserver {
     List<MedicalEquipment> equipmentResultList = dao.getAllMedicalEquipment();
     // Check if location has 6 or more dirty beds
     if (dirtyList.size() >= 6) {
+      dashboard.updateBedAlert(subject.getFloor(), dirtyList.size());
       dashboard.floorAlert(subject.getFloor());
     }
   }
