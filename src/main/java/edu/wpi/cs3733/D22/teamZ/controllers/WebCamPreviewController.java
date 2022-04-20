@@ -214,8 +214,8 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
 
                         @Override
                         public void run() {
-                          final Image mainiamge = SwingFXUtils.toFXImage(grabbedImage, null);
-                          imageProperty.set(mainiamge);
+                          final Image mainImage = SwingFXUtils.toFXImage(grabbedImage, null);
+                          imageProperty.set(mainImage);
                         }
                       });
 
