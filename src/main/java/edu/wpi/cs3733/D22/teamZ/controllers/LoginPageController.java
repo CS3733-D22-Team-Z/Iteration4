@@ -115,6 +115,8 @@ public class LoginPageController implements Initializable {
     Scene scene = new Scene(root);
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     primaryStage.setScene(scene);
+    primaryStage.minHeightProperty().unbind();
+    primaryStage.maxHeightProperty().unbind();
     primaryStage.setMinHeight(392); // initial size. doesnt work if less so ignore lol.
     primaryStage.setMinWidth(745);
 

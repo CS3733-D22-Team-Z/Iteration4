@@ -57,7 +57,7 @@ public class MenuController implements Initializable {
     "M11 7h6v2h-6zm0 4h6v2h-6zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zM20.1 3H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9zM19 19H5V5h14v14z",
   };
   private String logoutIcon =
-      "M17,8l-1.41,1.41L17.17,11H9v2h8.17l-1.58,1.58L17,16l4-4L17,8z M5,5h7V3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h7v-2H5V5z";
+      "M60 16L54.36 21.64L64.68 32H24V40H64.68L54.36 50.32L60 56L80 36L60 16ZM8 8H40V0H8C3.6 0 0 3.6 0 8V64C0 68.4 3.6 72 8 72H40V64H8V8Z";
 
   // FXMLS
   @FXML private Label pageLabel;
@@ -71,7 +71,7 @@ public class MenuController implements Initializable {
 
   // Colors representing the grey and blue values used in the fxmls.
   private String grey = "#C4C4C4";
-  private String blue = "#0075FF";
+  private String blue = "#FFFFFF";
 
   // Store the ClassLoader for future use
   ClassLoader rscLoader;
@@ -88,6 +88,7 @@ public class MenuController implements Initializable {
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
+  private String toServiceURL = "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
 
   public MenuController() {
     currentPage = new SimpleStringProperty();
@@ -216,7 +217,7 @@ public class MenuController implements Initializable {
   @FXML
   private void toMedicalEquipmentRequest() throws IOException {
     selectMenu(3);
-    load(toMedicalEquipmentRequestURL);
+    load(toServiceURL);
   }
 
   @FXML

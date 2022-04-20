@@ -1,19 +1,11 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
-import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.observers.MedicalEquipmentObservable;
-import edu.wpi.cs3733.D22.teamZ.observers.MedicalEquipmentObserver;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class MedicalEquipment implements MedicalEquipmentObservable {
-  private static ArrayList<MedicalEquipmentObserver> medicalEquipmentObservers = new ArrayList<>();
-
+public class MedicalEquipment {
   private String equipmentID;
   private String type;
   private MedicalEquipment.EquipmentStatus status;
   private Location currentLocation;
+  // private List<DirtyBedObserver> observers;
 
   // Constructors
 
@@ -34,26 +26,7 @@ public class MedicalEquipment implements MedicalEquipmentObservable {
     if (!this.currentLocation.getEquipmentList().contains(this)) {
       this.currentLocation.addEquipmentToList(this);
     }
-  }
-
-  @Override
-  public void registerObserver(MedicalEquipmentObserver observer) {
-    if (!medicalEquipmentObservers.contains(observer)) medicalEquipmentObservers.add(observer);
-  }
-
-  @Override
-  public void notifyObservers() {
-    if (!medicalEquipmentObservers.isEmpty()) {
-      for (MedicalEquipmentObserver ob : medicalEquipmentObservers) {
-        ob.update(this);
-        System.out.println("UPDATED " + this.getEquipmentID());
-      }
-    }
-  }
-
-  @Override
-  public void removeObserver(MedicalEquipmentObserver observer) {
-    medicalEquipmentObservers.remove(observer);
+    // this.observers = new ArrayList<>();
   }
 
   public enum EquipmentStatus {
@@ -126,49 +99,65 @@ public class MedicalEquipment implements MedicalEquipmentObservable {
    */
   public void setStatus(EquipmentStatus status) {
     this.status = status;
-    notifyObservers();
+    // notifyAllObservers();
   }
 
-  /** Check if parent location has 6+ dirty beds. */
-  public void checkParentLoc() {
-    // Check if location has 6+ dirty beds
-    List<MedicalEquipment> totalList = currentLocation.getEquipmentList();
-    List<MedicalEquipment> dirtyList =
-        totalList.stream()
-            .filter(medEquip -> medEquip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY))
-            .collect(Collectors.toList());
-    FacadeDAO dao = FacadeDAO.getInstance();
-    List<MedicalEquipment> equipmentRequestList = dao.getAllMedicalEquipment();
-    if (dirtyList.size() >= 6) {
-      // Create a Medical Equipment Delivery service request for each dirty equipment
-      for (MedicalEquipment dirtyEquip : dirtyList) {
-        String id;
-        // Check for empty db and set first request (will appear as REQ1 in the db)
-
-        if (equipmentRequestList.isEmpty()) {
-          System.out.println("Equipment is empty");
-          id = "REQ0";
-        } else {
-          List<ServiceRequest> currentList = dao.getAllServiceRequests();
-          ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
-          id = lastestReq.getRequestID();
-        }
-        // Create new REQID
-        int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-        String requestID = "REQ" + num;
-
-        MedicalEquipmentDeliveryRequest newReq =
-            new MedicalEquipmentDeliveryRequest(
-                requestID,
-                ServiceRequest.RequestStatus.UNASSIGNED,
-                "admin1",
-                null,
-                dirtyEquip.getEquipmentID(),
-                "zSTOR001L1");
-        dao.addMedicalEquipmentRequest(newReq);
-      }
-    }
-  }
+  //  public void notifyAllObservers() {
+  //    for (DirtyBedObserver obs : observers) {
+  //      obs.update(this);
+  //    }
+  //  }
+  //
+  //  public void attach(DirtyBedObserver observer) {
+  //    observers.add(observer);
+  //    observer.update(this);
+  //  }
+  //
+  //  public void detach(DirtyBedObserver observer) {
+  //    observers.remove(observer);
+  //  }
+  //
+  //  /** Check if parent location has 6+ dirty beds. */
+  //  public void checkParentLoc() {
+  //    // Check if location has 6+ dirty beds
+  //    List<MedicalEquipment> totalList = currentLocation.getEquipmentList();
+  //    List<MedicalEquipment> dirtyList =
+  //        totalList.stream()
+  //            .filter(medEquip ->
+  // medEquip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY))
+  //            .collect(Collectors.toList());
+  //    FacadeDAO dao = FacadeDAO.getInstance();
+  //    List<MedicalEquipment> equipmentRequestList = dao.getAllMedicalEquipment();
+  //    if (dirtyList.size() >= 6) {
+  //      // Create a Medical Equipment Delivery service request for each dirty equipment
+  //      for (MedicalEquipment dirtyEquip : dirtyList) {
+  //        String id;
+  //        // Check for empty db and set first request (will appear as REQ1 in the db)
+  //
+  //        if (equipmentRequestList.isEmpty()) {
+  //          System.out.println("Equipment is empty");
+  //          id = "REQ0";
+  //        } else {
+  //          List<ServiceRequest> currentList = dao.getAllServiceRequests();
+  //          ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
+  //          id = lastestReq.getRequestID();
+  //        }
+  //        // Create new REQID
+  //        int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
+  //        String requestID = "REQ" + num;
+  //
+  //        MedicalEquipmentDeliveryRequest newReq =
+  //            new MedicalEquipmentDeliveryRequest(
+  //                requestID,
+  //                ServiceRequest.RequestStatus.UNASSIGNED,
+  //                "admin1",
+  //                null,
+  //                dirtyEquip.getEquipmentID(),
+  //                "zSTOR001L1");
+  //        dao.addMedicalEquipmentRequest(newReq);
+  //      }
+  //    }
+  //  }
 
   /**
    * Gives the current location of the MedicalEquipment object

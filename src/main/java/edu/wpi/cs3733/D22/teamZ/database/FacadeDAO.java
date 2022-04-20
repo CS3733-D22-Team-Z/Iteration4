@@ -14,6 +14,7 @@ public class FacadeDAO {
   private final EmployeeDAOImpl employeeDAO;
   private final PatientDAOImpl patientDAO;
   private final LabRequestServiceDAOImpl labRequestServiceDAO;
+  private final LaundryServiceDAOImpl laundryServiceRequestDAO;
   private final ServiceRequestDAOImpl serviceRequestDAO;
   private final ExternalPatientDAOImpl transportRequestDAO;
   private final GiftServiceRequestDAOImpl giftRequestDAO;
@@ -33,6 +34,7 @@ public class FacadeDAO {
     employeeDAO = new EmployeeDAOImpl();
     patientDAO = new PatientDAOImpl();
     labRequestServiceDAO = new LabRequestServiceDAOImpl();
+    laundryServiceRequestDAO = new LaundryServiceDAOImpl();
     serviceRequestDAO = new ServiceRequestDAOImpl();
     transportRequestDAO = new ExternalPatientDAOImpl();
     giftRequestDAO = new GiftServiceRequestDAOImpl();
@@ -345,7 +347,10 @@ public class FacadeDAO {
    * @return True if successful, false otherwise
    */
   public boolean addCleaningRequest(CleaningRequest cleaningRequest) {
-    return cleaningRequestDAO.addCleaningRequest(cleaningRequest);
+    boolean val =
+        serviceRequestDAO.addServiceRequest(cleaningRequest)
+            && cleaningRequestDAO.addCleaningRequest(cleaningRequest);
+    return val;
   }
   /**
    * Adds an EquipmentPurchaseRequest to the database
@@ -408,6 +413,18 @@ public class FacadeDAO {
     return val;
   }
   /**
+   * Adds a LabServiceRequest to the database
+   *
+   * @param laundryServiceRequest LabServiceRequest to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addLaundryServiceRequest(LaundryServiceRequest laundryServiceRequest) {
+    boolean val =
+        serviceRequestDAO.addServiceRequest(laundryServiceRequest)
+            && laundryServiceRequestDAO.addLaundryServiceRequest(laundryServiceRequest);
+    return val;
+  }
+  /**
    * Adds a ExternalPatientTransportationRequest to the database
    *
    * @param request request to be added
@@ -424,8 +441,7 @@ public class FacadeDAO {
    * @return True if successful, false otherwise
    */
   public boolean addCleaningRequestToDatabase(CleaningRequest request) {
-    return serviceRequestDAO.addServiceRequest(request)
-        && cleaningRequestDAO.addCleaningRequest(request);
+    return cleaningRequestDAO.addCleaningRequest(request);
   }
   /**
    * Adds a GiftRequest to the database

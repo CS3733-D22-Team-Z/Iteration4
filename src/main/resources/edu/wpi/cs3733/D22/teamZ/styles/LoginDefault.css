@@ -1,25 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Akshar:wght@300&family=Montserrat:wght@600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Akshar:wght@300&family=Montserrat:wght@600&display=swap');
-
-.login-label {
-    -fx-font-family: 'Montserrat';
-    -fx-font-weight: 700;
-    -fx-font-size: 14pt;
-    -fx-text-fill: #000000;
-}
-
-.submit-label {
-    -fx-font-family: 'Montserrat';
+.login-button{
+    -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
     -fx-font-size: 10pt;
     -fx-text-fill: #FFFFFF;
+    -fx-background-color: #012d5a;
 }
 
-.rfid-label {
-    -fx-font-family: 'Montserrat-Semi-Bold';
-    -fx-font-weight: 100;
+.login-button:hover {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 700;
     -fx-font-size: 10pt;
-    -fx-text-fill: #656565;
+    -fx-text-fill: #012d5a;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #012d5a;
+    -fx-border-width: 3pt;
 }
-
