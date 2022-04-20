@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
+import edu.wpi.cs3733.D22.teamZ.observers.DirtyPumpObserver;
 import java.io.IOException;
 import java.util.List;
 import javafx.application.Application;
@@ -61,6 +62,16 @@ public class App extends Application {
 
     for (Location dirtyLocation : dirtyTest) {
       new DirtyBedObserver(dirtyLocation);
+    }
+
+    List<Location> dirtyPumpLocations =
+        List.of(
+            dao.getLocationByID("zDIRT00103"),
+            dao.getLocationByID("zDIRT00104"),
+            dao.getLocationByID("zDIRT00105"));
+
+    for (Location dirtyLocation : dirtyPumpLocations) {
+      new DirtyPumpObserver(dirtyLocation);
     }
   }
 

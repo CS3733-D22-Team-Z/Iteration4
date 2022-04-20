@@ -19,19 +19,33 @@ public class DashboardBedAlertObserver {
 
   public void update() {
     // Count dirty equipment
-    List<MedicalEquipment> totalList = subject.getEquipmentList();
-    List<MedicalEquipment> dirtyList =
+    List<MedicalEquipment> totalList =
+        FacadeDAO.getInstance().getAllMedicalEquipmentByFloor(subject.getFloor());
+    List<MedicalEquipment> dirtyBedList =
         totalList.stream()
             .filter(
                 medEquip ->
                     medEquip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)
                         && medEquip.getType().equals("Bed"))
             .collect(Collectors.toList());
-    FacadeDAO dao = FacadeDAO.getInstance();
-    List<MedicalEquipment> equipmentResultList = dao.getAllMedicalEquipment();
-    // Check if location has 6 or more dirty beds
-    if (dirtyList.size() >= 6) {
-      dashboard.updateBedAlert(subject.getFloor(), dirtyList.size());
+    List<MedicalEquipment> dirtyPumpList =
+        totalList.stream()
+            .filter(
+                equipment ->
+                    equipment.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)
+                        && equipment.getType().equals("IPumps"))
+            .collect(Collectors.toList());
+    List<MedicalEquipment> cleanPumpList =
+        totalList.stream()
+            .filter(
+                equipment ->
+                    equipment.getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)
+                        && equipment.getType().equals("IPumps"))
+            .collect(Collectors.toList());
+    // Check if location has 6 or more dirty beds OR 10+ dirty IPumps
+    if (dirtyBedList.size() >= 6 || dirtyPumpList.size() >= 10 || cleanPumpList.size() < 5) {
+      dashboard.updateBedAlert(
+          subject.getFloor(), dirtyBedList.size(), dirtyPumpList.size(), cleanPumpList.size());
       dashboard.floorAlert(subject.getFloor());
     }
   }
