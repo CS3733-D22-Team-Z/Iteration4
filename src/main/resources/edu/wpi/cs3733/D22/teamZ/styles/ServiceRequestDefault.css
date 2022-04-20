@@ -484,7 +484,7 @@
 
 .scroll-bar:horizontal .thumb:hover,
 .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #0075FF;
+    -fx-background-color: #0067B1;
     -fx-background-insets: 1.5, 0.0, 0.0;
     -fx-background-radius: 2.0em;
 }
