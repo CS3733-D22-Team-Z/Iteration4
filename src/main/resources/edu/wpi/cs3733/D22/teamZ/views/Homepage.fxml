@@ -56,8 +56,8 @@
       <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="524.0" layoutY="14.0" onAction="#toGame" prefHeight="32.0" prefWidth="70.0" styleClass="switch-button" text="Game" />
       <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="351.0" onAction="#toMedicalEquipmentRequest" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Medical Equipment Requests" />
       <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="305.0" onAction="#toEmployeePage" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Employees" />
-      <MFXButton fx:id="SwitchServerButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="393.0" layoutY="14.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="119.0" styleClass="landing-button" text="Switch Server" />
-      <MFXButton fx:id="upperFloorsDashboardButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="259.0" onAction="#toUpperFloorsDashboard" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Dashboard" />
+<!--      <MFXButton fx:id="SwitchServerButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="393.0" layoutY="14.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="119.0" styleClass="landing-button" text="Switch Server" />-->
+<!--      <MFXButton fx:id="upperFloorsDashboardButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="259.0" onAction="#toUpperFloorsDashboard" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Dashboard" />-->
       <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="351.0" onAction="#toServiceRequests" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Service Requests" />
       <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="524.0" layoutY="14.0" onAction="#toGame" prefHeight="32.0" prefWidth="70.0" styleClass="landing-button" text="Game" />
       <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="524.0" layoutY="54.0" onAction="#toCCTV" prefHeight="32.0" prefWidth="70.0" styleClass="landing-button" text="CCTV" />
