@@ -696,12 +696,13 @@ public class LocationListController implements IMenuAccess {
     // displayLocationInformation();
   }
 
-  private void changeToFloor(String nFloor) {
+  void changeToFloor(String nFloor) {
     // floorLocations.remove(0, floorLocations.size());
     // floorLocations.addAll(totalLocations.filtered(loc ->
     // loc.getFloor().equalsIgnoreCase(nFloor)));
     map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + nFloor + ".png"));
-
+    // Dashboard button stuff
+    changeFloor.getSelectionModel().select(nFloor);
     showLocations(nFloor);
   }
 

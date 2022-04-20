@@ -108,7 +108,8 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
   private FacadeDAO database;
 
-  private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
+  // private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
+  private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
 
   @Override
   public void setMenuController(MenuController menu) {
@@ -118,11 +119,6 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @Override
   public String getMenuName() {
     return "Dashboard";
-  }
-
-  @FXML
-  public void toLowerLevelDashboard(ActionEvent event) throws IOException {
-    menu.load(toLowerLevel);
   }
 
   @FXML
@@ -427,20 +423,47 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
     table.setItems(tableRows);
   }
+  // call change to floor function
 
-  public void toFloor5(ActionEvent actionEvent) {}
+  /*  @FXML
+  public void toLowerLevelDashboard(ActionEvent event) throws IOException {
+    menu.load(toLowerLevel);
+  }*/
 
-  public void toFloor4(ActionEvent actionEvent) {}
+  public void toFloor5(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("5");
+  }
 
-  public void toFloor3(ActionEvent actionEvent) {}
+  public void toFloor4(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("4");
+  }
 
-  public void toFloor2(ActionEvent actionEvent) {}
+  public void toFloor3(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("3");
+  }
 
-  public void toFloor1(ActionEvent actionEvent) {}
+  public void toFloor2(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("2");
+  }
 
-  public void toLowerLevel1(ActionEvent actionEvent) {}
+  public void toFloor1(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("1");
+  }
 
-  public void toLowerLevel2(ActionEvent actionEvent) {}
+  public void toLowerLevel1(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("L1");
+  }
+
+  public void toLowerLevel2(ActionEvent actionEvent) throws IOException {
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    mapListController.changeToFloor("L2");
+  }
 
   public void floorAlert(String floor) {
     if (floor.equals("5")) {
