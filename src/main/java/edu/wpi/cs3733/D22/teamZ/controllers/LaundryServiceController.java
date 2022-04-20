@@ -1,17 +1,34 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.LaundryServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.SVGPath;
 
-public class LaundryServiceController extends ServiceRequestController {
+public class LaundryServiceController extends ServiceRequestController implements IMenuAccess {
 
+  private FacadeDAO dao = FacadeDAO.getInstance();
+  private final String toHomePageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
+  private MenuController menu;
+
+  @FXML private Label errorLabel;
+  @FXML private Label seeRequestsLabel;
+  @FXML private MFXTextField patientIDField;
+  @FXML private MFXTextField locationField;
+  @FXML private MFXButton labServiceRequestListButton;
+  @FXML private MFXTextField linenTypeField;
   @FXML private Region backRegion;
 
   private String backSVG =
@@ -27,17 +44,72 @@ public class LaundryServiceController extends ServiceRequestController {
     backRegion.setStyle(String.format(svgCSSLine, white));
 
     menuName = "Laundry Service Request";
+    submitButton.setDisable(true);
+    labServiceRequestListButton.setVisible(false);
+    seeRequestsLabel.setVisible(false);
+    errorLabel.setVisible(false);
   }
 
   @Override
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
+    List<ServiceRequest> serviceRequestList = database.getAllServiceRequests();
+    int id;
+    if (dao.getLocationByID(locationField.getText()).getNodeID() == null) {
+      errorLabel.setVisible(true);
+      System.out.println("FAIL");
+    } else {
+      if (serviceRequestList.isEmpty()) {
+        System.out.println("There are no service requests");
+        id = 0;
+      } else {
+        ServiceRequest tempService = serviceRequestList.get(serviceRequestList.size() - 1);
+        id =
+            Integer.parseInt(
+                tempService
+                    .getRequestID()
+                    .substring(tempService.getRequestID().lastIndexOf("Q") + 1));
+      }
+      // Create new REQID
+      String requestID = "REQ" + ++id;
+      LaundryServiceRequest temp =
+          new LaundryServiceRequest(
+              requestID,
+              ServiceRequest.RequestStatus.UNASSIGNED,
+              MenuController.getLoggedInUser(),
+              null,
+              dao.getLocationByID(locationField.getText()),
+              LaundryServiceRequest.LaundryStatus.DIRTY,
+              linenTypeField.getText());
+
+      if (dao.addLaundryServiceRequest(temp)) {
+        errorLabel.setVisible(false);
+      } else {
+        errorLabel.setVisible(true);
+      }
+    }
     // Add submitting functionality here!
   }
 
   @Override
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     // Reset fields here!
+    locationField.clear();
+    patientIDField.clear();
+    linenTypeField.clear();
+    errorLabel.setVisible(false);
+    submitButton.setDisable(true);
   }
 
-  public void validateButton(KeyEvent keyEvent) {}
+  public void validateButton(KeyEvent keyEvent) {
+    if (!locationField.getText().isEmpty()
+        && !patientIDField.getText().isEmpty()
+        && !linenTypeField.getText().isEmpty()) submitButton.setDisable(false);
+  }
+
+  public void onLaundryListButtonClicked(ActionEvent actionEvent) {}
+
+  //  public void onThisBackButtonClicked(ActionEvent actionEvent) throws IOException {
+  //    menu = new MenuController();
+  //    menu.load(toHomePageURL);
+  //  }
 }

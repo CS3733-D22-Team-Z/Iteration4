@@ -2,7 +2,6 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
@@ -13,23 +12,22 @@
     <children>
         <Text layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="object-header" text="Laundry Service Request Form" x="24.0" y="74.0" />
         <Label layoutX="24.0" layoutY="102.0" prefHeight="17.0" prefWidth="266.0" styleClass="object-body" text="Enter the fields below to request laundry service." />
-        <Label layoutX="24.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
-        <MFXTextField floatMode="DISABLED" layoutX="24.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient name" />
-        <Label layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
-        <MFXTextField floatMode="DISABLED" layoutX="197.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient ID" />
-        <Label layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
-        <MFXTextField floatMode="DISABLED" layoutX="24.0" layoutY="242.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter room number" />
-        <Label layoutX="197.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Linen Type" />
-        <ChoiceBox layoutX="197.0" layoutY="242.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" />
-      <MFXButton fx:id="submitButton" layoutX="23.0" layoutY="301.0" onAction="#onSubmitButtonClicked" prefHeight="32.0" prefWidth="111.0" text="Submit" />
-      <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="301.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
+        <Label layoutX="24.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
+        <MFXTextField fx:id="patientIDField" floatMode="DISABLED" layoutX="24.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter Patient ID" />
+        <Label layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Location" />
+        <MFXTextField fx:id="locationField" floatMode="DISABLED" layoutX="24.0" layoutY="242.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter Location" />
+        <Label layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Linen Type" />
+      <MFXButton fx:id="submitButton" layoutX="235.0" layoutY="324.0" onAction="#onSubmitButtonClicked" prefHeight="32.0" prefWidth="111.0" text="Submit" />
+      <MFXButton fx:id="resetButton" layoutX="62.0" layoutY="324.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
       <MFXButton fx:id="backButton" layoutX="24.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
          <graphic>
             <Region fx:id="backRegion" prefHeight="12.0" prefWidth="6.0" translateX="-4.0" />
          </graphic>
       </MFXButton>
       <Line endX="3.0" endY="365.0" layoutX="382.0" layoutY="32.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
-      <Label alignment="CENTER" layoutX="396.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
-      <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="404.0" layoutY="202.0" prefHeight="60.0" prefWidth="176.0" text="Laundry Service Requests" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="seeRequestsLabel" alignment="CENTER" layoutX="396.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
+      <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="404.0" layoutY="202.0" onAction="#onLaundryListButtonClicked" prefHeight="60.0" prefWidth="176.0" text="Laundry Service Requests" textAlignment="CENTER" wrapText="true" />
+      <MFXTextField fx:id="linenTypeField" floatMode="DISABLED" layoutX="197.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter Linen Type" />
+      <Label fx:id="errorLabel" layoutX="62.0" layoutY="292.0" prefHeight="17.0" prefWidth="282.0" style="-fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request: Invalid location" textFill="#ff4444" />
     </children>
 </AnchorPane>
