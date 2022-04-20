@@ -106,7 +106,7 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
   @Override
   public void initialize(URL arg0, ResourceBundle arg1) {
 
-    // For FPS
+    // For FPS, hide for now
     indicatorFPS.setText("");
     indicatorFPS.setVisible(false);
     displayFPSToggleButton.setDisable(true);
@@ -191,11 +191,11 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
   }
 
   protected void startWebCamStream() {
-    long[] t1 = new long[1]; // for FPS
-    long[] t2 = new long[1]; // for FPS
+    //    long[] t1 = new long[1]; // for FPS
+    //    long[] t2 = new long[1]; // for FPS
 
-    int p = 10; // for FPS
-    int r = 5; // for FPS
+    //    int p = 10; // for FPS
+    //    int r = 5; // for FPS
 
     stopCamera = false;
     Task<Void> task =
@@ -203,6 +203,7 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
 
           @Override
           protected Void call() throws Exception {
+            double prevFPS = 0; // for FPS
 
             while (!stopCamera) {
               try {
@@ -219,6 +220,18 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
                       });
 
                   grabbedImage.flush();
+
+                  //                  if (displayFPSToggleButton.isSelected()) {
+                  //                    double FPS = selWebCam.getFPS();
+                  //
+                  //                    String textFPS = "FPS: " + FPS;
+                  //                    System.out.println(textFPS);
+                  //                    if (prevFPS != FPS) {
+                  //                      indicatorFPS.setText(textFPS);
+                  //                    } else {
+                  //                      prevFPS = FPS;
+                  //                    }
+                  //                  }
 
                   // New for FPS
                   //                  if (displayFPSToggleButton.isSelected()) {
