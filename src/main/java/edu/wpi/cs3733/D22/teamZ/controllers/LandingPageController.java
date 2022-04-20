@@ -78,11 +78,11 @@ public class LandingPageController implements IMenuAccess {
   };
 
   private MenuController menu;
-  private final String grey = "#0075FF";
+  private final String grey = "#0067B1";
   private final String svgCSSLine = "-fx-background-color: %s";
 
   public void initialize() {
-    toggleNames.setMainColor(Color.rgb(0, 117, 225));
+    toggleNames.setMainColor(Color.rgb(0, 103, 177));
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     // toggle.setSelected(true);
     SVGPath icon = new SVGPath();

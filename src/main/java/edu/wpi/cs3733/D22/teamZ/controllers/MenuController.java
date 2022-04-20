@@ -71,7 +71,7 @@ public class MenuController implements Initializable {
 
   // Colors representing the grey and blue values used in the fxmls.
   private String grey = "#C4C4C4";
-  private String blue = "#0075FF";
+  private String blue = "#FFFFFF";
 
   // Store the ClassLoader for future use
   ClassLoader rscLoader;
