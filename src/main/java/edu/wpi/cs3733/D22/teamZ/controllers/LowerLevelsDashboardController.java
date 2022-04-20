@@ -2,17 +2,12 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class LowerLevelsDashboardController implements IMenuAccess {
 
@@ -33,8 +28,8 @@ public class LowerLevelsDashboardController implements IMenuAccess {
 
   @FXML
   public void initialize() {
-    createTableLL1();
-    createTableLL2();
+    // createTableLL1();
+    // createTableLL2();
   }
 
   /**
@@ -46,7 +41,7 @@ public class LowerLevelsDashboardController implements IMenuAccess {
     menu.load(toUpperFloorsURL);
   }
 
-  public void createTableLL1() {
+  /*  public void createTableLL1() {
     lowerLevel1Table.getItems().clear();
     idColumnLL1.setCellValueFactory(
         new PropertyValueFactory<DashboardEquipment, String>("equipmentID"));
@@ -58,9 +53,9 @@ public class LowerLevelsDashboardController implements IMenuAccess {
     }
     data = FXCollections.observableList(dashboardEquipmentList);
     lowerLevel1Table.setItems(data);
-  }
+  }*/
 
-  public void createTableLL2() {
+  /*  public void createTableLL2() {
     lowerLevel2Table.getItems().clear();
     idColumnLL2.setCellValueFactory(
         new PropertyValueFactory<DashboardEquipment, String>("equipmentID"));
@@ -72,7 +67,7 @@ public class LowerLevelsDashboardController implements IMenuAccess {
     }
     data = FXCollections.observableList(dashboardEquipmentList);
     lowerLevel2Table.setItems(data);
-  }
+  }*/
 
   @Override
   public void setMenuController(MenuController menu) {
