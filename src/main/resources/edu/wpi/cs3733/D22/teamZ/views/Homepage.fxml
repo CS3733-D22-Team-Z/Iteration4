@@ -40,7 +40,10 @@
          <padding>
             <Insets right="140.0" />
          </padding></MFXButton>
-      <MFXButton fx:id="SwitchServerButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="393.0" layoutY="14.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="119.0" styleClass="landing-button" text="Switch Server" />
+      <MFXButton fx:id="SwitchServerButton" alignment="CENTER" buttonType="RAISED" layoutX="393.0" layoutY="14.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="119.0" styleClass="switch-button" text="Switch Server">
+         <font>
+            <Font name="Open Sans Bold" size="12.0" />
+         </font></MFXButton>
       <MFXButton fx:id="upperFloorsDashboardButton" alignment="CENTER" buttonType="RAISED" layoutX="273.0" layoutY="248.0" onAction="#toUpperFloorsDashboard" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Dashboard">
          <padding>
             <Insets right="140.0" />
@@ -50,6 +53,6 @@
             <Insets right="105.0" />
          </padding>
       </MFXButton>
-      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="524.0" layoutY="14.0" onAction="#toGame" prefHeight="32.0" prefWidth="70.0" styleClass="landing-button" text="Game" />
+      <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="524.0" layoutY="14.0" onAction="#toGame" prefHeight="32.0" prefWidth="70.0" styleClass="switch-button" text="Game" />
     </children>
 </AnchorPane>
