@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.helpers;
 
 import java.io.IOException;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -29,9 +30,25 @@ public class PopupLoader {
 
     // Place the window in the scene
     parent.getChildren().add(popupWindow);
-    popupWindow.setLayoutX(x - popupWindow.getWidth() / 2);
-    popupWindow.setLayoutY(y - popupWindow.getHeight() / 2);
+    popupWindow.setLayoutX(x - popupWindow.getPrefWidth() / 2);
+    popupWindow.setLayoutY(y - popupWindow.getPrefHeight() / 2);
 
     return popupWindow;
+  }
+
+  public static void delay(long millis, Runnable continuation) {
+    Task<Void> sleeper =
+        new Task<Void>() {
+          @Override
+          protected Void call() throws Exception {
+            try {
+              Thread.sleep(millis);
+            } catch (InterruptedException e) {
+            }
+            return null;
+          }
+        };
+    sleeper.setOnSucceeded(event -> continuation.run());
+    new Thread(sleeper).start();
   }
 }

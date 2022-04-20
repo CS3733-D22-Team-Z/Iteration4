@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.DashAlert;
 import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
@@ -16,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
@@ -63,6 +65,13 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML private ProgressBar lowerLevel1Clean;
   @FXML private ProgressBar lowerLevel2Dirty;
   @FXML private ProgressBar lowerLevel2Clean;
+  @FXML private MFXButton floor5Button;
+  @FXML private MFXButton floor4Button;
+  @FXML private MFXButton floor3Button;
+  @FXML private MFXButton floor2Button;
+  @FXML private MFXButton floor1Button;
+  @FXML private MFXButton lowerLevel1Button;
+  @FXML private MFXButton lowerLevel2Button;
   @FXML private Region dashRegion5;
   @FXML private Region dashRegion4;
   @FXML private Region dashRegion3;
@@ -101,6 +110,10 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
   private FacadeDAO database;
 
+  private Pane currentPopup = null;
+
+  private List<DashAlert> alerts;
+
   // private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
   private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
 
@@ -117,6 +130,11 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML
   public void initialize() throws IOException {
     database = FacadeDAO.getInstance();
+    alerts = new ArrayList<>();
+    List<String> floors = List.of("5", "4", "3", "2", "1", "LL1", "LL2");
+    for (String floor : floors) {
+      alerts.add(new DashAlert(floor));
+    }
     createTableUP1();
     createTableUP2();
     createTableUP3();
@@ -174,7 +192,26 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     setupDropdown(LL1Container, "LL1");
     setupDropdown(LL2Container, "LL2");
 
-    PopupLoader.loadPopup("WarningMessage", root, 10, 10);
+    // root.addEventFilter(MouseEvent.ANY, e -> System.out.println(e));
+    List<Region> dashList =
+        List.of(
+            dashRegion5,
+            dashRegion4,
+            dashRegion3,
+            dashRegion2,
+            dashRegion1,
+            dashRegionLL1,
+            dashRegionLL2);
+    for (Region dashRegion : dashList) {
+      dashRegion.setOnMouseEntered(
+          (event) -> {
+            try {
+              alertHovered(dashRegion);
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          });
+    }
   }
 
   private void createBarUP5Dirty() {
@@ -452,6 +489,19 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     mapListController.changeToFloor("L2");
   }
 
+  public void updateBedAlert(String floor, int dirtyBeds) {
+    // Idk.
+    DashAlert floorAlert =
+        alerts.stream()
+            .filter(alert -> alert.getFloor().equals(floor))
+            .collect(Collectors.toList())
+            .get(0);
+    if (floorAlert.getWarnings().size() == 0) {
+      floorAlert.addWarning(0, "There are %d dirty beds on this floor.");
+    }
+    floorAlert.setWarningData(0, dirtyBeds);
+  }
+
   public void floorAlert(String floor) {
     if (floor.equals("5")) {
       dashRegion5.setVisible(true);
@@ -467,6 +517,62 @@ public class UpperFloorsDashboardController implements IMenuAccess {
       dashRegionLL1.setVisible(true);
     } else if (floor.equals("L2")) {
       dashRegionLL2.setVisible(true);
+    }
+  }
+
+  /**
+   * Ran whenever the mouse hovers over
+   *
+   * @param alert the dashRegion for the alert
+   */
+  @FXML
+  private void alertHovered(Region alert) throws IOException {
+    // Only run if alert is active
+    if (alert.isVisible()) {
+      // Count dirty equipment on floor
+      String floor = alert.getId().substring(10);
+      List<MedicalEquipment> equipment = dao.getAllMedicalEquipmentByFloor(floor);
+      equipment =
+          equipment.stream()
+              .filter(equip -> equip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY))
+              .collect(Collectors.toList());
+
+      // Create a popup window at alert
+      Bounds boundsInScene = root.sceneToLocal(alert.localToScene(alert.getBoundsInLocal()));
+      if (currentPopup != null) root.getChildren().remove(currentPopup);
+      int add = 80;
+      if (List.of("LL1", "LL2", "1").contains(floor)) add = -80;
+      currentPopup =
+          PopupLoader.loadPopup(
+              "WarningMessage",
+              root,
+              (int) boundsInScene.getCenterX(),
+              (int) boundsInScene.getCenterY() + add);
+
+      // Get floor alert
+      DashAlert floorAlert =
+          alerts.stream()
+              .filter(alertEnt -> alertEnt.getFloor().equals(floor))
+              .collect(Collectors.toList())
+              .get(0);
+
+      for (String message : floorAlert.getWarnings()) {
+        Label infoLabel = new Label();
+        infoLabel.setText(message);
+        VBox labelContainer = (VBox) currentPopup.lookup("#warningContainer");
+        labelContainer.getChildren().add(infoLabel);
+        infoLabel.setWrapText(true);
+      }
+    }
+  }
+
+  /** Runs when the mouse leaves the alert region */
+  @FXML
+  private void alertExit() {
+    if (currentPopup != null) {
+      // Remove from root & set to null
+      root.getChildren().remove(currentPopup);
+      currentPopup = null;
     }
   }
 
