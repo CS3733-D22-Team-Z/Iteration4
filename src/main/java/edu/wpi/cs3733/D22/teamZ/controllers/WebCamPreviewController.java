@@ -18,6 +18,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -48,6 +50,10 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
   @FXML FlowPane fpBottomPane;
 
   @FXML ImageView imgWebCamCapturedImage;
+
+  @FXML ToggleButton displayFPSToggleButton;
+  @FXML Label indicatorFPS;
+
   private MenuController menu;
 
   @Override
@@ -64,6 +70,7 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
 
     private String webCamName;
     private int webCamIndex;
+    //    private int webCamFPS;
 
     public String getWebCamName() {
       return webCamName;
@@ -81,6 +88,8 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
       this.webCamIndex = webCamIndex;
     }
 
+    //    public int getWebCamFPS() {return webCamFPS;}
+
     @Override
     public String toString() {
       return webCamName;
@@ -96,6 +105,12 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
 
   @Override
   public void initialize(URL arg0, ResourceBundle arg1) {
+
+    // For FPS
+    indicatorFPS.setText("");
+    indicatorFPS.setVisible(false);
+    displayFPSToggleButton.setDisable(true);
+    displayFPSToggleButton.setVisible(false);
 
     fpBottomPane.setDisable(true);
     ObservableList<WebCamInfo> options = FXCollections.observableArrayList();
@@ -176,6 +191,11 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
   }
 
   protected void startWebCamStream() {
+    long[] t1 = new long[1]; // for FPS
+    long[] t2 = new long[1]; // for FPS
+
+    int p = 10; // for FPS
+    int r = 5; // for FPS
 
     stopCamera = false;
     Task<Void> task =
@@ -199,6 +219,25 @@ public class WebCamPreviewController implements Initializable, IMenuAccess {
                       });
 
                   grabbedImage.flush();
+
+                  // New for FPS
+                  //                  if (displayFPSToggleButton.isSelected()) {
+                  //                    for (int k = 0; k < p; k++) {
+                  //
+                  //                      selWebCam.open();
+                  //                      selWebCam.getImage();
+                  //
+                  //                      t1[0] = System.currentTimeMillis();
+                  //                      for (int i = 0; ++i <= r; selWebCam.getImage()) {}
+                  //                      t2[0] = System.currentTimeMillis();
+                  //
+                  //                      String textFPS = "FPS: " + (1000 * r / (t2[0] - t1[0] +
+                  // 1));
+                  //                      System.out.println(textFPS);
+                  //                      //                      indicatorFPS.setText(textFPS);
+                  //                      //                      selWebCam.close();
+                  //                    }
+                  //                  } // end of New for FPS
                 }
               } catch (Exception e) {
                 e.printStackTrace();
