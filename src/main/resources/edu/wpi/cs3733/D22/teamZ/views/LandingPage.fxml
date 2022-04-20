@@ -43,7 +43,7 @@
                   <RowConstraints maxHeight="167.0" minHeight="10.0" prefHeight="149.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <MFXButton onAction="#navMedicalEquipment" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313">
+                  <MFXButton onAction="#navMedicalEquipment" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313">
                      <effect>
                         <DropShadow>
                            <color>
@@ -54,7 +54,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label layoutX="-13.0" layoutY="74.0" prefHeight="47.0" prefWidth="118.0" styleClass="landing-button" text="Medical Equipment" textAlignment="CENTER" wrapText="true">
+                              <Label layoutX="-5.0" layoutY="74.0" prefHeight="47.0" prefWidth="101.0" styleClass="landing-button" text="Medical Equipment" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -82,7 +82,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navLab" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="1">
+                  <MFXButton onAction="#navLab" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="1">
                      <effect>
                         <DropShadow>
                            <color>
@@ -93,7 +93,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label alignment="CENTER" layoutX="-13.0" layoutY="74.0" prefHeight="47.0" prefWidth="118.0" styleClass="landing-button" text="Lab Service" wrapText="true">
+                              <Label alignment="CENTER" layoutX="-7.0" layoutY="74.0" prefHeight="47.0" prefWidth="103.0" styleClass="landing-button" text="Lab Service" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -121,7 +121,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#toExternalPatientTransportation" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="3">
+                  <MFXButton onAction="#toExternalPatientTransportation" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="3">
                      <effect>
                         <DropShadow>
                            <color>
@@ -132,7 +132,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="108.0" translateX="-4.0">
                            <children>
-                              <Label layoutX="-4.0" layoutY="74.0" prefHeight="48.0" prefWidth="116.0" styleClass="landing-button" text="Ext. Patient Transportation" textAlignment="CENTER" wrapText="true">
+                              <Label layoutX="3.0" layoutY="74.0" prefHeight="48.0" prefWidth="102.0" styleClass="landing-button" text="Ext. Patient Transportation" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -163,7 +163,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navLanguage" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.rowIndex="1">
+                  <MFXButton onAction="#navLanguage" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.rowIndex="1">
                      <effect>
                         <DropShadow>
                            <color>
@@ -174,7 +174,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0" translateX="2.0">
                            <children>
-                              <Label layoutX="-12.0" layoutY="74.0" prefHeight="47.0" prefWidth="116.0" styleClass="landing-button" text="Language Interpreter" textAlignment="CENTER" wrapText="true">
+                              <Label layoutX="-6.0" layoutY="74.0" prefHeight="47.0" prefWidth="98.0" styleClass="landing-button" text="Language Interpreter" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
@@ -202,7 +202,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navMeal" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <MFXButton onAction="#navMeal" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <effect>
                         <DropShadow>
                            <color>
@@ -241,7 +241,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navLaundry" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <MFXButton onAction="#navLaundry" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <effect>
                         <DropShadow>
                            <color>
@@ -280,7 +280,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navComputer" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <MFXButton onAction="#navComputer" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <effect>
                         <DropShadow>
                            <color>
@@ -319,7 +319,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navGifts" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="2">
+                  <MFXButton onAction="#navGifts" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="2">
                      <effect>
                         <DropShadow>
                            <color>
@@ -358,7 +358,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navPurchase" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="hello" textFill="#511313" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <MFXButton onAction="#navPurchase" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <effect>
                         <DropShadow>
                            <color>
@@ -397,7 +397,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#navCleaning" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" text="h" textAlignment="CENTER" textFill="#511313" GridPane.rowIndex="2">
+                  <MFXButton onAction="#navCleaning" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="h" textAlignment="CENTER" textFill="#511313" GridPane.rowIndex="2">
                      <effect>
                         <DropShadow>
                            <color>

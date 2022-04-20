@@ -69,6 +69,13 @@
     -fx-background-color: #FFFFFF;
 }
 
+.button-pane:hover {
+
+    -fx-border-color: #012d5a;
+    -fx-border-width: 3pt;
+
+}
+
 .filter-button {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
