@@ -78,7 +78,6 @@
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Label>
-                  <Label layoutX="12.0" layoutY="6.0" styleClass="form-header" text="Change Floor" textFill="#7b7b7b">
                   <Label layoutX="12.0" layoutY="6.0" styleClass="choice-header-floor" text="Change Floor" textFill="#7b7b7b">
                      <font>
                         <Font name="System Bold" size="10.0" />

@@ -2,20 +2,14 @@ package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.LocationListController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import javafx.stage.Window;
-
 
 public class Draggable {
 
