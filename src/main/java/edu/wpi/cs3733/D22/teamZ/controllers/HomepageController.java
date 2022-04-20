@@ -108,6 +108,12 @@ public class HomepageController implements IMenuAccess {
     menu.load(toServerSwitchURL);
   }
 
+  /**
+   * Opens panel for CCTV viewer
+   *
+   * @param event
+   * @throws IOException
+   */
   public void toCCTV(ActionEvent event) throws IOException {
     menu.load(toCCTV);
   }
