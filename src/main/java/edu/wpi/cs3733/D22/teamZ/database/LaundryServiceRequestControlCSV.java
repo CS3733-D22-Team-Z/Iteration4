@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LaundryServiceRequestControlCSV extends ControlCSV {
-  private final String[] headers = {"requestID", "equipmentTypeStr", "paymentMethodStr"};
+  private final String[] headers = {"requestID", "laundryStatus", "LaundryType"};
 
   public LaundryServiceRequestControlCSV(File path) {
     this.setDefaultPath(path);
