@@ -90,7 +90,7 @@
                                           <Label fx:id="floor5TotalLabel" styleClass="header" text="14" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion5" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <Region fx:id="dashRegion5" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -143,7 +143,7 @@
                                           <Label fx:id="floor4TotalLabel" styleClass="header" text="14" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion4" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <Region fx:id="dashRegion4" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -249,7 +249,7 @@
                                           <Label fx:id="floor2TotalLabel" styleClass="header" text="14" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion2" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <Region fx:id="dashRegion2" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -302,7 +302,7 @@
                                           <Label fx:id="floor1TotalLabel" styleClass="header" text="14" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion1" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <Region fx:id="dashRegion1" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -355,7 +355,7 @@
                                           <Label fx:id="lowerLevel1TotalLabel" styleClass="header" text="14" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegionLL1" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <Region fx:id="dashRegionLL1" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
@@ -408,7 +408,7 @@
                                           <Label fx:id="lowerLevel2TotalLabel" styleClass="header" text="14" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegionLL2" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <Region fx:id="dashRegionLL2" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>
