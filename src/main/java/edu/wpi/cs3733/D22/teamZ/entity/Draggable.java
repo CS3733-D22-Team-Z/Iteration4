@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -23,15 +24,21 @@ public class Draggable {
   private double scaleFactor;
   private ImageView map;
   private LocationListController mapRef;
+  private Label locationName;
 
   public Draggable(
-      ScrollPane scrollpane, MapLabel active, double scaleFactor, LocationListController mapRef) {
+      ScrollPane scrollpane,
+      MapLabel active,
+      double scaleFactor,
+      LocationListController mapRef,
+      Label locationName) {
     facadeDAO = FacadeDAO.getInstance();
     this.scrollPane = scrollpane;
     this.location = active.getLocation();
     this.scaleFactor = scaleFactor;
     this.mapRef = mapRef;
     this.medicalEquipment = active.getEquip();
+    this.locationName = locationName;
   }
 
   /**
@@ -69,6 +76,7 @@ public class Draggable {
               if (mouseEvent.getPickResult().getIntersectedNode().equals(label.getBound())
                   || mouseEvent.getPickResult().getIntersectedNode().equals(label)) {
                 label.getBound().setStroke(new Color(0, .459, 1, 1));
+                locationName.setText(label.getLocation().getShortName());
               } else {
                 label.getBound().setStroke(Color.TRANSPARENT);
               }
