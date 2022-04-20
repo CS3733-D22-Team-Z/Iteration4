@@ -63,13 +63,6 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML private ProgressBar lowerLevel1Clean;
   @FXML private ProgressBar lowerLevel2Dirty;
   @FXML private ProgressBar lowerLevel2Clean;
-  @FXML private MFXButton floor5Button;
-  @FXML private MFXButton floor4Button;
-  @FXML private MFXButton floor3Button;
-  @FXML private MFXButton floor2Button;
-  @FXML private MFXButton floor1Button;
-  @FXML private MFXButton lowerLevel1Button;
-  @FXML private MFXButton lowerLevel2Button;
   @FXML private Region dashRegion5;
   @FXML private Region dashRegion4;
   @FXML private Region dashRegion3;
@@ -458,7 +451,6 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
     mapListController.changeToFloor("L2");
   }
-
 
   public void floorAlert(String floor) {
     if (floor.equals("5")) {
