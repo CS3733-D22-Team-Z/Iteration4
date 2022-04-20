@@ -11,55 +11,49 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/HomePage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
     <children>
         <Label fx:id="welcomeMessage" alignment="TOP_LEFT" layoutX="18.0" layoutY="182.0" prefHeight="49.0" prefWidth="585.0" styleClass="header-home" text="Hello admin, Welcome to the Brigham and Women's Hospital App" wrapText="true">
-         <font>
-            <Font name="Palatino Linotype Bold" size="18.0" />
-         </font></Label>
+            <font>
+                <Font name="Palatino Linotype Bold" size="18.0" />
+            </font></Label>
         <Label layoutX="18.0" layoutY="212.0" styleClass="desc-home" text="Use the buttons below or menu on the left to navigate the app." textFill="#8a8a8a">
-         <font>
-            <Font size="13.0" />
-         </font></Label>
+            <font>
+                <Font size="13.0" />
+            </font></Label>
         <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="18.0" layoutY="248.0" onAction="#toLocations" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Locations">
-         <padding>
-            <Insets right="150.0" />
-         </padding></MFXButton>
+            <padding>
+                <Insets right="150.0" />
+            </padding></MFXButton>
         <MFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="18.0" layoutY="300.0" onAction="#toLandingPage" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Landing Page">
-         <padding>
-            <Insets right="125.0" />
-         </padding></MFXButton>
+            <padding>
+                <Insets right="125.0" />
+            </padding></MFXButton>
         <ImageView fitHeight="194.0" fitWidth="608.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../images/Brigham-Womens-Hospital.jpg" />
             </image>
         </ImageView>
 
-      <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="18.0" layoutY="351.0" onAction="#toMedicalEquipmentRequest" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Medical Equipment Requests">
-         <padding>
-            <Insets right="27.0" />
-         </padding></MFXButton>
-      <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="273.0" layoutY="300.0" onAction="#toEmployeePage" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Employees">
-         <padding>
-            <Insets right="140.0" />
-         </padding></MFXButton>
-      <MFXButton fx:id="SwitchServerButton" alignment="CENTER" buttonType="RAISED" layoutX="393.0" layoutY="14.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="119.0" styleClass="switch-button" text="Switch Server">
-         <font>
-            <Font name="Open Sans Bold" size="12.0" />
-         </font></MFXButton>
-      <MFXButton fx:id="upperFloorsDashboardButton" alignment="CENTER" buttonType="RAISED" layoutX="273.0" layoutY="248.0" onAction="#toUpperFloorsDashboard" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Dashboard">
-         <padding>
-            <Insets right="140.0" />
-         </padding></MFXButton>
-      <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="273.0" layoutY="351.0" onAction="#toServiceRequests" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Service Requests">
-         <padding>
-            <Insets right="105.0" />
-         </padding>
-      </MFXButton>
-      <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="524.0" layoutY="14.0" onAction="#toGame" prefHeight="32.0" prefWidth="70.0" styleClass="switch-button" text="Game" />
-      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="18.0" layoutY="351.0" onAction="#toMedicalEquipmentRequest" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Medical Equipment Requests" />
-      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="305.0" onAction="#toEmployeePage" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Employees" />
-<!--      <MFXButton fx:id="SwitchServerButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="393.0" layoutY="14.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="119.0" styleClass="landing-button" text="Switch Server" />-->
-<!--      <MFXButton fx:id="upperFloorsDashboardButton" alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="259.0" onAction="#toUpperFloorsDashboard" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Dashboard" />-->
-      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="273.0" layoutY="351.0" onAction="#toServiceRequests" prefHeight="32.0" prefWidth="240.0" styleClass="landing-button" text="Service Requests" />
-      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="524.0" layoutY="14.0" onAction="#toGame" prefHeight="32.0" prefWidth="70.0" styleClass="landing-button" text="Game" />
-      <MFXButton alignment="TOP_LEFT" buttonType="RAISED" layoutX="524.0" layoutY="54.0" onAction="#toCCTV" prefHeight="32.0" prefWidth="70.0" styleClass="landing-button" text="CCTV" />
+        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="18.0" layoutY="351.0" onAction="#toMedicalEquipmentRequest" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Medical Equipment Requests">
+            <padding>
+                <Insets right="27.0" />
+            </padding></MFXButton>
+        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="273.0" layoutY="300.0" onAction="#toEmployeePage" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Employees">
+            <padding>
+                <Insets right="140.0" />
+            </padding></MFXButton>
+        <MFXButton fx:id="SwitchServerButton" alignment="CENTER" buttonType="RAISED" layoutX="393.0" layoutY="14.0" onAction="#SwitchServerClicked" prefHeight="32.0" prefWidth="119.0" styleClass="switch-button" text="Switch Server">
+            <font>
+                <Font name="Open Sans Bold" size="12.0" />
+            </font></MFXButton>
+        <MFXButton fx:id="upperFloorsDashboardButton" alignment="CENTER" buttonType="RAISED" layoutX="273.0" layoutY="248.0" onAction="#toUpperFloorsDashboard" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Dashboard">
+            <padding>
+                <Insets right="140.0" />
+            </padding></MFXButton>
+        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="273.0" layoutY="351.0" onAction="#toServiceRequests" prefHeight="37.0" prefWidth="240.0" styleClass="page-button" text="Service Requests">
+            <padding>
+                <Insets right="105.0" />
+            </padding>
+        </MFXButton>
+        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="524.0" layoutY="14.0" onAction="#toGame" prefHeight="32.0" prefWidth="70.0" styleClass="switch-button" text="Game" />
+      <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="524.0" layoutY="60.0" onAction="#toCCTV" prefHeight="32.0" prefWidth="70.0" styleClass="switch-button" text="CCTV" />
     </children>
 </AnchorPane>
