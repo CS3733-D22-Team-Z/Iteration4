@@ -71,6 +71,14 @@
                               <ColorAdjust hue="-0.25" />
                            </effect>
                         </MFXRadioButton>
+                        <MFXRadioButton fx:id="cctvRadio" gap="6.0" radioGap="2.5" radius="5.0" text="CCTV">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="radioGroup1" />
+                           </toggleGroup>
+                           <effect>
+                              <ColorAdjust hue="-0.25" />
+                           </effect>
+                        </MFXRadioButton>
                      </children>
                   </VBox>
                   <Label fx:id="locationName" layoutX="14.0" layoutY="322.0" prefHeight="64.0" prefWidth="125.0" styleClass="form-header" textAlignment="CENTER" textFill="#7b7b7b">
