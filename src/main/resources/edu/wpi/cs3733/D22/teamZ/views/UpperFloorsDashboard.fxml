@@ -196,7 +196,7 @@
                                           <Label fx:id="floor3TotalLabel" styleClass="header" text="14" />
                                        </children>
                                     </VBox>
-                                    <Region fx:id="dashRegion3" prefHeight="34.0" prefWidth="34.0" visible="false" />
+                                    <Region fx:id="dashRegion3" onMouseExited="#alertExit" prefHeight="34.0" prefWidth="34.0" visible="false" />
                                     <MFXButton text="v" />
                                  </children>
                               </FlowPane>

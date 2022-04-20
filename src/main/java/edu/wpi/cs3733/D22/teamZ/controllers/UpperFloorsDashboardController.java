@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
@@ -108,6 +109,8 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
   private FacadeDAO database;
 
+  private Pane currentPopup = null;
+
   // private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
   private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
 
@@ -181,7 +184,15 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     setupDropdown(LL1Container, "LL1");
     setupDropdown(LL2Container, "LL2");
 
-    PopupLoader.loadPopup("WarningMessage", root, 10, 10);
+    // root.addEventFilter(MouseEvent.ANY, e -> System.out.println(e));
+    dashRegion3.setOnMouseEntered(
+        (event) -> {
+          try {
+            alertHovered(dashRegion3);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
   }
 
   private void createBarUP5Dirty() {
@@ -472,6 +483,50 @@ public class UpperFloorsDashboardController implements IMenuAccess {
       dashRegion4.setVisible(true);
     } else if (floor.equals("3")) {
       dashRegion3.setVisible(true);
+    }
+  }
+
+  /**
+   * Ran whenever the mouse hovers over
+   *
+   * @param alert the dashRegion for the alert
+   */
+  @FXML
+  private void alertHovered(Region alert) throws IOException {
+    // Only run if alert is active
+    if (alert.isVisible()) {
+      // Count dirty equipment on floor
+      String floor = alert.getId().substring(10);
+      List<MedicalEquipment> equipment = dao.getAllMedicalEquipmentByFloor(floor);
+      equipment =
+          equipment.stream()
+              .filter(equip -> equip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY))
+              .collect(Collectors.toList());
+
+      // Create a popup window at alert
+      Bounds boundsInScene = root.sceneToLocal(alert.localToScene(alert.getBoundsInLocal()));
+      if (currentPopup != null) root.getChildren().remove(currentPopup);
+      currentPopup =
+          PopupLoader.loadPopup(
+              "WarningMessage",
+              root,
+              (int) boundsInScene.getCenterX(),
+              (int) boundsInScene.getCenterY() + 60);
+
+      Label infoLabel = new Label();
+      infoLabel.setText("Dirty equipment: " + equipment.size());
+      VBox labelContainer = (VBox) currentPopup.lookup("#warningContainer");
+      labelContainer.getChildren().add(infoLabel);
+    }
+  }
+
+  /** Runs when the mouse leaves the alert region */
+  @FXML
+  private void alertExit() {
+    if (currentPopup != null) {
+      // Remove from root & set to null
+      root.getChildren().remove(currentPopup);
+      currentPopup = null;
     }
   }
 
