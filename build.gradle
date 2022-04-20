@@ -46,6 +46,8 @@ dependencies {
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
 
+            'com.github.sarxos:webcam-capture:0.3.12'
+
     )
 
     testCompile(
@@ -55,6 +57,8 @@ dependencies {
 
             "junit:junit:4.13.2",
             "org.testfx:testfx-junit:4.0.16-alpha",
+
+            'com.github.sarxos:webcam-capture:0.3.12'
 
             // optional dependencies for using JUnit 5 (replaces above 2)
             // 'org.junit.jupiter:junit-jupiter:5.6.0',

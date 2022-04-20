@@ -27,7 +27,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
       <SplitPane fx:id="splitPane" dividerPositions="0.75" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-border-width: 0;" styleClass="root">
          <items>
@@ -71,8 +71,21 @@
                               <ColorAdjust hue="-0.25" />
                            </effect>
                         </MFXRadioButton>
+                        <MFXRadioButton fx:id="cctvRadio" gap="6.0" radioGap="2.5" radius="5.0" text="CCTV">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="radioGroup1" />
+                           </toggleGroup>
+                           <effect>
+                              <ColorAdjust hue="-0.25" />
+                           </effect>
+                        </MFXRadioButton>
                      </children>
                   </VBox>
+                  <Label fx:id="locationName" layoutX="14.0" layoutY="322.0" prefHeight="64.0" prefWidth="125.0" styleClass="form-header" textAlignment="CENTER" textFill="#7b7b7b">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Label>
                   <Label layoutX="12.0" layoutY="6.0" styleClass="choice-header-floor" text="Change Floor" textFill="#7b7b7b">
                      <font>
                         <Font name="System Bold" size="10.0" />
