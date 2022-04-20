@@ -115,8 +115,12 @@ public class LoginPageController implements Initializable {
     Scene scene = new Scene(root);
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     primaryStage.setScene(scene);
-    primaryStage.setMinHeight(392); // initial size. doesnt work if less so ignore lol.
+    primaryStage.minHeightProperty().unbind();
+    primaryStage.maxHeightProperty().unbind();
+    primaryStage.setMinHeight(475); // initial size. doesnt work if less so ignore lol.
+    //TODO was 292^
     primaryStage.setMinWidth(745);
+    //TODO fix scaling on other login pages after logout
 
     initialHeight = primaryStage.getHeight();
     initialWidth = primaryStage.getWidth();
@@ -145,7 +149,7 @@ public class LoginPageController implements Initializable {
     }
     root.getTransforms().setAll(initialStates);
 
-    root.getTransforms().add(new Scale(scaleX, scaleY, 0, 0));
+    root.getTransforms().add(new Scale(scaleY, scaleY, 0, 0));
   }
 
   @FXML
