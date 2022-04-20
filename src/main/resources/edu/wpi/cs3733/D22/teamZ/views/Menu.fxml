@@ -42,7 +42,7 @@
                      <VBox.margin>
                         <Insets bottom="2.0" left="45.0" />
                      </VBox.margin></MFXButton>
-                  <MFXButton alignment="CENTER" onAction="#toMedicalEquipmentRequest" prefHeight="61.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Medical  Equipment Requests" wrapText="true">
+                  <MFXButton alignment="CENTER" onAction="#toMedicalEquipmentRequest" prefHeight="61.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Service Requests" translateY="-8.0" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="2.0" left="70.0" />
                      </VBox.margin></MFXButton>
