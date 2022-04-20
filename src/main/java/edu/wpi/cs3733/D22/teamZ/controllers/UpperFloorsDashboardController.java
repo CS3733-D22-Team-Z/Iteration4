@@ -423,12 +423,6 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
     table.setItems(tableRows);
   }
-  // call change to floor function
-
-  /*  @FXML
-  public void toLowerLevelDashboard(ActionEvent event) throws IOException {
-    menu.load(toLowerLevel);
-  }*/
 
   public void toFloor5(ActionEvent actionEvent) throws IOException {
     LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
@@ -465,6 +459,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     mapListController.changeToFloor("L2");
   }
 
+
   public void floorAlert(String floor) {
     if (floor.equals("5")) {
       dashRegion5.setVisible(true);
@@ -472,6 +467,14 @@ public class UpperFloorsDashboardController implements IMenuAccess {
       dashRegion4.setVisible(true);
     } else if (floor.equals("3")) {
       dashRegion3.setVisible(true);
+    } else if (floor.equals("2")) {
+      dashRegion2.setVisible(true);
+    } else if (floor.equals("1")) {
+      dashRegion1.setVisible(true);
+    } else if (floor.equals("L1")) {
+      dashRegionLL1.setVisible(true);
+    } else if (floor.equals("L2")) {
+      dashRegionLL2.setVisible(true);
     }
   }
 
