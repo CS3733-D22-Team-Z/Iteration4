@@ -2,11 +2,10 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

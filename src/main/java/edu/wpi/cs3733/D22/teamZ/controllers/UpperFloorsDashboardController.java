@@ -184,6 +184,29 @@ public class UpperFloorsDashboardController implements IMenuAccess {
       new DashboardBedAlertObserver(dirtyLocation, this);
     }
 
+    List<Location> dirtyPumpLocations =
+        List.of(
+            dao.getLocationByID("zDIRT00103"),
+            dao.getLocationByID("zDIRT00104"),
+            dao.getLocationByID("zDIRT00105"));
+
+    for (Location dirtyLocation : dirtyPumpLocations) {
+      new DashboardBedAlertObserver(dirtyLocation, this);
+    }
+
+    List<Location> cleanPumpLocations =
+        List.of(
+            dao.getLocationByID("zSTOR00103"),
+            dao.getLocationByID("zSTOR00203"),
+            dao.getLocationByID("zSTOR00104"),
+            dao.getLocationByID("zSTOR00204"),
+            dao.getLocationByID("zSTOR00105"),
+            dao.getLocationByID("zSTOR00205"));
+
+    for (Location cleanLocation : cleanPumpLocations) {
+      new DashboardBedAlertObserver(cleanLocation, this);
+    }
+
     setupDropdown(floor5Container, "5");
     setupDropdown(floor4Container, "4");
     setupDropdown(floor3Container, "3");
@@ -489,17 +512,19 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     mapListController.changeToFloor("L2");
   }
 
-  public void updateBedAlert(String floor, int dirtyBeds) {
+  public void updateBedAlert(String floor, int dirtyBeds, int dirtyPumps, int cleanPumps) {
     // Idk.
     DashAlert floorAlert =
         alerts.stream()
             .filter(alert -> alert.getFloor().equals(floor))
             .collect(Collectors.toList())
             .get(0);
-    if (floorAlert.getWarnings().size() == 0) {
-      floorAlert.addWarning(0, "There are %d dirty beds on this floor.");
-    }
+    // floorAlert.addWarning(0, "There are %d dirty beds on this floor.");
     floorAlert.setWarningData(0, dirtyBeds);
+    // floorAlert.addWarning(1, "There are %d dirty pumps on this floor.");
+    floorAlert.setWarningData(1, dirtyPumps);
+    // floorAlert.addWarning(2, "There are %d clean pumps on this floor.");
+    floorAlert.setWarningData(2, cleanPumps);
   }
 
   public void floorAlert(String floor) {

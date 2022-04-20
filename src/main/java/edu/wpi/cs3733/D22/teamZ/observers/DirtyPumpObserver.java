@@ -9,42 +9,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * An observer that will issue service requests when the dirty equipment pickup location has 6+
- * dirty beds.
+ * An observer that will issue service requests when the dirty equipment pickup location has 10+
+ * dirty pumps.
  */
-public class DirtyBedObserver {
+public class DirtyPumpObserver {
   Location subject;
-  // UpperFloorsDashboardController dashboard;
 
-  public DirtyBedObserver(Location subject) {
+  public DirtyPumpObserver(Location subject) {
     this.subject = subject;
-    subject.attachBedObs(this);
+    subject.attachDirtyPumpObservers(this);
   }
-
-  /*public void addSubject(MedicalEquipment subject) {
-    subjects.add(subject);
-    subject.attach(this);
-  }
-
-  public void setSubjects(List<MedicalEquipment> subjects) {
-    for (MedicalEquipment equipment : subjects) addSubject(equipment);
-  }*/
 
   public void update() {
-    // Only count if equipment is dirty.
-    // if (subject.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) {
-    // Check if location has 6+ dirty beds
     List<MedicalEquipment> totalList = subject.getEquipmentList();
     List<MedicalEquipment> dirtyList =
         totalList.stream()
             .filter(
                 medEquip ->
                     (medEquip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)
-                        && medEquip.getType().equals("Bed")))
+                        && medEquip.getType().equals("IPumps")))
             .collect(Collectors.toList());
     FacadeDAO dao = FacadeDAO.getInstance();
-    List<ServiceRequest> equipmentRequestList = dao.getAllServiceRequests();
-    if (dirtyList.size() >= 6) {
+    List<MedicalEquipment> equipmentRequestList = dao.getAllMedicalEquipment();
+    if (dirtyList.size() >= 10) {
       // Create a Medical Equipment Delivery service request for each dirty equipment
       for (MedicalEquipment dirtyEquip : dirtyList) {
         String id;
@@ -62,7 +49,7 @@ public class DirtyBedObserver {
         int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
         String requestID = "REQ" + num;
 
-        // Create a delivery request to zSTOR001L1 for dirty equipment
+        // Create a delivery request to zSTOR00101 for dirty equipment
         MedicalEquipmentDeliveryRequest newReq =
             new MedicalEquipmentDeliveryRequest(
                 requestID,
@@ -70,15 +57,9 @@ public class DirtyBedObserver {
                 "admin1",
                 null,
                 dirtyEquip.getEquipmentID(),
-                "zSTOR001L1");
+                "zSTOR00101");
         dao.addMedicalEquipmentRequest(newReq);
       }
     }
-    // }
   }
-
-  //  public void removeSubjects() {
-  //    for (MedicalEquipment subject : subjects) subject.detach(this);
-  //    subjects.clear();
-  //  }
 }
