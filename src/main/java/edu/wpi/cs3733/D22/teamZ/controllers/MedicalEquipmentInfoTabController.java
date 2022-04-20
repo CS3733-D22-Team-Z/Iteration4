@@ -78,46 +78,46 @@ public class MedicalEquipmentInfoTabController {
 
     // listener
     equipmentStatusChoice
-            .valueProperty()
-            .addListener(
-                    observable -> {
-                      if (getMedicalEquipmentbyID(equipmentComboBox.getValue()).getType().equals("Bed")) {
-                        if (equipmentStatusChoice.getValue().equals("DIRTY")) {
-                          equipmentLocationField.setText(
-                                  FacadeDAO.getInstance()
-                                          .getLocationByID(
-                                                  FacadeDAO.getInstance()
-                                                          .getRandomBedParkNodeIDByFloor(
-                                                                  getMedicalEquipmentbyID(equipmentComboBox.getValue())
-                                                                          .getCurrentLocation()
-                                                                          .getFloor()))
-                                          .getNodeID());
-                          equipmentLocationField.setDisable(true);
-                        }
-                      }
-                      else if (getMedicalEquipmentbyID(equipmentComboBox.getValue())
-                              .getType()
-                              .equals("IPumps")) {
-                        if (equipmentStatusChoice.getValue().equals("DIRTY")) {
-                          equipmentLocationField.setText(
-                                  FacadeDAO.getInstance()
-                                          .getLocationByID(
-                                                  FacadeDAO.getInstance()
-                                                          .getDirtyNodeIDbyFloor(
-                                                                  getMedicalEquipmentbyID(equipmentComboBox.getValue())
-                                                                          .getCurrentLocation()
-                                                                          .getFloor()))
-                                          .getNodeID());
-                          equipmentLocationField.setDisable(true);
-                        } else {
-                          equipmentLocationField.setText(
-                                  getMedicalEquipmentbyID(equipmentComboBox.getValue())
+        .valueProperty()
+        .addListener(
+            observable -> {
+              if (getMedicalEquipmentbyID(equipmentComboBox.getValue()).getType().equals("Bed")) {
+                if (equipmentStatusChoice.getValue().equals("DIRTY")) {
+                  equipmentLocationField.setText(
+                      FacadeDAO.getInstance()
+                          .getLocationByID(
+                              FacadeDAO.getInstance()
+                                  .getRandomBedParkNodeIDByFloor(
+                                      getMedicalEquipmentbyID(equipmentComboBox.getValue())
                                           .getCurrentLocation()
-                                          .getNodeID());
-                          equipmentLocationField.setDisable(false);
-                        }
-                      }
-                    });
+                                          .getFloor()))
+                          .getNodeID());
+                  equipmentLocationField.setDisable(true);
+                }
+              }
+              else if (getMedicalEquipmentbyID(equipmentComboBox.getValue())
+                  .getType()
+                  .equals("IPumps")) {
+                if (equipmentStatusChoice.getValue().equals("DIRTY")) {
+                  equipmentLocationField.setText(
+                      FacadeDAO.getInstance()
+                          .getLocationByID(
+                              FacadeDAO.getInstance()
+                                  .getDirtyNodeIDbyFloor(
+                                      getMedicalEquipmentbyID(equipmentComboBox.getValue())
+                                          .getCurrentLocation()
+                                          .getFloor()))
+                          .getNodeID());
+                  equipmentLocationField.setDisable(true);
+                } else {
+                  equipmentLocationField.setText(
+                      getMedicalEquipmentbyID(equipmentComboBox.getValue())
+                          .getCurrentLocation()
+                          .getNodeID());
+                  equipmentLocationField.setDisable(false);
+                }
+              }
+            });
   }
 
   public void onSelectMedicalEquipment(ActionEvent actionEvent) {
@@ -143,11 +143,11 @@ public class MedicalEquipmentInfoTabController {
     MedicalEquipment editedMedicalEquipment = getMedicalEquipmentbyID(equipmentIDField.getText());
 
     editedMedicalEquipment.setStatus(
-            MedicalEquipment.EquipmentStatus.getRequestStatusByString(
-                    equipmentStatusChoice.getValue().toString()));
+        MedicalEquipment.EquipmentStatus.getRequestStatusByString(
+            equipmentStatusChoice.getValue().toString()));
 
     editedMedicalEquipment.setCurrentLocation(
-            FacadeDAO.getInstance().getLocationByID(equipmentLocationField.getText()));
+        FacadeDAO.getInstance().getLocationByID(equipmentLocationField.getText()));
 
     if (facadeDAO.updateMedicalEquipment(editedMedicalEquipment)) {
       equipmentLocationField.setDisable(true);
@@ -179,9 +179,9 @@ public class MedicalEquipmentInfoTabController {
 
   public void onResetButtonClicked(ActionEvent actionEvent) {
     equipmentLocationField.setText(
-            getMedicalEquipmentbyID(equipmentComboBox.getValue()).getCurrentLocation().getNodeID());
+        getMedicalEquipmentbyID(equipmentComboBox.getValue()).getCurrentLocation().getNodeID());
     equipmentStatusChoice.setValue(
-            getMedicalEquipmentbyID(equipmentComboBox.getValue()).getStatus());
+        getMedicalEquipmentbyID(equipmentComboBox.getValue()).getStatus());
     errorLabel.setVisible(false);
     saveButton.setVisible(false);
     editButton.setVisible(true);
