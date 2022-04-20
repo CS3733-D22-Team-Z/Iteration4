@@ -80,8 +80,14 @@
                                     </VBox>
                                     <VBox alignment="CENTER" spacing="6.0">
                                        <children>
-                                          <ProgressBar fx:id="floor5Dirty" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
-                                          <ProgressBar fx:id="floor5Clean" prefHeight="11.0" prefWidth="240.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor5Dirty" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
+                                          <ProgressBar fx:id="floor5Clean" prefHeight="11.0" prefWidth="220.0" progress="0.5" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label style="-fx-text-fill: #000000;" styleClass="object-body" text="Total" />
+                                          <Label styleClass="header" text="14" />
                                        </children>
                                     </VBox>
                                     <Region fx:id="dashRegion5" prefHeight="34.0" prefWidth="34.0" visible="false" />

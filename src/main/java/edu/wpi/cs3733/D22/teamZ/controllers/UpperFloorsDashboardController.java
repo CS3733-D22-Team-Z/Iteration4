@@ -205,7 +205,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     double total = FacadeDAO.getInstance().getAllMedicalEquipmentByFloor("4").size();
     double dirty = FacadeDAO.getInstance().countDirtyEquipmentByFloor("4");
     double dirtyValue = dirty / total;
-    floor4Clean.setProgress(dirtyValue);
+    floor4Dirty.setProgress(dirtyValue);
     floor4DirtyLabel.setText(Integer.toString((int) dirty));
   }
 
