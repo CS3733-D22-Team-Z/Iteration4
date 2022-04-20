@@ -5,6 +5,8 @@ import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +15,8 @@ import javafx.scene.control.Label;
 
 public class EquipmentPurchaseRequestController extends ServiceRequestController {
 
+  @FXML private MFXButton equipmentPurchaseRequestListButton;
+  @FXML private Label currentRequestsLabel;
   @FXML private ChoiceBox equipmentTypeChoiceBox;
   @FXML private ChoiceBox paymentMethodChoiceBox;
   @FXML private Label errorSavingLabel;
@@ -35,6 +39,9 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
 
     equipmentTypeChoiceBox.setOnAction(event -> validateButton());
     paymentMethodChoiceBox.setOnAction(event -> validateButton());
+    successfulSubmitLabel.setText("Successfully Submitted Payment!");
+    equipmentPurchaseRequestListButton.setVisible(false);
+    currentRequestsLabel.setVisible(false);
   }
 
   @FXML
