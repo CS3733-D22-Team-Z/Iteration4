@@ -6,11 +6,12 @@ import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.Predicate;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,8 +31,12 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   @FXML private MFXButton deviceButton;
   @FXML private MFXButton statusButton;
 
+  // Selector button stuff
+  private MFXButton lastButtonPressed;
+  private Map<String, String> prevCSS;
+
   // Drop-down box that selects which data type to filter by.
-  @FXML private ChoiceBox<String> filterCBox;
+  @FXML private ComboBox<String> filterCBox;
 
   // Details Table
   @FXML public TableView<TableColumnItems> statusTable;
@@ -59,6 +64,8 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   // List of RequestRows currently being displayed on the table
   private ObservableList<RequestRow> requests;
+  private ObservableList<RequestRow> dispRequests;
+  private String filter = "";
 
   // Database object
   private final FacadeDAO facadeDAO;
@@ -69,6 +76,18 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
     // Grab data
     loadRequests();
+
+    // Setup CSS map
+    prevCSS =
+        Map.of(
+            "ID",
+            "-fx-background-radius: 5 0 0 5; ",
+            "Device",
+            "-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2; ",
+            "Status",
+            "-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2; ",
+            "Handler",
+            "-fx-background-radius: 0 5 5 0; ");
   }
 
   @Override
@@ -88,9 +107,6 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
       Label ID = new Label();
       ID.setText(identifier);
     }
-
-    // Fill the filter box with test data
-    filterCBox.getItems().addAll("Test 1", "Test 2", "Test 3");
 
     // Setup details window
     int sWidth = 186 / 2;
@@ -141,8 +157,33 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   // Called whenever one of the filter buttons are clicked.
   public void filterClicked(ActionEvent event) {
-    MFXButton buttonPressed = (MFXButton) event.getTarget();
-    System.out.println(buttonPressed.getText());
+    if (lastButtonPressed != null)
+      lastButtonPressed.setStyle(prevCSS.get(lastButtonPressed.getText()));
+    filterCBox.getItems().clear();
+    if (lastButtonPressed == null || !lastButtonPressed.equals(event.getTarget())) {
+      lastButtonPressed = (MFXButton) event.getTarget();
+      filter = lastButtonPressed.getText();
+      lastButtonPressed.setStyle(
+          prevCSS.get(lastButtonPressed.getText())
+              + "-fx-background-color: #0075ff; -fx-text-fill: #FFFFFF");
+
+      // Filter buttons
+      System.out.println(filter);
+      Comparator<RequestRow> comparator =
+          Comparator.comparing(r -> r.retrievePropertyFromType(filter));
+      FXCollections.sort(requests, comparator);
+
+      // Setup filter box
+      Set<String> allFilterOptions = new HashSet<>();
+      for (RequestRow row : requests) {
+        allFilterOptions.add(row.retrievePropertyFromType(filter));
+      }
+      allFilterOptions.add("None");
+      filterCBox.getItems().addAll(allFilterOptions);
+      filterCBox.getSelectionModel().select("None");
+    } else {
+      tableContainer.setItems(requests);
+    }
   }
 
   // Called whenever the refresh button is clicked.
@@ -157,8 +198,19 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   }
 
   // Called whenever the filter select was set?
-  public void filterSet(ActionEvent event) {
-    System.out.println(filterCBox.getSelectionModel().getSelectedItem());
+  public void filterSet() {
+    String filterOption = filterCBox.getSelectionModel().getSelectedItem();
+    FilteredList<RequestRow> fList =
+        requests.filtered(
+            new Predicate<RequestRow>() {
+              @Override
+              public boolean test(RequestRow requestRow) {
+                if (filterOption == null || filterOption.equals("None")) return true;
+                return requestRow.retrievePropertyFromType(filter).equals(filterOption);
+              }
+            });
+
+    tableContainer.setItems(fList);
   }
 
   public void createRRList() {
@@ -179,18 +231,13 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
               medicalEquipmentRequest.getStatus().toString()));
     }
 
-    /*// Set root's children to requests, and add root to table.
-    final TreeItem<RequestRow> root =
-        new RecursiveTreeItem<>(requests, RecursiveTreeObject::getChildren);
-    requestTable.setRoot(root);*/
-
     tableContainer.setItems(requests);
   }
 
   // Load a MedEquipReq into the Details row.
   public void loadRow(String MeqID) {
     // Clear out current details data
-    statusTable.refresh();
+    statusTable.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
     MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(MeqID);
@@ -262,6 +309,27 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
       device = new SimpleStringProperty(newDevice);
       assignee = new SimpleStringProperty(newAssignee);
       status = new SimpleStringProperty(newStatus);
+    }
+
+    /**
+     * Gets the property from the String identifier
+     *
+     * @param type the type of property to be retrieved
+     * @return the value of the property
+     */
+    public String retrievePropertyFromType(String type) {
+      switch (type) {
+        case "ID":
+          return id.get();
+        case "Device":
+          return device.get();
+        case "Handler":
+          return assignee.get();
+        case "Status":
+          return status.get();
+        default:
+          return "";
+      }
     }
   }
 }
