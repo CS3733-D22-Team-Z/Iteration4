@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.EquipmentPurchaseRequestListController">
+    <children>
+        <Label id="FormLabel" layoutX="20.0" layoutY="14.0" prefHeight="26.0" prefWidth="308.0" styleClass="object-header" text="Equipment Purchase Request List">
+            <font>
+                <Font name="Garamond" size="12.0" />
+            </font>
+        </Label>
+        <TableView id="requests" fx:id="purchaseListTable" layoutX="20.0" layoutY="38.0" prefHeight="302.0" prefWidth="560.0">
+            <columns>
+                <TableColumn id="status" fx:id="status" prefWidth="47.66668510437012" text="Status" />
+                <TableColumn id="id" fx:id="requestID" prefWidth="47.66668510437012" text="Request ID" />
+                <TableColumn id="issuer" fx:id="issuer" minWidth="0.0" prefWidth="55.666664123535156" text="Issuer" />
+                <TableColumn id="handler" fx:id="handler" minWidth="0.0" prefWidth="75.33328247070312" text="Handler" />
+                <TableColumn id="target" fx:id="targetLocation" minWidth="0.0" prefWidth="86.66661071777344" text="Location" />
+                <TableColumn id="type" fx:id="equipmentType" prefWidth="37.666656494140625" text="Equipment Type" />
+                <TableColumn id="payment" fx:id="paymentType" minWidth="0.0" prefWidth="55.666664123535156" text="Payment Type" />
+            </columns>
+            <effect>
+                <DropShadow />
+            </effect>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+        <MFXButton id="backButton" fx:id="purchaseServiceButton" layoutX="384.0" layoutY="360.0" mnemonicParsing="false" onAction="#toEquipmentPurchaseRequest" text="Equipment Purchase Request">
+        </MFXButton>
+    </children>
+
+</AnchorPane>
