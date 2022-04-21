@@ -79,9 +79,9 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     equipmentDropDown.setValue(null);
     nodeTypeDropDown.getSelectionModel().select(0);
     equipmentDropDown.getSelectionModel().select(0);
+    errorSavingLabel.setVisible(false);
     //    nodeTypeDropDown.setValue(null);
     //    equipmentDropDown.setValue(null);
-    validateButton();
   }
 
   @FXML
