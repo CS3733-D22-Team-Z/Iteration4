@@ -39,7 +39,7 @@ public class MealServiceController extends ServiceRequestController {
   @FXML private ComboBox<String> entreeOptionDropDown;
   @FXML private ComboBox<String> snackOptionDropDown;
 
-  // Lists. Hi!
+  // Lists.
   private List<Location> locationList;
   private List<Patient> patientList;
   private List<String> patientIDList = new ArrayList<>();
