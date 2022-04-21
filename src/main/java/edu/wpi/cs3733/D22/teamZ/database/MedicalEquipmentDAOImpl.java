@@ -106,7 +106,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     try {
       PreparedStatement pstmt =
           connection.prepareStatement(
-              "Select * From MEDICALEQUIPMENT WHERE TYPE = ? AND STATUS = 'Available'");
+              "Select * From MEDICALEQUIPMENT WHERE TYPE = ? AND STATUS = 'CLEAN'");
       pstmt.setString(1, equipment);
       ResultSet rset = pstmt.executeQuery();
 
@@ -390,7 +390,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
           connection.prepareStatement(
               "SELECT COUNT(EQUIPMENTID) AS COUNT "
                   + "FROM MEDICALEQUIPMENT, LOCATION WHERE MEDICALEQUIPMENT.CURRENTLOCATION = LOCATION.NODEID "
-                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'Dirty'");
+                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'DIRTY'");
       pstmt.setString(1, floor);
       ResultSet rset = pstmt.executeQuery();
       while (rset.next()) {
@@ -416,7 +416,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
           connection.prepareStatement(
               "SELECT COUNT(EQUIPMENTID) AS COUNT "
                   + "FROM MEDICALEQUIPMENT, LOCATION WHERE MEDICALEQUIPMENT.CURRENTLOCATION = LOCATION.NODEID "
-                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'Clean'");
+                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'CLEAN'");
       pstmt.setString(1, floor);
       ResultSet rset = pstmt.executeQuery();
       while (rset.next()) {

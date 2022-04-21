@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
+import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
+import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
+import edu.wpi.cs3733.D22.teamZ.observers.DirtyPumpObserver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,9 @@ public class Location implements ISearchable {
   private String longName;
   private String shortName;
   private List<MedicalEquipment> equipmentList;
+  private List<DirtyBedObserver> bedObservers;
+  private List<DashboardBedAlertObserver> alertObserver;
+  private List<DirtyPumpObserver> dirtyPumpObservers;
 
   public Location() {}
 
@@ -35,6 +41,9 @@ public class Location implements ISearchable {
     this.longName = longName;
     this.shortName = shortName;
     this.equipmentList = new ArrayList<>();
+    this.bedObservers = new ArrayList<>();
+    this.alertObserver = new ArrayList<>();
+    this.dirtyPumpObservers = new ArrayList<>();
   }
 
   public Location(String nodeID) {
@@ -113,6 +122,7 @@ public class Location implements ISearchable {
     if (!this.equipmentList.contains(equipment)) {
       this.equipmentList.add(equipment);
     }
+    notifyAllObservers();
   }
 
   public void removeEquipmentFromList(MedicalEquipment equipment) {
@@ -159,5 +169,42 @@ public class Location implements ISearchable {
     } else {
       return false;
     }
+  }
+
+  // Observers
+  public void notifyAllObservers() {
+    for (DirtyBedObserver obs : bedObservers) {
+      obs.update();
+    }
+    for (DirtyPumpObserver obs : dirtyPumpObservers) {
+      obs.update();
+    }
+  }
+
+  public void attachBedObs(DirtyBedObserver observer) {
+    bedObservers.add(observer);
+    observer.update();
+  }
+
+  public void attachDirtyPumpObservers(DirtyPumpObserver observer) {
+    dirtyPumpObservers.add(observer);
+    observer.update();
+  }
+
+  public void detachBedObs(DirtyBedObserver observer) {
+    bedObservers.remove(observer);
+  }
+
+  public void detachAlertObs(DashboardBedAlertObserver observer) {
+    alertObserver.remove(observer);
+  }
+
+  public void detachDirtyPumpObservers(DirtyPumpObserver observer) {
+    dirtyPumpObservers.remove(observer);
+  }
+
+  public void attachAlertObs(DashboardBedAlertObserver observer) {
+    alertObserver.add(observer);
+    observer.update();
   }
 }

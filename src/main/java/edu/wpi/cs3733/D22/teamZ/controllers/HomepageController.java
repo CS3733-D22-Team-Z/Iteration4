@@ -25,6 +25,7 @@ public class HomepageController implements IMenuAccess {
   private String toServerSwitchURL = "edu/wpi/cs3733/D22/teamZ/views/ServerSwitcher.fxml";
   private final String toServiceRequestURL = "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
   private String toGameURL = "edu/wpi/cs3733/D22/teamZ/views/Game.fxml";
+  private final String toCCTV = "edu/wpi/cs3733/D22/teamZ/views/CCTVPreview.fxml";
 
   public void setMenuController(MenuController menu) {
     this.menu = menu;
@@ -105,6 +106,16 @@ public class HomepageController implements IMenuAccess {
   @FXML
   public void SwitchServerClicked(ActionEvent event) throws IOException {
     menu.load(toServerSwitchURL);
+  }
+
+  /**
+   * Opens panel for CCTV viewer
+   *
+   * @param event
+   * @throws IOException
+   */
+  public void toCCTV(ActionEvent event) throws IOException {
+    menu.load(toCCTV);
   }
 }
 // Link to location, Landing, & Medical Equipment Page
