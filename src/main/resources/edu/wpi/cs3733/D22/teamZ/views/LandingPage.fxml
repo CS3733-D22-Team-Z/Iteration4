@@ -408,7 +408,7 @@
                      <graphic>
                         <Pane prefHeight="135.0" prefWidth="91.0">
                            <children>
-                              <Label layoutX="-10.0" layoutY="68.0" prefHeight="47.0" prefWidth="111.0" styleClass="landing-button" text="Cleaning Service" textAlignment="CENTER" wrapText="true">
+                              <Label layoutX="-4.0" layoutY="68.0" prefHeight="47.0" prefWidth="105.0" styleClass="landing-button" text="Cleaning Service" textAlignment="CENTER" wrapText="true">
                                  <textFill>
                                     <LinearGradient endX="1.0" endY="1.0">
                                        <stops>
