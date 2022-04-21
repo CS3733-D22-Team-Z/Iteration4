@@ -9,10 +9,12 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
-public class EquipmentPurchaseRequestController extends ServiceRequestController {
+public class EquipmentPurchaseRequestController extends ServiceRequestController
+    implements IMenuAccess, Initializable {
 
   @FXML private MFXButton equipmentPurchaseRequestListButton;
   @FXML private Label currentRequestsLabel;
@@ -20,10 +22,12 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   @FXML private ChoiceBox paymentMethodChoiceBox;
   @FXML private Label errorSavingLabel;
   @FXML private Label successfulSubmitLabel;
+  @FXML private MFXButton submitButton;
+
+  private MenuController menu;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    menuName = "Medical Equipment Purchase Request";
 
     equipmentTypeChoiceBox.setItems(
         FXCollections.observableArrayList("Bed", "Infusion Pump", "X-Ray", "Recliner"));
@@ -111,5 +115,15 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   public void clearFields() {
     equipmentTypeChoiceBox.setValue(null);
     paymentMethodChoiceBox.setValue(null);
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Medical Equipment Purchase Request";
   }
 }
