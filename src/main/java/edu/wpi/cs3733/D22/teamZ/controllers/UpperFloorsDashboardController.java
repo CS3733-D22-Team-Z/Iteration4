@@ -563,16 +563,9 @@ public class UpperFloorsDashboardController implements IMenuAccess {
               .collect(Collectors.toList());
 
       // Create a popup window at alert
-      Bounds boundsInScene = root.sceneToLocal(alert.localToScene(alert.getBoundsInLocal()));
       if (currentPopup != null) root.getChildren().remove(currentPopup);
-      int add = 80;
-      if (List.of("LL1", "LL2", "1").contains(floor)) add = -80;
-      currentPopup =
-          PopupLoader.loadPopup(
-              "WarningMessage",
-              root,
-              (int) boundsInScene.getCenterX(),
-              (int) boundsInScene.getCenterY() + add);
+      currentPopup = PopupLoader.loadPopup("WarningMessage", root);
+      currentPopup.setVisible(false);
 
       // Get floor alert
       DashAlert floorAlert =
@@ -581,6 +574,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
               .collect(Collectors.toList())
               .get(0);
 
+      // Load labels into warning
       for (String message : floorAlert.getWarnings()) {
         Label infoLabel = new Label();
         infoLabel.setText(message);
@@ -588,6 +582,27 @@ public class UpperFloorsDashboardController implements IMenuAccess {
         labelContainer.getChildren().add(infoLabel);
         infoLabel.setWrapText(true);
       }
+
+      // Position popup
+      Bounds boundsInScene = root.sceneToLocal(alert.localToScene(alert.getBoundsInLocal()));
+      int add = -30;
+
+      PopupLoader.delay(
+          500,
+          () -> {
+            if (currentPopup != null) {
+              int mul =
+                  boundsInScene.getCenterY() + currentPopup.getHeight() + add > root.getHeight()
+                      ? 1
+                      : 0;
+              currentPopup.setLayoutX(boundsInScene.getCenterX() - currentPopup.getWidth() / 2);
+              currentPopup.setLayoutY(
+                  boundsInScene.getCenterY()
+                      + add * (mul - 1)
+                      - (currentPopup.getHeight() - add) * mul);
+              currentPopup.setVisible(true);
+            }
+          });
     }
   }
 
