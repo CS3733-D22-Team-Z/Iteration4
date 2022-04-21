@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.entity;
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
 import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
+import edu.wpi.cs3733.D22.teamZ.observers.DirtyPumpObserver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Location implements ISearchable {
   private List<MedicalEquipment> equipmentList;
   private List<DirtyBedObserver> bedObservers;
   private List<DashboardBedAlertObserver> alertObserver;
+  private List<DirtyPumpObserver> dirtyPumpObservers;
 
   public Location() {}
 
@@ -41,6 +43,7 @@ public class Location implements ISearchable {
     this.equipmentList = new ArrayList<>();
     this.bedObservers = new ArrayList<>();
     this.alertObserver = new ArrayList<>();
+    this.dirtyPumpObservers = new ArrayList<>();
   }
 
   public Location(String nodeID) {
@@ -173,10 +176,18 @@ public class Location implements ISearchable {
     for (DirtyBedObserver obs : bedObservers) {
       obs.update();
     }
+    for (DirtyPumpObserver obs : dirtyPumpObservers) {
+      obs.update();
+    }
   }
 
   public void attachBedObs(DirtyBedObserver observer) {
     bedObservers.add(observer);
+    observer.update();
+  }
+
+  public void attachDirtyPumpObservers(DirtyPumpObserver observer) {
+    dirtyPumpObservers.add(observer);
     observer.update();
   }
 
@@ -186,6 +197,10 @@ public class Location implements ISearchable {
 
   public void detachAlertObs(DashboardBedAlertObserver observer) {
     alertObserver.remove(observer);
+  }
+
+  public void detachDirtyPumpObservers(DirtyPumpObserver observer) {
+    dirtyPumpObservers.remove(observer);
   }
 
   public void attachAlertObs(DashboardBedAlertObserver observer) {

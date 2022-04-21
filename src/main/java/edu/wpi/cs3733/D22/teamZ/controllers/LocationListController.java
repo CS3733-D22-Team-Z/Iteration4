@@ -130,6 +130,7 @@ public class LocationListController implements IMenuAccess {
   @FXML @Getter private MFXRadioButton locRadio;
   @FXML @Getter private MFXRadioButton equipRadio;
   @FXML private MFXRadioButton servRadio;
+  @FXML private MFXRadioButton cctvRadio;
   @FXML final ToggleGroup radioGroup = new ToggleGroup();
 
   // init LocationDAOImpl to use sql methods from db
@@ -432,6 +433,10 @@ public class LocationListController implements IMenuAccess {
     equipRadio.setUserData("Equipment");
     servRadio.setToggleGroup(radioGroup);
     servRadio.setUserData("Service Requests");
+    //    cctvRadio.setToggleGroup(); // Not implemented
+    //    cctvRadio.setUserData(); // Not implemented
+    cctvRadio.setDisable(true); // temporary; disable for now
+    cctvRadio.setVisible(false); // temporary; hide for now
 
     radioGroup
         .selectedToggleProperty()

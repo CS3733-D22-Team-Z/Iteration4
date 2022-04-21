@@ -106,7 +106,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     try {
       PreparedStatement pstmt =
           connection.prepareStatement(
-              "Select * From MEDICALEQUIPMENT WHERE TYPE = ? AND STATUS = 'Available'");
+              "Select * From MEDICALEQUIPMENT WHERE TYPE = ? AND STATUS = 'CLEAN'");
       pstmt.setString(1, equipment);
       ResultSet rset = pstmt.executeQuery();
 

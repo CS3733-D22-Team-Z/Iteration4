@@ -395,4 +395,92 @@ class LocationDAOImpl implements ILocationDAO {
     }
     return true;
   }
+
+  /**
+   * Get the nodeID of a dirty location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the dirty location
+   */
+  public String getDirtyNodeIDbyFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "" + "SELECT NODEID FROM LOCATION WHERE FLOOR = ? AND NODETYPE = 'DIRT'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        if (!rset.getString("NODEID").equals("")) {
+          return rset.getString("NODEID");
+        }
+        return "zDIRT00103";
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to get dirty location nodeID from floor");
+      e.printStackTrace();
+    }
+    return "zDIRT00103";
+  }
+
+  /**
+   * Get the nodeID of a clean storage location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the clean location
+   */
+  public String getCleanNodeIDbyFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "" + "SELECT NODEID FROM LOCATION WHERE FLOOR = ? AND NODETYPE = 'CLEAN'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+
+      int number = (int) Math.random() % 4;
+
+      while (rset.next()) {
+        if (!rset.getString("NODEID").equals("")) {
+          return rset.getString("NODEID");
+        } else {
+          return "zSTOR00103";
+        }
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to get clean location nodeID from floor");
+      e.printStackTrace();
+    }
+    return "zSTOR00103";
+  }
+
+  /**
+   * Get the nodeID of a random bed park on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the bed park; default is OR Bed Park
+   */
+  public String getRandomBedParkNodeIDByFloor(String floor) {
+    String thirdFloorBed[] = {"zSTOR00403", "zSTOR00403"};
+    String fourthFloorBed[] = {"zSTOR00304", "zSTOR00404"};
+    String fifthFloorBed[] = {"zSTOR00305"};
+    int num = 0;
+    switch (floor) {
+      case ("3"):
+        num = ((int) Math.random()) % thirdFloorBed.length;
+        return thirdFloorBed[num];
+      case ("4"):
+        num = ((int) Math.random()) % fourthFloorBed.length;
+        return fourthFloorBed[num];
+      case ("5"):
+        num = ((int) Math.random()) % fifthFloorBed.length;
+        return fourthFloorBed[num];
+      case ("L1"):
+        return "zSTOR001L1";
+      case ("1"):
+        return "zSTOR00101";
+      default:
+        return "zSTOR00101";
+    }
+  }
 }

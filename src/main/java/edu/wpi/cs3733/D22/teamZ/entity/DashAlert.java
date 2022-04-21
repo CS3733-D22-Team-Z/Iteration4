@@ -11,13 +11,19 @@ public class DashAlert {
 
   public DashAlert(String floor) {
     warningBase = new ArrayList<>();
+    warningBase.add("There are %d dirty beds on this floor.");
+    warningBase.add("There are %d dirty infusion pumps on this floor.");
+    warningBase.add("There are %d clean infusion pumps on this floor.");
     warningData = new ArrayList<>();
+    warningData.add(0);
+    warningData.add(0);
+    warningData.add(0);
     this.floor = floor;
   }
 
-  public void addWarning(int idx, String warning) {
-    warningBase.add(warning);
-    warningData.add(1);
+  public void addWarning() {
+    // warningBase.add(warning);
+    warningData.add(0);
   }
 
   public void setWarningData(int idx, int newData) {
@@ -34,5 +40,14 @@ public class DashAlert {
 
   public String getFloor() {
     return floor;
+  }
+
+  public int getIndexOfFormattedString(String string) {
+    for (String val : warningBase) {
+      if (val.equals(string)) {
+        return warningBase.indexOf(val);
+      }
+    }
+    return 0;
   }
 }
