@@ -168,7 +168,6 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
               + "-fx-background-color: #0075ff; -fx-text-fill: #FFFFFF");
 
       // Filter buttons
-      System.out.println(filter);
       Comparator<RequestRow> comparator =
           Comparator.comparing(r -> r.retrievePropertyFromType(filter));
       FXCollections.sort(requests, comparator);
@@ -183,6 +182,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
       filterCBox.getSelectionModel().select("None");
     } else {
       tableContainer.setItems(requests);
+      lastButtonPressed = null;
     }
   }
 
