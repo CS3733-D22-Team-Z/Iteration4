@@ -88,7 +88,7 @@ public class CleaningRequestListController implements Initializable, IMenuAccess
   }
 
   /** EXPORT to CSV button is clicked */
-  public void exportToCSV(ActionEvent actionEvent) { // TODO change to be cleaning
+  public void exportToCSV(ActionEvent actionEvent) {
     FileChooser fileChooser = new FileChooser();
     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
     fileChooser.setTitle("Enter a .csv file...");
