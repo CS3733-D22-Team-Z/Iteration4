@@ -11,6 +11,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +29,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -44,6 +48,13 @@ public class MenuController implements Initializable {
   @FXML VBox iconContainer;
   @FXML Label timeLabel;
   @FXML Label dateLabel;
+
+  double initialHeight;
+  double initialWidth;
+
+  // intermediate login scaling ans size
+  public ObservableList<Transform> initialStates;
+  private ChangeListener<? super Number> sizeChangeListener;
 
   private static Employee loggedInUser;
 
@@ -234,6 +245,35 @@ public class MenuController implements Initializable {
     Scene scene = new Scene(root);
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     primaryStage.setScene(scene);
+    primaryStage.minHeightProperty().unbind();
+    primaryStage.maxHeightProperty().unbind();
+    initialHeight = 400;
+    initialWidth = 600;
+    primaryStage.setMinHeight(initialHeight); // initial size. doesnt work if less so ignore lol.
+    primaryStage.setMinWidth(initialWidth);
+    double initialRatio = initialHeight / initialWidth;
+    primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
+    primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
+    sizeChangeListener =
+        (ChangeListener<Number>)
+            (observable, oldValue, newValue) -> {
+              onSizeChange(root, primaryStage);
+            };
+
+    primaryStage.heightProperty().addListener(sizeChangeListener);
+    primaryStage.widthProperty().addListener(sizeChangeListener);
+  }
+
+  public void onSizeChange(Parent root, Stage primaryStage) {
+    // System.out.println("old:" + oldValue + " new:" + newValue);
+    float scaleY = (float) (primaryStage.getHeight() / initialHeight);
+    float scaleX = (float) (primaryStage.getWidth() / initialWidth);
+    if (initialStates == null) {
+      initialStates = root.getTransforms();
+    }
+    root.getTransforms().setAll(initialStates);
+
+    root.getTransforms().add(new Scale(scaleY, scaleY, 0, 0));
   }
 
   public static Employee getLoggedInUser() {
