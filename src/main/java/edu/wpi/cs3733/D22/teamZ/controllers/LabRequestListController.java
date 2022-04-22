@@ -53,7 +53,8 @@ public class LabRequestListController implements Initializable, IMenuAccess {
     facadeDAO = FacadeDAO.getInstance();
 
     System.out.println("loading data");
-    labRequestTable.getItems().clear();
+    labRequestTable.refresh();
+    // labRequestTable.getItems().clear();
 
     // get list of locations from db and transfer into ObservableList
     ObservableList<LabServiceRequest> data =
