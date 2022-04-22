@@ -2,12 +2,12 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
+import edu.wpi.cs3733.D22.teamZ.entity.UniqueID;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -178,7 +178,9 @@ public class EmployeeController implements IMenuAccess, Initializable {
         && !addEmployeeUsername.getText().equals("")
         && !(addEmployeeAccessType.getValue() == null)) {
       if (editFields.getText().equals("Add Employee")) {
-        newID(addEmployeeAccessType.getValue().toString());
+        UniqueID id = new UniqueID();
+        String empID = id.generateEmpID(addEmployeeAccessType.getValue().toString());
+        submitEmployee(empID);
       } else {
         String employeeID = employeeTable.getSelectionModel().getSelectedItem().getEmployeeID();
         facadeDAO.deleteEmployee(employeeTable.getSelectionModel().getSelectedItem());
@@ -218,22 +220,6 @@ public class EmployeeController implements IMenuAccess, Initializable {
       return true;
     }
     return false;
-  }
-
-  /**
-   * New employee ID that doesn't already exist
-   *
-   * @param accessType the access type for the employee that will eventually be created
-   */
-  public void newID(String accessType) {
-    String ID = accessType.toLowerCase();
-    Random rand = new Random();
-    int int_random = rand.nextInt(9) + 1;
-    ID += int_random;
-    while (!submitEmployee(ID)) {
-      int_random = rand.nextInt(10);
-      ID += int_random;
-    }
   }
 
   /**

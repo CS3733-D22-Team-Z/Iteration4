@@ -17,4 +17,16 @@ public class UniqueID {
     }
     return id;
   }
+
+  public String generateEmpID(String type) {
+    String id = type;
+    Random rand = new Random();
+    int int_random = rand.nextInt(9) + 1;
+    id += int_random;
+    while (FacadeDAO.getInstance().getServiceRequestByID(id) != null) {
+      int_random = rand.nextInt(10);
+      id += int_random;
+    }
+    return id;
+  }
 }
