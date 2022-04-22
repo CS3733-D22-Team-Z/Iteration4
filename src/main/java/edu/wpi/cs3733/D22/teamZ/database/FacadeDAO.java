@@ -22,6 +22,7 @@ public class FacadeDAO {
   private final CleaningRequestDAOImpl cleaningRequestDAO;
   private final EquipmentPurchaseDAOImpl equipmentPurchaseDAO;
   private final SecurityRequestDAOImpl securityRequestDAO;
+  private final LanguageInterpreterRequestDAOImpl languageInterpreterRequestDAO;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -42,6 +43,7 @@ public class FacadeDAO {
     cleaningRequestDAO = new CleaningRequestDAOImpl();
     equipmentPurchaseDAO = new EquipmentPurchaseDAOImpl();
     securityRequestDAO = new SecurityRequestDAOImpl();
+    languageInterpreterRequestDAO = new LanguageInterpreterRequestDAOImpl();
   }
 
   // Get All methods
@@ -144,6 +146,15 @@ public class FacadeDAO {
    */
   public List<SecurityServiceRequest> getAllSecurityServiceRequests() {
     return securityRequestDAO.getAllSecurityServiceRequests();
+  }
+
+  /**
+   * Gets all language interpreter requests
+   *
+   * @return list of language interpreter requests
+   */
+  public List<LanguageInterpreterRequest> getAllLanguageInterpreterRequests() throws SQLException {
+    return languageInterpreterRequestDAO.getAllLanguageInterpreterServiceRequests();
   }
 
   // Get By ID methods
@@ -262,6 +273,15 @@ public class FacadeDAO {
    */
   public SecurityServiceRequest getSecurityServiceRequestByID(String requestID) {
     return securityRequestDAO.getSecurityServiceRequestByID(requestID);
+  }
+  /**
+   * Get a LanguageInterpreterRequest with provided requestID
+   *
+   * @param id the id of the language interpreter request to be searched for
+   * @return LanguageInterpreter object with given ID
+   */
+  public LanguageInterpreterRequest getLanguageInterpreterRequestByID(String id) {
+    return languageInterpreterRequestDAO.getLanguageInterpreterRequestByID(id);
   }
 
   // Add methods
@@ -452,6 +472,16 @@ public class FacadeDAO {
   public boolean addGiftRequest(GiftServiceRequest request) {
     return serviceRequestDAO.addServiceRequest(request) && giftRequestDAO.addGiftRequest(request);
   }
+  /**
+   * Adds a Language Interpreter to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addLanguageInterpreterRequest(LanguageInterpreterRequest request) {
+    return serviceRequestDAO.addServiceRequest(request)
+        && languageInterpreterRequestDAO.addLanguageInterpreterRequest(request);
+  }
 
   // Delete methods
   /**
@@ -565,7 +595,18 @@ public class FacadeDAO {
     return securityRequestDAO.deleteSecurityServiceRequest(request)
         && serviceRequestDAO.deleteServiceRequest(request);
   }
-
+  /**
+   * Deletes a Language Interpreter Request from the database
+   *
+   * @param request LanguageInterpreterRequest to be deleted
+   * @return True if successful, false otherwise
+   */
+  public boolean deleteLanguageInterpreterRequest(LanguageInterpreterRequest request) {
+    boolean val =
+        languageInterpreterRequestDAO.deleteLanguageInterpreterRequest(request)
+            && serviceRequestDAO.deleteServiceRequest(request);
+    return languageInterpreterRequestDAO.deleteLanguageInterpreterRequest(request);
+  }
   // Update methods
   /**
    * Updates a location in the database. Will automatically check if exists in database
@@ -691,6 +732,16 @@ public class FacadeDAO {
     return serviceRequestDAO.updateServiceRequest(request)
         && securityRequestDAO.updateSecurityServiceRequest(request);
   }
+  /**
+   * updates an existing LanguageInterpreterRequest in database with new request
+   *
+   * @param request LanguageInterpreterRequest to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateLanguageInterpreterRequest(LanguageInterpreterRequest request) {
+    return updateServiceRequest(request)
+        && languageInterpreterRequestDAO.updateLanguageInterpreterRequest(request);
+  }
 
   // Import methods
   /**
@@ -783,6 +834,15 @@ public class FacadeDAO {
    */
   public int importSecurityServiceRequestFromCSV(File data) {
     return securityRequestDAO.importSecurityServiceRequestFromCSV(data);
+  }
+  /**
+   * imports all LanguageInterpreterRequests in a specified file location of csv into the database
+   *
+   * @param request LanguageInterpreterRequest to be imported
+   * @return number of conflicts when importing
+   */
+  public int importLanguageInterpreterRequestFromCSV(File request) {
+    return languageInterpreterRequestDAO.importLanguageInterpreterRequestFromCSV(request);
   }
 
   // Export methods
@@ -881,6 +941,16 @@ public class FacadeDAO {
    */
   public boolean exportToSecurityServiceRequestCSV(File data) {
     return securityRequestDAO.exportToSecurityServiceRequestCSV(data);
+  }
+  /**
+   * Exports LanguageInterpreterRequest database to specified file location for csv
+   *
+   * @param languageInterpreterData file location for csv
+   * @return True if successful, false otherwise
+   */
+  public boolean exportLanguageInterpreterRequestsToCSV(File languageInterpreterData) {
+    return languageInterpreterRequestDAO.exportToLanguageInterpreterRequestCSV(
+        languageInterpreterData);
   }
 
   // Get default path methods
@@ -1011,6 +1081,16 @@ public class FacadeDAO {
    */
   public boolean addSecurityServiceRequestFromList(List<SecurityServiceRequest> list) {
     return securityRequestDAO.addSecurityServiceRequestFromList(list);
+  }
+
+  /**
+   * Adds languageInterpreterRequest into database from list
+   *
+   * @param list Request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addLanguageInterpreterRequestFromList(List<LanguageInterpreterRequest> list) {
+    return languageInterpreterRequestDAO.addLanguageInterpreterFromList(list);
   }
 
   // Special methods for location
