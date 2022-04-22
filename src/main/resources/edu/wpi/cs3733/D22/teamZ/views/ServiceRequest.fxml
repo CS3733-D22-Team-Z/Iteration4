@@ -124,7 +124,7 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Label layoutX="430.0" layoutY="257.0" text="Add Employee to Request">
+      <Label fx:id="textEmp" layoutX="430.0" layoutY="257.0" text="Add Employee to Request">
          <font>
             <Font name="Palatino Linotype Bold" size="12.0" />
          </font>

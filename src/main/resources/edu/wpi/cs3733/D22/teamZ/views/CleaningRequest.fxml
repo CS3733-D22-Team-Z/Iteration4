@@ -40,7 +40,7 @@
          </padding>
       </ChoiceBox>
       <Label layoutX="428.0" layoutY="159.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" visible="false" />
-      <MFXButton layoutX="405.0" layoutY="202.0" prefHeight="32.0" prefWidth="165.0" text="See Requests" />
+      <MFXButton layoutX="405.0" layoutY="202.0" onAction="#toList" prefHeight="32.0" prefWidth="165.0" text="See Requests" />
       <Label fx:id="errorSavingLabel" alignment="CENTER" layoutX="23.0" layoutY="358.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request, location does not exist." textFill="#ff4444" visible="false">
          <font>
             <Font size="10.0" />

@@ -116,7 +116,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
       if (temp != null) {
         pstmt =
             connection.prepareStatement(
-                "UPDATE MEDICALEQUIPMENT SET STATUS = 'In-Use' WHERE EQUIPMENTID = ?");
+                "UPDATE MEDICALEQUIPMENT SET STATUS = 'INUSE' WHERE EQUIPMENTID = ?");
         pstmt.setString(1, temp);
         pstmt.executeUpdate();
         return temp;

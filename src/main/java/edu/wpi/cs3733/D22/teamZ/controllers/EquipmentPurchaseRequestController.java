@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,6 +27,9 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
 
   private MenuController menu;
 
+  private String toPurchaseListURL =
+      "edu/wpi/cs3733/D22/teamZ/views/EquipmentPurchaseRequestList.fxml";
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
 
@@ -43,8 +47,6 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
     equipmentTypeChoiceBox.setOnAction(event -> validateButton());
     paymentMethodChoiceBox.setOnAction(event -> validateButton());
     successfulSubmitLabel.setText("Successfully Submitted Payment!");
-    equipmentPurchaseRequestListButton.setVisible(false);
-    currentRequestsLabel.setVisible(false);
   }
 
   @FXML
@@ -102,7 +104,9 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   }
 
   @FXML
-  private void toEquipmentPurchaseRequestList(ActionEvent event) {}
+  private void toEquipmentPurchaseRequestList(ActionEvent event) throws IOException {
+    menu.load(toPurchaseListURL);
+  }
 
   @FXML
   protected void onResetButtonClicked(ActionEvent event) {

@@ -882,6 +882,15 @@ public class FacadeDAO {
   public boolean exportEmployeesToCSV(File employeeData) {
     return employeeDAO.exportToEmployeeCSV(employeeData);
   }
+  /**
+   * Exports the cleaning table into a csv file to the working directory
+   *
+   * @param cleaningData File location of cleaning req data csv
+   * @return True if successful, false if not
+   */
+  public boolean exportCleaningReqToCSV(File cleaningData) {
+    return cleaningRequestDAO.exportToCleaningRequestCSV(cleaningData);
+  }
   /** Writes the current database to a .csv file */
   public void exportServiceRequestsToCSV(File serviceRequestData) {
     serviceRequestDAO.exportToServiceRequestCSV(serviceRequestData);
@@ -982,6 +991,14 @@ public class FacadeDAO {
    */
   public File getDefaultMedEquipReqCSVPath() {
     return medEquipReqDAO.getDefaultMedEquipReqCSVPath();
+  }
+  /**
+   * Returns the default path that cleaning request csv files are printed to
+   *
+   * @return The default path that cleaning request csv files are printed to
+   */
+  public File getDefaultCleaningReqCSVPath() {
+    return cleaningRequestDAO.getDefaultCleaningReqCSVPath();
   }
 
   public File getDefaultMealServReqCSVPath() {

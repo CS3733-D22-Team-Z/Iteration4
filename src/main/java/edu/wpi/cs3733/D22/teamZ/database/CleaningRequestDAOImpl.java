@@ -13,8 +13,21 @@ import java.util.List;
 public class CleaningRequestDAOImpl implements ICleaningRequestDAO {
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   // DatabaseConnection.getConnection();
-  private final List<CleaningRequest> cleaningRequests = new ArrayList<>();
+  private final List<CleaningRequest> cleaningRequests;
   private CleaningReqControlCSV reqCSV;
+
+  public CleaningRequestDAOImpl() {
+    updateConnection();
+    // medicalEquipmentRequests = new HashMap<>();
+    cleaningRequests = new ArrayList<>();
+
+    File reqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "CleaningReq.csv");
+    this.reqCSV = new CleaningReqControlCSV(reqData);
+  }
 
   /**
    * Gets all cleaning service requests
@@ -177,6 +190,10 @@ public class CleaningRequestDAOImpl implements ICleaningRequestDAO {
       System.out.println("Failed to populate Cleaning Equipment Request table");
     }
     return conflictCounter;
+  }
+
+  File getDefaultCleaningReqCSVPath() {
+    return reqCSV.getDefaultPath();
   }
 
   /** Updates the connection */
