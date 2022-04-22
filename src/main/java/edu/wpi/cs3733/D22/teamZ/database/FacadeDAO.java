@@ -288,6 +288,8 @@ public class FacadeDAO {
    */
   public LanguageInterpreterRequest getLanguageInterpreterRequestByID(String id) {
     return languageInterpreterRequestDAO.getLanguageInterpreterRequestByID(id);
+  }
+  /**
    * Get a ComputerServiceRequest with provided requestID
    *
    * @param requestID ID to find
@@ -495,6 +497,7 @@ public class FacadeDAO {
     return serviceRequestDAO.addServiceRequest(request)
         && languageInterpreterRequestDAO.addLanguageInterpreterRequest(request);
   }
+  /**
    * Adds ComputerServiceRequest to the database
    *
    * @param request ComputerServiceRequest to be added
@@ -618,7 +621,6 @@ public class FacadeDAO {
         && serviceRequestDAO.deleteServiceRequest(request);
   }
   /**
-
    * Deletes a Language Interpreter Request from the database
    *
    * @param request LanguageInterpreterRequest to be deleted
@@ -630,6 +632,7 @@ public class FacadeDAO {
             && serviceRequestDAO.deleteServiceRequest(request);
     return languageInterpreterRequestDAO.deleteLanguageInterpreterRequest(request);
   }
+  /**
    * Deletes an ComputerServiceRequest from the database
    *
    * @param request ComputerServiceRequest to be deleted
@@ -766,7 +769,6 @@ public class FacadeDAO {
         && securityRequestDAO.updateSecurityServiceRequest(request);
   }
   /**
-
    * updates an existing LanguageInterpreterRequest in database with new request
    *
    * @param request LanguageInterpreterRequest to be updated
@@ -776,6 +778,7 @@ public class FacadeDAO {
     return updateServiceRequest(request)
         && languageInterpreterRequestDAO.updateLanguageInterpreterRequest(request);
   }
+  /**
    * Updates an existing ComputerServiceRequest in database with new request
    *
    * @param request ComputerServiceRequest to be updated
@@ -886,6 +889,7 @@ public class FacadeDAO {
   public int importLanguageInterpreterRequestFromCSV(File request) {
     return languageInterpreterRequestDAO.importLanguageInterpreterRequestFromCSV(request);
   }
+  /**
    * Imports all ComputerServiceRequest in specified file location of csv into the database
    *
    * @param data file location of csv
@@ -1007,6 +1011,8 @@ public class FacadeDAO {
     return languageInterpreterRequestDAO.exportToLanguageInterpreterRequestCSV(
         languageInterpreterData);
   }
+
+  /**
    * Exports all ComputerServiceRequest in the database to specified file location of csv
    *
    * @param data file location of csv

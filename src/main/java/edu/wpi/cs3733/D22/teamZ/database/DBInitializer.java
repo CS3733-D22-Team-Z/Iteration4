@@ -635,7 +635,7 @@ public class DBInitializer {
       List<ComputerServiceRequest> requestList =
           computerRequestControlCSV.readComputerServiceRequestCSV();
       for (ComputerServiceRequest request : requestList) {
-        dao.addComputerServiceRequestToDatabase(request);
+        dao.addComputerServiceRequest(request);
       }
     } catch (IOException e) {
       System.out.println("Failed to read ComputerReq.csv");
