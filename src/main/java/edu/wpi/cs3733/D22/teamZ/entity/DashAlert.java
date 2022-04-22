@@ -1,53 +1,46 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /** Alert that represents the warnings per floor */
 public class DashAlert {
-  List<String> warningBase;
-  List<Integer> warningData;
+  // Contains the data for the warning
+  HashMap<String, Integer> warningMap;
   String floor;
 
   public DashAlert(String floor) {
-    warningBase = new ArrayList<>();
-    warningBase.add("There are %d dirty beds on this floor.");
-    warningBase.add("There are %d dirty infusion pumps on this floor.");
-    warningBase.add("There are %d clean infusion pumps on this floor.");
-    warningData = new ArrayList<>();
-    warningData.add(0);
-    warningData.add(0);
-    warningData.add(0);
+    warningMap = new HashMap<>();
     this.floor = floor;
   }
 
-  public void addWarning() {
-    // warningBase.add(warning);
-    warningData.add(0);
-  }
-
-  public void setWarningData(int idx, int newData) {
-    warningData.set(idx, newData);
+  /**
+   * Places a new warning sentence into the alert
+   *
+   * @param formatter the string that will hold the formatting
+   * @param newData the data to be placed in the string
+   * @param constraint the minimum value of the data
+   * @param isMin whether or not the constraint is a maximum or minimum
+   */
+  public void putWarningData(String formatter, int newData, int constraint, boolean isMin) {
+    if ((isMin && newData >= constraint) || (!isMin && newData <= constraint)) {
+      warningMap.put(formatter, newData);
+    } else {
+      warningMap.remove(formatter);
+    }
   }
 
   public List<String> getWarnings() {
     List<String> formattedWarnings = new ArrayList<>();
-    for (int i = 0; i < warningBase.size(); i++) {
-      formattedWarnings.add(String.format(warningBase.get(i), warningData.get(i)));
+    for (String formattingString : warningMap.keySet()) {
+      int value = warningMap.get(formattingString);
+      formattedWarnings.add(String.format(formattingString, value));
     }
     return formattedWarnings;
   }
 
   public String getFloor() {
     return floor;
-  }
-
-  public int getIndexOfFormattedString(String string) {
-    for (String val : warningBase) {
-      if (val.equals(string)) {
-        return warningBase.indexOf(val);
-      }
-    }
-    return 0;
   }
 }
