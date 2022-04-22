@@ -117,8 +117,6 @@ public class LoginPageController implements Initializable {
     primaryStage.setScene(scene);
     primaryStage.minHeightProperty().unbind();
     primaryStage.maxHeightProperty().unbind();
-    // primaryStage.setMinHeight(392); // initial size. doesnt work if less so ignore lol.
-    // primaryStage.setMinWidth(745);
     initialHeight = 475;
     // TODO was 392^
     initialWidth = 760;
@@ -130,8 +128,6 @@ public class LoginPageController implements Initializable {
     initialRatio = initialHeight / initialWidth;
     primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
     primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
-    //    initialHeight = primaryStage.getHeight();
-    //    initialWidth = primaryStage.getWidth();
 
     sizeChangeListener =
         (ChangeListener<Number>)
@@ -142,7 +138,6 @@ public class LoginPageController implements Initializable {
     primaryStage.heightProperty().addListener(sizeChangeListener);
     primaryStage.widthProperty().addListener(sizeChangeListener);
   }
-  // thisController.setWelcomeMessage(username);
 
   public void onSizeChange(Parent root, Stage primaryStage) {
     // System.out.println("old:" + oldValue + " new:" + newValue);
