@@ -121,6 +121,12 @@ public class Draggable {
                 System.out.println("found: " + label.getLocation().getLongName());
                 for (MedicalEquipment meds : medicalEquipment) {
                   meds.setCurrentLocation(label.getLocation());
+                  if (label.getLocation().getNodeType().equals("DIRT")) {
+                    meds.setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
+                  }
+                  if (label.getLocation().getNodeType().equals("STOR")) {
+                    meds.setStatus(MedicalEquipment.EquipmentStatus.CLEAN);
+                  }
                   facadeDAO.updateMedicalEquipment(meds);
                   /*try {
                     EquipmentWindow();
