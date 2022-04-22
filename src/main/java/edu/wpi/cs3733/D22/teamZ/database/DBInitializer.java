@@ -108,6 +108,7 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("LANGUAGEINTERPRETERREQUEST");
     dropExistingTable("COMPUTERREQUEST");
     dropExistingTable("SECURITYREQUEST");
     dropExistingTable("LAUNDRYREQUEST");
