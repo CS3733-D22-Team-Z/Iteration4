@@ -24,7 +24,7 @@ public class APILandingPageController implements IMenuAccess {
 
   private final String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
 
-  private final String externalTransportAPIPath =
+  private final String externalTransportCSSPath =
       "edu/wpi/cs3733/D22/teamZ/styles/ServiceRequestDefault.css";
 
   private final String[] icons = {
@@ -68,7 +68,7 @@ public class APILandingPageController implements IMenuAccess {
   public void toExternalPatientTransportation(ActionEvent actionEvent) {
     System.out.println("navigating to transportation from landing page");
     try {
-      api.run(0, 0, 450, 800, externalTransportAPIPath, "", "");
+      api.run(0, 0, 450, 800, externalTransportCSSPath, "", "");
     } catch (ServiceException e) {
       System.out.println("Error accessing External Patient API");
       System.out.println(e.getMessage());
