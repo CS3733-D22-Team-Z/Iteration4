@@ -18,6 +18,7 @@ public class DBInitializer {
   private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
   private final SecurityRequestControlCSV securityRequestControlCSV;
   private final LaundryServiceRequestControlCSV laundryServiceRequestControlCSV;
+  private final ComputerRequestControlCSV computerRequestControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -78,6 +79,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "LaundryServiceRequest.csv");
+    File computerReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "ComputerReq.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -90,6 +96,7 @@ public class DBInitializer {
     purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
     securityRequestControlCSV = new SecurityRequestControlCSV(securityReqData);
     laundryServiceRequestControlCSV = new LaundryServiceRequestControlCSV(laundryReqData);
+    computerRequestControlCSV = new ComputerRequestControlCSV(computerReqData);
   }
 
   public boolean createTables() {
@@ -108,6 +115,7 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("COMPUTERREQUEST");
     dropExistingTable("SECURITYREQUEST");
     dropExistingTable("LAUNDRYREQUEST");
     dropExistingTable("EQUIPMENTPURCHASE");
@@ -341,6 +349,19 @@ public class DBInitializer {
       return false;
     }
 
+    try {
+      stmt.execute(
+          "CREATE TABLE COMPUTERREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "operatingSystem VARCHAR(25),"
+              + "problemDesc VARCHAR(100),"
+              + "constraint COMPUTERREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint COMPUTERREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(REQUESTID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create computer service request table");
+      return false;
+    }
+
     return true;
   }
 
@@ -571,6 +592,20 @@ public class DBInitializer {
       }
     } catch (IOException e) {
       System.out.println("Failed to read PurchaseReq.csv");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateComputerRequestTable() {
+    try {
+      List<ComputerServiceRequest> requestList =
+          computerRequestControlCSV.readComputerServiceRequestCSV();
+      for (ComputerServiceRequest request : requestList) {
+        dao.addComputerServiceRequestToDatabase(request);
+      }
+    } catch (IOException e) {
+      System.out.println("Failed to read ComputerReq.csv");
       return false;
     }
     return true;

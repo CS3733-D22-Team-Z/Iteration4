@@ -19,6 +19,7 @@ public class Main {
     init.populateCleaningServiceRequestTable();
     init.populateEquipmentPurchaseTable();
     init.populateLaundryServiceRequests();
+    init.populateComputerRequestTable();
 
     /*FacadeDAO dao = FacadeDAO.getInstance();
     for (ServiceRequest test :

@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
-import edu.wpi.cs3733.D22.teamZ.entity.EquipmentPurchaseRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.ComputerServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
@@ -10,20 +10,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
-
-  private List<EquipmentPurchaseRequest> requestList = new ArrayList<>();
+public class ComputerServiceRequestDAOImpl implements IComputerServiceRequestDAO {
+  private List<ComputerServiceRequest> requestList = new ArrayList<>();
+  private ComputerRequestControlCSV reqCSV;
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
-  private EquipmentPurchaseRequestControlCSV reqCSV;
 
   @Override
-  public List<EquipmentPurchaseRequest> getAllEquipmentPurchaseRequests() {
+  public List<ComputerServiceRequest> getAllComputerServiceRequests() {
     return requestList;
   }
 
   @Override
-  public EquipmentPurchaseRequest getEquipmentPurchaseRequestByID(String requestID) {
-    for (EquipmentPurchaseRequest req : requestList) {
+  public ComputerServiceRequest getComputerServiceRequestByID(String requestID) {
+    for (ComputerServiceRequest req : requestList) {
       if (req.getRequestID().equals(requestID)) {
         return req;
       }
@@ -32,7 +31,7 @@ public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
   }
 
   @Override
-  public boolean addEquipmentPurchaseRequest(EquipmentPurchaseRequest request) {
+  public boolean addComputerServiceRequest(ComputerServiceRequest request) {
     updateConnection();
     boolean val = false;
     if (addToDatabase(request)) {
@@ -44,7 +43,7 @@ public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
   }
 
   @Override
-  public boolean updateEquipmentPurchaseRequest(EquipmentPurchaseRequest request) {
+  public boolean updateComputerServiceRequest(ComputerServiceRequest request) {
     updateConnection();
     try {
       PreparedStatement stmt =
@@ -56,7 +55,7 @@ public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
 
       stmt.executeUpdate();
       connection.commit();
-      for (EquipmentPurchaseRequest req : requestList) {
+      for (ComputerServiceRequest req : requestList) {
         if (req.equals(request)) {
           req.setHandler(request.getHandler());
           req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
@@ -65,17 +64,17 @@ public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
       }
       return true;
     } catch (SQLException e) {
-      System.out.println("Equipment Purchase Request update failed");
+      System.out.println("Computer Service Request update failed");
       return false;
     }
   }
 
   @Override
-  public boolean deleteEquipmentPurchaseRequest(EquipmentPurchaseRequest request) {
+  public boolean deleteComputerServiceRequest(ComputerServiceRequest request) {
     updateConnection();
     try {
       PreparedStatement stmt =
-          connection.prepareStatement("DELETE FROM EQUIPMENTPURCHASE WHERE REQUESTID=?");
+          connection.prepareStatement("DELETE FROM COMPUTERREQUEST WHERE REQUESTID=?");
       stmt.setString(1, request.getRequestID());
       stmt.executeUpdate();
     } catch (SQLException e) {
@@ -87,11 +86,11 @@ public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
   }
 
   @Override
-  public boolean exportToEquipmentPurchaseRequestCSV(File data) {
-    reqCSV = new EquipmentPurchaseRequestControlCSV(data);
+  public boolean exportToComputerServiceRequestCSV(File data) {
+    reqCSV = new ComputerRequestControlCSV(data);
 
     try {
-      reqCSV.writeEquipmentPurchaseRequestCSV(requestList);
+      reqCSV.writeComputerServiceRequestCSV(requestList);
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -101,25 +100,25 @@ public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
   }
 
   @Override
-  public int importEquipmentPurchaseRequestFromCSV(File data) {
+  public int importComputerServiceRequestFromCSV(File data) {
     updateConnection();
-    reqCSV = new EquipmentPurchaseRequestControlCSV(data);
+    reqCSV = new ComputerRequestControlCSV(data);
 
     int conflictCounter = 0;
     String temp = "";
     try {
-      List<EquipmentPurchaseRequest> tempPurchaseRequest = reqCSV.readEquipmentPurchaseRequestCSV();
+      List<ComputerServiceRequest> tempPurchaseRequest = reqCSV.readComputerServiceRequestCSV();
 
       try {
-        for (EquipmentPurchaseRequest info : tempPurchaseRequest) {
+        for (ComputerServiceRequest info : tempPurchaseRequest) {
           PreparedStatement pstmt =
               connection.prepareStatement(
-                  "INSERT INTO EQUIPMENTPURCHASE (REQUESTID, EQUIPMENTTYPE, PAYMENTMETHOD) "
+                  "INSERT INTO COMPUTERREQUEST (REQUESTID, OPERATINGSYSTEM, PROBLEMDESC) "
                       + "values (?, ?, ?)");
           temp = info.getRequestID();
           pstmt.setString(1, info.getRequestID());
-          pstmt.setString(2, info.getEquipmentType());
-          pstmt.setString(3, info.getPaymentMethod());
+          pstmt.setString(2, info.getOperatingSystem());
+          pstmt.setString(3, info.getProblemDescription());
 
           // insert it
           pstmt.executeUpdate();
@@ -142,10 +141,10 @@ public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
   }
 
   @Override
-  public boolean addEquipmentPurchaseRequestFromList(List<EquipmentPurchaseRequest> list) {
+  public boolean addComputerServiceRequestFromList(List<ComputerServiceRequest> list) {
     updateConnection();
     boolean val = true;
-    for (EquipmentPurchaseRequest request : list) {
+    for (ComputerServiceRequest request : list) {
       if (!addToDatabase(request)) {
         val = false;
       }
@@ -164,30 +163,31 @@ public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
    * @param request request to be inserted
    * @return True if successful, false otherwise
    */
-  private boolean addToDatabase(EquipmentPurchaseRequest request) {
+  private boolean addToDatabase(ComputerServiceRequest request) {
     try {
       PreparedStatement pstmt =
           connection.prepareStatement(
-              "INSERT INTO EQUIPMENTPURCHASE (REQUESTID, EQUIPMENTTYPE, PAYMENTMETHOD) "
+              "INSERT INTO COMPUTERREQUEST (REQUESTID, OPERATINGSYSTEM, PROBLEMDESC) "
                   + "values (?, ?, ?)");
       pstmt.setString(1, request.getRequestID());
-      pstmt.setString(2, request.getEquipmentType());
-      pstmt.setString(3, request.getPaymentMethod());
+      pstmt.setString(2, request.getOperatingSystem());
+      pstmt.setString(3, request.getProblemDescription());
 
       pstmt.executeUpdate();
       connection.commit();
     } catch (SQLException e) {
-      System.out.println("add equipment purchase request statement failed");
+      System.out.println("add computer service request statement failed");
       return false;
     }
     return true;
   }
+
   /**
-   * Returns the default path for an Equipment Purchase Request csv file to be saved
+   * Returns the default path for a computer service request csv file to be saved
    *
-   * @return The default path for a service request csv file to be saved
+   * @return The default path for a computer service request csv file to be saved
    */
-  File getDefaultEquipmentPurchaseRequestCSVPath() {
+  File getDefaultComputerServiceRequestCSVPath() {
     return reqCSV.getDefaultPath();
   }
 }
