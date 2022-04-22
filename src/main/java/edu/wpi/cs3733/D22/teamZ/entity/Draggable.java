@@ -90,12 +90,12 @@ public class Draggable {
             location.setXcoord(
                 (int)
                     ((location.getXcoord() * (mapRef.getMap().getFitWidth() / 1021)
-                            + node.getTranslateX())
+                            + (node.getTranslateX() + 6))
                         / (mapRef.getMap().getFitWidth() / 1021)));
             location.setYcoord(
                 (int)
                     ((location.getYcoord() * (mapRef.getMap().getFitHeight() / 850)
-                            + node.getTranslateY())
+                            + (node.getTranslateY() + 12))
                         / (mapRef.getMap().getFitHeight() / 850)));
             if (location.getXcoord() < 0) {
               location.setXcoord(0);
