@@ -19,10 +19,13 @@ public class GiftServiceRequestDAOImpl implements IGiftServiceRequestDAO {
   public GiftServiceRequestDAOImpl() {
     updateConnection();
     giftList = new ArrayList<>();
+
+    File giftData = new File(System.getProperty("user.dir") + "\\giftRequest.csv");
+    reqCSV = new GiftServiceRequestControlCSV(giftData);
   }
 
   @Override
-  public List<GiftServiceRequest> getAllGiftServiceRequests() throws SQLException {
+  public List<GiftServiceRequest> getAllGiftServiceRequests() {
     return giftList;
   }
 
@@ -34,6 +37,10 @@ public class GiftServiceRequestDAOImpl implements IGiftServiceRequestDAO {
       }
     }
     return null;
+  }
+
+  File getDefaultGiftServiceCSVPath() {
+    return reqCSV.getDefaultPath();
   }
 
   @Override

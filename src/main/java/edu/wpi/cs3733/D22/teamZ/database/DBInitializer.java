@@ -17,6 +17,7 @@ public class DBInitializer {
   private final CleaningReqControlCSV cleaningReqControlCSV;
   private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
   private final SecurityRequestControlCSV securityRequestControlCSV;
+  private final GiftServiceRequestControlCSV giftServiceRequestControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -72,6 +73,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "SecurityReq.csv");
+    File giftRequestData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "giftRequest.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -83,6 +89,7 @@ public class DBInitializer {
     cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
     purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
     securityRequestControlCSV = new SecurityRequestControlCSV(securityReqData);
+    giftServiceRequestControlCSV = new GiftServiceRequestControlCSV(giftRequestData);
   }
 
   public boolean createTables() {

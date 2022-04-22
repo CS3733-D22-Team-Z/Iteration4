@@ -938,6 +938,15 @@ public class FacadeDAO {
     return mealServiceRequestDAO.getDefaultMealServReqCSVPath();
   }
 
+  /**
+   * Returns the default path that gift service request csv files are printed to
+   *
+   * @return The default path that gift service request csv files are printed to
+   */
+  public File getDefaultGiftServiceCSVPath() {
+    return giftRequestDAO.getDefaultGiftServiceCSVPath();
+  }
+
   // Add from list functions
   /**
    * Insert locations into the database from given list
