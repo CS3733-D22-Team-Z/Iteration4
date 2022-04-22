@@ -17,6 +17,7 @@ public class DBInitializer {
   private final CleaningReqControlCSV cleaningReqControlCSV;
   private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
   private final SecurityRequestControlCSV securityRequestControlCSV;
+  private final LanguageInterpreterRequestControlCSV languageInterpreterRequestControlCSV;
   private final ComputerRequestControlCSV computerRequestControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
@@ -73,6 +74,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "SecurityReq.csv");
+    File languageReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "LanguageReq.csv");
     File computerReqData =
         new File(
             System.getProperty("user.dir")
@@ -89,6 +95,8 @@ public class DBInitializer {
     cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
     purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
     securityRequestControlCSV = new SecurityRequestControlCSV(securityReqData);
+    languageInterpreterRequestControlCSV =
+        new LanguageInterpreterRequestControlCSV(languageReqData);
     computerRequestControlCSV = new ComputerRequestControlCSV(computerReqData);
   }
 
@@ -285,6 +293,21 @@ public class DBInitializer {
               + "constraint GIFTSERVICEREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
     } catch (SQLException e) {
       System.out.println("Failed to create gift service request tables");
+      return false;
+    }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE LANGUAGEINTERPRETERREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "patientName VARCHAR(50),"
+              + "patientID VARCHAR(15),"
+              + "language VARCHAR(25),"
+              + "constraint LANGUAGEINTERPRETERREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint LANGUAGEINTERPRETERREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid),"
+              + "constraint LANGUAGEINTERPRETERREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create language interpreter request tables");
       return false;
     }
 
@@ -572,6 +595,22 @@ public class DBInitializer {
 
     } catch (IOException e) {
       System.out.println("Failed to read CleaningReq.csv");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateLanguageInterpreterTable() {
+    try {
+      List<LanguageInterpreterRequest> requestList =
+          languageInterpreterRequestControlCSV.readLanguageIntepreterRequestCSV();
+
+      for (LanguageInterpreterRequest languageInterpreterRequest : requestList) {
+        dao.addLanguageInterpreterRequest(languageInterpreterRequest);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read LanguageInterpreter.csv");
       return false;
     }
     return true;
