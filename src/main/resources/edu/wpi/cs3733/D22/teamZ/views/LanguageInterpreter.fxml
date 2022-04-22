@@ -14,15 +14,14 @@
         <Label id="FormLabel" layoutX="24.0" layoutY="74.0" prefHeight="25.0" prefWidth="339.0" styleClass="object-header" text="Language Interpreter Request Form" />
         <Label layoutX="24.0" layoutY="102.0" prefHeight="17.0" prefWidth="356.0" styleClass="object-body" text="Enter the fields below to request a language interpreter." />
         <Label layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
-        <MFXTextField floatMode="DISABLED" layoutX="196.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient ID" />
+        <MFXTextField fx:id="enterPatientID" floatMode="DISABLED" layoutX="196.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient ID" />
         <Accordion layoutX="15.0" layoutY="194.0" />
-        <ChoiceBox layoutX="197.0" layoutY="242.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" />
+        <ChoiceBox fx:id="languageDropDown" layoutX="197.0" layoutY="242.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" />
         <Label layoutX="197.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Language" />
         <Label layoutX="24.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
-        <MFXTextField floatMode="DISABLED" layoutX="23.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient name" />
+        <MFXTextField fx:id="enterPatientName" floatMode="DISABLED" layoutX="23.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient name" />
         <MFXButton fx:id="submitButton" layoutX="23.0" layoutY="301.0" onAction="#onSubmitButtonClicked" prefHeight="32.0" prefWidth="111.0" text="Submit" />
         <Label layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
-        <MFXTextField floatMode="DISABLED" layoutX="24.0" layoutY="242.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter room number" />
       <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="301.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
       <MFXButton fx:id="backButton" layoutX="26.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
          <graphic>
@@ -32,5 +31,6 @@
       <Line endX="3.0" endY="365.0" layoutX="382.0" layoutY="32.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
       <Label alignment="CENTER" layoutX="400.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
       <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="408.0" layoutY="202.0" prefHeight="60.0" prefWidth="176.0" text="Language Interpreter Request List" textAlignment="CENTER" wrapText="true" />
+      <ChoiceBox fx:id="nodeTypeDropDown" layoutX="23.0" layoutY="242.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" />
     </children>
 </AnchorPane>

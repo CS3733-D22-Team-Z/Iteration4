@@ -55,6 +55,8 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   @FXML private TableColumn<ServiceRequest, Employee> assignedColO;
   @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestStatus> statusColO;
 
+  @FXML private Label textEmp;
+
   private final String toHomepageURL = "views/Homepage.fxml";
 
   protected MenuController menu;
@@ -85,15 +87,25 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     facadeDAO = FacadeDAO.getInstance();
     // Create labels for field values
 
+    Employee.AccessType accessType = MenuController.getLoggedInUser().getAccesstype();
+    if (!accessType.equals(Employee.AccessType.ADMIN)) {
+      textEmp.setVisible(false);
+      setEmpButton.setVisible(false);
+      employeeBox.setVisible(false);
+    }
+
     // Fill the filter box with test data
     List<Employee> employees = facadeDAO.getAllEmployees();
+    filterBox.getItems().add(MenuController.getLoggedInUser().getEmployeeID() + ": (you)");
     for (int i = 0; i < employees.size(); i++) {
       employeeBox
           .getItems()
           .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
-      filterBox
-          .getItems()
-          .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
+      if (employees.get(i) != MenuController.getLoggedInUser()) {
+        filterBox
+            .getItems()
+            .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
+      }
     }
     errorLabel.setVisible(false);
     createTable();
