@@ -47,31 +47,40 @@ public class DirtyBedObserver {
     if (dirtyList.size() >= 6) {
       // Create a Medical Equipment Delivery service request for each dirty equipment
       for (MedicalEquipment dirtyEquip : dirtyList) {
-        String id;
-        // Check for empty db and set first request (will appear as REQ1 in the db)
+        // Use streams to check if there is already a medical equipment request made.
+        if (equipmentRequestList.stream()
+            .noneMatch(
+                req ->
+                    (req instanceof MedicalEquipmentDeliveryRequest
+                        && ((MedicalEquipmentDeliveryRequest) req)
+                            .getEquipmentID()
+                            .equals(dirtyEquip.getEquipmentID())))) {
+          String id;
+          // Check for empty db and set first request (will appear as REQ1 in the db)
 
-        if (equipmentRequestList.isEmpty()) {
-          System.out.println("Equipment is empty");
-          id = "REQ0";
-        } else {
-          List<ServiceRequest> currentList = dao.getAllServiceRequests();
-          ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
-          id = lastestReq.getRequestID();
+          if (equipmentRequestList.isEmpty()) {
+            System.out.println("Equipment is empty");
+            id = "REQ0";
+          } else {
+            List<ServiceRequest> currentList = dao.getAllServiceRequests();
+            ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
+            id = lastestReq.getRequestID();
+          }
+          // Create new REQID
+          int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
+          String requestID = "REQ" + num;
+
+          // Create a delivery request to zSTOR001L1 for dirty equipment
+          MedicalEquipmentDeliveryRequest newReq =
+              new MedicalEquipmentDeliveryRequest(
+                  requestID,
+                  ServiceRequest.RequestStatus.UNASSIGNED,
+                  "admin1",
+                  null,
+                  dirtyEquip.getEquipmentID(),
+                  "zSTOR001L1");
+          dao.addMedicalEquipmentRequest(newReq);
         }
-        // Create new REQID
-        int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-        String requestID = "REQ" + num;
-
-        // Create a delivery request to zSTOR001L1 for dirty equipment
-        MedicalEquipmentDeliveryRequest newReq =
-            new MedicalEquipmentDeliveryRequest(
-                requestID,
-                ServiceRequest.RequestStatus.UNASSIGNED,
-                "admin1",
-                null,
-                dirtyEquip.getEquipmentID(),
-                "zSTOR001L1");
-        dao.addMedicalEquipmentRequest(newReq);
       }
     }
     // }

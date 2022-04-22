@@ -17,21 +17,15 @@ public class PopupLoader {
    *
    * @param popup the popup fxml to be loaded.
    * @param parent the parent that will contain the popup
-   * @param x the layout x coordinate of the popup
-   * @param y the layout y coordinate of the popup
    * @return the popup window
    */
-  public static Pane loadPopup(String popup, Pane parent, int x, int y) throws IOException {
+  public static Pane loadPopup(String popup, Pane parent) throws IOException {
     // Load the popup
     FXMLLoader loader = new FXMLLoader();
     String path = String.format(pathToPopups, popup);
     loader.setLocation(parent.getClass().getClassLoader().getResource(path));
     Pane popupWindow = loader.load();
-
-    // Place the window in the scene
     parent.getChildren().add(popupWindow);
-    popupWindow.setLayoutX(x - popupWindow.getPrefWidth() / 2);
-    popupWindow.setLayoutY(y - popupWindow.getPrefHeight() / 2);
 
     return popupWindow;
   }

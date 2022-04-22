@@ -519,6 +519,8 @@ public class LocationListController implements IMenuAccess {
           case "Locations":
             locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
             locationIcon = new ImageView(locationImg);
+            temp.setTranslateX(-6);
+            temp.setTranslateY(-12);
             temp.setGraphic(locationIcon);
             group.getChildren().addAll(temp.getBound(), temp);
             break;
