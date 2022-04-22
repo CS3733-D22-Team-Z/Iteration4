@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
+import edu.wpi.cs3733.D22.teamZ.helpers.BiPolygon;
 import java.util.List;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Polygon;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,7 @@ public class MapLabel extends Label {
   @Getter private List<MedicalEquipment> equip;
   private List<Employee> employee;
   @Getter private List<ServiceRequest> reqs;
-  @Getter @Setter private Polygon bound;
+  @Getter @Setter private BiPolygon bound;
   @Getter private boolean isDragging;
   @Getter private int mouseHomeX;
   @Getter private int mouseHomeY;
@@ -50,7 +50,7 @@ public class MapLabel extends Label {
     private List<MedicalEquipment> equip = null;
     private List<Employee> employee = null;
     private List<ServiceRequest> reqs = null;
-    private Polygon bound = null;
+    private BiPolygon bound = null;
 
     public mapLabelBuilder location(Location loc) {
       location = loc;
@@ -72,7 +72,7 @@ public class MapLabel extends Label {
       return this;
     }
 
-    public mapLabelBuilder bounds(Polygon bound) {
+    public mapLabelBuilder bounds(BiPolygon bound) {
       this.bound = bound;
       return this;
     }

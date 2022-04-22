@@ -4,7 +4,8 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.helpers.BiPolygon;
-import edu.wpi.cs3733.D22.teamZ.helpers.LocationMethod;
+import edu.wpi.cs3733.D22.teamZ.helpers.LabelMethod;
+import edu.wpi.cs3733.D22.teamZ.helpers.MouseMethod;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -50,8 +52,13 @@ public class MapController implements Initializable {
   private ClassLoader loader;
   private final ObservableList<MapLabel> currentLabels =
       FXCollections.observableList(new ArrayList<>());
+  private final ObservableList<MapLabel> allLabels =
+      FXCollections.observableList(new ArrayList<>());
   private boolean draggable;
-  private LocationMethod dragExitMethod;
+  private LabelMethod dragExitMethod;
+  @Setter private LabelMethod labelClickedMethod;
+  @Setter private MouseMethod doubleClicked;
+  @Setter private LabelMethod rightClickedMethod;
   private VoronoiResults snapLocations = null;
   @Getter @Setter private int iconShift = 0;
   private BiPolygon prevBounds;
@@ -80,10 +87,14 @@ public class MapController implements Initializable {
             // Set active label
             activeLabel = label;
 
-            // Enable dragging & disable panning
-            activeLabel.setDragging(true, pressEvent);
-            scrollPane.setPannable(false);
-
+            // If the mouse is being primary clicked...
+            if (pressEvent.getButton().equals(MouseButton.PRIMARY)) {
+              // Enable dragging & disable panning
+              activeLabel.setDragging(true, pressEvent);
+              scrollPane.setPannable(false);
+            } else if (pressEvent.getButton().equals(MouseButton.SECONDARY)) {
+              rightClickedMethod.call(activeLabel);
+            }
           } else {
             activeLabel = null;
           }
@@ -126,7 +137,6 @@ public class MapController implements Initializable {
         releaseEvent -> {
           // If a label was pressed, release it from dragging.
           if (activeLabel != null) {
-            activeLabel.setDragging(false, null);
 
             // If there aren't any voroni regions
             if (snapLocations == null) {
@@ -136,7 +146,7 @@ public class MapController implements Initializable {
               activeLabel.setLayoutY(
                   activeLabel.getLayoutY() + activeLabel.getTranslateY() - iconShift);
             } else {
-              if (prevBounds != null) {
+              if (prevBounds != null && activeLabel.isDragging()) {
                 activeLabel.setLayoutX(prevBounds.getParentLocation().getXcoord());
                 activeLabel.setLayoutY(prevBounds.getParentLocation().getYcoord());
               }
@@ -147,9 +157,10 @@ public class MapController implements Initializable {
             activeLabel.setTranslateY(0);
 
             // Run dragExit
-            if (draggable) dragExitMethod.call(activeLabel.getLocation());
+            if (draggable && activeLabel.isDragging()) dragExitMethod.call(activeLabel);
 
-            // Re-enable panning
+            // Disable dragging & re-enable panning
+            activeLabel.setDragging(false, null);
             scrollPane.setPannable(true);
           }
         });
@@ -161,7 +172,12 @@ public class MapController implements Initializable {
           Node clickedNode = clickEvent.getPickResult().getIntersectedNode();
           if (clickedNode instanceof MapLabel) {
             // Give activeLabel focus
+            activeLabel = (MapLabel) clickedNode;
             activeLabel.requestFocus();
+          } else {
+            if (clickEvent.getClickCount() > 1) {
+              doubleClicked.call(clickEvent);
+            }
           }
         });
   }
@@ -190,17 +206,20 @@ public class MapController implements Initializable {
   /**
    * Given a list of locations, adds labels to the map.
    *
-   * @param locations the locations to be added
-   * @param rightClickEvent method to be run when the location is right-clicked.
-   * @param voroniLocations the locations that serve to generate the voroni regions
+   * @param visibleLocations the locations that will appear on the map
+   * @param allLocations the locations that should be present, but aren't displayed. Used for
+   *     Voronoi algorithm. Also must contain every visible location
+   * @param genVoronoi if voronoi regions be generated from allLocations. Automatically enables
+   *     snapping
    */
   public void setLabels(
-      List<Location> locations,
-      javafx.event.EventHandler<? super javafx.scene.input.ContextMenuEvent> rightClickEvent,
-      List<Location> voroniLocations) {
+      List<Location> visibleLocations, List<Location> allLocations, boolean genVoronoi) {
+    // Reset everything
     currentLabels.clear();
+    iconContainer.getChildren().clear();
+    snapLocations = null;
 
-    for (Location loc : locations) {
+    for (Location loc : allLocations) {
       MapLabel label =
           new MapLabel.mapLabelBuilder()
               .location(loc)
@@ -208,33 +227,13 @@ public class MapController implements Initializable {
               .requests(database.getServiceRequestsByLocation(loc)) // Replace?
               .build();
 
-      // stylize label icon
-      label.getStyleClass().add("map-label");
-      label.setScaleX(.7);
-      label.setScaleY(.7);
-
-      // Grow/shrink behavior
-      label
-          .focusedProperty()
-          .addListener(
-              (observable, oldValue, newValue) -> {
-                if (!newValue) {
-                  label.setScaleX(.7);
-                  label.setScaleY(.7);
-                  // returnOnClick();
-                } else {
-                  label.setScaleX(1.1);
-                  label.setScaleY(1.1);
-                }
-              });
-
       // place label at correct coords
       label.relocate(
           label.getLocation().getXcoord(), // * (map.getFitWidth() / 1021),
           label.getLocation().getYcoord()); // * (map.getFitHeight() / 850));
 
-      if (voroniLocations != null) {
-        generateVoronoi(voroniLocations);
+      if (genVoronoi) {
+        generateVoronoi(allLocations);
         // Iterate through all original voroni locations
         for (int i = 0; i < snapLocations.generatorSites.length; i++) {
           PointD point = snapLocations.generatorSites[i];
@@ -251,19 +250,44 @@ public class MapController implements Initializable {
         }
       }
 
-      // label.getBound().setOnMouseClicked(evt -> label.requestFocus());
-      if (rightClickEvent != null) label.setOnContextMenuRequested(rightClickEvent);
-      //            label
-      //                    .getBound()
-      //                    .setOnContextMenuRequested(
-      //                            event -> rightClickMenu.show(label, event.getScreenX(),
-      // event.getScreenY()));
-      currentLabels.add(label);
+      if (visibleLocations.contains(loc)) {
+        // label.getBound().setOnMouseClicked(evt -> label.requestFocus());
+        // if (rightClickEvent != null) label.setOnContextMenuRequested(rightClickEvent);
+        //            label
+        //                    .getBound()
+        //                    .setOnContextMenuRequested(
+        //                            event -> rightClickMenu.show(label, event.getScreenX(),
+        // event.getScreenY()));
+        currentLabels.add(label);
 
-      // Add graphic
-      Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
-      ImageView locationIcon = new ImageView(locationImg);
-      label.setGraphic(locationIcon);
+        // stylize label icon
+        label.getStyleClass().add("map-label");
+        label.setScaleX(.7);
+        label.setScaleY(.7);
+
+        // Grow/shrink behavior
+        label
+            .focusedProperty()
+            .addListener(
+                (observable, oldValue, newValue) -> {
+                  if (!newValue) {
+                    label.setScaleX(.7);
+                    label.setScaleY(.7);
+                    // returnOnClick();
+                  } else {
+                    label.setScaleX(1.1);
+                    label.setScaleY(1.1);
+                    if (labelClickedMethod != null) labelClickedMethod.call(label);
+                  }
+                });
+
+        // Add graphic
+        Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
+        ImageView locationIcon = new ImageView(locationImg);
+        label.setGraphic(locationIcon);
+      }
+
+      allLabels.add(label);
       iconContainer.getChildren().add(label);
     }
   }
@@ -273,7 +297,7 @@ public class MapController implements Initializable {
    *
    * @param method the method to be called after the drag ends.
    */
-  public void setDraggable(LocationMethod method) {
+  public void setDraggable(LabelMethod method) {
     draggable = true;
     this.dragExitMethod = method;
   }
@@ -308,7 +332,7 @@ public class MapController implements Initializable {
   private BiPolygon pointDtoPoly(PointD[] points, Location parentLocation) {
     BiPolygon ret = new BiPolygon(parentLocation);
 
-    ret.setFill(Color.DARKRED);
+    ret.setFill(Color.MISTYROSE);
     for (PointD point : points) {
       ret.getPoints().addAll(point.x, point.y);
     }
@@ -323,5 +347,23 @@ public class MapController implements Initializable {
    */
   public MapLabel getActiveLabel() {
     return activeLabel;
+  }
+
+  /**
+   * Gets a list of all labels currently being displayed
+   *
+   * @return all currently active labels
+   */
+  public List<MapLabel> getCurrentLabels() {
+    return currentLabels;
+  }
+
+  /**
+   * Gets a list of all labels in map (includes hidden)
+   *
+   * @return all labels
+   */
+  public List<MapLabel> getAllLabels() {
+    return allLabels;
   }
 }
