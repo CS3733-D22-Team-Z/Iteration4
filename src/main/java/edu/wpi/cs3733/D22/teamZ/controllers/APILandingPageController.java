@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import edu.wpi.cs3733.D22.teamZ.api.API;
+import edu.wpi.cs3733.D22.teamZ.api.exception.ServiceException;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -12,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
 public class APILandingPageController implements IMenuAccess {
+
+  private static final API api = new API();
 
   @FXML private MFXToggleButton toggleNames;
   @FXML private ScrollPane scrollPane;
@@ -60,7 +64,13 @@ public class APILandingPageController implements IMenuAccess {
   @FXML
   public void toExternalPatientTransportation(ActionEvent actionEvent) {
     System.out.println("navigating to transportation from landing page");
-    // menu.load(toExternalPatientTransportationRequestURL);
+    try {
+      api.run(0, 0, 450, 800, "styles/ServiceRequestDefault.css", "", "");
+    } catch (ServiceException e) {
+      System.out.println("Error accessing External Patient API");
+      System.out.println(e.getMessage());
+      // e.printStackTrace();
+    }
   }
 
   public void showNameLabels() {
