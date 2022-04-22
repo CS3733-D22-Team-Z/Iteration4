@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.entity;
 
 import java.util.List;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Polygon;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,9 @@ public class MapLabel extends Label {
   private List<Employee> employee;
   @Getter private List<ServiceRequest> reqs;
   @Getter @Setter private Polygon bound;
+  @Getter private boolean isDragging;
+  @Getter private int mouseHomeX;
+  @Getter private int mouseHomeY;
   // etc
 
   public MapLabel(mapLabelBuilder b) {
@@ -31,6 +35,14 @@ public class MapLabel extends Label {
 
   public Location getLocation() {
     return location;
+  }
+
+  public void setDragging(boolean newValue, MouseEvent mouse) {
+    isDragging = true;
+    if (mouse != null) {
+      mouseHomeX = (int) mouse.getX();
+      mouseHomeY = (int) mouse.getY();
+    }
   }
 
   public static class mapLabelBuilder {

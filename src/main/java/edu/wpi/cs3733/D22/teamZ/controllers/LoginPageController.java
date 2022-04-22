@@ -1,11 +1,16 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import edu.wpi.cs3733.D22.teamZ.helpers.LocationMethod;
+import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
 import edu.wpi.cs3733.D22.teamZ.nfcCardReader.NFCCardReaderController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
@@ -51,6 +56,22 @@ public class LoginPageController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = FacadeDAO.getInstance();
+    List<Object> popResults = null;
+    try {
+      popResults = PopupLoader.loadPopup("Map", loginPane, 50, 50);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    MapController controller = (MapController) popResults.get(1);
+    controller.setFloor("3");
+
+    List<Location> llocs = facadeDAO.getAllLocationsByFloor("3");
+    controller.setLabels(llocs, (event) -> System.out.println("Right was clicked"), llocs);
+    controller.setScale(0.5);
+    controller.setIconShift(20);
+    LocationMethod exitMethod = (loc) -> System.out.println(loc.getNodeID());
+    controller.setDraggable(exitMethod);
   }
 
   /**
