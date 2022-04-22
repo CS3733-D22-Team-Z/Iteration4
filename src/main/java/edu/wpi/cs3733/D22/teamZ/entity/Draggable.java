@@ -97,6 +97,18 @@ public class Draggable {
                     ((location.getYcoord() * (mapRef.getMap().getFitHeight() / 850)
                             + node.getTranslateY())
                         / (mapRef.getMap().getFitHeight() / 850)));
+            if (location.getXcoord() < 0) {
+              location.setXcoord(0);
+            }
+            if (location.getXcoord() > 1021) {
+              location.setXcoord(1021);
+            }
+            if (location.getYcoord() < 0) {
+              location.setYcoord(0);
+            }
+            if (location.getYcoord() > 840) {
+              location.setYcoord(840);
+            }
             facadeDAO.updateLocation(location);
           } else {
             System.out.println("intersected: " + mouseEvent.getPickResult().getIntersectedNode());
