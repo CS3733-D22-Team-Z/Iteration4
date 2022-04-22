@@ -62,7 +62,7 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
     List<ServiceRequest> serviceRequestList = FacadeDAO.getInstance().getAllServiceRequests();
 
     UniqueID id = new UniqueID();
-    String requestID = id.generateID();
+    String requestID = id.generateID("BUYEQ");
     // Create entities for submission
 
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;

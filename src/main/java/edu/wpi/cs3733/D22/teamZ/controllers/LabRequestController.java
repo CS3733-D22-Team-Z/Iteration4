@@ -79,7 +79,7 @@ public class LabRequestController extends ServiceRequestController {
     List<ServiceRequest> serviceRequestList = database.getAllServiceRequests();
 
     UniqueID id = new UniqueID();
-    String requestID = id.generateID();
+    String requestID = id.generateID("LAB");
 
     // Create entities for submission
 

@@ -48,7 +48,7 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
     // Check for empty db and set first request (will appear as REQ1 in the db)
 
     UniqueID id = new UniqueID();
-    String requestID = id.generateID();
+    String requestID = id.generateID("EXTRL");
 
     // Create entities for submission
 

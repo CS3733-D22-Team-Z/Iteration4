@@ -6,8 +6,8 @@ import java.util.Random;
 public class UniqueID {
   public UniqueID() {}
 
-  public String generateID() {
-    String id = "REQ";
+  public String generateID(String type) {
+    String id = type;
     Random rand = new Random();
     int int_random = rand.nextInt(9) + 1;
     id += int_random;

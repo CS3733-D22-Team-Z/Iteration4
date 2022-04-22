@@ -92,7 +92,7 @@ public class CleaningRequestController extends ServiceRequestController {
     System.out.println("Request: " + enterRequest.getText());
 
     UniqueID id = new UniqueID();
-    String requestID = id.generateID();
+    String requestID = id.generateID("CLEAN");
 
     // Create entities for submission
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;

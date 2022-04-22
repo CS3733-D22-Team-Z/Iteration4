@@ -233,7 +233,7 @@ public class MealServiceController extends ServiceRequestController {
     allServiceRequestList = instanceDAO.getAllServiceRequests();
 
     UniqueID id = new UniqueID();
-    String requestID = id.generateID();
+    String requestID = id.generateID("MEAL");
 
     //    ServiceRequest newRequest = new ServiceRequest();
 

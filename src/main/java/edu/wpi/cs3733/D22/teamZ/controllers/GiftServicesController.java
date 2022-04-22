@@ -62,7 +62,7 @@ public class GiftServicesController extends ServiceRequestController {
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
 
     UniqueID id = new UniqueID();
-    String requestID = id.generateID();
+    String requestID = id.generateID("GIFT");
 
     // Creates entities for submission
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;

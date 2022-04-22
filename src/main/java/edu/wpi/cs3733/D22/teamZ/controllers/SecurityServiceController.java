@@ -40,7 +40,7 @@ public class SecurityServiceController extends ServiceRequestController {
     ServiceRequest last = servReqs.get(servReqs.size() - 1);
 
     UniqueID id = new UniqueID();
-    String requestID = id.generateID();
+    String requestID = id.generateID("SECR");
 
     Location tryGet = facadeDAO.getLocationByID(nodeIdField.getText());
 

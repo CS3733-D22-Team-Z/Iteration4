@@ -59,7 +59,7 @@ public class LaundryServiceController extends ServiceRequestController implement
       System.out.println("FAIL");
     } else {
       UniqueID id = new UniqueID();
-      String requestID = id.generateID();
+      String requestID = id.generateID("LAUND");
 
       LaundryServiceRequest temp =
           new LaundryServiceRequest(

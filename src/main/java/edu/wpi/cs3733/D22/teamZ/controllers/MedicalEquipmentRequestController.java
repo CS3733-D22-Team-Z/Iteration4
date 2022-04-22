@@ -93,7 +93,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
     UniqueID id = new UniqueID();
-    String requestID = id.generateID();
+    String requestID = id.generateID("EQUIP");
 
     // Create entities for submission
     String itemID = equipmentDropDown.getValue().toString();
