@@ -17,6 +17,7 @@ public class DBInitializer {
   private final CleaningReqControlCSV cleaningReqControlCSV;
   private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
   private final SecurityRequestControlCSV securityRequestControlCSV;
+  private final EdgesControlCSV edgesControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -72,6 +73,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "SecurityReq.csv");
+    File edgeData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "PathEdges.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -83,6 +89,7 @@ public class DBInitializer {
     cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
     purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
     securityRequestControlCSV = new SecurityRequestControlCSV(securityReqData);
+    edgesControlCSV = new EdgesControlCSV(edgeData);
   }
 
   public boolean createTables() {
@@ -368,6 +375,10 @@ public class DBInitializer {
         // insert it
         pstmt.executeUpdate();
         connection.commit();*/
+      }
+      List<PathEdge> edges = edgesControlCSV.readEdgeCSV();
+      for (PathEdge edge : edges) {
+        dao.getLocationByID(edge.getFrom().getNodeID()).addConnection(edge);
       }
     } catch (IOException e) {
       System.out.println("Failed to read CSV");

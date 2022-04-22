@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
-import java.util.ArrayList;
 import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
 import edu.wpi.cs3733.D22.teamZ.observers.DirtyPumpObserver;

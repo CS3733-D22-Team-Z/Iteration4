@@ -1,11 +1,11 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.Getter;
 
 public class PathEdge {
 
@@ -17,7 +17,7 @@ public class PathEdge {
   private double cost;
   private EdgeType type;
   private Location dest;
-  private Location from;
+  @Getter private Location from;
   private List<PathEdge> pathTo;
 
   public PathEdge(Location from, Location to) {
@@ -60,70 +60,74 @@ public class PathEdge {
     return cost;
   }
 
-  public double getHeuristicCost(Location dest){
+  public double getHeuristicCost(Location dest) {
     double ret = 0;
     int floorFrom = 0;
     try {
-      floorFrom = Integer.parseInt(from.getFloor());//normal 1-3
-    }
-    catch (NumberFormatException e){//actual string
-      if (from.getFloor().equalsIgnoreCase("L2")){//L1 is 0, already set
+      floorFrom = Integer.parseInt(from.getFloor()); // normal 1-3
+    } catch (NumberFormatException e) { // actual string
+      if (from.getFloor().equalsIgnoreCase("L2")) { // L1 is 0, already set
         floorFrom = -1;
       }
     }
 
     int floorDest = 0;
     try {
-      floorDest = Integer.parseInt(dest.getFloor());//normal 1-3
-    }
-    catch (NumberFormatException e){//actual string
-      if (dest.getFloor().equalsIgnoreCase("L2")){//L1 is 0, already set
+      floorDest = Integer.parseInt(dest.getFloor()); // normal 1-3
+    } catch (NumberFormatException e) { // actual string
+      if (dest.getFloor().equalsIgnoreCase("L2")) { // L1 is 0, already set
         floorDest = -1;
       }
     }
     int floorDiff = Math.abs(floorFrom - floorDest);
 
-    Function<Double, Double> costIncrease = inAng -> .2837 * Math.pow(inAng, 2) + .707*inAng +0.1;
-    //approximate exponential scaling function. .1 at 0 angle, .5 at 45, 2 at 90, 5 at 180.
-    //is this good? no idea. returns a cost multiplier in a similar range.
-    Comparator<Location> distSort = (o1, o2) -> {
-      double dist1 = Math.sqrt(Math.pow((from.getXcoord() - o2.getXcoord()), 2) + Math.pow((from.getYcoord() - o2.getYcoord()), 2));
-      double dist2 = Math.sqrt(
-              Math.pow((from.getXcoord() - o1.getXcoord()), 2)
+    Function<Double, Double> costIncrease =
+        inAng -> .2837 * Math.pow(inAng, 2) + .707 * inAng + 0.1;
+    // approximate exponential scaling function. .1 at 0 angle, .5 at 45, 2 at 90, 5 at 180.
+    // is this good? no idea. returns a cost multiplier in a similar range.
+    Comparator<Location> distSort =
+        (o1, o2) -> {
+          double dist1 =
+              Math.sqrt(
+                  Math.pow((from.getXcoord() - o2.getXcoord()), 2)
+                      + Math.pow((from.getYcoord() - o2.getYcoord()), 2));
+          double dist2 =
+              Math.sqrt(
+                  Math.pow((from.getXcoord() - o1.getXcoord()), 2)
                       + Math.pow((from.getYcoord() - o1.getYcoord()), 2));
-      return (int) (dist1-dist2);
-    };
+          return (int) (dist1 - dist2);
+        };
 
-    FacadeDAO dao = new FacadeDAO();
+    FacadeDAO dao = FacadeDAO.getInstance();
 
-    if (floorDiff == 0){//toward goal
+    if (floorDiff == 0) { // toward goal
       ret = costIncrease.apply(angleTo(dest)) * baseCost;
-    }
-    else if (floorDiff == 1){//nearest stair/elev
-      //get by floor
+    } else if (floorDiff == 1) { // nearest stair/elev
+      // get by floor
       List<Location> byFloor = dao.getAllLocationsByFloor(from.getFloor());
-      //get by elev
+      // get by elev
       List<Location> byElev = dao.getALlLocationsByType("ELEV");
-      //get by stai
+      // get by stai
       List<Location> byStair = dao.getALlLocationsByType("STAI");
 
-      Set<Location> elev = byElev.stream().distinct().filter(byFloor::contains).collect(Collectors.toSet());
-      Set<Location> stai = byStair.stream().distinct().filter(byFloor::contains).collect(Collectors.toSet());
+      Set<Location> elev =
+          byElev.stream().distinct().filter(byFloor::contains).collect(Collectors.toSet());
+      Set<Location> stai =
+          byStair.stream().distinct().filter(byFloor::contains).collect(Collectors.toSet());
       Set<Location> viable = new HashSet<>();
       viable.addAll(elev);
       viable.addAll(stai);
 
-
-      List<Location>nearest = viable.stream().sorted(distSort).collect(Collectors.toList());
+      List<Location> nearest = viable.stream().sorted(distSort).collect(Collectors.toList());
 
       ret = costIncrease.apply(angleTo(nearest.get(0))) * baseCost;
-    }
-    else {//elev
-      //get by floor
+    } else { // elev
+      // get by floor
       List<Location> floor = dao.getAllLocationsByFloor(from.getFloor());
-      //get by elev
+      // get by elev
       List<Location> elev = dao.getALlLocationsByType("ELEV");
-      Set<Location> viable = floor.stream().distinct().filter(elev::contains).collect(Collectors.toSet());
+      Set<Location> viable =
+          floor.stream().distinct().filter(elev::contains).collect(Collectors.toSet());
 
       List<Location> nearest = viable.stream().sorted(distSort).collect(Collectors.toList());
       ret = costIncrease.apply(angleTo(nearest.get(0))) * baseCost;
@@ -166,7 +170,9 @@ public class PathEdge {
     Set<PathEdge> usedPathEdge = new HashSet<>();
     Set<Location> usedLocation = new HashSet<>();
 
-    Comparator<PathEdge> sorter = (e1, e2) -> (int) (e1.getHeuristicCost(to) - e2.getHeuristicCost(to));
+    Comparator<PathEdge> sorter =
+        // (e1, e2) -> (int) (e1.getHeuristicCost(to) - e2.getHeuristicCost(to));
+        (e1, e2) -> (int) (e1.getCost() - e2.getCost());
     farthest.sort(sorter);
 
     while (farthest.size() > 0) {
@@ -212,11 +218,12 @@ public class PathEdge {
     }
   }
 
-  private double angleTo(Location test){
-    double rad1 = Math.atan2(dest.getYcoord()- from.getYcoord(), dest.getXcoord() - from.getXcoord());
-    double rad2 = Math.atan2(test.getYcoord()- from.getYcoord(), test.getXcoord() - from.getXcoord());
+  private double angleTo(Location test) {
+    double rad1 =
+        Math.atan2(dest.getYcoord() - from.getYcoord(), dest.getXcoord() - from.getXcoord());
+    double rad2 =
+        Math.atan2(test.getYcoord() - from.getYcoord(), test.getXcoord() - from.getXcoord());
 
     return Math.abs(rad1 - rad2);
   }
-
 }

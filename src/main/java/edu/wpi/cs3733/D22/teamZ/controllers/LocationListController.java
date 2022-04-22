@@ -94,7 +94,6 @@ public class LocationListController implements IMenuAccess {
 
   private static MapLabel activeLabel;
 
-  private MenuController menu;
   //
 
   // Casey's
@@ -1018,11 +1017,6 @@ public class LocationListController implements IMenuAccess {
               + " locations that are"
               + " trying to get deleted but still have equipment in it");
     }
-  }
-
-  @Override
-  public void setMenuController(MenuController menu) {
-    this.menu = menu;
   }
 
   @Override
