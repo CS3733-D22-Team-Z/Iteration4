@@ -561,6 +561,7 @@ public class LocationListController implements IMenuAccess {
 
   /**
    * Adds locations to the map depending on which mode is selected. Also sets dragging behavior.
+   *
    * @param floor the floor to pull locations from
    */
   private void showLocations(String floor) {
@@ -620,8 +621,13 @@ public class LocationListController implements IMenuAccess {
             // Refresh
             showLocations(floor);
           });
-    } else if(mode.equals("Service Requests")) {
-
+    } else if (mode.equals("Service Requests")) {
+      AtomicReference<List<Location>> locsWithEquip =
+          new AtomicReference<>(
+              allFloorLocations.stream()
+                  .filter((loc) -> facadeDAO.getServiceRequestsByLocation(loc).size() > 0)
+                  .collect(Collectors.toList()));
+      mapController.setLabels(locsWithEquip.get(), allFloorLocations, true);
     }
     //      group.getChildren().removeIf(child -> child instanceof MapLabel || child instanceof
     //   Polygon);
