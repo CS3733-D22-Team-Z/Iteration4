@@ -230,21 +230,10 @@ public class MealServiceController extends ServiceRequestController {
     System.out.println("Meal Type " + mealOptionDropDown.getValue());
     System.out.println("Drink Option: " + drinkOptionDropDown.getValue());
 
-    String id;
-
     allServiceRequestList = instanceDAO.getAllServiceRequests();
 
-    if (allServiceRequestList.isEmpty()) {
-      System.out.println("Meal is empty");
-      id = "REQ0";
-    } else {
-      List<ServiceRequest> currentList = database.getAllServiceRequests();
-      ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
-      id = lastestReq.getRequestID();
-    }
-    // Create new REQID
-    int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-    String requestID = "REQ" + num;
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID();
 
     //    ServiceRequest newRequest = new ServiceRequest();
 

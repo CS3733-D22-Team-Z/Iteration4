@@ -228,7 +228,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
   public void newID(String accessType) {
     String ID = accessType.toLowerCase();
     Random rand = new Random();
-    int int_random = rand.nextInt(10);
+    int int_random = rand.nextInt(9) + 1;
     ID += int_random;
     while (!submitEmployee(ID)) {
       int_random = rand.nextInt(10);

@@ -77,22 +77,9 @@ public class LabRequestController extends ServiceRequestController {
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
     // IServiceRequestDAO serviceRequestDAO = new ServiceRequestDAOImpl();
     List<ServiceRequest> serviceRequestList = database.getAllServiceRequests();
-    int id;
-    // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (serviceRequestList.isEmpty()) {
-      System.out.println("There are no service requests");
-      id = 0;
-    } else {
-      ServiceRequest tempService = serviceRequestList.get(serviceRequestList.size() - 1);
-      id =
-          Integer.parseInt(
-              tempService
-                  .getRequestID()
-                  .substring(tempService.getRequestID().lastIndexOf("Q") + 1));
-    }
-    // Create new REQID
-    String requestID = "REQ" + ++id;
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID();
 
     // Create entities for submission
 
