@@ -2,8 +2,6 @@ package edu.wpi.cs3733.D22.teamZ.helpers;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.List;
-
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

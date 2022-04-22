@@ -58,7 +58,7 @@ public class LoginPageController implements Initializable {
     facadeDAO = FacadeDAO.getInstance();
     List<Object> popResults = null;
     try {
-      popResults = PopupLoader.loadPopup("Map", loginPane, 50, 50);
+      popResults = PopupLoader.loadPopup("Map", loginPane);
     } catch (IOException e) {
       e.printStackTrace();
     }
