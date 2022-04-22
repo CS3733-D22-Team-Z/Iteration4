@@ -7,48 +7,29 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationDAOImpl implements ILocationDAO {
+class LocationDAOImpl implements ILocationDAO {
 
-  private List<Location> locations;
-  private LocationControlCSV locCSV;
+  private final List<Location> locationsList;
+  private final LocationControlCSV locCSV;
 
-  private static Connection connection = DatabaseConnection.getConnection();
+  private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
 
   public LocationDAOImpl() {
-    locations = new ArrayList<Location>();
+    updateConnection();
+    locationsList = new ArrayList<>();
+
+    File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
+    locCSV = new LocationControlCSV(locData);
   }
 
   /**
-   * Gets all of the locations in the database
+   * Gets all the locations in the database
    *
    * @return List of locations
    */
   public List<Location> getAllLocations() {
-    try {
-      PreparedStatement pstmt = connection.prepareStatement("Select * From Location");
-      ResultSet rset = pstmt.executeQuery();
-
-      locations.clear();
-
-      while (rset.next()) {
-        String nodeID = rset.getString("nodeID");
-        int xcoord = rset.getInt("xcoord");
-        int ycoord = rset.getInt("ycoord");
-        String floor = rset.getString("floor");
-        String building = rset.getString("building");
-        String nodeType = rset.getString("nodeType");
-        String longName = rset.getString("longName");
-        String shortName = rset.getString("shortName");
-        Location loc =
-            new Location(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName);
-        if (!locations.contains(loc)) {
-          locations.add(loc);
-        }
-      }
-    } catch (SQLException e) {
-      System.out.println("Failed to get all Locations");
-    }
-    return locations;
+    // List<Location> locationList = new ArrayList<>(locations.values());
+    return locationsList;
   }
 
   /**
@@ -57,95 +38,51 @@ public class LocationDAOImpl implements ILocationDAO {
    * @return list of nodeIDs
    */
   public List<String> getAllLocationNodeIDs() {
-    List<String> list = new ArrayList<>();
-    try {
-      PreparedStatement pstmt = connection.prepareStatement("Select NODEID From Location");
-      ResultSet rset = pstmt.executeQuery();
-
-      while (rset.next()) {
-        list.add(rset.getString("NODEID"));
-      }
-
-    } catch (SQLException e) {
-      System.out.println("Failed to get nodeIDs from database");
+    List<String> nodeIDList = new ArrayList<>();
+    for (Location loc : locationsList) {
+      nodeIDList.add(loc.getNodeID());
     }
-    return list;
+    return nodeIDList;
   }
 
   /**
-   * Gets ONE lcoation from the database based on the provided nodeID
+   * Gets the location from the database that has the provided nodeID
    *
-   * @param nodeID
-   * @return Location object with provided nodeID
+   * @param nodeID The id of the location node being searched for
+   * @return Location object with provided nodeID, null if there is no location with that ID
    */
   public Location getLocationByID(String nodeID) {
-    Location loc = new Location();
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement("Select * From LOCATION WHERE NODEID = ?");
-      pstmt.setString(1, nodeID);
-      ResultSet rset = pstmt.executeQuery();
-
-      while (rset.next()) {
-        int xcoord = rset.getInt("xcoord");
-        int ycoord = rset.getInt("ycoord");
-        String floor = rset.getString("floor");
-        String building = rset.getString("building");
-        String nodeType = rset.getString("nodeType");
-        String longName = rset.getString("longName");
-        String shortName = rset.getString("shortName");
-        loc.setNodeID(nodeID);
-        loc.setXcoord(xcoord);
-        loc.setYcoord(ycoord);
-        loc.setFloor(floor);
-        loc.setBuilding(building);
-        loc.setNodeType(nodeType);
-        loc.setLongName(longName);
-        loc.setShortName(shortName);
+    for (Location loc : locationsList) {
+      if (loc.getNodeID().equals(nodeID)) {
+        return loc;
       }
-    } catch (SQLException e) {
-      System.out.println("Unable to find location");
     }
-    return loc;
+    return null;
   }
   /**
    * Adds a new location to database. Will automatically check if already in database
    *
-   * @param loc
+   * @param loc The location to be added
    * @return True if successful, false if not
    */
   public boolean addLocation(Location loc) {
-    try {
-      PreparedStatement stmt =
-          connection.prepareStatement(
-              "INSERT INTO Location (NODEID, XCOORD, YCOORD, FLOOR, BUILDING, NODETYPE, LONGNAME, SHORTNAME)"
-                  + "values (?, ?, ?, ?, ?, ?, ?, ?)");
-      stmt.setString(1, loc.getNodeID());
-      stmt.setInt(2, loc.getXcoord());
-      stmt.setInt(3, loc.getYcoord());
-      stmt.setString(4, loc.getFloor());
-      stmt.setString(5, loc.getBuilding());
-      stmt.setString(6, loc.getNodeType());
-      stmt.setString(7, loc.getLongName());
-      stmt.setString(8, loc.getShortName());
-
-      stmt.executeUpdate();
-      connection.commit();
-    } catch (SQLException e) {
-      System.out.println("Statement failed");
-      return false;
+    updateConnection();
+    boolean val = false;
+    if (addToDatabase(loc)) {
+      val = true;
+      locationsList.add(loc);
     }
-    locations.add(loc);
-    return true;
+    return val;
   }
 
   /**
    * Updates a location in the database. Will automatically check if exists in database
    *
-   * @param loc
+   * @param loc The location to be updated
    * @return True if successful, false if not
    */
   public boolean updateLocation(Location loc) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement("UPDATE Location SET floor=?, nodeTYPE =? WHERE nodeID =?");
@@ -158,18 +95,21 @@ public class LocationDAOImpl implements ILocationDAO {
       System.out.println("Statement failed");
       return false;
     }
-    locations.remove(getLocationByID(loc.getNodeID()));
-    locations.add(loc);
+    locationsList.remove(loc);
+    locationsList.add(loc);
+    // locations.remove(loc.getNodeID());
+    // locations.put(loc.getNodeID(), loc);
     return true;
   }
 
   /**
    * Deletes a location from database. Will automatically check if exists in database already
    *
-   * @param loc
+   * @param loc The location to be deleted
    * @return True if successful, false if not
    */
   public boolean deleteLocation(Location loc) {
+    updateConnection();
     try {
       PreparedStatement stmt3 = connection.prepareStatement("DELETE FROM Location WHERE Nodeid=?");
       stmt3.setString(1, loc.getNodeID());
@@ -178,20 +118,51 @@ public class LocationDAOImpl implements ILocationDAO {
       System.out.println("Statement failed");
       return false;
     }
-    locations.remove(loc);
+    locationsList.remove(loc);
+    // locations.remove(loc.getNodeID());
     return true;
   }
 
   /**
-   * Exports the Location table into a csv file to the working directory
+   * Returns the default path for a location csv file to be saved
    *
-   * @return True if successful, false if not
+   * @return The default path for a location csv file to be saved
    */
-  public boolean exportToLocationCSV(File locData) {
+  File getDefaultLocationCSVPath() {
+    return locCSV.getDefaultPath();
+  }
 
+  /**
+   * Exports the Locations table into a CSV at the given path
+   *
+   * @param locData The path the CSV will be written to
+   * @return True if success, false otherwise
+   */
+  @Override
+  public boolean exportToLocationCSV(File locData) {
     // File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
-    locCSV = new LocationControlCSV(locData);
-    locCSV.writeLocCSV(getAllLocations());
+    updateConnection();
+
+    try {
+      locCSV.writeLocCSV(getAllLocations(), locData);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public boolean exportToLocationCSV() {
+    updateConnection();
+
+    try {
+      locCSV.writeLocCSV(getAllLocations());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
 
     return true;
   }
@@ -199,31 +170,30 @@ public class LocationDAOImpl implements ILocationDAO {
   /**
    * Gets all locations on the given floor
    *
-   * @param floor
+   * @param floor The floor the locations will be on
    * @return list of locations
    */
   @Override
   public List<Location> getAllLocationsByFloor(String floor) {
+    updateConnection();
     List<Location> temp = new ArrayList<>();
     try {
       PreparedStatement pstmt =
-          connection.prepareStatement("Select * from LOCATION WHERE FLOOR = ?");
+          connection.prepareStatement("Select nodeID from LOCATION WHERE FLOOR = ?");
       pstmt.setString(1, floor);
 
       ResultSet rset = pstmt.executeQuery();
 
       while (rset.next()) {
-        Location tempLoc = new Location();
-        tempLoc.setNodeID(rset.getString("nodeID"));
-        tempLoc.setXcoord(rset.getInt("xcoord"));
-        tempLoc.setYcoord(rset.getInt("ycoord"));
-        tempLoc.setFloor(floor);
-        tempLoc.setBuilding(rset.getString("building"));
-        tempLoc.setNodeType(rset.getString("nodeType"));
-        tempLoc.setLongName(rset.getString("longName"));
-        tempLoc.setShortName(rset.getString("shortName"));
-
-        temp.add(tempLoc);
+        String nodeID = rset.getString("nodeID");
+        int i = 0;
+        for (Location loc : locationsList) {
+          if (loc.getNodeID().equals(nodeID)) {
+            temp.add(locationsList.get(i));
+          }
+          i++;
+        }
+        // temp.add(locations.get(nodeID));
       }
     } catch (SQLException e) {
       System.out.println("Failed to get locations");
@@ -233,31 +203,29 @@ public class LocationDAOImpl implements ILocationDAO {
 
   /**
    * Gets all locations of the given type
+   *
    * @param type type of location
    * @return list of locations of given type
    */
   @Override
   public List<Location> getALlLocationsByType(String type) {
+    updateConnection();
     List<Location> tempList = new ArrayList<>();
     try {
       PreparedStatement pstmt =
-              connection.prepareStatement("Select * from LOCATION WHERE NODETYPE = ?");
+          connection.prepareStatement("Select nodeID from LOCATION WHERE NODETYPE = ?");
       pstmt.setString(1, type);
 
       ResultSet rset = pstmt.executeQuery();
 
       while (rset.next()) {
-        Location tempLoc = new Location();
-        tempLoc.setNodeID(rset.getString("nodeID"));
-        tempLoc.setXcoord(rset.getInt("xcoord"));
-        tempLoc.setYcoord(rset.getInt("ycoord"));
-        tempLoc.setFloor(rset.getString("floor"));
-        tempLoc.setBuilding(rset.getString("building"));
-        tempLoc.setNodeType(rset.getString("nodeType"));
-        tempLoc.setLongName(rset.getString("longName"));
-        tempLoc.setShortName(rset.getString("shortName"));
-
-        tempList.add(tempLoc);
+        String nodeID = rset.getString("nodeID");
+        for (Location loc : locationsList) {
+          if (loc.getNodeID().equals(nodeID)) {
+            tempList.add(loc);
+          }
+        }
+        // tempList.add(locations.get(nodeID));
       }
     } catch (SQLException e) {
       System.out.println("Failed to get locations");
@@ -268,25 +236,28 @@ public class LocationDAOImpl implements ILocationDAO {
   /**
    * Imports data from CSV into location database
    *
-   * @param locData
+   * @param locData The file location that contains a CSV of location data
    * @return number of times there are conflicts when trying to import
    */
   @Override
   public int importLocationFromCSV(File locData) {
+    updateConnection();
+
     int numberConflicts = 0;
     try {
-      locCSV = new LocationControlCSV(locData);
-      List<Location> tempLoc = locCSV.readLocCSV();
+      List<Location> tempLoc = locCSV.readLocCSV(locData);
 
       List<String> newLocations = new ArrayList<>();
 
-      for (int i = 0; i < tempLoc.size(); i++) {
-        newLocations.add(tempLoc.get(i).getNodeID());
+      for (Location loc : tempLoc) {
+        newLocations.add(loc.getNodeID());
       }
 
       List<String> currentNodeIDs = getAllLocationNodeIDs();
 
       currentNodeIDs.removeAll(newLocations);
+
+      // TODO if you found something that cannot be deleted, abort completely
 
       for (String id : currentNodeIDs) {
         // delete from database
@@ -295,6 +266,10 @@ public class LocationDAOImpl implements ILocationDAO {
               connection.prepareStatement("DELETE from LOCATION WHERE NODEID = ?");
           pstmt.setString(1, id);
           pstmt.executeUpdate();
+
+          Location temp = new Location(id);
+          locationsList.remove(temp);
+          // locations.remove(id);
         } catch (SQLException e) {
           numberConflicts++;
           System.out.println(
@@ -324,6 +299,9 @@ public class LocationDAOImpl implements ILocationDAO {
 
           // insert it
           pstmt.executeUpdate();
+
+          locationsList.add(newInfo);
+          // locations.put(newInfo.getNodeID(), newInfo);
         }
         // if already exists: update
         else {
@@ -349,6 +327,11 @@ public class LocationDAOImpl implements ILocationDAO {
 
           // update it
           pstmt.executeUpdate();
+
+          locationsList.remove(newInfo);
+          locationsList.add(newInfo);
+          // locations.remove(newInfo.getNodeID());
+          // locations.put(newInfo.getNodeID(), newInfo);
         }
       }
     } catch (SQLException e) {
@@ -359,5 +342,145 @@ public class LocationDAOImpl implements ILocationDAO {
       return -1;
     }
     return numberConflicts;
+  }
+
+  /** Updates the connection */
+  private void updateConnection() {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  }
+
+  /**
+   * Insert locations into the database from given list
+   *
+   * @param list list of locations to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addLocationFromList(List<Location> list) {
+    updateConnection();
+    boolean val = true;
+    for (Location loc : list) {
+      if (!addToDatabase(loc)) {
+        val = false;
+      }
+    }
+    return val;
+  }
+
+  /**
+   * Contains the SQL command for inserting to database
+   *
+   * @param loc location to be inserted
+   * @return True if successful, false otherwise
+   */
+  private boolean addToDatabase(Location loc) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "INSERT INTO Location (NODEID, XCOORD, YCOORD, FLOOR, BUILDING, NODETYPE, LONGNAME, SHORTNAME)"
+                  + "values (?, ?, ?, ?, ?, ?, ?, ?)");
+      stmt.setString(1, loc.getNodeID());
+      stmt.setInt(2, loc.getXcoord());
+      stmt.setInt(3, loc.getYcoord());
+      stmt.setString(4, loc.getFloor());
+      stmt.setString(5, loc.getBuilding());
+      stmt.setString(6, loc.getNodeType());
+      stmt.setString(7, loc.getLongName());
+      stmt.setString(8, loc.getShortName());
+
+      stmt.executeUpdate();
+      connection.commit();
+    } catch (SQLException e) {
+      System.out.println("Statement failed");
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Get the nodeID of a dirty location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the dirty location
+   */
+  public String getDirtyNodeIDbyFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "" + "SELECT NODEID FROM LOCATION WHERE FLOOR = ? AND NODETYPE = 'DIRT'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        if (!rset.getString("NODEID").equals("")) {
+          return rset.getString("NODEID");
+        }
+        return "zDIRT00103";
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to get dirty location nodeID from floor");
+      e.printStackTrace();
+    }
+    return "zDIRT00103";
+  }
+
+  /**
+   * Get the nodeID of a clean storage location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the clean location
+   */
+  public String getCleanNodeIDbyFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "" + "SELECT NODEID FROM LOCATION WHERE FLOOR = ? AND NODETYPE = 'CLEAN'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+
+      int number = (int) Math.random() % 4;
+
+      while (rset.next()) {
+        if (!rset.getString("NODEID").equals("")) {
+          return rset.getString("NODEID");
+        } else {
+          return "zSTOR00103";
+        }
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to get clean location nodeID from floor");
+      e.printStackTrace();
+    }
+    return "zSTOR00103";
+  }
+
+  /**
+   * Get the nodeID of a random bed park on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the bed park; default is OR Bed Park
+   */
+  public String getRandomBedParkNodeIDByFloor(String floor) {
+    String thirdFloorBed[] = {"zSTOR00403", "zSTOR00403"};
+    String fourthFloorBed[] = {"zSTOR00304", "zSTOR00404"};
+    String fifthFloorBed[] = {"zSTOR00305"};
+    int num = 0;
+    switch (floor) {
+      case ("3"):
+        num = ((int) Math.random()) % thirdFloorBed.length;
+        return thirdFloorBed[num];
+      case ("4"):
+        num = ((int) Math.random()) % fourthFloorBed.length;
+        return fourthFloorBed[num];
+      case ("5"):
+        num = ((int) Math.random()) % fifthFloorBed.length;
+        return fourthFloorBed[num];
+      case ("L1"):
+        return "zSTOR001L1";
+      case ("1"):
+        return "zSTOR00101";
+      default:
+        return "zSTOR00101";
+    }
   }
 }

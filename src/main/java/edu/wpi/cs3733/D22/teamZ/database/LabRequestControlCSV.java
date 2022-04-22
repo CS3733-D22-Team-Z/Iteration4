@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LabRequestControlCSV extends ControlCSV {
-  private final IServiceRequestDAO requestDAO = new ServiceRequestDAOImpl();
   private final String[] headers = {"requestID", "labType"};
 
   public LabRequestControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
-  public void writeLabRequestCSV(List<LabServiceRequest> in) {
+  public void writeLabRequestCSV(List<LabServiceRequest> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 
@@ -30,7 +29,7 @@ public class LabRequestControlCSV extends ControlCSV {
       String requestID = entry.get(0);
       String labTypeStr = entry.get(1);
 
-      ServiceRequest request = requestDAO.getServiceRequestByID(requestID);
+      ServiceRequest request = FacadeDAO.getInstance().getServiceRequestByID(requestID);
 
       labRequestList.add(
           new LabServiceRequest(

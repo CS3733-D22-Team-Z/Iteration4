@@ -1,77 +1,80 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
-public class MealServiceRequest {
-  private String patientName;
-  private int patientID;
-  private String roomNumber;
-  private String mealServiceOption;
-  private String status;
-  private String staffAssigned;
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 
-  public MealServiceRequest() {}
+public class MealServiceRequest extends ServiceRequest {
+  private Patient patient;
+  private String drink;
+  private String entree;
+  private String side;
+
+  private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   public MealServiceRequest(
-      String patientName,
-      int patientID,
-      String roomNumber,
-      String mealServiceOption,
-      String status,
-      String staffAssigned) {
-    this.patientName = patientName;
-    this.patientID = patientID;
-    this.roomNumber = roomNumber;
-    this.mealServiceOption = mealServiceOption;
-    this.status = status;
-    this.staffAssigned = staffAssigned;
+      String requestID,
+      ServiceRequest.RequestStatus status,
+      Employee issuer,
+      Employee handler,
+      Location targetLocation,
+      Patient patient,
+      String drink,
+      String entree,
+      String side) {
+    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation);
+    this.patient = patient;
+    this.drink = drink;
+    this.entree = entree;
+    this.side = side;
+  }
+
+  public MealServiceRequest(
+      String requestID,
+      ServiceRequest.RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation,
+      String patient,
+      String drink,
+      String entree,
+      String side) {
+    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation);
+    this.patient = facadeDAO.getPatientByID(patient);
+    this.drink = drink;
+    this.entree = entree;
+    this.side = side;
   }
 
   // GetterFunctions
-  public String getPatientName() {
-    return this.patientName;
+  public Patient getPatient() {
+    return this.patient;
   }
 
-  public int getPatientID() {
-    return this.patientID;
+  public String getDrink() {
+    return drink;
   }
 
-  public String getRoomNumber() {
-    return this.roomNumber;
+  public String getEntree() {
+    return entree;
   }
 
-  public String getMealServiceOption() {
-    return this.mealServiceOption;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public String getStaffAssigned() {
-    return this.staffAssigned;
+  public String getSide() {
+    return side;
   }
 
   // SetterFunction
-  public void setPatientName(String patientName) {
-    this.patientName = patientName;
+  public void setPatient(Patient patient) {
+    this.patient = patient;
   }
 
-  public void setPatientID(int patientID) {
-    this.patientID = patientID;
+  public void setDrink(String drink) {
+    this.drink = drink;
   }
 
-  public void setRoomNumber(String roomNumber) {
-    this.roomNumber = roomNumber;
+  public void setEntree(String entree) {
+    this.entree = entree;
   }
 
-  public void setMealServiceOption(String mealServiceOption) {
-    this.mealServiceOption = mealServiceOption;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  public void setStaffAssigned(String staffAssigned) {
-    this.staffAssigned = staffAssigned;
+  public void setSide(String side) {
+    this.side = side;
   }
 }

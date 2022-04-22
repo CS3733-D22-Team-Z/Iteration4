@@ -7,20 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocationControlCSV extends ControlCSV {
-  private String[] headers = {
+  private final String[] headers = {
     "NodeID", "xcoord", "ycoord", "floor", "building", "nodeType", "longName", "shortName"
   };
 
   public LocationControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
-  protected void writeLocCSV(List<Location> in) {
+  protected void writeLocCSV(List<Location> in) throws IOException {
     writeCSV(objToData(in), headers);
   }
 
   public List<Location> readLocCSV() throws IOException {
     return dataToObj(readCSV());
+  }
+
+  protected void writeLocCSV(List<Location> in, File path) throws IOException {
+    writeCSV(objToData(in), path, headers);
+  }
+
+  public List<Location> readLocCSV(File path) throws IOException {
+    return dataToObj(readCSV(path));
   }
 
   private List<Location> dataToObj(List<List<String>> data) {

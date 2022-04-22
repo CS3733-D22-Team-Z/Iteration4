@@ -1,103 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.Button?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Line?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ComputerServiceRequestController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ComputerServiceRequestController">
     <children>
-        <Label layoutX="-111.0" layoutY="42.0" style="-fx-translate-y: 10; -fx-translate-x: 126;" text="Computer Service Request Page">
-            <font>
-                <Font name="System Bold" size="12.0" />
-            </font></Label>
-        <TextField fx:id="roomNumberField" layoutX="15.0" layoutY="115.0">
-            <effect>
-                <DropShadow />
-            </effect></TextField>
-        <Button id="backButton" fx:id="backButton" layoutX="-111.0" layoutY="1.0" mnemonicParsing="false" onAction="#backToDashboard" style="-fx-background-color: #0075FF; -fx-translate-x: 126; -fx-pref-width: 128; -fx-pref-height: 26; -fx-translate-y: 13; -fx-background-radius: 2;" text="Back to Dashboard" textFill="WHITE">
-            <font>
-                <Font name="System Bold" size="10.0" />
-            </font></Button>
-        <Label layoutX="-111.0" layoutY="59.0" prefHeight="17.0" prefWidth="211.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Enter the fields below to request computer service." textFill="#9d9d9d">
-            <font>
-                <Font name="Segoe UI Bold" size="7.5" />
-            </font>
-        </Label>
-        <Label layoutX="-111.0" layoutY="82.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Employee Name" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <Label layoutX="-111.0" layoutY="138.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Employee ID" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField fx:id="roomNumberField1" layoutX="15.0" layoutY="170.0">
-            <effect>
-                <DropShadow />
-            </effect>
-        </TextField>
-        <Label layoutX="-112.0" layoutY="195.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Operating System" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <ChoiceBox layoutX="15.0" layoutY="227.0" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
-            <effect>
-                <DropShadow />
-            </effect>
-        </ChoiceBox>
-        <JFXButton layoutX="-111.0" layoutY="354.0" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text=" Submit" textFill="WHITE">
-            <font>
-                <Font name="Segoe UI Bold" size="10.0" />
-            </font>
-        </JFXButton>
-        <Label layoutX="-111.0" layoutY="253.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Montserrat Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Description of problem" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField fx:id="roomNumberField11" layoutX="15.0" layoutY="286.0" prefHeight="58.0" prefWidth="220.0">
-            <effect>
-                <DropShadow />
-            </effect>
-        </TextField>
-        <Label layoutX="141.0" layoutY="82.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Status" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <ChoiceBox layoutX="268.0" layoutY="113.0" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
-            <effect>
-                <DropShadow />
-            </effect>
-        </ChoiceBox>
-        <Label layoutX="143.0" layoutY="138.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Staff Assigned" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField layoutX="268.0" layoutY="171.0">
-            <effect>
-                <DropShadow />
-            </effect>
-        </TextField>
-      <ListView layoutX="265.0" layoutY="228.0" prefHeight="122.0" prefWidth="191.0">
-         <effect>
-            <DropShadow />
-         </effect>
-      </ListView>
-      <Label layoutX="143.0" layoutY="195.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Current Requests" textFill="#7b7b7b">
-         <font>
-            <Font name="Segoe UI Bold" size="9.0" />
-         </font>
-      </Label>
+        <Label layoutX="24.0" layoutY="74.0" prefHeight="25.0" prefWidth="372.0" styleClass="object-header" text="Computer Service Request Page" />
+        <MFXTextField fx:id="roomNumberField" floatMode="DISABLED" layoutX="24.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" />
+        <Label layoutX="24.0" layoutY="102.0" prefHeight="17.0" prefWidth="299.0" styleClass="object-body" text="Enter the fields below to request computer service." />
+        <Label layoutX="24.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Employee Name" />
+        <Label layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Employee ID" />
+        <MFXTextField fx:id="roomNumberField1" floatMode="DISABLED" layoutX="196.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" />
+        <Label layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Operating System" />
+        <ChoiceBox layoutX="24.0" layoutY="242.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" />
+        <Label layoutX="197.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Description of problem" />
+        <MFXTextField fx:id="roomNumberField11" layoutX="197.0" layoutY="242.0" prefHeight="79.0" prefWidth="149.0" />
+      <MFXButton fx:id="submitButton" layoutX="24.0" layoutY="348.0" onAction="#onSubmitButtonClicked" prefHeight="32.0" prefWidth="111.0" text="Submit" />
+      <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="348.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
+      <MFXButton fx:id="backButton" layoutX="24.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
+         <graphic>
+            <Region fx:id="backRegion" prefHeight="12.0" prefWidth="6.0" translateX="-4.0" />
+         </graphic>
+      </MFXButton>
+      <Line endX="3.0" endY="365.0" layoutX="382.0" layoutY="32.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
+      <Label alignment="CENTER" layoutX="396.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
+      <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="406.0" layoutY="202.0" prefHeight="60.0" prefWidth="176.0" text="Computer Service Requests" textAlignment="CENTER" wrapText="true" />
     </children>
 </AnchorPane>

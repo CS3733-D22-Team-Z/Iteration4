@@ -36,6 +36,11 @@ public class LabRequestListController implements Initializable, IMenuAccess {
     this.menu = menu;
   }
 
+  @Override
+  public String getMenuName() {
+    return "Lab Request List";
+  }
+
   @FXML
   private void toLabServiceRequest(ActionEvent event) throws IOException {
     menu.load(toLabServiceRequestListURL);
@@ -44,10 +49,12 @@ public class LabRequestListController implements Initializable, IMenuAccess {
   // loadDataFromDatabase when button loadData is clicked
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
-    facadeDAO = new FacadeDAO();
+
+    facadeDAO = FacadeDAO.getInstance();
 
     System.out.println("loading data");
-    labRequestTable.getItems().clear();
+    labRequestTable.refresh();
+    // labRequestTable.getItems().clear();
 
     // get list of locations from db and transfer into ObservableList
     ObservableList<LabServiceRequest> data =

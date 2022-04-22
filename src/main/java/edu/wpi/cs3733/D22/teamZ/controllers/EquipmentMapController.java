@@ -85,7 +85,7 @@ public class EquipmentMapController implements Initializable {
     iconImage = new Image("file:" + rsc.getPath());
 
     // Setup DAOs
-    facadeDAO = new FacadeDAO();
+    facadeDAO = FacadeDAO.getInstance();
 
     // Pull all locations
     locations = facadeDAO.getAllLocations();

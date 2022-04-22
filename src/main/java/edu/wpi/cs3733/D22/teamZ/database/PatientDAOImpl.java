@@ -1,24 +1,24 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.Patient;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientDAOImpl implements IPatientDAO {
+class PatientDAOImpl implements IPatientDAO {
   List<Patient> patients;
-  private PatientControlCSV patCSV;
+  private PatientControlCSV patientCSV;
 
-  static Connection connection = DatabaseConnection.getConnection();
+  static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  // DatabaseConnection.getConnection();
 
   public PatientDAOImpl() {
-    patients = new ArrayList<Patient>();
+    updateConnection();
+    patients = new ArrayList<>();
   }
 
   /**
@@ -27,7 +27,8 @@ public class PatientDAOImpl implements IPatientDAO {
    * @return List of patients
    */
   public List<Patient> getAllPatients() {
-    try {
+    updateConnection();
+    /*try {
       PreparedStatement pstmt = connection.prepareStatement("Select * From PATIENTS");
       ResultSet rset = pstmt.executeQuery();
 
@@ -42,18 +43,19 @@ public class PatientDAOImpl implements IPatientDAO {
       }
     } catch (SQLException e) {
       System.out.println("Failed to get all Patients");
-    }
+    }*/
     return patients;
   }
 
   /**
    * Gets ONE patients from the database based on the provided patientID
    *
-   * @param patientID
+   * @param patientID The id of the patient to be searched for
    * @return Patient object with provided patientID
    */
   public Patient getPatientByID(String patientID) {
-    Patient pat = new Patient();
+    updateConnection();
+    /*Patient pat = new Patient();
     try {
       PreparedStatement pstmt =
           connection.prepareStatement("Select * From PATIENTS WHERE PATIENTID = ?");
@@ -69,42 +71,39 @@ public class PatientDAOImpl implements IPatientDAO {
       }
     } catch (SQLException e) {
       System.out.println("Unable to find patient");
+    }*/
+    for (Patient patient : patients) {
+      if (patient.getPatientID().equals(patientID)) {
+        return patient;
+      }
     }
-    return pat;
+    return null;
   }
 
   /**
    * Adds a new patient to database. Will automatically check if already in database
    *
-   * @param pat
+   * @param pat The patient to be added
    * @return True if successful, false if not
    */
   public boolean addPatient(Patient pat) {
-    try {
-      PreparedStatement stmt =
-          connection.prepareStatement(
-              "INSERT INTO PATIENTS (PATIENTID, NAME, LOCATION)" + "values (?, ?, ?)");
-      stmt.setString(1, pat.getPatientID());
-      stmt.setString(2, pat.getName());
-      stmt.setObject(3, pat.getLocation());
-
-      stmt.executeUpdate();
-      connection.commit();
-    } catch (SQLException e) {
-      System.out.println("Statement failed");
-      return false;
+    updateConnection();
+    boolean val = false;
+    if (addToDatabase(pat)) {
+      val = true;
+      patients.add(pat);
     }
-    patients.add(pat);
-    return true;
+    return val;
   }
 
   /**
    * Updates a patients in the database. Will automatically check if exists in database
    *
-   * @param pat
+   * @param pat The patient to be updated
    * @return True if successful, false if not
    */
   public boolean updatePatient(Patient pat) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement("UPDATE PATIENTS SET NAME=?, LOCATION =? WHERE PATIENTID =?");
@@ -113,22 +112,30 @@ public class PatientDAOImpl implements IPatientDAO {
       stmt.setString(3, pat.getPatientID());
 
       stmt.executeUpdate();
+      for (Patient patient : patients) {
+        if (patient.equals(pat)) {
+          patient.setName(pat.getName());
+          patient.setLocation(pat.getLocation());
+          return true;
+        }
+      }
     } catch (SQLException e) {
       System.out.println("Statement failed");
       return false;
     }
-    patients.remove(getPatientByID(pat.getPatientID()));
-    patients.add(pat);
+    // patients.remove(getPatientByID(pat.getPatientID()));
+    // patients.add(pat);
     return true;
   }
 
   /**
    * Deletes a patient from database. Will automatically check if exists in database already
    *
-   * @param pat
+   * @param pat The patient to be deleted
    * @return True if successful, false if not
    */
   public boolean deletePatient(Patient pat) {
+    updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement("DELETE FROM PATIENTS WHERE PATIENTID=?");
@@ -149,10 +156,16 @@ public class PatientDAOImpl implements IPatientDAO {
    * @return True if successful, false if not
    */
   public boolean exportToPatientCSV(File data) {
+    updateConnection();
 
     data = new File(System.getProperty("user.dir") + "\\patient.csv");
-    patCSV = new PatientControlCSV(data);
-    patCSV.writePatCSV(getAllPatients());
+    patientCSV = new PatientControlCSV(data);
+    try {
+      patientCSV.writePatientCSV(getAllPatients());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
 
     return true;
   }
@@ -165,11 +178,12 @@ public class PatientDAOImpl implements IPatientDAO {
    */
   @Override
   public int importPatientsFromCSV(File patientData) {
+    updateConnection();
     patientData = new File(System.getProperty("user.dir") + "\\employee.csv");
-    patCSV = new PatientControlCSV(patientData);
+    patientCSV = new PatientControlCSV(patientData);
     int conflictCounter = 0;
     try {
-      List<Patient> tempPatient = patCSV.readPatCSV();
+      List<Patient> tempPatient = patientCSV.readPatientCSV();
       String temp = "";
       try {
         for (Patient info : tempPatient) {
@@ -198,5 +212,51 @@ public class PatientDAOImpl implements IPatientDAO {
       e.printStackTrace();
     }
     return conflictCounter;
+  }
+
+  /** Updates the connection */
+  private void updateConnection() {
+    connection = EnumDatabaseConnection.CONNECTION.getConnection();
+  }
+
+  /**
+   * Insert patients into database from given list
+   *
+   * @param list list of patients that need to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addPatientFromList(List<Patient> list) {
+    updateConnection();
+    boolean val = true;
+    for (Patient patient : list) {
+      if (!addToDatabase(patient)) {
+        val = false;
+      }
+    }
+    return val;
+  }
+
+  /**
+   * Contains SQL command for inserting data
+   *
+   * @param pat patient to be inserted
+   * @return True if successful, false otherwise
+   */
+  private boolean addToDatabase(Patient pat) {
+    try {
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "INSERT INTO PATIENTS (PATIENTID, NAME, LOCATION)" + "values (?, ?, ?)");
+      stmt.setString(1, pat.getPatientID());
+      stmt.setString(2, pat.getName());
+      stmt.setObject(3, pat.getLocation().getNodeID());
+
+      stmt.executeUpdate();
+      connection.commit();
+    } catch (SQLException e) {
+      System.out.println("Statement failed");
+      return false;
+    }
+    return true;
   }
 }

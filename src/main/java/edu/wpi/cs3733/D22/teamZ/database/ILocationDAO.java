@@ -22,7 +22,7 @@ public interface ILocationDAO {
   /**
    * Gets ONE lcoation from the database based on the provided nodeID
    *
-   * @param nodeID
+   * @param nodeID The id of the location to be searched for
    * @return Location object with provided nodeID
    */
   Location getLocationByID(String nodeID);
@@ -30,7 +30,7 @@ public interface ILocationDAO {
   /**
    * Adds a new location to database. Will automatically check if already in database
    *
-   * @param loc
+   * @param loc The location to be added
    * @return True if successful, false if not
    */
   boolean addLocation(Location loc);
@@ -38,7 +38,7 @@ public interface ILocationDAO {
   /**
    * Updates a location in the database. Will automatically check if exists in database
    *
-   * @param loc
+   * @param loc The location to be updated
    * @return True if successful, false if not
    */
   boolean updateLocation(Location loc);
@@ -46,7 +46,7 @@ public interface ILocationDAO {
   /**
    * Deletes a location from database. Will automatically check if exists in database already
    *
-   * @param loc
+   * @param loc The location to be deleted
    * @return True if successful, false if not
    */
   boolean deleteLocation(Location loc);
@@ -56,18 +56,27 @@ public interface ILocationDAO {
    *
    * @return True if successful, false if not
    */
+  boolean exportToLocationCSV();
+
+  /**
+   * Exports the Location table into a CSV at the given path
+   *
+   * @param locData The path the CSV will be written to
+   * @return True if successful, false otherwise
+   */
   boolean exportToLocationCSV(File locData);
 
   /**
    * Gets all locations on the given floor
    *
-   * @param floor
+   * @param floor The floor to be searched
    * @return list of locations
    */
   List<Location> getAllLocationsByFloor(String floor);
 
   /**
    * Gets all locations of the given type
+   *
    * @param type type of location
    * @return list of locations of the given type
    */
@@ -76,8 +85,40 @@ public interface ILocationDAO {
   /**
    * Imports data from CSV into location database
    *
-   * @param locData
+   * @param locData The file path to the csv file that will be imported from
    * @return True if successful, false if not
    */
   int importLocationFromCSV(File locData);
+
+  /**
+   * Insert locations into the database from given list
+   *
+   * @param list list of locations to be added
+   * @return true if successful, false otherwise
+   */
+  boolean addLocationFromList(List<Location> list);
+
+  /**
+   * Get the nodeID of a dirty location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the dirty location
+   */
+  String getDirtyNodeIDbyFloor(String floor);
+
+  /**
+   * Get the nodeID of a clean storage location on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the clean location
+   */
+  String getCleanNodeIDbyFloor(String floor);
+
+  /**
+   * Get the nodeID of a random bed park on the given floor
+   *
+   * @param floor floor to be inspected
+   * @return nodeID of the bed park
+   */
+  String getRandomBedParkNodeIDByFloor(String floor);
 }

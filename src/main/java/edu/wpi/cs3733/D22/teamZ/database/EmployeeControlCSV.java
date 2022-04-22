@@ -7,18 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeControlCSV extends ControlCSV {
-  private String[] headers = {"EmployeeID", "name", "accessType", "username", "password"};
+  private final String[] headers = {"EmployeeID", "name", "accessType", "username", "password"};
 
   public EmployeeControlCSV(File path) {
-    this.setPath(path);
+    this.setDefaultPath(path);
   }
 
-  protected void writeEmployeeCSV(List<Employee> in) {
+  protected void writeEmployeeCSV(List<Employee> in) throws IOException {
     writeCSV(objToData(in), headers);
+  }
+
+  protected void writeEmployeeCSV(List<Employee> in, File path) throws IOException {
+    writeCSV(objToData(in), path, headers);
   }
 
   protected List<Employee> readEmployeeCSV() throws IOException {
     return dataToObj(readCSV());
+  }
+
+  protected List<Employee> readEmployeeCSV(File path) throws IOException {
+    return dataToObj(readCSV(path));
   }
 
   private List<Employee> dataToObj(List<List<String>> data) {

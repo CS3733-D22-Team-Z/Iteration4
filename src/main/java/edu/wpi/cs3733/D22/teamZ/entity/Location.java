@@ -2,6 +2,10 @@ package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
 import java.util.ArrayList;
+import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
+import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
+import edu.wpi.cs3733.D22.teamZ.observers.DirtyPumpObserver;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Location implements ISearchable {
@@ -14,6 +18,10 @@ public class Location implements ISearchable {
   private String longName;
   private String shortName;
   private List<PathEdge> connections;
+  private List<MedicalEquipment> equipmentList;
+  private List<DirtyBedObserver> bedObservers;
+  private List<DashboardBedAlertObserver> alertObserver;
+  private List<DirtyPumpObserver> dirtyPumpObservers;
 
   public Location() {}
 
@@ -35,6 +43,10 @@ public class Location implements ISearchable {
     this.longName = longName;
     this.shortName = shortName;
     connections = new ArrayList<>();
+    this.equipmentList = new ArrayList<>();
+    this.bedObservers = new ArrayList<>();
+    this.alertObserver = new ArrayList<>();
+    this.dirtyPumpObservers = new ArrayList<>();
   }
 
   public Location(String nodeID) {
@@ -121,6 +133,21 @@ public class Location implements ISearchable {
     connections.add(conn);
   }
 
+  public List<MedicalEquipment> getEquipmentList() {
+    return equipmentList;
+  }
+
+  public void addEquipmentToList(MedicalEquipment equipment) {
+    if (!this.equipmentList.contains(equipment)) {
+      this.equipmentList.add(equipment);
+    }
+    notifyAllObservers();
+  }
+
+  public void removeEquipmentFromList(MedicalEquipment equipment) {
+    this.equipmentList.remove(equipment);
+  }
+
   @Override
   public String toString() {
     return nodeID;
@@ -153,19 +180,50 @@ public class Location implements ISearchable {
     return newNodeID;
   }
 
-
   @Override
-  public boolean equals(Object other){
-    Location actual;
-    if (other == null){
+  public boolean equals(Object o) {
+    if (o instanceof Location) {
+      Location objectLocation = (Location) o;
+      return (this.getNodeID().equals(objectLocation.getNodeID()));
+    } else {
       return false;
     }
-    try{
-      actual = (Location)other;
-    }catch (ClassCastException e){
-      return false;
-    }
+  }
 
-    return actual.getNodeID().equalsIgnoreCase(nodeID);
+  // Observers
+  public void notifyAllObservers() {
+    for (DirtyBedObserver obs : bedObservers) {
+      obs.update();
+    }
+    for (DirtyPumpObserver obs : dirtyPumpObservers) {
+      obs.update();
+    }
+  }
+
+  public void attachBedObs(DirtyBedObserver observer) {
+    bedObservers.add(observer);
+    observer.update();
+  }
+
+  public void attachDirtyPumpObservers(DirtyPumpObserver observer) {
+    dirtyPumpObservers.add(observer);
+    observer.update();
+  }
+
+  public void detachBedObs(DirtyBedObserver observer) {
+    bedObservers.remove(observer);
+  }
+
+  public void detachAlertObs(DashboardBedAlertObserver observer) {
+    alertObserver.remove(observer);
+  }
+
+  public void detachDirtyPumpObservers(DirtyPumpObserver observer) {
+    dirtyPumpObservers.remove(observer);
+  }
+
+  public void attachAlertObs(DashboardBedAlertObserver observer) {
+    alertObserver.add(observer);
+    observer.update();
   }
 }

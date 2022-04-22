@@ -160,6 +160,7 @@ gradle-app.setting
 
 # DB ignore
 myDB/
+externalTransportDB/
 
 # End of https://www.gitignore.io/api/java,macos,gradle,intellij+all
 

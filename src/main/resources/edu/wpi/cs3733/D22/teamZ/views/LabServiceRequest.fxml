@@ -1,98 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-radius: 2;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LabRequestController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LabRequestController">
     <children>
-      <Rectangle fx:id="warningBackground" arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="26.0" layoutX="15.0" layoutY="343.0" stroke="TRANSPARENT" strokeType="INSIDE" width="178.0" />
-        <Button id="backButton" fx:id="backButton" layoutX="-110.0" layoutY="1.0" mnemonicParsing="false" onAction="#onBackButtonClicked" style="-fx-background-color: #0075FF; -fx-translate-x: 126; -fx-pref-width: 128; -fx-pref-height: 26; -fx-translate-y: 13; -fx-background-radius: 2;" text="Back to Dashboard" textFill="WHITE">
-            <font>
-                <Font name="System Bold" size="10.0" />
-            </font></Button>
-        <Label layoutX="-110.0" layoutY="42.0" style="-fx-translate-x: 126; -fx-translate-y: 10;" text="Lab Request Form">
-            <font>
-                <Font name="System Bold" size="12.0" />
-            </font>
-        </Label>
-        <Label layoutX="-110.0" layoutY="59.0" prefHeight="17.0" prefWidth="211.0" style="-fx-font-family: &quot;Montserrat-Bold&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Enter the fields below to request a lab for a patient." textFill="#9d9d9d">
-            <font>
-                <Font name="Segoe UI Bold" size="7.5" />
-            </font>
-        </Label>
-        <Label fx:id="patientNameLabel" layoutX="-110.0" layoutY="82.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Patient Name" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField fx:id="patientNameField" layoutX="16.0" layoutY="115.0" onKeyReleased="#validateButton" promptText="Enter patient name">
-            <effect>
-                <DropShadow />
-            </effect>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-        </TextField>
-        <Label fx:id="patientIdLabel" layoutX="-112.0" layoutY="138.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Patient ID" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <TextField fx:id="patientIdField" layoutX="16.0" layoutY="171.0" onKeyReleased="#validateButton" promptText="Enter patient ID">
-            <effect>
-                <DropShadow />
-            </effect>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-        </TextField>
-        <Label fx:id="labTypeLabel" layoutX="-111.0" layoutY="195.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 10;" text="Lab Type" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <ChoiceBox fx:id="labTypeChoiceBox" layoutX="16.0" layoutY="228.0" onMouseExited="#validateButton" prefHeight="25.0" prefWidth="149.0" style="-fx-background-color: &quot;FFFFFF&quot;; -fx-background-radius: 2;">
-            <effect>
-                <DropShadow />
-            </effect>
-        </ChoiceBox>
-        <JFXButton fx:id="submitButton" layoutX="-110.0" layoutY="264.0" onAction="#onSubmitButtonClicked" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text=" Submit" textFill="WHITE">
-            <font>
-                <Font name="Segoe UI Bold" size="10.0" />
-            </font>
-        </JFXButton>
-        <JFXButton fx:id="resetButton" layoutX="-31.0" layoutY="264.0" onAction="#onResetButtonClicked" prefWidth="111.0" ripplerFill="#0075ff" style="-fx-background-radius: 2; -fx-translate-y: 13; -fx-translate-x: 126; -fx-pref-width: 70; -fx-pref-height: 26; -fx-background-color: #0075FF; -fx-font-family: &quot;Segoe UI&quot;;" text="Reset" textFill="WHITE">
-            <font>
-                <Font name="Segoe UI Bold" size="10.0" />
-            </font>
-        </JFXButton>
-        <Label layoutX="144.0" layoutY="195.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 126; -fx-translate-y: 12;" text="Current Requests" textFill="#7b7b7b">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-        <Label fx:id="errorSavingLabel" layoutX="-100.0" layoutY="246.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 118; -fx-translate-y: 100; -fx-pref-width: 200;" text="Error saving request, no equipment available" textFill="RED">
-            <font>
-                <Font name="Segoe UI Bold" size="9.0" />
-            </font>
-        </Label>
-      <Label fx:id="successfulSubmitLabel" layoutX="-100.0" layoutY="246.0" prefHeight="17.0" prefWidth="158.0" style="-fx-font-family: &quot;Segoe UI&quot;; -fx-translate-x: 118; -fx-translate-y: 100; -fx-pref-width: 200;" text="Successfull lab request submission" textFill="#0075ff">
+        <Label layoutX="25.0" layoutY="74.0" prefHeight="25.0" prefWidth="225.0" styleClass="object-header" text="Lab Request Form" />
+        <Label fx:id="patientNameLabel" layoutX="25.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
+        <MFXTextField fx:id="patientNameField" floatMode="DISABLED" layoutX="23.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient name" />
+        <Label fx:id="patientIdLabel" layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
+        <MFXTextField fx:id="patientIdField" floatMode="DISABLED" layoutX="196.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter patient ID" />
+        <Label fx:id="labTypeLabel" layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Lab Type" />
+        <ChoiceBox fx:id="labTypeChoiceBox" layoutX="24.0" layoutY="242.0" onKeyReleased="#validateButton" onMouseExited="#validateButton" prefHeight="35.0" prefWidth="149.0" />
+        <MFXButton fx:id="submitButton" disable="true" layoutX="23.0" layoutY="301.0" onAction="#onSubmitButtonClicked" prefHeight="32.0" prefWidth="111.0" text="Submit" />
+        <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="301.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: FF4343;" text="Reset" />
+        <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="405.0" layoutY="202.0" onAction="#toLabServiceRequestList" prefHeight="32.0" text="Lab Service Request List" />
+      <MFXButton fx:id="backButton" layoutX="26.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
+         <graphic>
+            <Region fx:id="backRegion" prefHeight="12.0" prefWidth="6.0" translateX="-4.0" />
+         </graphic>
+      </MFXButton>
+      <Label layoutX="25.0" layoutY="102.0" prefHeight="17.0" prefWidth="340.0" styleClass="object-body" text="Enter the fields to request medical equipment." />
+      <Label fx:id="errorSavingLabel" alignment="CENTER" layoutX="21.0" layoutY="350.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request, no equipment available." textFill="#ff4444" visible="false">
          <font>
-            <Font name="Segoe UI Bold" size="9.0" />
+            <Font size="10.0" />
          </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+               <image>
+                  <Image url="@../images/LoginErrorIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </Label>
-      <Button id="backButton" fx:id="labServiceRequestListButton" layoutX="144.0" layoutY="215.0" mnemonicParsing="false" onAction="#toLabServiceRequestList" style="-fx-background-color: #0075FF; -fx-translate-x: 126; -fx-pref-width: 128; -fx-pref-height: 26; -fx-translate-y: 13; -fx-background-radius: 2;" text="Lab Service Request List" textFill="WHITE">
+      <Label fx:id="successfulSubmitLabel" alignment="CENTER" layoutX="21.0" layoutY="350.0" prefHeight="36.0" prefWidth="329.0" style="-fx-border-color: #16A709; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2; -fx-text-fill: #16A709;" styleClass="error-label" text="Successfully submitted lab request!" textFill="#1fbc1c" visible="false">
          <font>
-            <Font name="System Bold" size="10.0" />
+            <Font size="10.0" />
          </font>
-      </Button>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="13.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+               <image>
+                  <Image url="@../images/successIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <Line endX="3.0" endY="365.0" layoutX="378.0" layoutY="32.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
+      <Label alignment="CENTER" layoutX="400.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
     </children>
 </AnchorPane>

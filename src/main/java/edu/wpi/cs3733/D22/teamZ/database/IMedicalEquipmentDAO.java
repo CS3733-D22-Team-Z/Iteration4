@@ -76,4 +76,36 @@ public interface IMedicalEquipmentDAO {
    * @return number of conflicts when importing
    */
   int importMedicalEquipmentFromCSV(File equipmentData);
+
+  /**
+   * Insert Medical Equipment into database from list
+   *
+   * @param list list of medical equipment to be added
+   * @return True if successful, false otherwise
+   */
+  boolean addMedicalEquipmentFromList(List<MedicalEquipment> list);
+
+  /**
+   * Get all Medical Equipment in given floor
+   *
+   * @param floor floor to be searched
+   * @return list of medical equipment for given floor
+   */
+  List<MedicalEquipment> getAllMedicalEquipmentByFloor(String floor);
+
+  /**
+   * Get dirty equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty equipment
+   */
+  int countDirtyEquipmentByFloor(String floor);
+
+  /**
+   * Get clean equipment for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of clean equipment
+   */
+  int countCleanEquipmentByFloor(String floor);
 }

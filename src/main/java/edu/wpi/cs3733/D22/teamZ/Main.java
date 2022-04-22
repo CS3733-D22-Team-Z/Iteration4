@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ;
 
 
 import edu.wpi.cs3733.D22.teamZ.database.DBInitializer;
+import edu.wpi.cs3733.D22.teamZ.database.EnumDatabaseConnection;
 import edu.wpi.cs3733.D22.teamZ.database.LocationDAOImpl;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.PathEdge;
@@ -13,12 +14,24 @@ import static edu.wpi.cs3733.D22.teamZ.entity.PathEdge.findPath;
 public class Main {
 
   public static void main(String[] args) {
+    EnumDatabaseConnection.CONNECTION.setConnection("embedded");
     DBInitializer init = new DBInitializer();
     init.createTables();
     init.populateLocationTable();
     init.populateMedicalEquipmentTable();
+    init.populateEmployeeTable();
+    init.populatePatientTable();
     init.populateServiceRequestTable();
     init.populateMedicalEquipmentServiceRequestTable();
+    init.populateMealServiceRequestsTable();
+    init.populateCleaningServiceRequestTable();
+    init.populateEquipmentPurchaseTable();
+
+    /*FacadeDAO dao = FacadeDAO.getInstance();
+    for (ServiceRequest test :
+        dao.getServiceRequestsByLocation(dao.getLocationByID("zDIRT00103"))) {
+      System.out.println(test);
+    }*/
 
     LocationDAOImpl locationDAO = new LocationDAOImpl();
 
