@@ -21,8 +21,10 @@ public class LaundryServiceController extends ServiceRequestController implement
 
   private FacadeDAO dao = FacadeDAO.getInstance();
   private final String toHomePageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
-  private MenuController menu;
+  private final String toListPageURL =
+      "edu/wpi/cs3733/D22/teamZ/views/LaundryServiceRequestList.fxml";
 
+  @FXML private Label successSubmitLabel;
   @FXML private Label errorLabel;
   @FXML private Label seeRequestsLabel;
   @FXML private MFXTextField patientIDField;
@@ -45,9 +47,10 @@ public class LaundryServiceController extends ServiceRequestController implement
 
     menuName = "Laundry Service Request";
     submitButton.setDisable(true);
-    labServiceRequestListButton.setVisible(false);
-    seeRequestsLabel.setVisible(false);
+    labServiceRequestListButton.setVisible(true);
+    seeRequestsLabel.setVisible(true);
     errorLabel.setVisible(false);
+    successSubmitLabel.setVisible(false);
   }
 
   @Override
@@ -81,13 +84,19 @@ public class LaundryServiceController extends ServiceRequestController implement
               LaundryServiceRequest.LaundryStatus.DIRTY,
               linenTypeField.getText());
 
-      if (dao.addLaundryServiceRequest(temp)) {
+      if (dao.addServiceRequest(temp) && dao.addLaundryServiceRequest(temp)) {
+        successSubmitLabel.setVisible(true);
         errorLabel.setVisible(false);
       } else {
         errorLabel.setVisible(true);
+        successSubmitLabel.setVisible(false);
       }
     }
     // Add submitting functionality here!
+  }
+
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
   }
 
   @Override
@@ -98,6 +107,7 @@ public class LaundryServiceController extends ServiceRequestController implement
     linenTypeField.clear();
     errorLabel.setVisible(false);
     submitButton.setDisable(true);
+    successSubmitLabel.setVisible(false);
   }
 
   public void validateButton(KeyEvent keyEvent) {
@@ -106,7 +116,22 @@ public class LaundryServiceController extends ServiceRequestController implement
         && !linenTypeField.getText().isEmpty()) submitButton.setDisable(false);
   }
 
-  public void onLaundryListButtonClicked(ActionEvent actionEvent) {}
+  public void onLaundryListButtonClicked(ActionEvent actionEvent) throws IOException {
+    //    FXMLLoader loader = new FXMLLoader();
+    //    loader.setLocation(getClass().getClassLoader().getResource(toListPageURL));
+    //    Parent root = loader.load();
+    //    Scene scene = new Scene(root);
+    //    Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    //    primaryStage.setScene(scene);
+    //    primaryStage.minHeightProperty().unbind();
+    //    primaryStage.maxHeightProperty().unbind();
+    //    primaryStage.setMinHeight(
+    //        ((Node) actionEvent.getSource())
+    //            .getScene()
+    //            .getHeight()); // initial size. doesnt work if less so ignore lol.
+    //    primaryStage.setMinWidth(((Node) actionEvent.getSource()).getScene().getWidth());
+    menu.load(toListPageURL);
+  }
 
   //  public void onThisBackButtonClicked(ActionEvent actionEvent) throws IOException {
   //    menu = new MenuController();

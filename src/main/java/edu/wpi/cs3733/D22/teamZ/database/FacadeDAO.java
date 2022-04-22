@@ -419,9 +419,7 @@ public class FacadeDAO {
    * @return True if successful, false otherwise
    */
   public boolean addLaundryServiceRequest(LaundryServiceRequest laundryServiceRequest) {
-    boolean val =
-        serviceRequestDAO.addServiceRequest(laundryServiceRequest)
-            && laundryServiceRequestDAO.addLaundryServiceRequest(laundryServiceRequest);
+    boolean val = laundryServiceRequestDAO.addLaundryServiceRequest(laundryServiceRequest);
     return val;
   }
   /**
@@ -1166,6 +1164,36 @@ public class FacadeDAO {
    */
   public List<ServiceRequest> getServiceRequestsByStatus(ServiceRequest.RequestStatus status) {
     return serviceRequestDAO.getServiceRequestsByStatus(status);
+  }
+
+  /**
+   * Gets laundry requests from DAO Impl
+   *
+   * @return all current laundry service requests
+   */
+  public List<LaundryServiceRequest> getAllLaundryServiceRequests() {
+    return laundryServiceRequestDAO.getAllLaundryServiceRequests();
+  }
+
+  /**
+   * @param laundryID service request ID
+   * @return the associated laundry service request
+   */
+  public LaundryServiceRequest getLaundryRequestByID(String laundryID) {
+    return laundryServiceRequestDAO.getLaundryRequestById(laundryID);
+  }
+
+  public File getDefaultLaundryServiceRequestCSVPath() {
+    return laundryServiceRequestDAO.getDefaultLaundryServiceRequestCSVPath();
+  }
+
+  public boolean exportLaundryRequestsToCSV(File laundryData) {
+    if (laundryServiceRequestDAO.exportToLaundryServiceRequestCSV(laundryData)) return true;
+    return false;
+  }
+
+  public void addLaundryServiceRequestToDatabase(LaundryServiceRequest info) {
+    laundryServiceRequestDAO.addLaundryServiceRequest(info);
   }
 
   // Special methods for medical equipment requests

@@ -17,6 +17,7 @@ public class DBInitializer {
   private final CleaningReqControlCSV cleaningReqControlCSV;
   private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
   private final SecurityRequestControlCSV securityRequestControlCSV;
+  private final LaundryServiceRequestControlCSV laundryServiceRequestControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -72,6 +73,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "SecurityReq.csv");
+    File laundryReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "LaundryServiceRequest.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -83,6 +89,7 @@ public class DBInitializer {
     cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
     purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
     securityRequestControlCSV = new SecurityRequestControlCSV(securityReqData);
+    laundryServiceRequestControlCSV = new LaundryServiceRequestControlCSV(laundryReqData);
   }
 
   public boolean createTables() {
@@ -578,6 +585,22 @@ public class DBInitializer {
       }
     } catch (IOException e) {
       System.out.println("Failed to read SecurityReq.csv");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateLaundryServiceRequests() {
+    try {
+      List<LaundryServiceRequest> laundryList =
+          laundryServiceRequestControlCSV.readLaundryServiceRequestCSV();
+
+      for (LaundryServiceRequest info : laundryList) {
+        dao.addLaundryServiceRequestToDatabase(info);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read Laundry CSV");
       return false;
     }
     return true;
