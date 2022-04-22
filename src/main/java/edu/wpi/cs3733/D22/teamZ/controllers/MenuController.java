@@ -228,10 +228,6 @@ public class MenuController implements Initializable {
 
   @FXML
   private void toLogout(ActionEvent event) throws IOException {
-    //    contentPane.getChildren().clear();
-    //    // Load FXML
-    //    FXMLLoader loader = new FXMLLoader();
-    //    FXMLLoader.load(toLoginURL);
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getClassLoader().getResource(toLoginURL));
     Parent root = loader.load();

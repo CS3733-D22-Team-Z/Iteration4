@@ -117,17 +117,21 @@ public class LoginPageController implements Initializable {
     primaryStage.setScene(scene);
     primaryStage.minHeightProperty().unbind();
     primaryStage.maxHeightProperty().unbind();
-    primaryStage.setMinHeight(475); // initial size. doesnt work if less so ignore lol.
-    // TODO was 292^
-    primaryStage.setMinWidth(745);
+    // primaryStage.setMinHeight(392); // initial size. doesnt work if less so ignore lol.
+    // primaryStage.setMinWidth(745);
+    initialHeight = 475;
+    // TODO was 392^
+    initialWidth = 760;
+    // TODO was 745^
     // TODO fix scaling on other login pages after logout
+    primaryStage.setMinHeight(initialHeight); // initial size. doesnt work if less so ignore lol.
+    primaryStage.setMinWidth(initialWidth);
 
-    initialHeight = primaryStage.getHeight();
-    initialWidth = primaryStage.getWidth();
     initialRatio = initialHeight / initialWidth;
-
     primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
     primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
+    //    initialHeight = primaryStage.getHeight();
+    //    initialWidth = primaryStage.getWidth();
 
     sizeChangeListener =
         (ChangeListener<Number>)
