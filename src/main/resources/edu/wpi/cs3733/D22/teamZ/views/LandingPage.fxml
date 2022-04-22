@@ -441,5 +441,6 @@
          </content>
       </MFXScrollPane>
       <MFXToggleButton id="toggleNames" fx:id="toggleNames" layoutX="533.0" layoutY="15.0" length="28.0" onMouseClicked="#showNameLabels" prefHeight="0.0" prefWidth="61.0" radius="8.0" />
+      <MFXButton layoutX="372.0" layoutY="21.0" onAction="#navAPILandingPage" text="To API Landing Page" />
    </children>
 </AnchorPane>
