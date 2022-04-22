@@ -17,19 +17,6 @@ public class ComputerServiceRequest extends ServiceRequest {
     this.problemDescription = problemDescription;
   }
 
-  public ComputerServiceRequest(
-      String requestID,
-      RequestStatus status,
-      String issuer,
-      String handler,
-      String targetLocation,
-      String operatingSystem,
-      String problemDescription) {
-    super(requestID, RequestType.COMP, status, issuer, handler, targetLocation);
-    this.operatingSystem = operatingSystem;
-    this.problemDescription = problemDescription;
-  }
-
   // GetterFunctions
   public String getOperatingSystem() {
     return operatingSystem;
