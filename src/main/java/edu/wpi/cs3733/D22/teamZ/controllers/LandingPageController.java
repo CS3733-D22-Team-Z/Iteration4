@@ -4,11 +4,13 @@ import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.text.TextAlignment;
 
 public class LandingPageController implements IMenuAccess {
 
@@ -135,6 +137,18 @@ public class LandingPageController implements IMenuAccess {
     purchaseIcon.setContent(icons[11]);
     purchaseRegion.setShape(purchaseIcon);
     purchaseRegion.setStyle(String.format(svgCSSLine, grey));
+
+    // Set each name label to center
+    danLabel.setAlignment(Pos.CENTER);
+    claireLabel.setAlignment(Pos.CENTER);
+    mayaLabel.setAlignment(Pos.CENTER);
+    jacobLabel.setAlignment(Pos.CENTER);
+    nehaLabel.setAlignment(Pos.CENTER);
+    patrickLabel.setAlignment(Pos.CENTER);
+    nelsonLabel.setAlignment(Pos.CENTER);
+    alexLabel.setAlignment(Pos.CENTER);
+    oliviaLabel.setAlignment(Pos.CENTER);
+    andrewLabel.setAlignment(Pos.CENTER);
   }
 
   /**
