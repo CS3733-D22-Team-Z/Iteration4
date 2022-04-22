@@ -39,6 +39,8 @@ public class CleaningRequestController extends ServiceRequestController {
   private String white = "FFFFFF";
   private String svgCSSLine = "-fx-background-color: %s";
 
+  private String toList = "edu/wpi/cs3733/D22/teamZ/views/CleaningRequestList.fxml";
+
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
 
@@ -138,5 +140,10 @@ public class CleaningRequestController extends ServiceRequestController {
       submitButton.setDisable(true);
       System.out.println("Cleaning Request Submit Button disabled");
     }
+  }
+
+  @FXML
+  protected void toList(ActionEvent actionEvent) throws IOException {
+    menu.load(toList);
   }
 }

@@ -14,6 +14,9 @@ repositories {
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 javafx {
@@ -46,8 +49,9 @@ dependencies {
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
 
-            'com.github.sarxos:webcam-capture:0.3.12'
+            'com.github.sarxos:webcam-capture:0.3.12',
 
+            name: 'ExternalTransportAPI',
     )
 
     testCompile(

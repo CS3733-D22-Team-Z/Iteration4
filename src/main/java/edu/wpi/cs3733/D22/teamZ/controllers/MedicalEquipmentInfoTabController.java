@@ -123,7 +123,7 @@ public class MedicalEquipmentInfoTabController {
     MedicalEquipment selectedEquipment =
         getMedicalEquipmentbyID(equipmentComboBox.getSelectionModel().getSelectedItem().toString());
     equipmentTypeField.setText(selectedEquipment.getType());
-    equipmentStatusChoice.setItems(listOfStatus);
+    equipmentStatusChoice.setValue(selectedEquipment.getStatus().toString());
     equipmentIDField.setText(selectedEquipment.getEquipmentID());
     equipmentLocationField.setText(selectedEquipment.getCurrentLocation().getNodeID());
     editButton.setDisable(false);
@@ -147,6 +147,12 @@ public class MedicalEquipmentInfoTabController {
 
     editedMedicalEquipment.setCurrentLocation(
         FacadeDAO.getInstance().getLocationByID(equipmentLocationField.getText()));
+
+    if (editedMedicalEquipment.getCurrentLocation().getNodeType().equals("DIRT")) {
+      editedMedicalEquipment.setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
+    } else if (editedMedicalEquipment.getCurrentLocation().equals("STOR")) {
+      editedMedicalEquipment.setStatus(MedicalEquipment.EquipmentStatus.CLEAN);
+    }
 
     if (facadeDAO.updateMedicalEquipment(editedMedicalEquipment)) {
       equipmentLocationField.setDisable(true);

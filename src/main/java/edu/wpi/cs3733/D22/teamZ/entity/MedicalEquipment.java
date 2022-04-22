@@ -99,7 +99,7 @@ public class MedicalEquipment {
    */
   public void setStatus(EquipmentStatus status) {
     this.status = status;
-    // notifyAllObservers();
+    // currentLocation.notifyAllObservers();
   }
 
   //  public void notifyAllObservers() {
@@ -174,12 +174,12 @@ public class MedicalEquipment {
    * @param currentLocation
    */
   public void setCurrentLocation(Location currentLocation) {
-    if (this.currentLocation != null) {
-      this.getCurrentLocation().removeEquipmentFromList(this);
-    }
-    this.currentLocation = currentLocation;
-    if (!currentLocation.getEquipmentList().contains(this)) {
-      currentLocation.addEquipmentToList(this);
+    if (this.currentLocation == null || !this.currentLocation.equals(currentLocation)) {
+      if (this.currentLocation != null) this.currentLocation.removeEquipmentFromList(this);
+      this.currentLocation = currentLocation;
+      if (!currentLocation.getEquipmentList().contains(this)) {
+        currentLocation.addEquipmentToList(this);
+      }
     }
   }
 

@@ -21,36 +21,6 @@
             <Font name="Garamond" size="12.0" />
          </font>
       </Label>
-      <TableView fx:id="upperFloor1Table" layoutX="7.0" layoutY="53.0" prefHeight="146.0" prefWidth="179.0" visible="false">
-         <columns>
-            <TableColumn fx:id="idColumnUP1" prefWidth="88.79998588562012" text="ID" />
-            <TableColumn fx:id="locationColumnUP1" prefWidth="86.40003204345703" text="Location" />
-         </columns>
-      </TableView>
-      <TableView fx:id="upperFloor2Table" layoutX="210.0" layoutY="53.0" prefHeight="146.0" prefWidth="179.0" visible="false">
-         <columns>
-            <TableColumn fx:id="idColumnUP2" prefWidth="83.199951171875" text="ID" />
-            <TableColumn fx:id="locationColumnUP2" prefWidth="92.00006103515625" text="Location" />
-         </columns>
-      </TableView>
-      <TableView fx:id="upperFloor3Table" layoutX="409.0" layoutY="53.0" prefHeight="146.0" prefWidth="179.0" visible="false">
-         <columns>
-            <TableColumn fx:id="idColumnUP3" prefWidth="89.5999755859375" text="ID" />
-            <TableColumn fx:id="locationColumnUP3" prefWidth="85.60000610351562" text="Location" />
-         </columns>
-      </TableView>
-      <TableView fx:id="upperFloor4Table" layoutX="96.0" layoutY="239.0" prefHeight="146.0" prefWidth="179.0" visible="false">
-         <columns>
-            <TableColumn fx:id="idColumnUP4" prefWidth="89.59998321533203" text="ID" />
-            <TableColumn fx:id="locationColumnUP4" prefWidth="85.60003662109375" text="Location" />
-         </columns>
-      </TableView>
-      <TableView fx:id="upperFloor5Table" layoutX="337.0" layoutY="229.0" prefHeight="146.0" prefWidth="179.0" visible="false">
-         <columns>
-            <TableColumn fx:id="idColumnUP5" prefWidth="88.79998779296875" text="ID" />
-            <TableColumn fx:id="locationColumnUP5" prefWidth="87.20001220703125" text="Location" />
-         </columns>
-      </TableView>
       <ScrollPane layoutY="30.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="600.0">
          <content>
             <VBox spacing="10.0">
@@ -433,17 +403,5 @@
             <Insets left="10.0" />
          </padding>
       </ScrollPane>
-      <TableView fx:id="lowerLevel1Table" layoutX="409.0" layoutY="142.0" prefHeight="145.0" prefWidth="179.0" visible="false">
-         <columns>
-            <TableColumn fx:id="idColumnLL1" prefWidth="89.60003662109375" text="ID" />
-            <TableColumn fx:id="locationColumnLL1" prefWidth="86.39996337890625" text="Location" />
-         </columns>
-      </TableView>
-      <TableView fx:id="lowerLevel2Table" layoutX="390.0" layoutY="63.0" prefHeight="145.0" prefWidth="179.0" visible="false">
-         <columns>
-            <TableColumn fx:id="idColumnLL2" prefWidth="90.4000244140625" text="ID" />
-            <TableColumn fx:id="locationColumnLL2" prefWidth="84.79998779296875" text="Location" />
-         </columns>
-      </TableView>
    </children>
 </AnchorPane>
