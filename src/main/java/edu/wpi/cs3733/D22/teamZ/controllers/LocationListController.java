@@ -158,6 +158,9 @@ public class LocationListController implements IMenuAccess {
   private List<Location> allLocations;
   private String mode;
 
+  private int scrollCount;
+  private int curZoom;
+
   // initialize location labels to display on map
   @FXML
   private void initialize() {
@@ -198,7 +201,33 @@ public class LocationListController implements IMenuAccess {
           // Load default floor
           changeToFloor("3");
 
-          PopupLoader.delay(100, () -> mapController.setScale(0.5));
+          Map<Integer, Double> locKeys = new HashMap<>();
+          locKeys.put(45, 0.0);
+          locKeys.put(50, 0.11);
+          locKeys.put(55, .2);
+          locKeys.put(60, .29);
+          locKeys.put(65, .376);
+          locKeys.put(70, .465);
+          locKeys.put(75, .556);
+          locKeys.put(80, .645);
+          locKeys.put(85, .732);
+          locKeys.put(90, .821);
+          locKeys.put(95, .909);
+          locKeys.put(100, 1.0);
+          curZoom = 100;
+
+          mapController.setZooms(locKeys);
+
+          root.addEventFilter(
+              ScrollEvent.SCROLL,
+              e -> {
+                scrollCount = (scrollCount + 1) % 3;
+                if (scrollCount == 0) {
+                  curZoom -= e.getDeltaY() < 0 ? 5 : -5;
+                  curZoom = Math.max(45, Math.min(curZoom, 100));
+                  mapController.setScale(curZoom);
+                }
+              });
         });
 
     System.out.println("loading labels");
@@ -378,10 +407,6 @@ public class LocationListController implements IMenuAccess {
     mode = "Locations";
 
     allLocations = facadeDAO.getAllLocations();
-
-    // refreshMap(changeFloor.getSelectionModel().getSelectedItem()));
-
-    // refreshMap("1");
   }
 
   private void propertiesWindow() throws IOException {
@@ -446,7 +471,7 @@ public class LocationListController implements IMenuAccess {
     if (mode.equals("Locations")) {
 
       // Want all floor locations to be displayed + all locations are draggable anywhere.
-      mapController.setLabels(allFloorLocations, allFloorLocations, false);
+      mapController.setLabels(allFloorLocations, allFloorLocations, false, "location");
       mapController.setIconShift(0);
       mapController.setDraggable(
           (label) -> {
@@ -463,13 +488,15 @@ public class LocationListController implements IMenuAccess {
               allFloorLocations.stream()
                   .filter((loc) -> loc.getEquipmentList().size() > 0)
                   .collect(Collectors.toList()));
-      mapController.setLabels(locsWithEquip.get(), allFloorLocations, true);
+      mapController.setLabels(locsWithEquip.get(), allFloorLocations, true, "equipment");
       mapController.setIconShift(20);
       mapController.setDraggable(
           (label) -> {
             for (Location loc : allFloorLocations) {
               // Merge equipment when dragged to another location
               if (loc.getXcoord() == label.getLayoutX() && loc.getYcoord() == label.getLayoutY()) {
+                System.out.println(
+                    "Merging " + label.getLocation().toString() + " into " + loc.toString());
                 // Extract
                 List<MedicalEquipment> equip =
                     new ArrayList<>(label.getLocation().getEquipmentList());
@@ -502,7 +529,8 @@ public class LocationListController implements IMenuAccess {
               allFloorLocations.stream()
                   .filter((loc) -> facadeDAO.getServiceRequestsByLocation(loc).size() > 0)
                   .collect(Collectors.toList()));
-      mapController.setLabels(locsWithServices.get(), locsWithServices.get(), false);
+      mapController.setLabels(
+          locsWithServices.get(), locsWithServices.get(), false, "servicerequest");
       mapController.setIconShift(0);
     }
   }
@@ -892,48 +920,6 @@ public class LocationListController implements IMenuAccess {
   public static MapLabel getActiveLabel() {
     return activeLabel;
   }
-
-  //  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
-  //    double extraWidth =
-  //        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
-  //    double hScrollProportion =
-  //        (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
-  //    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
-  //    double extraHeight =
-  //        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
-  //    double vScrollProportion =
-  //        (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
-  //    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
-  //    return new Point2D(scrollXOffset, scrollYOffset);
-  //  }
-
-  //  private void repositionScroller(
-  //      Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
-  //    double scrollXOffset = scrollOffset.getX();
-  //    double scrollYOffset = scrollOffset.getY();
-  //    double extraWidth =
-  //        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
-  //    if (extraWidth > 0) {
-  //      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
-  //      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
-  //      scroller.setHvalue(
-  //          scroller.getHmin()
-  //              + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
-  //    } else {
-  //      scroller.setHvalue(scroller.getHmin());
-  //    }
-  //    double extraHeight =
-  //        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
-  //    if (extraHeight > 0) {
-  //      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
-  //      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
-  //      scroller.setVvalue(
-  //          scroller.getVmin()
-  //              + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
-  //    } else {
-  //      scroller.setHvalue(scroller.getHmin());
-  //    }
-  //  }
 
   @FXML
   public void showAddAlertPane() throws IOException {

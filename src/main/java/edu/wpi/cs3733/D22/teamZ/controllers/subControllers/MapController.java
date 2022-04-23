@@ -7,13 +7,11 @@ import edu.wpi.cs3733.D22.teamZ.helpers.BiPolygon;
 import edu.wpi.cs3733.D22.teamZ.helpers.LabelMethod;
 import edu.wpi.cs3733.D22.teamZ.helpers.MouseMethod;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -23,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -68,6 +67,14 @@ public class MapController implements Initializable {
   private double minY;
   private double maxX;
   private double maxY;
+  private double scale;
+
+  // List of zooms supported by the map.
+  // Integer is the zoom * 100. For example, 50 corresponds to 0.5.
+  // Double is the maximum HBar value supported.
+  // Must have mapping for 100.
+  @Setter private Map<Integer, Double> zooms;
+  int currentScale = 100;
 
   // Frequent variables
   private MapLabel activeLabel;
@@ -79,18 +86,16 @@ public class MapController implements Initializable {
 
     addMouseBehaviors();
 
-    /*scrollPane.hvalueProperty().addListener((listener) -> {
-      List<Double> pts = getCameraPoint();
-      if(pts.get(0) < minX)
-        scrollPane.setHvalue();
-    }
-    });*/
-    scrollPane
-        .hvalueProperty()
-        .addListener(
-            (listener) -> {
-              System.out.println(scrollPane.getHvalue());
-            });
+    //    scrollPane
+    //        .hvalueProperty()
+    //        .addListener(
+    //            (listener) -> {
+    //              System.out.println(scrollPane.getHvalue());
+    //            });
+
+    // Default
+    zooms = Map.of(100, 1.0);
+    setScale(100);
   }
 
   /** Implements mouse-related behavior in iconContainer */
@@ -171,6 +176,8 @@ public class MapController implements Initializable {
               }
             }
 
+            prevBounds = null;
+
             // Reset translation
             activeLabel.setTranslateX(0);
             activeLabel.setTranslateY(0);
@@ -199,25 +206,25 @@ public class MapController implements Initializable {
             }
           }
         });
+
+    scrollPane.addEventFilter(ScrollEvent.SCROLL, Event::consume);
   }
 
   /**
    * Sets scaling of the map
    *
-   * @param scale new scale of map
+   * @param scaleKey new scale of map
    */
-  public void setScale(double scale) {
-    Scale transform = new Scale(scale, scale);
-    mapContainer.getTransforms().add(transform);
-    repositionScroller(
-        mapContainer, scrollPane, scale, figureScrollOffset(mapContainer, scrollPane));
-    minX = scrollPane.getWidth() / 2;
-    maxX = mapImage.getFitWidth() - scrollPane.getWidth() / 2;
-    minY = scrollPane.getHeight() / 2;
-    maxY = mapImage.getFitHeight() - scrollPane.getHeight() / 2;
-
-    scrollPane.setHmax(0.75); // (scale * (minX / mapImage.getFitWidth()));
-    scrollPane.setVmax(scale);
+  public void setScale(int scaleKey) {
+    if (zooms.containsKey(scaleKey)) {
+      currentScale = scaleKey;
+      scale = scaleKey / 100.0;
+      Scale transform = new Scale(scale, scale);
+      mapContainer.getTransforms().clear();
+      mapContainer.getTransforms().add(transform);
+      repositionScroller(
+          mapContainer, scrollPane, scale, figureScrollOffset(mapContainer, scrollPane));
+    }
   }
 
   /**
@@ -239,9 +246,13 @@ public class MapController implements Initializable {
    *     Voronoi algorithm. Also must contain every visible location
    * @param genVoronoi if voronoi regions be generated from allLocations. Automatically enables
    *     snapping
+   * @param img the image that each location will have
    */
   public void setLabels(
-      List<Location> visibleLocations, List<Location> allLocations, boolean genVoronoi) {
+      List<Location> visibleLocations,
+      List<Location> allLocations,
+      boolean genVoronoi,
+      String img) {
     // Reset everything
     currentLabels.clear();
     iconContainer.getChildren().clear();
@@ -313,7 +324,7 @@ public class MapController implements Initializable {
                 });
 
         // Add graphic
-        Image locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
+        Image locationImg = new Image(String.format(mapPath, img));
         ImageView locationIcon = new ImageView(locationImg);
         label.setGraphic(locationIcon);
       }
@@ -363,7 +374,7 @@ public class MapController implements Initializable {
   private BiPolygon pointDtoPoly(PointD[] points, Location parentLocation) {
     BiPolygon ret = new BiPolygon(parentLocation);
 
-    ret.setFill(Color.MISTYROSE);
+    ret.setFill(Color.TRANSPARENT);
     for (PointD point : points) {
       ret.getPoints().addAll(point.x, point.y);
     }
@@ -405,18 +416,31 @@ public class MapController implements Initializable {
    * @param y the y coordinate
    */
   public void panToPoint(double x, double y) {
-    x = Math.max(minX, Math.min(x * mapContainer.getScaleX(), maxX));
-    y = Math.max(minY, Math.min(y * mapContainer.getScaleY(), maxY));
+    minX = scrollPane.getWidth() * (1 / (2 * scale));
+    maxX = mapImage.getFitWidth() - minX;
+    minY = scrollPane.getHeight() * (1 / (2 * scale));
+    maxY = mapImage.getFitHeight() - minY;
 
-    scrollPane.setHvalue((x - minX) / (maxX - minX));
-    scrollPane.setVvalue((y - minY) / (maxY - minY));
+    x = Math.max(minX, Math.min(x, maxX));
+    y = Math.max(minY, Math.min(y, maxY));
+
+    double scrollMax = zooms.get(currentScale);
+
+    scrollPane.setHvalue(scrollMax * (x - minX) / (maxX - minX));
+    scrollPane.setVvalue(scrollMax * (y - minY) / (maxY - minY));
   }
 
-  public List<Double> getCameraPoint() {
-    double x = scrollPane.getHvalue() * (maxX - minX) + minX;
-    double y = scrollPane.getVvalue() * (maxY - minY) + minY;
-    return List.of(x, y);
-  }
+  // Don't use for now
+  //  public List<Double> getCameraPoint() {
+  //    minX = scrollPane.getWidth() / 2;
+  //    maxX = mapImage.getFitWidth() - scrollPane.getWidth() / 2;
+  //    minY = scrollPane.getHeight() / 2;
+  //    maxY = mapImage.getFitHeight() - scrollPane.getHeight() / 2;
+  //
+  //    double x = scrollPane.getHvalue() * (maxX - minX) + minX;
+  //    double y = scrollPane.getVvalue() * (maxY - minY) + minY;
+  //    return List.of(x, y);
+  //  }
 
   /**
    * Determines how many pixels are to the left/top of the scrollpane.
