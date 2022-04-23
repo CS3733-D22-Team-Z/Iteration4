@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -25,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Scale;
 import lombok.Getter;
 import lombok.Setter;
 import org.kynosarges.tektosyne.geometry.PointD;
@@ -62,6 +64,10 @@ public class MapController implements Initializable {
   private VoronoiResults snapLocations = null;
   @Getter @Setter private int iconShift = 0;
   private BiPolygon prevBounds;
+  private double minX;
+  private double minY;
+  private double maxX;
+  private double maxY;
 
   // Frequent variables
   private MapLabel activeLabel;
@@ -72,6 +78,19 @@ public class MapController implements Initializable {
     database = FacadeDAO.getInstance();
 
     addMouseBehaviors();
+
+    /*scrollPane.hvalueProperty().addListener((listener) -> {
+      List<Double> pts = getCameraPoint();
+      if(pts.get(0) < minX)
+        scrollPane.setHvalue();
+    }
+    });*/
+    scrollPane
+        .hvalueProperty()
+        .addListener(
+            (listener) -> {
+              System.out.println(scrollPane.getHvalue());
+            });
   }
 
   /** Implements mouse-related behavior in iconContainer */
@@ -188,8 +207,17 @@ public class MapController implements Initializable {
    * @param scale new scale of map
    */
   public void setScale(double scale) {
-    mapContainer.setScaleX(scale);
-    mapContainer.setScaleY(scale);
+    Scale transform = new Scale(scale, scale);
+    mapContainer.getTransforms().add(transform);
+    repositionScroller(
+        mapContainer, scrollPane, scale, figureScrollOffset(mapContainer, scrollPane));
+    minX = scrollPane.getWidth() / 2;
+    maxX = mapImage.getFitWidth() - scrollPane.getWidth() / 2;
+    minY = scrollPane.getHeight() / 2;
+    maxY = mapImage.getFitHeight() - scrollPane.getHeight() / 2;
+
+    scrollPane.setHmax(0.75); // (scale * (minX / mapImage.getFitWidth()));
+    scrollPane.setVmax(scale);
   }
 
   /**
@@ -218,6 +246,7 @@ public class MapController implements Initializable {
     currentLabels.clear();
     iconContainer.getChildren().clear();
     snapLocations = null;
+    draggable = false;
 
     for (Location loc : allLocations) {
       MapLabel label =
@@ -278,6 +307,8 @@ public class MapController implements Initializable {
                     label.setScaleX(1.1);
                     label.setScaleY(1.1);
                     if (labelClickedMethod != null) labelClickedMethod.call(label);
+                    // Move to label
+                    panToPoint(activeLabel.getLayoutX(), activeLabel.getLayoutY());
                   }
                 });
 
@@ -365,5 +396,82 @@ public class MapController implements Initializable {
    */
   public List<MapLabel> getAllLabels() {
     return allLabels;
+  }
+
+  /**
+   * Given coordinates, move "camera" to that point.
+   *
+   * @param x the x coordinate
+   * @param y the y coordinate
+   */
+  public void panToPoint(double x, double y) {
+    x = Math.max(minX, Math.min(x * mapContainer.getScaleX(), maxX));
+    y = Math.max(minY, Math.min(y * mapContainer.getScaleY(), maxY));
+
+    scrollPane.setHvalue((x - minX) / (maxX - minX));
+    scrollPane.setVvalue((y - minY) / (maxY - minY));
+  }
+
+  public List<Double> getCameraPoint() {
+    double x = scrollPane.getHvalue() * (maxX - minX) + minX;
+    double y = scrollPane.getVvalue() * (maxY - minY) + minY;
+    return List.of(x, y);
+  }
+
+  /**
+   * Determines how many pixels are to the left/top of the scrollpane.
+   *
+   * @param scrollContent
+   * @param scroller
+   * @return
+   */
+  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    double hScrollProportion =
+        (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
+    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    double vScrollProportion =
+        (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
+    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
+    return new Point2D(scrollXOffset, scrollYOffset);
+  }
+
+  /**
+   * ????
+   *
+   * @param scrollContent
+   * @param scroller
+   * @param scaleFactor
+   * @param scrollOffset
+   */
+  private void repositionScroller(
+      Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
+    double scrollXOffset = scrollOffset.getX();
+    double scrollYOffset = scrollOffset.getY();
+    double extraWidth =
+        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    if (extraWidth > 0) {
+      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
+      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
+      scroller.setHvalue(
+          scroller.getHmin()
+              + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+    double extraHeight =
+        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    if (extraHeight > 0) {
+      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
+      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
+      scroller.setVvalue(
+          scroller.getVmin()
+              + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
   }
 }
