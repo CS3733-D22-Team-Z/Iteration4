@@ -7,9 +7,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
@@ -23,7 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
-import javafx.scene.image.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -38,7 +37,7 @@ import javafx.util.Duration;
 public class MenuController implements Initializable {
   @FXML Pane menuPane;
   @FXML SplitPane rootElement;
-  @FXML Pane contentPane;
+  @FXML AnchorPane contentPane;
   @FXML Button exitButton;
   @FXML Button logoutButton;
   @FXML VBox menuContainer;
@@ -89,6 +88,12 @@ public class MenuController implements Initializable {
 
   // The currently selected menu item
   private int selectedItem = 0;
+
+  // Whether or not menu is currently enabled
+  boolean menuEnabled = true;
+
+  // Animations
+  TranslateTransition menuSlide;
 
   // Path to login lage
   private String toLoginURL = "edu/wpi/cs3733/D22/teamZ/views/LoginPage.fxml";
@@ -156,6 +161,20 @@ public class MenuController implements Initializable {
     // Initialize labels too
     timeLabel.setText(timeFormatA.format(LocalDateTime.now()));
     dateLabel.setText(dateFormat.format(LocalDateTime.now()));
+
+    // Animations
+    menuSlide = new TranslateTransition();
+    menuSlide.setNode(menuPane);
+    menuSlide.setInterpolator(Interpolator.EASE_BOTH);
+
+    // Auto-hide menu
+    contentPane.addEventFilter(
+        MouseEvent.MOUSE_PRESSED,
+        event -> {
+          if (menuEnabled) {
+            toggleMenu();
+          }
+        });
   }
 
   /**
@@ -178,6 +197,7 @@ public class MenuController implements Initializable {
     IMenuAccess cont = loader.getController();
     cont.setMenuController(this);
     currentPage.set(cont.getMenuName());
+
     return cont;
   }
 
@@ -235,6 +255,25 @@ public class MenuController implements Initializable {
   private void toExit() {
     Stage stage = (Stage) exitButton.getScene().getWindow();
     stage.close();
+  }
+
+  @FXML
+  private void toggleMenu() {
+    if (menuSlide.getCurrentTime().equals(Duration.millis(0))
+        || menuSlide.getCurrentTime().equals(menuSlide.getTotalDuration())) {
+      if (menuEnabled) {
+        menuSlide.setFromX(0);
+        menuSlide.setToX(-menuPane.getWidth());
+      } else {
+        menuSlide.setFromX(-menuPane.getWidth());
+        menuSlide.setToX(0);
+      }
+
+      System.out.println(menuSlide.getTotalDuration());
+
+      menuSlide.playFromStart();
+      menuEnabled = !menuEnabled;
+    }
   }
 
   @FXML

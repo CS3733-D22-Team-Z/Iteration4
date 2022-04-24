@@ -46,7 +46,8 @@ menu-selected {
 }
 
 .menu-container {
-    -fx-border-color: #F4F4F4;
+    -fx-background-color: #001a3c;
+
     -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
 }
 
