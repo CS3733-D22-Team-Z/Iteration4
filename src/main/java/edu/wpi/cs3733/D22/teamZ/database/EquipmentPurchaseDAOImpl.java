@@ -182,4 +182,12 @@ public class EquipmentPurchaseDAOImpl implements IEquipmentPurchaseDAO {
     }
     return true;
   }
+  /**
+   * Returns the default path for an Equipment Purchase Request csv file to be saved
+   *
+   * @return The default path for a service request csv file to be saved
+   */
+  File getDefaultEquipmentPurchaseRequestCSVPath() {
+    return reqCSV.getDefaultPath();
+  }
 }

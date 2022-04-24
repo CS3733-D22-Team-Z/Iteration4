@@ -22,6 +22,8 @@ public class FacadeDAO {
   private final CleaningRequestDAOImpl cleaningRequestDAO;
   private final EquipmentPurchaseDAOImpl equipmentPurchaseDAO;
   private final SecurityRequestDAOImpl securityRequestDAO;
+  private final LanguageInterpreterRequestDAOImpl languageInterpreterRequestDAO;
+  private final ComputerServiceRequestDAOImpl computerRequestDAO;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -42,6 +44,8 @@ public class FacadeDAO {
     cleaningRequestDAO = new CleaningRequestDAOImpl();
     equipmentPurchaseDAO = new EquipmentPurchaseDAOImpl();
     securityRequestDAO = new SecurityRequestDAOImpl();
+    languageInterpreterRequestDAO = new LanguageInterpreterRequestDAOImpl();
+    computerRequestDAO = new ComputerServiceRequestDAOImpl();
   }
 
   // Get All methods
@@ -101,7 +105,6 @@ public class FacadeDAO {
   public List<Patient> getAllPatients() {
     return patientDAO.getAllPatients();
   }
-
   /**
    * Gets all meal service requests in the database
    *
@@ -110,7 +113,6 @@ public class FacadeDAO {
   public List<MealServiceRequest> getAllMealServiceRequests() {
     return mealServiceRequestDAO.getAllMealServiceReq();
   }
-
   /**
    * Gets all the GiftServiceRequests in the database
    *
@@ -144,6 +146,23 @@ public class FacadeDAO {
    */
   public List<SecurityServiceRequest> getAllSecurityServiceRequests() {
     return securityRequestDAO.getAllSecurityServiceRequests();
+  }
+  /**
+   * Gets all computer service requests
+   *
+   * @return list of computer service requests
+   */
+  public List<ComputerServiceRequest> getAllComputerServiceRequests() {
+    return computerRequestDAO.getAllComputerServiceRequests();
+  }
+
+  /**
+   * Gets all language interpreter requests
+   *
+   * @return list of language interpreter requests
+   */
+  public List<LanguageInterpreterRequest> getAllLanguageInterpreterRequests() throws SQLException {
+    return languageInterpreterRequestDAO.getAllLanguageInterpreterServiceRequests();
   }
 
   // Get By ID methods
@@ -207,7 +226,6 @@ public class FacadeDAO {
   public MedicalEquipmentDeliveryRequest getMedicalEquipmentRequestByID(String id) {
     return medEquipReqDAO.getMedEquipReqByID(id);
   }
-
   /**
    * Gets a MealServiceRequest of the given requestID
    *
@@ -217,7 +235,6 @@ public class FacadeDAO {
   public MealServiceRequest getMealServiceRequestByID(String id) {
     return mealServiceRequestDAO.getMealServReqByID(id);
   }
-
   /**
    * Get a LabServiceRequest with provided requestID
    *
@@ -262,6 +279,24 @@ public class FacadeDAO {
    */
   public SecurityServiceRequest getSecurityServiceRequestByID(String requestID) {
     return securityRequestDAO.getSecurityServiceRequestByID(requestID);
+  }
+  /**
+   * Get a LanguageInterpreterRequest with provided requestID
+   *
+   * @param id the id of the language interpreter request to be searched for
+   * @return LanguageInterpreter object with given ID
+   */
+  public LanguageInterpreterRequest getLanguageInterpreterRequestByID(String id) {
+    return languageInterpreterRequestDAO.getLanguageInterpreterRequestByID(id);
+  }
+  /**
+   * Get a ComputerServiceRequest with provided requestID
+   *
+   * @param requestID ID to find
+   * @return ComputerServiceRequest object with given ID
+   */
+  public ComputerServiceRequest getComputerServiceRequestByID(String requestID) {
+    return computerRequestDAO.getComputerServiceRequestByID(requestID);
   }
 
   // Add methods
@@ -419,8 +454,7 @@ public class FacadeDAO {
    * @return True if successful, false otherwise
    */
   public boolean addLaundryServiceRequest(LaundryServiceRequest laundryServiceRequest) {
-    boolean val =
-        serviceRequestDAO.addServiceRequest(laundryServiceRequest)
+    boolean val = serviceRequestDAO.addServiceRequest(laundryServiceRequest)
             && laundryServiceRequestDAO.addLaundryServiceRequest(laundryServiceRequest);
     return val;
   }
@@ -451,6 +485,26 @@ public class FacadeDAO {
    */
   public boolean addGiftRequest(GiftServiceRequest request) {
     return serviceRequestDAO.addServiceRequest(request) && giftRequestDAO.addGiftRequest(request);
+  }
+  /**
+   * Adds a Language Interpreter to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addLanguageInterpreterRequest(LanguageInterpreterRequest request) {
+    return serviceRequestDAO.addServiceRequest(request)
+        && languageInterpreterRequestDAO.addLanguageInterpreterRequest(request);
+  }
+  /**
+   * Adds ComputerServiceRequest to the database
+   *
+   * @param request ComputerServiceRequest to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addComputerServiceRequest(ComputerServiceRequest request) {
+    return serviceRequestDAO.addServiceRequest(request)
+        && computerRequestDAO.addComputerServiceRequest(request);
   }
 
   // Delete methods
@@ -563,6 +617,28 @@ public class FacadeDAO {
    */
   public boolean deleteSecurityServiceRequest(SecurityServiceRequest request) {
     return securityRequestDAO.deleteSecurityServiceRequest(request)
+        && serviceRequestDAO.deleteServiceRequest(request);
+  }
+  /**
+   * Deletes a Language Interpreter Request from the database
+   *
+   * @param request LanguageInterpreterRequest to be deleted
+   * @return True if successful, false otherwise
+   */
+  public boolean deleteLanguageInterpreterRequest(LanguageInterpreterRequest request) {
+    boolean val =
+        languageInterpreterRequestDAO.deleteLanguageInterpreterRequest(request)
+            && serviceRequestDAO.deleteServiceRequest(request);
+    return languageInterpreterRequestDAO.deleteLanguageInterpreterRequest(request);
+  }
+  /**
+   * Deletes an ComputerServiceRequest from the database
+   *
+   * @param request ComputerServiceRequest to be deleted
+   * @return True if successful, false otherwise
+   */
+  public boolean deleteComputerServiceRequest(ComputerServiceRequest request) {
+    return computerRequestDAO.deleteComputerServiceRequest(request)
         && serviceRequestDAO.deleteServiceRequest(request);
   }
 
@@ -691,6 +767,26 @@ public class FacadeDAO {
     return serviceRequestDAO.updateServiceRequest(request)
         && securityRequestDAO.updateSecurityServiceRequest(request);
   }
+  /**
+   * updates an existing LanguageInterpreterRequest in database with new request
+   *
+   * @param request LanguageInterpreterRequest to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateLanguageInterpreterRequest(LanguageInterpreterRequest request) {
+    return updateServiceRequest(request)
+        && languageInterpreterRequestDAO.updateLanguageInterpreterRequest(request);
+  }
+  /**
+   * Updates an existing ComputerServiceRequest in database with new request
+   *
+   * @param request ComputerServiceRequest to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateComputerServiceRequest(ComputerServiceRequest request) {
+    return serviceRequestDAO.updateServiceRequest(request)
+        && computerRequestDAO.updateComputerServiceRequest(request);
+  }
 
   // Import methods
   /**
@@ -747,7 +843,6 @@ public class FacadeDAO {
   public int importMedicalEquipmentRequestsFromCSV(File equipmentRequestsData) {
     return medEquipReqDAO.importMedEquipReqFromCSV(equipmentRequestsData);
   }
-  // TODO not yet created labRequestControlCSV
   /**
    * Imports all LabServiceRequests in specified file location of csv into the database
    *
@@ -783,6 +878,24 @@ public class FacadeDAO {
    */
   public int importSecurityServiceRequestFromCSV(File data) {
     return securityRequestDAO.importSecurityServiceRequestFromCSV(data);
+  }
+  /**
+   * imports all LanguageInterpreterRequests in a specified file location of csv into the database
+   *
+   * @param request LanguageInterpreterRequest to be imported
+   * @return number of conflicts when importing
+   */
+  public int importLanguageInterpreterRequestFromCSV(File request) {
+    return languageInterpreterRequestDAO.importLanguageInterpreterRequestFromCSV(request);
+  }
+  /**
+   * Imports all ComputerServiceRequest in specified file location of csv into the database
+   *
+   * @param data file location of csv
+   * @return True if successful, false otherwise
+   */
+  public int importComputerServiceRequestFromCSV(File data) {
+    return computerRequestDAO.importComputerServiceRequestFromCSV(data);
   }
 
   // Export methods
@@ -833,7 +946,6 @@ public class FacadeDAO {
   public void exportServiceRequestsToCSV(File serviceRequestData) {
     serviceRequestDAO.exportToServiceRequestCSV(serviceRequestData);
   }
-
   /**
    * Exports the MedicalEquipmentRequest database to specified file location for csv
    *
@@ -843,7 +955,6 @@ public class FacadeDAO {
   public boolean exportMedicalEquipmentRequestsToCSV(File equipmentData) {
     return medEquipReqDAO.exportToMedEquipReqCSV(equipmentData);
   }
-
   /**
    * Exports the MealServiceRequest database to specified file location for csv
    *
@@ -853,8 +964,6 @@ public class FacadeDAO {
   public boolean exportMealServiceRequestsToCSV(File mealData) {
     return mealServiceRequestDAO.exportToMealServReqCSV(mealData);
   }
-
-  // TODO create csv controller for lab requests
   /**
    * Exports all LabServiceRequests in the database to specified file location of csv
    *
@@ -890,6 +999,26 @@ public class FacadeDAO {
    */
   public boolean exportToSecurityServiceRequestCSV(File data) {
     return securityRequestDAO.exportToSecurityServiceRequestCSV(data);
+  }
+  /**
+   * Exports LanguageInterpreterRequest database to specified file location for csv
+   *
+   * @param languageInterpreterData file location for csv
+   * @return True if successful, false otherwise
+   */
+  public boolean exportLanguageInterpreterRequestsToCSV(File languageInterpreterData) {
+    return languageInterpreterRequestDAO.exportToLanguageInterpreterRequestCSV(
+        languageInterpreterData);
+  }
+
+  /**
+   * Exports all ComputerServiceRequest in the database to specified file location of csv
+   *
+   * @param data file location of csv
+   * @return True if successful, false otherwise
+   */
+  public boolean exportToComputerServiceRequestCSV(File data) {
+    return computerRequestDAO.exportToComputerServiceRequestCSV(data);
   }
 
   // Get default path methods
@@ -936,6 +1065,14 @@ public class FacadeDAO {
 
   public File getDefaultMealServReqCSVPath() {
     return mealServiceRequestDAO.getDefaultMealServReqCSVPath();
+  }
+
+  public File getDefaultEquipmentPurchaseRequestCSVPath() {
+    return equipmentPurchaseDAO.getDefaultEquipmentPurchaseRequestCSVPath();
+  }
+
+  public File getDefaultComputerRequestCSVPath() {
+    return computerRequestDAO.getDefaultComputerServiceRequestCSVPath();
   }
 
   /**
@@ -1037,6 +1174,25 @@ public class FacadeDAO {
    */
   public boolean addSecurityServiceRequestFromList(List<SecurityServiceRequest> list) {
     return securityRequestDAO.addSecurityServiceRequestFromList(list);
+  }
+  /**
+   * Inserts ComputerServiceRequest into database from given list
+   *
+   * @param list list of ComputerServiceRequest to be added
+   * @return true if successful, false otherwise
+   */
+  public boolean addComputerServiceRequestFromList(List<ComputerServiceRequest> list) {
+    return computerRequestDAO.addComputerServiceRequestFromList(list);
+  }
+
+  /**
+   * Adds languageInterpreterRequest into database from list
+   *
+   * @param list Request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addLanguageInterpreterRequestFromList(List<LanguageInterpreterRequest> list) {
+    return languageInterpreterRequestDAO.addLanguageInterpreterFromList(list);
   }
 
   // Special methods for location
@@ -1175,6 +1331,36 @@ public class FacadeDAO {
    */
   public List<ServiceRequest> getServiceRequestsByStatus(ServiceRequest.RequestStatus status) {
     return serviceRequestDAO.getServiceRequestsByStatus(status);
+  }
+
+  /**
+   * Gets laundry requests from DAO Impl
+   *
+   * @return all current laundry service requests
+   */
+  public List<LaundryServiceRequest> getAllLaundryServiceRequests() {
+    return laundryServiceRequestDAO.getAllLaundryServiceRequests();
+  }
+
+  /**
+   * @param laundryID service request ID
+   * @return the associated laundry service request
+   */
+  public LaundryServiceRequest getLaundryRequestByID(String laundryID) {
+    return laundryServiceRequestDAO.getLaundryRequestById(laundryID);
+  }
+
+  public File getDefaultLaundryServiceRequestCSVPath() {
+    return laundryServiceRequestDAO.getDefaultLaundryServiceRequestCSVPath();
+  }
+
+  public boolean exportLaundryRequestsToCSV(File laundryData) {
+    if (laundryServiceRequestDAO.exportToLaundryServiceRequestCSV(laundryData)) return true;
+    return false;
+  }
+
+  public void addLaundryServiceRequestToDatabase(LaundryServiceRequest info) {
+    laundryServiceRequestDAO.addLaundryServiceRequest(info);
   }
 
   // Special methods for medical equipment requests

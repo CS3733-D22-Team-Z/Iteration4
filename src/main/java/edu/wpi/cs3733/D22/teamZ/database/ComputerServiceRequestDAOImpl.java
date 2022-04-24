@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
-import edu.wpi.cs3733.D22.teamZ.entity.LaundryServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.ComputerServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
@@ -10,34 +10,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
-
-  private List<LaundryServiceRequest> requestList = new ArrayList<>();
+public class ComputerServiceRequestDAOImpl implements IComputerServiceRequestDAO {
+  private List<ComputerServiceRequest> requestList = new ArrayList<>();
+  private ComputerRequestControlCSV reqCSV;
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
-  private LaundryServiceRequestControlCSV reqCSV;
-  // TODO CSV
-
-  public LaundryServiceDAOImpl() {
-    updateConnection();
-    // medicalEquipmentRequests = new HashMap<>();
-    requestList = new ArrayList<>();
-
-    File reqData =
-        new File(
-            System.getProperty("user.dir")
-                + System.getProperty("file.separator")
-                + "LaundryServiceRequest.csv");
-    this.reqCSV = new LaundryServiceRequestControlCSV(reqData);
-  }
 
   @Override
-  public List<LaundryServiceRequest> getAllLaundryServiceRequests() {
+  public List<ComputerServiceRequest> getAllComputerServiceRequests() {
     return requestList;
   }
 
   @Override
-  public LaundryServiceRequest getLaundryRequestById(String requestID) {
-    for (LaundryServiceRequest req : requestList) {
+  public ComputerServiceRequest getComputerServiceRequestByID(String requestID) {
+    for (ComputerServiceRequest req : requestList) {
       if (req.getRequestID().equals(requestID)) {
         return req;
       }
@@ -46,30 +31,31 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
   }
 
   @Override
-  public boolean addLaundryServiceRequest(LaundryServiceRequest request) {
+  public boolean addComputerServiceRequest(ComputerServiceRequest request) {
     updateConnection();
-
+    boolean val = false;
     if (addToDatabase(request)) {
+      val = true;
       requestList.add(request);
-      return true;
+      // labRequests.put(request.getRequestID(), request);
     }
-    return false;
+    return val;
   }
 
   @Override
-  public boolean updateLaundryServiceRequest(LaundryServiceRequest request) {
+  public boolean updateComputerServiceRequest(ComputerServiceRequest request) {
     updateConnection();
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "UPDATE LAUNDRYREQUEST SET status =?, handlerID =? WHERE RequestID =?");
+              "UPDATE SERVICEREQUEST SET status =?, handlerID =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
       stmt.setString(2, request.getHandler().getEmployeeID());
       stmt.setString(3, request.getRequestID());
 
       stmt.executeUpdate();
       connection.commit();
-      for (LaundryServiceRequest req : requestList) {
+      for (ComputerServiceRequest req : requestList) {
         if (req.equals(request)) {
           req.setHandler(request.getHandler());
           req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
@@ -78,17 +64,17 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
       }
       return true;
     } catch (SQLException e) {
-      System.out.println("Laundry Service update failed");
+      System.out.println("Computer Service Request update failed");
       return false;
     }
   }
 
   @Override
-  public boolean deleteLaundryServiceRequest(LaundryServiceRequest request) {
+  public boolean deleteComputerServiceRequest(ComputerServiceRequest request) {
     updateConnection();
     try {
       PreparedStatement stmt =
-          connection.prepareStatement("DELETE FROM LAUNDRYREQUEST WHERE REQUESTID=?");
+          connection.prepareStatement("DELETE FROM COMPUTERREQUEST WHERE REQUESTID=?");
       stmt.setString(1, request.getRequestID());
       stmt.executeUpdate();
     } catch (SQLException e) {
@@ -100,11 +86,11 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
   }
 
   @Override
-  public boolean exportToLaundryServiceRequestCSV(File data) {
-    reqCSV = new LaundryServiceRequestControlCSV(data);
+  public boolean exportToComputerServiceRequestCSV(File data) {
+    reqCSV = new ComputerRequestControlCSV(data);
 
     try {
-      reqCSV.writeLaundryServiceRequestCSV(requestList);
+      reqCSV.writeComputerServiceRequestCSV(requestList);
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -114,25 +100,25 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
   }
 
   @Override
-  public int importLaundryServiceRequestFromCSV(File data) {
+  public int importComputerServiceRequestFromCSV(File data) {
     updateConnection();
-    reqCSV = new LaundryServiceRequestControlCSV(data);
+    reqCSV = new ComputerRequestControlCSV(data);
 
     int conflictCounter = 0;
     String temp = "";
     try {
-      List<LaundryServiceRequest> tempPurchaseRequest = reqCSV.readLaundryServiceRequestCSV();
+      List<ComputerServiceRequest> tempPurchaseRequest = reqCSV.readComputerServiceRequestCSV();
 
       try {
-        for (LaundryServiceRequest info : tempPurchaseRequest) {
+        for (ComputerServiceRequest info : tempPurchaseRequest) {
           PreparedStatement pstmt =
               connection.prepareStatement(
-                  "INSERT INTO LAUNDRYREQUEST (REQUESTID, LAUNDRYSTATUS, LAUNDRYTYPE) "
+                  "INSERT INTO COMPUTERREQUEST (REQUESTID, OPERATINGSYSTEM, PROBLEMDESC) "
                       + "values (?, ?, ?)");
           temp = info.getRequestID();
           pstmt.setString(1, info.getRequestID());
-          pstmt.setString(2, info.getLaundryStatus().toString());
-          pstmt.setString(3, info.getLaundryType());
+          pstmt.setString(2, info.getOperatingSystem());
+          pstmt.setString(3, info.getProblemDescription());
 
           // insert it
           pstmt.executeUpdate();
@@ -149,16 +135,16 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
                 + " is already in the table or does not exist.");
       }
     } catch (IOException e) {
-      System.out.println("Failed to import Laundry Service Request table");
+      System.out.println("Failed to import Equipment Equipment Request table");
     }
     return conflictCounter;
   }
 
   @Override
-  public boolean addLaundryServiceRequestFromList(List<LaundryServiceRequest> list) {
+  public boolean addComputerServiceRequestFromList(List<ComputerServiceRequest> list) {
     updateConnection();
     boolean val = true;
-    for (LaundryServiceRequest request : list) {
+    for (ComputerServiceRequest request : list) {
       if (!addToDatabase(request)) {
         val = false;
       }
@@ -166,7 +152,7 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
     return val;
   }
 
-  /** Updates connection to Database */
+  /** Updates the connection */
   private void updateConnection() {
     connection = EnumDatabaseConnection.CONNECTION.getConnection();
   }
@@ -177,31 +163,31 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
    * @param request request to be inserted
    * @return True if successful, false otherwise
    */
-  private boolean addToDatabase(LaundryServiceRequest request) {
+  private boolean addToDatabase(ComputerServiceRequest request) {
     try {
       PreparedStatement pstmt =
           connection.prepareStatement(
-              "INSERT INTO LAUNDRYREQUEST (REQUESTID, LAUNDRYSTATUS, LAUNDRYTYPE) "
+              "INSERT INTO COMPUTERREQUEST (REQUESTID, OPERATINGSYSTEM, PROBLEMDESC) "
                   + "values (?, ?, ?)");
       pstmt.setString(1, request.getRequestID());
-      pstmt.setString(2, String.valueOf(request.getLaundryStatus()));
-      pstmt.setString(3, request.getLaundryType());
+      pstmt.setString(2, request.getOperatingSystem());
+      pstmt.setString(3, request.getProblemDescription());
 
       pstmt.executeUpdate();
       connection.commit();
     } catch (SQLException e) {
-      System.out.println("add laundry service request statement failed");
+      System.out.println("add computer service request statement failed");
       return false;
     }
     return true;
   }
 
   /**
-   * Returns the default path that medical equipment delivery request csv files are printed to
+   * Returns the default path for a computer service request csv file to be saved
    *
-   * @return The default path that medical equipment delivery request csv files are printed to
+   * @return The default path for a computer service request csv file to be saved
    */
-  File getDefaultLaundryServiceRequestCSVPath() {
+  File getDefaultComputerServiceRequestCSVPath() {
     return reqCSV.getDefaultPath();
   }
 }

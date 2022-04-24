@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
+import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXRadioButton;
@@ -11,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -20,8 +23,7 @@ import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -35,14 +37,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
-import org.kynosarges.tektosyne.geometry.PointD;
-import org.kynosarges.tektosyne.geometry.RectD;
-import org.kynosarges.tektosyne.geometry.Voronoi;
 import org.kynosarges.tektosyne.geometry.VoronoiResults;
 
 // issues: getAllLocations doesn't work if the DB is disconnected, is this how it's supposed to
@@ -67,15 +65,12 @@ public class LocationListController implements IMenuAccess {
   // @FXML private MFXButton addLocationButton;
   @FXML private AnchorPane rightPane;
   @FXML private SplitPane splitPane;
-  @FXML @Getter private Group group;
-  @FXML private ScrollPane scrollPane;
   MenuController menu;
   // init ui components
-  @FXML private AnchorPane pane;
+  @FXML private AnchorPane mapContainer;
   @FXML private ChoiceBox<String> changeFloor;
   // @FXML private MFXButton editLocation;
   // @FXML private MFXButton deleteLocation;
-  @FXML @Getter private ImageView map;
 
   // Andrew's stuff
   @FXML private MFXTextField selectLocationTextField;
@@ -133,16 +128,12 @@ public class LocationListController implements IMenuAccess {
   @FXML private MFXRadioButton cctvRadio;
   @FXML final ToggleGroup radioGroup = new ToggleGroup();
 
+  @FXML private AnchorPane root;
+
   // init LocationDAOImpl to use sql methods from db
   FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
-  // create ObservableList to load locations into map
-  // private ObservableList<Location> floorLocations = FXCollections.observableList(new
-  // ArrayList<>());
   private final ObservableList<Location> totalLocations =
-      FXCollections.observableList(new ArrayList<>());
-
-  private final ObservableList<HospitalCode> allAlerts =
       FXCollections.observableList(new ArrayList<>());
 
   @Getter
@@ -160,45 +151,83 @@ public class LocationListController implements IMenuAccess {
   private final String toMedicalInfoProperties =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentInfoTab.fxml";
 
+  // The embedded map
+  private MapController mapController;
+  private ScrollPane mapPane;
+
+  private List<Location> allLocations;
+  private String mode;
+
+  private int scrollCount;
+  private int curZoom;
+
   // initialize location labels to display on map
   @FXML
   private void initialize() {
-
-    scrollPane.setPannable(true);
-
-    rightPane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.23));
-    pane.maxWidthProperty().bind(splitPane.widthProperty().multiply(.75));
-
-    StackPane zoomPane = new StackPane();
-    zoomPane.getChildren().add(group);
-
-    Group content = new Group(zoomPane, pane);
-    scrollPane.setContent(group);
-
-    group.setScaleX(group.getScaleX() / 1.1);
-    group.setScaleY(group.getScaleY() / 1.1);
-
-    scrollPane.setOnScroll(
-        event -> {
-          System.out.println("zoom");
-          event.consume();
-
-          if (event.getDeltaY() == 0) {
-            return;
+    // Setup embedded map
+    PopupLoader.delay(
+        10,
+        () -> {
+          List<Object> popupResults = null;
+          try {
+            popupResults = PopupLoader.loadPopup("Map", mapContainer);
+          } catch (IOException e) {
+            e.printStackTrace();
           }
+          mapPane = (ScrollPane) popupResults.get(0);
+          mapController = (MapController) popupResults.get(1);
 
-          double scaleFactor = (event.getDeltaY() > 0) ? 1.1 : 1 / 1.1;
+          // Change dims
+          mapPane.setPrefWidth(mapContainer.getWidth());
+          mapPane.setPrefHeight(mapContainer.getHeight());
+          mapPane.setLayoutX(0);
+          mapPane.setLayoutY(0);
 
-          // amount of scrolling in each direction in scrollContent coordinate
-          // units
-          Point2D scrollOffset = figureScrollOffset(content, scrollPane);
+          // Set Label Clicked method of embedded map
+          mapController.setLabelClickedMethod((label) -> activeLabel = label);
 
-          group.setScaleX(group.getScaleX() * scaleFactor);
-          group.setScaleY(group.getScaleY() * scaleFactor);
+          // Set double clicked method of embedded map
+          mapController.setDoubleClicked(this::doubleClickAdd);
 
-          // move viewport so that old center remains in the center after the
-          // scaling
-          repositionScroller(content, scrollPane, scaleFactor, scrollOffset);
+          mapController.setRightClickedMethod(
+              (label) -> {
+                Bounds boundsToScreen = label.localToScreen(label.getBoundsInLocal());
+                // root.sceneToLocal(label.localToScene(label.getBoundsInLocal()));*/
+                // Cringe magic numbers
+                rightClickMenu.show(
+                    label, boundsToScreen.getCenterX(), boundsToScreen.getCenterY());
+              });
+
+          // Load default floor
+          changeToFloor("3");
+
+          Map<Integer, Double> locKeys = new HashMap<>();
+          locKeys.put(45, 0.0);
+          locKeys.put(50, 0.11);
+          locKeys.put(55, .2);
+          locKeys.put(60, .29);
+          locKeys.put(65, .376);
+          locKeys.put(70, .465);
+          locKeys.put(75, .556);
+          locKeys.put(80, .645);
+          locKeys.put(85, .732);
+          locKeys.put(90, .821);
+          locKeys.put(95, .909);
+          locKeys.put(100, 1.0);
+          curZoom = 100;
+
+          mapController.setZooms(locKeys);
+
+          root.addEventFilter(
+              ScrollEvent.SCROLL,
+              e -> {
+                scrollCount = (scrollCount + 1) % 3;
+                if (scrollCount == 0) {
+                  curZoom -= e.getDeltaY() < 0 ? 5 : -5;
+                  curZoom = Math.max(45, Math.min(curZoom, 100));
+                  mapController.setScale(curZoom);
+                }
+              });
         });
 
     System.out.println("loading labels");
@@ -233,12 +262,6 @@ public class LocationListController implements IMenuAccess {
     alertCodeFieldDelete.getItems().add("Code White");
     alertCodeFieldDelete.getItems().add("Code Pink");
     alertCodeFieldDelete.getItems().add("Code Amber");
-
-    // floorLocations.remove(0, floorLocations.size());
-
-    totalLocations.addAll(FXCollections.observableList(facadeDAO.getAllLocations()));
-    map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/1.png"));
-    // floorLocations.addAll(totalLocations.filtered(loc -> loc.getFloor().equalsIgnoreCase("1")));
 
     // showLocations("1");
     changeFloor.getSelectionModel().select(2);
@@ -304,75 +327,7 @@ public class LocationListController implements IMenuAccess {
               // System.out.println("height changed");
             });
 
-    /*                super.updateItem(item, empty);
-                setText(item);
-                setFont(Font.font(9));
-
-    searchResultList.setCellFactory(
-        new Callback<>() {
-          @Override
-          public MFXListCell<String> call(ListView<String> param) {
-            return new MFXListCell<>() {
-              @Override
-              protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(item);
-                setFont(Font.font(9));
-              }
-            };
-          }
-        });
-
-    searchResultList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
-      @Override
-      public ListCell<String> call(ListView<String> param) {
-        return new MFXListCell<>() {{
-          text
-        }};
-      }
-    });
-    }});*/
-
     searchResultList.setCellFactory(param -> new MFXListCell<>(searchResultList, param));
-
-    // if user has clicked out of label, and on an empty part of the pane, disable buttons and
-    // unenlarge previous label
-    pane.addEventFilter(
-        MouseEvent.MOUSE_CLICKED,
-        evt -> {
-          if (!inHierarchy(evt.getPickResult().getIntersectedNode(), activeLabel)) {
-            pane.requestFocus();
-          }
-        });
-
-    pane.addEventFilter(
-        MouseEvent.MOUSE_CLICKED,
-        evt -> {
-          Node clicked = evt.getPickResult().getIntersectedNode();
-
-          if (clicked instanceof Pane) {
-            pane.requestFocus();
-          }
-
-          List<MapLabel> temp =
-              allLabels.filtered(l -> l.equals(clicked) || l.getBound().equals(clicked));
-          if (temp.size() > 0) {
-            activeLabel = temp.get(0);
-            System.out.println(activeLabel.getLocation().getLongName());
-            Draggable drag =
-                new Draggable(scrollPane, activeLabel, group.getScaleX(), this, locationName);
-            drag.makeDraggable(activeLabel);
-            // displayLocationInformation();
-          }
-        });
-
-    scrollPane.addEventFilter(
-        MouseEvent.MOUSE_CLICKED,
-        evt -> {
-          if (evt.getClickCount() > 1) {
-            doubleClickAdd(evt);
-          }
-        });
 
     MenuItem edit = new MenuItem("Edit");
     edit.setOnAction(
@@ -444,10 +399,14 @@ public class LocationListController implements IMenuAccess {
     radioGroup
         .selectedToggleProperty()
         .addListener(
-            (observable, oldValue, newValue) ->
-                refreshMap(changeFloor.getSelectionModel().getSelectedItem()));
+            (observable, oldValue, newValue) -> {
+              MFXRadioButton selectedButton = (MFXRadioButton) newValue;
+              mode = selectedButton.getText();
+              changeToFloor(changeFloor.getSelectionModel().getSelectedItem());
+            });
+    mode = "Locations";
 
-    refreshMap("1");
+    allLocations = facadeDAO.getAllLocations();
   }
 
   private void propertiesWindow() throws IOException {
@@ -500,85 +459,81 @@ public class LocationListController implements IMenuAccess {
     stage.show();
   }
 
-  private void loadMedPane(AnchorPane pane) throws IOException {
-    pane.getChildren()
-        .add(
-            FXMLLoader.load(
-                Objects.requireNonNull(
-                    getClass()
-                        .getClassLoader()
-                        .getResource(
-                            "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentInfoTab.fxml"))));
-  }
-
+  /**
+   * Adds locations to the map depending on which mode is selected. Also sets dragging behavior.
+   *
+   * @param floor the floor to pull locations from
+   */
   private void showLocations(String floor) {
-    group.getChildren().removeIf(child -> child instanceof MapLabel || child instanceof Polygon);
+    List<Location> allFloorLocations = facadeDAO.getAllLocationsByFloor(floor);
 
-    for (HospitalCode hospitalCode : allAlerts) {
-      group.getChildren().remove(hospitalCode.getLabel());
-      if (hospitalCode.getLocation().getFloor().equals(floor)) {
-        group.getChildren().add(hospitalCode.getLabel());
-      }
-    }
+    // If within Locations mode
+    if (mode.equals("Locations")) {
 
-    for (MapLabel temp : allLabels) {
-      if (temp.isOnFloor(floor)) {
-        Image locationImg;
-        ImageView locationIcon;
-        switch (radioGroup.getSelectedToggle().getUserData().toString()) {
-          case "Locations":
-            locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/location.png");
-            locationIcon = new ImageView(locationImg);
-            temp.setTranslateX(-6);
-            temp.setTranslateY(-12);
-            temp.setGraphic(locationIcon);
-            group.getChildren().addAll(temp.getBound(), temp);
-            break;
-          case "Equipment":
-            if (temp.getEquip().size() > 0) {
-              locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
-              locationIcon = new ImageView(locationImg);
-              temp.setTranslateX(-18);
-              temp.setTranslateY(-18);
-              temp.setGraphic(locationIcon);
-              group.getChildren().addAll(temp.getBound(), temp);
-            } else {
-              group.getChildren().add(temp.getBound());
+      // Want all floor locations to be displayed + all locations are draggable anywhere.
+      mapController.setLabels(allFloorLocations, allFloorLocations, false, "location");
+      mapController.setIconShift(0);
+      mapController.setDraggable(
+          (label) -> {
+            label.getLocation().setXcoord((int) label.getLayoutX());
+            label.getLocation().setYcoord((int) label.getLayoutY());
+            facadeDAO.updateLocation(label.getLocation());
+          });
+
+      // Within Equipment mode
+    } else if (mode.equals("Equipment")) {
+      // Retrieve all locations with equipment
+      AtomicReference<List<Location>> locsWithEquip =
+          new AtomicReference<>(
+              allFloorLocations.stream()
+                  .filter((loc) -> loc.getEquipmentList().size() > 0)
+                  .collect(Collectors.toList()));
+      mapController.setLabels(locsWithEquip.get(), allFloorLocations, true, "equipment");
+      mapController.setIconShift(20);
+      mapController.setDraggable(
+          (label) -> {
+            for (Location loc : allFloorLocations) {
+              // Merge equipment when dragged to another location
+              if (loc.getXcoord() == label.getLayoutX() && loc.getYcoord() == label.getLayoutY()) {
+                System.out.println(
+                    "Merging " + label.getLocation().toString() + " into " + loc.toString());
+                // Extract
+                List<MedicalEquipment> equip =
+                    new ArrayList<>(label.getLocation().getEquipmentList());
+
+                for (MedicalEquipment equipment : equip) {
+                  // Clear
+                  label.getLocation().removeEquipmentFromList(equipment);
+
+                  // Add
+                  loc.addEquipmentToList(equipment);
+
+                  // Update equipment
+                  equipment.setCurrentLocation(loc);
+                  facadeDAO.updateMedicalEquipment(equipment);
+                }
+
+                // Update locations?
+                facadeDAO.updateLocation(label.getLocation());
+                facadeDAO.updateLocation(loc);
+                break;
+              }
             }
-            break;
-          case "Service Requests":
-            System.out.println("serv");
-            if (temp.getReqs().size() > 0) {
-              locationImg = new Image("edu/wpi/cs3733/D22/teamZ/images/servicerequest.png");
-              locationIcon = new ImageView(locationImg);
-              temp.setTranslateX(-18);
-              temp.setTranslateY(-18);
-              temp.setGraphic(locationIcon);
-              group.getChildren().addAll(temp, temp.getBound());
-            }
-            break;
-          default:
-            System.out.println("lolno");
-            break;
-        }
-      }
+
+            // Refresh
+            showLocations(floor);
+          });
+    } else if (mode.equals("Service Requests")) {
+      AtomicReference<List<Location>> locsWithServices =
+          new AtomicReference<>(
+              allFloorLocations.stream()
+                  .filter((loc) -> facadeDAO.getServiceRequestsByLocation(loc).size() > 0)
+                  .collect(Collectors.toList()));
+      mapController.setLabels(
+          locsWithServices.get(), locsWithServices.get(), false, "servicerequest");
+      mapController.setIconShift(0);
     }
   }
-
-  // function to check if user has clicked outside of label
-  public static boolean inHierarchy(Node node, Node potentialHierarchyElement) {
-    if (potentialHierarchyElement == null) {
-      return true;
-    }
-    while (node != null) {
-      if (node == potentialHierarchyElement) {
-        return true;
-      }
-      node = node.getParent();
-    }
-    return false;
-  }
-
   // Andrew's Stuff
 
   @FXML
@@ -591,9 +546,6 @@ public class LocationListController implements IMenuAccess {
 
     // change later to Neha's nodeID info
     Location tempLocation = facadeDAO.getLocationByID(selectLocationTextField.getText());
-
-    // old floor
-    String oldFloor = tempLocation.getFloor();
 
     tempLocation.setNodeType(typeChoiceTextField.getValue());
     tempLocation.setFloor(floorChoiceTextField.getValue());
@@ -636,8 +588,8 @@ public class LocationListController implements IMenuAccess {
       editLocationPane.setVisible(false);
       locationChangeDarkenPane.setVisible(false);
 
-      refreshMap(floorChoiceTextField.getSelectionModel().getSelectedItem());
-      refreshMap(oldFloor);
+      // refreshMap(floorChoiceTextField.getSelectionModel().getSelectedItem());
+      // refreshMap(oldFloor);
       changeFloor
           .getSelectionModel()
           .select(floorChoiceTextField.getSelectionModel().getSelectedItem());
@@ -693,22 +645,28 @@ public class LocationListController implements IMenuAccess {
 
   @FXML
   public void resultMouseClick() {
-    // System.out.println(searchResultList.getSelectionModel().getSelectedItem());
-
     // MaterialFX goofy
     ObservableMap<Integer, String> selections = searchResultList.getSelectionModel().getSelection();
     String searched = "";
     for (Integer k : selections.keySet()) searched = selections.get(k);
 
-    for (MapLabel label : allLabels) {
-      if (label.getLocation().getLongName().equals(searched)) {
-        activeLabel = label;
+    Location selectedLoc = null;
+    for (Location loc : allLocations) {
+      if (loc.getLongName().equals(searched)) {
+        selectedLoc = loc;
+        break;
       }
     }
 
-    String selectedItem = activeLabel.getLocation().getFloor();
-    changeToFloor(selectedItem);
+    String selectedFloor = selectedLoc.getFloor();
+    changeToFloor(selectedFloor);
 
+    Location finalSelectedLoc = selectedLoc;
+    activeLabel =
+        mapController.getAllLabels().stream()
+            .filter((label) -> label.getLocation().equals(finalSelectedLoc))
+            .collect(Collectors.toList())
+            .get(0);
     activeLabel.requestFocus();
     // activeLabel = allLabels.get(theoreticalGenericIndex);
     searchField.setText(activeLabel.getLocation().getLongName());
@@ -716,89 +674,10 @@ public class LocationListController implements IMenuAccess {
   }
 
   void changeToFloor(String nFloor) {
-    // floorLocations.remove(0, floorLocations.size());
-    // floorLocations.addAll(totalLocations.filtered(loc ->
-    // loc.getFloor().equalsIgnoreCase(nFloor)));
-    map.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/" + nFloor + ".png"));
     // Dashboard button stuff
     changeFloor.getSelectionModel().select(nFloor);
+    mapController.setFloor(nFloor);
     showLocations(nFloor);
-  }
-
-  private void initLabels() {
-    allLabels.remove(0, allLabels.size());
-
-    for (String floor : changeFloor.getItems()) {
-      generateVoronoi(floor);
-    }
-
-    for (Location loc : totalLocations) {
-      MapLabel label =
-          new MapLabel.mapLabelBuilder()
-              .location(loc)
-              .equipment(facadeDAO.getAllMedicalEquipmentByLocation(loc))
-              .requests(facadeDAO.getServiceRequestsByLocation(loc))
-              .build();
-
-      // stylize label icon
-
-      DropShadow dropShadow = new DropShadow();
-      dropShadow.setRadius(5.0);
-      dropShadow.setOffsetX(3.0);
-      dropShadow.setOffsetY(3.0);
-      dropShadow.setColor(Color.GRAY);
-
-      // create the label
-      label.setEffect(dropShadow);
-      // label.setGraphic(locationIcon);
-      label
-          .focusedProperty()
-          .addListener(
-              (observable, oldValue, newValue) -> {
-                if (!newValue) {
-                  label.setScaleX(.7);
-                  label.setScaleY(.7);
-                  // returnOnClick();
-                } else {
-                  label.setScaleX(1.1);
-                  label.setScaleY(1.1);
-                }
-              });
-
-      label.setScaleX(.7);
-      label.setScaleY(.7);
-      label.setOnMouseClicked(evt -> label.requestFocus());
-      // place label at correct coords
-      label.relocate(
-          (label.getLocation().getXcoord()) * (map.getFitWidth() / 1021),
-          (label.getLocation().getYcoord()) * (map.getFitHeight() / 850));
-
-      for (int m = 0; m < changeFloor.getItems().size(); m++) {
-        for (int i = 0; i < accessable[m].generatorSites.length; i++) {
-          if (accessable[m].generatorSites[i].x == label.getLayoutX()
-              && accessable[m].generatorSites[i].y == label.getLayoutY()
-              && changeFloor.getItems().get(m).equals(label.getLocation().getFloor())) {
-            label.setBound(pointDtoPoly(accessable[m].voronoiRegions()[i]));
-          }
-        }
-      }
-      label.getBound().setOnMouseClicked(evt -> label.requestFocus());
-      label.setOnContextMenuRequested(
-          event -> rightClickMenu.show(label, event.getScreenX(), event.getScreenY()));
-      label
-          .getBound()
-          .setOnContextMenuRequested(
-              event -> rightClickMenu.show(label, event.getScreenX(), event.getScreenY()));
-      allLabels.add(label);
-    }
-  }
-
-  public void refreshMap(String floor) {
-    totalLocations.remove(0, totalLocations.size());
-    totalLocations.addAll(facadeDAO.getAllLocations());
-
-    initLabels();
-    showLocations(floor);
   }
 
   @FXML
@@ -811,7 +690,8 @@ public class LocationListController implements IMenuAccess {
     if (facadeDAO.deleteLocation(temp)) {
       System.out.println("Deletion Successful");
       // TODO: fix
-      refreshMap(activeLabel.getLocation().getFloor());
+      // refreshMap(activeLabel.getLocation().getFloor());
+      changeToFloor(activeLabel.getLocation().getFloor());
     } else {
       System.out.println("There are still stuff in this location");
     }
@@ -954,9 +834,7 @@ public class LocationListController implements IMenuAccess {
     changeFloor.getSelectionModel().select(floorIndex);
 
     changeToFloor(changeFloor.getSelectionModel().getSelectedItem());
-    refreshMap(changeFloor.getSelectionModel().getSelectedItem());
-
-    activeLabel = allLabels.get(allLabels.size() - 1);
+    // refreshMap(changeFloor.getSelectionModel().getSelectedItem());
 
     addLocationPane.setVisible(false);
     locationChangeDarkenPane.setVisible(false);
@@ -964,6 +842,11 @@ public class LocationListController implements IMenuAccess {
     locationChangeDarkenPane.setDisable(true);
   }
 
+  /**
+   * Captures all locations and stores in CSV. Runs when export to CSV is pressed.
+   *
+   * @param actionEvent
+   */
   public void exportToCSV(ActionEvent actionEvent) {
     FileChooser fileChooser = new FileChooser();
     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -987,6 +870,12 @@ public class LocationListController implements IMenuAccess {
     }
   }
 
+  /**
+   * Prompts user to choose a csv file, and reads location data from that CSV. Runs when Import CSV
+   * is clicked.
+   *
+   * @param actionEvent from event
+   */
   public void importFromCSV(ActionEvent actionEvent) {
     FileChooser fileChooser = new FileChooser();
     Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -1009,7 +898,7 @@ public class LocationListController implements IMenuAccess {
     if (file != null) {
       int numberConflicts = facadeDAO.importLocationsFromCSV(file);
 
-      refreshMap(changeFloor.getSelectionModel().getSelectedItem());
+      changeToFloor(changeFloor.getSelectionModel().getSelectedItem());
       System.out.println(
           "Detected "
               + numberConflicts
@@ -1030,48 +919,6 @@ public class LocationListController implements IMenuAccess {
 
   public static MapLabel getActiveLabel() {
     return activeLabel;
-  }
-
-  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
-    double extraWidth =
-        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
-    double hScrollProportion =
-        (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
-    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
-    double extraHeight =
-        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
-    double vScrollProportion =
-        (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
-    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
-    return new Point2D(scrollXOffset, scrollYOffset);
-  }
-
-  private void repositionScroller(
-      Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
-    double scrollXOffset = scrollOffset.getX();
-    double scrollYOffset = scrollOffset.getY();
-    double extraWidth =
-        scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
-    if (extraWidth > 0) {
-      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
-      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
-      scroller.setHvalue(
-          scroller.getHmin()
-              + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
-    } else {
-      scroller.setHvalue(scroller.getHmin());
-    }
-    double extraHeight =
-        scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
-    if (extraHeight > 0) {
-      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
-      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
-      scroller.setVvalue(
-          scroller.getVmin()
-              + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
-    } else {
-      scroller.setHvalue(scroller.getHmin());
-    }
   }
 
   @FXML
@@ -1113,7 +960,7 @@ public class LocationListController implements IMenuAccess {
         newAlert.setTitle("Code Red Alert");
         newAlert.setHeaderText("Code Red");
         newAlert.setGraphic(redAlertIcon);
-        createAlertLabel(redAlertIcon, location, code);
+        createAlertLabel(redAlertIcon, location);
         if (location.getFloor().equals("1")) {
           newAlert.setContentText(
               "Fire at "
@@ -1139,7 +986,7 @@ public class LocationListController implements IMenuAccess {
                 + " on Floor "
                 + location.getFloor());
         newAlert.setGraphic(greyAlertIcon);
-        createAlertLabel(greyAlertIcon, location, code);
+        createAlertLabel(greyAlertIcon, location);
         break;
       case "Code Green":
         System.out.println("green label");
@@ -1153,7 +1000,7 @@ public class LocationListController implements IMenuAccess {
                 + " on Floor "
                 + location.getFloor());
         newAlert.setGraphic(greenAlertIcon);
-        createAlertLabel(greenAlertIcon, location, code);
+        createAlertLabel(greenAlertIcon, location);
         break;
       case "Code White":
         ImageView whiteAlertIcon =
@@ -1163,7 +1010,7 @@ public class LocationListController implements IMenuAccess {
         newAlert.setContentText(
             "Bomb Threat at " + location.getLongName() + " on Floor " + location.getFloor());
         newAlert.setGraphic(whiteAlertIcon);
-        createAlertLabel(whiteAlertIcon, location, code);
+        createAlertLabel(whiteAlertIcon, location);
         break;
       case "Code Pink":
         ImageView pinkAlertIcon =
@@ -1173,7 +1020,7 @@ public class LocationListController implements IMenuAccess {
         newAlert.setContentText(
             "Infant Abduction at " + location.getLongName() + " on Floor " + location.getFloor());
         newAlert.setGraphic(pinkAlertIcon);
-        createAlertLabel(pinkAlertIcon, location, code);
+        createAlertLabel(pinkAlertIcon, location);
         break;
       case "Code Amber":
         ImageView amberAlertIcon =
@@ -1182,7 +1029,7 @@ public class LocationListController implements IMenuAccess {
         newAlert.setHeaderText("Code Amber");
         newAlert.setContentText("Disaster Plan in Effect");
         newAlert.setGraphic(amberAlertIcon);
-        createAlertLabel(amberAlertIcon, location, code);
+        createAlertLabel(amberAlertIcon, location);
         break;
       case "Code Blue":
         ImageView blueAlertIcon =
@@ -1195,7 +1042,7 @@ public class LocationListController implements IMenuAccess {
                 + " on Floor "
                 + location.getFloor());
         newAlert.setGraphic(blueAlertIcon);
-        createAlertLabel(blueAlertIcon, location, code);
+        createAlertLabel(blueAlertIcon, location);
         break;
       default:
         break;
@@ -1205,7 +1052,7 @@ public class LocationListController implements IMenuAccess {
     newAlert.setOnCloseRequest((e) -> {});
   }
 
-  public void createAlertLabel(ImageView icon, Location location, String codeType) {
+  public void createAlertLabel(ImageView icon, Location location) {
     DropShadow dropShadow = new DropShadow();
     dropShadow.setRadius(5.0);
     dropShadow.setOffsetX(3.0);
@@ -1219,18 +1066,13 @@ public class LocationListController implements IMenuAccess {
     Label label = new Label();
     label.setEffect(dropShadow);
     label.setGraphic(icon);
-    label.relocate(
-        (location.getXcoord()) * (map.getFitWidth() / 1021),
-        (location.getYcoord()) * (map.getFitHeight() / 850));
+    label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
     label.setContextMenu(contextMenu);
     contextMenu.getItems().add(menuItem1);
-    HospitalCode hospitalCode = new HospitalCode(location, codeType, label);
-    menuItem1.setOnAction((e) -> {});
-
-    allAlerts.add(hospitalCode);
-    refreshMap(location.getFloor());
-    // System.out.println("adding label");
-    // allLabels.add(mapLabel);
+    menuItem1.setOnAction(
+        (e) -> {
+          // remove from map
+        });
   }
 
   public Location findClosestExit(Location location) {
@@ -1263,35 +1105,5 @@ public class LocationListController implements IMenuAccess {
       }
     }
     return closestExit;
-  }
-
-  private void generateVoronoi(String floor) {
-    Set<PointD> pointDList =
-        totalLocations.stream()
-            .filter(location -> location.getFloor().equals(floor))
-            .map(
-                l ->
-                    new PointD(
-                        l.getXcoord() * (map.getFitWidth() / 1021),
-                        l.getYcoord() * (map.getFitHeight() / 850)))
-            .collect(Collectors.toSet());
-
-    PointD[] points = new PointD[pointDList.size()];
-    pointDList.toArray(points);
-
-    accessable[changeFloor.getItems().indexOf(floor)] =
-        Voronoi.findAll(
-            points, new RectD(new PointD(0, 0), new PointD(map.getFitWidth(), map.getFitHeight())));
-  }
-
-  private Polygon pointDtoPoly(PointD[] points) {
-    Polygon ret = new Polygon();
-
-    ret.setFill(Color.TRANSPARENT);
-    for (PointD point : points) {
-      ret.getPoints().addAll(point.x, point.y);
-    }
-
-    return ret;
   }
 }
