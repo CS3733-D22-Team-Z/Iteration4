@@ -1,9 +1,10 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.apiFacades.ExternalTransportFacadeAPI;
+import edu.wpi.cs3733.D22.teamZ.apiFacades.FacilityMaintenanceFacadeAPI;
+import edu.wpi.cs3733.D22.teamZ.apiFacades.InternalTransportFacadeAPI;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -83,9 +84,17 @@ public class APILandingPageController implements IMenuAccess {
     ExternalTransportFacadeAPI.getInstance().run(apiCSSPath);
   }
 
-  public void toFacilityMaintenance(ActionEvent actionEvent) {}
+  @FXML
+  private void toInternalTransportRequest() {
+    System.out.println("navigating to sanitation from api landing page");
+    InternalTransportFacadeAPI.getInstance().run(apiCSSPath);
+  }
 
-  public void toInternalPatientTransportation(ActionEvent actionEvent) {}
+  @FXML
+  private void toFacilityMaintenanceRequest() {
+    System.out.println("navigating to security from api landing page");
+    FacilityMaintenanceFacadeAPI.getInstance().run(apiCSSPath);
+  }
 
   @FXML
   private void showNameLabels() {

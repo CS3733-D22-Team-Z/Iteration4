@@ -84,7 +84,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#toInternalPatientTransportation" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="1">
+                  <MFXButton onAction="#toInternalTransportRequest" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="1">
                      <effect>
                         <DropShadow>
                            <color>
@@ -126,7 +126,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton onAction="#toFacilityMaintenance" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="2">
+                  <MFXButton onAction="#toFacilityMaintenanceRequest" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="2">
                      <effect>
                         <DropShadow>
                            <color>

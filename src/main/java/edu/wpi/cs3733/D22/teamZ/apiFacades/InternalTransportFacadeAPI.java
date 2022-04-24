@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SanitationFacadeAPI {
+public class InternalTransportFacadeAPI {
 
   // Wraps teamB's Location class in a unique class name
   private static class TeamBLocation extends edu.wpi.cs3733.D22.teamB.api.Location {
@@ -26,16 +26,16 @@ public class SanitationFacadeAPI {
     }
   }
 
-  private static final SanitationFacadeAPI instance = new SanitationFacadeAPI();
+  private static final InternalTransportFacadeAPI instance = new InternalTransportFacadeAPI();
   private final FacadeDAO facadeDAO = FacadeDAO.getInstance();
   private final API api;
   private final DatabaseController apiDatabase;
 
-  public static SanitationFacadeAPI getInstance() {
+  public static InternalTransportFacadeAPI getInstance() {
     return instance;
   }
 
-  private SanitationFacadeAPI() {
+  private InternalTransportFacadeAPI() {
     api = new API();
     apiDatabase = new DatabaseController();
     try {
@@ -47,7 +47,7 @@ public class SanitationFacadeAPI {
     List<Location> locations = facadeDAO.getAllLocations();
     List<TeamBLocation> bLocations =
         locations.stream()
-            .map(SanitationFacadeAPI::convertFromLocation)
+            .map(InternalTransportFacadeAPI::convertFromLocation)
             .collect(Collectors.toList());
     for (TeamBLocation bLoc : bLocations) {
       apiDatabase.add(bLoc);

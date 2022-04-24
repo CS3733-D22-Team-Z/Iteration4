@@ -4,15 +4,15 @@ import edu.wpi.cs3733.D22.teamC.TeamCAPI;
 import edu.wpi.cs3733.D22.teamC.controller.service_request.facility_maintenance.ServiceExceptionAPI;
 import java.io.IOException;
 
-public class SecurityFacadeAPI {
-  private static final SecurityFacadeAPI instance = new SecurityFacadeAPI();
+public class FacilityMaintenanceFacadeAPI {
+  private static final FacilityMaintenanceFacadeAPI instance = new FacilityMaintenanceFacadeAPI();
   private final TeamCAPI api;
 
-  public static SecurityFacadeAPI getInstance() {
+  public static FacilityMaintenanceFacadeAPI getInstance() {
     return instance;
   }
 
-  private SecurityFacadeAPI() {
+  private FacilityMaintenanceFacadeAPI() {
     this.api = new TeamCAPI();
   }
 
