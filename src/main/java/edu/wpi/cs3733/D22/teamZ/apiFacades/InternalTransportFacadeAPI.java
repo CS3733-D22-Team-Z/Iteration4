@@ -38,11 +38,12 @@ public class InternalTransportFacadeAPI {
   private InternalTransportFacadeAPI() {
     api = new API();
     apiDatabase = new DatabaseController();
-    try {
-      apiDatabase.reset();
-    } catch (ServiceException e) {
-      System.out.println("Failed to clear database");
-    }
+    //TODO uncomment once Team B fixes their API jar
+//    try {
+//      apiDatabase.reset();
+//    } catch (ServiceException e) {
+//      System.out.println("Failed to clear database");
+//    }
 
     List<Location> locations = facadeDAO.getAllLocations();
     List<TeamBLocation> bLocations =
@@ -58,11 +59,11 @@ public class InternalTransportFacadeAPI {
     try {
       api.run(0, 0, 450, 800, cssPath, "", "");
     } catch (ServiceException e) {
-      System.out.println("Error accessing External Patient API");
-      // System.out.println(e.getMessage());
-      // e.printStackTrace();
+      System.out.println("Error accessing Internal Patient API");
+      e.printStackTrace();
     } catch (IOException ex) {
-      System.out.println("weird");
+      System.out.println("Internal Patient API IOException");
+      ex.printStackTrace();
     }
   }
 
