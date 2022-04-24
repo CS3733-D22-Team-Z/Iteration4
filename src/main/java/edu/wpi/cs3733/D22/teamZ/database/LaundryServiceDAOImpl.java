@@ -17,6 +17,19 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
   private LaundryServiceRequestControlCSV reqCSV;
   // TODO CSV
 
+  public LaundryServiceDAOImpl() {
+    updateConnection();
+    // medicalEquipmentRequests = new HashMap<>();
+    requestList = new ArrayList<>();
+
+    File reqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "LaundryServiceRequest.csv");
+    this.reqCSV = new LaundryServiceRequestControlCSV(reqData);
+  }
+
   @Override
   public List<LaundryServiceRequest> getAllLaundryServiceRequests() {
     return requestList;
@@ -65,7 +78,7 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
       }
       return true;
     } catch (SQLException e) {
-      System.out.println("Equipment Purchase Request update failed");
+      System.out.println("Laundry Service update failed");
       return false;
     }
   }
@@ -136,7 +149,7 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
                 + " is already in the table or does not exist.");
       }
     } catch (IOException e) {
-      System.out.println("Failed to import Equipment Equipment Request table");
+      System.out.println("Failed to import Laundry Service Request table");
     }
     return conflictCounter;
   }
@@ -168,18 +181,27 @@ public class LaundryServiceDAOImpl implements ILaundryServiceDAO {
     try {
       PreparedStatement pstmt =
           connection.prepareStatement(
-              "INSERT INTO LAUNDRYREQUEST (REQUESTID, LAUNDRYTYPE, LAUNDRYSTATUS) "
+              "INSERT INTO LAUNDRYREQUEST (REQUESTID, LAUNDRYSTATUS, LAUNDRYTYPE) "
                   + "values (?, ?, ?)");
       pstmt.setString(1, request.getRequestID());
-      pstmt.setString(2, request.getLaundryType());
-      pstmt.setString(3, request.getLaundryStatus().toString());
+      pstmt.setString(2, String.valueOf(request.getLaundryStatus()));
+      pstmt.setString(3, request.getLaundryType());
 
       pstmt.executeUpdate();
       connection.commit();
     } catch (SQLException e) {
-      System.out.println("add equipment purchase request statement failed");
+      System.out.println("add laundry service request statement failed");
       return false;
     }
     return true;
+  }
+
+  /**
+   * Returns the default path that medical equipment delivery request csv files are printed to
+   *
+   * @return The default path that medical equipment delivery request csv files are printed to
+   */
+  File getDefaultLaundryServiceRequestCSVPath() {
+    return reqCSV.getDefaultPath();
   }
 }
