@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.LaundryServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.UniqueID;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
@@ -56,24 +57,13 @@ public class LaundryServiceController extends ServiceRequestController implement
   @Override
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
     List<ServiceRequest> serviceRequestList = database.getAllServiceRequests();
-    int id;
     if (dao.getLocationByID(locationField.getText()).getNodeID() == null) {
       errorLabel.setVisible(true);
       System.out.println("FAIL");
     } else {
-      if (serviceRequestList.isEmpty()) {
-        System.out.println("There are no service requests");
-        id = 0;
-      } else {
-        ServiceRequest tempService = serviceRequestList.get(serviceRequestList.size() - 1);
-        id =
-            Integer.parseInt(
-                tempService
-                    .getRequestID()
-                    .substring(tempService.getRequestID().lastIndexOf("Q") + 1));
-      }
-      // Create new REQID
-      String requestID = "REQ" + ++id;
+      UniqueID id = new UniqueID();
+      String requestID = id.generateID("LAUND");
+
       LaundryServiceRequest temp =
           new LaundryServiceRequest(
               requestID,

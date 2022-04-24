@@ -60,20 +60,9 @@ public class GiftServicesController extends ServiceRequestController {
 
   @Override
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
-    String id;
-    // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (FacadeDAO.getInstance().getAllServiceRequests().isEmpty()) {
-      System.out.println("Gift is empty");
-      id = "REQ0";
-    } else {
-      List<ServiceRequest> currentList = database.getAllServiceRequests();
-      ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
-      id = lastestReq.getRequestID();
-    }
-    // Create new REQID
-    int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-    String requestID = "REQ" + num;
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("GIFT");
 
     // Creates entities for submission
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;

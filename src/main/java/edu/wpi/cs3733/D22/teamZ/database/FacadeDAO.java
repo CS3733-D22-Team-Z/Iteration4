@@ -22,6 +22,7 @@ public class FacadeDAO {
   private final CleaningRequestDAOImpl cleaningRequestDAO;
   private final EquipmentPurchaseDAOImpl equipmentPurchaseDAO;
   private final SecurityRequestDAOImpl securityRequestDAO;
+  private final LanguageInterpreterRequestDAOImpl languageInterpreterRequestDAO;
   private final ComputerServiceRequestDAOImpl computerRequestDAO;
 
   public static FacadeDAO getInstance() {
@@ -43,6 +44,7 @@ public class FacadeDAO {
     cleaningRequestDAO = new CleaningRequestDAOImpl();
     equipmentPurchaseDAO = new EquipmentPurchaseDAOImpl();
     securityRequestDAO = new SecurityRequestDAOImpl();
+    languageInterpreterRequestDAO = new LanguageInterpreterRequestDAOImpl();
     computerRequestDAO = new ComputerServiceRequestDAOImpl();
   }
 
@@ -152,6 +154,15 @@ public class FacadeDAO {
    */
   public List<ComputerServiceRequest> getAllComputerServiceRequests() {
     return computerRequestDAO.getAllComputerServiceRequests();
+  }
+
+  /**
+   * Gets all language interpreter requests
+   *
+   * @return list of language interpreter requests
+   */
+  public List<LanguageInterpreterRequest> getAllLanguageInterpreterRequests() throws SQLException {
+    return languageInterpreterRequestDAO.getAllLanguageInterpreterServiceRequests();
   }
 
   // Get By ID methods
@@ -268,6 +279,15 @@ public class FacadeDAO {
    */
   public SecurityServiceRequest getSecurityServiceRequestByID(String requestID) {
     return securityRequestDAO.getSecurityServiceRequestByID(requestID);
+  }
+  /**
+   * Get a LanguageInterpreterRequest with provided requestID
+   *
+   * @param id the id of the language interpreter request to be searched for
+   * @return LanguageInterpreter object with given ID
+   */
+  public LanguageInterpreterRequest getLanguageInterpreterRequestByID(String id) {
+    return languageInterpreterRequestDAO.getLanguageInterpreterRequestByID(id);
   }
   /**
    * Get a ComputerServiceRequest with provided requestID
@@ -466,6 +486,16 @@ public class FacadeDAO {
     return serviceRequestDAO.addServiceRequest(request) && giftRequestDAO.addGiftRequest(request);
   }
   /**
+   * Adds a Language Interpreter to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addLanguageInterpreterRequest(LanguageInterpreterRequest request) {
+    return serviceRequestDAO.addServiceRequest(request)
+        && languageInterpreterRequestDAO.addLanguageInterpreterRequest(request);
+  }
+  /**
    * Adds ComputerServiceRequest to the database
    *
    * @param request ComputerServiceRequest to be added
@@ -474,15 +504,6 @@ public class FacadeDAO {
   public boolean addComputerServiceRequest(ComputerServiceRequest request) {
     return serviceRequestDAO.addServiceRequest(request)
         && computerRequestDAO.addComputerServiceRequest(request);
-  }
-  /**
-   * Adds a ComputerServiceRequest to the database
-   *
-   * @param request request to be added
-   * @return True if successful, false otherwise
-   */
-  public boolean addComputerServiceRequestToDatabase(ComputerServiceRequest request) {
-    return computerRequestDAO.addComputerServiceRequest(request);
   }
 
   // Delete methods
@@ -596,6 +617,18 @@ public class FacadeDAO {
   public boolean deleteSecurityServiceRequest(SecurityServiceRequest request) {
     return securityRequestDAO.deleteSecurityServiceRequest(request)
         && serviceRequestDAO.deleteServiceRequest(request);
+  }
+  /**
+   * Deletes a Language Interpreter Request from the database
+   *
+   * @param request LanguageInterpreterRequest to be deleted
+   * @return True if successful, false otherwise
+   */
+  public boolean deleteLanguageInterpreterRequest(LanguageInterpreterRequest request) {
+    boolean val =
+        languageInterpreterRequestDAO.deleteLanguageInterpreterRequest(request)
+            && serviceRequestDAO.deleteServiceRequest(request);
+    return languageInterpreterRequestDAO.deleteLanguageInterpreterRequest(request);
   }
   /**
    * Deletes an ComputerServiceRequest from the database
@@ -734,6 +767,16 @@ public class FacadeDAO {
         && securityRequestDAO.updateSecurityServiceRequest(request);
   }
   /**
+   * updates an existing LanguageInterpreterRequest in database with new request
+   *
+   * @param request LanguageInterpreterRequest to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateLanguageInterpreterRequest(LanguageInterpreterRequest request) {
+    return updateServiceRequest(request)
+        && languageInterpreterRequestDAO.updateLanguageInterpreterRequest(request);
+  }
+  /**
    * Updates an existing ComputerServiceRequest in database with new request
    *
    * @param request ComputerServiceRequest to be updated
@@ -834,6 +877,15 @@ public class FacadeDAO {
    */
   public int importSecurityServiceRequestFromCSV(File data) {
     return securityRequestDAO.importSecurityServiceRequestFromCSV(data);
+  }
+  /**
+   * imports all LanguageInterpreterRequests in a specified file location of csv into the database
+   *
+   * @param request LanguageInterpreterRequest to be imported
+   * @return number of conflicts when importing
+   */
+  public int importLanguageInterpreterRequestFromCSV(File request) {
+    return languageInterpreterRequestDAO.importLanguageInterpreterRequestFromCSV(request);
   }
   /**
    * Imports all ComputerServiceRequest in specified file location of csv into the database
@@ -947,6 +999,17 @@ public class FacadeDAO {
   public boolean exportToSecurityServiceRequestCSV(File data) {
     return securityRequestDAO.exportToSecurityServiceRequestCSV(data);
   }
+  /**
+   * Exports LanguageInterpreterRequest database to specified file location for csv
+   *
+   * @param languageInterpreterData file location for csv
+   * @return True if successful, false otherwise
+   */
+  public boolean exportLanguageInterpreterRequestsToCSV(File languageInterpreterData) {
+    return languageInterpreterRequestDAO.exportToLanguageInterpreterRequestCSV(
+        languageInterpreterData);
+  }
+
   /**
    * Exports all ComputerServiceRequest in the database to specified file location of csv
    *
@@ -1110,6 +1173,16 @@ public class FacadeDAO {
    */
   public boolean addComputerServiceRequestFromList(List<ComputerServiceRequest> list) {
     return computerRequestDAO.addComputerServiceRequestFromList(list);
+  }
+
+  /**
+   * Adds languageInterpreterRequest into database from list
+   *
+   * @param list Request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addLanguageInterpreterRequestFromList(List<LanguageInterpreterRequest> list) {
+    return languageInterpreterRequestDAO.addLanguageInterpreterFromList(list);
   }
 
   // Special methods for location
