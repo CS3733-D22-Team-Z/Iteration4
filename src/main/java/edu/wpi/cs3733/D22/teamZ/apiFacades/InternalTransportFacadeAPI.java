@@ -66,7 +66,6 @@ public class InternalTransportFacadeAPI {
     }
   }
 
-
   private static Location convertToLocation(TeamBLocation bLoc) {
     return FacadeDAO.getInstance().getLocationByID(bLoc.getNodeID());
   }

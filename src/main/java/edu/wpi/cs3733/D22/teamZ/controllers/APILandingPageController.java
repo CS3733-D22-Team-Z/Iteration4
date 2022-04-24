@@ -14,6 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
 public class APILandingPageController implements IMenuAccess {
+  @FXML private Region externalRegionFM;
+  @FXML private Label teamCLabel;
+  @FXML private Region externalRegionIPT;
+  @FXML private Label teamBLabel;
   @FXML private MFXToggleButton toggleNames;
   @FXML private ScrollPane scrollPane;
   @FXML private Region externalRegion;
@@ -42,6 +46,8 @@ public class APILandingPageController implements IMenuAccess {
 
     // Set each name label to center
     teamZLabel.setAlignment(Pos.CENTER);
+    teamBLabel.setAlignment(Pos.CENTER);
+    teamCLabel.setAlignment(Pos.CENTER);
   }
 
   @Override
@@ -67,13 +73,13 @@ public class APILandingPageController implements IMenuAccess {
   }
 
   @FXML
-  private void toSanitationRequest() {
+  private void toInternalTransportRequest() {
     System.out.println("navigating to sanitation from api landing page");
     InternalTransportFacadeAPI.getInstance().run(apiCSSPath);
   }
 
   @FXML
-  private void toSecurityRequest() {
+  private void toFacilityMaintenanceRequest() {
     System.out.println("navigating to security from api landing page");
     FacilityMaintenanceFacadeAPI.getInstance().run(apiCSSPath);
   }
@@ -82,5 +88,7 @@ public class APILandingPageController implements IMenuAccess {
   private void showNameLabels() {
     boolean set = toggleNames.isSelected();
     teamZLabel.setVisible(set);
+    teamBLabel.setVisible(set);
+    teamCLabel.setVisible(set);
   }
 }
