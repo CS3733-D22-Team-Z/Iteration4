@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ProfilePageController">
+   <children>
+      <Circle fill="DODGERBLUE" layoutX="300.0" layoutY="137.0" radius="63.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label fx:id="userName" layoutX="237.0" layoutY="35.0" text="Hello " />
+      <Label layoutX="293.0" layoutY="215.0" text="ID " />
+      <Label layoutX="265.0" layoutY="276.0" text="AccessType" />
+      <MFXButton layoutX="226.0" layoutY="341.0" prefHeight="27.0" prefWidth="149.0" style="-fx-background-color: #0075ff;" text="Change Password" textFill="WHITE" />
+      <MFXButton layoutX="36.0" layoutY="30.0" style="-fx-background-color: #0075ff;" text="Back to Homepage" textFill="WHITE" />
+      <MFXButton layoutX="36.0" layoutY="341.0" style="-fx-background-color: #0075ff;" text="Logout" textFill="WHITE" />
+      <MFXButton layoutX="36.0" layoutY="124.0" prefHeight="27.0" prefWidth="149.0" style="-fx-background-color: #0075ff;" text="Change Picture" textFill="WHITE" />
+      <MFXTextField fx:id="ID" animated="false" floatMode="DISABLED" layoutX="226.0" layoutY="241.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </MFXTextField>
+      <MFXTextField fx:id="accessType" animated="false" floatMode="DISABLED" layoutX="226.0" layoutY="293.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </MFXTextField>
+      <AnchorPane fx:id="password" layoutX="385.0" layoutY="185.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label layoutX="24.0" layoutY="32.0" text="Old Password" />
+            <Label layoutX="21.0" layoutY="92.0" text="New Password" />
+            <MFXTextField fx:id="oldPassword" animated="false" floatMode="DISABLED" layoutX="26.0" layoutY="55.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </MFXTextField>
+            <MFXTextField fx:id="newPassword" animated="false" floatMode="DISABLED" layoutX="26.0" layoutY="109.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </MFXTextField>
+            <MFXButton layoutX="24.0" layoutY="159.0" style="-fx-background-color: #0075ff;" text="Submit" textFill="WHITE" />
+            <MFXButton fx:id="resetButton" layoutX="115.0" layoutY="159.0" prefHeight="27.0" prefWidth="60.0" style="-fx-background-color: #FF4C4C;" text="Reset" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
