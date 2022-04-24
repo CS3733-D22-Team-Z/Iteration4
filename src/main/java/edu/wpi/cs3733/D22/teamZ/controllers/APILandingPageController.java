@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.apiFacades.ExternalTransportFacadeAPI;
 import edu.wpi.cs3733.D22.teamZ.apiFacades.SanitationFacadeAPI;
+import edu.wpi.cs3733.D22.teamZ.apiFacades.SecurityFacadeAPI;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import javafx.fxml.FXML;
@@ -69,6 +70,12 @@ public class APILandingPageController implements IMenuAccess {
   private void toSanitationRequest() {
     System.out.println("navigating to sanitation from api landing page");
     SanitationFacadeAPI.getInstance().run(apiCSSPath);
+  }
+
+  @FXML
+  private void toSecurityRequest() {
+    System.out.println("navigating to security from api landing page");
+    SecurityFacadeAPI.getInstance().run(apiCSSPath);
   }
 
   @FXML

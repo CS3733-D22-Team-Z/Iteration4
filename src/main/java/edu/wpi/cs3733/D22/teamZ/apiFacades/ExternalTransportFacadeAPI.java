@@ -5,7 +5,7 @@ import edu.wpi.cs3733.D22.teamZ.api.exception.ServiceException;
 
 public class ExternalTransportFacadeAPI {
 
-  private static final ExternalTransportFacadeAPI instance = new ExternalTransportFacadeAPI();
+  private final static ExternalTransportFacadeAPI instance = new ExternalTransportFacadeAPI();
   private final API api;
 
   public static ExternalTransportFacadeAPI getInstance() {

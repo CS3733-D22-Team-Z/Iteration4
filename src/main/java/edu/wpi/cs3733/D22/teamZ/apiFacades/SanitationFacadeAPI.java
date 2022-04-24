@@ -26,7 +26,7 @@ public class SanitationFacadeAPI {
     }
   }
 
-  private static final SanitationFacadeAPI instance = new SanitationFacadeAPI();
+  private final static SanitationFacadeAPI instance = new SanitationFacadeAPI();
   private final FacadeDAO facadeDAO = FacadeDAO.getInstance();
   private final API api;
   private final DatabaseController apiDatabase;
