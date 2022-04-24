@@ -39,7 +39,7 @@ import org.kynosarges.tektosyne.geometry.VoronoiResults;
 public class MapController implements Initializable {
   // FXML elements
   @FXML private ImageView mapImage;
-  @FXML private Pane iconContainer;
+  @FXML @Getter private Pane iconContainer;
   @FXML private ScrollPane scrollPane;
   @FXML private StackPane mapContainer;
 
@@ -319,7 +319,7 @@ public class MapController implements Initializable {
                     label.setScaleY(1.1);
                     if (labelClickedMethod != null) labelClickedMethod.call(label);
                     // Move to label
-                    panToPoint(activeLabel.getLayoutX(), activeLabel.getLayoutY());
+                    panToPoint(label.getLayoutX(), label.getLayoutY());
                   }
                 });
 
