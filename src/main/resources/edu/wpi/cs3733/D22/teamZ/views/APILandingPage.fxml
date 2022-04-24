@@ -84,6 +84,90 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
+                  <MFXButton onAction="#toInternalPatientTransportation" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="1">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="108.0" translateX="-4.0">
+                           <children>
+                              <Label layoutX="3.0" layoutY="74.0" prefHeight="48.0" prefWidth="102.0" styleClass="landing-button" text="Internal Patient Transportation" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Region fx:id="externalRegionIPT" layoutX="33.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="teamBLabel" layoutX="-3.0" layoutY="109.0" prefHeight="25.0" prefWidth="118.0" text="Team B" visible="false">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton onAction="#toFacilityMaintenance" prefHeight="130.0" prefWidth="119.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="2">
+                     <effect>
+                        <DropShadow>
+                           <color>
+                              <Color opacity="0.190476194024086" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <graphic>
+                        <Pane prefHeight="135.0" prefWidth="108.0" translateX="-4.0">
+                           <children>
+                              <Label layoutX="3.0" layoutY="74.0" prefHeight="48.0" prefWidth="102.0" styleClass="landing-button" text="Facility Maintenance" textAlignment="CENTER" wrapText="true">
+                                 <textFill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </textFill>
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Region fx:id="externalRegionFM" layoutX="33.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
+                              <Label fx:id="teamCLabel" layoutX="-3.0" layoutY="109.0" prefHeight="25.0" prefWidth="118.0" text="Team C" visible="false">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </MFXButton>
                </children>
             </GridPane>
          </content>

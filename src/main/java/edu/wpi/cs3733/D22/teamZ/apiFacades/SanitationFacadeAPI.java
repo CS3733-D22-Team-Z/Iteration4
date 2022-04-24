@@ -26,7 +26,7 @@ public class SanitationFacadeAPI {
     }
   }
 
-  private final static SanitationFacadeAPI instance = new SanitationFacadeAPI();
+  private static final SanitationFacadeAPI instance = new SanitationFacadeAPI();
   private final FacadeDAO facadeDAO = FacadeDAO.getInstance();
   private final API api;
   private final DatabaseController apiDatabase;
@@ -65,7 +65,6 @@ public class SanitationFacadeAPI {
       System.out.println("weird");
     }
   }
-
 
   private static Location convertToLocation(TeamBLocation bLoc) {
     return FacadeDAO.getInstance().getLocationByID(bLoc.getNodeID());

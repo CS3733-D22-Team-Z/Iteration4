@@ -1,10 +1,9 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.apiFacades.ExternalTransportFacadeAPI;
-import edu.wpi.cs3733.D22.teamZ.apiFacades.SanitationFacadeAPI;
-import edu.wpi.cs3733.D22.teamZ.apiFacades.SecurityFacadeAPI;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -14,6 +13,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
 public class APILandingPageController implements IMenuAccess {
+  @FXML private Region externalRegionFM;
+  @FXML private Label teamCLabel;
+  @FXML private Region externalRegionIPT;
+  @FXML private Label teamBLabel;
   @FXML private MFXToggleButton toggleNames;
   @FXML private ScrollPane scrollPane;
   @FXML private Region externalRegion;
@@ -42,6 +45,8 @@ public class APILandingPageController implements IMenuAccess {
 
     // Set each name label to center
     teamZLabel.setAlignment(Pos.CENTER);
+    teamBLabel.setAlignment(Pos.CENTER);
+    teamCLabel.setAlignment(Pos.CENTER);
   }
 
   @Override
@@ -66,21 +71,15 @@ public class APILandingPageController implements IMenuAccess {
     ExternalTransportFacadeAPI.getInstance().run(apiCSSPath);
   }
 
-  @FXML
-  private void toSanitationRequest() {
-    System.out.println("navigating to sanitation from api landing page");
-    SanitationFacadeAPI.getInstance().run(apiCSSPath);
-  }
+  public void toFacilityMaintenance(ActionEvent actionEvent) {}
 
-  @FXML
-  private void toSecurityRequest() {
-    System.out.println("navigating to security from api landing page");
-    SecurityFacadeAPI.getInstance().run(apiCSSPath);
-  }
+  public void toInternalPatientTransportation(ActionEvent actionEvent) {}
 
   @FXML
   private void showNameLabels() {
     boolean set = toggleNames.isSelected();
     teamZLabel.setVisible(set);
+    teamBLabel.setVisible(set);
+    teamCLabel.setVisible(set);
   }
 }
