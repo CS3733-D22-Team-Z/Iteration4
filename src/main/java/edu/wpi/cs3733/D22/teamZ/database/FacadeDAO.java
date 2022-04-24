@@ -454,7 +454,9 @@ public class FacadeDAO {
    * @return True if successful, false otherwise
    */
   public boolean addLaundryServiceRequest(LaundryServiceRequest laundryServiceRequest) {
-    boolean val = laundryServiceRequestDAO.addLaundryServiceRequest(laundryServiceRequest);
+    boolean val =
+        serviceRequestDAO.addServiceRequest(laundryServiceRequest)
+            && laundryServiceRequestDAO.addLaundryServiceRequest(laundryServiceRequest);
     return val;
   }
   /**
@@ -1072,6 +1074,15 @@ public class FacadeDAO {
 
   public File getDefaultComputerRequestCSVPath() {
     return computerRequestDAO.getDefaultComputerServiceRequestCSVPath();
+  }
+
+  /**
+   * Returns the default path that gift service request csv files are printed to
+   *
+   * @return The default path that gift service request csv files are printed to
+   */
+  public File getDefaultGiftServiceCSVPath() {
+    return giftRequestDAO.getDefaultGiftServiceCSVPath();
   }
 
   // Add from list functions
