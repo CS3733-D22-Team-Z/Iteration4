@@ -161,6 +161,7 @@ gradle-app.setting
 # DB ignore
 myDB/
 externalTransportDB/
+TEAMC_API_DB/
 
 # End of https://www.gitignore.io/api/java,macos,gradle,intellij+all
 
