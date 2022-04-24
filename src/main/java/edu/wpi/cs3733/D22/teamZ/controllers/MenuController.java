@@ -47,6 +47,7 @@ public class MenuController implements Initializable {
   @FXML VBox iconContainer;
   @FXML Label timeLabel;
   @FXML Label dateLabel;
+  @FXML Region menuRegionButton;
 
   double initialHeight;
   double initialWidth;
@@ -69,6 +70,7 @@ public class MenuController implements Initializable {
   private String logoutIcon =
       "M60 16L54.36 21.64L64.68 32H24V40H64.68L54.36 50.32L60 56L80 36L60 16ZM8 8H40V0H8C3.6 0 0 3.6 0 8V64C0 68.4 3.6 72 8 72H40V64H8V8Z";
 
+  private String menuIcon = "M21 18H3V16H21V18ZM21 13H3V11H21V13ZM21 8H3V6H21V8Z";
   // FXMLS
   @FXML private Label pageLabel;
 
@@ -82,6 +84,7 @@ public class MenuController implements Initializable {
   // Colors representing the grey and blue values used in the fxmls.
   private String grey = "#C4C4C4";
   private String blue = "#FFFFFF";
+  private String yellow = "#F6BD38";
 
   // Store the ClassLoader for future use
   ClassLoader rscLoader;
@@ -118,6 +121,17 @@ public class MenuController implements Initializable {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    // Initialize exit menu
+    SVGPath MenuIcon = new SVGPath();
+    MenuIcon.setContent(menuIcon);
+    menuRegionButton.setShape(MenuIcon);
+    menuRegionButton.setStyle(String.format(svgCSSLine, yellow));
+
+    menuRegionButton.setOnMouseClicked(
+        (e) -> {
+          toggleMenu();
+        });
 
     pageLabel.textProperty().bind(currentPage);
 

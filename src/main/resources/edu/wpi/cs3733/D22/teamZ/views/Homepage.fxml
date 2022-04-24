@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/HomePage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
+<AnchorPane prefHeight="997.0" prefWidth="1731.0" stylesheets="@../styles/HomePage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
     <children>
         <Label fx:id="welcomeMessage" alignment="TOP_LEFT" layoutX="14.0" layoutY="204.0" prefHeight="49.0" prefWidth="585.0" styleClass="header-home" text="Hello admin, Welcome to the Brigham and Women's Hospital App" wrapText="true">
             <font>
