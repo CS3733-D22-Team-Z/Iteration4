@@ -400,6 +400,10 @@
     -fx-border-width: 0;
 }
 
+.map-label {
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
+}
+
 /* Making the scroll bar pretty */
 .scroll-bar,
 .scroll-bar .decrement-arrow,

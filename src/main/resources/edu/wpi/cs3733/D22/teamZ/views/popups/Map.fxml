@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+
+<ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" pannable="true" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../styles/ServiceRequestDefault.css" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController">
+   <content>
+      <StackPane fx:id="mapContainer" alignment="TOP_LEFT">
+         <children>
+            <ImageView fx:id="mapImage" fitHeight="850.0" fitWidth="1021.0" pickOnBounds="true" preserveRatio="true" />
+            <Pane fx:id="iconContainer" />
+         </children>
+      </StackPane>
+   </content>
+</ScrollPane>
