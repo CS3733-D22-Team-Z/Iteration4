@@ -143,7 +143,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   }
 
   public void onNavigateToMedicalRequestList() throws IOException {
-    menu.selectMenu(3);
+    menu.selectMenu(2);
     menu.load(toMedicalEquipmentRequestURL);
   }
 }
