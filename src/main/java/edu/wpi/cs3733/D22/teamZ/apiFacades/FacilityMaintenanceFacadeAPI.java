@@ -5,17 +5,16 @@ import edu.wpi.cs3733.D22.teamC.controller.service_request.facility_maintenance.
 import java.io.IOException;
 
 public class FacilityMaintenanceFacadeAPI {
-	private final static FacilityMaintenanceFacadeAPI instance = new FacilityMaintenanceFacadeAPI();
-	private final TeamCAPI api;
+  private static final FacilityMaintenanceFacadeAPI instance = new FacilityMaintenanceFacadeAPI();
+  private final TeamCAPI api;
 
+  public static FacilityMaintenanceFacadeAPI getInstance() {
+    return instance;
+  }
 
-	public static FacilityMaintenanceFacadeAPI getInstance() {
-		return instance;
-	}
-
-	private FacilityMaintenanceFacadeAPI() {
-		this.api = new TeamCAPI();
-	}
+  private FacilityMaintenanceFacadeAPI() {
+    this.api = new TeamCAPI();
+  }
 
   public void run(String cssPath) {
     try {

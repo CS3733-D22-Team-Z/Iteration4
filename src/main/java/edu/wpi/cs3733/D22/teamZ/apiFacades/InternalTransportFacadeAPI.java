@@ -26,7 +26,7 @@ public class InternalTransportFacadeAPI {
     }
   }
 
-  private final static InternalTransportFacadeAPI instance = new InternalTransportFacadeAPI();
+  private static final InternalTransportFacadeAPI instance = new InternalTransportFacadeAPI();
   private final FacadeDAO facadeDAO = FacadeDAO.getInstance();
   private final API api;
   private final DatabaseController apiDatabase;
