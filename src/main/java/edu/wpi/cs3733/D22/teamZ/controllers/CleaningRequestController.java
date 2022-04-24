@@ -91,17 +91,8 @@ public class CleaningRequestController extends ServiceRequestController {
     System.out.println("nodeType: " + nodeTypeDropDown.getValue());
     System.out.println("Request: " + enterRequest.getText());
 
-    String id;
-    // Check for empty db and set first request (will appear as REQ1 in the db)
-
-    id = "REQ0";
-    List<ServiceRequest> currentList = database.getAllServiceRequests();
-    ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
-    id = lastestReq.getRequestID();
-
-    // Create new REQID
-    int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-    String requestID = "REQ" + num;
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("CLEAN");
 
     // Create entities for submission
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;

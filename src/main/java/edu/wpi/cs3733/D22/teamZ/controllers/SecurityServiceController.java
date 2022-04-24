@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.SecurityServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.UniqueID;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
@@ -38,16 +39,15 @@ public class SecurityServiceController extends ServiceRequestController {
 
     ServiceRequest last = servReqs.get(servReqs.size() - 1);
 
-    String id = last.getRequestID();
-    int idNum = Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("SECR");
 
-    String genID = "REQ" + (idNum + 1);
     Location tryGet = facadeDAO.getLocationByID(nodeIdField.getText());
 
     if (!tryGet.getNodeID().equals("")) {
       SecurityServiceRequest req =
           new SecurityServiceRequest(
-              genID,
+              requestID,
               ServiceRequest.RequestStatus.UNASSIGNED,
               MenuController.getLoggedInUser(),
               null,
