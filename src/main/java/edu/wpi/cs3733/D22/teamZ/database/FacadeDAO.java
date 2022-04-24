@@ -454,7 +454,8 @@ public class FacadeDAO {
    * @return True if successful, false otherwise
    */
   public boolean addLaundryServiceRequest(LaundryServiceRequest laundryServiceRequest) {
-    boolean val = serviceRequestDAO.addServiceRequest(laundryServiceRequest)
+    boolean val =
+        serviceRequestDAO.addServiceRequest(laundryServiceRequest)
             && laundryServiceRequestDAO.addLaundryServiceRequest(laundryServiceRequest);
     return val;
   }
