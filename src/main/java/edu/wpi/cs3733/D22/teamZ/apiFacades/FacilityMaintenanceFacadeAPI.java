@@ -5,16 +5,16 @@ import edu.wpi.cs3733.D22.teamC.controller.service_request.facility_maintenance.
 
 import java.io.IOException;
 
-public class SecurityFacadeAPI {
-	private final static SecurityFacadeAPI instance = new SecurityFacadeAPI();
+public class FacilityMaintenanceFacadeAPI {
+	private final static FacilityMaintenanceFacadeAPI instance = new FacilityMaintenanceFacadeAPI();
 	private final TeamCAPI api;
 
 
-	public static SecurityFacadeAPI getInstance() {
+	public static FacilityMaintenanceFacadeAPI getInstance() {
 		return instance;
 	}
 
-	private SecurityFacadeAPI() {
+	private FacilityMaintenanceFacadeAPI() {
 		this.api = new TeamCAPI();
 	}
 
