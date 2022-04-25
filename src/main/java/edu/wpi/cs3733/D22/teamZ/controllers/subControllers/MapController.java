@@ -39,7 +39,7 @@ import org.kynosarges.tektosyne.geometry.VoronoiResults;
 public class MapController implements Initializable {
   // FXML elements
   @FXML private ImageView mapImage;
-  @FXML private Pane iconContainer;
+  @FXML @Getter private Pane iconContainer;
   @FXML private ScrollPane scrollPane;
   @FXML private StackPane mapContainer;
 
@@ -62,6 +62,7 @@ public class MapController implements Initializable {
   @Setter private LabelMethod rightClickedMethod;
   private VoronoiResults snapLocations = null;
   @Getter @Setter private int iconShift = 0;
+  @Getter @Setter private int generalShift = 0;
   private BiPolygon prevBounds;
   private double minX;
   private double minY;
@@ -133,8 +134,17 @@ public class MapController implements Initializable {
             // If a label is currently selected and is being dragged...
             if (activeLabel != null && activeLabel.isDragging()) {
               // Move it
-              activeLabel.setTranslateX(dragEvent.getX() - activeLabel.getMouseHomeX() + iconShift);
-              activeLabel.setTranslateY(dragEvent.getY() - activeLabel.getMouseHomeY() + iconShift);
+              Image locationImg = ((ImageView) activeLabel.getGraphic()).getImage();
+              activeLabel.setTranslateX(
+                  dragEvent.getX()
+                      - activeLabel.getMouseHomeX()
+                      + iconShift
+                      - locationImg.getWidth() / 2);
+              activeLabel.setTranslateY(
+                  dragEvent.getY()
+                      - activeLabel.getMouseHomeY()
+                      + iconShift
+                      - locationImg.getHeight());
 
               // If voroni regions are present
               if (snapLocations != null) {
@@ -165,10 +175,17 @@ public class MapController implements Initializable {
             // If there aren't any voroni regions
             if (snapLocations == null) {
               // Update layout of label
+              Image locationImg = ((ImageView) activeLabel.getGraphic()).getImage();
               activeLabel.setLayoutX(
-                  activeLabel.getLayoutX() + activeLabel.getTranslateX() - iconShift);
+                  activeLabel.getLayoutX()
+                      + activeLabel.getTranslateX()
+                      - iconShift
+                      + locationImg.getWidth() / 2);
               activeLabel.setLayoutY(
-                  activeLabel.getLayoutY() + activeLabel.getTranslateY() - iconShift);
+                  activeLabel.getLayoutY()
+                      + activeLabel.getTranslateY()
+                      - iconShift
+                      + locationImg.getHeight());
             } else {
               if (prevBounds != null && activeLabel.isDragging()) {
                 activeLabel.setLayoutX(prevBounds.getParentLocation().getXcoord());
@@ -179,8 +196,9 @@ public class MapController implements Initializable {
             prevBounds = null;
 
             // Reset translation
-            activeLabel.setTranslateX(0);
-            activeLabel.setTranslateY(0);
+            Image locationImg = ((ImageView) activeLabel.getGraphic()).getImage();
+            activeLabel.setTranslateX(-locationImg.getWidth() / 2);
+            activeLabel.setTranslateY(-locationImg.getHeight());
 
             // Run dragExit
             if (draggable && activeLabel.isDragging()) dragExitMethod.call(activeLabel);
@@ -319,7 +337,7 @@ public class MapController implements Initializable {
                     label.setScaleY(1.1);
                     if (labelClickedMethod != null) labelClickedMethod.call(label);
                     // Move to label
-                    panToPoint(activeLabel.getLayoutX(), activeLabel.getLayoutY());
+                    panToPoint(label.getLayoutX(), label.getLayoutY());
                   }
                 });
 
@@ -327,6 +345,10 @@ public class MapController implements Initializable {
         Image locationImg = new Image(String.format(mapPath, img));
         ImageView locationIcon = new ImageView(locationImg);
         label.setGraphic(locationIcon);
+
+        // Shift label so the bottom tip is on the exact layout
+        label.setTranslateX(-locationImg.getWidth() / 2);
+        label.setTranslateY(-locationImg.getHeight());
       }
 
       allLabels.add(label);

@@ -654,6 +654,7 @@ public class LocationListController implements IMenuAccess {
   public void resultMouseClick() {
     // MaterialFX goofy
     ObservableMap<Integer, String> selections = searchResultList.getSelectionModel().getSelection();
+    searchResultList.getSelectionModel().clearSelection();
     String searched = "";
     for (Integer k : selections.keySet()) searched = selections.get(k);
 
@@ -670,13 +671,22 @@ public class LocationListController implements IMenuAccess {
 
     Location finalSelectedLoc = selectedLoc;
     activeLabel =
-        mapController.getAllLabels().stream()
-            .filter((label) -> label.getLocation().equals(finalSelectedLoc))
-            .collect(Collectors.toList())
-            .get(0);
-    activeLabel.requestFocus();
+        (MapLabel)
+            mapController.getIconContainer().getChildren().stream()
+                .filter(
+                    (label) -> {
+                      if (label instanceof MapLabel) {
+                        return ((MapLabel) label).getLocation().equals(finalSelectedLoc);
+                      } else {
+                        return false;
+                      }
+                    })
+                .collect(Collectors.toList())
+                .get(0);
+
     // activeLabel = allLabels.get(theoreticalGenericIndex);
     searchField.setText(activeLabel.getLocation().getLongName());
+    activeLabel.requestFocus();
     // displayLocationInformation();
   }
 
