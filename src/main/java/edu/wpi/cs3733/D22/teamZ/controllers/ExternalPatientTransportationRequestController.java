@@ -1,16 +1,14 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.Employee;
-import edu.wpi.cs3733.D22.teamZ.entity.ExternalPatientTransportationRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -47,28 +45,19 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
     FacadeDAO dao = FacadeDAO.getInstance();
     List<ServiceRequest> serviceRequestList = database.getAllServiceRequests();
-    int id;
+
     // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (serviceRequestList.isEmpty()) {
-      System.out.println("There are no service requests");
-      id = 0;
-    } else {
-      ServiceRequest tempService = serviceRequestList.get(serviceRequestList.size() - 1);
-      id =
-          Integer.parseInt(
-              tempService
-                  .getRequestID()
-                  .substring(tempService.getRequestID().lastIndexOf("Q") + 1));
-    }
-    // Create new REQID
-    String requestID = "REQ" + ++id;
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("EXTRL");
 
     // Create entities for submission
 
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
     Location tempLoc = dao.getLocationByID("zEXIT00101");
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
     String patientName = patientNameField.getText();
     String patientID = patientIDField.getText();
     String destination = destinationField.getText();
@@ -80,6 +69,8 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
             issuer,
             handler,
             tempLoc,
+            opened,
+            closed,
             patientID,
             patientName,
             destination,

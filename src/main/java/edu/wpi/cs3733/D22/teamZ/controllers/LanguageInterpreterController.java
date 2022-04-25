@@ -6,6 +6,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -70,20 +71,9 @@ public class LanguageInterpreterController extends ServiceRequestController {
 
   @Override
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
-    String id;
-    // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (FacadeDAO.getInstance().getAllServiceRequests().isEmpty()) {
-      System.out.println("Language is empty");
-      id = "REQ0";
-    } else {
-      List<ServiceRequest> currentList = database.getAllServiceRequests();
-      ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
-      id = lastestReq.getRequestID();
-    }
-    // Create new REQID
-    int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-    String requestID = "REQ" + num;
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("LANG");
 
     // Creates entities for submission
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
@@ -106,6 +96,9 @@ public class LanguageInterpreterController extends ServiceRequestController {
       }
     }
 
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
+
     LanguageInterpreterRequest language =
         new LanguageInterpreterRequest(
             requestID,
@@ -113,6 +106,8 @@ public class LanguageInterpreterController extends ServiceRequestController {
             issuer,
             handler,
             temp,
+            opened,
+            closed,
             tempPat.getName(),
             tempPat.getPatientID(),
             languageDropDown.getValue());

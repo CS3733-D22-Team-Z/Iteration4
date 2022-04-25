@@ -38,7 +38,9 @@ public class LabRequestControlCSV extends ControlCSV {
               request.getIssuer(),
               request.getHandler(),
               request.getTargetLocation(),
-              labTypeStr));
+              labTypeStr,
+              request.getOpened(),
+              request.getClosed()));
     }
 
     return labRequestList;

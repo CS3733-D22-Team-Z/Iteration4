@@ -47,6 +47,8 @@ public class CleaningReqControlCSV extends ControlCSV {
                 request.getIssuer(),
                 null,
                 request.getTargetLocation(),
+                request.getOpened(),
+                request.getClosed(),
                 type));
       } else {
         ret.add(
@@ -56,6 +58,8 @@ public class CleaningReqControlCSV extends ControlCSV {
                 request.getIssuer(),
                 request.getHandler(),
                 request.getTargetLocation(),
+                request.getOpened(),
+                request.getClosed(),
                 type));
       }
     }
