@@ -414,6 +414,15 @@ public class LocationListController implements IMenuAccess {
     mode = "Locations";
 
     allLocations = facadeDAO.getAllLocations();
+
+    searchField
+        .focusedProperty()
+        .addListener(
+            evt -> {
+              if (searchField.getText().length() > 0) {
+                search();
+              }
+            });
   }
 
   private void propertiesWindow() throws IOException {
@@ -637,7 +646,7 @@ public class LocationListController implements IMenuAccess {
   // Casey's
   @FXML
   public void search() {
-    searchField.requestFocus();
+    // searchField.requestFocus();
     List<ISearchable> tempResultList;
     tempResultList = filter.filterList(searchField.getText());
     List<String> longNames = new ArrayList<>();
