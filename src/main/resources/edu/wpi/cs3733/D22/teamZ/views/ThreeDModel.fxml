@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.PerspectiveCamera?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Box?>
+<?import javafx.scene.shape.Cylinder?>
+
+<?import javafx.scene.layout.Region?>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ThreeDModelController">
+    <children>
+        <Group fx:id="group">
+            <Group fx:id="groupL2" >
+                <Box fx:id="baseL2" depth="20.0" height="200.0" layoutX="0" layoutY="0" width="250.0">
+                </Box>
+            </Group>
+            <Group fx:id="groupL1">
+                <Box fx:id="baseL1" depth="20.0" height="200.0" layoutX="0" layoutY="0" width="250.0">
+                </Box>
+            </Group>
+            <Group fx:id="group1">
+                <Cylinder fx:id="podA1" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podC1" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Box fx:id="base1" depth="20.0" height="100.0" layoutX="0" layoutY="0" width="100.0">
+                </Box>
+                <Cylinder fx:id="lobby1" height="20" layoutX="80" layoutY="-50" radius="40" />
+                <Cylinder fx:id="podD1" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podB1" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Box fx:id="base1a" depth="20.0" height="100.0" layoutX="0" layoutY="50" width="200.0">
+                </Box>
+            </Group>
+            <Group fx:id="group2">
+                <Cylinder fx:id="podA2" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podC2" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Box fx:id="base2" depth="20.0" height="100.0" layoutX="0" layoutY="0" width="100.0">
+                </Box>
+                <Cylinder fx:id="lobby2" height="20" layoutX="80" layoutY="-50" radius="40" />
+                <Cylinder fx:id="podD2" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podB2" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Box fx:id="base2a" depth="20.0" height="100.0" layoutX="0" layoutY="50" width="200.0">
+                </Box>
+            </Group>
+            <Group fx:id="group3">
+                <Cylinder fx:id="podA3" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podC3" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Box fx:id="base3" depth="20.0" height="100.0" layoutX="0" layoutY="0" width="100.0">
+                </Box>
+                <Cylinder fx:id="podD3" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podB3" height="20" layoutX="0" layoutY="0" radius="40" />
+            </Group>
+            <Group fx:id="group4">
+                <Cylinder fx:id="podA4" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podC4" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Box fx:id="base4" depth="20.0" height="100.0" layoutX="0" layoutY="0" width="100.0">
+                </Box>
+                <Cylinder fx:id="podD4" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podB4" height="20" layoutX="0" layoutY="0" radius="40" />
+            </Group>
+            <Group fx:id="group5">
+                <Cylinder fx:id="podA5" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podC5" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Box fx:id="base5" depth="20.0" height="100.0" layoutX="0" layoutY="0" width="100.0">
+                </Box>
+                <Cylinder fx:id="podD5" height="20" layoutX="0" layoutY="0" radius="40" />
+                <Cylinder fx:id="podB5" height="20" layoutX="0" layoutY="0" radius="40" />
+            </Group>
+        </Group>
+        <PerspectiveCamera fx:id="camera" farClip="70.0" fieldOfView="35.0" nearClip="0.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    </children>
+
+</AnchorPane>

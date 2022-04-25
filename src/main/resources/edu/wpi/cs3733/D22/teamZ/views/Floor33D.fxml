@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Cylinder?>
+<?import javafx.scene.shape.Box?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.Floor33DControllers"
+            prefHeight="600.0" prefWidth="800.0">
+    <Group fx:id="group3">
+        <Cylinder fx:id="podA3" height="5" layoutX="0" layoutY="0" radius="80" />
+        <Cylinder fx:id="podC3" height="5" layoutX="0" layoutY="0" radius="80" />
+        <Box fx:id="base3" depth="5" height="200.0" layoutX="0" layoutY="0" width="200.0">
+        </Box>
+        <Cylinder fx:id="podD3" height="5" layoutX="0" layoutY="0" radius="80" />
+        <Cylinder fx:id="podB3" height="5" layoutX="0" layoutY="0" radius="80" />
+    </Group>
+</AnchorPane>
