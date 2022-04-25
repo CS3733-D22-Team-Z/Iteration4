@@ -676,7 +676,7 @@ public class LocationListController implements IMenuAccess {
                 .filter(
                     (label) -> {
                       if (label instanceof MapLabel) {
-                          return ((MapLabel) label).getLocation().equals(finalSelectedLoc);
+                        return ((MapLabel) label).getLocation().equals(finalSelectedLoc);
                       } else {
                         return false;
                       }
