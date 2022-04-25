@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -119,10 +120,12 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
               enterRoomNumber.getText(),
               enterFloorNumber.getText());
       Location targetLoc = database.getLocationByID(nodeID);
+      LocalDateTime opened = LocalDateTime.now();
+      LocalDateTime closed = null;
 
       MedicalEquipmentDeliveryRequest temp =
           new MedicalEquipmentDeliveryRequest(
-              requestID, status, issuer, handler, equipmentID, targetLoc);
+              requestID, status, issuer, handler, equipmentID, targetLoc, opened, closed);
 
       database.addMedicalEquipmentRequest(temp);
       successfulSubmitLabel.setVisible(true);

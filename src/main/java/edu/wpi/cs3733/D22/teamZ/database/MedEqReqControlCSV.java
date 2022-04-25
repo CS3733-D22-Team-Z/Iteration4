@@ -48,7 +48,9 @@ public class MedEqReqControlCSV extends ControlCSV {
                 request.getIssuer(),
                 null,
                 equipmentID,
-                request.getTargetLocation()));
+                request.getTargetLocation(),
+                request.getOpened(),
+                request.getClosed()));
       } else {
         ret.add(
             new MedicalEquipmentDeliveryRequest(
@@ -57,7 +59,9 @@ public class MedEqReqControlCSV extends ControlCSV {
                 request.getIssuer(),
                 request.getHandler(),
                 equipmentID,
-                request.getTargetLocation()));
+                request.getTargetLocation(),
+                request.getOpened(),
+                request.getClosed()));
       }
     }
     return ret;

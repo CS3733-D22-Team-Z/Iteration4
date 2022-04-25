@@ -310,8 +310,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
       PreparedStatement stmt =
           connection.prepareStatement(
               "INSERT INTO SERVICEREQUEST"
-                  + "(requestID, type, status, issuerID, handlerID, targetLocationID)"
-                  + "values (?, ?, ?, ?, ?, ?)");
+                  + "(requestID, type, status, issuerID, handlerID, targetLocationID, opened, closed)"
+                  + "values (?, ?, ?, ?, ?, ?, ?, ?)");
       stmt.setString(1, request.getRequestID());
       stmt.setString(2, request.getType().toString());
       stmt.setString(3, request.getStatus().toString());
@@ -322,6 +322,16 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
         stmt.setString(5, request.getHandler().getEmployeeID());
       }
       stmt.setString(6, request.getTargetLocation().getNodeID());
+      if (request.getOpened() == null) { // TODO delete since should always have start
+        stmt.setString(7, null);
+      } else {
+        stmt.setString(7, request.getOpened().toString());
+      }
+      if (request.getClosed() == null) {
+        stmt.setString(8, null);
+      } else {
+        stmt.setString(8, request.getClosed().toString());
+      }
 
       stmt.executeUpdate();
       connection.commit();
