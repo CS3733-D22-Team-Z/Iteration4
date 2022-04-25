@@ -19,7 +19,7 @@
       <Label layoutX="265.0" layoutY="276.0" text="AccessType" />
       <MFXButton fx:id="changePassword" layoutX="226.0" layoutY="341.0" onAction="#passwordButton" prefHeight="27.0" prefWidth="149.0" style="-fx-background-color: #0075ff;" text="Change Password" textFill="WHITE" />
       <MFXButton layoutX="36.0" layoutY="30.0" style="-fx-background-color: #0075ff;" text="Back to Homepage" textFill="WHITE" />
-      <MFXButton layoutX="36.0" layoutY="341.0" style="-fx-background-color: #0075ff;" text="Logout" textFill="WHITE" />
+      <MFXButton layoutX="36.0" layoutY="341.0" onAction="#toLogout" style="-fx-background-color: #0075ff;" text="Logout" textFill="WHITE" />
       <MFXButton layoutX="36.0" layoutY="124.0" prefHeight="27.0" prefWidth="132.0" style="-fx-background-color: #0075ff;" text="Change Picture" textFill="WHITE" />
       <MFXTextField fx:id="ID" animated="false" floatMode="DISABLED" layoutX="226.0" layoutY="241.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
          <padding>
