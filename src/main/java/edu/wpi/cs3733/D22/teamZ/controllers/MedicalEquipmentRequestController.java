@@ -30,6 +30,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   // URLs
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
+  private String toMedicalEquipmentStatsURL = "edu/wpi/cs3733/D22/teamZ/views/Charts.fxml";
 
   // Lists
   private List<Location> locationList;
@@ -145,5 +146,9 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   public void onNavigateToMedicalRequestList() throws IOException {
     menu.selectMenu(2);
     menu.load(toMedicalEquipmentRequestURL);
+  }
+
+  public void onNavigateToMedicalRequestStats() throws IOException {
+    menu.load(toMedicalEquipmentStatsURL);
   }
 }

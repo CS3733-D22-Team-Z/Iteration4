@@ -5,6 +5,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -98,6 +99,8 @@ public class CleaningRequestController extends ServiceRequestController {
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
 
     String request = enterRequest.getText();
 
@@ -112,7 +115,8 @@ public class CleaningRequestController extends ServiceRequestController {
       errorSavingLabel.setVisible(true);
     } else {
       CleaningRequest temp =
-          new CleaningRequest(requestID, status, issuer, handler, targetLoc, request);
+          new CleaningRequest(
+              requestID, status, issuer, handler, targetLoc, opened, closed, request);
 
       database.addCleaningRequest(temp);
 
