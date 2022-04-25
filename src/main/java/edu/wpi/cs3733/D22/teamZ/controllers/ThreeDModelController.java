@@ -65,6 +65,9 @@ public class ThreeDModelController extends Application {
   @FXML Cylinder podD5;
   @FXML Group group5;
   @FXML Group group;
+  @FXML PointLight lightUp;
+  @FXML PointLight lightRight;
+  @FXML PointLight lightLeft;
 
   private Transform t = new Rotate();
   double speed = 0.2;
@@ -78,19 +81,32 @@ public class ThreeDModelController extends Application {
     //    box.getTransforms().add(new Rotate(30, Rotate.Y_AXIS));
     //    box.getTransforms().add(new Rotate(300, Rotate.X_AXIS));
 
-    setLowerL2Floor(90, ANGLE);
-    setLowerL1Floor(60, ANGLE);
-    setFirstFloor(30, ANGLE);
+    setLowerL2Floor(105, ANGLE);
+    setLowerL1Floor(70, ANGLE);
+    setFirstFloor(35, ANGLE);
     setSecondFloor(0, ANGLE);
-    setThirdFloor(-30, ANGLE);
-    setFourthFloor(-60, ANGLE);
-    setFifthFloor(-90, ANGLE);
+    setThirdFloor(-35, ANGLE);
+    setFourthFloor(-70, ANGLE);
+    setFifthFloor(-105, ANGLE);
 
     group.setTranslateX(WIDTH / 2);
     group.setTranslateY(HEIGHT / 2);
 
     group.setRotationAxis(Rotate.Y_AXIS);
     camera.setRotationAxis(Rotate.Y_AXIS);
+
+    lightUp.setTranslateY(HEIGHT / 2 - 400);
+    lightUp.setTranslateX(WIDTH / 2);
+    lightUp.setTranslateZ(-300);
+    lightUp.getTransforms().add(new Rotate(180, Rotate.X_AXIS));
+
+    lightRight.setTranslateY(HEIGHT / 2);
+    lightRight.setTranslateX(WIDTH / 2 + 200);
+    lightRight.getTransforms().add(new Rotate(90, Rotate.Z_AXIS));
+
+    lightLeft.setTranslateY(HEIGHT / 2);
+    lightLeft.setTranslateX(WIDTH / 2 - 200);
+    lightLeft.getTransforms().add(new Rotate(-90, Rotate.Z_AXIS));
 
     prepareAnimation();
 
