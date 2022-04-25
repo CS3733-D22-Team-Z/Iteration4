@@ -86,6 +86,8 @@ public class LocationListController implements IMenuAccess {
   // @FXML private MFXButton editLocationExitButton;
   @FXML private Pane editLocationPane;
   @FXML private Pane locationChangeDarkenPane;
+  @FXML private Pane zoomInButton;
+  @FXML private Pane zoomOutButton;
 
   private static MapLabel activeLabel;
   //
@@ -218,15 +220,20 @@ public class LocationListController implements IMenuAccess {
 
           mapController.setZooms(locKeys);
 
-          root.addEventFilter(
-              ScrollEvent.SCROLL,
+          zoomInButton.addEventFilter(
+              MouseEvent.MOUSE_CLICKED,
               e -> {
-                scrollCount = (scrollCount + 1) % 3;
-                if (scrollCount == 0) {
-                  curZoom -= e.getDeltaY() < 0 ? 5 : -5;
-                  curZoom = Math.max(45, Math.min(curZoom, 100));
-                  mapController.setScale(curZoom);
-                }
+                curZoom += 5;
+                curZoom = Math.max(45, Math.min(curZoom, 100));
+                mapController.setScale(curZoom);
+              });
+
+          zoomOutButton.addEventFilter(
+              MouseEvent.MOUSE_CLICKED,
+              e -> {
+                curZoom -= 5;
+                curZoom = Math.max(45, Math.min(curZoom, 100));
+                mapController.setScale(curZoom);
               });
         });
 
