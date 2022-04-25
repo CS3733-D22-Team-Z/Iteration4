@@ -1,14 +1,12 @@
 menu-not-selected {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
-    -fx-font-size: 10pt;
     -fx-text-fill: #9D9D9D;
 }
 
 menu-selected {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
-    -fx-font-size: 10pt;
     -fx-text-fill: #0075FF;
 }
 
@@ -22,7 +20,6 @@ menu-selected {
 .menu-button {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
-    -fx-font-size: 10pt;
 
     -fx-background-color: transparent;
 }
@@ -30,7 +27,6 @@ menu-selected {
 .exit-button {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
-    -fx-font-size: 10pt;
     -fx-text-fill: #FFFFFF;
 
     -fx-background-radius: 2px;
