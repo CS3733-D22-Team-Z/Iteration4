@@ -47,7 +47,7 @@
     -fx-font-weight: 500;
     -fx-font-size: 10pt;
     -fx-text-fill: #FFFFFF;
-    
+
     -fx-background-radius: 2px;
     -fx-background-color: #0067B1;
 }
@@ -414,10 +414,6 @@
 .scroll-pane .viewport {
     -fx-background-color: transparent;
     -fx-border-width: 0;
-}
-
-.map-label {
-    -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
 }
 
 /* Making the scroll bar pretty */
