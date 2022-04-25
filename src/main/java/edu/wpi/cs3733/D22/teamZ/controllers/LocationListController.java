@@ -471,7 +471,8 @@ public class LocationListController implements IMenuAccess {
     if (mode.equals("Locations")) {
 
       // Want all floor locations to be displayed + all locations are draggable anywhere.
-      mapController.setLabels(allFloorLocations, allFloorLocations, false, "location");
+      mapController.setLabels(
+          allFloorLocations, allFloorLocations, false, MapController.loadImage("location"));
       mapController.setIconShift(0);
       mapController.setDraggable(
           (label) -> {
@@ -488,7 +489,8 @@ public class LocationListController implements IMenuAccess {
               allFloorLocations.stream()
                   .filter((loc) -> loc.getEquipmentList().size() > 0)
                   .collect(Collectors.toList()));
-      mapController.setLabels(locsWithEquip.get(), allFloorLocations, true, "equipment");
+      mapController.setLabels(
+          locsWithEquip.get(), allFloorLocations, true, MapController.loadImage("equipment"));
       mapController.setIconShift(20);
       mapController.setDraggable(
           (label) -> {
@@ -530,7 +532,10 @@ public class LocationListController implements IMenuAccess {
                   .filter((loc) -> facadeDAO.getServiceRequestsByLocation(loc).size() > 0)
                   .collect(Collectors.toList()));
       mapController.setLabels(
-          locsWithServices.get(), locsWithServices.get(), false, "servicerequest");
+          locsWithServices.get(),
+          locsWithServices.get(),
+          false,
+          MapController.loadImage("servicerequest"));
       mapController.setIconShift(0);
     }
   }

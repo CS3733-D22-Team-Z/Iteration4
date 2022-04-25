@@ -99,7 +99,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   private HashMap<String, DashAlert> alerts;
 
   // private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
-  private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
+  private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/FloorDetails.fxml";
 
   private final String dirtyBedMsg = "There are %d dirty beds on this floor.";
   private final String dirtyPumpMsg = "There are %d dirty pumps on this floor.";
@@ -413,8 +413,8 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   }
 
   public void toFloor3(ActionEvent actionEvent) throws IOException {
-    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
-    mapListController.changeToFloor("3");
+    FloorDetailsController mapListController = (FloorDetailsController) menu.load(toLocationURL);
+    mapListController.setFloor("3");
   }
 
   public void toFloor2(ActionEvent actionEvent) throws IOException {

@@ -47,7 +47,7 @@ public class MapController implements Initializable {
   FacadeDAO database;
 
   // Paths
-  private final String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
+  public static final String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
 
   // Specific attributes
   private ClassLoader loader;
@@ -201,7 +201,7 @@ public class MapController implements Initializable {
             activeLabel = (MapLabel) clickedNode;
             activeLabel.requestFocus();
           } else {
-            if (clickEvent.getClickCount() > 1) {
+            if (clickEvent.getClickCount() > 1 && doubleClicked != null) {
               doubleClicked.call(clickEvent);
             }
           }
@@ -246,13 +246,13 @@ public class MapController implements Initializable {
    *     Voronoi algorithm. Also must contain every visible location
    * @param genVoronoi if voronoi regions be generated from allLocations. Automatically enables
    *     snapping
-   * @param img the image that each location will have
+   * @param graphicMethod the method for setting the graphic
    */
   public void setLabels(
       List<Location> visibleLocations,
       List<Location> allLocations,
       boolean genVoronoi,
-      String img) {
+      LabelMethod graphicMethod) {
     // Reset everything
     currentLabels.clear();
     iconContainer.getChildren().clear();
@@ -324,9 +324,7 @@ public class MapController implements Initializable {
                 });
 
         // Add graphic
-        Image locationImg = new Image(String.format(mapPath, img));
-        ImageView locationIcon = new ImageView(locationImg);
-        label.setGraphic(locationIcon);
+        graphicMethod.call(label);
       }
 
       allLabels.add(label);
@@ -497,5 +495,13 @@ public class MapController implements Initializable {
     } else {
       scroller.setHvalue(scroller.getHmin());
     }
+  }
+
+  public static LabelMethod loadImage(String img) {
+    return loc -> {
+      Image labelGraphic = new Image(String.format(mapPath, img));
+      ImageView imageCont = new ImageView(labelGraphic);
+      loc.setGraphic(imageCont);
+    };
   }
 }

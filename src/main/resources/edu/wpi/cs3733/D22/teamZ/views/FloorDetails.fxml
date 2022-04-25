@@ -4,13 +4,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="root" prefHeight="1020.0" prefWidth="1920.0" stylesheets="@../styles/DashboardCSSTest.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.UpperFloorsDashboardController">
+<AnchorPane fx:id="root" prefHeight="1020.0" prefWidth="1920.0" stylesheets="@../styles/DashboardCSSTest.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.FloorDetailsController">
       <children>
       <HBox layoutX="20.0" layoutY="60.0" spacing="40.0">
          <children>
@@ -65,19 +66,20 @@
                                   </HBox>
                               </children>
                           </VBox>
-                          <VBox fx:id="overviewContainer111" alignment="CENTER" prefHeight="400.0" spacing="10.0" styleClass="ui-window">
-                              <children>
-                                  <Label styleClass="header" text="Map" />
-                                  <AnchorPane maxWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" />
-                                  <HBox alignment="CENTER" spacing="20.0">
-                                      <children>
-                                          <MFXButton fx:id="viewAllOnMap" alignment="BOTTOM_LEFT" text="All" />
-                                          <MFXButton fx:id="viewPumpsOnMap" alignment="BOTTOM_LEFT" text="Pumps" />
-                                          <MFXButton fx:id="viewBedsOnMap" alignment="BOTTOM_LEFT" text="Beds" />
-                                      </children>
-                                  </HBox>
-                              </children>
-                          </VBox>
+                  <AnchorPane styleClass="ui-window">
+                     <children>
+                                  <Label layoutX="14.0" layoutY="14.0" styleClass="header" text="Map" />
+                                  <AnchorPane fx:id="mapContainer" layoutX="12.0" layoutY="68.0" maxWidth="-Infinity" prefHeight="310.0" prefWidth="620.0" style="-fx-background-color: #0075ff;" />
+                        <VBox layoutX="660.0" layoutY="142.0" spacing="20.0">
+                           <children>
+                                          <MFXButton fx:id="viewAllOnMap" alignment="CENTER" onAction="#allButtonPressed" prefWidth="75.0" styleClass="button-inv" text="All" />
+                                          <MFXButton fx:id="viewBedsOnMap" alignment="CENTER" onAction="#bedsButtonPressed" prefWidth="75.0" styleClass="button-inv" text="Beds" />
+                                          <MFXButton fx:id="viewPumpsOnMap" alignment="CENTER" onAction="#pumpsButtonPressed" prefWidth="75.0" styleClass="button-inv" text="Pumps" />
+                              <MFXButton fx:id="viewReclinersOnMap" alignment="CENTER" onAction="#reclinerButtonPressed" prefWidth="75.0" styleClass="button-inv" text="Recliners" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
                </children>
             </VBox>
                     <VBox fx:id="overviewContainer12" prefHeight="940.0" prefWidth="500.0" spacing="10.0" styleClass="ui-window">
@@ -93,7 +95,15 @@
                     <VBox fx:id="overviewContainer11" prefHeight="940.0" prefWidth="550.0" spacing="10.0" styleClass="ui-window">
                         <children>
                             <Label styleClass="header" text="Medical Equipment" />
-                            <TableView fx:id="medicalEquipmentTable" prefHeight="200.0" prefWidth="200.0" styleClass="dropdown-table-view" />
+                            <TableView fx:id="medicalEquipmentTable" prefHeight="820.0" prefWidth="200.0" styleClass="dropdown-table-view">
+                     <columns>
+                        <TableColumn fx:id="typeColumn" editable="false" prefWidth="75.0" text="Equipment" />
+                        <TableColumn fx:id="locationColumn" editable="false" prefWidth="75.0" text="Location" />
+                        <TableColumn fx:id="statusColumn" editable="false" prefWidth="75.0" text="Status" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy></TableView>
                             <HBox alignment="CENTER" spacing="20.0">
                                 <children>
                                     <MFXButton fx:id="viewAllEquipmentButton" alignment="BOTTOM_LEFT" text="View All" />
