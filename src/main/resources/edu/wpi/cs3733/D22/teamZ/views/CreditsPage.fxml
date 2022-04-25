@@ -17,7 +17,7 @@
       <Label layoutX="363.0" layoutY="183.0" text="FacilityMaintenance" />
       <Pane layoutX="115.0" layoutY="133.0" prefHeight="135.0" prefWidth="108.0">
          <children>
-            <Label layoutX="3.0" layoutY="74.0" prefHeight="48.0" prefWidth="102.0" styleClass="landing-button" text="Team B: Patient Transportation" textAlignment="CENTER" wrapText="true">
+            <Label layoutX="2.0" layoutY="74.0" prefHeight="48.0" prefWidth="108.0" styleClass="landing-button" text="Team B: Internal Transportation" textAlignment="CENTER" wrapText="true">
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
