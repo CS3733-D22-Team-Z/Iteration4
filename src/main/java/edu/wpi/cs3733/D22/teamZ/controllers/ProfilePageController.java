@@ -4,6 +4,9 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.utils.SwingFXUtils;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,9 +19,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 
 public class ProfilePageController implements Initializable, IMenuAccess {
 
@@ -28,9 +35,11 @@ public class ProfilePageController implements Initializable, IMenuAccess {
   FacadeDAO facadeDAO;
 
   private String toLoginURL = "edu/wpi/cs3733/D22/teamZ/views/LoginPage.fxml";
+  private String homepageURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
   private ChangeListener<? super Number> sizeChangeListener;
 
   @FXML private Label userName;
+  @FXML private Label warning;
   @FXML private MFXTextField ID;
   @FXML private MFXTextField accessType;
   @FXML private Pane password;
@@ -38,6 +47,10 @@ public class ProfilePageController implements Initializable, IMenuAccess {
   @FXML private MFXButton submitButton;
   @FXML private MFXTextField oldPassword;
   @FXML private MFXTextField newPassword;
+  @FXML private ImageView profilePic;
+
+  private FileChooser fileChooser;
+  private File file;
 
   @Override
   public void setMenuController(MenuController menu) {
@@ -61,9 +74,14 @@ public class ProfilePageController implements Initializable, IMenuAccess {
     facadeDAO = FacadeDAO.getInstance();
   }
 
+  public void toHomepage(ActionEvent actionEvent) throws IOException {
+    menu.load(homepageURL);
+  }
+
   public void passwordButton(ActionEvent actionEvent) {
     password.setVisible(true);
     changePassword.setDisable(true);
+    warning.setVisible(false);
   }
 
   public void submit(ActionEvent actionEvent) {
@@ -72,12 +90,36 @@ public class ProfilePageController implements Initializable, IMenuAccess {
       emp.setPassword(newPassword.getText());
       facadeDAO.updateEmployee(emp);
       password.setVisible(false);
+    } else {
+      warning.setVisible(true);
     }
   }
 
   public void closeChangePassword(MouseEvent mouseEvent) {
     password.setVisible(false);
     changePassword.setDisable(false);
+  }
+
+  public void reset(ActionEvent actionEvent) {
+    oldPassword.clear();
+    newPassword.clear();
+    warning.setVisible(false);
+  }
+
+  public void changePicture(ActionEvent actionEvent) {
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    fileChooser = new FileChooser();
+    fileChooser.setTitle("Open Image");
+
+    this.file = fileChooser.showOpenDialog(stage);
+
+    try {
+      BufferedImage bufferedImage = ImageIO.read(file);
+      Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+      profilePic.setImage(image);
+    } catch (IOException e) {
+      System.out.println("Cannot upload image");
+    }
   }
 
   @FXML

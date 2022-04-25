@@ -18,9 +18,9 @@
       <Label layoutX="293.0" layoutY="215.0" text="ID " />
       <Label layoutX="265.0" layoutY="276.0" text="AccessType" />
       <MFXButton fx:id="changePassword" layoutX="226.0" layoutY="341.0" onAction="#passwordButton" prefHeight="27.0" prefWidth="149.0" style="-fx-background-color: #0075ff;" text="Change Password" textFill="WHITE" />
-      <MFXButton layoutX="36.0" layoutY="30.0" style="-fx-background-color: #0075ff;" text="Back to Homepage" textFill="WHITE" />
+      <MFXButton layoutX="36.0" layoutY="30.0" onAction="#toHomepage" style="-fx-background-color: #0075ff;" text="Back to Homepage" textFill="WHITE" />
       <MFXButton layoutX="36.0" layoutY="341.0" onAction="#toLogout" style="-fx-background-color: #0075ff;" text="Logout" textFill="WHITE" />
-      <MFXButton layoutX="36.0" layoutY="124.0" prefHeight="27.0" prefWidth="132.0" style="-fx-background-color: #0075ff;" text="Change Picture" textFill="WHITE" />
+      <MFXButton layoutX="36.0" layoutY="124.0" onAction="#changePicture" prefHeight="27.0" prefWidth="132.0" style="-fx-background-color: #0075ff;" text="Change Picture" textFill="WHITE" />
       <MFXTextField fx:id="ID" animated="false" floatMode="DISABLED" layoutX="226.0" layoutY="241.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
          <padding>
             <Insets left="10.0" />
@@ -46,16 +46,18 @@
                </padding>
             </MFXTextField>
             <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="157.0" onAction="#submit" style="-fx-background-color: #0075ff;" text="Submit" textFill="WHITE" />
-            <MFXButton fx:id="resetButton" layoutX="120.0" layoutY="157.0" prefHeight="27.0" prefWidth="60.0" style="-fx-background-color: #FF4C4C;" text="Reset" textFill="WHITE" />
+            <MFXButton fx:id="resetButton" layoutX="120.0" layoutY="157.0" onAction="#reset" prefHeight="27.0" prefWidth="60.0" style="-fx-background-color: #FF4C4C;" text="Reset" textFill="WHITE" />
             <ImageView fitHeight="15.0" fitWidth="18.0" layoutX="180.0" layoutY="6.0" onMouseClicked="#closeChangePassword" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/exitPopup.png" />
                </image>
             </ImageView>
+            <Label fx:id="warning" layoutX="44.0" layoutY="135.0" text="Fill in fields correctly" textFill="#ff4c4c" />
          </children>
          <effect>
             <DropShadow />
          </effect>
       </Pane>
+      <ImageView fx:id="profilePic" fitHeight="150.0" fitWidth="178.0" layoutX="397.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
