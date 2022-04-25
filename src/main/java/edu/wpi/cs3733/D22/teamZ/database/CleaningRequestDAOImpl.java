@@ -87,7 +87,11 @@ public class CleaningRequestDAOImpl implements ICleaningRequestDAO {
               "UPDATE SERVICEREQUEST SET status =?, handlerID =?, closed =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
       stmt.setString(2, request.getHandler().getEmployeeID());
-      stmt.setString(3, request.getOpened().toString());
+      if (request.getClosed() == null) {
+        stmt.setString(3, null);
+      } else {
+        stmt.setString(3, request.getClosed().toString());
+      }
       stmt.setString(4, request.getRequestID());
 
       stmt.executeUpdate();

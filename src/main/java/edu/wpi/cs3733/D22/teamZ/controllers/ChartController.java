@@ -2,7 +2,9 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.net.URL;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,12 +29,18 @@ public class ChartController implements Initializable, IMenuAccess {
     series.setName("Equipment Requests");
     int count = 0;
     for (MedicalEquipmentDeliveryRequest medReq : facadeDAO.getAllMedicalEquipmentRequest()) {
-      count++;
-      series.getData().add(new XYChart.Data(String.valueOf(count), 13));
+      if (medReq.getStatus().equals(ServiceRequest.RequestStatus.DONE)) {
+        count++;
+        double length = (double) medReq.getOpened().until(medReq.getClosed(), ChronoUnit.HOURS);
+        length +=
+            (double) ((medReq.getOpened().until(medReq.getClosed(), ChronoUnit.MINUTES)) % 60)
+                / 60.0;
+        series.getData().add(new XYChart.Data(String.valueOf(count), length));
+      }
     }
     XYChart.Series series2 = new XYChart.Series();
-    series2.getData().add(new XYChart.Data("1", 20));
-    series2.getData().add(new XYChart.Data(String.valueOf(count), 20));
+    series2.getData().add(new XYChart.Data("1", 5));
+    series2.getData().add(new XYChart.Data(String.valueOf(count), 5));
     series2.setName("Goal Time");
 
     medChart.getData().addAll(series, series2);
@@ -45,6 +53,6 @@ public class ChartController implements Initializable, IMenuAccess {
 
   @Override
   public String getMenuName() {
-    return "Dashboard";
+    return "Chart";
   }
 }
