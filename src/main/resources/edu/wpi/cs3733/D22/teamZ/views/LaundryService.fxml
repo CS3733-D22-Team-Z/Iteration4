@@ -29,5 +29,6 @@
       <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="404.0" layoutY="202.0" onAction="#onLaundryListButtonClicked" prefHeight="60.0" prefWidth="176.0" text="Laundry Service Requests" textAlignment="CENTER" wrapText="true" />
       <MFXTextField fx:id="linenTypeField" floatMode="DISABLED" layoutX="197.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter Linen Type" />
       <Label fx:id="errorLabel" layoutX="62.0" layoutY="292.0" prefHeight="17.0" prefWidth="282.0" style="-fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request: Invalid location" textFill="#ff4444" />
+      <Label fx:id="successSubmitLabel" layoutX="62.0" layoutY="292.0" prefHeight="17.0" prefWidth="282.0" style="-fx-text-fill: #0075ff;" styleClass="error-label" text="Request Successfully Submitted!" />
     </children>
 </AnchorPane>

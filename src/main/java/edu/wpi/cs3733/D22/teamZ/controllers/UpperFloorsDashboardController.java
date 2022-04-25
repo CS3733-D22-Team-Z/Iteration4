@@ -477,7 +477,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
       // Create a popup window at alert
       if (currentPopup != null) root.getChildren().remove(currentPopup);
-      currentPopup = PopupLoader.loadPopup("WarningMessage", root);
+      currentPopup = (Pane) PopupLoader.loadPopup("WarningMessage", root).get(0);
       currentPopup.setVisible(false);
 
       // Get floor alert

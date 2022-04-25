@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.GiftServiceRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -19,10 +18,13 @@ public class GiftServiceRequestDAOImpl implements IGiftServiceRequestDAO {
   public GiftServiceRequestDAOImpl() {
     updateConnection();
     giftList = new ArrayList<>();
+
+    File giftData = new File(System.getProperty("user.dir") + "\\giftRequest.csv");
+    reqCSV = new GiftServiceRequestControlCSV(giftData);
   }
 
   @Override
-  public List<GiftServiceRequest> getAllGiftServiceRequests() throws SQLException {
+  public List<GiftServiceRequest> getAllGiftServiceRequests() {
     return giftList;
   }
 
@@ -34,6 +36,10 @@ public class GiftServiceRequestDAOImpl implements IGiftServiceRequestDAO {
       }
     }
     return null;
+  }
+
+  File getDefaultGiftServiceCSVPath() {
+    return reqCSV.getDefaultPath();
   }
 
   @Override
@@ -53,17 +59,23 @@ public class GiftServiceRequestDAOImpl implements IGiftServiceRequestDAO {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "UPDATE SERVICEREQUEST SET status =?, handlerID =? WHERE RequestID =?");
+              "UPDATE SERVICEREQUEST SET status =?, handlerID =?, closed =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
       stmt.setString(2, request.getHandler().getEmployeeID());
-      stmt.setString(3, request.getRequestID());
+      if (request.getClosed() == null) {
+        stmt.setString(3, null);
+      } else {
+        stmt.setString(3, request.getClosed().toString());
+      }
+      stmt.setString(4, request.getRequestID());
 
       stmt.executeUpdate();
       connection.commit();
       for (GiftServiceRequest req : giftList) {
         if (req.equals(request)) {
+          req.setStatus(request.getStatus());
           req.setHandler(request.getHandler());
-          req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+          req.setClosed(request.getClosed());
           return true;
         }
       }

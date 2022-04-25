@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.D22.teamZ.helpers;
 
 import java.io.IOException;
+import java.util.List;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 /**
@@ -17,17 +19,21 @@ public class PopupLoader {
    *
    * @param popup the popup fxml to be loaded.
    * @param parent the parent that will contain the popup
-   * @return the popup window
+   * @return the popup window and controller. 0: Pane, 1: Controller
    */
-  public static Pane loadPopup(String popup, Pane parent) throws IOException {
+  public static List<Object> loadPopup(String popup, Pane parent) throws IOException {
     // Load the popup
     FXMLLoader loader = new FXMLLoader();
     String path = String.format(pathToPopups, popup);
     loader.setLocation(parent.getClass().getClassLoader().getResource(path));
-    Pane popupWindow = loader.load();
-    parent.getChildren().add(popupWindow);
+    Node popupWindow = loader.load();
 
-    return popupWindow;
+    // Place the window in the scene
+    parent.getChildren().add(popupWindow);
+    /*popupWindow.setLayoutX(x - popupWindow.getPrefWidth() / 2);
+    popupWindow.setLayoutY(y - popupWindow.getPrefHeight() / 2);*/
+
+    return List.of(popupWindow, loader.getController());
   }
 
   public static void delay(long millis, Runnable continuation) {

@@ -6,6 +6,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -86,6 +87,8 @@ public class LabRequestController extends ServiceRequestController {
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
 
     LabServiceRequest temp =
         new LabServiceRequest(
@@ -94,7 +97,9 @@ public class LabRequestController extends ServiceRequestController {
             issuer,
             handler,
             FacadeDAO.getInstance().getLocationByID("zLABS00101"),
-            labTypeChoiceBox.getSelectionModel().getSelectedItem());
+            labTypeChoiceBox.getSelectionModel().getSelectedItem(),
+            opened,
+            closed);
 
     database.addLabServiceRequest(temp);
     this.clearFields();

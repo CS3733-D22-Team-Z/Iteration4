@@ -252,6 +252,9 @@ public class MealServiceController extends ServiceRequestController {
       }
     }
 
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
+
     //
     Patient patient = instanceDAO.getPatientByID(patientIDDropDown.getValue());
 
@@ -266,6 +269,8 @@ public class MealServiceController extends ServiceRequestController {
             issuer,
             handler,
             targetLocation,
+            opened,
+            closed,
             patient,
             drinkOptionSelected,
             entreeOptionSelected,

@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import java.time.LocalDateTime;
 
 public class LanguageInterpreterRequest extends ServiceRequest {
   private String patientID;
@@ -15,10 +16,12 @@ public class LanguageInterpreterRequest extends ServiceRequest {
       Employee issuer,
       Employee handler,
       Location targetLocation,
+      LocalDateTime opened,
+      LocalDateTime closed,
       String patientName,
       String patientID,
       String language) {
-    super(requestID, RequestType.LANG, status, issuer, handler, targetLocation);
+    super(requestID, RequestType.LANG, status, issuer, handler, targetLocation, opened, closed);
     this.patientName = patientName;
     this.patientID = patientID;
     this.language = language;
@@ -30,10 +33,12 @@ public class LanguageInterpreterRequest extends ServiceRequest {
       String issuer,
       String handler,
       String targetLocation,
+      String opened,
+      String closed,
       String patientName,
       String patientID,
       String language) {
-    super(requestID, RequestType.LANG, status, issuer, handler, targetLocation);
+    super(requestID, RequestType.LANG, status, issuer, handler, targetLocation, opened, closed);
     this.patientName = patientName;
     this.patientID = patientID;
     this.language = language;
