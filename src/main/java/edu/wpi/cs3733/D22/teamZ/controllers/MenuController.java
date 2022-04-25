@@ -119,6 +119,7 @@ public class MenuController implements Initializable {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    contentPane.setTranslateX(200);
 
     // Initialize exit menu
     SVGPath MenuIcon = new SVGPath();
@@ -280,9 +281,16 @@ public class MenuController implements Initializable {
       if (menuEnabled) {
         menuSlide.setFromX(0);
         menuSlide.setToX(-menuPane.getWidth());
+        TranslateTransition tt = new TranslateTransition(Duration.millis(400), contentPane);
+        tt.setToX(0);
+        tt.play();
       } else {
         menuSlide.setFromX(-menuPane.getWidth());
         menuSlide.setToX(0);
+        TranslateTransition tt = new TranslateTransition(Duration.millis(400), contentPane);
+        tt.setToX(200);
+        tt.play();
+        // contentPane.setTranslateX(200);
       }
 
       System.out.println(menuSlide.getTotalDuration());

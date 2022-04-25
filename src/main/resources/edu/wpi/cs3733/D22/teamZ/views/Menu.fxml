@@ -20,8 +20,8 @@
          <right>
             <HBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="timeLabel" text="4:20 AM" />
-                  <Label fx:id="dateLabel" text="06/09/2022" />
+                  <Label fx:id="timeLabel" style="-fx-font-size: 17;" text="4:20 AM" />
+                  <Label fx:id="dateLabel" style="-fx-font-size: 17;" text="06/09/2022" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -43,10 +43,13 @@
             </HBox>
          </left>
          <center>
-            <Label fx:id="pageLabel" text="Menu" BorderPane.alignment="CENTER">
+            <Label fx:id="pageLabel" style="-fx-font-size: 17;" text="Menu" BorderPane.alignment="CENTER">
                <padding>
                   <Insets left="5.0" />
                </padding>
+               <font>
+                  <Font size="22.0" />
+               </font>
             </Label>
          </center>
       </BorderPane>
@@ -63,11 +66,11 @@
                         <Region styleClass="region-icon" />
                      </children>
                   </VBox>
-                  <VBox fx:id="menuContainer" alignment="CENTER_LEFT" layoutX="22.0" layoutY="53.0" prefHeight="175.0" prefWidth="157.0" spacing="10.0">
+                  <VBox fx:id="menuContainer" alignment="CENTER_LEFT" layoutX="22.0" layoutY="53.0" prefHeight="182.0" prefWidth="157.0" spacing="10.0">
                      <children>
                         <MFXButton alignment="CENTER" onAction="#toHome" prefHeight="38.0" prefWidth="100.0" style="-fx-text-fill: #FFFFFF;" styleClass="menu-button" text="Home">
                            <VBox.margin>
-                              <Insets left="40.0" />
+                              <Insets bottom="1.0" left="35.0" />
                            </VBox.margin>
                         </MFXButton>
                         <MFXButton alignment="CENTER" onAction="#toLocations" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Locations">
@@ -80,12 +83,12 @@
                         </MFXButton>
                         <MFXButton alignment="CENTER" onAction="#toLandingPage" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Services">
                            <VBox.margin>
-                              <Insets bottom="2.0" left="45.0" />
+                              <Insets bottom="6.0" left="42.0" />
                            </VBox.margin>
                         </MFXButton>
-                        <MFXButton alignment="CENTER" onAction="#toMedicalEquipmentRequest" prefHeight="61.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Service Requests List" translateY="-2.0" wrapText="true">
+                        <MFXButton alignment="CENTER" onAction="#toMedicalEquipmentRequest" prefHeight="69.0" prefWidth="97.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Service Requests List" translateY="-2.0" wrapText="true">
                            <VBox.margin>
-                              <Insets bottom="2.0" left="70.0" />
+                              <Insets bottom="2.0" left="60.0" />
                            </VBox.margin>
                         </MFXButton>
                      </children>

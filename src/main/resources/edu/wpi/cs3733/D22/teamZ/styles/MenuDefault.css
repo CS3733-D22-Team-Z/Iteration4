@@ -20,7 +20,7 @@ menu-selected {
 .menu-button {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
-
+    -fx-font-size: 12pt;
     -fx-background-color: transparent;
 }
 
@@ -69,6 +69,7 @@ menu-selected {
 
 .menu-item:focused .label {
     -fx-text-fill: #0075FF;
+    -fx-font-size: 12pt;
 }
 
 .menu-item:focused {
