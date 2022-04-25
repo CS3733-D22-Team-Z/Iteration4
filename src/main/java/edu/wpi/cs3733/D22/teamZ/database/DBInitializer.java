@@ -17,6 +17,10 @@ public class DBInitializer {
   private final CleaningReqControlCSV cleaningReqControlCSV;
   private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
   private final SecurityRequestControlCSV securityRequestControlCSV;
+  private final LaundryServiceRequestControlCSV laundryServiceRequestControlCSV;
+  private final LanguageInterpreterRequestControlCSV languageInterpreterRequestControlCSV;
+  private final ComputerRequestControlCSV computerRequestControlCSV;
+  private final GiftServiceRequestControlCSV giftServiceRequestControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -72,6 +76,26 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "SecurityReq.csv");
+    File laundryReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "LaundryServiceRequest.csv");
+    File languageReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "LanguageReq.csv");
+    File computerReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "ComputerReq.csv");
+    File giftRequestData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "giftRequest.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -83,6 +107,11 @@ public class DBInitializer {
     cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
     purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
     securityRequestControlCSV = new SecurityRequestControlCSV(securityReqData);
+    laundryServiceRequestControlCSV = new LaundryServiceRequestControlCSV(laundryReqData);
+    languageInterpreterRequestControlCSV =
+        new LanguageInterpreterRequestControlCSV(languageReqData);
+    computerRequestControlCSV = new ComputerRequestControlCSV(computerReqData);
+    giftServiceRequestControlCSV = new GiftServiceRequestControlCSV(giftRequestData);
   }
 
   public boolean createTables() {
@@ -101,6 +130,8 @@ public class DBInitializer {
 
     // if you drop tables, drop them in the order from last created to first created
     // Drop tables
+    dropExistingTable("LANGUAGEINTERPRETERREQUEST");
+    dropExistingTable("COMPUTERREQUEST");
     dropExistingTable("SECURITYREQUEST");
     dropExistingTable("LAUNDRYREQUEST");
     dropExistingTable("EQUIPMENTPURCHASE");
@@ -187,6 +218,8 @@ public class DBInitializer {
               + "issuerID VARCHAR(15),"
               + "handlerID VARCHAR(15),"
               + "targetLocationID Varchar(15),"
+              + "opened Varchar(30),"
+              + "closed Varchar(30),"
               + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
               + "constraint ISSUER_FK Foreign Key (issuerID) References EMPLOYEES(employeeID),"
               + "constraint HANDLER_FK Foreign Key (handlerID) References EMPLOYEES(employeeID),"
@@ -281,6 +314,21 @@ public class DBInitializer {
 
     try {
       stmt.execute(
+          "CREATE TABLE LANGUAGEINTERPRETERREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "patientName VARCHAR(50),"
+              + "patientID VARCHAR(15),"
+              + "language VARCHAR(25),"
+              + "constraint LANGUAGEINTERPRETERREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint LANGUAGEINTERPRETERREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid),"
+              + "constraint LANGUAGEINTERPRETERREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create language interpreter request tables");
+      return false;
+    }
+
+    try {
+      stmt.execute(
           "CREATE TABLE MEALSERVICEREQUEST ("
               + "requestID VARCHAR(15),"
               + "patientID VARCHAR(15),"
@@ -331,6 +379,19 @@ public class DBInitializer {
               + "constraint LAUNDRYREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(REQUESTID))");
     } catch (SQLException e) {
       System.out.println("Failed to create laundry service request table");
+      return false;
+    }
+
+    try {
+      stmt.execute(
+          "CREATE TABLE COMPUTERREQUEST ("
+              + "requestID VARCHAR(15),"
+              + "operatingSystem VARCHAR(25),"
+              + "problemDesc VARCHAR(100),"
+              + "constraint COMPUTERREQUEST_PK PRIMARY KEY (requestID),"
+              + "constraint COMPUTERREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(REQUESTID))");
+    } catch (SQLException e) {
+      System.out.println("Failed to create computer service request table");
       return false;
     }
 
@@ -555,6 +616,22 @@ public class DBInitializer {
     return true;
   }
 
+  public boolean populateLanguageInterpreterTable() {
+    try {
+      List<LanguageInterpreterRequest> requestList =
+          languageInterpreterRequestControlCSV.readLanguageIntepreterRequestCSV();
+
+      for (LanguageInterpreterRequest languageInterpreterRequest : requestList) {
+        dao.addLanguageInterpreterRequest(languageInterpreterRequest);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read LanguageInterpreter.csv");
+      return false;
+    }
+    return true;
+  }
+
   public boolean populateEquipmentPurchaseTable() {
     try {
       List<EquipmentPurchaseRequest> requestList =
@@ -569,6 +646,20 @@ public class DBInitializer {
     return true;
   }
 
+  public boolean populateComputerRequestTable() {
+    try {
+      List<ComputerServiceRequest> requestList =
+          computerRequestControlCSV.readComputerServiceRequestCSV();
+      for (ComputerServiceRequest request : requestList) {
+        dao.addComputerServiceRequest(request);
+      }
+    } catch (IOException e) {
+      System.out.println("Failed to read ComputerReq.csv");
+      return false;
+    }
+    return true;
+  }
+
   public boolean populateSecurityRequestTable() {
     try {
       List<SecurityServiceRequest> requestList =
@@ -578,6 +669,22 @@ public class DBInitializer {
       }
     } catch (IOException e) {
       System.out.println("Failed to read SecurityReq.csv");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateLaundryServiceRequests() {
+    try {
+      List<LaundryServiceRequest> laundryList =
+          laundryServiceRequestControlCSV.readLaundryServiceRequestCSV();
+
+      for (LaundryServiceRequest info : laundryList) {
+        dao.addLaundryServiceRequestToDatabase(info);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read Laundry CSV");
       return false;
     }
     return true;

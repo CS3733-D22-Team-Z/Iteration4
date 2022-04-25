@@ -26,7 +26,7 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <VBox alignment="CENTER" layoutX="404.0" layoutY="30.0" prefHeight="212.0" prefWidth="196.0" spacing="10.0">
+        <VBox alignment="CENTER" layoutX="405.0" layoutY="16.0" prefHeight="212.0" prefWidth="196.0" spacing="10.0">
             <children>
                 <MFXButton fx:id="exportCSVButton" mnemonicParsing="false" onAction="#exportToCSV" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #f6bd38; -fx-text-fill: #012d5a;" text="Export to CSV" textFill="#012d5a" />
                 <MFXButton fx:id="refresh" onAction="#refreshClicked" prefHeight="35.0" prefWidth="144.0" style="-fx-background-color: #0067B1;" text="Refresh" textFill="WHITE" />
@@ -54,8 +54,8 @@
                </effect></ChoiceBox>
             </children>
         </VBox>
-      <MFXButton fx:id="setEmpButton" layoutX="431.0" layoutY="334.0" mnemonicParsing="false" onAction="#setEmployee" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #0067B1;" text="Set Employee" textFill="WHITE" />
-      <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="282.0" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;">
+      <MFXButton fx:id="setEmpButton" layoutX="430.0" layoutY="297.0" mnemonicParsing="false" onAction="#setEmployee" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #0067B1;" text="Set Employee" textFill="WHITE" />
+      <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="264.0" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;">
          <effect>
             <DropShadow>
                <color>
@@ -124,11 +124,12 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Label layoutX="430.0" layoutY="257.0" text="Add Employee to Request">
+      <Label fx:id="textEmp" layoutX="430.0" layoutY="240.0" text="Add Employee to Request">
          <font>
             <Font name="Palatino Linotype Bold" size="12.0" />
          </font>
       </Label>
       <Line endX="-51.0" endY="365.0" layoutX="455.0" layoutY="20.0" startX="-51.0" startY="-4.0" stroke="#a1a1a1" />
+      <MFXButton fx:id="finishRequestButton" layoutX="431.0" layoutY="351.0" mnemonicParsing="false" onAction="#finishRequest" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #ff4343;" text="Finished Request" textFill="WHITE" />
     </children>
 </AnchorPane>

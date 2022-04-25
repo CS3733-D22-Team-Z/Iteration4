@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.LabServiceRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
@@ -73,17 +72,23 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "UPDATE SERVICEREQUEST SET status =?, handlerID =? WHERE RequestID =?");
+              "UPDATE SERVICEREQUEST SET status =?, handlerID =?, closed =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
       stmt.setString(2, request.getHandler().getEmployeeID());
-      stmt.setString(3, request.getRequestID());
+      if (request.getClosed() == null) {
+        stmt.setString(3, null);
+      } else {
+        stmt.setString(3, request.getClosed().toString());
+      }
+      stmt.setString(4, request.getRequestID());
 
       stmt.executeUpdate();
       connection.commit();
       for (LabServiceRequest req : labRequests) {
         if (req.equals(request)) {
+          req.setStatus(request.getStatus());
           req.setHandler(request.getHandler());
-          req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+          req.setClosed(request.getClosed());
           return true;
         }
       }

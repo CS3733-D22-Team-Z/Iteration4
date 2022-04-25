@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MedicalEquipmentRequestListController">
     <children>
-        <Label layoutX="71.0" layoutY="32.0" styleClass="object-header" text="List of Medical Equipment Requests">
+        <Label layoutX="48.0" layoutY="32.0" styleClass="object-header" text="List of Medical Equipment Requests">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
@@ -26,15 +26,15 @@
                       <Font name="System Bold" size="12.0" />
                   </font>
               </Label>
-              <HBox alignment="CENTER">
-                  <children>
+            <HBox alignment="CENTER" prefWidth="169.0">
+               <children>
                       <MFXButton fx:id="idButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 5 0 0 5;" styleClass="filter-button" text="ID" />
-                      <MFXButton fx:id="deviceButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Device" />
+                      <MFXButton fx:id="deviceButton" onAction="#filterClicked" prefHeight="29.0" prefWidth="49.0" style="-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Device" />
                       <MFXButton fx:id="statusButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Status" />
-                      <MFXButton fx:id="assigneeButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 0 5 5 0;" styleClass="filter-button" text="Assignee" />
-                  </children>
-              </HBox>
-              <ChoiceBox fx:id="filterCBox" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+                      <MFXButton fx:id="assigneeButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 0 5 5 0;" styleClass="filter-button" text="Handler" />
+               </children>
+            </HBox>
+              <ComboBox fx:id="filterCBox" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" promptText="Filter by..." />
               <Label styleClass="object-body" text="Details">
                   <font>
                       <Font name="System Bold" size="12.0" />

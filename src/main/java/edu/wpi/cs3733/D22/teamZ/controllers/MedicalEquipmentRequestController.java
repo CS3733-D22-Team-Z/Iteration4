@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -30,6 +31,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   // URLs
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
+  private String toMedicalEquipmentStatsURL = "edu/wpi/cs3733/D22/teamZ/views/Charts.fxml";
 
   // Lists
   private List<Location> locationList;
@@ -79,9 +81,9 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     equipmentDropDown.setValue(null);
     nodeTypeDropDown.getSelectionModel().select(0);
     equipmentDropDown.getSelectionModel().select(0);
+    errorSavingLabel.setVisible(false);
     //    nodeTypeDropDown.setValue(null);
     //    equipmentDropDown.setValue(null);
-    validateButton();
   }
 
   @FXML
@@ -92,21 +94,8 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     System.out.println("nodeType: " + nodeTypeDropDown.getValue());
     System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
-    String id;
-    // Check for empty db and set first request (will appear as REQ1 in the db)
-
-    if (equipmentRequestList.isEmpty()) {
-      System.out.println("Equipment is empty");
-      errorSavingLabel.setVisible(true);
-      id = "REQ0";
-    } else {
-      List<ServiceRequest> currentList = database.getAllServiceRequests();
-      ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
-      id = lastestReq.getRequestID();
-    }
-    // Create new REQID
-    int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-    String requestID = "REQ" + num;
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("EQUIP");
 
     // Create entities for submission
     String itemID = equipmentDropDown.getValue().toString();
@@ -131,10 +120,12 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
               enterRoomNumber.getText(),
               enterFloorNumber.getText());
       Location targetLoc = database.getLocationByID(nodeID);
+      LocalDateTime opened = LocalDateTime.now();
+      LocalDateTime closed = null;
 
       MedicalEquipmentDeliveryRequest temp =
           new MedicalEquipmentDeliveryRequest(
-              requestID, status, issuer, handler, equipmentID, targetLoc);
+              requestID, status, issuer, handler, equipmentID, targetLoc, opened, closed);
 
       database.addMedicalEquipmentRequest(temp);
       successfulSubmitLabel.setVisible(true);
@@ -156,7 +147,11 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   }
 
   public void onNavigateToMedicalRequestList() throws IOException {
-    menu.selectMenu(3);
+    menu.selectMenu(2);
     menu.load(toMedicalEquipmentRequestURL);
+  }
+
+  public void onNavigateToMedicalRequestStats() throws IOException {
+    menu.load(toMedicalEquipmentStatsURL);
   }
 }

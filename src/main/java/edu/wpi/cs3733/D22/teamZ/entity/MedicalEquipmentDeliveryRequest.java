@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import java.time.LocalDateTime;
 
 public class MedicalEquipmentDeliveryRequest extends ServiceRequest {
 
@@ -14,8 +15,10 @@ public class MedicalEquipmentDeliveryRequest extends ServiceRequest {
       Employee issuer,
       Employee handler,
       String equipmentID,
-      Location targetLoc) {
-    super(requestID, RequestType.MEDEQUIP, status, issuer, handler, targetLoc);
+      Location targetLoc,
+      LocalDateTime opened,
+      LocalDateTime closed) {
+    super(requestID, RequestType.MEDEQUIP, status, issuer, handler, targetLoc, opened, closed);
     this.equipmentID = equipmentID;
   }
 
@@ -25,8 +28,10 @@ public class MedicalEquipmentDeliveryRequest extends ServiceRequest {
       String issuer,
       String handler,
       String equipmentID,
-      String targetLoc) {
-    super(requestID, RequestType.MEDEQUIP, status, issuer, handler, targetLoc);
+      String targetLoc,
+      String opened,
+      String closed) {
+    super(requestID, RequestType.MEDEQUIP, status, issuer, handler, targetLoc, opened, closed);
     this.equipmentID = equipmentID;
   }
 

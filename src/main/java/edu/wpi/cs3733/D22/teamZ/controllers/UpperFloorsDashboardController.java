@@ -9,7 +9,7 @@ import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
 import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,7 +19,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.shape.SVGPath;
 
@@ -36,21 +35,6 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
   private ObservableList<DashboardEquipment> data;
   @FXML private AnchorPane root;
-  @FXML private TableView upperFloor1Table;
-  @FXML private TableView upperFloor2Table;
-  @FXML private TableView upperFloor3Table;
-  @FXML private TableView upperFloor4Table;
-  @FXML private TableView upperFloor5Table;
-  @FXML private TableColumn idColumnUP5;
-  @FXML private TableColumn locationColumnUP5;
-  @FXML private TableColumn idColumnUP1;
-  @FXML private TableColumn locationColumnUP1;
-  @FXML private TableColumn idColumnUP2;
-  @FXML private TableColumn locationColumnUP2;
-  @FXML private TableColumn idColumnUP3;
-  @FXML private TableColumn locationColumnUP3;
-  @FXML private TableColumn idColumnUP4;
-  @FXML private TableColumn locationColumnUP4;
   @FXML private ProgressBar floor5Dirty;
   @FXML private ProgressBar floor5Clean;
   @FXML private ProgressBar floor4Dirty;
@@ -112,10 +96,14 @@ public class UpperFloorsDashboardController implements IMenuAccess {
 
   private Pane currentPopup = null;
 
-  private List<DashAlert> alerts;
+  private HashMap<String, DashAlert> alerts;
 
   // private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
   private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
+
+  private final String dirtyBedMsg = "There are %d dirty beds on this floor.";
+  private final String dirtyPumpMsg = "There are %d dirty pumps on this floor.";
+  private final String cleanPumpMsg = "There are only %d clean pumps on this floor.";
 
   @Override
   public void setMenuController(MenuController menu) {
@@ -130,16 +118,11 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   @FXML
   public void initialize() throws IOException {
     database = FacadeDAO.getInstance();
-    alerts = new ArrayList<>();
+    alerts = new HashMap<>();
     List<String> floors = List.of("5", "4", "3", "2", "1", "LL1", "LL2");
     for (String floor : floors) {
-      alerts.add(new DashAlert(floor));
+      alerts.put(floor, new DashAlert(floor));
     }
-    createTableUP1();
-    createTableUP2();
-    createTableUP3();
-    createTableUP4();
-    createTableUP5();
     createBarLL2Dirty();
     createBarLL2Clean();
     createBarLL1Dirty();
@@ -361,64 +344,6 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     lowerLevel2CleanLabel.setText(Integer.toString((int) clean));
   }
 
-  public void createTableUP1() {
-    upperFloor1Table.getItems().clear();
-    idColumnUP1.setCellValueFactory(
-        (new PropertyValueFactory<DashboardEquipment, String>("equipmentID")));
-    locationColumnUP1.setCellValueFactory(
-        new PropertyValueFactory<DashboardEquipment, String>("locationNodeType"));
-    createGenericTable("1");
-    upperFloor1Table.setItems(data);
-  }
-
-  public void createTableUP2() {
-    upperFloor2Table.getItems().clear();
-    idColumnUP2.setCellValueFactory(
-        (new PropertyValueFactory<DashboardEquipment, String>("equipmentID")));
-    locationColumnUP2.setCellValueFactory(
-        new PropertyValueFactory<DashboardEquipment, String>("locationNodeType"));
-    createGenericTable("2");
-    upperFloor2Table.setItems(data);
-  }
-
-  public void createTableUP3() {
-    upperFloor3Table.getItems().clear();
-    idColumnUP3.setCellValueFactory(
-        (new PropertyValueFactory<DashboardEquipment, String>("equipmentID")));
-    locationColumnUP3.setCellValueFactory(
-        new PropertyValueFactory<DashboardEquipment, String>("locationNodeType"));
-    createGenericTable("3");
-    upperFloor3Table.setItems(data);
-  }
-
-  public void createTableUP4() {
-    upperFloor4Table.getItems().clear();
-    idColumnUP4.setCellValueFactory(
-        (new PropertyValueFactory<DashboardEquipment, String>("equipmentID")));
-    locationColumnUP4.setCellValueFactory(
-        new PropertyValueFactory<DashboardEquipment, String>("locationNodeType"));
-    createGenericTable("4");
-    upperFloor4Table.setItems(data);
-  }
-
-  public void createTableUP5() {
-    upperFloor5Table.getItems().clear();
-    idColumnUP5.setCellValueFactory(
-        (new PropertyValueFactory<DashboardEquipment, String>("equipmentID")));
-    locationColumnUP5.setCellValueFactory(
-        new PropertyValueFactory<DashboardEquipment, String>("locationNodeType"));
-    createGenericTable("5");
-    upperFloor5Table.setItems(data);
-  }
-
-  public void createGenericTable(String floor) {
-    List<DashboardEquipment> dashboardEquipmentList = new ArrayList<>();
-    for (MedicalEquipment tempMedEquip : dao.getAllMedicalEquipmentByFloor(floor)) {
-      dashboardEquipmentList.add(new DashboardEquipment(tempMedEquip));
-    }
-    data = FXCollections.observableList(dashboardEquipmentList);
-  }
-
   /**
    * Sets up the given dropdown pane
    *
@@ -513,18 +438,11 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   }
 
   public void updateBedAlert(String floor, int dirtyBeds, int dirtyPumps, int cleanPumps) {
-    // Idk.
-    DashAlert floorAlert =
-        alerts.stream()
-            .filter(alert -> alert.getFloor().equals(floor))
-            .collect(Collectors.toList())
-            .get(0);
-    // floorAlert.addWarning(0, "There are %d dirty beds on this floor.");
-    floorAlert.setWarningData(0, dirtyBeds);
-    // floorAlert.addWarning(1, "There are %d dirty pumps on this floor.");
-    floorAlert.setWarningData(1, dirtyPumps);
-    // floorAlert.addWarning(2, "There are %d clean pumps on this floor.");
-    floorAlert.setWarningData(2, cleanPumps);
+    // Get alert for this floor
+    DashAlert floorAlert = alerts.get(floor);
+    floorAlert.putWarningData(dirtyBedMsg, dirtyBeds, 6, true);
+    floorAlert.putWarningData(dirtyPumpMsg, dirtyPumps, 15, true);
+    floorAlert.putWarningData(cleanPumpMsg, cleanPumps, 5, false);
   }
 
   public void floorAlert(String floor) {
@@ -556,31 +474,16 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     if (alert.isVisible()) {
       // Count dirty equipment on floor
       String floor = alert.getId().substring(10);
-      List<MedicalEquipment> equipment = dao.getAllMedicalEquipmentByFloor(floor);
-      equipment =
-          equipment.stream()
-              .filter(equip -> equip.getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY))
-              .collect(Collectors.toList());
 
       // Create a popup window at alert
-      Bounds boundsInScene = root.sceneToLocal(alert.localToScene(alert.getBoundsInLocal()));
       if (currentPopup != null) root.getChildren().remove(currentPopup);
-      int add = 80;
-      if (List.of("LL1", "LL2", "1").contains(floor)) add = -80;
-      currentPopup =
-          PopupLoader.loadPopup(
-              "WarningMessage",
-              root,
-              (int) boundsInScene.getCenterX(),
-              (int) boundsInScene.getCenterY() + add);
+      currentPopup = (Pane) PopupLoader.loadPopup("WarningMessage", root).get(0);
+      currentPopup.setVisible(false);
 
       // Get floor alert
-      DashAlert floorAlert =
-          alerts.stream()
-              .filter(alertEnt -> alertEnt.getFloor().equals(floor))
-              .collect(Collectors.toList())
-              .get(0);
+      DashAlert floorAlert = alerts.get(floor);
 
+      // Load labels into warning
       for (String message : floorAlert.getWarnings()) {
         Label infoLabel = new Label();
         infoLabel.setText(message);
@@ -588,6 +491,27 @@ public class UpperFloorsDashboardController implements IMenuAccess {
         labelContainer.getChildren().add(infoLabel);
         infoLabel.setWrapText(true);
       }
+
+      // Position popup
+      Bounds boundsInScene = root.sceneToLocal(alert.localToScene(alert.getBoundsInLocal()));
+      int add = -30;
+
+      PopupLoader.delay(
+          500,
+          () -> {
+            if (currentPopup != null) {
+              int mul =
+                  boundsInScene.getCenterY() + currentPopup.getHeight() + add > root.getHeight()
+                      ? 1
+                      : 0;
+              currentPopup.setLayoutX(boundsInScene.getCenterX() - currentPopup.getWidth() / 2);
+              currentPopup.setLayoutY(
+                  boundsInScene.getCenterY()
+                      + add * (mul - 1)
+                      - (currentPopup.getHeight() - add) * mul);
+              currentPopup.setVisible(true);
+            }
+          });
     }
   }
 

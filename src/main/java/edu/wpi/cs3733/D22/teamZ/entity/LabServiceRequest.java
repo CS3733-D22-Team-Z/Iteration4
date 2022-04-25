@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
+import java.time.LocalDateTime;
+
 public class LabServiceRequest extends ServiceRequest {
 
   private final String labType;
@@ -10,8 +12,10 @@ public class LabServiceRequest extends ServiceRequest {
       Employee issuer,
       Employee handler,
       Location targetLocation,
-      String labType) {
-    super(requestID, RequestType.LABS, status, issuer, handler, targetLocation);
+      String labType,
+      LocalDateTime opened,
+      LocalDateTime closed) {
+    super(requestID, RequestType.LABS, status, issuer, handler, targetLocation, opened, closed);
     this.labType = labType;
   }
 
@@ -21,8 +25,10 @@ public class LabServiceRequest extends ServiceRequest {
       String issuer,
       String handler,
       String targetLocation,
-      String labType) {
-    super(requestID, RequestType.LABS, status, issuer, handler, targetLocation);
+      String labType,
+      String opened,
+      String closed) {
+    super(requestID, RequestType.LABS, status, issuer, handler, targetLocation, opened, closed);
     this.labType = labType;
   }
 
