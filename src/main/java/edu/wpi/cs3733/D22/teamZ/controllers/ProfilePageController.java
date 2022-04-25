@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.utils.SwingFXUtils;
 import java.awt.image.BufferedImage;
@@ -46,7 +47,8 @@ public class ProfilePageController implements Initializable, IMenuAccess {
   @FXML private MFXButton changePassword;
   @FXML private MFXButton submitButton;
   @FXML private MFXTextField oldPassword;
-  @FXML private MFXTextField newPassword;
+  @FXML private MFXPasswordField newPassword;
+  @FXML private MFXTextField passwordBox;
   @FXML private ImageView profilePic;
 
   private FileChooser fileChooser;
@@ -71,7 +73,11 @@ public class ProfilePageController implements Initializable, IMenuAccess {
     ID.setDisable(true);
     accessType.setDisable(true);
     password.setVisible(false);
+    passwordBox.setDisable(true);
     facadeDAO = FacadeDAO.getInstance();
+    if (emp.getImage() != null) {
+      profilePic.setImage(emp.getImage());
+    }
   }
 
   public void toHomepage(ActionEvent actionEvent) throws IOException {
@@ -117,6 +123,8 @@ public class ProfilePageController implements Initializable, IMenuAccess {
       BufferedImage bufferedImage = ImageIO.read(file);
       Image image = SwingFXUtils.toFXImage(bufferedImage, null);
       profilePic.setImage(image);
+      System.out.println(image);
+      emp.setImage(image);
     } catch (IOException e) {
       System.out.println("Cannot upload image");
     }

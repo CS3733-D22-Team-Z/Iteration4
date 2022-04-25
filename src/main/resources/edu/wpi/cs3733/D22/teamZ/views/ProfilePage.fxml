@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -9,29 +10,27 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Circle?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-radius: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ProfilePageController">
    <children>
-      <Circle fill="DODGERBLUE" layoutX="300.0" layoutY="137.0" radius="63.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label fx:id="userName" layoutX="237.0" layoutY="35.0" text="Hello " />
-      <Label layoutX="293.0" layoutY="215.0" text="ID " />
-      <Label layoutX="265.0" layoutY="276.0" text="AccessType" />
-      <MFXButton fx:id="changePassword" layoutX="226.0" layoutY="341.0" onAction="#passwordButton" prefHeight="27.0" prefWidth="149.0" style="-fx-background-color: #0075ff;" text="Change Password" textFill="WHITE" />
+      <Label fx:id="userName" layoutX="226.0" layoutY="35.0" text="Hello " />
+      <Label layoutX="226.0" layoutY="78.0" text="ID " />
+      <Label layoutX="223.0" layoutY="155.0" text="AccessType" />
+      <MFXButton fx:id="changePassword" layoutX="225.0" layoutY="286.0" onAction="#passwordButton" prefHeight="27.0" prefWidth="149.0" style="-fx-background-color: #0075ff;" text="Change Password" textFill="WHITE" />
       <MFXButton layoutX="36.0" layoutY="30.0" onAction="#toHomepage" style="-fx-background-color: #0075ff;" text="Back to Homepage" textFill="WHITE" />
       <MFXButton layoutX="36.0" layoutY="341.0" onAction="#toLogout" style="-fx-background-color: #0075ff;" text="Logout" textFill="WHITE" />
-      <MFXButton layoutX="36.0" layoutY="124.0" onAction="#changePicture" prefHeight="27.0" prefWidth="132.0" style="-fx-background-color: #0075ff;" text="Change Picture" textFill="WHITE" />
-      <MFXTextField fx:id="ID" animated="false" floatMode="DISABLED" layoutX="226.0" layoutY="241.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
+      <MFXButton layoutX="36.0" layoutY="219.0" onAction="#changePicture" prefHeight="27.0" prefWidth="132.0" style="-fx-background-color: #0075ff;" text="Change Picture" textFill="WHITE" />
+      <MFXTextField fx:id="ID" animated="false" floatMode="DISABLED" layoutX="225.0" layoutY="101.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
          <padding>
             <Insets left="10.0" />
          </padding>
       </MFXTextField>
-      <MFXTextField fx:id="accessType" animated="false" floatMode="DISABLED" layoutX="226.0" layoutY="293.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
+      <MFXTextField fx:id="accessType" animated="false" floatMode="DISABLED" layoutX="225.0" layoutY="179.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field">
          <padding>
             <Insets left="10.0" />
          </padding>
       </MFXTextField>
-      <Pane fx:id="password" layoutX="386.0" layoutY="186.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10;">
+      <Pane fx:id="password" layoutX="386.0" layoutY="164.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10 10 10;">
          <children>
             <Label layoutX="62.0" layoutY="30.0" text="Old Password" />
             <MFXTextField fx:id="oldPassword" animated="false" floatMode="DISABLED" layoutX="15.0" layoutY="55.0" prefHeight="27.0" prefWidth="169.0" styleClass="mfx-text-field">
@@ -40,11 +39,11 @@
                </padding>
             </MFXTextField>
             <Label layoutX="59.0" layoutY="92.0" text="New Password" />
-            <MFXTextField fx:id="newPassword" animated="false" floatMode="DISABLED" layoutX="14.0" layoutY="108.0" prefHeight="27.0" prefWidth="169.0" styleClass="mfx-text-field">
+            <MFXPasswordField fx:id="newPassword" animated="false" floatMode="DISABLED" layoutX="14.0" layoutY="108.0" prefHeight="27.0" prefWidth="169.0" styleClass="mfx-text-field">
                <padding>
                   <Insets left="10.0" />
                </padding>
-            </MFXTextField>
+            </MFXPasswordField>
             <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="157.0" onAction="#submit" style="-fx-background-color: #0075ff;" text="Submit" textFill="WHITE" />
             <MFXButton fx:id="resetButton" layoutX="120.0" layoutY="157.0" onAction="#reset" prefHeight="27.0" prefWidth="60.0" style="-fx-background-color: #FF4C4C;" text="Reset" textFill="WHITE" />
             <ImageView fitHeight="15.0" fitWidth="18.0" layoutX="180.0" layoutY="6.0" onMouseClicked="#closeChangePassword" pickOnBounds="true" preserveRatio="true">
@@ -58,6 +57,15 @@
             <DropShadow />
          </effect>
       </Pane>
-      <ImageView fx:id="profilePic" fitHeight="150.0" fitWidth="178.0" layoutX="397.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="profilePic" fitHeight="150.0" fitWidth="178.0" layoutX="21.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../../../Desktop/profile.png" />
+         </image></ImageView>
+      <Label layoutX="223.0" layoutY="233.0" text="Password" />
+      <MFXTextField fx:id="passwordBox" animated="false" floatMode="DISABLED" layoutX="225.0" layoutY="250.0" prefHeight="27.0" prefWidth="149.0" styleClass="mfx-text-field" text="*******">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </MFXTextField>
    </children>
 </AnchorPane>
