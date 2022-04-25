@@ -118,15 +118,16 @@ public class ProfilePageController implements Initializable, IMenuAccess {
     fileChooser.setTitle("Open Image");
 
     this.file = fileChooser.showOpenDialog(stage);
-
-    try {
-      BufferedImage bufferedImage = ImageIO.read(file);
-      Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-      profilePic.setImage(image);
-      System.out.println(image);
-      emp.setImage(image);
-    } catch (IOException e) {
-      System.out.println("Cannot upload image");
+    if (file != null) {
+      try {
+        BufferedImage bufferedImage = ImageIO.read(file);
+        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+        profilePic.setImage(image);
+        System.out.println(image);
+        emp.setImage(image);
+      } catch (IOException e) {
+        System.out.println("Cannot upload image");
+      }
     }
   }
 
