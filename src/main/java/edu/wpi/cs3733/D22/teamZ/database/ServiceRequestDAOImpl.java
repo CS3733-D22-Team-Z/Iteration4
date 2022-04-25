@@ -364,6 +364,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
         String issuerID = rset.getString("issuerID");
         String handlerID = rset.getString("handlerID");
         String targetLocationID = rset.getString("targetLocationID");
+        String opened = rset.getString("opened");
+        String closed = rset.getString("closed");
 
         listServiceRequest.add(
             new ServiceRequest(
@@ -372,7 +374,9 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
                 ServiceRequest.RequestStatus.getRequestStatusByString(statusStr),
                 issuerID,
                 handlerID,
-                targetLocationID));
+                targetLocationID,
+                opened,
+                closed));
       }
     } catch (SQLException e) {
       System.out.println("Failed to get ServiceRequest by status");

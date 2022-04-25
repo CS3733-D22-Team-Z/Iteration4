@@ -176,7 +176,7 @@ public class ServiceRequest {
   }
 
   // TODO delete just temp so I can test
-  public ServiceRequest(
+  /*public ServiceRequest(
       String requestID,
       RequestType type,
       RequestStatus status,
@@ -204,7 +204,7 @@ public class ServiceRequest {
     this.status = status;
     this.issuer = facadeDAO.getEmployeeByID(issuer);
     this.handler = facadeDAO.getEmployeeByID(handler);
-  }
+  }*/
 
   /**
    * Gets the requestID for this ServiceRequest
