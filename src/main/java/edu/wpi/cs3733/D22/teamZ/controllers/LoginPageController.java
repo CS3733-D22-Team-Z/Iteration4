@@ -115,19 +115,22 @@ public class LoginPageController implements Initializable {
     Scene scene = new Scene(root);
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     primaryStage.setScene(scene);
-    primaryStage.minHeightProperty().unbind();
-    primaryStage.maxHeightProperty().unbind();
-    initialHeight = 1080;
+    //    primaryStage.heightProperty().unbind();
+    //    primaryStage.widthProperty().unbind();
+    //    primaryStage.setWidth(1920);
+    //    primaryStage.setHeight(1080);
+    initialHeight = primaryStage.getHeight();
     // TODO was 392^
-    initialWidth = 1920;
+    initialWidth = primaryStage.getWidth();
     // TODO was 745^
     // TODO fix scaling on other login pages after logout
-    primaryStage.setMinHeight(initialHeight); // initial size. doesnt work if less so ignore lol.
-    primaryStage.setMinWidth(initialWidth);
+    // primaryStage.setMinHeight(initialHeight); // initial size. doesnt work if less so ignore lol.
+    // primaryStage.setMinWidth(initialWidth);
 
     initialRatio = initialHeight / initialWidth;
-    primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
-    primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
+    // This breaks stuff at higher resolutions so we shouldn't use it
+    // primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
+    // primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
 
     sizeChangeListener =
         (ChangeListener<Number>)
@@ -140,15 +143,15 @@ public class LoginPageController implements Initializable {
   }
 
   public void onSizeChange(Parent root, Stage primaryStage) {
-    // System.out.println("old:" + oldValue + " new:" + newValue);
+    System.out.println("old:" + primaryStage.getWidth());
     float scaleY = (float) (primaryStage.getHeight() / initialHeight);
     float scaleX = (float) (primaryStage.getWidth() / initialWidth);
     if (initialStates == null) {
       initialStates = root.getTransforms();
     }
-    root.getTransforms().setAll(initialStates);
+    root.getTransforms().clear();
 
-    root.getTransforms().add(new Scale(scaleY, scaleY, 0, 0));
+    root.getTransforms().add(new Scale(scaleX, scaleY, 0, 0));
   }
 
   @FXML

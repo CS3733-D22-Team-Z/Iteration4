@@ -22,10 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Scale;
@@ -73,6 +70,7 @@ public class MenuController implements Initializable {
   private String menuIcon = "M21 18H3V16H21V18ZM21 13H3V11H21V13ZM21 8H3V6H21V8Z";
   // FXMLS
   @FXML private Label pageLabel;
+  @FXML private BorderPane menuBar;
 
   // String that holds the pageLabel's text
   private SimpleStringProperty currentPage;
@@ -189,6 +187,10 @@ public class MenuController implements Initializable {
             toggleMenu();
           }
         });
+
+    menuBar
+        .widthProperty()
+        .addListener(listener -> System.out.println("This shouldn't be doing anything wtF?"));
   }
 
   /**

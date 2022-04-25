@@ -46,26 +46,30 @@ public class App extends Application {
     Parent root = FXMLLoader.load(App.class.getResource("views/LoginPage.fxml"));
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
-    primaryStage.minHeightProperty().unbind();
-    primaryStage.maxHeightProperty().unbind();
-    initialHeight = 400;
-    initialWidth = 600;
-    primaryStage.setMinHeight(initialHeight); // initial size. doesnt work if less so ignore lol.
-    primaryStage.setMinWidth(initialWidth);
-
-    // TODO fix scaling on other login pages after logout
-
-    initialRatio = initialHeight / initialWidth;
-    primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
-    primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
-
-    sizeChangeListener =
-        (ChangeListener<Number>)
-            (observable, oldValue, newValue) -> {
-              onSizeChange(root, primaryStage);
-            };
-    primaryStage.heightProperty().addListener(sizeChangeListener);
-    primaryStage.widthProperty().addListener(sizeChangeListener);
+    //    primaryStage.minHeightProperty().unbind();
+    //    primaryStage.maxHeightProperty().unbind();
+    //    initialHeight = 400;
+    //    initialWidth = 600;
+    //    primaryStage.setHeight(initialHeight); // initial size. doesnt work if less so ignore lol.
+    //    primaryStage.setWidth(initialWidth);
+    //
+    //    // TODO fix scaling on other login pages after logout
+    //
+    //    initialRatio = initialHeight / initialWidth;
+    //    //
+    //    //
+    // primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
+    //    //
+    //    //
+    // primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
+    //
+    //    sizeChangeListener =
+    //        (ChangeListener<Number>)
+    //            (observable, oldValue, newValue) -> {
+    //              onSizeChange(root, primaryStage);
+    //            };
+    // primaryStage.heightProperty().addListener(sizeChangeListener);
+    // primaryStage.widthProperty().addListener(sizeChangeListener);
     primaryStage.setTitle("Team Z - Brigham and Women's Hospital App");
     primaryStage.getIcons().add(new Image("edu/wpi/cs3733/D22/teamZ/images/Hospital-Logo.png"));
     primaryStage.setScene(scene);
@@ -108,6 +112,6 @@ public class App extends Application {
     }
     root.getTransforms().setAll(initialStates);
 
-    root.getTransforms().add(new Scale(scaleY, scaleY, 0, 0));
+    root.getTransforms().add(new Scale(scaleX, scaleY, 0, 0));
   }
 }
