@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.SecurityServiceRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -61,8 +60,9 @@ public class SecurityRequestDAOImpl implements ISecurityRequestDAO {
       connection.commit();
       for (SecurityServiceRequest req : requestList) {
         if (req.equals(request)) {
+          req.setStatus(request.getStatus());
           req.setHandler(request.getHandler());
-          req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+          req.setClosed(request.getClosed());
           return true;
         }
       }

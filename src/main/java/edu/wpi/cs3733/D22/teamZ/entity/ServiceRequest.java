@@ -172,7 +172,9 @@ public class ServiceRequest {
     this.issuer = facadeDAO.getEmployeeByID(issuer);
     this.handler = facadeDAO.getEmployeeByID(handler);
     this.opened = LocalDateTime.parse(opened);
-    this.closed = LocalDateTime.parse(closed);
+    if (closed != null) {
+      this.closed = LocalDateTime.parse(closed);
+    }
   }
 
   // TODO delete just temp so I can test
