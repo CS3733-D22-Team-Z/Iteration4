@@ -8,15 +8,28 @@
 .header {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
-    -fx-font-size: 14pt;
+    -fx-font-size: 36pt;
     -fx-text-fill: #000000;
 }
 
+.big-number {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 700;
+    -fx-font-size: 72pt;
+    -fx-text-fill: #000000;
+}
 
 .object-header {
     -fx-font-family: 'Palatino Linotype';
     -fx-font-weight: 700;
-    -fx-font-size: 14pt;
+    -fx-font-size: 24pt;
+    -fx-text-fill: #000000;
+}
+
+.number-sub {
+    -fx-font-family: 'Palatino Linotype';
+    -fx-font-weight: 700;
+    -fx-font-size: 18pt;
     -fx-text-fill: #000000;
 }
 
@@ -45,7 +58,7 @@
 .button {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 500;
-    -fx-font-size: 10pt;
+    -fx-font-size: 24pt;
     -fx-text-fill: #FFFFFF;
     
     -fx-background-radius: 2px;
@@ -211,6 +224,7 @@
     -fx-font-size: 8pt;
     -fx-text-fill:  #ff4444;
 }
+
 
 /*.mfx-table-view {*/
 
@@ -389,17 +403,16 @@
 .ui-window {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 20px;
-    -fx-padding: 10px;
+
+    -fx-padding: 15px;
 
     -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
 }
 
 .ui-background-window {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: #FFFFFFBF;
     -fx-background-radius: 20px;
     -fx-padding: 20px;
-
-    -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
 }
 
 .dropdown-table-view .column-header-background .filler {
