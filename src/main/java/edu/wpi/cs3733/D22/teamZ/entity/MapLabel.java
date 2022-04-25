@@ -12,6 +12,7 @@ public class MapLabel extends Label {
   @Getter private List<MedicalEquipment> equip;
   private List<Employee> employee;
   @Getter private List<ServiceRequest> reqs;
+  @Getter private List<CCTV> cctvs;
   @Getter @Setter private BiPolygon bound;
   @Getter private boolean isDragging;
   @Getter private int mouseHomeX;
@@ -50,6 +51,7 @@ public class MapLabel extends Label {
     private List<MedicalEquipment> equip = null;
     private List<Employee> employee = null;
     private List<ServiceRequest> reqs = null;
+    private List<CCTV> cctvs = null;
     private BiPolygon bound = null;
 
     public mapLabelBuilder location(Location loc) {
@@ -69,6 +71,11 @@ public class MapLabel extends Label {
 
     public mapLabelBuilder requests(List<ServiceRequest> reqs) {
       this.reqs = reqs;
+      return this;
+    }
+
+    public mapLabelBuilder webCam(List<CCTV> cctvs) {
+      this.cctvs = cctvs;
       return this;
     }
 

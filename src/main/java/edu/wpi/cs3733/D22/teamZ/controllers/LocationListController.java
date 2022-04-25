@@ -125,7 +125,7 @@ public class LocationListController implements IMenuAccess {
   @FXML @Getter private MFXRadioButton locRadio;
   @FXML @Getter private MFXRadioButton equipRadio;
   @FXML private MFXRadioButton servRadio;
-  @FXML private MFXRadioButton cctvRadio;
+  @FXML private MFXRadioButton cctvRadio; // CCTV
   @FXML final ToggleGroup radioGroup = new ToggleGroup();
 
   @FXML private AnchorPane root;
@@ -150,6 +150,8 @@ public class LocationListController implements IMenuAccess {
       "edu/wpi/cs3733/D22/teamZ/views/LocationProperties.fxml";
   private final String toMedicalInfoProperties =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentInfoTab.fxml";
+  private final String toCCTVPreview =
+          "edu/wpi/cs3733/D22/teamZ/views/CCTVPreview.fxml";
 
   // The embedded map
   private MapController mapController;
@@ -390,11 +392,11 @@ public class LocationListController implements IMenuAccess {
     equipRadio.setToggleGroup(radioGroup);
     equipRadio.setUserData("Equipment");
     servRadio.setToggleGroup(radioGroup);
-    servRadio.setUserData("Service Requests");
-    //    cctvRadio.setToggleGroup(); // Not implemented
-    //    cctvRadio.setUserData(); // Not implemented
-    cctvRadio.setDisable(true); // temporary; disable for now
-    cctvRadio.setVisible(false); // temporary; hide for now
+      servRadio.setUserData("Service Requests");
+      cctvRadio.setToggleGroup(radioGroup); // Not implemented - working on it in dev_CCTV...
+      cctvRadio.setUserData("CCTV"); // Not implemented
+//    cctvRadio.setDisable(true); // temporary; disable for now
+//    cctvRadio.setVisible(false); // temporary; hide for now
 
     radioGroup
         .selectedToggleProperty()
@@ -482,13 +484,60 @@ public class LocationListController implements IMenuAccess {
 
       // Within Equipment mode
     } else if (mode.equals("Equipment")) {
-      // Retrieve all locations with equipment
-      AtomicReference<List<Location>> locsWithEquip =
+        // Retrieve all locations with equipment
+        AtomicReference<List<Location>> locsWithEquip =
+                new AtomicReference<>(
+                        allFloorLocations.stream()
+                                .filter((loc) -> loc.getEquipmentList().size() > 0)
+                                .collect(Collectors.toList()));
+        mapController.setLabels(locsWithEquip.get(), allFloorLocations, true, "equipment");
+        mapController.setIconShift(20);
+        mapController.setDraggable(
+                (label) -> {
+                    for (Location loc : allFloorLocations) {
+                        // Merge equipment when dragged to another location
+                        if (loc.getXcoord() == label.getLayoutX() && loc.getYcoord() == label.getLayoutY()) {
+                            System.out.println(
+                                    "Merging " + label.getLocation().toString() + " into " + loc.toString());
+                            // Extract
+                            List<MedicalEquipment> equip =
+                                    new ArrayList<>(label.getLocation().getEquipmentList());
+
+                            for (MedicalEquipment equipment : equip) {
+                                // Clear
+                                label.getLocation().removeEquipmentFromList(equipment);
+
+                                // Add
+                                loc.addEquipmentToList(equipment);
+
+                                // Update equipment
+                                equipment.setCurrentLocation(loc);
+                                facadeDAO.updateMedicalEquipment(equipment);
+                            }
+
+                            // Update locations?
+                            facadeDAO.updateLocation(label.getLocation());
+                            facadeDAO.updateLocation(loc);
+                            break;
+                        }
+                    }
+
+                    // Refresh
+                    showLocations(floor);
+                });
+    } else if (mode.equals("Service Requests")) {
+      AtomicReference<List<Location>> locsWithServices =
           new AtomicReference<>(
               allFloorLocations.stream()
-                  .filter((loc) -> loc.getEquipmentList().size() > 0)
+                  .filter((loc) -> facadeDAO.getServiceRequestsByLocation(loc).size() > 0)
                   .collect(Collectors.toList()));
-      mapController.setLabels(locsWithEquip.get(), allFloorLocations, true, "equipment");
+      mapController.setLabels(
+          locsWithServices.get(), locsWithServices.get(), false, "servicerequest");
+      mapController.setIconShift(0);
+    } else if (mode.equals("CCTV")) {
+        // TODO: so... how to show Camera.png on map?
+        // set some arbitrary location or add cams to locations
+//      mapController.setLabels(locsWithEquip.get(), allFloorLocations, true, "equipment");
       mapController.setIconShift(20);
       mapController.setDraggable(
           (label) -> {
@@ -514,8 +563,8 @@ public class LocationListController implements IMenuAccess {
                 }
 
                 // Update locations?
-                facadeDAO.updateLocation(label.getLocation());
-                facadeDAO.updateLocation(loc);
+//                facadeDAO.updateLocation(label.getLocation());
+//                facadeDAO.updateLocation(loc);
                 break;
               }
             }
@@ -523,15 +572,6 @@ public class LocationListController implements IMenuAccess {
             // Refresh
             showLocations(floor);
           });
-    } else if (mode.equals("Service Requests")) {
-      AtomicReference<List<Location>> locsWithServices =
-          new AtomicReference<>(
-              allFloorLocations.stream()
-                  .filter((loc) -> facadeDAO.getServiceRequestsByLocation(loc).size() > 0)
-                  .collect(Collectors.toList()));
-      mapController.setLabels(
-          locsWithServices.get(), locsWithServices.get(), false, "servicerequest");
-      mapController.setIconShift(0);
     }
   }
   // Andrew's Stuff
