@@ -10,6 +10,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -44,6 +45,9 @@ public class SecurityServiceController extends ServiceRequestController {
 
     Location tryGet = facadeDAO.getLocationByID(nodeIdField.getText());
 
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
+
     if (!tryGet.getNodeID().equals("")) {
       SecurityServiceRequest req =
           new SecurityServiceRequest(
@@ -52,6 +56,8 @@ public class SecurityServiceController extends ServiceRequestController {
               MenuController.getLoggedInUser(),
               null,
               tryGet,
+              opened,
+              closed,
               urgencyBox.getSelectionModel().getSelectedItem(),
               reasonTextField.getText().substring(0, 39));
       facadeDAO.addSecurityServiceRequest(req);

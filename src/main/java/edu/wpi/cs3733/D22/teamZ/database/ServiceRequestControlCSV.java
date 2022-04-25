@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.database;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class ServiceRequestControlCSV extends ControlCSV {
   private final FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   private final String[] headers = {
-    "requestID", "type", "status", "issuer", "handler", "targetLocation"
+    "requestID", "type", "status", "issuer", "handler", "targetLocation", "opened", "closed"
   };
 
   public ServiceRequestControlCSV(File path) {
@@ -37,7 +38,7 @@ public class ServiceRequestControlCSV extends ControlCSV {
   private List<ServiceRequest> dataToObj(List<List<String>> data) {
     List<ServiceRequest> ret = new ArrayList<>();
     for (List<String> a : data) {
-      if (a.get(4).equals("null")) {
+      if (a.get(4).equals("null") && a.get(7).equals("null")) {
         ret.add(
             new ServiceRequest(
                 a.get(0),
@@ -45,7 +46,32 @@ public class ServiceRequestControlCSV extends ControlCSV {
                 ServiceRequest.RequestStatus.getRequestStatusByString(a.get(2)),
                 facadeDAO.getEmployeeByID(a.get(3)),
                 null,
-                facadeDAO.getLocationByID(a.get(5))));
+                facadeDAO.getLocationByID(a.get(5)),
+                LocalDateTime.parse(a.get(6)),
+                null));
+
+      } else if (a.get(4).equals("null")) {
+        ret.add(
+            new ServiceRequest(
+                a.get(0),
+                ServiceRequest.RequestType.getRequestTypeByString(a.get(1)),
+                ServiceRequest.RequestStatus.getRequestStatusByString(a.get(2)),
+                facadeDAO.getEmployeeByID(a.get(3)),
+                null,
+                facadeDAO.getLocationByID(a.get(5)),
+                LocalDateTime.parse(a.get(6)),
+                LocalDateTime.parse(a.get(7))));
+      } else if (a.get(7).equals("null")) {
+        ret.add(
+            new ServiceRequest(
+                a.get(0),
+                ServiceRequest.RequestType.getRequestTypeByString(a.get(1)),
+                ServiceRequest.RequestStatus.getRequestStatusByString(a.get(2)),
+                facadeDAO.getEmployeeByID(a.get(3)),
+                facadeDAO.getEmployeeByID(a.get(4)),
+                facadeDAO.getLocationByID(a.get(5)),
+                LocalDateTime.parse(a.get(6)),
+                null));
       } else {
         ret.add(
             new ServiceRequest(
@@ -54,7 +80,9 @@ public class ServiceRequestControlCSV extends ControlCSV {
                 ServiceRequest.RequestStatus.getRequestStatusByString(a.get(2)),
                 facadeDAO.getEmployeeByID(a.get(3)),
                 facadeDAO.getEmployeeByID(a.get(4)),
-                facadeDAO.getLocationByID(a.get(5))));
+                facadeDAO.getLocationByID(a.get(5)),
+                LocalDateTime.parse(a.get(6)),
+                LocalDateTime.parse(a.get(7))));
       }
     }
     return ret;

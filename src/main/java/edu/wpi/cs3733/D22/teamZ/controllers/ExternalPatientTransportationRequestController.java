@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -55,6 +56,8 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
     Location tempLoc = dao.getLocationByID("zEXIT00101");
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
     String patientName = patientNameField.getText();
     String patientID = patientIDField.getText();
     String destination = destinationField.getText();
@@ -66,6 +69,8 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
             issuer,
             handler,
             tempLoc,
+            opened,
+            closed,
             patientID,
             patientName,
             destination,

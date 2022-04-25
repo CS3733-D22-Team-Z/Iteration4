@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -72,6 +73,8 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
 
     EquipmentPurchaseRequest temp =
         new EquipmentPurchaseRequest(
@@ -80,6 +83,8 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
             issuer,
             handler,
             FacadeDAO.getInstance().getLocationByID("zSTOR00101"),
+            opened,
+            closed,
             equipmentTypeChoiceBox.getSelectionModel().getSelectedItem().toString(),
             paymentMethodChoiceBox.getSelectionModel().getSelectedItem().toString());
 
