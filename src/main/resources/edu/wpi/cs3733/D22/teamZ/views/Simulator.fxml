@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="1030.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.SimulatorController">
+   <children>
+      <SplitPane dividerPositions="0.6942127215849844" prefHeight="1030.0" prefWidth="1920.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ImageView fitHeight="1040.0" fitWidth="1344.0" layoutX="-7.0" layoutY="-6.0">
+                     <image>
+                        <Image url="@../images/1.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
+               <children>
+                  <VBox fx:id="vBox" layoutX="20.0" layoutY="22.0" prefHeight="975.0" prefWidth="547.0">
+                     <children>
+                        <Label text="Choose Speed">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox prefHeight="76.0" prefWidth="446.0" />
+                        <MFXButton prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Start Simulation" textFill="WHITE">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </MFXButton>
+                        <MFXScrollPane prefHeight="446.0" prefWidth="448.0">
+                           <content>
+                              <Label />
+                           </content>
+                        </MFXScrollPane>
+                        <MFXButton prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Pause Simulation" textFill="WHITE">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </MFXButton>
+                        <MFXButton prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #ff4343;" text="End Simulation" textFill="WHITE">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
