@@ -6,10 +6,11 @@ import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import edu.wpi.cs3733.D22.teamZ.helpers.LabelMethod;
 import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
-import java.awt.*;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,10 +22,12 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /** Controller for FloorDetails.fxml, which displays information about each floor. */
 public class FloorDetailsController implements IMenuAccess, Initializable {
@@ -38,6 +41,11 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
   @FXML private TableColumn<DropdownRow, String> typeColumn;
   @FXML private TableColumn<DropdownRow, String> locationColumn;
   @FXML private TableColumn<DropdownRow, String> statusColumn;
+  @FXML private MFXButton noneMapButton;
+  @FXML private MFXButton bedsMapButton;
+  @FXML private MFXButton pumpsMapButton;
+  @FXML private MFXButton reclinerMapButton;
+  @FXML private MFXButton xRayMapButton;
 
   private String floor;
   private List<Location> floorLocations;
@@ -47,9 +55,26 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
   private FacadeDAO dao;
 
   // Map stuff
+  private final String buttonColorSelect = "-fx-background-color: %s; -fx-text-fill: #FFFFFF";
   private ScrollPane map;
   private MapController mapController;
-  private String statusFilter = "";
+  private String equipmentFilter = "";
+  private MFXButton prevButton;
+  private Map<String, String> equipmentColors =
+      Map.of(
+          "",
+          "noneLocation",
+          "Bed",
+          "bedLocation",
+          "IPumps",
+          "pumpLocation",
+          "Recliner",
+          "reclinerLocation",
+          "XRay",
+          "xRayLocation");
+
+  // Colorse
+  List<String> colors = List.of("#0075FF", "#FF79DA", "#79FFF8", "#FF800B", "#B479FF");
 
   public FloorDetailsController() {
     dao = FacadeDAO.getInstance();
@@ -71,6 +96,21 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     map.setPrefWidth(mapContainer.getPrefWidth());
     map.setPrefHeight(mapContainer.getPrefHeight());
     mapContainer.setStyle("-fx-background-color: transparent");
+
+    prevButton = noneMapButton;
+
+    // Equipment List
+    typeColumn.setReorderable(false);
+    typeColumn.setCellValueFactory(dRow -> dRow.getValue().type);
+    typeColumn.setCellFactory((param) -> new SpecialCell());
+
+    locationColumn.setReorderable(false);
+    locationColumn.setCellValueFactory(dRow -> dRow.getValue().location);
+    locationColumn.setCellFactory((param) -> new SpecialCell());
+
+    statusColumn.setReorderable(false);
+    statusColumn.setCellValueFactory(dRow -> dRow.getValue().status);
+    statusColumn.setCellFactory((param) -> new SpecialCell());
 
     floor = "3"; // TODO Idk how we're setting the floor its not being done rn
     makeChart();
@@ -120,7 +160,7 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
 
   @Override
   public String getMenuName() {
-    return String.format("Floor %s", floor);
+    return "Floor Details";
   }
 
   /**
@@ -149,60 +189,33 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
   public void loadMap() {
     mapController.setFloor(floor);
     // Only want locations with equipment that adhere to filter.
-    List<Location> relevantLocations =
-        floorLocations.stream()
-            .filter(
-                loc ->
-                    loc.getEquipmentList().size() > 0
-                        && (loc.getEquipmentList().stream()
-                                .filter(
-                                    medicalEquipment ->
-                                        statusFilter.isEmpty()
-                                            || medicalEquipment.getType().equals(statusFilter))
-                                .count()
-                            > 0))
-            .collect(Collectors.toList());
-    // Load in labels
-    LabelMethod coloredLoader =
+    //    List<Location> relevantLocations =
+    //        floorLocations.stream()
+    //            .filter(
+    //                loc ->
+    //                    loc.getEquipmentList().stream().filter(equipment ->
+    // equipment.getType().equals(equipmentFilter)).count() > 0)
+    //            .collect(Collectors.toList());
+    LabelMethod colorStuff =
         (label) -> {
-          // Count number of clean, in use, and dirty equipment
-          int clean = 0;
-          int dirty = 0;
-          int inuse = 0;
-          for (MedicalEquipment equipment : label.getLocation().getEquipmentList()) {
-            switch (equipment.getStatus()) {
-              case CLEAN:
-                clean++;
-                break;
-              case DIRTY:
-                dirty++;
-                break;
-              case INUSE:
-                inuse++;
-                break;
-            }
-          }
-
-          // Get maximum
-          int max = Math.max(clean, Math.max(dirty, inuse));
-          String locImg;
-
-          if (max == clean) {
-            locImg = "locationGreen";
-          } else if (max == dirty) {
-            locImg = "location";
+          if (label.getLocation().getEquipmentList().stream()
+                  .filter(equip -> equip.getType().equals(equipmentFilter))
+                  .count()
+              == 0) {
+            MapController.loadImage(equipmentColors.get("")).call(label);
           } else {
-            locImg = "locationYellow";
+            MapController.loadImage(equipmentColors.get(equipmentFilter)).call(label);
           }
-
-          MapController.loadImage(locImg).call(label);
         };
-    mapController.setLabels(relevantLocations, relevantLocations, false, coloredLoader);
+    mapController.setLabels(floorLocations, floorLocations, false, colorStuff);
   }
 
   /** Loads floor equipment into equipment table * */
   public void loadEquipmentTable() {
-    List<MedicalEquipment> necessaryEquipment = floorEquipment;
+    List<MedicalEquipment> necessaryEquipment =
+        floorEquipment.stream()
+            .filter(equipment -> !equipment.getType().equals("INUSE"))
+            .collect(Collectors.toList());
     ObservableList<DropdownRow> tableRows = FXCollections.observableArrayList();
     for (MedicalEquipment equipment : necessaryEquipment)
       tableRows.add(
@@ -212,40 +225,52 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
               equipment.getCurrentLocation().getLongName()));
 
     // Idk why it says redundant
-    //noinspection unchecked
-    typeColumn.setReorderable(false);
-    typeColumn.setCellValueFactory(dRow -> dRow.getValue().type);
-    //noinspection unchecked
-    locationColumn.setReorderable(false);
-    locationColumn.setCellValueFactory(dRow -> dRow.getValue().location);
-    //noinspection unchecked
-    statusColumn.setReorderable(false);
-    statusColumn.setCellValueFactory(dRow -> dRow.getValue().status);
 
     medicalEquipmentTable.setItems(tableRows);
   }
 
   @FXML
-  private void allButtonPressed() {
-    statusFilter = "";
+  private void noneButtonPressed() {
+    equipmentFilter = "";
+    prevButton.setStyle("");
+    noneMapButton.setStyle(String.format(buttonColorSelect, colors.get(0)));
+    prevButton = noneMapButton;
     loadMap();
   }
 
   @FXML
   private void bedsButtonPressed() {
-    statusFilter = "Bed";
+    equipmentFilter = "Bed";
+    prevButton.setStyle("");
+    bedsMapButton.setStyle(String.format(buttonColorSelect, colors.get(1)));
+    prevButton = bedsMapButton;
     loadMap();
   }
 
   @FXML
   private void pumpsButtonPressed() {
-    statusFilter = "IPumps";
+    equipmentFilter = "IPumps";
+    prevButton.setStyle("");
+    pumpsMapButton.setStyle(String.format(buttonColorSelect, colors.get(2)));
+    prevButton = pumpsMapButton;
     loadMap();
   }
 
   @FXML
   private void reclinerButtonPressed() {
-    statusFilter = "Recliner";
+    equipmentFilter = "Recliner";
+    prevButton.setStyle("");
+    reclinerMapButton.setStyle(String.format(buttonColorSelect, colors.get(3)));
+    prevButton = reclinerMapButton;
+    loadMap();
+  }
+
+  @FXML
+  private void xrayButtonPressed() {
+    equipmentFilter = "XRay";
+    prevButton.setStyle("");
+    xRayMapButton.setStyle(String.format(buttonColorSelect, colors.get(4)));
+    prevButton = xRayMapButton;
     loadMap();
   }
 
@@ -260,6 +285,25 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
       this.type = new SimpleStringProperty(type);
       this.status = new SimpleStringProperty(status);
       this.location = new SimpleStringProperty(location);
+    }
+  }
+  /*.setCellFactory(param -> {
+    TableCell<DropdownRow, String> cell = new TableCell<>();
+    Text text = new Text();
+    cell.setGraphic(text);
+    cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
+    text.wrappingWidthProperty().bind(cell.widthProperty());
+    text.textProperty().bind(cell.itemProperty());
+    return cell;
+  });*/
+  static class SpecialCell extends TableCell<DropdownRow, String> {
+    public SpecialCell() {
+      Text text = new Text();
+      setGraphic(text);
+      setPrefHeight(Control.USE_COMPUTED_SIZE);
+      text.wrappingWidthProperty().bind(widthProperty());
+      text.setTextAlignment(TextAlignment.CENTER);
+      text.textProperty().bind(itemProperty());
     }
   }
 }
