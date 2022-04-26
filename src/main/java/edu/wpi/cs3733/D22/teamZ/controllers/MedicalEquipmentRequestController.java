@@ -27,6 +27,10 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   @FXML private Label errorSavingLabel;
   @FXML private Region backRegion;
   @FXML private Label successfulSubmitLabel;
+  @FXML private Region helpGraphic;
+
+  // Help Logic
+  private boolean isHelpOn = false;
 
   // URLs
   private String toMedicalEquipmentRequestURL =
@@ -70,6 +74,12 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     System.out.println(
         "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
+
+    // Initialize help Graphic
+    SVGPath helpIcon = new SVGPath();
+    helpIcon.setContent(helpIconSVG);
+    helpGraphic.setShape(helpIcon);
+    helpGraphic.setStyle(String.format(svgCSSLine, "#0062A9"));
   }
 
   @FXML
@@ -153,5 +163,16 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
   public void onNavigateToMedicalRequestStats() throws IOException {
     menu.load(toMedicalEquipmentStatsURL);
+  }
+
+  @Override
+  public void onHelpMenu() {
+    if (isHelpOn) {
+      System.out.println("Help is ON, turning OFF");
+      isHelpOn = false;
+    } else {
+      System.out.println("Help is OFF, turning ON");
+      isHelpOn = true;
+    }
   }
 }

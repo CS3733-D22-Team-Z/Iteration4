@@ -128,6 +128,9 @@ public class GiftServicesController extends ServiceRequestController {
     validateButton();
   }
 
+  @Override
+  public void onHelpMenu() throws IOException {}
+
   public void validateButton() {
     submitButton.setDisable(
         enterPatientName.getText().trim().isEmpty()

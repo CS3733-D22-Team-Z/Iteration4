@@ -100,5 +100,6 @@
          </opaqueInsets>
       </Label>
       <MFXButton layoutX="402.0" layoutY="344.0" onAction="#onNavigateToMedicalRequestStats" prefHeight="32.0" prefWidth="165.0" text="See Stats" />
+      <Region fx:id="helpGraphic" layoutX="336.0" layoutY="31.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
     </children>
 </AnchorPane>

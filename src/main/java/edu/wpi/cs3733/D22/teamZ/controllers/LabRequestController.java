@@ -125,6 +125,9 @@ public class LabRequestController extends ServiceRequestController {
     successfulSubmitLabel.setVisible(false);
   }
 
+  @Override
+  public void onHelpMenu() throws IOException {}
+
   @FXML
   public void clearFields() {
     patientIdField.clear();

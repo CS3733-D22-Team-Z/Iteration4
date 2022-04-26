@@ -103,6 +103,9 @@ public class LaundryServiceController extends ServiceRequestController implement
     successSubmitLabel.setVisible(false);
   }
 
+  @Override
+  public void onHelpMenu() throws IOException {}
+
   public void validateButton(KeyEvent keyEvent) {
     if (!locationField.getText().isEmpty()
         && !patientIDField.getText().isEmpty()

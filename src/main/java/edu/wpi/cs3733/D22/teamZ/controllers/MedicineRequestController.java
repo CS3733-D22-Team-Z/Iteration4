@@ -23,5 +23,8 @@ public class MedicineRequestController extends ServiceRequestController {
     // Reset fields here!
   }
 
+  @Override
+  public void onHelpMenu() throws IOException {}
+
   public void validateButton(KeyEvent keyEvent) {}
 }

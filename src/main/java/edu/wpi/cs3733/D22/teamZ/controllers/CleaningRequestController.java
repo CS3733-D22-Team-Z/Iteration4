@@ -84,6 +84,9 @@ public class CleaningRequestController extends ServiceRequestController {
     validateButton();
   }
 
+  @Override
+  public void onHelpMenu() throws IOException {}
+
   @FXML
   protected void onSubmitButtonClicked(ActionEvent actionEvent) {
     // Debug

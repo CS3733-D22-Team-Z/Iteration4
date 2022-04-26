@@ -321,6 +321,9 @@ public class MealServiceController extends ServiceRequestController {
     validateTime();
   }
 
+  @Override
+  public void onHelpMenu() throws IOException {}
+
   public void enterPatientName(ActionEvent event) {}
 
   public void enterPatientID(ActionEvent event) {}

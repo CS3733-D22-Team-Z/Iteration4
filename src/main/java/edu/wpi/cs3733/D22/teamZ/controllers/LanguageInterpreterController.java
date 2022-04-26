@@ -131,6 +131,9 @@ public class LanguageInterpreterController extends ServiceRequestController {
     validateButton();
   }
 
+  @Override
+  public void onHelpMenu() throws IOException {}
+
   public void validateButton() {
     if (!enterPatientName.getText().trim().isEmpty()
         && !enterPatientID.getText().trim().isEmpty()

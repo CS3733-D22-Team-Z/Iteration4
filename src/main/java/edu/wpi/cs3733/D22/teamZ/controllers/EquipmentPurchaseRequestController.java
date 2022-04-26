@@ -106,6 +106,9 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
     successfulSubmitLabel.setVisible(false);
   }
 
+  @Override
+  public void onHelpMenu() throws IOException {}
+
   @FXML
   public void clearFields() {
     equipmentTypeChoiceBox.setValue(null);

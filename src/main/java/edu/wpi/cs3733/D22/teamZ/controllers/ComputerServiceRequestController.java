@@ -98,6 +98,9 @@ public class ComputerServiceRequestController extends ServiceRequestController
     successfulSubmitLabel.setVisible(false);
   }
 
+  @Override
+  public void onHelpMenu() throws IOException {}
+
   public void validateButton() {
     if (!osField.getSelectionModel().isEmpty()
     // && !descField.getText().equals("")
