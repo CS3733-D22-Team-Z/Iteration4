@@ -718,7 +718,8 @@ public class FacadeDAO {
       } else if (serviceRequest.getType().equals(ServiceRequest.RequestType.LABS)) {
         val = labRequestServiceDAO.updateLabRequest((LabServiceRequest) serviceRequest);
       } else if (serviceRequest.getType().equals(ServiceRequest.RequestType.EXTERNAL)) {
-        // TODO implement update function for external patient transport
+        return ExternalTransportFacadeAPI.getInstance()
+            .updateExternalTransportRequest((ExternalPatientTransportationRequest) serviceRequest);
       }
     }
     return val;
@@ -760,7 +761,7 @@ public class FacadeDAO {
    * @param req external patient request to be updated
    * @return True if successful, false otherwise
    */
-  public boolean updateExternalPatientTransportRequest(ExternalPatientTransportationRequest req){
+  public boolean updateExternalPatientTransportRequest(ExternalPatientTransportationRequest req) {
     return ExternalTransportFacadeAPI.getInstance().updateExternalTransportRequest(req);
   }
   /**
