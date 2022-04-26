@@ -62,13 +62,13 @@ public class DashboardFinal implements IMenuAccess {
   @FXML Label dirtyIPumps1Label;
   @FXML Label dirtyIPumpsLL1Label;
   @FXML Label dirtyIPumpsLL2Label;
-  @FXML Region error5;
-  @FXML Region error4;
-  @FXML Region error3;
-  @FXML Region error2;
-  @FXML Region error1;
-  @FXML Region errorLL1;
-  @FXML Region errorLL2;
+  @FXML Region error5Region;
+  @FXML Region error4Region;
+  @FXML Region error3Region;
+  @FXML Region error2Region;
+  @FXML Region error1Region;
+  @FXML Region errorLL1Region;
+  @FXML Region errorLL2Region;
 
   @FXML
   private void initialize() {
@@ -90,7 +90,7 @@ public class DashboardFinal implements IMenuAccess {
 
     SVGPath Icon = new SVGPath();
     Icon.setContent(dashboardAlert);
-    List<Region> dashRegions = List.of(error5, error4, error3, error2, error1, errorLL1, errorLL2);
+    List<Region> dashRegions = List.of(error5Region, error4Region, error3Region, error2Region, error1Region, errorLL1Region, errorLL2Region);
     for (Region dashRegion : dashRegions) {
       dashRegion.setShape(Icon);
       dashRegion.setStyle("-fx-background-color: #ff8800;");
