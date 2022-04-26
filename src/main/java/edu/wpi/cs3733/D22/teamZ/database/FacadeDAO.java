@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.apiFacades.ExternalTransportFacadeAPI;
+import edu.wpi.cs3733.D22.teamZ.apiFacades.InternalTransportFacadeAPI;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.File;
 import java.sql.SQLException;
@@ -18,7 +19,6 @@ public class FacadeDAO {
   private final LabRequestServiceDAOImpl labRequestServiceDAO;
   private final LaundryServiceDAOImpl laundryServiceRequestDAO;
   private final ServiceRequestDAOImpl serviceRequestDAO;
-  private final ExternalPatientDAOImpl transportRequestDAO;
   private final GiftServiceRequestDAOImpl giftRequestDAO;
   private final MealServiceRequestDAOImpl mealServiceRequestDAO;
   private final CleaningRequestDAOImpl cleaningRequestDAO;
@@ -26,6 +26,7 @@ public class FacadeDAO {
   private final SecurityRequestDAOImpl securityRequestDAO;
   private final LanguageInterpreterRequestDAOImpl languageInterpreterRequestDAO;
   private final ComputerServiceRequestDAOImpl computerRequestDAO;
+  private final InternalTransportFacadeAPI internalTransportAPI;
 
   public static FacadeDAO getInstance() {
     return instance;
@@ -40,7 +41,6 @@ public class FacadeDAO {
     labRequestServiceDAO = new LabRequestServiceDAOImpl();
     laundryServiceRequestDAO = new LaundryServiceDAOImpl();
     serviceRequestDAO = new ServiceRequestDAOImpl();
-    transportRequestDAO = new ExternalPatientDAOImpl();
     giftRequestDAO = new GiftServiceRequestDAOImpl();
     mealServiceRequestDAO = new MealServiceRequestDAOImpl();
     cleaningRequestDAO = new CleaningRequestDAOImpl();
@@ -48,6 +48,7 @@ public class FacadeDAO {
     securityRequestDAO = new SecurityRequestDAOImpl();
     languageInterpreterRequestDAO = new LanguageInterpreterRequestDAOImpl();
     computerRequestDAO = new ComputerServiceRequestDAOImpl();
+    internalTransportAPI = InternalTransportFacadeAPI.getInstance();
   }
 
   // Get All methods
@@ -84,7 +85,7 @@ public class FacadeDAO {
     List<ServiceRequest> allRequests = new ArrayList<>();
     allRequests.addAll(serviceRequestDAO.getAllServiceRequests());
     allRequests.addAll(ExternalTransportFacadeAPI.getInstance().getAllExternalTransportRequests());
-    // Todo add IPT Requests
+    allRequests.addAll(internalTransportAPI.getAllInternalTransportRequests());
     // Todo add Facility Maintenance Requests
     return allRequests;
   }
@@ -170,6 +171,15 @@ public class FacadeDAO {
    */
   public List<LanguageInterpreterRequest> getAllLanguageInterpreterRequests() throws SQLException {
     return languageInterpreterRequestDAO.getAllLanguageInterpreterServiceRequests();
+  }
+
+  /**
+   * Gets all InternalTransportRequest objects
+   *
+   * @return list of InternalTransportRequest objects
+   */
+  public List<InternalTransportRequest> getAllInternalTransportRequests() {
+    return internalTransportAPI.getAllInternalTransportRequests();
   }
 
   // Get By ID methods
@@ -305,6 +315,15 @@ public class FacadeDAO {
   public ComputerServiceRequest getComputerServiceRequestByID(String requestID) {
     return computerRequestDAO.getComputerServiceRequestByID(requestID);
   }
+  /**
+   * Get an InternalTransportRequest with provided requestID
+   *
+   * @param requestID ID to find
+   * @return InternalTransportRequest object with given ID
+   */
+  public InternalTransportRequest getInternalTransportRequestByID(String requestID) {
+    return internalTransportAPI.getInternalTransportRequestByID(requestID);
+  }
 
   // Add methods
   /**
@@ -314,7 +333,7 @@ public class FacadeDAO {
    * @return True if successful, false if not
    */
   public boolean addLocation(Location loc) {
-    return locationDAO.addLocation(loc);
+    return locationDAO.addLocation(loc) && internalTransportAPI.addLocation(loc);
   }
   /**
    * Adds MedicalEquipment to the database
@@ -341,7 +360,7 @@ public class FacadeDAO {
    * @return True if successful, false if not
    */
   public boolean addEmployee(Employee employee) {
-    return employeeDAO.addEmployee(employee);
+    return employeeDAO.addEmployee(employee) && internalTransportAPI.addEmployee(employee);
   }
   /**
    * Adds a new Meal Service Request to database. Will automatically check if already in database
@@ -476,6 +495,15 @@ public class FacadeDAO {
     return ExternalTransportFacadeAPI.getInstance().addExternalTransportRequest(request);
   }
   /**
+   * Adds an InternalTransportRequest to the database
+   *
+   * @param request request to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addInternalPatientTransport(InternalTransportRequest request) {
+    return internalTransportAPI.addInternalTransportRequest(request);
+  }
+  /**
    * Adds a CleaningRequest to the database
    *
    * @param request request to be added
@@ -522,7 +550,7 @@ public class FacadeDAO {
    * @return True if successful, false if not
    */
   public boolean deleteLocation(Location loc) {
-    return locationDAO.deleteLocation(loc);
+    return locationDAO.deleteLocation(loc) && internalTransportAPI.deleteLocation(loc);
   }
   /**
    * Deletes MedicalEquipment in the database
@@ -544,14 +572,27 @@ public class FacadeDAO {
   }
 
   /**
-   * Deletes a patient from database. Will automatically check if exists in database
+   * Deletes an external transport request from database. Will automatically check if exists in
+   * database
    *
-   * @param req The patient to be deleted
+   * @param req The request to be deleted
    * @return True if successful, false if not
    */
   public boolean deleteExternalTransportRequest(ExternalPatientTransportationRequest req) {
     return ExternalTransportFacadeAPI.getInstance().deleteExternalTransportRequest(req);
   }
+
+  /**
+   * Deletes an internal transport request from database. Will automatically check if exists in
+   * database
+   *
+   * @param req The request to be deleted
+   * @return True if successful, false if not
+   */
+  public boolean deleteInternalTransportRequest(InternalTransportRequest req) {
+    return internalTransportAPI.deleteInternalTransportRequest(req);
+  }
+
   /**
    * Deletes a Employee from database. Will automatically check if exists in database
    *
@@ -559,7 +600,7 @@ public class FacadeDAO {
    * @return True if successful, false if not
    */
   public boolean deleteEmployee(Employee employee) {
-    return employeeDAO.deleteEmployee(employee);
+    return employeeDAO.deleteEmployee(employee) && internalTransportAPI.deleteEmployee(employee);
   }
   /**
    * Takes a ServiceRequest object and deletes the respective one from the database with the same
@@ -667,7 +708,7 @@ public class FacadeDAO {
    * @return True if successful, false if not
    */
   public boolean updateLocation(Location loc) {
-    return locationDAO.updateLocation(loc);
+    return locationDAO.updateLocation(loc) && internalTransportAPI.updateLocation(loc);
   }
   /**
    * Updates existing MedicalEquipment in the database with an updated MedicalEquipment
@@ -685,7 +726,7 @@ public class FacadeDAO {
    * @return True if successful, false if not
    */
   public boolean updateEmployee(Employee employee) {
-    return employeeDAO.updateEmployee(employee);
+    return employeeDAO.updateEmployee(employee) && internalTransportAPI.updateEmployee(employee);
   }
   /**
    * Updates a patient in the database. Will automatically check if exists in database
@@ -722,6 +763,9 @@ public class FacadeDAO {
       } else if (serviceRequest.getType().equals(ServiceRequest.RequestType.EXTERNAL)) {
         return ExternalTransportFacadeAPI.getInstance()
             .updateExternalTransportRequest((ExternalPatientTransportationRequest) serviceRequest);
+      } else if (serviceRequest.getType().equals(ServiceRequest.RequestType.INTERNAL)) {
+        return internalTransportAPI.updateInternalTransportRequest(
+            (InternalTransportRequest) serviceRequest);
       }
     }
     return val;
@@ -765,6 +809,15 @@ public class FacadeDAO {
    */
   public boolean updateExternalPatientTransportRequest(ExternalPatientTransportationRequest req) {
     return ExternalTransportFacadeAPI.getInstance().updateExternalTransportRequest(req);
+  }
+  /**
+   * updates an existing internal patient transport service request in database with new request
+   *
+   * @param req internal patient request to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateInternalTransportRequest(InternalTransportRequest req) {
+    return internalTransportAPI.updateInternalTransportRequest(req);
   }
   /**
    * updates an existing CleaningRequest in database with new request

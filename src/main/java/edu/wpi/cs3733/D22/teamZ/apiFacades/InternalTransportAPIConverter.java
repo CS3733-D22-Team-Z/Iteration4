@@ -61,8 +61,9 @@ class InternalTransportAPIConverter {
   }
 
   void updateAPIRequestWithServiceRequest(Request apiRequest, InternalTransportRequest request) {
-    apiRequest.setEmployeeID(request.getRequestID());
-    apiRequest.setInformation(request.getRequestID());
+    String handlerID = (request.getHandler() == null) ? "" : request.getHandler().getEmployeeID();
+    apiRequest.setEmployeeID(handlerID);
+    apiRequest.setInformation(request.getInformation());
     apiRequest.setStatus(request.getStatus().toString());
   }
 

@@ -1,14 +1,10 @@
 package edu.wpi.cs3733.D22.teamZ.apiFacades;
 
-import edu.wpi.cs3733.D22.teamB.api.API;
-import edu.wpi.cs3733.D22.teamB.api.DatabaseController;
-import edu.wpi.cs3733.D22.teamB.api.Request;
-import edu.wpi.cs3733.D22.teamB.api.ServiceException;
-import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamB.api.*;
+import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.InternalTransportRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,11 +26,9 @@ public class InternalTransportFacadeAPI {
   }
 
   private static final InternalTransportFacadeAPI instance = new InternalTransportFacadeAPI();
-  private final FacadeDAO facadeDAO = FacadeDAO.getInstance();
   private final API api;
   private final DatabaseController apiDatabase;
   private final InternalTransportAPIConverter apiConverter;
-  private final HashMap<String, TeamBLocation> apiLocationMap;
 
   public static InternalTransportFacadeAPI getInstance() {
     return instance;
@@ -43,21 +37,12 @@ public class InternalTransportFacadeAPI {
   private InternalTransportFacadeAPI() {
     this.api = new API();
     this.apiDatabase = new DatabaseController();
-    try {
-      apiDatabase.reset();
-    } catch (ServiceException e) {
-      System.out.println("Failed to clear database");
-    }
+    this.apiConverter = new InternalTransportAPIConverter();
 
-    List<Location> locations = facadeDAO.getAllLocations();
-    this.apiLocationMap = new HashMap<>();
-    for (Location loc : locations) {
-      TeamBLocation bLoc = new TeamBLocation(loc);
-      apiLocationMap.put(loc.getNodeID(), bLoc);
-      apiDatabase.add(bLoc);
+    List<edu.wpi.cs3733.D22.teamB.api.Location> bLocs = apiDatabase.listLocations();
+    for (edu.wpi.cs3733.D22.teamB.api.Location bLoc : bLocs) {
+      apiDatabase.delete(bLoc);
     }
-
-    apiConverter = new InternalTransportAPIConverter();
   }
 
   public void run(String cssPath) {
@@ -74,12 +59,11 @@ public class InternalTransportFacadeAPI {
 
   // ---------- Database interaction methods ----------
 
+  // Request Methods
   public List<InternalTransportRequest> getAllInternalTransportRequests() {
     List<Request> apiRequests = apiDatabase.listRequests();
     List<InternalTransportRequest> requests =
-        apiRequests.stream()
-            .map(e -> apiConverter.convertFromAPIRequest(e))
-            .collect(Collectors.toList());
+        apiRequests.stream().map(apiConverter::convertFromAPIRequest).collect(Collectors.toList());
     return requests;
   }
 
@@ -115,13 +99,35 @@ public class InternalTransportFacadeAPI {
     return (val == 0);
   }
 
-  public boolean exportToInternalTransportRequestCSV() {
-    // TODO implement exportToInternalTransportRequestCSV method
-    return false;
+  // Location Methods
+  public boolean addLocation(Location loc) {
+    int val = apiDatabase.add(new TeamBLocation(loc));
+    return (val == 0);
   }
 
-  public int importInternalTransportRequestsFromCSV() {
-    // TODO implement importInternalTransportRequestsFromCSV method
-    return -1;
+  public boolean updateLocation(Location loc) {
+    int val = apiDatabase.update(new TeamBLocation(loc));
+    return (val == 0);
+  }
+
+  public boolean deleteLocation(Location loc) {
+    int val = apiDatabase.delete(new TeamBLocation(loc));
+    return (val == 0);
+  }
+
+  // Employee Methods
+  public boolean addEmployee(Employee emp) {
+    int val = apiDatabase.add(apiConverter.convertToAPIEmployee(emp));
+    return (val == 0);
+  }
+
+  public boolean updateEmployee(Employee emp) {
+    int val = apiDatabase.update(apiConverter.convertToAPIEmployee(emp));
+    return (val == 0);
+  }
+
+  public boolean deleteEmployee(Employee emp) {
+    int val = apiDatabase.delete(apiConverter.convertToAPIEmployee(emp));
+    return (val == 0);
   }
 }
