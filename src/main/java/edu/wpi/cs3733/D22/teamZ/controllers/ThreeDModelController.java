@@ -70,7 +70,7 @@ public class ThreeDModelController extends Application {
   @FXML PointLight lightLeft;
 
   private Transform t = new Rotate();
-  double speed = 0.2;
+  double speed = 0.1;
   private final double ANGLE = 278;
 
   @FXML

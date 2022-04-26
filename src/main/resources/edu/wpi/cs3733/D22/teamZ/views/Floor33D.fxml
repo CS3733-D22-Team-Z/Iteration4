@@ -10,11 +10,18 @@
             fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.Floor33DControllers"
             prefHeight="600.0" prefWidth="800.0">
     <Group fx:id="group3">
+        <Cylinder fx:id="podB3" height="5" layoutX="0" layoutY="0" radius="80" />
         <Cylinder fx:id="podA3" height="5" layoutX="0" layoutY="0" radius="80" />
-        <Cylinder fx:id="podC3" height="5" layoutX="0" layoutY="0" radius="80" />
         <Box fx:id="base3" depth="5" height="200.0" layoutX="0" layoutY="0" width="200.0">
         </Box>
         <Cylinder fx:id="podD3" height="5" layoutX="0" layoutY="0" radius="80" />
-        <Cylinder fx:id="podB3" height="5" layoutX="0" layoutY="0" radius="80" />
+        <Cylinder fx:id="podC3" height="5" layoutX="0" layoutY="0" radius="80" />
+        <Cylinder fx:id="cPodB" height="30" radius="20" layoutX="0" layoutY="0" />
+        <Box fx:id="dirtyPod" height="20" depth="20" width="30" layoutX="0" layoutY="0" />
+        <Cylinder fx:id="cPodC" height="30" radius="20" layoutX="0" layoutY="0" />
+        <Box fx:id="bedParkD" depth="20" width="50" height="10" layoutY="0" layoutX="0"/>
+        <Box fx:id="bedParkU" depth="20" width="50" height="10" layoutY="0" layoutX="0"/>
     </Group>
+    <PerspectiveCamera fx:id="camera" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
+    <PointLight fx:id="light" color="azure" layoutY="0" layoutX="0" />
 </AnchorPane>
