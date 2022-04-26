@@ -75,7 +75,7 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
             patientName,
             destination,
             departureDate);
-    if (dao.addPatientTransportRequest(temp)) {
+    if (dao.addExternalPatientTransport(temp)) {
       System.out.println("successful addition of patient transport request");
     } else {
       System.out.println("failed addition of patient transport request");
