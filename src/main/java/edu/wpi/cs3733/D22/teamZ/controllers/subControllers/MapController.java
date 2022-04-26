@@ -96,7 +96,7 @@ public class MapController implements Initializable {
 
     // Default
     zooms = Map.of(100, 1.0);
-    setScale(100);
+    setScale(currentScale);
   }
 
   /** Implements mouse-related behavior in iconContainer */
@@ -234,12 +234,17 @@ public class MapController implements Initializable {
    * @param scaleKey new scale of map
    */
   public void setScale(int scaleKey) {
+
+    scrollPane.setPannable(true);
     if (zooms.containsKey(scaleKey)) {
       currentScale = scaleKey;
       scale = scaleKey / 100.0;
       Scale transform = new Scale(scale, scale);
       mapContainer.getTransforms().clear();
-      mapContainer.getTransforms().add(transform);
+      // mapContainer.getTransforms().add(transform);
+      mapContainer.setScaleX(transform.getX());
+      mapContainer.setScaleY(transform.getY());
+
       repositionScroller(
           mapContainer, scrollPane, scale, figureScrollOffset(mapContainer, scrollPane));
     }

@@ -180,8 +180,9 @@ public class LocationListController implements IMenuAccess {
           mapController = (MapController) popupResults.get(1);
 
           // Change dims
-          mapPane.setPrefWidth(mapContainer.getWidth());
-          mapPane.setPrefHeight(mapContainer.getHeight());
+          mapPane.setPrefHeight(mapContainer.getPrefHeight());
+          mapPane.setPrefWidth(mapContainer.getPrefWidth());
+          mapPane.setPannable(true);
           mapPane.setLayoutX(0);
           mapPane.setLayoutY(0);
 
@@ -216,6 +217,29 @@ public class LocationListController implements IMenuAccess {
           locKeys.put(90, .821);
           locKeys.put(95, .909);
           locKeys.put(100, 1.0);
+          locKeys.put(105, 1.09);
+          locKeys.put(110, 1.19);
+          locKeys.put(115, 1.29);
+          locKeys.put(120, 1.39);
+          locKeys.put(125, 1.49);
+          locKeys.put(130, 1.59);
+          locKeys.put(135, 1.69);
+          locKeys.put(140, 1.79);
+          locKeys.put(145, 1.89);
+          locKeys.put(150, 1.99);
+          locKeys.put(155, 2.09);
+          locKeys.put(160, 2.19);
+          locKeys.put(165, 2.29);
+          locKeys.put(170, 2.39);
+          locKeys.put(175, 2.49);
+          locKeys.put(180, 2.59);
+          locKeys.put(185, 2.69);
+          locKeys.put(190, 2.79);
+          locKeys.put(195, 2.89);
+          locKeys.put(200, 2.99);
+          locKeys.put(205, 3.09);
+          locKeys.put(210, 3.19);
+
           curZoom = 100;
 
           mapController.setZooms(locKeys);
@@ -224,7 +248,7 @@ public class LocationListController implements IMenuAccess {
               MouseEvent.MOUSE_CLICKED,
               e -> {
                 curZoom += 5;
-                curZoom = Math.max(45, Math.min(curZoom, 100));
+                curZoom = Math.max(45, Math.min(curZoom, 210));
                 mapController.setScale(curZoom);
               });
 
@@ -232,7 +256,7 @@ public class LocationListController implements IMenuAccess {
               MouseEvent.MOUSE_CLICKED,
               e -> {
                 curZoom -= 5;
-                curZoom = Math.max(45, Math.min(curZoom, 100));
+                curZoom = Math.max(45, Math.min(curZoom, 210));
                 mapController.setScale(curZoom);
               });
         });
