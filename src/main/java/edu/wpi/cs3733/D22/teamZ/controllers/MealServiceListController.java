@@ -7,9 +7,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Predicate;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,9 +27,8 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
   // Buttons to select the sorting/filter parameters.
   @FXML private MFXButton idButton;
-  @FXML private MFXButton patientButton;
   @FXML private MFXButton statusButton;
-  @FXML private MFXButton assigneeButton;
+  @FXML private MFXButton locationButton;
 
   // Selector button stuff
   private MFXButton lastButtonPressed;
@@ -62,7 +63,7 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     "Assignee",
     "Handler",
     "Status",
-    "Target Location",
+    "Location",
     "Drink",
     "Entree",
     "Snack",
@@ -97,6 +98,20 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
     // Grab data
     loadRequests();
+
+    // Setup CSS map
+    prevCSS =
+        Map.of(
+            "ID",
+            "-fx-background-radius: 5 0 0 5; ",
+            "Status",
+            "-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2; ",
+            "Location",
+            "-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2; ",
+            "Meal",
+            "-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2; ",
+            "Allergen",
+            "-fx-background-radius: 0 5 5 0; ");
   }
 
   /** @param menu */
@@ -228,10 +243,11 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
       // Setup filter box
       Set<String> allFilterOptions = new HashSet<>();
-      for (MealServiceListController.RequestRow row : requests) {
+      for (RequestRow row : requests) {
         allFilterOptions.add(row.retrievePropertyFromType(filter));
       }
       allFilterOptions.add("none");
+      allFilterOptions.stream().sorted();
       filterCBox.getItems().addAll(allFilterOptions);
       filterCBox.getSelectionModel().select("none");
     } else {
@@ -256,6 +272,18 @@ public class MealServiceListController implements Initializable, IMenuAccess {
   /** @param event */
   public void filterSet(ActionEvent event) {
     System.out.println(filterCBox.getSelectionModel().getSelectedItem());
+    String filterOption = filterCBox.getSelectionModel().getSelectedItem();
+    FilteredList<RequestRow> fList =
+        requests.filtered(
+            new Predicate<RequestRow>() {
+              @Override
+              public boolean test(RequestRow requestRow) {
+                if (filterOption == null || filterOption.equals("None")) return true;
+                return requestRow.retrievePropertyFromType(filter).equals(filterOption);
+              }
+            });
+
+    tableContainer.setItems(fList);
   }
 
   /** */
@@ -315,7 +343,7 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     statusTable.getItems().add(new TableColumnItems("Handler", handlerName));
     statusTable
         .getItems()
-        .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
+        .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getShortName()));
     statusTable.getItems().add(new TableColumnItems("Drink", selectedReq.getDrink()));
     statusTable.getItems().add(new TableColumnItems("Entree", selectedReq.getEntree()));
     statusTable.getItems().add(new TableColumnItems("Snack", selectedReq.getSnack()));
@@ -435,7 +463,7 @@ public class MealServiceListController implements Initializable, IMenuAccess {
           return id.get();
         case "Status":
           return status.get();
-        case "Target Location":
+        case "Location":
           return location.get();
           //        case "Drink":
           //          return drink.get();
