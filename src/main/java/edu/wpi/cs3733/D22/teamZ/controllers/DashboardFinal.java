@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import java.io.IOException;
 import java.util.List;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -183,7 +183,11 @@ public class DashboardFinal implements IMenuAccess {
   public void toFloor4(ActionEvent actionEvent) {}
 
   @FXML
-  public void toFloor3(ActionEvent actionEvent) {}
+  public void toFloor3(ActionEvent actionEvent) throws IOException {
+    FloorDetailsController floorDets =
+        (FloorDetailsController) menu.load("edu/wpi/cs3733/D22/teamZ/views/FloorDetails.fxml");
+    floorDets.setFloor("3");
+  }
 
   @FXML
   public void toFloor2(ActionEvent actionEvent) {}
@@ -197,15 +201,15 @@ public class DashboardFinal implements IMenuAccess {
   @FXML
   public void toLowerLevel2(ActionEvent actionEvent) {}
 
-  //Drop down for warnings
-  static class DropdownRow{
-    //SimpleString Property id;
+  // Drop down for warnings
+  static class DropdownRow {
+    // SimpleString Property id;
     SimpleStringProperty type;
     SimpleStringProperty status;
     SimpleStringProperty location;
 
-    public DropdownRow(String type, String status, String location){
-      //this.id = new SimpleStringProperty(is);
+    public DropdownRow(String type, String status, String location) {
+      // this.id = new SimpleStringProperty(is);
       this.type = new SimpleStringProperty(type);
       this.status = new SimpleStringProperty(status);
       this.location = new SimpleStringProperty(location);
