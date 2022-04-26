@@ -2,6 +2,8 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import java.util.List;
+
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -91,7 +93,7 @@ public class DashboardFinal implements IMenuAccess {
     List<Region> dashRegions = List.of(error5, error4, error3, error2, error1, errorLL1, errorLL2);
     for (Region dashRegion : dashRegions) {
       dashRegion.setShape(Icon);
-      dashRegion.setStyle("-fx-background-color: #FF4343;");
+      dashRegion.setStyle("-fx-background-color: #ff8800;");
     }
   }
 
@@ -194,4 +196,19 @@ public class DashboardFinal implements IMenuAccess {
 
   @FXML
   public void toLowerLevel2(ActionEvent actionEvent) {}
+
+  //Drop down for warnings
+  static class DropdownRow{
+    //SimpleString Property id;
+    SimpleStringProperty type;
+    SimpleStringProperty status;
+    SimpleStringProperty location;
+
+    public DropdownRow(String type, String status, String location){
+      //this.id = new SimpleStringProperty(is);
+      this.type = new SimpleStringProperty(type);
+      this.status = new SimpleStringProperty(status);
+      this.location = new SimpleStringProperty(location);
+    }
+  }
 }
