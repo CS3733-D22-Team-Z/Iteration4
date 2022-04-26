@@ -17,6 +17,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.SVGPath;
 
 public class CleaningRequestController extends ServiceRequestController {
+  @FXML public Label roomNumberFormHeader;
+  @FXML public Label requestFormHeader;
+  @FXML public Label floorNumberFormHeader;
+  @FXML public Label locationTypeFormHeader;
   @FXML private Label header;
   @FXML private Label objectBodyText;
   @FXML private Label roomNumberLabel;
@@ -72,6 +76,7 @@ public class CleaningRequestController extends ServiceRequestController {
     System.out.println(
         "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -85,7 +90,19 @@ public class CleaningRequestController extends ServiceRequestController {
   }
 
   @Override
-  protected void highlightRequirements(boolean visible) {}
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
+      requestFormHeader.setStyle("-fx-background-color: #FFFF00");
+      floorNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
+      locationTypeFormHeader.setStyle("-fx-background-color: #FFFF00");
+    } else {
+      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
+      requestFormHeader.setStyle("-fx-background-color: #00000");
+      floorNumberFormHeader.setStyle("-fx-background-color: #00000");
+      locationTypeFormHeader.setStyle("-fx-background-color: #00000");
+    }
+  }
 
   @FXML
   protected void onSubmitButtonClicked(ActionEvent actionEvent) {

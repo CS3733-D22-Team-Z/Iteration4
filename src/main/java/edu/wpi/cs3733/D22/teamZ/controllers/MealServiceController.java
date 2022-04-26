@@ -25,6 +25,14 @@ import javafx.scene.input.MouseEvent;
 
 public class MealServiceController extends ServiceRequestController {
 
+  @FXML public Label patientIDFormHeader;
+  @FXML public Label patientNameFormHeader;
+  @FXML public Label roomNumberFormHeader;
+  @FXML public Label mealTimeFormHeader;
+  @FXML public Label drinkChoiceFormHeader;
+  @FXML public Label entreeChoiceFormHeader;
+  @FXML public Label snackChoiceFormHeader;
+  @FXML public Label allergiesFormHeader;
   @FXML private MFXTextField enterPatientName;
   @FXML private MFXTextField enterPatientID;
   @FXML private MFXTextField enterStaffAssigned;
@@ -219,6 +227,7 @@ public class MealServiceController extends ServiceRequestController {
     //    updatePatientID();
     //    updatePatientName();
     //    updatePatientRoom();
+    initializeHelpGraphic();
   }
 
   @Override
@@ -322,7 +331,27 @@ public class MealServiceController extends ServiceRequestController {
   }
 
   @Override
-  protected void highlightRequirements(boolean visible) {}
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      patientIDFormHeader.setStyle("-fx-background-color: #FFFF00");
+      patientNameFormHeader.setStyle("-fx-background-color: #FFFF00");
+      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
+      mealTimeFormHeader.setStyle("-fx-background-color: #FFFF00");
+      drinkChoiceFormHeader.setStyle("-fx-background-color: #FFFF00");
+      entreeChoiceFormHeader.setStyle("-fx-background-color: #FFFF00");
+      snackChoiceFormHeader.setStyle("-fx-background-color: #FFFF00");
+      allergiesFormHeader.setStyle("-fx-background-color: #FFFF00");
+    } else {
+      patientIDFormHeader.setStyle("-fx-background-color: #00000");
+      patientNameFormHeader.setStyle("-fx-background-color: #00000");
+      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
+      mealTimeFormHeader.setStyle("-fx-background-color: #00000");
+      drinkChoiceFormHeader.setStyle("-fx-background-color: #00000");
+      entreeChoiceFormHeader.setStyle("-fx-background-color: #00000");
+      snackChoiceFormHeader.setStyle("-fx-background-color: #00000");
+      allergiesFormHeader.setStyle("-fx-background-color: #00000");
+    }
+  }
 
   public void enterPatientName(ActionEvent event) {}
 

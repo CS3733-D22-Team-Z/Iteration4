@@ -15,11 +15,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.SVGPath;
 
 public class LanguageInterpreterController extends ServiceRequestController {
 
+  @FXML public Label patientIDFormHeader;
+  @FXML public Label languageFormHeader;
+  @FXML public Label patientNameFormHeader;
+  @FXML public Label roomNumberFormHeader;
   @FXML private Region backRegion;
   @FXML private MFXTextField enterPatientName;
   @FXML private MFXTextField enterPatientID;
@@ -67,6 +72,7 @@ public class LanguageInterpreterController extends ServiceRequestController {
 
     nodeTypeDropDown.setOnAction(event -> validateButton());
     languageDropDown.setOnAction(event -> validateButton());
+    initializeHelpGraphic();
   }
 
   @Override
@@ -132,7 +138,19 @@ public class LanguageInterpreterController extends ServiceRequestController {
   }
 
   @Override
-  protected void highlightRequirements(boolean visible) {}
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      patientIDFormHeader.setStyle("-fx-background-color: #FFFF00");
+      languageFormHeader.setStyle("-fx-background-color: #FFFF00");
+      patientNameFormHeader.setStyle("-fx-background-color: #FFFF00");
+      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
+    } else {
+      patientIDFormHeader.setStyle("-fx-background-color: #00000");
+      languageFormHeader.setStyle("-fx-background-color: #00000");
+      patientNameFormHeader.setStyle("-fx-background-color: #00000");
+      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
+    }
+  }
 
   public void validateButton() {
     if (!enterPatientName.getText().trim().isEmpty()

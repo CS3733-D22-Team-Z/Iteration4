@@ -21,6 +21,9 @@ import javafx.scene.shape.SVGPath;
 
 public class LaundryServiceController extends ServiceRequestController implements IMenuAccess {
 
+  @FXML public Label patientIDFormHeader;
+  @FXML public Label locationFormHeader;
+  @FXML public Label linenTypeFormHeader;
   private FacadeDAO dao = FacadeDAO.getInstance();
   private final String toHomePageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private final String toListPageURL =
@@ -53,6 +56,7 @@ public class LaundryServiceController extends ServiceRequestController implement
     seeRequestsLabel.setVisible(true);
     errorLabel.setVisible(false);
     successSubmitLabel.setVisible(false);
+    initializeHelpGraphic();
   }
 
   @Override
@@ -104,7 +108,17 @@ public class LaundryServiceController extends ServiceRequestController implement
   }
 
   @Override
-  protected void highlightRequirements(boolean visible) {}
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      patientIDFormHeader.setStyle("-fx-background-color: #FFFF00");
+      locationFormHeader.setStyle("-fx-background-color: #FFFF00");
+      linenTypeFormHeader.setStyle("-fx-background-color: #FFFF00");
+    } else {
+      patientIDFormHeader.setStyle("-fx-background-color: #00000");
+      locationFormHeader.setStyle("-fx-background-color: #00000");
+      linenTypeFormHeader.setStyle("-fx-background-color: #00000");
+    }
+  }
 
   public void validateButton(KeyEvent keyEvent) {
     if (!locationField.getText().isEmpty()

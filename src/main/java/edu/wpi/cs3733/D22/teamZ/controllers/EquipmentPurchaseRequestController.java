@@ -18,6 +18,8 @@ import javafx.scene.control.Label;
 public class EquipmentPurchaseRequestController extends ServiceRequestController
     implements IMenuAccess, Initializable {
 
+  @FXML public Label equipmentTypeLabel;
+  @FXML public Label paymentMethodLabel;
   @FXML private MFXButton equipmentPurchaseRequestListButton;
   @FXML private Label currentRequestsLabel;
   @FXML private ChoiceBox equipmentTypeChoiceBox;
@@ -26,7 +28,7 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   @FXML private Label successfulSubmitLabel;
   @FXML private MFXButton submitButton;
 
-  private MenuController menu;
+  protected MenuController menu;
 
   private String toPurchaseListURL =
       "edu/wpi/cs3733/D22/teamZ/views/EquipmentPurchaseRequestList.fxml";
@@ -48,6 +50,7 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
     equipmentTypeChoiceBox.setOnAction(event -> validateButton());
     paymentMethodChoiceBox.setOnAction(event -> validateButton());
     successfulSubmitLabel.setText("Successfully Submitted Payment!");
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -107,7 +110,15 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   }
 
   @Override
-  protected void highlightRequirements(boolean visible) {}
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      equipmentTypeLabel.setStyle("-fx-background-color: #FFFF00");
+      paymentMethodLabel.setStyle("-fx-background-color: #FFFF00");
+    } else {
+      equipmentTypeLabel.setStyle("-fx-background-color: #00000");
+      paymentMethodLabel.setStyle("-fx-background-color: #00000");
+    }
+  }
 
   @FXML
   public void clearFields() {
