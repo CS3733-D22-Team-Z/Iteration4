@@ -7,9 +7,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
@@ -23,10 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
-import javafx.scene.image.*;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Scale;
@@ -38,7 +34,7 @@ import javafx.util.Duration;
 public class MenuController implements Initializable {
   @FXML Pane menuPane;
   @FXML SplitPane rootElement;
-  @FXML Pane contentPane;
+  @FXML AnchorPane contentPane;
   @FXML Button exitButton;
   @FXML Button logoutButton;
   @FXML VBox menuContainer;
@@ -48,6 +44,7 @@ public class MenuController implements Initializable {
   @FXML VBox iconContainer;
   @FXML Label timeLabel;
   @FXML Label dateLabel;
+  @FXML Region menuRegionButton;
 
   double initialHeight;
   double initialWidth;
@@ -70,8 +67,10 @@ public class MenuController implements Initializable {
   private String logoutIcon =
       "M60 16L54.36 21.64L64.68 32H24V40H64.68L54.36 50.32L60 56L80 36L60 16ZM8 8H40V0H8C3.6 0 0 3.6 0 8V64C0 68.4 3.6 72 8 72H40V64H8V8Z";
 
+  private String menuIcon = "M21 18H3V16H21V18ZM21 13H3V11H21V13ZM21 8H3V6H21V8Z";
   // FXMLS
   @FXML private Label pageLabel;
+  @FXML private BorderPane menuBar;
 
   // String that holds the pageLabel's text
   private SimpleStringProperty currentPage;
@@ -83,12 +82,19 @@ public class MenuController implements Initializable {
   // Colors representing the grey and blue values used in the fxmls.
   private String grey = "#C4C4C4";
   private String blue = "#FFFFFF";
+  private String yellow = "#F6BD38";
 
   // Store the ClassLoader for future use
   ClassLoader rscLoader;
 
   // The currently selected menu item
   private int selectedItem = 0;
+
+  // Whether or not menu is currently enabled
+  boolean menuEnabled = true;
+
+  // Animations
+  TranslateTransition menuSlide;
 
   // Path to login lage
   private String toLoginURL = "edu/wpi/cs3733/D22/teamZ/views/LoginPage.fxml";
@@ -114,6 +120,18 @@ public class MenuController implements Initializable {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    contentPane.setTranslateX(200);
+
+    // Initialize exit menu
+    SVGPath MenuIcon = new SVGPath();
+    MenuIcon.setContent(menuIcon);
+    menuRegionButton.setShape(MenuIcon);
+    menuRegionButton.setStyle(String.format(svgCSSLine, yellow));
+
+    menuRegionButton.setOnMouseClicked(
+        (e) -> {
+          toggleMenu();
+        });
 
     pageLabel.textProperty().bind(currentPage);
 
@@ -157,6 +175,24 @@ public class MenuController implements Initializable {
     // Initialize labels too
     timeLabel.setText(timeFormatA.format(LocalDateTime.now()));
     dateLabel.setText(dateFormat.format(LocalDateTime.now()));
+
+    // Animations
+    menuSlide = new TranslateTransition();
+    menuSlide.setNode(menuPane);
+    menuSlide.setInterpolator(Interpolator.EASE_BOTH);
+
+    // Auto-hide menu
+    contentPane.addEventFilter(
+        MouseEvent.MOUSE_PRESSED,
+        event -> {
+          if (menuEnabled) {
+            toggleMenu();
+          }
+        });
+
+    menuBar
+        .widthProperty()
+        .addListener(listener -> System.out.println("This shouldn't be doing anything wtF?"));
   }
 
   /**
@@ -179,6 +215,7 @@ public class MenuController implements Initializable {
     IMenuAccess cont = loader.getController();
     cont.setMenuController(this);
     currentPage.set(cont.getMenuName());
+
     return cont;
   }
 
@@ -241,6 +278,32 @@ public class MenuController implements Initializable {
   private void toExit() {
     Stage stage = (Stage) exitButton.getScene().getWindow();
     stage.close();
+  }
+
+  @FXML
+  private void toggleMenu() {
+    if (menuSlide.getCurrentTime().equals(Duration.millis(0))
+        || menuSlide.getCurrentTime().equals(menuSlide.getTotalDuration())) {
+      if (menuEnabled) {
+        menuSlide.setFromX(0);
+        menuSlide.setToX(-menuPane.getWidth());
+        TranslateTransition tt = new TranslateTransition(Duration.millis(400), contentPane);
+        tt.setToX(0);
+        tt.play();
+      } else {
+        menuSlide.setFromX(-menuPane.getWidth());
+        menuSlide.setToX(0);
+        TranslateTransition tt = new TranslateTransition(Duration.millis(400), contentPane);
+        tt.setToX(200);
+        tt.play();
+        // contentPane.setTranslateX(200);
+      }
+
+      System.out.println(menuSlide.getTotalDuration());
+
+      menuSlide.playFromStart();
+      menuEnabled = !menuEnabled;
+    }
   }
 
   @FXML

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.UpperFloorsDashboardController">
+   <children>
+      <ImageView fitHeight="1030.0" fitWidth="1920.0" pickOnBounds="true">
+         <image>
+            <Image url="@../images/brigham-background.jpg" />
+         </image>
+         <effect>
+            <GaussianBlur radius="30.0" />
+         </effect>
+      </ImageView>
+      <AnchorPane fx:id="root" prefHeight="1030.0" prefWidth="1920.0" style="-fx-background-color: transparent;" stylesheets="@../styles/ServiceRequestDefault.css">
+         <children>
+            <VBox fx:id="floorSelectors" layoutX="47.0" layoutY="184.0" spacing="30.0" styleClass="ui-background-window">
+               <children>
+                  <BorderPane fx:id="floor5Container" prefHeight="74.0" prefWidth="400.0" styleClass="dropdown-window">
+                     <left>
+                        <Label alignment="CENTER" styleClass="object-header" text="Floor 5" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </left>
+                     <right>
+                        <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Region prefHeight="64.0" prefWidth="64.0" />
+                              <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="64.0" prefWidth="64.0">
+                                 <graphic>
+                                    <Region prefHeight="64.0" prefWidth="64.0" />
+                                 </graphic>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </right>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </BorderPane>
+                  <BorderPane fx:id="floor4Container" prefHeight="74.0" prefWidth="400.0" styleClass="dropdown-window">
+                     <left>
+                        <Label alignment="CENTER" styleClass="object-header" text="Floor 4" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </left>
+                     <right>
+                        <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Region prefHeight="64.0" prefWidth="64.0" />
+                              <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="64.0" prefWidth="64.0">
+                                 <graphic>
+                                    <Region prefHeight="64.0" prefWidth="64.0" />
+                                 </graphic>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </right>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </BorderPane>
+                  <BorderPane fx:id="floor5Container1" prefHeight="74.0" prefWidth="400.0" styleClass="dropdown-window">
+                     <left>
+                        <Label alignment="CENTER" styleClass="object-header" text="Floor 3" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </left>
+                     <right>
+                        <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Region prefHeight="64.0" prefWidth="64.0" />
+                              <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="64.0" prefWidth="64.0">
+                                 <graphic>
+                                    <Region prefHeight="64.0" prefWidth="64.0" />
+                                 </graphic>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </right>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </BorderPane>
+                  <BorderPane fx:id="floor4Container1" prefHeight="74.0" prefWidth="400.0" styleClass="dropdown-window">
+                     <left>
+                        <Label alignment="CENTER" styleClass="object-header" text="Floor 2" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </left>
+                     <right>
+                        <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Region prefHeight="64.0" prefWidth="64.0" />
+                              <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="64.0" prefWidth="64.0">
+                                 <graphic>
+                                    <Region prefHeight="64.0" prefWidth="64.0" />
+                                 </graphic>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </right>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </BorderPane>
+                  <BorderPane fx:id="floor4Container2" prefHeight="74.0" prefWidth="400.0" styleClass="dropdown-window">
+                     <left>
+                        <Label alignment="CENTER" styleClass="object-header" text="Floor 1" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </left>
+                     <right>
+                        <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Region prefHeight="64.0" prefWidth="64.0" />
+                              <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="64.0" prefWidth="64.0">
+                                 <graphic>
+                                    <Region prefHeight="64.0" prefWidth="64.0" />
+                                 </graphic>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </right>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </BorderPane>
+                  <BorderPane fx:id="floor5Container11" prefHeight="74.0" prefWidth="400.0" styleClass="dropdown-window">
+                     <left>
+                        <Label alignment="CENTER" styleClass="object-header" text="Lower Level 1" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </left>
+                     <right>
+                        <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Region prefHeight="64.0" prefWidth="64.0" />
+                              <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="64.0" prefWidth="64.0">
+                                 <graphic>
+                                    <Region prefHeight="64.0" prefWidth="64.0" />
+                                 </graphic>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </right>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </BorderPane>
+                  <BorderPane fx:id="floor4Container11" prefHeight="74.0" prefWidth="400.0" styleClass="dropdown-window">
+                     <left>
+                        <Label alignment="CENTER" styleClass="object-header" text="Lower Level 2" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </left>
+                     <right>
+                        <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Region prefHeight="64.0" prefWidth="64.0" />
+                              <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="64.0" prefWidth="64.0">
+                                 <graphic>
+                                    <Region prefHeight="64.0" prefWidth="64.0" />
+                                 </graphic>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </right>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </BorderPane>
+               </children>
+            </VBox>
+            <HBox layoutX="516.0" layoutY="10.0" spacing="50.0" styleClass="ui-background-window">
+               <children>
+                  <VBox spacing="35.0">
+                     <children>
+                        <VBox fx:id="overviewContainer" prefHeight="310.0" prefWidth="700.0" spacing="10.0" styleClass="ui-window">
+                           <children>
+                              <Label styleClass="header" text="Overview" />
+                              <HBox alignment="CENTER" spacing="45.0">
+                                 <children>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label fx:id="dirtyEquipmentNumber2" prefHeight="111.0" styleClass="big-number" text="13" />
+                                          <Label styleClass="number-sub" text="dirty equipment" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label fx:id="inuseEquipmentNumber" prefHeight="111.0" styleClass="big-number" text="13" />
+                                          <Label styleClass="number-sub" text="clean equipment" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Label fx:id="totalEquipmentNumber" prefHeight="111.0" styleClass="big-number" text="26" />
+                                          <Label styleClass="number-sub" text="total equipment" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Region fx:id="dirtyProgress" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #FF4343; -fx-background-radius: 20 0 0 20;" />
+                                          <Label styleClass="number-sub" text="dirty" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Region fx:id="inUseProgress" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #ffef5c;" />
+                                          <Label styleClass="number-sub" text="in use" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Region fx:id="cleanProgress" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #43FF43; -fx-background-radius: 0 20 20 0;" />
+                                          <Label styleClass="number-sub" text="clean" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="overviewContainer1" prefHeight="280.0" prefWidth="700.0" spacing="10.0" style="-fx-background-color: #FFD4D4;" styleClass="ui-window">
+                           <children>
+                              <Label styleClass="header" text="Warning" />
+                              <VBox />
+                              <MFXButton fx:id="dismissWarning" alignment="BOTTOM_LEFT" text="Dismiss" />
+                           </children>
+                        </VBox>
+                        <VBox fx:id="overviewContainer11" prefHeight="310.0" prefWidth="700.0" spacing="10.0" styleClass="ui-window">
+                           <children>
+                              <Label styleClass="header" text="Medical Equipment" />
+                              <TableView fx:id="medicalEquipmentTable" prefHeight="200.0" prefWidth="200.0" styleClass="dropdown-table-view" />
+                              <HBox alignment="CENTER" spacing="20.0">
+                                 <children>
+                                    <MFXButton fx:id="viewAllEquipmentButton" alignment="BOTTOM_LEFT" text="View All" />
+                                    <MFXButton fx:id="viewEquipmentDetailsButton" alignment="BOTTOM_LEFT" text="Details" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox spacing="35.0">
+                     <children>
+                        <VBox fx:id="overviewContainer111" alignment="CENTER" prefWidth="584.0" spacing="10.0" styleClass="ui-window">
+                           <children>
+                              <Label styleClass="header" text="Map" />
+                              <AnchorPane maxWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" />
+                              <HBox alignment="CENTER" spacing="20.0">
+                                 <children>
+                                    <MFXButton fx:id="viewAllOnMap" alignment="BOTTOM_LEFT" text="All" />
+                                    <MFXButton fx:id="viewPumpsOnMap" alignment="BOTTOM_LEFT" text="Pumps" />
+                                    <MFXButton fx:id="viewBedsOnMap" alignment="BOTTOM_LEFT" text="Beds" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="overviewContainer12" prefHeight="470.0" prefWidth="584.0" spacing="10.0" styleClass="ui-window">
+                           <children>
+                              <Label styleClass="header" text="Service Requests" />
+                              <ScrollPane hbarPolicy="NEVER">
+                                 <content>
+                                    <VBox alignment="CENTER" prefHeight="500.0" prefWidth="553.0" />
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
