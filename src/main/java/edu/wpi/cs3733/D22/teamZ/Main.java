@@ -1,14 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ;
 
-import static edu.wpi.cs3733.D22.teamZ.entity.PathEdge.findPath;
-
 import edu.wpi.cs3733.D22.teamZ.database.DBInitializer;
 import edu.wpi.cs3733.D22.teamZ.database.EnumDatabaseConnection;
-import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import edu.wpi.cs3733.D22.teamZ.entity.PathEdge;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -34,7 +27,7 @@ public class Main {
       System.out.println(test);
     }*/
 
-    FacadeDAO locationDAO = FacadeDAO.getInstance();
+    /*FacadeDAO locationDAO = FacadeDAO.getInstance();
 
     List<Location> allLoc = locationDAO.getAllLocations();
     long start = System.nanoTime();
@@ -51,7 +44,7 @@ public class Main {
     System.out.println("to west:");
     for (PathEdge l : west) {
       System.out.println(l.getDest().getLongName());
-    }
+    }*/
 
     App.launch(App.class, args);
   }

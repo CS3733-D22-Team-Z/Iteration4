@@ -179,6 +179,7 @@ public class PathEdge {
       PathEdge active = farthest.get(0);
 
       if (active.getDest().getNodeID().equalsIgnoreCase(to.getNodeID())) {
+        active.getPathTo().add(active);
         break;
       }
 
