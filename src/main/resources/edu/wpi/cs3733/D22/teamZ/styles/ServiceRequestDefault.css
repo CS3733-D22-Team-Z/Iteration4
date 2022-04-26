@@ -34,6 +34,14 @@
     -fx-text-fill: #7B7B7B;
 }
 
+.form-header-help {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 200;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #7B7B7B;
+    -fx-background-color: #FFFF00
+}
+
 .choice-header-floor {
     -fx-font-family: 'Palatino Linotype';
     -fx-font-weight: 200;

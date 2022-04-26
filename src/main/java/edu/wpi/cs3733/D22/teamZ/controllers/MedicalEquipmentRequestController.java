@@ -169,15 +169,18 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
   protected void highlightRequirements(boolean visible) {
     if (visible) {
-      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
-      equipmentFormHeader.setStyle("-fx-background-color: #FFFF00");
-      floorNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
-      locationTypeFormHeader.setStyle("-fx-background-color: #FFFF00");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      equipmentFormHeader.getStyleClass().clear();
+      equipmentFormHeader.getStyleClass().add("form-header-help");
+      floorNumberFormHeader.setStyle(".form-header-help:");
+      locationTypeFormHeader.setStyle(".form-header-help:");
     } else {
-      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
-      equipmentFormHeader.setStyle("-fx-background-color: #00000");
-      floorNumberFormHeader.setStyle("-fx-background-color: #00000");
-      locationTypeFormHeader.setStyle("-fx-background-color: #00000");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      equipmentFormHeader.setStyle(".form-header:");
+      floorNumberFormHeader.setStyle(".form-header:");
+      locationTypeFormHeader.setStyle(".form-header:");
     }
   }
 }
