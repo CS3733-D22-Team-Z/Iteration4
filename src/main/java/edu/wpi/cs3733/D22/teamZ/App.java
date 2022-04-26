@@ -37,7 +37,6 @@ public class App extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-
     Text text = new Text(1.0, 2.0, "Custom Font");
     Font font = Font.loadFont("resources/fonts/Montserrat-Bold.ttf", 45);
     text.setFont(font);
@@ -49,8 +48,8 @@ public class App extends Application {
     primaryStage.setScene(scene);
     primaryStage.minHeightProperty().unbind();
     primaryStage.maxHeightProperty().unbind();
-    initialHeight = 392;
-    initialWidth = 745;
+    initialHeight = 400;
+    initialWidth = 600;
     primaryStage.setMinHeight(initialHeight); // initial size. doesnt work if less so ignore lol.
     primaryStage.setMinWidth(initialWidth);
 

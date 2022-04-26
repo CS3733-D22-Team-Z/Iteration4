@@ -5,15 +5,18 @@ import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
-public class EquipmentPurchaseRequestController extends ServiceRequestController {
+public class EquipmentPurchaseRequestController extends ServiceRequestController
+    implements IMenuAccess, Initializable {
 
   @FXML private MFXButton equipmentPurchaseRequestListButton;
   @FXML private Label currentRequestsLabel;
@@ -21,13 +24,15 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   @FXML private ChoiceBox paymentMethodChoiceBox;
   @FXML private Label errorSavingLabel;
   @FXML private Label successfulSubmitLabel;
+  @FXML private MFXButton submitButton;
+
+  private MenuController menu;
 
   private String toPurchaseListURL =
       "edu/wpi/cs3733/D22/teamZ/views/EquipmentPurchaseRequestList.fxml";
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    menuName = "Medical Equipment Purchase Request";
 
     equipmentTypeChoiceBox.setItems(
         FXCollections.observableArrayList("Bed", "Infusion Pump", "X-Ray", "Recliner"));
@@ -60,28 +65,16 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   @FXML
   public void onSubmitButtonClicked(ActionEvent event) {
     List<ServiceRequest> serviceRequestList = FacadeDAO.getInstance().getAllServiceRequests();
-    int id = 0;
-    // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (serviceRequestList.isEmpty()) {
-      System.out.println("There are no service requests");
-      id = 0;
-    } else {
-      ServiceRequest tempService = serviceRequestList.get(serviceRequestList.size() - 1);
-      id =
-          Integer.parseInt(
-              tempService
-                  .getRequestID()
-                  .substring(tempService.getRequestID().lastIndexOf("Q") + 1));
-    }
-    // Create new REQID
-    String requestID = "REQ" + ++id;
-
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("BUYEQ");
     // Create entities for submission
 
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
 
     EquipmentPurchaseRequest temp =
         new EquipmentPurchaseRequest(
@@ -90,6 +83,8 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
             issuer,
             handler,
             FacadeDAO.getInstance().getLocationByID("zSTOR00101"),
+            opened,
+            closed,
             equipmentTypeChoiceBox.getSelectionModel().getSelectedItem().toString(),
             paymentMethodChoiceBox.getSelectionModel().getSelectedItem().toString());
 
@@ -115,5 +110,15 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   public void clearFields() {
     equipmentTypeChoiceBox.setValue(null);
     paymentMethodChoiceBox.setValue(null);
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
+  @Override
+  public String getMenuName() {
+    return "Medical Equipment Purchase Request";
   }
 }
