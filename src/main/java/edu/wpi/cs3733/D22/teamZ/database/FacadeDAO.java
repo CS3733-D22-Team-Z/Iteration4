@@ -1321,6 +1321,16 @@ public class FacadeDAO {
   }
 
   /**
+   * Get the number of in use beds for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of in use beds
+   */
+  public int countInUseBedsByFloor(String floor) {
+    return medicalEquipmentDAO.countInUseBedsByFloor(floor);
+  }
+
+  /**
    * Get the number of dirty IPumps for the specified floor
    *
    * @param floor floor to be searched
@@ -1338,6 +1348,16 @@ public class FacadeDAO {
    */
   public int countCleanIPumpsByFloor(String floor) {
     return medicalEquipmentDAO.countCleanIPumpsByFloor(floor);
+  }
+
+  /**
+   * Get the number of in use IPumps for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of in use IPumps
+   */
+  public int countInUseIPumpsByFloor(String floor) {
+    return medicalEquipmentDAO.countInUseIPumpsByFloor(floor);
   }
 
   /**
@@ -1361,6 +1381,16 @@ public class FacadeDAO {
   }
 
   /**
+   * Get the number of in use Recliners for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of in use Recliners
+   */
+  public int countInUseReclinersByFloor(String floor) {
+    return medicalEquipmentDAO.countInUseReclinersByFloor(floor);
+  }
+
+  /**
    * Get the number of dirty XRays for the specified floor
    *
    * @param floor floor to be searched
@@ -1378,6 +1408,16 @@ public class FacadeDAO {
    */
   public int countCleanXRaysByFloor(String floor) {
     return medicalEquipmentDAO.countCleanXRaysByFloor(floor);
+  }
+
+  /**
+   * Get the number of in use RXays for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of clean XRays
+   */
+  public int countInUseXRaysByFloor(String floor) {
+    return medicalEquipmentDAO.countInUseXRaysByFloor(floor);
   }
 
   // Special methods for employee

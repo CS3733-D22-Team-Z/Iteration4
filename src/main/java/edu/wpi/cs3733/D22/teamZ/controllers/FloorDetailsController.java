@@ -17,6 +17,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,6 +29,11 @@ import javafx.scene.layout.AnchorPane;
 /** Controller for FloorDetails.fxml, which displays information about each floor. */
 public class FloorDetailsController implements IMenuAccess, Initializable {
   @FXML private AnchorPane mapContainer;
+
+  @FXML private CategoryAxis x;
+  @FXML private NumberAxis y;
+  @FXML private BarChart<?, ?> barChart;
+
   @FXML private TableView<DropdownRow> medicalEquipmentTable;
   @FXML private TableColumn<DropdownRow, String> typeColumn;
   @FXML private TableColumn<DropdownRow, String> locationColumn;
@@ -62,6 +71,46 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     map.setPrefWidth(mapContainer.getPrefWidth());
     map.setPrefHeight(mapContainer.getPrefHeight());
     mapContainer.setStyle("-fx-background-color: transparent");
+
+    floor = "3"; // TODO Idk how we're setting the floor its not being done rn
+    makeChart();
+  }
+
+  public void makeChart() {
+    XYChart.Series clean = new XYChart.Series();
+    clean.setName("clean");
+    int cleanBeds = FacadeDAO.getInstance().countCleanBedsByFloor(floor);
+    int cleanIpump = FacadeDAO.getInstance().countCleanIPumpsByFloor(floor);
+    int cleanRecliner = FacadeDAO.getInstance().countCleanReclinersByFloor(floor);
+    int cleanXray = FacadeDAO.getInstance().countCleanXRaysByFloor(floor);
+    clean.getData().add(new XYChart.Data("Bed", cleanBeds));
+    clean.getData().add(new XYChart.Data("IPump", cleanIpump));
+    clean.getData().add(new XYChart.Data("Recliner", cleanRecliner));
+    clean.getData().add(new XYChart.Data("X-Ray", cleanXray));
+
+    XYChart.Series dirty = new XYChart.Series();
+    dirty.setName("dirty");
+    int dirtyBeds = FacadeDAO.getInstance().countDirtyBedsByFloor(floor);
+    int dirtyIpump = FacadeDAO.getInstance().countDirtyIPumpsByFloor(floor);
+    int dirtyRecliner = FacadeDAO.getInstance().countDirtyReclinersByFloor(floor);
+    int dirtyXray = FacadeDAO.getInstance().countDirtyXRaysByFloor(floor);
+    dirty.getData().add(new XYChart.Data("Bed", dirtyBeds));
+    dirty.getData().add(new XYChart.Data("IPump", dirtyIpump));
+    dirty.getData().add(new XYChart.Data("Recliner", dirtyRecliner));
+    dirty.getData().add(new XYChart.Data("X-Ray", dirtyXray));
+
+    XYChart.Series inUse = new XYChart.Series();
+    inUse.setName("in use");
+    int inUseBeds = FacadeDAO.getInstance().countInUseBedsByFloor(floor);
+    int inUseIpump = FacadeDAO.getInstance().countInUseIPumpsByFloor(floor);
+    int inUseRecliner = FacadeDAO.getInstance().countInUseReclinersByFloor(floor);
+    int inUseXray = FacadeDAO.getInstance().countInUseXRaysByFloor(floor);
+    inUse.getData().add(new XYChart.Data("Bed", inUseBeds));
+    inUse.getData().add(new XYChart.Data("IPump", inUseIpump));
+    inUse.getData().add(new XYChart.Data("Recliner", inUseRecliner));
+    inUse.getData().add(new XYChart.Data("X-Ray", inUseXray));
+
+    barChart.getData().addAll(dirty, inUse, clean);
   }
 
   @Override

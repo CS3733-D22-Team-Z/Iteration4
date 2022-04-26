@@ -449,6 +449,26 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     return 0;
   }
 
+  public int countInUseBedsByFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "SELECT COUNT(EQUIPMENTID) AS COUNT "
+                  + "FROM MEDICALEQUIPMENT, LOCATION WHERE MEDICALEQUIPMENT.CURRENTLOCATION = LOCATION.NODEID "
+                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'INUSE' AND MEDICALEQUIPMENT.TYPE = 'Bed'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        return rset.getInt("COUNT");
+      }
+    } catch (SQLException e) {
+      System.out.println("Count in use beds by floor failed");
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
   public int countCleanBedsByFloor(String floor) {
     updateConnection();
     try {
@@ -509,6 +529,26 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     return 0;
   }
 
+  public int countInUseIPumpsByFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "SELECT COUNT(EQUIPMENTID) AS COUNT "
+                  + "FROM MEDICALEQUIPMENT, LOCATION WHERE MEDICALEQUIPMENT.CURRENTLOCATION = LOCATION.NODEID "
+                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'INUSE' AND MEDICALEQUIPMENT.TYPE = 'IPumps'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        return rset.getInt("COUNT");
+      }
+    } catch (SQLException e) {
+      System.out.println("Count in use IPumps by floor failed");
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
   public int countDirtyReclinersByFloor(String floor) {
     updateConnection();
     try {
@@ -549,6 +589,26 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     return 0;
   }
 
+  public int countInUseReclinersByFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "SELECT COUNT(EQUIPMENTID) AS COUNT "
+                  + "FROM MEDICALEQUIPMENT, LOCATION WHERE MEDICALEQUIPMENT.CURRENTLOCATION = LOCATION.NODEID "
+                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'INUSE' AND MEDICALEQUIPMENT.TYPE = 'Recliner'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        return rset.getInt("COUNT");
+      }
+    } catch (SQLException e) {
+      System.out.println("Count in use recliners by floor failed");
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
   public int countDirtyXRaysByFloor(String floor) {
     updateConnection();
     try {
@@ -570,6 +630,26 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
   }
 
   public int countCleanXRaysByFloor(String floor) {
+    return 0;
+  }
+
+  public int countInUseXRaysByFloor(String floor) {
+    updateConnection();
+    try {
+      PreparedStatement pstmt =
+          connection.prepareStatement(
+              "SELECT COUNT(EQUIPMENTID) AS COUNT "
+                  + "FROM MEDICALEQUIPMENT, LOCATION WHERE MEDICALEQUIPMENT.CURRENTLOCATION = LOCATION.NODEID "
+                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'INUSE' AND MEDICALEQUIPMENT.TYPE = 'XRay'");
+      pstmt.setString(1, floor);
+      ResultSet rset = pstmt.executeQuery();
+      while (rset.next()) {
+        return rset.getInt("COUNT");
+      }
+    } catch (SQLException e) {
+      System.out.println("Count in use XRays by floor failed");
+      e.printStackTrace();
+    }
     return 0;
   }
 }

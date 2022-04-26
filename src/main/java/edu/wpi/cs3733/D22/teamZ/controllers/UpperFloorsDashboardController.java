@@ -403,8 +403,9 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   }
 
   public void toFloor5(ActionEvent actionEvent) throws IOException {
-    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
-    mapListController.changeToFloor("5");
+    // LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    FloorDetailsController mapListController = (FloorDetailsController) menu.load(toLocationURL);
+    mapListController.setFloor("5");
   }
 
   public void toFloor4(ActionEvent actionEvent) throws IOException {
