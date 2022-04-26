@@ -10,43 +10,43 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.SimulatorController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.SimulatorController">
    <children>
       <SplitPane dividerPositions="0.6942127215849844" prefHeight="1030.0" prefWidth="1920.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane fx:id="mapContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <ImageView fitHeight="1040.0" fitWidth="1344.0" layoutX="-7.0" layoutY="-6.0">
                      <image>
-                        <Image url="@../images/1.png" />
+                        <Image url="@../../../../../../../../../../Iteration2/src/main/resources/edu/wpi/cs3733/D22/teamZ/images/3.png" />
                      </image>
                   </ImageView>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1028.0" prefWidth="644.0">
                <children>
-                  <Label layoutX="189.0" layoutY="30.0" text="Choose Speed">
+                  <Label layoutX="126.0" layoutY="32.0" styleClass="header" text="Choose Speed">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <ChoiceBox layoutX="77.0" layoutY="74.0" prefHeight="76.0" prefWidth="446.0" />
-                  <MFXButton layoutX="77.0" layoutY="150.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Start Simulation" textFill="WHITE">
+                  <ChoiceBox layoutX="69.0" layoutY="98.0" prefHeight="76.0" prefWidth="446.0" />
+                  <MFXButton layoutX="69.0" layoutY="235.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Start Simulation" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </MFXButton>
-                  <MFXScrollPane layoutX="18.0" layoutY="226.0" prefHeight="453.0" prefWidth="547.0">
+                  <MFXScrollPane layoutX="18.0" layoutY="330.0" prefHeight="453.0" prefWidth="547.0">
                      <content>
                         <Label />
                      </content>
                   </MFXScrollPane>
-                  <MFXButton layoutX="78.0" layoutY="679.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Pause Simulation" textFill="WHITE">
+                  <MFXButton layoutX="69.0" layoutY="804.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Pause Simulation" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton layoutX="78.0" layoutY="755.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #ff4343;" text="End Simulation" textFill="WHITE">
+                  <MFXButton layoutX="69.0" layoutY="916.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #ff4343;" text="End Simulation" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
