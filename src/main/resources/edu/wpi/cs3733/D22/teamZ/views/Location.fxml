@@ -31,7 +31,7 @@
    <children>
       <SplitPane fx:id="splitPane" dividerPositions="0.8" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1918.0" style="-fx-border-width: 0;" styleClass="root">
          <items>
-            <AnchorPane fx:id="mapContainer" minHeight="0.0" minWidth="0.0" prefHeight="1028.0" prefWidth="1485.0">
+            <AnchorPane fx:id="mapContainer" minHeight="0.0" minWidth="0.0" prefHeight="1028.0" prefWidth="1533.0">
                <children>
                   <Pane fx:id="locationChangeDarkenPane" opacity="0.26" prefHeight="399.0" prefWidth="599.0" visible="false" />
                </children>

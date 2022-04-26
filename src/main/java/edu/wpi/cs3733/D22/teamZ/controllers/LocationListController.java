@@ -161,7 +161,7 @@ public class LocationListController implements IMenuAccess {
   private String mode;
 
   private int scrollCount;
-  private int curZoom;
+  private double curZoom = 1.0;
 
   // initialize location labels to display on map
   @FXML
@@ -204,59 +204,17 @@ public class LocationListController implements IMenuAccess {
           // Load default floor
           changeToFloor("3");
 
-          Map<Integer, Double> locKeys = new HashMap<>();
-          locKeys.put(45, 0.0);
-          locKeys.put(50, 0.11);
-          locKeys.put(55, .2);
-          locKeys.put(60, .29);
-          locKeys.put(65, .376);
-          locKeys.put(70, .465);
-          locKeys.put(75, .556);
-          locKeys.put(80, .645);
-          locKeys.put(85, .732);
-          locKeys.put(90, .821);
-          locKeys.put(95, .909);
-          locKeys.put(100, 1.0);
-          locKeys.put(105, 1.09);
-          locKeys.put(110, 1.19);
-          locKeys.put(115, 1.29);
-          locKeys.put(120, 1.39);
-          locKeys.put(125, 1.49);
-          locKeys.put(130, 1.59);
-          locKeys.put(135, 1.69);
-          locKeys.put(140, 1.79);
-          locKeys.put(145, 1.89);
-          locKeys.put(150, 1.99);
-          locKeys.put(155, 2.09);
-          locKeys.put(160, 2.19);
-          locKeys.put(165, 2.29);
-          locKeys.put(170, 2.39);
-          locKeys.put(175, 2.49);
-          locKeys.put(180, 2.59);
-          locKeys.put(185, 2.69);
-          locKeys.put(190, 2.79);
-          locKeys.put(195, 2.89);
-          locKeys.put(200, 2.99);
-          locKeys.put(205, 3.09);
-          locKeys.put(210, 3.19);
-
-          curZoom = 100;
-
-          mapController.setZooms(locKeys);
-
           zoomInButton.addEventFilter(
               MouseEvent.MOUSE_CLICKED,
               e -> {
-                curZoom += 5;
-                curZoom = Math.max(45, Math.min(curZoom, 210));
+                curZoom += 0.05;
                 mapController.setScale(curZoom);
               });
 
           zoomOutButton.addEventFilter(
               MouseEvent.MOUSE_CLICKED,
               e -> {
-                curZoom -= 5;
-                curZoom = Math.max(45, Math.min(curZoom, 210));
+                curZoom -= 0.05;
                 mapController.setScale(curZoom);
               });
         });
