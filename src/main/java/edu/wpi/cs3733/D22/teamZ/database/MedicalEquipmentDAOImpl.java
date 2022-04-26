@@ -429,26 +429,6 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     return 0;
   }
 
-  public int countDirtyBedsByFloor(String floor) {
-    updateConnection();
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement(
-              "SELECT COUNT(EQUIPMENTID) AS COUNT "
-                  + "FROM MEDICALEQUIPMENT, LOCATION WHERE MEDICALEQUIPMENT.CURRENTLOCATION = LOCATION.NODEID "
-                  + "AND LOCATION.FLOOR = ? AND MEDICALEQUIPMENT.STATUS = 'DIRTY' AND MEDICALEQUIPMENT.TYPE = 'Bed'");
-      pstmt.setString(1, floor);
-      ResultSet rset = pstmt.executeQuery();
-      while (rset.next()) {
-        return rset.getInt("COUNT");
-      }
-    } catch (SQLException e) {
-      System.out.println("Count dirty beds by floor failed");
-      e.printStackTrace();
-    }
-    return 0;
-  }
-
   public int countInUseBedsByFloor(String floor) {
     updateConnection();
     try {
@@ -468,6 +448,7 @@ class MedicalEquipmentDAOImpl implements IMedicalEquipmentDAO {
     }
     return 0;
   }
+
   public int countDirtyBedsByFloor(String floor) {
     updateConnection();
     try {

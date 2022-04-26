@@ -25,42 +25,42 @@
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="908.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="749.0" />
                   <Rectangle fx:id="ipumpGreen5" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="908.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="537.0" />
                   <Rectangle fx:id="bedGreen5" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="57.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="443.0" />
-                  <Label layoutX="27.0" layoutY="-3.0" prefHeight="46.0" prefWidth="92.0" stylesheets="@../styles/ServiceRequestDefault.css" text="Dirty:">
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="-3.0" prefHeight="46.0" prefWidth="92.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Dirty:" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyBedsNumber" layoutX="51.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyBedsNumber" alignment="CENTER" layoutX="51.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label layoutX="880.0" layoutY="-3.0" prefHeight="46.0" prefWidth="92.0" stylesheets="@../styles/ServiceRequestDefault.css" text="Dirty:">
+                  <Label alignment="CENTER" layoutX="866.0" layoutY="-3.0" prefHeight="46.0" prefWidth="92.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Dirty:">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyIPumpsNumber" layoutX="904.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyIPumpsNumber" alignment="CENTER" layoutX="904.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label layoutX="758.0" layoutY="-3.0" prefHeight="46.0" prefWidth="82.0" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:">
+                  <Label alignment="CENTER" layoutX="741.0" layoutY="-3.0" prefHeight="46.0" prefWidth="106.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanBedsNumber" layoutX="787.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanBedsNumber" alignment="CENTER" layoutX="787.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label layoutX="1611.0" layoutY="-3.0" prefHeight="46.0" prefWidth="82.0" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:">
+                  <Label alignment="CENTER" layoutX="1603.0" layoutY="-3.0" prefHeight="46.0" prefWidth="98.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanIPumpsNumber" layoutX="1640.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanIPumpsNumber" alignment="CENTER" layoutX="1640.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>

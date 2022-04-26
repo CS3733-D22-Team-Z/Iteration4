@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.shape.Rectangle;
@@ -8,14 +9,15 @@ public class DashboardFinal implements IMenuAccess {
 
   private MenuController menu;
   private String menuName;
+  private final double MAXWIDTH = 749;
 
   @FXML Rectangle bedGreen5;
   @FXML Rectangle ipumpGreen5;
 
   @FXML
   private void initialize() {
-    bedGreen5.setWidth(749);
-    ipumpGreen5.setWidth(749);
+    bedGreen5.setWidth(countCleanBeds("5"));
+    ipumpGreen5.setWidth(countCleanIPumps("5"));
   }
 
   @Override
@@ -26,6 +28,22 @@ public class DashboardFinal implements IMenuAccess {
   @Override
   public String getMenuName() {
     return menuName;
+  }
+
+  private double countCleanBeds(String floor) {
+    double clean = FacadeDAO.getInstance().countCleanBedsByFloor(floor);
+    double dirty = FacadeDAO.getInstance().countDirtyBedsByFloor(floor);
+    double total = clean + dirty;
+    double cleanWidth = (clean * MAXWIDTH) / total;
+    return cleanWidth;
+  }
+
+  private double countCleanIPumps(String floor) {
+    double clean = FacadeDAO.getInstance().countCleanIPumpsByFloor(floor);
+    double dirty = FacadeDAO.getInstance().countDirtyIPumpsByFloor(floor);
+    double total = clean + dirty;
+    double cleanWidth = (clean * MAXWIDTH) / total;
+    return cleanWidth;
   }
 
   @FXML
