@@ -411,7 +411,7 @@
 .ui-window {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 20px;
-    -fx-padding: 10px;
+    -fx-padding: 20px;
 
     -fx-effect: dropshadow(three-pass-box, #0000003F, 15, .55, 0, 4);
 }
