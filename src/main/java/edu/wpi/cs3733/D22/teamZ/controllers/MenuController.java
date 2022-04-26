@@ -106,6 +106,7 @@ public class MenuController implements Initializable {
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
   private String toHomeURL = "edu/wpi/cs3733/D22/teamZ/views/Homepage.fxml";
   private String toServiceURL = "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
+  private String toProfileURL = "edu/wpi/cs3733/D22/teamZ/views/ProfilePage.fxml";
 
   public MenuController() {
     currentPage = new SimpleStringProperty();
@@ -119,6 +120,7 @@ public class MenuController implements Initializable {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    contentPane.setTranslateX(200);
 
     // Initialize exit menu
     SVGPath MenuIcon = new SVGPath();
@@ -268,6 +270,11 @@ public class MenuController implements Initializable {
   }
 
   @FXML
+  private void toProfile() throws IOException {
+    load(toProfileURL);
+  }
+
+  @FXML
   private void toExit() {
     Stage stage = (Stage) exitButton.getScene().getWindow();
     stage.close();
@@ -280,9 +287,16 @@ public class MenuController implements Initializable {
       if (menuEnabled) {
         menuSlide.setFromX(0);
         menuSlide.setToX(-menuPane.getWidth());
+        TranslateTransition tt = new TranslateTransition(Duration.millis(400), contentPane);
+        tt.setToX(0);
+        tt.play();
       } else {
         menuSlide.setFromX(-menuPane.getWidth());
         menuSlide.setToX(0);
+        TranslateTransition tt = new TranslateTransition(Duration.millis(400), contentPane);
+        tt.setToX(200);
+        tt.play();
+        // contentPane.setTranslateX(200);
       }
 
       System.out.println(menuSlide.getTotalDuration());

@@ -7,6 +7,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode;
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,6 +32,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
 
   // Buttons to select the sorting/filter parameters.
   @FXML private MFXButton setEmpButton;
+  @FXML private MFXButton finishRequestButton;
 
   // Labels
   @FXML private Label errorLabel;
@@ -271,6 +273,27 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
       facadeDAO.updateServiceRequest(handler);
       createTable();
       errorLabel.setVisible(false);
+      createOutstandingTable();
+      issuerSelect.setSelected(false);
+      handlerSelect.setSelected(false);
+      filterBox.getSelectionModel().clearSelection();
+      employeeBox.getSelectionModel().clearSelection();
+    } else {
+      errorLabel.setVisible(true);
+    }
+  }
+
+  /** when set employee button is clicked sets employee to service request */
+  public void finishRequest(ActionEvent actionEvent) {
+    if (!(tableContainer.getSelectionModel().getSelectedItem() == null)) {
+      ServiceRequest req = tableContainer.getSelectionModel().getSelectedItem();
+      if (!req.getStatus().equals(ServiceRequest.RequestStatus.PROCESSING)) {
+        return;
+      }
+      req.setStatus(ServiceRequest.RequestStatus.getRequestStatusByString("DONE"));
+      req.setClosed(LocalDateTime.now());
+      facadeDAO.updateServiceRequest(req);
+      createTable();
       createOutstandingTable();
       issuerSelect.setSelected(false);
       handlerSelect.setSelected(false);

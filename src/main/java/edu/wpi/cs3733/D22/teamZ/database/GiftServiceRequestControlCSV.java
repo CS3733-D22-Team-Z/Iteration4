@@ -43,7 +43,9 @@ public class GiftServiceRequestControlCSV extends ControlCSV {
               request.getTargetLocation(),
               patientName,
               patientID,
-              giftType));
+              giftType,
+              request.getOpened(),
+              request.getClosed()));
     }
 
     return giftRequestList;

@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -12,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class MedicalEquipmentRequestController extends ServiceRequestController {
   @FXML private Label header;
@@ -30,6 +30,7 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   // URLs
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
+  private String toMedicalEquipmentStatsURL = "edu/wpi/cs3733/D22/teamZ/views/Charts.fxml";
 
   // Lists
   private List<Location> locationList;
@@ -41,11 +42,6 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
-
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
 
     menuName = "Medical Equipment Request";
 
@@ -118,10 +114,12 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
               enterRoomNumber.getText(),
               enterFloorNumber.getText());
       Location targetLoc = database.getLocationByID(nodeID);
+      LocalDateTime opened = LocalDateTime.now();
+      LocalDateTime closed = null;
 
       MedicalEquipmentDeliveryRequest temp =
           new MedicalEquipmentDeliveryRequest(
-              requestID, status, issuer, handler, equipmentID, targetLoc);
+              requestID, status, issuer, handler, equipmentID, targetLoc, opened, closed);
 
       database.addMedicalEquipmentRequest(temp);
       successfulSubmitLabel.setVisible(true);
@@ -145,5 +143,9 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   public void onNavigateToMedicalRequestList() throws IOException {
     menu.selectMenu(2);
     menu.load(toMedicalEquipmentRequestURL);
+  }
+
+  public void onNavigateToMedicalRequestStats() throws IOException {
+    menu.load(toMedicalEquipmentStatsURL);
   }
 }

@@ -21,42 +21,47 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
-      <SplitPane fx:id="splitPane" dividerPositions="0.75" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-border-width: 0;" styleClass="root">
+      <SplitPane fx:id="splitPane" dividerPositions="0.8" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1918.0" style="-fx-border-width: 0;" styleClass="root">
          <items>
-            <AnchorPane fx:id="mapContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <AnchorPane fx:id="mapContainer" minHeight="0.0" minWidth="0.0" prefHeight="1028.0" prefWidth="1533.0">
                <children>
                   <Pane fx:id="locationChangeDarkenPane" opacity="0.26" prefHeight="399.0" prefWidth="599.0" visible="false" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="rightPane" minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="132.0" style="-fx-border-color: #D2D2D2; -fx-border-width: 0 0 0 1;" styleClass="root">
+            <AnchorPane fx:id="rightPane" minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="667.0" style="-fx-border-color: #D2D2D2; -fx-border-width: 0 0 0 1;" styleClass="root">
                <children>
-                  <VBox layoutX="14.0" layoutY="207.0" spacing="5.0">
+                  <VBox layoutX="14.0" layoutY="483.0" prefHeight="128.0" prefWidth="351.0" spacing="10.0">
                      <children>
-                        <MFXRadioButton fx:id="locRadio" gap="6.0" radioGap="2.5" radius="5.0" selected="true" text="Locations">
+                        <MFXRadioButton fx:id="locRadio" gap="20.0" radioGap="4.0" radius="10.0" selected="true" style="-fx-font-size: 22;" text="Locations">
                            <effect>
                               <ColorAdjust hue="-0.25" />
                            </effect>
                            <toggleGroup>
                               <ToggleGroup fx:id="radioGroup" />
                            </toggleGroup>
+                           <font>
+                              <Font size="50.0" />
+                           </font>
                         </MFXRadioButton>
-                        <MFXRadioButton fx:id="equipRadio" gap="6.0" radioGap="2.5" radius="5.0" text="Equipment" toggleGroup="$radioGroup">
+                        <MFXRadioButton fx:id="equipRadio" gap="20.0" radioGap="4.0" radius="10.0" style="-fx-font-size: 22;" text="Equipment" toggleGroup="$radioGroup">
                            <effect>
                               <ColorAdjust hue="-0.25" />
                            </effect>
                         </MFXRadioButton>
-                        <MFXRadioButton fx:id="servRadio" gap="6.0" radioGap="2.5" radius="5.0" text="Service Requests" toggleGroup="$radioGroup">
+                        <MFXRadioButton fx:id="servRadio" gap="20.0" radioGap="4.0" radius="10.0" style="-fx-font-size: 22;" text="Service Requests" toggleGroup="$radioGroup">
                            <effect>
                               <ColorAdjust hue="-0.25" />
                            </effect>
                         </MFXRadioButton>
-                        <MFXRadioButton fx:id="cctvRadio" gap="6.0" radioGap="2.5" radius="5.0" text="CCTV">
+                        <MFXRadioButton fx:id="cctvRadio" gap="20.0" radioGap="4.0" radius="10.0" style="-fx-font-size: 22;" text="CCTV">
                            <toggleGroup>
                               <ToggleGroup fx:id="radioGroup1" />
                            </toggleGroup>
@@ -71,15 +76,15 @@
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Label>
-                  <Label layoutX="12.0" layoutY="6.0" styleClass="choice-header-floor" text="Change Floor" textFill="#7b7b7b">
+                  <Label layoutX="20.0" layoutY="17.0" styleClass="choice-header-floor" text="Change Floor" textFill="#7b7b7b">
                      <font>
                         <Font name="System Bold" size="10.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="changeFloor" layoutX="13.0" layoutY="29.0" prefHeight="23.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 2;" />
-                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="84.0" onAction="#addLocationButtonClicked" prefHeight="27.0" prefWidth="117.0" rippleColor="#0c4ee7" style="-fx-font-size: 11;" text="Add Location">
+                  <ChoiceBox fx:id="changeFloor" layoutX="18.0" layoutY="75.0" prefHeight="60.0" prefWidth="347.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 4;" />
+                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="366.0" onAction="#addLocationButtonClicked" prefHeight="63.0" prefWidth="352.0" rippleColor="#0c4ee7" style="-fx-font-size: 29; -fx-background-radius: 5;" text="Add Location">
                      <graphic>
-                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+                        <ImageView fitHeight="31.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
                            <image>
                               <Image url="@../images/addLocation.png" />
                            </image>
@@ -89,19 +94,23 @@
                         <Font size="11.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton layoutX="13.0" layoutY="120.0" onAction="#exportToCSV" prefHeight="23.0" prefWidth="117.0" styleClass="button-inv" text="Export CSV">
+                  <MFXButton layoutX="15.0" layoutY="193.0" onAction="#exportToCSV" prefHeight="63.0" prefWidth="352.0" style="-fx-background-radius: 4;" styleClass="button-inv" text="Export CSV">
                      <font>
                         <Font size="11.0" />
-                     </font></MFXButton>
-                  <MFXButton layoutX="13.0" layoutY="152.0" onAction="#importFromCSV" prefHeight="25.0" prefWidth="117.0" styleClass="button-inv" text="Import CSV" />
-                  <Line endX="117.66668701171875" endY="7.62939453125E-6" layoutX="14.0" layoutY="69.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" />
-                  <Line endX="117.66668701171875" endY="7.62939453125E-6" layoutX="15.0" layoutY="192.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton layoutX="13.0" layoutY="280.0" onAction="#importFromCSV" prefHeight="63.0" prefWidth="352.0" style="-fx-background-radius: 4;" styleClass="button-inv" text="Import CSV" />
+                  <Line endX="350.6666259765625" layoutX="15.0" layoutY="170.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" strokeWidth="3.0" />
+                  <Line endX="350.6666259765625" layoutX="14.0" layoutY="456.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" strokeWidth="3.0" />
                </children>
+               <effect>
+                  <DropShadow />
+               </effect>
             </AnchorPane>
          </items>
       </SplitPane>
-      <TextField fx:id="searchField" layoutX="8.0" layoutY="8.0" onKeyTyped="#search" prefHeight="31.0" prefWidth="322.0" promptText="Search..." styleClass="search-box" />
-      <MFXListView fx:id="searchResultList" layoutX="8.0" layoutY="30.0" onMouseClicked="#resultMouseClick" prefHeight="58.0" prefWidth="315.0" visible="false" />
+      <TextField fx:id="searchField" layoutX="27.0" layoutY="26.0" onKeyTyped="#search" prefHeight="66.0" prefWidth="761.0" promptText="Search..." styleClass="search-box" />
+      <MFXListView fx:id="searchResultList" layoutX="8.0" layoutY="40.0" onMouseClicked="#resultMouseClick" prefHeight="58.0" prefWidth="322.0" visible="false" />
       <Pane fx:id="editLocationPane" layoutX="126.0" layoutY="89.0" prefHeight="299.0" prefWidth="300.0" styleClass="map-window" visible="false">
          <children>
             <Text layoutX="11.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Location" translateY="-10.0">
@@ -536,6 +545,42 @@
                   </ImageView>
                </graphic>
             </MFXButton>
+         </children>
+      </Pane>
+      <Pane fx:id="zoomInButton" layoutX="35.0" layoutY="846.0" scaleX="2.0" scaleY="2.0">
+         <children>
+            <Circle fill="WHITE" layoutX="29.0" layoutY="29.0" radius="20.0" stroke="WHITE" strokeType="INSIDE" translateX="-5.0" translateY="-2.0">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.3160173296928406" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Circle>
+            <SVGPath content="M20 0C8.95536 0 0 8.95536 0 20C0 31.0446 8.95536 40 20 40C31.0446 40 40 31.0446 40 20C40 8.95536 31.0446 0 20 0ZM28.5714 21.0714C28.5714 21.2679 28.4107 21.4286 28.2143 21.4286H21.4286V28.2143C21.4286 28.4107 21.2679 28.5714 21.0714 28.5714H18.9286C18.7321 28.5714 18.5714 28.4107 18.5714 28.2143V21.4286H11.7857C11.5893 21.4286 11.4286 21.2679 11.4286 21.0714V18.9286C11.4286 18.7321 11.5893 18.5714 11.7857 18.5714H18.5714V11.7857C18.5714 11.5893 18.7321 11.4286 18.9286 11.4286H21.0714C21.2679 11.4286 21.4286 11.5893 21.4286 11.7857V18.5714H28.2143C28.4107 18.5714 28.5714 18.7321 28.5714 18.9286V21.0714Z" fill="#0067b1" layoutX="9.0" layoutY="9.0" translateX="-5.0" translateY="-2.0">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.10822510719299316" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </SVGPath>
+         </children>
+      </Pane>
+      <Pane fx:id="zoomOutButton" layoutX="37.0" layoutY="946.0" prefHeight="67.0" prefWidth="77.0">
+         <children>
+            <Circle fill="WHITE" layoutX="29.0" layoutY="29.0" radius="20.0" stroke="WHITE" strokeType="INSIDE" translateX="-5.0" translateY="-2.0">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.3160173296928406" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Circle>
+            <SVGPath content="M20 2.5C10.3359 2.5 2.5 10.3359 2.5 20C2.5 29.6641 10.3359 37.5 20 37.5C29.6641 37.5 37.5 29.6641 37.5 20C37.5 10.3359 29.6641 2.5 20 2.5ZM27.5 20.9375C27.5 21.1094 27.3594 21.25 27.1875 21.25H12.8125C12.6406 21.25 12.5 21.1094 12.5 20.9375V19.0625C12.5 18.8906 12.6406 18.75 12.8125 18.75H27.1875C27.3594 18.75 27.5 18.8906 27.5 19.0625V20.9375Z" fill="#0067b1" layoutX="8.050000190734863" layoutY="9.04998779296875" scaleX="2.14" scaleY="2.14" translateX="-5.0" translateY="-2.0" />
          </children>
       </Pane>
    </children>

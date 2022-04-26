@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import java.time.LocalDateTime;
 
 public class MealServiceRequest extends ServiceRequest {
   private Patient patient;
@@ -16,11 +17,13 @@ public class MealServiceRequest extends ServiceRequest {
       Employee issuer,
       Employee handler,
       Location targetLocation,
+      LocalDateTime opened,
+      LocalDateTime closed,
       Patient patient,
       String drink,
       String entree,
       String side) {
-    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation);
+    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation, opened, closed);
     this.patient = patient;
     this.drink = drink;
     this.entree = entree;
@@ -33,11 +36,13 @@ public class MealServiceRequest extends ServiceRequest {
       String issuer,
       String handler,
       String targetLocation,
+      String opened,
+      String closed,
       String patient,
       String drink,
       String entree,
       String side) {
-    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation);
+    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation, opened, closed);
     this.patient = facadeDAO.getPatientByID(patient);
     this.drink = drink;
     this.entree = entree;

@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D22.teamZ.helpers.MouseMethod;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -39,7 +40,7 @@ import org.kynosarges.tektosyne.geometry.VoronoiResults;
 public class MapController implements Initializable {
   // FXML elements
   @FXML private ImageView mapImage;
-  @FXML private Pane iconContainer;
+  @FXML @Getter private Pane iconContainer;
   @FXML private ScrollPane scrollPane;
   @FXML private StackPane mapContainer;
 
@@ -47,7 +48,7 @@ public class MapController implements Initializable {
   FacadeDAO database;
 
   // Paths
-  public static final String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
+  public static String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
 
   // Specific attributes
   private ClassLoader loader;
@@ -62,19 +63,15 @@ public class MapController implements Initializable {
   @Setter private LabelMethod rightClickedMethod;
   private VoronoiResults snapLocations = null;
   @Getter @Setter private int iconShift = 0;
+  @Getter @Setter private int generalShift = 0;
   private BiPolygon prevBounds;
   private double minX;
   private double minY;
   private double maxX;
   private double maxY;
-  private double scale;
-
-  // List of zooms supported by the map.
-  // Integer is the zoom * 100. For example, 50 corresponds to 0.5.
-  // Double is the maximum HBar value supported.
-  // Must have mapping for 100.
-  @Setter private Map<Integer, Double> zooms;
-  int currentScale = 100;
+  private SimpleDoubleProperty scale;
+  private SimpleDoubleProperty imageWidth;
+  private SimpleDoubleProperty imageHeight;
 
   // Frequent variables
   private MapLabel activeLabel;
@@ -84,18 +81,14 @@ public class MapController implements Initializable {
     loader = getClass().getClassLoader();
     database = FacadeDAO.getInstance();
 
+    scale = new SimpleDoubleProperty(1.0);
+    imageHeight = new SimpleDoubleProperty(1.0);
+    imageWidth = new SimpleDoubleProperty(1.0);
+
+    mapContainer.prefWidthProperty().bind(imageWidth.multiply(scale));
+    mapContainer.prefHeightProperty().bind(imageHeight.multiply(scale));
+
     addMouseBehaviors();
-
-    //    scrollPane
-    //        .hvalueProperty()
-    //        .addListener(
-    //            (listener) -> {
-    //              System.out.println(scrollPane.getHvalue());
-    //            });
-
-    // Default
-    zooms = Map.of(100, 1.0);
-    setScale(100);
   }
 
   /** Implements mouse-related behavior in iconContainer */
@@ -133,8 +126,17 @@ public class MapController implements Initializable {
             // If a label is currently selected and is being dragged...
             if (activeLabel != null && activeLabel.isDragging()) {
               // Move it
-              activeLabel.setTranslateX(dragEvent.getX() - activeLabel.getMouseHomeX() + iconShift);
-              activeLabel.setTranslateY(dragEvent.getY() - activeLabel.getMouseHomeY() + iconShift);
+              Image locationImg = ((ImageView) activeLabel.getGraphic()).getImage();
+              activeLabel.setTranslateX(
+                  dragEvent.getX()
+                      - activeLabel.getMouseHomeX()
+                      + iconShift
+                      - locationImg.getWidth() / 2);
+              activeLabel.setTranslateY(
+                  dragEvent.getY()
+                      - activeLabel.getMouseHomeY()
+                      + iconShift
+                      - locationImg.getHeight());
 
               // If voroni regions are present
               if (snapLocations != null) {
@@ -165,10 +167,17 @@ public class MapController implements Initializable {
             // If there aren't any voroni regions
             if (snapLocations == null) {
               // Update layout of label
+              Image locationImg = ((ImageView) activeLabel.getGraphic()).getImage();
               activeLabel.setLayoutX(
-                  activeLabel.getLayoutX() + activeLabel.getTranslateX() - iconShift);
+                  activeLabel.getLayoutX()
+                      + activeLabel.getTranslateX()
+                      - iconShift
+                      + locationImg.getWidth() / 2);
               activeLabel.setLayoutY(
-                  activeLabel.getLayoutY() + activeLabel.getTranslateY() - iconShift);
+                  activeLabel.getLayoutY()
+                      + activeLabel.getTranslateY()
+                      - iconShift
+                      + locationImg.getHeight());
             } else {
               if (prevBounds != null && activeLabel.isDragging()) {
                 activeLabel.setLayoutX(prevBounds.getParentLocation().getXcoord());
@@ -179,8 +188,9 @@ public class MapController implements Initializable {
             prevBounds = null;
 
             // Reset translation
-            activeLabel.setTranslateX(0);
-            activeLabel.setTranslateY(0);
+            Image locationImg = ((ImageView) activeLabel.getGraphic()).getImage();
+            activeLabel.setTranslateX(-locationImg.getWidth() / 2);
+            activeLabel.setTranslateY(-locationImg.getHeight());
 
             // Run dragExit
             if (draggable && activeLabel.isDragging()) dragExitMethod.call(activeLabel);
@@ -213,18 +223,16 @@ public class MapController implements Initializable {
   /**
    * Sets scaling of the map
    *
-   * @param scaleKey new scale of map
+   * @param scale new scale of map
    */
-  public void setScale(int scaleKey) {
-    if (zooms.containsKey(scaleKey)) {
-      currentScale = scaleKey;
-      scale = scaleKey / 100.0;
-      Scale transform = new Scale(scale, scale);
-      mapContainer.getTransforms().clear();
-      mapContainer.getTransforms().add(transform);
-      repositionScroller(
-          mapContainer, scrollPane, scale, figureScrollOffset(mapContainer, scrollPane));
-    }
+  public void setScale(double scale) {
+    this.scale.set(scale);
+    Scale transform = new Scale(scale, scale);
+    mapContainer.getTransforms().clear();
+    mapContainer.getTransforms().add(transform);
+
+    // repositionScroller(
+    //    mapContainer, scrollPane, scale, figureScrollOffset(mapContainer, scrollPane));
   }
 
   /**
@@ -236,6 +244,8 @@ public class MapController implements Initializable {
     // Switch image
     Image newImage = new Image(String.format(mapPath, floor));
     mapImage.setImage(newImage);
+    imageHeight.set(newImage.getHeight());
+    imageWidth.set(newImage.getWidth());
   }
 
   /**
@@ -318,8 +328,6 @@ public class MapController implements Initializable {
                     label.setScaleX(1.1);
                     label.setScaleY(1.1);
                     if (labelClickedMethod != null) labelClickedMethod.call(label);
-                    // Move to label
-                    panToPoint(activeLabel.getLayoutX(), activeLabel.getLayoutY());
                   }
                 });
 
@@ -407,26 +415,26 @@ public class MapController implements Initializable {
     return allLabels;
   }
 
-  /**
-   * Given coordinates, move "camera" to that point.
-   *
-   * @param x the x coordinate
-   * @param y the y coordinate
-   */
-  public void panToPoint(double x, double y) {
-    minX = scrollPane.getWidth() * (1 / (2 * scale));
-    maxX = mapImage.getFitWidth() - minX;
-    minY = scrollPane.getHeight() * (1 / (2 * scale));
-    maxY = mapImage.getFitHeight() - minY;
-
-    x = Math.max(minX, Math.min(x, maxX));
-    y = Math.max(minY, Math.min(y, maxY));
-
-    double scrollMax = zooms.get(currentScale);
-
-    scrollPane.setHvalue(scrollMax * (x - minX) / (maxX - minX));
-    scrollPane.setVvalue(scrollMax * (y - minY) / (maxY - minY));
-  }
+  //  /**
+  //   * Given coordinates, move "camera" to that point.
+  //   *
+  //   * @param x the x coordinate
+  //   * @param y the y coordinate
+  //   */
+  //  public void panToPoint(double x, double y) {
+  //    minX = scrollPane.getWidth() * (1 / (2 * scale));
+  //    maxX = mapImage.getFitWidth() - minX;
+  //    minY = scrollPane.getHeight() * (1 / (2 * scale));
+  //    maxY = mapImage.getFitHeight() - minY;
+  //
+  //    x = Math.max(minX, Math.min(x, maxX));
+  //    y = Math.max(minY, Math.min(y, maxY));
+  //
+  //    double scrollMax = zooms.get(currentScale);
+  //
+  //    scrollPane.setHvalue(scrollMax * (x - minX) / (maxX - minX));
+  //    scrollPane.setVvalue(scrollMax * (y - minY) / (maxY - minY));
+  //  }
 
   // Don't use for now
   //  public List<Double> getCameraPoint() {

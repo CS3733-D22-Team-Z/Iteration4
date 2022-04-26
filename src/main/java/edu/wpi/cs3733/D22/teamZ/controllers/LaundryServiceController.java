@@ -9,6 +9,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -71,6 +72,8 @@ public class LaundryServiceController extends ServiceRequestController implement
               MenuController.getLoggedInUser(),
               null,
               dao.getLocationByID(locationField.getText()),
+              LocalDateTime.now(),
+              null,
               LaundryServiceRequest.LaundryStatus.DIRTY,
               linenTypeField.getText());
 

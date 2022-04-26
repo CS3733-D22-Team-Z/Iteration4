@@ -697,7 +697,9 @@ public class FacadeDAO {
                 serviceRequest.getIssuer(),
                 serviceRequest.getHandler(),
                 null,
-                serviceRequest.getTargetLocation());
+                serviceRequest.getTargetLocation(),
+                serviceRequest.getOpened(),
+                serviceRequest.getClosed());
         val = medEquipReqDAO.updateMedEquipReq(req);
       } else if (serviceRequest.getType().equals(ServiceRequest.RequestType.LABS)) {
         val = labRequestServiceDAO.updateLabRequest((LabServiceRequest) serviceRequest);

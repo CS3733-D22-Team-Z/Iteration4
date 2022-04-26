@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
+import java.time.LocalDateTime;
+
 public class GiftServiceRequest extends ServiceRequest {
 
   private String patientName;
@@ -14,8 +16,10 @@ public class GiftServiceRequest extends ServiceRequest {
       Location targetLocation,
       String patientName,
       String patientID,
-      String giftType) {
-    super(requestID, RequestType.GIFT, status, issuer, handler, targetLocation);
+      String giftType,
+      LocalDateTime opened,
+      LocalDateTime closed) {
+    super(requestID, RequestType.GIFT, status, issuer, handler, targetLocation, opened, closed);
     this.patientName = patientName;
     this.patientID = patientID;
     this.giftType = giftType;

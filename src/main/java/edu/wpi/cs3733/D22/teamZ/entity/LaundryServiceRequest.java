@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import java.time.LocalDateTime;
 
 public class LaundryServiceRequest extends ServiceRequest {
 
@@ -15,9 +16,19 @@ public class LaundryServiceRequest extends ServiceRequest {
       Employee issuer,
       Employee handler,
       Location targetLocation,
+      LocalDateTime opened,
+      LocalDateTime closed,
       LaundryStatus laundryStatus,
       String linenType) {
-    super(requestID, ServiceRequest.RequestType.LAUNDRY, status, issuer, handler, targetLocation);
+    super(
+        requestID,
+        ServiceRequest.RequestType.LAUNDRY,
+        status,
+        issuer,
+        handler,
+        targetLocation,
+        opened,
+        closed);
     laundryType = linenType;
     this.status = laundryStatus;
   }
@@ -28,9 +39,19 @@ public class LaundryServiceRequest extends ServiceRequest {
       String issuer,
       String handler,
       String targetLocation,
+      String opened,
+      String closed,
       LaundryStatus laundryStatus,
       String linenType) {
-    super(requestID, ServiceRequest.RequestType.LAUNDRY, status, issuer, handler, targetLocation);
+    super(
+        requestID,
+        ServiceRequest.RequestType.LAUNDRY,
+        status,
+        issuer,
+        handler,
+        targetLocation,
+        opened,
+        closed);
     laundryType = linenType;
     this.status = laundryStatus;
   }

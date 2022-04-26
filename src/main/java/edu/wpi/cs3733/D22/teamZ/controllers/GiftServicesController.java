@@ -6,6 +6,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -92,6 +93,9 @@ public class GiftServicesController extends ServiceRequestController {
     }
 
     assert tempPat != null;
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
+
     GiftServiceRequest gift =
         new GiftServiceRequest(
             requestID,
@@ -101,7 +105,9 @@ public class GiftServicesController extends ServiceRequestController {
             temp,
             tempPat.getName(),
             tempPat.getPatientID(),
-            giftDropDown.getValue());
+            giftDropDown.getValue(),
+            opened,
+            closed);
 
     FacadeDAO.getInstance().addGiftRequest(gift);
 
