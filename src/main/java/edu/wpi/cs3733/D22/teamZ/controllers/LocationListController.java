@@ -161,7 +161,7 @@ public class LocationListController implements IMenuAccess {
   private String mode;
 
   private int scrollCount;
-  private int curZoom;
+  private double curZoom = 1.0;
 
   // initialize location labels to display on map
   @FXML
@@ -180,8 +180,9 @@ public class LocationListController implements IMenuAccess {
           mapController = (MapController) popupResults.get(1);
 
           // Change dims
-          mapPane.setPrefWidth(mapContainer.getWidth());
-          mapPane.setPrefHeight(mapContainer.getHeight());
+          mapPane.setPrefHeight(mapContainer.getPrefHeight());
+          mapPane.setPrefWidth(mapContainer.getPrefWidth());
+          mapPane.setPannable(true);
           mapPane.setLayoutX(0);
           mapPane.setLayoutY(0);
 
@@ -203,36 +204,17 @@ public class LocationListController implements IMenuAccess {
           // Load default floor
           changeToFloor("3");
 
-          Map<Integer, Double> locKeys = new HashMap<>();
-          locKeys.put(45, 0.0);
-          locKeys.put(50, 0.11);
-          locKeys.put(55, .2);
-          locKeys.put(60, .29);
-          locKeys.put(65, .376);
-          locKeys.put(70, .465);
-          locKeys.put(75, .556);
-          locKeys.put(80, .645);
-          locKeys.put(85, .732);
-          locKeys.put(90, .821);
-          locKeys.put(95, .909);
-          locKeys.put(100, 1.0);
-          curZoom = 100;
-
-          mapController.setZooms(locKeys);
-
           zoomInButton.addEventFilter(
               MouseEvent.MOUSE_CLICKED,
               e -> {
-                curZoom += 5;
-                curZoom = Math.max(45, Math.min(curZoom, 100));
+                curZoom += 0.05;
                 mapController.setScale(curZoom);
               });
 
           zoomOutButton.addEventFilter(
               MouseEvent.MOUSE_CLICKED,
               e -> {
-                curZoom -= 5;
-                curZoom = Math.max(45, Math.min(curZoom, 100));
+                curZoom -= 0.05;
                 mapController.setScale(curZoom);
               });
         });
@@ -414,6 +396,15 @@ public class LocationListController implements IMenuAccess {
     mode = "Locations";
 
     allLocations = facadeDAO.getAllLocations();
+
+    searchField
+        .focusedProperty()
+        .addListener(
+            evt -> {
+              if (searchField.getText().length() > 0) {
+                search();
+              }
+            });
   }
 
   private void propertiesWindow() throws IOException {
@@ -637,7 +628,7 @@ public class LocationListController implements IMenuAccess {
   // Casey's
   @FXML
   public void search() {
-    searchField.requestFocus();
+    // searchField.requestFocus();
     List<ISearchable> tempResultList;
     tempResultList = filter.filterList(searchField.getText());
     List<String> longNames = new ArrayList<>();
