@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import java.time.LocalDateTime;
 
 public class ServiceRequest {
   protected String requestID;
@@ -9,6 +10,8 @@ public class ServiceRequest {
   protected Employee issuer;
   protected Employee handler;
   protected Location targetLocation;
+  protected LocalDateTime opened;
+  protected LocalDateTime closed;
 
   private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
@@ -140,6 +143,47 @@ public class ServiceRequest {
       RequestStatus status,
       Employee issuer,
       Employee handler,
+      Location targetLocation,
+      LocalDateTime opened,
+      LocalDateTime closed) {
+    this.requestID = requestID;
+    this.type = type;
+    this.targetLocation = targetLocation;
+    this.status = status;
+    this.issuer = issuer;
+    this.handler = handler;
+    this.opened = opened;
+    this.closed = closed;
+  }
+
+  public ServiceRequest(
+      String requestID,
+      RequestType type,
+      RequestStatus status,
+      String issuer,
+      String handler,
+      String targetLocation,
+      String opened,
+      String closed) {
+    this.requestID = requestID;
+    this.type = type;
+    this.targetLocation = facadeDAO.getLocationByID(targetLocation);
+    this.status = status;
+    this.issuer = facadeDAO.getEmployeeByID(issuer);
+    this.handler = facadeDAO.getEmployeeByID(handler);
+    this.opened = LocalDateTime.parse(opened);
+    if (closed != null) {
+      this.closed = LocalDateTime.parse(closed);
+    }
+  }
+
+  // TODO delete just temp so I can test
+  /*public ServiceRequest(
+      String requestID,
+      RequestType type,
+      RequestStatus status,
+      Employee issuer,
+      Employee handler,
       Location targetLocation) {
     this.requestID = requestID;
     this.type = type;
@@ -162,7 +206,7 @@ public class ServiceRequest {
     this.status = status;
     this.issuer = facadeDAO.getEmployeeByID(issuer);
     this.handler = facadeDAO.getEmployeeByID(handler);
-  }
+  }*/
 
   /**
    * Gets the requestID for this ServiceRequest
@@ -243,6 +287,22 @@ public class ServiceRequest {
    */
   public final void setTargetLocation(Location targetLocation) {
     this.targetLocation = targetLocation;
+  }
+
+  public LocalDateTime getOpened() {
+    return opened;
+  }
+
+  public void setOpened(LocalDateTime opened) {
+    this.opened = opened;
+  }
+
+  public LocalDateTime getClosed() {
+    return closed;
+  }
+
+  public void setClosed(LocalDateTime closed) {
+    this.closed = closed;
   }
 
   @Override

@@ -67,7 +67,7 @@
             <Insets />
          </opaqueInsets>
       </Label>
-      <MFXTextField fx:id="enterRoomNumber" animated="false" floatMode="DISABLED" layoutX="23.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter floor number" styleClass="mfx-text-field" text="Enter room number">
+      <MFXTextField fx:id="enterRoomNumber" animated="false" floatMode="DISABLED" layoutX="23.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter floor number" styleClass="mfx-text-field">
          <padding>
             <Insets left="10.0" />
          </padding>
@@ -99,5 +99,6 @@
             <Insets />
          </opaqueInsets>
       </Label>
+      <MFXButton layoutX="402.0" layoutY="344.0" onAction="#onNavigateToMedicalRequestStats" prefHeight="32.0" prefWidth="165.0" text="See Stats" />
     </children>
 </AnchorPane>

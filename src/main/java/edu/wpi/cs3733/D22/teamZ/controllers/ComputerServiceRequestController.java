@@ -4,11 +4,13 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.ComputerServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.UniqueID;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -60,28 +62,16 @@ public class ComputerServiceRequestController extends ServiceRequestController
   @FXML
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
     List<ServiceRequest> serviceRequestList = FacadeDAO.getInstance().getAllServiceRequests();
-    int id = 0;
-    // Check for empty db and set first request (will appear as REQ1 in the db)
-
-    if (serviceRequestList.isEmpty()) {
-      System.out.println("There are no service requests");
-      id = 0;
-    } else {
-      ServiceRequest tempService = serviceRequestList.get(serviceRequestList.size() - 1);
-      id =
-          Integer.parseInt(
-              tempService
-                  .getRequestID()
-                  .substring(tempService.getRequestID().lastIndexOf("Q") + 1));
-    }
-    // Create new REQID
-    String requestID = "REQ" + ++id;
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("COMP");
 
     // Create entities for submission
 
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
 
     ComputerServiceRequest temp =
         new ComputerServiceRequest(
@@ -90,6 +80,8 @@ public class ComputerServiceRequestController extends ServiceRequestController
             issuer,
             handler,
             FacadeDAO.getInstance().getLocationByID("zSTOR00101"),
+            opened,
+            closed,
             osField.getSelectionModel().getSelectedItem().toString(),
             descField.getText());
 

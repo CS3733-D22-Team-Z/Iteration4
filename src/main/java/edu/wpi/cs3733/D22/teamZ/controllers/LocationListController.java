@@ -86,6 +86,8 @@ public class LocationListController implements IMenuAccess {
   // @FXML private MFXButton editLocationExitButton;
   @FXML private Pane editLocationPane;
   @FXML private Pane locationChangeDarkenPane;
+  @FXML private Pane zoomInButton;
+  @FXML private Pane zoomOutButton;
 
   private static MapLabel activeLabel;
   //
@@ -218,15 +220,20 @@ public class LocationListController implements IMenuAccess {
 
           mapController.setZooms(locKeys);
 
-          root.addEventFilter(
-              ScrollEvent.SCROLL,
+          zoomInButton.addEventFilter(
+              MouseEvent.MOUSE_CLICKED,
               e -> {
-                scrollCount = (scrollCount + 1) % 3;
-                if (scrollCount == 0) {
-                  curZoom -= e.getDeltaY() < 0 ? 5 : -5;
-                  curZoom = Math.max(45, Math.min(curZoom, 100));
-                  mapController.setScale(curZoom);
-                }
+                curZoom += 5;
+                curZoom = Math.max(45, Math.min(curZoom, 100));
+                mapController.setScale(curZoom);
+              });
+
+          zoomOutButton.addEventFilter(
+              MouseEvent.MOUSE_CLICKED,
+              e -> {
+                curZoom -= 5;
+                curZoom = Math.max(45, Math.min(curZoom, 100));
+                mapController.setScale(curZoom);
               });
         });
 
@@ -407,6 +414,15 @@ public class LocationListController implements IMenuAccess {
     mode = "Locations";
 
     allLocations = facadeDAO.getAllLocations();
+
+    searchField
+        .focusedProperty()
+        .addListener(
+            evt -> {
+              if (searchField.getText().length() > 0) {
+                search();
+              }
+            });
   }
 
   private void propertiesWindow() throws IOException {
@@ -630,7 +646,7 @@ public class LocationListController implements IMenuAccess {
   // Casey's
   @FXML
   public void search() {
-    searchField.requestFocus();
+    // searchField.requestFocus();
     List<ISearchable> tempResultList;
     tempResultList = filter.filterList(searchField.getText());
     List<String> longNames = new ArrayList<>();
@@ -647,6 +663,7 @@ public class LocationListController implements IMenuAccess {
   public void resultMouseClick() {
     // MaterialFX goofy
     ObservableMap<Integer, String> selections = searchResultList.getSelectionModel().getSelection();
+    searchResultList.getSelectionModel().clearSelection();
     String searched = "";
     for (Integer k : selections.keySet()) searched = selections.get(k);
 
@@ -663,13 +680,22 @@ public class LocationListController implements IMenuAccess {
 
     Location finalSelectedLoc = selectedLoc;
     activeLabel =
-        mapController.getAllLabels().stream()
-            .filter((label) -> label.getLocation().equals(finalSelectedLoc))
-            .collect(Collectors.toList())
-            .get(0);
-    activeLabel.requestFocus();
+        (MapLabel)
+            mapController.getIconContainer().getChildren().stream()
+                .filter(
+                    (label) -> {
+                      if (label instanceof MapLabel) {
+                        return ((MapLabel) label).getLocation().equals(finalSelectedLoc);
+                      } else {
+                        return false;
+                      }
+                    })
+                .collect(Collectors.toList())
+                .get(0);
+
     // activeLabel = allLabels.get(theoreticalGenericIndex);
     searchField.setText(activeLabel.getLocation().getLongName());
+    activeLabel.requestFocus();
     // displayLocationInformation();
   }
 

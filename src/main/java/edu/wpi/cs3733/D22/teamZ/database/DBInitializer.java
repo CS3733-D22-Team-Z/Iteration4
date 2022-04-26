@@ -17,8 +17,10 @@ public class DBInitializer {
   private final CleaningReqControlCSV cleaningReqControlCSV;
   private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
   private final SecurityRequestControlCSV securityRequestControlCSV;
+  private final LaundryServiceRequestControlCSV laundryServiceRequestControlCSV;
   private final LanguageInterpreterRequestControlCSV languageInterpreterRequestControlCSV;
   private final ComputerRequestControlCSV computerRequestControlCSV;
+  private final GiftServiceRequestControlCSV giftServiceRequestControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -74,6 +76,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "SecurityReq.csv");
+    File laundryReqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "LaundryServiceRequest.csv");
     File languageReqData =
         new File(
             System.getProperty("user.dir")
@@ -84,6 +91,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "ComputerReq.csv");
+    File giftRequestData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "giftRequest.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -95,9 +107,11 @@ public class DBInitializer {
     cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
     purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
     securityRequestControlCSV = new SecurityRequestControlCSV(securityReqData);
+    laundryServiceRequestControlCSV = new LaundryServiceRequestControlCSV(laundryReqData);
     languageInterpreterRequestControlCSV =
         new LanguageInterpreterRequestControlCSV(languageReqData);
     computerRequestControlCSV = new ComputerRequestControlCSV(computerReqData);
+    giftServiceRequestControlCSV = new GiftServiceRequestControlCSV(giftRequestData);
   }
 
   public boolean createTables() {
@@ -204,6 +218,8 @@ public class DBInitializer {
               + "issuerID VARCHAR(15),"
               + "handlerID VARCHAR(15),"
               + "targetLocationID Varchar(15),"
+              + "opened Varchar(30),"
+              + "closed Varchar(30),"
               + "constraint SERVICEREQUEST_PK Primary Key (requestID),"
               + "constraint ISSUER_FK Foreign Key (issuerID) References EMPLOYEES(employeeID),"
               + "constraint HANDLER_FK Foreign Key (handlerID) References EMPLOYEES(employeeID),"
@@ -653,6 +669,22 @@ public class DBInitializer {
       }
     } catch (IOException e) {
       System.out.println("Failed to read SecurityReq.csv");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateLaundryServiceRequests() {
+    try {
+      List<LaundryServiceRequest> laundryList =
+          laundryServiceRequestControlCSV.readLaundryServiceRequestCSV();
+
+      for (LaundryServiceRequest info : laundryList) {
+        dao.addLaundryServiceRequestToDatabase(info);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read Laundry CSV");
       return false;
     }
     return true;

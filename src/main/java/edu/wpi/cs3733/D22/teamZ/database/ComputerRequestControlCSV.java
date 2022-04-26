@@ -39,6 +39,8 @@ public class ComputerRequestControlCSV extends ControlCSV {
               request.getIssuer(),
               request.getHandler(),
               request.getTargetLocation(),
+              request.getOpened(),
+              request.getClosed(),
               operatingSystemStr,
               problemDescStr));
     }

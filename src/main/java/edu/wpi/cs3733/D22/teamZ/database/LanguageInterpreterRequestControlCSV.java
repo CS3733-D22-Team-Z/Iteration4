@@ -40,6 +40,8 @@ public class LanguageInterpreterRequestControlCSV extends ControlCSV {
               request.getIssuer(),
               request.getHandler(),
               request.getTargetLocation(),
+              request.getOpened(),
+              request.getClosed(),
               patientName,
               patientID,
               language));

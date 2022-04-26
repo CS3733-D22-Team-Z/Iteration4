@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ExternalPatientTransportationRequest extends ServiceRequest {
   private String patientName;
@@ -14,11 +15,13 @@ public class ExternalPatientTransportationRequest extends ServiceRequest {
       Employee issuer,
       Employee handler,
       Location targetLocation,
+      LocalDateTime opened,
+      LocalDateTime closed,
       String patientID,
       String patientName,
       String destination,
       LocalDate departureDate) {
-    super(requestID, RequestType.EXTERNAL, status, issuer, handler, targetLocation);
+    super(requestID, RequestType.EXTERNAL, status, issuer, handler, targetLocation, opened, closed);
     this.patientID = patientID;
     this.patientName = patientName;
     this.destination = destination;
@@ -31,11 +34,13 @@ public class ExternalPatientTransportationRequest extends ServiceRequest {
       String issuer,
       String handler,
       String targetLocation,
+      String opened,
+      String closed,
       String patientID,
       String patientName,
       String destination,
       LocalDate departureDate) {
-    super(requestID, RequestType.EXTERNAL, status, issuer, handler, targetLocation);
+    super(requestID, RequestType.EXTERNAL, status, issuer, handler, targetLocation, opened, closed);
     this.patientID = patientID;
     this.patientName = patientName;
     this.destination = destination;

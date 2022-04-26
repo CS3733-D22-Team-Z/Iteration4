@@ -111,7 +111,7 @@ class EmployeeDAOImpl implements IEmployeeDAO {
           connection.prepareStatement(
               "UPDATE EMPLOYEES SET NAME=?, ACCESSTYPE =? WHERE EMPLOYEEID =?");
       stmt.setString(1, emp.getName());
-      stmt.setObject(2, emp.getAccesstype());
+      stmt.setString(2, emp.getAccesstype().toString());
       stmt.setString(3, emp.getEmployeeID());
 
       stmt.executeUpdate();

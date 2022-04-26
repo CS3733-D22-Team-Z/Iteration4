@@ -4,11 +4,13 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.SecurityServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.UniqueID;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -38,20 +40,24 @@ public class SecurityServiceController extends ServiceRequestController {
 
     ServiceRequest last = servReqs.get(servReqs.size() - 1);
 
-    String id = last.getRequestID();
-    int idNum = Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("SECR");
 
-    String genID = "REQ" + (idNum + 1);
     Location tryGet = facadeDAO.getLocationByID(nodeIdField.getText());
+
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
 
     if (!tryGet.getNodeID().equals("")) {
       SecurityServiceRequest req =
           new SecurityServiceRequest(
-              genID,
+              requestID,
               ServiceRequest.RequestStatus.UNASSIGNED,
               MenuController.getLoggedInUser(),
               null,
               tryGet,
+              opened,
+              closed,
               urgencyBox.getSelectionModel().getSelectedItem(),
               reasonTextField.getText().substring(0, 39));
       facadeDAO.addSecurityServiceRequest(req);

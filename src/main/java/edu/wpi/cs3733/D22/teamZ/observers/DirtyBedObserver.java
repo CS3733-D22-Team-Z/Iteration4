@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,7 +79,9 @@ public class DirtyBedObserver {
                   "admin1",
                   null,
                   dirtyEquip.getEquipmentID(),
-                  "zSTOR001L1");
+                  "zSTOR001L1",
+                  LocalDateTime.now().toString(),
+                  null);
           dao.addMedicalEquipmentRequest(newReq);
         }
       }

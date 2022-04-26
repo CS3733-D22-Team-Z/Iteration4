@@ -21,9 +21,20 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
@@ -101,7 +112,7 @@
          </items>
       </SplitPane>
       <TextField fx:id="searchField" layoutX="8.0" layoutY="8.0" onKeyTyped="#search" prefHeight="31.0" prefWidth="322.0" promptText="Search..." styleClass="search-box" />
-      <MFXListView fx:id="searchResultList" layoutX="8.0" layoutY="30.0" onMouseClicked="#resultMouseClick" prefHeight="58.0" prefWidth="315.0" visible="false" />
+      <MFXListView fx:id="searchResultList" layoutX="8.0" layoutY="40.0" onMouseClicked="#resultMouseClick" prefHeight="58.0" prefWidth="322.0" visible="false" />
       <Pane fx:id="editLocationPane" layoutX="126.0" layoutY="89.0" prefHeight="299.0" prefWidth="300.0" styleClass="map-window" visible="false">
          <children>
             <Text layoutX="11.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Location" translateY="-10.0">
@@ -536,6 +547,42 @@
                   </ImageView>
                </graphic>
             </MFXButton>
+         </children>
+      </Pane>
+      <Pane fx:id="zoomInButton" layoutX="9.0" layoutY="291.0">
+         <children>
+            <Circle fill="WHITE" layoutX="29.0" layoutY="29.0" radius="20.0" stroke="WHITE" strokeType="INSIDE" translateX="-5.0" translateY="-2.0">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.3160173296928406" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Circle>
+            <SVGPath content="M20 0C8.95536 0 0 8.95536 0 20C0 31.0446 8.95536 40 20 40C31.0446 40 40 31.0446 40 20C40 8.95536 31.0446 0 20 0ZM28.5714 21.0714C28.5714 21.2679 28.4107 21.4286 28.2143 21.4286H21.4286V28.2143C21.4286 28.4107 21.2679 28.5714 21.0714 28.5714H18.9286C18.7321 28.5714 18.5714 28.4107 18.5714 28.2143V21.4286H11.7857C11.5893 21.4286 11.4286 21.2679 11.4286 21.0714V18.9286C11.4286 18.7321 11.5893 18.5714 11.7857 18.5714H18.5714V11.7857C18.5714 11.5893 18.7321 11.4286 18.9286 11.4286H21.0714C21.2679 11.4286 21.4286 11.5893 21.4286 11.7857V18.5714H28.2143C28.4107 18.5714 28.5714 18.7321 28.5714 18.9286V21.0714Z" fill="#0067b1" layoutX="9.0" layoutY="9.0" translateX="-5.0" translateY="-2.0">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.10822510719299316" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </SVGPath>
+         </children>
+      </Pane>
+      <Pane fx:id="zoomOutButton" layoutX="9.0" layoutY="342.0">
+         <children>
+            <Circle fill="WHITE" layoutX="29.0" layoutY="29.0" radius="20.0" stroke="WHITE" strokeType="INSIDE" translateX="-5.0" translateY="-2.0">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.3160173296928406" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Circle>
+            <SVGPath content="M20 2.5C10.3359 2.5 2.5 10.3359 2.5 20C2.5 29.6641 10.3359 37.5 20 37.5C29.6641 37.5 37.5 29.6641 37.5 20C37.5 10.3359 29.6641 2.5 20 2.5ZM27.5 20.9375C27.5 21.1094 27.3594 21.25 27.1875 21.25H12.8125C12.6406 21.25 12.5 21.1094 12.5 20.9375V19.0625C12.5 18.8906 12.6406 18.75 12.8125 18.75H27.1875C27.3594 18.75 27.5 18.8906 27.5 19.0625V20.9375Z" fill="#0067b1" layoutX="9.050000190734863" layoutY="9.04998779296875" scaleX="1.14" scaleY="1.14" translateX="-5.0" translateY="-2.0" />
          </children>
       </Pane>
    </children>
