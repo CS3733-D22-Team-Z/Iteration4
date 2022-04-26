@@ -42,8 +42,8 @@
 
 .form-header {
     -fx-font-family: 'SansSerif';
-    -fx-font-weight: 200;
-    -fx-font-size: 10pt;
+    -fx-font-weight: 500;
+    -fx-font-size: 19pt;
     -fx-text-fill: #7B7B7B;
 }
 
@@ -104,6 +104,13 @@
     -fx-background-color: #FFFFFF;
 }
 
+.back-button {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 700;
+    -fx-font-size: 19pt;
+    -fx-text-fill: #FFFFFF;
+}
+
 .medical-icon {
     -fill: -blue;
     -fx-shape: "M20,6h-4V4c0-1.1-0.9-2-2-2h-4C8.9,2,8,2.9,8,4v2H4C2.9,6,2,6.9,2,8v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V8 C22,6.9,21.1,6,20,6z M10,4h4v2h-4V4z M20,20H4V8h16V20z";
@@ -145,7 +152,7 @@
 .mfx-text-field {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 600;
-    -fx-font-size: 9pt;
+    -fx-font-size: 14pt;
     -fx-text-fill: #9D9D9D;
 
 
@@ -220,8 +227,8 @@
 
 .error-label {
     -fx-font-family: 'SansSerif';
-    -fx-font-weight: 300;
-    -fx-font-size: 8pt;
+    -fx-font-weight: 700;
+    -fx-font-size: 19pt;
     -fx-text-fill:  #ff4444;
 }
 
