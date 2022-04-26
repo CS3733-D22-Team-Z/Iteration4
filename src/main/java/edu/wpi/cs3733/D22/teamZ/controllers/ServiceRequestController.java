@@ -106,7 +106,4 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
   }
 
   protected abstract void highlightRequirements(boolean visible);
-
-  {
-  }
 }

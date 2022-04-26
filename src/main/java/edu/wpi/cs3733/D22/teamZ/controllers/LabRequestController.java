@@ -26,6 +26,7 @@ public class LabRequestController extends ServiceRequestController {
   @FXML private TextField patientIdField;
   @FXML private Label patientNameLabel;
   @FXML private Label patientIdLabel;
+  @FXML private Label labTypeLabel;
   @FXML private Label errorSavingLabel;
   @FXML private Label successfulSubmitLabel;
   @FXML private Region backRegion;
@@ -54,6 +55,7 @@ public class LabRequestController extends ServiceRequestController {
     errorSavingLabel.setVisible(false);
     submitButton.setDisable(true);
     successfulSubmitLabel.setVisible(false);
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -126,7 +128,17 @@ public class LabRequestController extends ServiceRequestController {
   }
 
   @Override
-  protected void highlightRequirements(boolean visible) {}
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      patientNameLabel.setStyle("-fx-background-color: #FFFF00");
+      patientIdLabel.setStyle("-fx-background-color: #FFFF00");
+      labTypeLabel.setStyle("-fx-background-color: #FFFF00");
+    } else {
+      patientNameLabel.setStyle("-fx-background-color: #00000");
+      patientIdLabel.setStyle("-fx-background-color: #00000");
+      labTypeLabel.setStyle("-fx-background-color: #00000");
+    }
+  }
 
   @FXML
   public void clearFields() {

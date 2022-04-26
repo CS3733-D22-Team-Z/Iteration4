@@ -19,6 +19,10 @@ import javafx.scene.control.Label;
 
 public class GiftServicesController extends ServiceRequestController {
 
+  @FXML public Label patientNameFormHeader;
+  @FXML public Label patientIDFormHeader;
+  @FXML public Label roomNumberFormHeader;
+  @FXML public Label giftServiceOptionFormHeader;
   private List<Location> roomList;
   private List<String> roomNumbers;
   private List<GiftServiceRequest> giftRequestList;
@@ -63,6 +67,7 @@ public class GiftServicesController extends ServiceRequestController {
     nodeTypeDropDown.setOnAction(event -> validateButton());
     giftDropDown.setOnAction(event -> validateButton());
     submittedLabel.setVisible(false);
+    initializeHelpGraphic();
   }
 
   @Override
@@ -129,7 +134,19 @@ public class GiftServicesController extends ServiceRequestController {
   }
 
   @Override
-  protected void highlightRequirements(boolean visible) {}
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      patientNameFormHeader.setStyle("-fx-background-color: #FFFF00");
+      patientIDFormHeader.setStyle("-fx-background-color: #FFFF00");
+      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
+      giftServiceOptionFormHeader.setStyle("-fx-background-color: #FFFF00");
+    } else {
+      patientNameFormHeader.setStyle("-fx-background-color: #00000");
+      patientIDFormHeader.setStyle("-fx-background-color: #00000");
+      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
+      giftServiceOptionFormHeader.setStyle("-fx-background-color: #00000");
+    }
+  }
 
   public void validateButton() {
     submitButton.setDisable(
