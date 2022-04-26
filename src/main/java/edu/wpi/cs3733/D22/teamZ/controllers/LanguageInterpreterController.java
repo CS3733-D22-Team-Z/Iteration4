@@ -140,15 +140,23 @@ public class LanguageInterpreterController extends ServiceRequestController {
   @Override
   protected void highlightRequirements(boolean visible) {
     if (visible) {
-      patientIDFormHeader.setStyle("-fx-background-color: #FFFF00");
-      languageFormHeader.setStyle("-fx-background-color: #FFFF00");
-      patientNameFormHeader.setStyle("-fx-background-color: #FFFF00");
-      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header-help");
+      languageFormHeader.getStyleClass().clear();
+      languageFormHeader.getStyleClass().add("form-header-help");
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header-help");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
     } else {
-      patientIDFormHeader.setStyle("-fx-background-color: #00000");
-      languageFormHeader.setStyle("-fx-background-color: #00000");
-      patientNameFormHeader.setStyle("-fx-background-color: #00000");
-      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header");
+      languageFormHeader.getStyleClass().clear();
+      languageFormHeader.getStyleClass().add("form-header");
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
     }
   }
 

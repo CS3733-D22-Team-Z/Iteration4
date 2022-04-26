@@ -112,11 +112,15 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   @Override
   protected void highlightRequirements(boolean visible) {
     if (visible) {
-      equipmentTypeLabel.setStyle("-fx-background-color: #FFFF00");
-      paymentMethodLabel.setStyle("-fx-background-color: #FFFF00");
+      equipmentTypeLabel.getStyleClass().clear();
+      equipmentTypeLabel.getStyleClass().add("form-header-help");
+      paymentMethodLabel.getStyleClass().clear();
+      paymentMethodLabel.getStyleClass().add("form-header-help");
     } else {
-      equipmentTypeLabel.setStyle("-fx-background-color: #00000");
-      paymentMethodLabel.setStyle("-fx-background-color: #00000");
+      equipmentTypeLabel.getStyleClass().clear();
+      equipmentTypeLabel.getStyleClass().add("form-header");
+      paymentMethodLabel.getStyleClass().clear();
+      paymentMethodLabel.getStyleClass().add("form-header");
     }
   }
 

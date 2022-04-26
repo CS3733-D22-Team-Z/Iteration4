@@ -110,13 +110,19 @@ public class LaundryServiceController extends ServiceRequestController implement
   @Override
   protected void highlightRequirements(boolean visible) {
     if (visible) {
-      patientIDFormHeader.setStyle("-fx-background-color: #FFFF00");
-      locationFormHeader.setStyle("-fx-background-color: #FFFF00");
-      linenTypeFormHeader.setStyle("-fx-background-color: #FFFF00");
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header-help");
+      locationFormHeader.getStyleClass().clear();
+      locationFormHeader.getStyleClass().add("form-header-help");
+      linenTypeFormHeader.getStyleClass().clear();
+      linenTypeFormHeader.getStyleClass().add("form-header-help");
     } else {
-      patientIDFormHeader.setStyle("-fx-background-color: #00000");
-      locationFormHeader.setStyle("-fx-background-color: #00000");
-      linenTypeFormHeader.setStyle("-fx-background-color: #00000");
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header");
+      locationFormHeader.getStyleClass().clear();
+      locationFormHeader.getStyleClass().add("form-header");
+      linenTypeFormHeader.getStyleClass().clear();
+      linenTypeFormHeader.getStyleClass().add("form-header");
     }
   }
 

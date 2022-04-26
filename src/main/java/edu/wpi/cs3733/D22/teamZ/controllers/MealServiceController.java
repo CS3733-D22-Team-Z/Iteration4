@@ -333,23 +333,43 @@ public class MealServiceController extends ServiceRequestController {
   @Override
   protected void highlightRequirements(boolean visible) {
     if (visible) {
-      patientIDFormHeader.setStyle("-fx-background-color: #FFFF00");
-      patientNameFormHeader.setStyle("-fx-background-color: #FFFF00");
-      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
-      mealTimeFormHeader.setStyle("-fx-background-color: #FFFF00");
-      drinkChoiceFormHeader.setStyle("-fx-background-color: #FFFF00");
-      entreeChoiceFormHeader.setStyle("-fx-background-color: #FFFF00");
-      snackChoiceFormHeader.setStyle("-fx-background-color: #FFFF00");
-      allergiesFormHeader.setStyle("-fx-background-color: #FFFF00");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header-help");
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header-help");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      mealTimeFormHeader.getStyleClass().clear();
+      mealTimeFormHeader.getStyleClass().add("form-header-help");
+      drinkChoiceFormHeader.getStyleClass().clear();
+      drinkChoiceFormHeader.getStyleClass().add("form-header-help");
+      entreeChoiceFormHeader.getStyleClass().clear();
+      entreeChoiceFormHeader.getStyleClass().add("form-header-help");
+      snackChoiceFormHeader.getStyleClass().clear();
+      snackChoiceFormHeader.getStyleClass().add("form-header-help");
+      allergiesFormHeader.getStyleClass().clear();
+      allergiesFormHeader.getStyleClass().add("form-header-help");
     } else {
-      patientIDFormHeader.setStyle("-fx-background-color: #00000");
-      patientNameFormHeader.setStyle("-fx-background-color: #00000");
-      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
-      mealTimeFormHeader.setStyle("-fx-background-color: #00000");
-      drinkChoiceFormHeader.setStyle("-fx-background-color: #00000");
-      entreeChoiceFormHeader.setStyle("-fx-background-color: #00000");
-      snackChoiceFormHeader.setStyle("-fx-background-color: #00000");
-      allergiesFormHeader.setStyle("-fx-background-color: #00000");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header");
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      mealTimeFormHeader.getStyleClass().clear();
+      mealTimeFormHeader.getStyleClass().add("form-header");
+      drinkChoiceFormHeader.getStyleClass().clear();
+      drinkChoiceFormHeader.getStyleClass().add("form-header");
+      entreeChoiceFormHeader.getStyleClass().clear();
+      entreeChoiceFormHeader.getStyleClass().add("form-header");
+      snackChoiceFormHeader.getStyleClass().clear();
+      snackChoiceFormHeader.getStyleClass().add("form-header");
+      allergiesFormHeader.getStyleClass().clear();
+      allergiesFormHeader.getStyleClass().add("form-header");
     }
   }
 

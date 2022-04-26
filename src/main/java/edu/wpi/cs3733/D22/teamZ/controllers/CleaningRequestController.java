@@ -92,15 +92,23 @@ public class CleaningRequestController extends ServiceRequestController {
   @Override
   protected void highlightRequirements(boolean visible) {
     if (visible) {
-      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
-      requestFormHeader.setStyle("-fx-background-color: #FFFF00");
-      floorNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
-      locationTypeFormHeader.setStyle("-fx-background-color: #FFFF00");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      requestFormHeader.getStyleClass().clear();
+      requestFormHeader.getStyleClass().add("form-header-help");
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header-help");
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header-help");
     } else {
-      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
-      requestFormHeader.setStyle("-fx-background-color: #00000");
-      floorNumberFormHeader.setStyle("-fx-background-color: #00000");
-      locationTypeFormHeader.setStyle("-fx-background-color: #00000");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      requestFormHeader.getStyleClass().clear();
+      requestFormHeader.getStyleClass().add("form-header");
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header");
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header");
     }
   }
 

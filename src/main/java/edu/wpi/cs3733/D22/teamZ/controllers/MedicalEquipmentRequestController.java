@@ -173,14 +173,19 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
       roomNumberFormHeader.getStyleClass().add("form-header-help");
       equipmentFormHeader.getStyleClass().clear();
       equipmentFormHeader.getStyleClass().add("form-header-help");
-      floorNumberFormHeader.setStyle(".form-header-help:");
-      locationTypeFormHeader.setStyle(".form-header-help:");
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header-help");
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header-help");
     } else {
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header");
-      equipmentFormHeader.setStyle(".form-header:");
-      floorNumberFormHeader.setStyle(".form-header:");
-      locationTypeFormHeader.setStyle(".form-header:");
+      equipmentFormHeader.getStyleClass().clear();
+      equipmentFormHeader.getStyleClass().add("form-header");
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header");
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header");
     }
   }
 }

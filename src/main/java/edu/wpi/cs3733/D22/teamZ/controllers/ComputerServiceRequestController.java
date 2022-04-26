@@ -104,11 +104,15 @@ public class ComputerServiceRequestController extends ServiceRequestController
   @Override
   protected void highlightRequirements(boolean visible) {
     if (visible) {
-      operatingSystemFormHeader.setStyle("-fx-background-color: #FFFF00");
-      descriptionOfProblemFormHeader.setStyle("-fx-background-color: #FFFF00");
+      operatingSystemFormHeader.getStyleClass().clear();
+      operatingSystemFormHeader.getStyleClass().add("form-header-help");
+      descriptionOfProblemFormHeader.getStyleClass().clear();
+      descriptionOfProblemFormHeader.getStyleClass().add("form-header-help");
     } else {
-      operatingSystemFormHeader.setStyle("-fx-background-color: #00000");
-      descriptionOfProblemFormHeader.setStyle("-fx-background-color: #00000");
+      operatingSystemFormHeader.getStyleClass().clear();
+      operatingSystemFormHeader.getStyleClass().add("form-header");
+      descriptionOfProblemFormHeader.getStyleClass().clear();
+      descriptionOfProblemFormHeader.getStyleClass().add("form-header");
     }
   }
 

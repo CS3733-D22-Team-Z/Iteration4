@@ -136,15 +136,23 @@ public class GiftServicesController extends ServiceRequestController {
   @Override
   protected void highlightRequirements(boolean visible) {
     if (visible) {
-      patientNameFormHeader.setStyle("-fx-background-color: #FFFF00");
-      patientIDFormHeader.setStyle("-fx-background-color: #FFFF00");
-      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
-      giftServiceOptionFormHeader.setStyle("-fx-background-color: #FFFF00");
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header-help");
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header-help");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      giftServiceOptionFormHeader.getStyleClass().clear();
+      giftServiceOptionFormHeader.getStyleClass().add("form-header-help");
     } else {
-      patientNameFormHeader.setStyle("-fx-background-color: #00000");
-      patientIDFormHeader.setStyle("-fx-background-color: #00000");
-      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
-      giftServiceOptionFormHeader.setStyle("-fx-background-color: #00000");
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header");
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      giftServiceOptionFormHeader.getStyleClass().clear();
+      giftServiceOptionFormHeader.getStyleClass().add("form-header");
     }
   }
 

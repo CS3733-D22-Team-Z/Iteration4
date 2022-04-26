@@ -130,13 +130,19 @@ public class LabRequestController extends ServiceRequestController {
   @Override
   protected void highlightRequirements(boolean visible) {
     if (visible) {
-      patientNameLabel.setStyle("-fx-background-color: #FFFF00");
-      patientIdLabel.setStyle("-fx-background-color: #FFFF00");
-      labTypeLabel.setStyle("-fx-background-color: #FFFF00");
+      patientNameLabel.getStyleClass().clear();
+      patientNameLabel.getStyleClass().add("form-header-help");
+      patientIdLabel.getStyleClass().clear();
+      patientIdLabel.getStyleClass().add("form-header-help");
+      labTypeLabel.getStyleClass().clear();
+      labTypeLabel.getStyleClass().add("form-header-help");
     } else {
-      patientNameLabel.setStyle("-fx-background-color: #00000");
-      patientIdLabel.setStyle("-fx-background-color: #00000");
-      labTypeLabel.setStyle("-fx-background-color: #00000");
+      patientNameLabel.getStyleClass().clear();
+      patientNameLabel.getStyleClass().add("form-header");
+      patientIdLabel.getStyleClass().clear();
+      patientIdLabel.getStyleClass().add("form-header");
+      labTypeLabel.getStyleClass().clear();
+      labTypeLabel.getStyleClass().add("form-header");
     }
   }
 
