@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
+import edu.wpi.cs3733.D22.teamZ.apiFacades.ExternalTransportFacadeAPI;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FacadeDAO {
@@ -79,7 +81,12 @@ public class FacadeDAO {
    * @return A List of all ServiceRequest objects in the database
    */
   public List<ServiceRequest> getAllServiceRequests() {
-    return serviceRequestDAO.getAllServiceRequests();
+    List<ServiceRequest> allRequests = new ArrayList<>();
+    allRequests.addAll(serviceRequestDAO.getAllServiceRequests());
+    allRequests.addAll(ExternalTransportFacadeAPI.getInstance().getAllExternalTransportRequests());
+    // Todo add IPT Requests
+    // Todo add Facility Maintenance Requests
+    return allRequests;
   }
   /**
    * Gets all lab service requests
@@ -465,9 +472,8 @@ public class FacadeDAO {
    * @param request request to be added
    * @return True if successful, false otherwise
    */
-  public boolean addPatientTransportRequest(ExternalPatientTransportationRequest request) {
-    return serviceRequestDAO.addServiceRequest(request)
-        && transportRequestDAO.addPatientTransportRequest(request);
+  public boolean addExternalPatientTransport(ExternalPatientTransportationRequest request) {
+    return ExternalTransportFacadeAPI.getInstance().addExternalTransportRequest(request);
   }
   /**
    * Adds a CleaningRequest to the database
@@ -535,6 +541,16 @@ public class FacadeDAO {
    */
   public boolean deletePatient(Patient patient) {
     return patientDAO.deletePatient(patient);
+  }
+
+  /**
+   * Deletes a patient from database. Will automatically check if exists in database
+   *
+   * @param req The patient to be deleted
+   * @return True if successful, false if not
+   */
+  public boolean deleteExternalTransportRequest(ExternalPatientTransportationRequest req) {
+    return ExternalTransportFacadeAPI.getInstance().deleteExternalTransportRequest(req);
   }
   /**
    * Deletes a Employee from database. Will automatically check if exists in database
@@ -737,6 +753,15 @@ public class FacadeDAO {
    */
   public boolean updateGiftRequest(GiftServiceRequest request) {
     return updateServiceRequest(request) && giftRequestDAO.updateGiftRequest(request);
+  }
+  /**
+   * updates an existing external patient transport service request in database with new request
+   *
+   * @param req external patient request to be updated
+   * @return True if successful, false otherwise
+   */
+  public boolean updateExternalPatientTransportRequest(ExternalPatientTransportationRequest req){
+    return ExternalTransportFacadeAPI.getInstance().updateExternalTransportRequest(req);
   }
   /**
    * updates an existing CleaningRequest in database with new request

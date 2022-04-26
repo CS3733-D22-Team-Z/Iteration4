@@ -38,12 +38,12 @@ public class InternalTransportFacadeAPI {
   private InternalTransportFacadeAPI() {
     api = new API();
     apiDatabase = new DatabaseController();
-    //TODO uncomment once Team B fixes their API jar
-//    try {
-//      apiDatabase.reset();
-//    } catch (ServiceException e) {
-//      System.out.println("Failed to clear database");
-//    }
+    // TODO uncomment once Team B fixes their API jar
+    //    try {
+    //      apiDatabase.reset();
+    //    } catch (ServiceException e) {
+    //      System.out.println("Failed to clear database");
+    //    }
 
     List<Location> locations = facadeDAO.getAllLocations();
     List<TeamBLocation> bLocations =
