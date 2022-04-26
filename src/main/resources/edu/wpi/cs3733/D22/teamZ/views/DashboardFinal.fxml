@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="1030.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.DashboardFinal">
+   <children>
+      <HBox alignment="CENTER" layoutX="16.0" layoutY="112.0" spacing="15.0">
+         <children>
+            <MFXButton fx:id="floor5Button" onAction="#toFloor5" prefHeight="49.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" stylesheets="@../styles/ServiceRequestDefault.css" text="Floor 5" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXButton>
+            <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+               <children>
+                  <Region fx:id="dashRegionLL21111" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="57.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="749.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="908.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="749.0" />
+                  <Rectangle fx:id="ipumpGreen5" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="908.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="537.0" />
+                  <Rectangle fx:id="bedGreen5" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="57.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="443.0" />
+                  <Label layoutX="27.0" layoutY="-3.0" prefHeight="46.0" prefWidth="92.0" stylesheets="@../styles/ServiceRequestDefault.css" text="Dirty:">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="dirtyBedsNumber" layoutX="51.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="880.0" layoutY="-3.0" prefHeight="46.0" prefWidth="92.0" stylesheets="@../styles/ServiceRequestDefault.css" text="Dirty:">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="dirtyIPumpsNumber" layoutX="904.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="758.0" layoutY="-3.0" prefHeight="46.0" prefWidth="82.0" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="cleanBedsNumber" layoutX="787.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="1611.0" layoutY="-3.0" prefHeight="46.0" prefWidth="82.0" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="cleanIPumpsNumber" layoutX="1640.0" layoutY="31.0" prefHeight="47.0" prefWidth="18.0" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="16.0" layoutY="243.0" spacing="15.0">
+         <children>
+            <MFXButton fx:id="floor4Button" onAction="#toFloor4" prefHeight="49.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" stylesheets="@../styles/ServiceRequestDefault.css" text="Floor 4" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXButton>
+            <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+               <children>
+                  <Region fx:id="dashRegionLL2121" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="15.0" layoutY="374.0" spacing="15.0">
+         <children>
+            <MFXButton fx:id="floor3Button" onAction="#toFloor3" prefHeight="49.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" stylesheets="@../styles/ServiceRequestDefault.css" text="Floor 3" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXButton>
+            <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+               <children>
+                  <Region fx:id="dashRegionLL2111" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="16.0" layoutY="505.0" spacing="15.0">
+         <children>
+            <MFXButton fx:id="floor2Button" onAction="#toFloor2" prefHeight="49.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" stylesheets="@../styles/ServiceRequestDefault.css" text="Floor 2" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXButton>
+            <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+               <children>
+                  <Region fx:id="dashRegionLL212" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="16.0" layoutY="636.0" spacing="15.0">
+         <children>
+            <MFXButton fx:id="floor1Button" onAction="#toFloor1" prefHeight="49.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" stylesheets="@../styles/ServiceRequestDefault.css" text="Floor 1" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXButton>
+            <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+               <children>
+                  <Region fx:id="dashRegionLL211" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="16.0" layoutY="767.0" spacing="15.0">
+         <children>
+            <MFXButton fx:id="lowerLevel1Button6" onAction="#toLowerLevel1" prefHeight="49.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" stylesheets="@../styles/ServiceRequestDefault.css" text="LL 1" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXButton>
+            <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+               <children>
+                  <Region fx:id="dashRegionLL21" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <Label id="FormLabel" layoutX="11.0" layoutY="5.0" prefHeight="17.0" prefWidth="283.0" styleClass="header" text="Dashboard">
+         <font>
+            <Font name="SansSerif" size="18.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" layoutX="15.0" layoutY="898.0" spacing="15.0">
+         <children>
+            <MFXButton fx:id="lowerLevel2Button" onAction="#toLowerLevel2" prefHeight="49.0" prefWidth="152.0" style="-fx-background-color: #0075FF;" stylesheets="@../styles/ServiceRequestDefault.css" text="LL 2" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXButton>
+            <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
+               <children>
+                  <Region fx:id="dashRegionLL2" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

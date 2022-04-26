@@ -1302,73 +1302,81 @@ public class FacadeDAO {
 
   /**
    * Get the number of dirty beds for the specified floor
+   *
    * @param floor floor to be searched
    * @return number of dirty beds
    */
-  public int countDirtyBedsByFloor(String floor){
+  public int countDirtyBedsByFloor(String floor) {
     return medicalEquipmentDAO.countDirtyBedsByFloor(floor);
   }
 
   /**
    * Get the number of clean beds for the specified floor
+   *
    * @param floor floor to be searched
    * @return number of clean beds
    */
-  public int countCleanBedsByFloor(String floor){
+  public int countCleanBedsByFloor(String floor) {
     return medicalEquipmentDAO.countCleanBedsByFloor(floor);
   }
 
   /**
    * Get the number of dirty IPumps for the specified floor
+   *
    * @param floor floor to be searched
    * @return number of dirty IPumps
    */
-  public int countDirtyIPumpsByFloor(String floor){
+  public int countDirtyIPumpsByFloor(String floor) {
     return medicalEquipmentDAO.countDirtyIPumpsByFloor(floor);
   }
 
   /**
    * Get the number of clean IPumps for the specified floor
+   *
    * @param floor floor to be searched
    * @return number of clean IPumps
    */
-  public int countCleanIPumpsByFloor(String floor){
+  public int countCleanIPumpsByFloor(String floor) {
     return medicalEquipmentDAO.countCleanIPumpsByFloor(floor);
   }
 
   /**
    * Get the number of dirty Recliners for the specified floor
+   *
    * @param floor floor to be searched
    * @return number of dirty Recliners
    */
-  public int countDirtyReclinersByFloor(String floor){
+  public int countDirtyReclinersByFloor(String floor) {
     return medicalEquipmentDAO.countDirtyReclinersByFloor(floor);
   }
 
   /**
    * Get the number of clean Recliners for the specified floor
+   *
    * @param floor floor to be searched
    * @return number of clean Recliners
    */
-  public int countCleanReclinersByFloor(String floor){
+  public int countCleanReclinersByFloor(String floor) {
     return medicalEquipmentDAO.countCleanReclinersByFloor(floor);
   }
 
   /**
    * Get the number of dirty XRays for the specified floor
+   *
    * @param floor floor to be searched
    * @return number of dirty XRays
    */
-  public int countDirtyXRaysByFloor(String floor){
+  public int countDirtyXRaysByFloor(String floor) {
     return medicalEquipmentDAO.countDirtyXRaysByFloor(floor);
   }
 
   /**
    * Get the number of clean RXays for the specified floor
+   *
    * @param floor floor to be searched
    * @return number of clean XRays
    */
-  public int countCleanXRaysByFloor(String floor){
+  public int countCleanXRaysByFloor(String floor) {
     return medicalEquipmentDAO.countCleanXRaysByFloor(floor);
   }
 
