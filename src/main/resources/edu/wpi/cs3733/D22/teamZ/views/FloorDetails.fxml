@@ -36,7 +36,7 @@
                                           <VBox alignment="CENTER" />
                                       </children>
                                   </HBox>
-                        <BarChart prefHeight="434.0" prefWidth="735.0">
+                        <BarChart prefHeight="434.0" prefWidth="730.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -49,20 +49,21 @@
                   <AnchorPane fx:id="barChart" styleClass="ui-window">
                      <children>
                                   <Label layoutX="14.0" layoutY="14.0" styleClass="header" text="Map" />
-                                  <AnchorPane fx:id="mapContainer" layoutX="12.0" layoutY="68.0" maxWidth="-Infinity" prefHeight="310.0" prefWidth="620.0" style="-fx-background-color: #0075ff;" />
-                        <VBox layoutX="660.0" layoutY="142.0" spacing="20.0">
+                                  <AnchorPane fx:id="mapContainer" layoutX="12.0" layoutY="68.0" maxWidth="-Infinity" prefHeight="310.0" prefWidth="615.0" style="-fx-background-color: #0075ff;" />
+                        <VBox layoutX="655.0" layoutY="124.0" spacing="20.0">
                            <children>
-                                          <MFXButton fx:id="viewAllOnMap" alignment="CENTER" onAction="#allButtonPressed" prefWidth="75.0" styleClass="button-inv" text="All" />
-                                          <MFXButton fx:id="viewBedsOnMap" alignment="CENTER" onAction="#bedsButtonPressed" prefWidth="75.0" styleClass="button-inv" text="Beds" />
-                                          <MFXButton fx:id="viewPumpsOnMap" alignment="CENTER" onAction="#pumpsButtonPressed" prefWidth="75.0" styleClass="button-inv" text="Pumps" />
-                              <MFXButton fx:id="viewReclinersOnMap" alignment="CENTER" onAction="#reclinerButtonPressed" prefWidth="75.0" styleClass="button-inv" text="Recliners" />
+                                          <MFXButton fx:id="noneMapButton" alignment="CENTER" onAction="#noneButtonPressed" prefWidth="75.0" styleClass="button-inv" text="None" />
+                                          <MFXButton fx:id="bedsMapButton" alignment="CENTER" onAction="#bedsButtonPressed" prefWidth="75.0" styleClass="button-inv" text="Beds" />
+                                          <MFXButton fx:id="pumpsMapButton" alignment="CENTER" onAction="#pumpsButtonPressed" prefWidth="75.0" styleClass="button-inv" text="Pumps" />
+                              <MFXButton fx:id="reclinerMapButton" alignment="CENTER" onAction="#reclinerButtonPressed" prefWidth="75.0" styleClass="button-inv" text="Recliners" />
+                              <MFXButton alignment="CENTER" onAction="#xrayButtonPressed" prefWidth="75.0" styleClass="button-inv" text="X-Rays" fx:id="xRayMapButton" />
                            </children>
                         </VBox>
                      </children>
                   </AnchorPane>
                </children>
             </VBox>
-                    <VBox fx:id="overviewContainer12" prefHeight="940.0" prefWidth="500.0" spacing="10.0" styleClass="ui-window">
+                    <VBox fx:id="overviewContainer12" prefHeight="940.0" prefWidth="450.0" spacing="10.0" styleClass="ui-window">
                         <children>
                             <Label styleClass="header" text="Service Requests" />
                             <ScrollPane hbarPolicy="NEVER">
@@ -72,14 +73,14 @@
                             </ScrollPane>
                         </children>
                     </VBox>
-                    <VBox fx:id="overviewContainer11" prefHeight="940.0" prefWidth="550.0" spacing="10.0" styleClass="ui-window">
+                    <VBox fx:id="overviewContainer11" prefHeight="940.0" prefWidth="600.0" spacing="10.0" styleClass="ui-window">
                         <children>
                             <Label styleClass="header" text="Medical Equipment" />
                             <TableView fx:id="medicalEquipmentTable" prefHeight="820.0" prefWidth="200.0" styleClass="dropdown-table-view">
                      <columns>
-                        <TableColumn fx:id="typeColumn" editable="false" prefWidth="75.0" text="Equipment" />
-                        <TableColumn fx:id="locationColumn" editable="false" prefWidth="75.0" text="Location" />
-                        <TableColumn fx:id="statusColumn" editable="false" prefWidth="75.0" text="Status" />
+                        <TableColumn fx:id="typeColumn" editable="false" prefWidth="75.0" sortable="false" text="Equipment" />
+                        <TableColumn fx:id="locationColumn" editable="false" prefWidth="75.0" sortable="false" text="Location" />
+                        <TableColumn fx:id="statusColumn" editable="false" prefWidth="75.0" sortable="false" style="-fx-border-width: 0 0 2 0;" text="Status" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
