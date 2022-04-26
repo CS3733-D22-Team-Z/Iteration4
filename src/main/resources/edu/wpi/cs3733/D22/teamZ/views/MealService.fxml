@@ -27,14 +27,14 @@
       <Label layoutX="225.0" layoutY="282.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Snack Choice..." />
       <MFXButton id="LanguageBackButton" fx:id="navigateToMealRequestList" layoutX="407.0" layoutY="38.0" onAction="#onNavigateToMealRequestList" text="View Current Requests" />
       <Label layoutX="411.0" layoutY="105.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Select Any Allergies..." />
-      <RadioButton fx:id="dairyChoice" layoutX="424.0" layoutY="132.0" mnemonicParsing="false" onAction="#validateButton" text="Dairy" />
-      <RadioButton fx:id="eggChoice" layoutX="424.0" layoutY="162.0" mnemonicParsing="false" text="Egg" />
-      <RadioButton fx:id="peanutChoice" layoutX="424.0" layoutY="192.0" mnemonicParsing="false" text="Peanut" />
-      <RadioButton fx:id="treenutChoice" layoutX="424.0" layoutY="222.0" mnemonicParsing="false" text="Tree Nut" />
-      <RadioButton fx:id="soyChoice" layoutX="424.0" layoutY="252.0" mnemonicParsing="false" text="Soy" />
-      <RadioButton fx:id="wheatChoice" layoutX="424.0" layoutY="282.0" mnemonicParsing="false" text="Wheat" />
-      <RadioButton fx:id="fishChoice" layoutX="424.0" layoutY="312.0" mnemonicParsing="false" text="Fish" />
-      <RadioButton fx:id="shellfishChoice" layoutX="424.0" layoutY="342.0" mnemonicParsing="false" text="Shellfish" />
+      <RadioButton fx:id="dairyRadio" layoutX="424.0" layoutY="132.0" mnemonicParsing="false" onAction="#updateAllergens" text="Dairy" />
+      <RadioButton fx:id="eggRadio" layoutX="424.0" layoutY="162.0" mnemonicParsing="false" onAction="#updateAllergens" text="Egg" />
+      <RadioButton fx:id="peanutRadio" layoutX="424.0" layoutY="192.0" mnemonicParsing="false" onAction="#updateAllergens" text="Peanut" />
+      <RadioButton fx:id="treeNutRadio" layoutX="424.0" layoutY="222.0" mnemonicParsing="false" onAction="#updateAllergens" text="Tree Nut" />
+      <RadioButton fx:id="soyRadio" layoutX="424.0" layoutY="252.0" mnemonicParsing="false" onAction="#updateAllergens" text="Soy" />
+      <RadioButton fx:id="wheatRadio" layoutX="424.0" layoutY="282.0" mnemonicParsing="false" onAction="#updateAllergens" text="Wheat" />
+      <RadioButton fx:id="fishRadio" layoutX="424.0" layoutY="312.0" mnemonicParsing="false" onAction="#updateAllergens" text="Fish" />
+      <RadioButton fx:id="shellfishRadio" layoutX="424.0" layoutY="342.0" mnemonicParsing="false" onAction="#updateAllergens" text="Shellfish" />
       <Label fx:id="mealRequestIndicator" layoutX="192.0" layoutY="361.0" prefHeight="17.0" prefWidth="218.0" styleClass="form-header" text="Meal Request Submitted Successfully..." />
       <ComboBox fx:id="roomNumberDropDown" layoutX="16.0" layoutY="248.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="5" />
       <ComboBox fx:id="mealOptionDropDown" layoutX="16.0" layoutY="305.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="4" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -17,7 +17,7 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-      <VBox alignment="CENTER" layoutX="411.0" layoutY="32.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="405.0" layoutY="32.0" spacing="10.0">
          <children>
             <MFXButton fx:id="exportCSVButton" mnemonicParsing="false" onAction="#exportToCSV" text="Export to CSV..." />
               <MFXButton fx:id="refreshButton" onAction="#refreshClicked" prefHeight="29.0" prefWidth="73.0" text="Refresh" textFill="WHITE" />
@@ -34,7 +34,7 @@
                       <MFXButton fx:id="assigneeButton" onAction="#filterClicked" prefHeight="29.0" style="-fx-background-radius: 0 5 5 0;" styleClass="filter-button" text="Assignee" />
                   </children>
               </HBox>
-              <ChoiceBox fx:id="filterCBox" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" />
+            <ComboBox fx:id="filterCBox" onAction="#filterSet" prefHeight="25.0" prefWidth="175.0" promptText="Filter by..." />
               <Label styleClass="object-body" text="Details">
                   <font>
                       <Font name="System Bold" size="12.0" />
@@ -42,8 +42,8 @@
               </Label>
             <TableView fx:id="statusTable" prefHeight="150.0" prefWidth="175.0">
               <columns>
-                <TableColumn fx:id="labelsColumn" editable="false" prefWidth="75.0" text="Field" />
-                <TableColumn fx:id="detailsColumn" editable="false" prefWidth="75.0" text="Value" />
+                <TableColumn fx:id="labelsColumn" editable="false" prefWidth="76.4000244140625" text="Field" />
+                <TableColumn fx:id="detailsColumn" editable="false" prefWidth="106.80001831054688" text="Value" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -53,12 +53,11 @@
       </VBox>
       <TableView fx:id="tableContainer" layoutX="14.0" layoutY="60.0" prefHeight="326.0" prefWidth="380.0">
          <columns>
-            <TableColumn fx:id="idColumn" editable="false" prefWidth="63.19997978210449" text="ID" />
-            <TableColumn fx:id="statusColumn" editable="false" prefWidth="124.79999542236328" text="Status" />
+            <TableColumn fx:id="idColumn" editable="false" prefWidth="65.19997978210449" text="ID" />
+            <TableColumn fx:id="statusColumn" editable="false" prefWidth="86.00000762939453" text="Status" />
             <TableColumn fx:id="locationColumn" editable="false" prefWidth="100.0" text="Location" />
-            <TableColumn fx:id="drinkColumn" editable="false" prefWidth="100.0" text="Drink" />
-            <TableColumn fx:id="entreeColumn" prefWidth="75.0" text="Entrée" />
-            <TableColumn fx:id="snackColumn" prefWidth="75.0" text="Snack" />
+            <TableColumn fx:id="mealColumn" editable="false" prefWidth="100.0" text="Meal" />
+            <TableColumn fx:id="allergenColumn" prefWidth="75.0" text="Allergen" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

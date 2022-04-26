@@ -334,7 +334,8 @@ public class DBInitializer {
               + "patientID VARCHAR(15),"
               + "drink VARCHAR(50),"
               + "entree VARCHAR(50),"
-              + "side VARCHAR(50),"
+              + "snack VARCHAR(50),"
+              + "allergen VARCHAR(64),"
               + "constraint MEALSERVICEREQUEST_PK PRIMARY KEY (requestID),"
               + "constraint MEALSERVICEREQUEST_FK FOREIGN KEY (requestID) REFERENCES SERVICEREQUEST(requestid),"
               + "constraint MEALSERVICEREQUESTPATIENT_FK FOREIGN KEY (patientID) REFERENCES PATIENTS(patientID))");

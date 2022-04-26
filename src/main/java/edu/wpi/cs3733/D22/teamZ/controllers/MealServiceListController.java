@@ -6,8 +6,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,10 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -33,8 +29,12 @@ public class MealServiceListController implements Initializable, IMenuAccess {
   @FXML private MFXButton statusButton;
   @FXML private MFXButton assigneeButton;
 
+  // Selector button stuff
+  private MFXButton lastButtonPressed;
+  private Map<String, String> prevCSS;
+
   // Drop-down box that selects which data type to filter by.
-  @FXML private ChoiceBox<String> filterCBox;
+  @FXML private ComboBox<String> filterCBox;
 
   // Details Table
   @FXML public TableView<TableColumnItems> statusTable;
@@ -46,10 +46,11 @@ public class MealServiceListController implements Initializable, IMenuAccess {
   @FXML private TableColumn<RequestRow, String> idColumn;
   @FXML private TableColumn<RequestRow, String> statusColumn;
   @FXML private TableColumn<RequestRow, String> locationColumn;
-  @FXML private TableColumn<RequestRow, String> drinkColumn;
-  @FXML private TableColumn<RequestRow, String> entreeColumn;
-  @FXML private TableColumn<RequestRow, String> snackColumn;
-  //  @FXML private TableColumn<RequestRow, String> assigneeColumn;
+  //  @FXML private TableColumn<RequestRow, String> drinkColumn;
+  //  @FXML private TableColumn<RequestRow, String> entreeColumn;
+  //  @FXML private TableColumn<RequestRow, String> snackColumn;
+  @FXML private TableColumn<RequestRow, String> mealColumn;
+  @FXML private TableColumn<RequestRow, String> allergenColumn;
 
   private final String toHomepageURL = "views/Homepage.fxml";
   private final String toMealServiceRequestURL = "edu/wpi/cs3733/D22/teamZ/views/MealService.fxml";
@@ -64,10 +65,11 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     "Target Location",
     "Drink",
     "Entree",
-    "Snack"
+    "Snack",
+    "Allergen"
   };
 
-  //  requestID,patientID,drink,entree,side
+  //  requestID,patientID,drink,entree,snack
   //  String requestID,
   //  ServiceRequest.RequestType type,
   //  ServiceRequest.RequestStatus status,
@@ -82,6 +84,8 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
   // List of RequestRows currently being displayed on the table
   private ObservableList<RequestRow> requests;
+  private ObservableList<RequestRow> dispRequests;
+  private String filter = "";
 
   // Database object
   private final FacadeDAO facadeDAO;
@@ -115,15 +119,21 @@ public class MealServiceListController implements Initializable, IMenuAccess {
   public void initialize(URL location, ResourceBundle resources) {
     // Create labels for field values
     for (String identifier : identifiers) {
-      Label ID = new Label();
-      ID.setText(identifier);
+      if (identifier.equals("Drink")) {
+        Label ID = new Label();
+        ID.setText("Meal");
+      } else if (identifier.equals("Entree") || identifier.equals("Snack")) {
+      } else {
+        Label ID = new Label();
+        ID.setText(identifier);
+      }
     }
 
-    // Fill the filter box with test data
-    filterCBox.getItems().addAll("Test 1", "Test 2", "Test 3");
+    //    // Fill the filter box with test data
+    //    filterCBox.getItems().addAll("Test 1", "Test 2", "Test 3");
 
     // Setup details window
-    int sWidth = 186 / 2;
+    int sWidth = 176 / 2;
     labelsColumn.setCellValueFactory(tRow -> tRow.getValue().label);
     labelsColumn.setPrefWidth(sWidth);
     labelsColumn.setResizable(false);
@@ -142,10 +152,10 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     // drinkColumn;
     // entreeColumn;
     // snackColumn;
-    int width = 380 / 6;
+    int width = 380 / 5;
 
     idColumn.setCellValueFactory(rRow -> rRow.getValue().id);
-    idColumn.setPrefWidth(width);
+    idColumn.setPrefWidth(60);
     idColumn.setResizable(false);
     idColumn.setReorderable(false);
 
@@ -155,24 +165,34 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     statusColumn.setReorderable(false);
 
     locationColumn.setCellValueFactory(rRow -> rRow.getValue().location);
-    locationColumn.setPrefWidth(width);
+    locationColumn.setPrefWidth(70);
     locationColumn.setResizable(false);
     locationColumn.setReorderable(false);
 
-    drinkColumn.setCellValueFactory(rRow -> rRow.getValue().drink);
-    drinkColumn.setPrefWidth(width);
-    drinkColumn.setResizable(false);
-    drinkColumn.setReorderable(false);
+    mealColumn.setCellValueFactory(rRow -> rRow.getValue().meal);
+    mealColumn.setPrefWidth(width + 10);
+    mealColumn.setResizable(false);
+    mealColumn.setReorderable(false);
 
-    entreeColumn.setCellValueFactory(rRow -> rRow.getValue().entree);
-    entreeColumn.setPrefWidth(width);
-    entreeColumn.setResizable(false);
-    entreeColumn.setReorderable(false);
+    allergenColumn.setCellValueFactory(rRow -> rRow.getValue().allergen);
+    allergenColumn.setPrefWidth(width + 12);
+    allergenColumn.setResizable(false);
+    allergenColumn.setReorderable(false);
 
-    snackColumn.setCellValueFactory(rRow -> rRow.getValue().snack);
-    snackColumn.setPrefWidth(width);
-    snackColumn.setResizable(false);
-    snackColumn.setReorderable(false);
+    //    drinkColumn.setCellValueFactory(rRow -> rRow.getValue().drink);
+    //    drinkColumn.setPrefWidth(width);
+    //    drinkColumn.setResizable(false);
+    //    drinkColumn.setReorderable(false);
+    //
+    //    entreeColumn.setCellValueFactory(rRow -> rRow.getValue().entree);
+    //    entreeColumn.setPrefWidth(width);
+    //    entreeColumn.setResizable(false);
+    //    entreeColumn.setReorderable(false);
+    //
+    //    snackColumn.setCellValueFactory(rRow -> rRow.getValue().snack);
+    //    snackColumn.setPrefWidth(width);
+    //    snackColumn.setResizable(false);
+    //    snackColumn.setReorderable(false);
 
     tableContainer
         .getSelectionModel()
@@ -191,8 +211,33 @@ public class MealServiceListController implements Initializable, IMenuAccess {
   // Called whenever one of the filter buttons are clicked.
   /** @param event */
   public void filterClicked(ActionEvent event) {
-    MFXButton buttonPressed = (MFXButton) event.getTarget();
-    System.out.println(buttonPressed.getText());
+    if (lastButtonPressed != null)
+      lastButtonPressed.setStyle(prevCSS.get(lastButtonPressed.getText()));
+    filterCBox.getItems().clear();
+    if (lastButtonPressed == null || !lastButtonPressed.equals(event.getTarget())) {
+      lastButtonPressed = (MFXButton) event.getTarget();
+      filter = lastButtonPressed.getText();
+      lastButtonPressed.setStyle(
+          prevCSS.get(lastButtonPressed.getText())
+              + "-fx-background-color: #0075ff; -fx-text-fill: #FFFFFF");
+
+      // Filter buttons
+      Comparator<RequestRow> comparator =
+          Comparator.comparing(r -> r.retrievePropertyFromType(filter));
+      FXCollections.sort(requests, comparator);
+
+      // Setup filter box
+      Set<String> allFilterOptions = new HashSet<>();
+      for (MealServiceListController.RequestRow row : requests) {
+        allFilterOptions.add(row.retrievePropertyFromType(filter));
+      }
+      allFilterOptions.add("none");
+      filterCBox.getItems().addAll(allFilterOptions);
+      filterCBox.getSelectionModel().select("none");
+    } else {
+      tableContainer.setItems(requests);
+      lastButtonPressed = null;
+    }
   }
 
   // Called whenever the refresh button is clicked.
@@ -229,9 +274,16 @@ public class MealServiceListController implements Initializable, IMenuAccess {
               mealServiceRequest.getRequestID(),
               mealServiceRequest.getStatus().toString(),
               mealServiceRequest.getTargetLocation().getShortName(),
-              mealServiceRequest.getDrink(),
-              mealServiceRequest.getEntree(),
-              mealServiceRequest.getSide()));
+              mealServiceRequest.getDrink()
+                  + "\n"
+                  + mealServiceRequest.getEntree()
+                  + "\n"
+                  + mealServiceRequest.getSnack(),
+              mealServiceRequest
+                  .getAllergen()
+                  .replace(',', '\n')
+                  .replace("[", "")
+                  .replace("]", "")));
     }
 
     /*// Set root's children to requests, and add root to table.
@@ -246,7 +298,7 @@ public class MealServiceListController implements Initializable, IMenuAccess {
   /** @param MealID */
   public void loadRow(String MealID) {
     // Clear out current details data
-    statusTable.refresh();
+    statusTable.getItems().clear();
 
     // Retrieve the MedEquipReq with the given ID.
     MealServiceRequest selectedReq = getRequestFromID(MealID);
@@ -264,6 +316,17 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     statusTable
         .getItems()
         .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
+    statusTable.getItems().add(new TableColumnItems("Drink", selectedReq.getDrink()));
+    statusTable.getItems().add(new TableColumnItems("Entree", selectedReq.getEntree()));
+    statusTable.getItems().add(new TableColumnItems("Snack", selectedReq.getSnack()));
+    statusTable.getItems().add(new TableColumnItems("Allergen", selectedReq.getAllergen()));
+
+    //    private void cycleAllergens() {
+    //      String allergens = "";
+    //      for (MealServiceRequest allergen : selectedReq.getAllergen()) {
+    //
+    //      }
+    //    }
   }
 
   /**
@@ -338,20 +401,55 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     SimpleStringProperty drink;
     SimpleStringProperty entree;
     SimpleStringProperty snack;
+    SimpleStringProperty meal; // = drink + entree + snack;
+    SimpleStringProperty allergen;
 
     public RequestRow(
         String newId,
         String newStatus,
         String newLocation,
-        String newDrink,
-        String newEntree,
-        String newSnack) {
+        //        String newDrink,
+        //        String newEntree,
+        //        String newSnack
+        String newMeal,
+        String newAllergen) {
       id = new SimpleStringProperty(newId);
       status = new SimpleStringProperty(newStatus);
       location = new SimpleStringProperty(newLocation);
-      drink = new SimpleStringProperty(newDrink);
-      entree = new SimpleStringProperty(newEntree);
-      snack = new SimpleStringProperty(newSnack);
+      //      drink = new SimpleStringProperty(newDrink);
+      //      entree = new SimpleStringProperty(newEntree);
+      //      snack = new SimpleStringProperty(newSnack);
+      meal = new SimpleStringProperty(newMeal);
+      allergen = new SimpleStringProperty(newAllergen);
+    }
+
+    /**
+     * Gets the property from the String identifier
+     *
+     * @param type the type of property to be retrieved
+     * @return the value of the property
+     */
+    public String retrievePropertyFromType(String type) {
+      switch (type) {
+        case "ID":
+          return id.get();
+        case "Status":
+          return status.get();
+        case "Target Location":
+          return location.get();
+          //        case "Drink":
+          //          return drink.get();
+          //        case "Entree":
+          //          return entree.get();
+          //        case "Snack":
+          //          return snack.get();
+        case "Meal":
+          return meal.get();
+        case "Allergen":
+          return allergen.get();
+        default:
+          return "";
+      }
     }
   }
 }

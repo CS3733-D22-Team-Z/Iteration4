@@ -37,6 +37,7 @@ public class MealServReqControlCSV extends ControlCSV {
       String drink = a.get(2);
       String entree = a.get(3);
       String side = a.get(4);
+      String allergen = a.get(5);
 
       ServiceRequest request = dao.getServiceRequestByID(requestID);
       if (request.getHandler() == null) {
@@ -52,7 +53,8 @@ public class MealServReqControlCSV extends ControlCSV {
                 dao.getPatientByID(patientID),
                 drink,
                 entree,
-                side));
+                side,
+                allergen));
       } else {
         ret.add(
             new MealServiceRequest(
@@ -66,7 +68,8 @@ public class MealServReqControlCSV extends ControlCSV {
                 dao.getPatientByID(patientID),
                 drink,
                 entree,
-                side));
+                side,
+                allergen));
       }
     }
     return ret;
