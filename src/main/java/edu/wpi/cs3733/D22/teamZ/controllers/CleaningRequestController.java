@@ -85,7 +85,7 @@ public class CleaningRequestController extends ServiceRequestController {
   }
 
   @Override
-  public void onHelpMenu() throws IOException {}
+  protected void highlightRequirements(boolean visible) {}
 
   @FXML
   protected void onSubmitButtonClicked(ActionEvent actionEvent) {

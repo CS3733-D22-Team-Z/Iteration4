@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.Region;
+import javafx.scene.shape.SVGPath;
 import javax.swing.*;
 
 /**
@@ -37,7 +39,13 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
   @FXML protected MFXButton backButton;
   @FXML protected MFXButton submitButton;
   @FXML protected MFXButton resetButton;
+  @FXML private Region helpGraphic;
   // @FXML ComboBox locationField;
+
+  private String svgCSSLine = "-fx-background-color: %s";
+
+  // Help Logic
+  protected boolean isHelpOn = false;
 
   /** Constructor for ServiceRequestController class, which initializes the database. */
   public ServiceRequestController() {
@@ -72,6 +80,14 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
     menu.load(backButtonPath);
   }
 
+  protected void initializeHelpGraphic() {
+    // Initialize help Graphic
+    SVGPath helpIcon = new SVGPath();
+    helpIcon.setContent(helpIconSVG);
+    helpGraphic.setShape(helpIcon);
+    helpGraphic.setStyle(String.format(svgCSSLine, "#0062A9"));
+  }
+
   @FXML
   protected abstract void onSubmitButtonClicked(ActionEvent event) throws SQLException;
 
@@ -79,5 +95,18 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
   protected abstract void onResetButtonClicked(ActionEvent event) throws IOException;
 
   @FXML
-  public abstract void onHelpMenu() throws IOException;
+  public void onHelpMenu() {
+    if (isHelpOn) {
+      highlightRequirements(false);
+      isHelpOn = false;
+    } else {
+      highlightRequirements(true);
+      isHelpOn = true;
+    }
+  }
+
+  protected abstract void highlightRequirements(boolean visible);
+
+  {
+  }
 }

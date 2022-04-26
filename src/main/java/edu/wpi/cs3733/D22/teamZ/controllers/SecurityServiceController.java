@@ -75,7 +75,7 @@ public class SecurityServiceController extends ServiceRequestController {
   }
 
   @Override
-  public void onHelpMenu() throws IOException {}
+  protected void highlightRequirements(boolean visible) {}
 
   public void onNavigateToRequestList(ActionEvent actionEvent) throws IOException {
     menu.selectMenu(1);

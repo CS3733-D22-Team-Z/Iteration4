@@ -129,7 +129,7 @@ public class GiftServicesController extends ServiceRequestController {
   }
 
   @Override
-  public void onHelpMenu() throws IOException {}
+  protected void highlightRequirements(boolean visible) {}
 
   public void validateButton() {
     submitButton.setDisable(

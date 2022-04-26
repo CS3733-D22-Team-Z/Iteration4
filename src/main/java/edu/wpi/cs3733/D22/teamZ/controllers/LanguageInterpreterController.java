@@ -132,7 +132,7 @@ public class LanguageInterpreterController extends ServiceRequestController {
   }
 
   @Override
-  public void onHelpMenu() throws IOException {}
+  protected void highlightRequirements(boolean visible) {}
 
   public void validateButton() {
     if (!enterPatientName.getText().trim().isEmpty()

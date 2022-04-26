@@ -99,7 +99,7 @@ public class ComputerServiceRequestController extends ServiceRequestController
   }
 
   @Override
-  public void onHelpMenu() throws IOException {}
+  protected void highlightRequirements(boolean visible) {}
 
   public void validateButton() {
     if (!osField.getSelectionModel().isEmpty()

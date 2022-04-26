@@ -126,7 +126,7 @@ public class LabRequestController extends ServiceRequestController {
   }
 
   @Override
-  public void onHelpMenu() throws IOException {}
+  protected void highlightRequirements(boolean visible) {}
 
   @FXML
   public void clearFields() {

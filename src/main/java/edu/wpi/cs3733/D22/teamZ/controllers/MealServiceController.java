@@ -322,7 +322,7 @@ public class MealServiceController extends ServiceRequestController {
   }
 
   @Override
-  public void onHelpMenu() throws IOException {}
+  protected void highlightRequirements(boolean visible) {}
 
   public void enterPatientName(ActionEvent event) {}
 

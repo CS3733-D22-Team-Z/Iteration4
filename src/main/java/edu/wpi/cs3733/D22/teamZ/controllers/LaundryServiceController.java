@@ -104,7 +104,7 @@ public class LaundryServiceController extends ServiceRequestController implement
   }
 
   @Override
-  public void onHelpMenu() throws IOException {}
+  protected void highlightRequirements(boolean visible) {}
 
   public void validateButton(KeyEvent keyEvent) {
     if (!locationField.getText().isEmpty()

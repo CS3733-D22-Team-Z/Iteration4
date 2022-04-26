@@ -16,6 +16,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.SVGPath;
 
 public class MedicalEquipmentRequestController extends ServiceRequestController {
+  @FXML public Label roomNumberFormHeader;
+  @FXML public Label equipmentFormHeader;
+  @FXML public Label floorNumberFormHeader;
+  @FXML public Label locationTypeFormHeader;
   @FXML private Label header;
   @FXML private Label objectBodyText;
   @FXML private Label roomNumberLabel;
@@ -28,9 +32,6 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   @FXML private Region backRegion;
   @FXML private Label successfulSubmitLabel;
   @FXML private Region helpGraphic;
-
-  // Help Logic
-  private boolean isHelpOn = false;
 
   // URLs
   private String toMedicalEquipmentRequestURL =
@@ -75,11 +76,12 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
         "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
 
-    // Initialize help Graphic
-    SVGPath helpIcon = new SVGPath();
-    helpIcon.setContent(helpIconSVG);
-    helpGraphic.setShape(helpIcon);
-    helpGraphic.setStyle(String.format(svgCSSLine, "#0062A9"));
+    //    // Initialize help Graphic
+    //    SVGPath helpIcon = new SVGPath();
+    //    helpIcon.setContent(helpIconSVG);
+    //    helpGraphic.setShape(helpIcon);
+    //    helpGraphic.setStyle(String.format(svgCSSLine, "#0062A9"));
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -165,14 +167,17 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     menu.load(toMedicalEquipmentStatsURL);
   }
 
-  @Override
-  public void onHelpMenu() {
-    if (isHelpOn) {
-      System.out.println("Help is ON, turning OFF");
-      isHelpOn = false;
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      roomNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
+      equipmentFormHeader.setStyle("-fx-background-color: #FFFF00");
+      floorNumberFormHeader.setStyle("-fx-background-color: #FFFF00");
+      locationTypeFormHeader.setStyle("-fx-background-color: #FFFF00");
     } else {
-      System.out.println("Help is OFF, turning ON");
-      isHelpOn = true;
+      roomNumberFormHeader.setStyle("-fx-background-color: #00000");
+      equipmentFormHeader.setStyle("-fx-background-color: #00000");
+      floorNumberFormHeader.setStyle("-fx-background-color: #00000");
+      locationTypeFormHeader.setStyle("-fx-background-color: #00000");
     }
   }
 }

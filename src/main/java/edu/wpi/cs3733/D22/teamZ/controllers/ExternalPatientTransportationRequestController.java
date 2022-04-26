@@ -95,7 +95,7 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
   }
 
   @Override
-  public void onHelpMenu() throws IOException {}
+  protected void highlightRequirements(boolean visible) {}
 
   @FXML
   protected void validateButton() {
