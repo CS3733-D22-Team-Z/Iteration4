@@ -30,8 +30,8 @@
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <ChoiceBox layoutX="69.0" layoutY="98.0" prefHeight="76.0" prefWidth="446.0" />
-                  <MFXButton layoutX="69.0" layoutY="235.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Start Simulation" textFill="WHITE">
+                  <ChoiceBox fx:id="speedBox" layoutX="69.0" layoutY="98.0" prefHeight="76.0" prefWidth="446.0" />
+                  <MFXButton fx:id="startSim" layoutX="69.0" layoutY="235.0" onAction="#startSimulation" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Start Simulation" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -41,16 +41,17 @@
                         <Label />
                      </content>
                   </MFXScrollPane>
-                  <MFXButton layoutX="69.0" layoutY="804.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Pause Simulation" textFill="WHITE">
+                  <MFXButton fx:id="pauseSim" layoutX="69.0" layoutY="804.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Pause Simulation" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton layoutX="69.0" layoutY="916.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #ff4343;" text="End Simulation" textFill="WHITE">
+                  <MFXButton fx:id="endSim" layoutX="69.0" layoutY="916.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #ff4343;" text="End Simulation" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </MFXButton>
+                  <Label fx:id="clock" layoutX="188.0" layoutY="180.0" styleClass="header" text="00:00 AM" />
                </children>
             </AnchorPane>
         </items>

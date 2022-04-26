@@ -6,11 +6,16 @@ import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -19,6 +24,11 @@ public class SimulatorController implements IMenuAccess, Initializable {
   private MenuController menu;
   FacadeDAO facadeDAO;
   @FXML private AnchorPane mapContainer;
+  @FXML private ChoiceBox speedBox;
+  @FXML private MFXButton startSim;
+  @FXML private MFXButton pauseSim;
+  @FXML private MFXButton endSim;
+  @FXML private Label clock;
   private MapController mapController;
 
   private Image iconImage;
@@ -38,7 +48,9 @@ public class SimulatorController implements IMenuAccess, Initializable {
     facadeDAO = FacadeDAO.getInstance();
     iconImage = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
     displayMedicalEquipmentIcons("3");
-    // showLocations("3");
+    speedBox.getItems().setAll("Real time", "5 min/sec", "10 min/sec", "30 min/sec", "1 hour/sec");
+    pauseSim.setDisable(true);
+    endSim.setDisable(true);
   }
 
   public void displayMedicalEquipmentIcons(String floor) {
@@ -74,6 +86,18 @@ public class SimulatorController implements IMenuAccess, Initializable {
           iconButton.relocate(tempLocation.getXcoord() * scaleX, tempLocation.getYcoord() * scaleY);
         }
       }
+    }
+  }
+
+  public void startSimulation(ActionEvent actionEvent) {
+    if (speedBox.getSelectionModel().getSelectedItem() == null) {
+      return;
+    } else {
+      startSim.setDisable(true);
+      pauseSim.setDisable(false);
+      endSim.setDisable(false);
+      DateTimeFormatter timeFormatA = DateTimeFormatter.ofPattern("hh:mm a");
+      clock.setText(timeFormatA.format(LocalDateTime.now()));
     }
   }
 }
