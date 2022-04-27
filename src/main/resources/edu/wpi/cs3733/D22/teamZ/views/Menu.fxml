@@ -17,7 +17,7 @@
    <items>
       <Pane fx:id="menuPane" maxWidth="120.0" minWidth="150.0" style="-fx-border-width: 0 1 0 0; -fx-background-color: #001a3c;" styleClass="menu-container">
          <children>
-            <VBox fx:id="iconContainer" alignment="TOP_CENTER" layoutX="24.0" layoutY="60.0" prefHeight="182.0" prefWidth="18.0" spacing="18.0">
+            <VBox fx:id="iconContainer" alignment="TOP_CENTER" layoutX="24.0" layoutY="60.0" prefHeight="201.0" prefWidth="18.0" spacing="18.0">
                <children>
                   <Region prefWidth="73.0" styleClass="region-icon" />
                   <Region styleClass="region-icon" />
@@ -30,22 +30,26 @@
                   <MFXButton alignment="CENTER" onAction="#toHome" prefHeight="38.0" prefWidth="100.0" style="-fx-text-fill: #FFFFFF;" styleClass="menu-button" text="Home">
                      <VBox.margin>
                         <Insets left="40.0" />
-                     </VBox.margin></MFXButton>
+                     </VBox.margin>
+                  </MFXButton>
                   <MFXButton alignment="CENTER" onAction="#toLocations" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Locations">
                      <VBox.margin>
                         <Insets left="50.0" />
                      </VBox.margin>
                      <padding>
                         <Insets bottom="7.0" />
-                     </padding></MFXButton>
+                     </padding>
+                  </MFXButton>
                   <MFXButton alignment="CENTER" onAction="#toLandingPage" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Services">
                      <VBox.margin>
                         <Insets bottom="2.0" left="45.0" />
-                     </VBox.margin></MFXButton>
+                     </VBox.margin>
+                  </MFXButton>
                   <MFXButton alignment="CENTER" onAction="#toMedicalEquipmentRequest" prefHeight="61.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Service Requests List" translateY="-2.0" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="2.0" left="70.0" />
-                     </VBox.margin></MFXButton>
+                     </VBox.margin>
+                  </MFXButton>
                </children>
             </VBox>
             <MFXButton fx:id="exitButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="14.0" layoutY="386.0" onAction="#toExit" prefHeight="35.0" prefWidth="122.0" styleClass="exit-button" text="Exit">
@@ -78,6 +82,11 @@
                   <Rectangle fill="#f6bd38" height="29.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" width="8.0" />
                </children>
             </VBox>
+            <MFXButton buttonType="RAISED" layoutX="14.0" layoutY="291.0" onAction="#toProfile" prefHeight="35.0" prefWidth="122.0" style="-fx-text-fill: #FFFFFF;" styleClass="exit-button" text="Profile">
+               <graphic>
+                  <Region fx:id="logoutGraphic1" styleClass="region-icon" translateX="-10.0" />
+               </graphic>
+            </MFXButton>
          </children>
          <effect>
             <DropShadow />
