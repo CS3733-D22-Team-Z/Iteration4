@@ -5,7 +5,9 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.LaundryServiceRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Predicate;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,8 +23,11 @@ import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class LaundryServiceRequestListController implements Initializable, IMenuAccess {
+public class LaundryServiceRequestListController extends ServiceRequestController
+    implements Initializable, IMenuAccess {
 
+  // button to go back to laundry request
+  @FXML private MFXButton backToLaundry;
   // Button to export to CSV
   @FXML private MFXButton exportCSVButton;
 
@@ -55,13 +60,13 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
   @FXML private TableColumn<RequestRow, String> statusColumn;
 
   private final String toHomepageURL = "views/Homepage.fxml";
+  private final String toLaundryRequest = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
+  //
 
   // List of identifiers for each
   private final String[] identifiers = {
     "ID", "Laundry", "Assignee", "Handler", "Status", "Target Location"
   };
-
-  private MenuController menu;
 
   // List of MedEquipReq that represents raw data
   private List<LaundryServiceRequest> rawRequests;
@@ -154,6 +159,12 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
     requests = FXCollections.observableArrayList();
     createRRList();
   }
+
+  @Override
+  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {}
+
+  @Override
+  protected void onResetButtonClicked(ActionEvent event) throws IOException {}
 
   // Called whenever one of the filter buttons are clicked.
   public void filterClicked(ActionEvent event) {
@@ -255,6 +266,14 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
     statusTable
         .getItems()
         .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
+  }
+
+  public void onBackToLaundryClicked(ActionEvent actionEvent) {
+    try {
+      menu.load(toLaundryRequest);
+    } catch (IOException e) {
+      System.out.println("failed to go back to gift request");
+    }
   }
 
   public static class TableColumnItems {
