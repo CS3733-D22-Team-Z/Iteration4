@@ -40,6 +40,7 @@ public class HomepageController implements IMenuAccess {
   private String toServerSwitchURL = "edu/wpi/cs3733/D22/teamZ/views/ServerSwitcher.fxml";
   private final String toServiceRequestURL = "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
   private String toGameURL = "edu/wpi/cs3733/D22/teamZ/views/Game.fxml";
+  private String toSimulatorURL = "edu/wpi/cs3733/D22/teamZ/views/Simulator.fxml";
   private final String toCCTV = "edu/wpi/cs3733/D22/teamZ/views/CCTVPreview.fxml";
 
   public void setMenuController(MenuController menu) {
@@ -119,6 +120,11 @@ public class HomepageController implements IMenuAccess {
   @FXML
   private void toUpperFloorsDashboard() throws IOException {
     menu.load(toUpperFloorsDashboardURL);
+  }
+
+  @FXML
+  private void toSimulation() throws IOException {
+    menu.load(toSimulatorURL);
   }
 
   @FXML

@@ -68,5 +68,6 @@
       <SVGPath fx:id="dashboardSVG" content="M18.75 36 16.6 33.85 26.5 23.95 16.6 14.05 18.75 11.9 30.8 23.95Z" fill="WHITE" layoutX="1365.0" layoutY="717.0" scaleX="0.8" scaleY="0.8" />
       <SVGPath fx:id="employeesSVG" content="M18.75 36 16.6 33.85 26.5 23.95 16.6 14.05 18.75 11.9 30.8 23.95Z" fill="WHITE" layoutX="1365.0" layoutY="824.0" scaleX="0.8" scaleY="0.8" />
       <SVGPath fx:id="listSVG" content="M18.75 36 16.6 33.85 26.5 23.95 16.6 14.05 18.75 11.9 30.8 23.95Z" fill="WHITE" layoutX="1365.0" layoutY="931.0" scaleX="0.8" scaleY="0.8" />
+      <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="1585.0" layoutY="127.0" onAction="#toSimulation" prefHeight="81.0" prefWidth="314.0" styleClass="switch-button" text="Simulator" />
     </children>
 </AnchorPane>
