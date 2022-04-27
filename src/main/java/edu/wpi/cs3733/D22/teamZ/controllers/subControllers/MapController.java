@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers.subControllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.HospitalCode;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.helpers.BiPolygon;
@@ -258,11 +259,17 @@ public class MapController implements Initializable {
    *     snapping
    * @param img the image that each location will have
    */
+  public void setAlerts(HospitalCode code) {
+    System.out.println("adding label");
+    iconContainer.getChildren().add(code.getLabel());
+  }
+
   public void setLabels(
       List<Location> visibleLocations,
       List<Location> allLocations,
       boolean genVoronoi,
-      String img) {
+      String img,
+      ObservableList<HospitalCode> codes) {
     // Reset everything
     currentLabels.clear();
     iconContainer.getChildren().clear();
@@ -343,6 +350,12 @@ public class MapController implements Initializable {
 
       allLabels.add(label);
       iconContainer.getChildren().add(label);
+    }
+
+    for (HospitalCode code : codes) {
+      if (visibleLocations.contains(code.getLocation())) {
+        setAlerts(code);
+      }
     }
   }
 

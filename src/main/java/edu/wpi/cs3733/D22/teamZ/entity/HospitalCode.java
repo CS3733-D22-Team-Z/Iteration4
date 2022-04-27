@@ -13,15 +13,27 @@ public class HospitalCode {
     this.label = label;
   }
 
-  public Label getLabel() {
-    return this.label;
-  }
-
   public Location getLocation() {
-    return this.location;
+    return location;
   }
 
   public String getCodeType() {
-    return this.codeType;
+    return codeType;
+  }
+
+  public Label getLabel() {
+    return label;
+  }
+
+  public void setLocation(Location location) {
+    this.location = location;
+  }
+
+  public void setCodeType(String codeType) {
+    this.codeType = codeType;
+  }
+
+  public void setLabel(Label label) {
+    this.label = label;
   }
 }
