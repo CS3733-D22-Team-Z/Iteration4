@@ -32,7 +32,6 @@ public class ComputerServiceRequestController extends ServiceRequestController
   @FXML private Label successfulSubmitLabel;
   @FXML private MFXButton submitButton;
 
-  private MenuController menu;
   private String toComputerServiceListURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequestList.fxml";
 
