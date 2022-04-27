@@ -72,6 +72,9 @@ public class CleaningRequestListController extends ServiceRequestController
   @Override
   protected void onResetButtonClicked(ActionEvent event) throws IOException {}
 
+  @Override
+  protected void highlightRequirements(boolean visible) {}
+
   /** creates table of all cleaning requests */
   public void createTable() throws SQLException {
     tableContainer.refresh();

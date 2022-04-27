@@ -166,6 +166,9 @@ public class MedicalEquipmentRequestListController extends ServiceRequestControl
   @Override
   protected void onResetButtonClicked(ActionEvent event) throws IOException {}
 
+  @Override
+  protected void highlightRequirements(boolean visible) {}
+
   // Called whenever one of the filter buttons are clicked.
   public void filterClicked(ActionEvent event) {
     if (lastButtonPressed != null)
