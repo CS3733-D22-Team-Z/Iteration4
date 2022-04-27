@@ -25,6 +25,8 @@ import javafx.scene.shape.SVGPath;
 public class ComputerServiceRequestController extends ServiceRequestController
     implements IMenuAccess, Initializable {
 
+  @FXML public Label operatingSystemFormHeader;
+  @FXML public Label descriptionOfProblemFormHeader;
   @FXML private Region backRegion;
   @FXML private ChoiceBox osField;
   @FXML private MFXTextField descField;
@@ -56,6 +58,7 @@ public class ComputerServiceRequestController extends ServiceRequestController
     osField.setOnAction(event -> validateButton());
     descField.setOnAction(event -> validateButton());
     successfulSubmitLabel.setText("Successfully Submitted Request!");
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -98,6 +101,30 @@ public class ComputerServiceRequestController extends ServiceRequestController
     osField.getSelectionModel().clearSelection();
     descField.setText("");
     successfulSubmitLabel.setVisible(false);
+  }
+
+  @Override
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      operatingSystemFormHeader.getStyleClass().clear();
+      operatingSystemFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          operatingSystemFormHeader, "Select operating system\nof computer that is having issues");
+
+      descriptionOfProblemFormHeader.getStyleClass().clear();
+      descriptionOfProblemFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          descriptionOfProblemFormHeader,
+          "Describe the problems being experienced\non computer with most details as possible");
+    } else {
+      operatingSystemFormHeader.getStyleClass().clear();
+      operatingSystemFormHeader.getStyleClass().add("form-header");
+      operatingSystemFormHeader.setTooltip(null);
+
+      descriptionOfProblemFormHeader.getStyleClass().clear();
+      descriptionOfProblemFormHeader.getStyleClass().add("form-header");
+      descriptionOfProblemFormHeader.setTooltip(null);
+    }
   }
 
   public void validateButton() {
