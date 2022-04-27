@@ -25,6 +25,7 @@ class FacilityMaintenanceAPIConverter {
     FacilityMaintenanceSRAPI.Status apiStatus = convertToAPIStatus(request.getStatus());
     FacilityMaintenanceSRAPI.MaintenanceType apiMaintenanceType =
         convertToAPIMaintenanceType(request.getMaintenanceType());
+    FacilityMaintenanceSRAPI.Priority priority = request.getPriority();
 
     FacilityMaintenanceSRAPI apiRequest = new FacilityMaintenanceSRAPI();
     apiRequest.setID(apiRequestID);
@@ -34,6 +35,7 @@ class FacilityMaintenanceAPIConverter {
     apiRequest.setDescription(description);
     apiRequest.setStatus(apiStatus);
     apiRequest.setMaintenanceType(apiMaintenanceType);
+    apiRequest.setPriority(priority);
     return apiRequest;
   }
 
@@ -49,9 +51,10 @@ class FacilityMaintenanceAPIConverter {
     FacilityMaintenanceRequest.MaintenanceType maintenanceType =
         convertFromAPIMaintenanceType(apiRequest.getMaintenanceType());
     String description = apiRequest.getDescription();
+    FacilityMaintenanceSRAPI.Priority priority = apiRequest.getPriority();
 
     return new FacilityMaintenanceRequest(
-        requestID, status, issuer, handler, targetLocation, maintenanceType, description);
+        requestID, status, issuer, handler, targetLocation, maintenanceType, priority, description);
   }
 
   FacilityMaintenanceSRAPI.Status convertToAPIStatus(ServiceRequest.RequestStatus status) {

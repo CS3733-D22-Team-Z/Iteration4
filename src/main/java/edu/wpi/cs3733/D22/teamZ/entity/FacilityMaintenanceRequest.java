@@ -1,11 +1,13 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
+import edu.wpi.cs3733.D22.teamC.entity.service_request.facility_maintenance.FacilityMaintenanceSRAPI;
 import lombok.Getter;
 import lombok.Setter;
 
 public class FacilityMaintenanceRequest extends ServiceRequest {
   @Getter @Setter MaintenanceType maintenanceType;
   @Getter @Setter String description;
+  @Getter @Setter FacilityMaintenanceSRAPI.Priority priority;
 
   public enum MaintenanceType {
     PIPE("PIPE"),
@@ -58,9 +60,11 @@ public class FacilityMaintenanceRequest extends ServiceRequest {
       Employee handler,
       Location targetLocation,
       MaintenanceType maintenanceType,
+      FacilityMaintenanceSRAPI.Priority priority,
       String description) {
     super(requestID, RequestType.FACILITY, status, issuer, handler, targetLocation, null, null);
     this.maintenanceType = maintenanceType;
     this.description = description;
+    this.priority = priority;
   }
 }
