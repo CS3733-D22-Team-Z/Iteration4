@@ -74,6 +74,9 @@ public class SecurityServiceController extends ServiceRequestController {
     errorLabel.setVisible(false);
   }
 
+  @Override
+  protected void highlightRequirements(boolean visible) {}
+
   public void onNavigateToRequestList(ActionEvent actionEvent) throws IOException {
     menu.selectMenu(1);
     menu.load("edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml");
