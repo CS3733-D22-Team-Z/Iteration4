@@ -138,7 +138,6 @@ public class CleaningRequestController extends ServiceRequestController {
       submitButton.setDisable(false);
     } else {
       submitButton.setDisable(true);
-      System.out.println("Cleaning Request Submit Button disabled");
     }
   }
 
