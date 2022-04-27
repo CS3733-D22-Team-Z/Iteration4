@@ -212,8 +212,6 @@
     -fx-font-size: 14pt;
     -fx-text-fill: #9D9D9D;
 
-
-
     -fx-background-radius: 5px;
     -fx-background-color: #FFFFFF;
 
@@ -223,15 +221,35 @@
 .mfx-text-field:visited{
     -fx-border-width: 2px;
     -fx-border-color: #0067B1;
-
 }
 
 .mfx-text-field:hover{
-
     -fx-border-width: 2px;
     -fx-border-color: #0067B1;
-
 }
+
+.text-area {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 600;
+    -fx-font-size: 14pt;
+    -fx-text-fill: #9D9D9D;
+
+    -fx-background-radius: 5px;
+    -fx-background-color: #FFFFFF;
+
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
+}
+
+.text-area:visited{
+    -fx-border-width: 2px;
+    -fx-border-color: #0067B1;
+}
+
+.text-area:hover{
+    -fx-border-width: 2px;
+    -fx-border-color: #0067B1;
+}
+
 
 .mfx-password-field {
     -fx-font-family: 'SansSerif';
