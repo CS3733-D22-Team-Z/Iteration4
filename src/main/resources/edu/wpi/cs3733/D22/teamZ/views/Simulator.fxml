@@ -48,9 +48,9 @@
                      </font>
                   </MFXButton>
                   <Label fx:id="clock" layoutX="188.0" layoutY="180.0" styleClass="header" text="00:00 AM" />
-                  <TableView fx:id="infoTable" layoutX="71.0" layoutY="321.0" prefHeight="457.0" prefWidth="446.0">
+                  <TableView fx:id="infoTable" layoutX="12.0" layoutY="321.0" prefHeight="457.0" prefWidth="567.0">
                     <columns>
-                      <TableColumn fx:id="info" prefWidth="446.0" text="Updates" />
+                      <TableColumn fx:id="info" prefWidth="566.0" text="Updates" />
                     </columns>
                   </TableView>
                </children>

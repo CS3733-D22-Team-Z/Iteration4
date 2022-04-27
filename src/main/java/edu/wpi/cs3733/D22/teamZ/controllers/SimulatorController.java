@@ -169,17 +169,47 @@ public class SimulatorController implements IMenuAccess, Initializable {
     simStart = simStart.plusSeconds(speed);
     clock.setText(timeFormatA.format(simStart));
     updates.add(timeFormatA.format(simStart));
+    Random rand = new Random();
     if (processing.size() > 0) {
-      moveEquip(processing.get(0));
+      if (rand.nextInt(10) <= 5) {
+        moveEquip(processing.get(rand.nextInt(processing.size())));
+      }
     }
     if (unassigned.size() > 0) {
-      assignReq(unassigned.get(0));
+      if (rand.nextInt(10) <= 5) {
+        assignReq(unassigned.get(rand.nextInt(unassigned.size())));
+      }
     }
-    Random rand = new Random();
-    Location randomloc =
-        facadeDAO.getAllLocations().get(rand.nextInt(facadeDAO.getAllLocations().size()));
-    MedicalEquipment equip = medEquip.get(rand.nextInt(medEquip.size()));
-    makeReq(equip.getEquipmentID(), randomloc);
+    if (rand.nextInt(10) <= 5) {
+      int index = (rand.nextInt(medEquip.size()));
+      Location loc;
+      MedicalEquipment.EquipmentStatus stat;
+      if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.INUSE)) {
+        loc = facadeDAO.getLocationByID("zDIRT00103");
+        medEquip.get(index).setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
+      } else if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) {
+        loc =
+            facadeDAO
+                .getALlLocationsByType("PATI")
+                .get(rand.nextInt(facadeDAO.getALlLocationsByType("PATI").size()));
+        medEquip.get(index).setStatus(MedicalEquipment.EquipmentStatus.INUSE);
+      } else if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) {
+        loc = facadeDAO.getLocationByID("zSTOR00304");
+        medEquip.get(index).setStatus(MedicalEquipment.EquipmentStatus.CLEANING);
+      } else {
+        if (medEquip.get(index).getType().equals("Bed")
+            || medEquip.get(index).getType().equals("Recliner")) {
+          loc = facadeDAO.getLocationByID("zSTOR00303");
+        } else if (medEquip.get(index).getType().equals("IPump")) {
+          loc = facadeDAO.getLocationByID("zSTOR00101");
+        } else {
+          loc = facadeDAO.getAllLocations().get(rand.nextInt(facadeDAO.getAllLocations().size()));
+        }
+        medEquip.get(index).setStatus(MedicalEquipment.EquipmentStatus.CLEAN);
+      }
+
+      makeReq(medEquip.get(index).getEquipmentID(), loc);
+    }
     infoTable.refresh();
     infoTable.setItems(updates);
   }
@@ -196,15 +226,38 @@ public class SimulatorController implements IMenuAccess, Initializable {
 
   public void endSim(ActionEvent actionEvent) {
     this.timeline.stop();
+    pauseSim.setText("Pause Simulation");
     pauseSim.setDisable(true);
     endSim.setDisable(true);
     startSim.setDisable(false);
+    updates.clear();
+    infoTable.setItems(updates);
     clock.setText("00:00 AM");
   }
 
   public void moveEquip(MedicalEquipmentDeliveryRequest req) {
     Location target = req.getTargetLocation();
-    MedicalEquipment equip = facadeDAO.getMedicalEquipmentByID(req.getEquipmentID());
+    MedicalEquipment equip = medEquip.get(0);
+    int i = 0;
+    int count = 0;
+    for (MedicalEquipment med : medEquip) {
+      if (req.getEquipmentID().equals(med.getEquipmentID())) {
+        equip = med;
+        i = count;
+      }
+      count++;
+    }
+
+    if (target.getNodeType().equals("PATI")) {
+      medEquip.get(i).setStatus(MedicalEquipment.EquipmentStatus.INUSE);
+      equip.setStatus(MedicalEquipment.EquipmentStatus.INUSE);
+    } else if (target.getNodeType().equals("DIRT")) {
+      medEquip.get(i).setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
+      equip.setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
+    } else if (target.getNodeType().equals("STOR")) {
+      medEquip.get(i).setStatus(MedicalEquipment.EquipmentStatus.CLEAN);
+      equip.setStatus(MedicalEquipment.EquipmentStatus.CLEAN);
+    }
     updates.add(
         "Request "
             + req.getRequestID()
@@ -212,11 +265,13 @@ public class SimulatorController implements IMenuAccess, Initializable {
             + req.getHandler().getDisplayName()
             + ", "
             + equip.getEquipmentID()
-            + " was moved to "
+            + " has status "
+            + equip.getStatus().toString()
+            + " and was moved to "
             + target);
-    for (int i = 0; i < medEquip.size(); i++) {
+    for (int j = 0; j < medEquip.size(); j++) {
       if (equip.equals(medEquip.get(i))) {
-        medEquip.get(i).setCurrentLocation(target);
+        medEquip.get(j).setCurrentLocation(target);
       }
     }
     processing.remove(req);
@@ -237,7 +292,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
   public void makeReq(String medEq, Location target) {
     Random rand = new Random();
     Employee randomEmp = employees.get(rand.nextInt(employees.size()));
-    String id = generateID();
+    String id = generateID("EQUIP");
     MedicalEquipmentDeliveryRequest medEquipReq =
         new MedicalEquipmentDeliveryRequest(
             id,
@@ -260,8 +315,8 @@ public class SimulatorController implements IMenuAccess, Initializable {
             + target);
   }
 
-  public String generateID() {
-    String id = "EQUIP";
+  public String generateID(String type) {
+    String id = type;
     Random rand = new Random();
     int int_random = rand.nextInt(9) + 1;
     id += int_random;
