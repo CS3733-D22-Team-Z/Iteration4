@@ -249,16 +249,6 @@ public class MapController implements Initializable {
     imageWidth.set(newImage.getWidth());
   }
 
-  /**
-   * Given a list of locations, adds labels to the map.
-   *
-   * @param visibleLocations the locations that will appear on the map
-   * @param allLocations the locations that should be present, but aren't displayed. Used for
-   *     Voronoi algorithm. Also must contain every visible location
-   * @param genVoronoi if voronoi regions be generated from allLocations. Automatically enables
-   *     snapping
-   * @param img the image that each location will have
-   */
   public void setAlerts(HospitalCode code) {
     System.out.println("adding label");
     iconContainer.getChildren().add(code.getLabel());
@@ -285,9 +275,7 @@ public class MapController implements Initializable {
               .build();
 
       // place label at correct coords
-      label.relocate(
-          label.getLocation().getXcoord(), // * (map.getFitWidth() / 1021),
-          label.getLocation().getYcoord()); // * (map.getFitHeight() / 850));
+      label.relocate((label.getLocation().getXcoord()), (label.getLocation().getYcoord()));
 
       if (genVoronoi) {
         generateVoronoi(allLocations);

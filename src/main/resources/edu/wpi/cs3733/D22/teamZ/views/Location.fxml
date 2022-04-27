@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
 <?import io.github.palexdev.materialfx.controls.MFXListView?>
 <?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
@@ -27,15 +28,6 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
@@ -48,7 +40,7 @@
             </AnchorPane>
             <AnchorPane fx:id="rightPane" minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="667.0" style="-fx-border-color: #D2D2D2; -fx-border-width: 0 0 0 1;" styleClass="root">
                <children>
-                  <VBox layoutX="16.0" layoutY="482.0" prefHeight="128.0" prefWidth="351.0" spacing="25.0">
+                  <VBox layoutX="16.0" layoutY="597.0" prefHeight="128.0" prefWidth="351.0" spacing="25.0">
                      <children>
                         <MFXRadioButton fx:id="locRadio" gap="20.0" radioGap="4.0" radius="10.0" selected="true" style="-fx-font-size: 22;" text="Locations">
                            <effect>
@@ -92,7 +84,7 @@
                      </font>
                   </Label>
                   <ChoiceBox fx:id="changeFloor" layoutX="18.0" layoutY="75.0" prefHeight="60.0" prefWidth="347.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 4;" styleClass="mfx-combo-box" />
-                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="366.0" onAction="#addLocationButtonClicked" prefHeight="63.0" prefWidth="352.0" rippleColor="#0c4ee7" style="-fx-font-size: 29; -fx-background-radius: 5;" text="Add Location">
+                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="421.0" onAction="#addLocationButtonClicked" prefHeight="63.0" prefWidth="352.0" rippleColor="#0c4ee7" style="-fx-font-size: 29; -fx-background-radius: 5;" text="Add Location">
                      <graphic>
                         <ImageView fitHeight="31.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
                            <image>
@@ -104,21 +96,33 @@
                         <Font size="11.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton layoutX="15.0" layoutY="193.0" onAction="#exportToCSV" prefHeight="63.0" prefWidth="352.0" style="-fx-background-radius: 4;" styleClass="button-inv" text="Export CSV">
+                  <MFXButton layoutX="15.0" layoutY="248.0" onAction="#exportToCSV" prefHeight="63.0" prefWidth="352.0" style="-fx-background-radius: 4;" styleClass="button-inv" text="Export CSV">
                      <font>
                         <Font size="11.0" />
                      </font></MFXButton>
-                  <MFXButton layoutX="13.0" layoutY="152.0" onAction="#importFromCSV" prefHeight="25.0" prefWidth="117.0" styleClass="button-inv" text="Import CSV" />
-                  <Line endX="117.66668701171875" endY="7.62939453125E-6" layoutX="14.0" layoutY="69.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" />
-                  <Line endX="117.66668701171875" endY="7.62939453125E-6" layoutX="15.0" layoutY="192.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" />
-                  <Line endX="117.66668701171875" endY="7.62939453125E-6" layoutX="14.0" layoutY="287.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" />
-                  <MFXCheckbox fx:id="fromLock" gap="2.0" layoutX="90.0" layoutY="299.0" onAction="#enableFromLock" text="From" />
-                  <MFXCheckbox fx:id="toLock" gap="2.0" layoutX="90.0" layoutY="322.0" onAction="#enableToLock" text="To" />
-                  <Label fx:id="fromLabel" layoutX="5.0" layoutY="300.0" prefHeight="18.0" prefWidth="86.0" text="Label" visible="false" />
-                  <Label fx:id="toLabel" layoutX="5.0" layoutY="324.0" prefHeight="18.0" prefWidth="86.0" text="Label" visible="false" />
-                  <MFXButton layoutX="13.0" layoutY="280.0" onAction="#importFromCSV" prefHeight="63.0" prefWidth="352.0" style="-fx-background-radius: 4;" styleClass="button-inv" text="Import CSV" />
+                  <MFXCheckbox fx:id="fromLock" gap="20.0" layoutX="20.0" layoutY="935.0" onAction="#enableFromLock" style="-fx-font-size: 22;" text="From" textFill="#727272" />
+                  <MFXCheckbox fx:id="toLock" gap="20.0" layoutX="20.0" layoutY="883.0" onAction="#enableToLock" style="-fx-font-size: 22;" text="To" textFill="#727272" />
+                  <Label fx:id="fromLabel" layoutX="124.0" layoutY="935.0" prefHeight="32.0" prefWidth="249.0" style="-fx-font-size: 22;" text="Label" textFill="#727272" visible="false" />
+                  <Label fx:id="toLabel" layoutX="93.0" layoutY="884.0" prefHeight="32.0" prefWidth="243.0" style="-fx-font-size: 22;" text="Label" textFill="#727272" visible="false" />
+                  <MFXButton layoutX="13.0" layoutY="335.0" onAction="#importFromCSV" prefHeight="63.0" prefWidth="352.0" style="-fx-background-radius: 4;" styleClass="button-inv" text="Import CSV" />
                   <Line endX="350.6666259765625" layoutX="15.0" layoutY="170.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" strokeWidth="3.0" />
-                  <Line endX="350.6666259765625" layoutX="14.0" layoutY="456.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" strokeWidth="3.0" />
+                  <Line endX="350.6666259765625" layoutX="14.0" layoutY="519.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" strokeWidth="3.0" />
+                  <Line endX="350.6666259765625" layoutX="18.0" layoutY="806.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" strokeWidth="3.0" />
+                  <Label layoutX="14.0" layoutY="538.0" styleClass="choice-header-floor" text="Filters" textFill="#7b7b7b">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="17.0" layoutY="826.0" styleClass="choice-header-floor" text="Pathfinding" textFill="#7b7b7b">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="186.0" styleClass="choice-header-floor" text="Map Functions" textFill="#7b7b7b">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Label>
                </children>
                <effect>
                   <DropShadow />
