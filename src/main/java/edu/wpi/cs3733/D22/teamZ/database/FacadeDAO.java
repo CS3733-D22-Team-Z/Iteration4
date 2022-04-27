@@ -454,8 +454,7 @@ public class FacadeDAO {
    * @return True if successful, false otherwise
    */
   public boolean addSecurityServiceRequest(SecurityServiceRequest request) {
-    return serviceRequestDAO.addServiceRequest(request)
-        && securityRequestDAO.addSecurityServiceRequest(request);
+    return serviceRequestDAO.addServiceRequest(request);
   }
   /**
    * ONLY USE THIS TO POPULATE DB: will add to MedEquipReq table
