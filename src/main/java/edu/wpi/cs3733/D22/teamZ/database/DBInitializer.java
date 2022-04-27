@@ -17,6 +17,7 @@ public class DBInitializer {
   private final CleaningReqControlCSV cleaningReqControlCSV;
   private final EquipmentPurchaseRequestControlCSV purchaseReqControlCSV;
   private final SecurityRequestControlCSV securityRequestControlCSV;
+  private final EdgesControlCSV edgesControlCSV;
   private final LaundryServiceRequestControlCSV laundryServiceRequestControlCSV;
   private final LanguageInterpreterRequestControlCSV languageInterpreterRequestControlCSV;
   private final ComputerRequestControlCSV computerRequestControlCSV;
@@ -76,6 +77,11 @@ public class DBInitializer {
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
                 + "SecurityReq.csv");
+    File edgeData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "PathEdges.csv");
     File laundryReqData =
         new File(
             System.getProperty("user.dir")
@@ -107,6 +113,7 @@ public class DBInitializer {
     cleaningReqControlCSV = new CleaningReqControlCSV(cleanReqData);
     purchaseReqControlCSV = new EquipmentPurchaseRequestControlCSV(purchaseReqData);
     securityRequestControlCSV = new SecurityRequestControlCSV(securityReqData);
+    edgesControlCSV = new EdgesControlCSV(edgeData);
     laundryServiceRequestControlCSV = new LaundryServiceRequestControlCSV(laundryReqData);
     languageInterpreterRequestControlCSV =
         new LanguageInterpreterRequestControlCSV(languageReqData);
@@ -430,6 +437,10 @@ public class DBInitializer {
         // insert it
         pstmt.executeUpdate();
         connection.commit();*/
+      }
+      List<PathEdge> edges = edgesControlCSV.readEdgeCSV();
+      for (PathEdge edge : edges) {
+        dao.getLocationByID(edge.getFrom().getNodeID()).addConnection(edge);
       }
     } catch (IOException e) {
       System.out.println("Failed to read CSV");
