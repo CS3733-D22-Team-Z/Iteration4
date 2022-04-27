@@ -335,41 +335,68 @@ public class MealServiceController extends ServiceRequestController {
     if (visible) {
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(roomNumberFormHeader, "Enter room number that\nmeal is delivered to");
+
       patientIDFormHeader.getStyleClass().clear();
       patientIDFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(patientIDFormHeader, "Enter ID of patient that\nmeal is requested for");
+
       patientNameFormHeader.getStyleClass().clear();
       patientNameFormHeader.getStyleClass().add("form-header-help");
-      roomNumberFormHeader.getStyleClass().clear();
-      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientNameFormHeader, "Enter name of patient that\nmeal is requested for");
+
       mealTimeFormHeader.getStyleClass().clear();
       mealTimeFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(mealTimeFormHeader, "Select meal time that\nmeal is delivered on");
+
       drinkChoiceFormHeader.getStyleClass().clear();
       drinkChoiceFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(drinkChoiceFormHeader, "Select drink for meal delivery");
+
       entreeChoiceFormHeader.getStyleClass().clear();
       entreeChoiceFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(entreeChoiceFormHeader, "Select entree for meal delivery");
+
       snackChoiceFormHeader.getStyleClass().clear();
       snackChoiceFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(snackChoiceFormHeader, "Select snack for meal delivery");
+
       allergiesFormHeader.getStyleClass().clear();
       allergiesFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(allergiesFormHeader, "Select all allergies\nthat patient has");
     } else {
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
+
       patientIDFormHeader.getStyleClass().clear();
       patientIDFormHeader.getStyleClass().add("form-header");
+      patientIDFormHeader.setTooltip(null);
+
       patientNameFormHeader.getStyleClass().clear();
       patientNameFormHeader.getStyleClass().add("form-header");
-      roomNumberFormHeader.getStyleClass().clear();
-      roomNumberFormHeader.getStyleClass().add("form-header");
+      patientNameFormHeader.setTooltip(null);
+
       mealTimeFormHeader.getStyleClass().clear();
       mealTimeFormHeader.getStyleClass().add("form-header");
+      mealTimeFormHeader.setTooltip(null);
+
       drinkChoiceFormHeader.getStyleClass().clear();
       drinkChoiceFormHeader.getStyleClass().add("form-header");
+      drinkChoiceFormHeader.setTooltip(null);
+
       entreeChoiceFormHeader.getStyleClass().clear();
       entreeChoiceFormHeader.getStyleClass().add("form-header");
+      entreeChoiceFormHeader.setTooltip(null);
+
       snackChoiceFormHeader.getStyleClass().clear();
       snackChoiceFormHeader.getStyleClass().add("form-header");
+      snackChoiceFormHeader.setTooltip(null);
+
       allergiesFormHeader.getStyleClass().clear();
       allergiesFormHeader.getStyleClass().add("form-header");
+      allergiesFormHeader.setTooltip(null);
     }
   }
 
