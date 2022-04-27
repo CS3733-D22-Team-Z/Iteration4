@@ -114,13 +114,19 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
     if (visible) {
       equipmentTypeLabel.getStyleClass().clear();
       equipmentTypeLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(equipmentTypeLabel, "Select equipment type\nto purchase");
+
       paymentMethodLabel.getStyleClass().clear();
       paymentMethodLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(paymentMethodLabel, "Select payment method\nfor use on purchase");
     } else {
       equipmentTypeLabel.getStyleClass().clear();
       equipmentTypeLabel.getStyleClass().add("form-header");
+      equipmentTypeLabel.setTooltip(null);
+
       paymentMethodLabel.getStyleClass().clear();
       paymentMethodLabel.getStyleClass().add("form-header");
+      paymentMethodLabel.setTooltip(null);
     }
   }
 
