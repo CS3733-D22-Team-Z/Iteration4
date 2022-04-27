@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.helpers.LabelMethod;
@@ -13,7 +14,6 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -22,19 +22,25 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
 /** Controller for FloorDetails.fxml, which displays information about each floor. */
 public class FloorDetailsController implements IMenuAccess, Initializable {
@@ -112,6 +118,7 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
       Map.of("DIRTY", "#FF4343", "INUSE", "#E1BD00", "CLEAN", "#00CF15", "CLEANING", "#0075FF");
 
   private String toDashboard = "edu/wpi/cs3733/D22/teamZ/views/DashboardFinal.fxml";
+  private String toServiceRequestProperties = "edu/wpi/cs3733/D22/teamZ/views/DashboardFinal.fxml";
 
   public FloorDetailsController() {
     dao = FacadeDAO.getInstance();
@@ -136,6 +143,26 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     mapController.setScale(0.8);
     map.setHvalue(0.4);
     map.setVvalue(0.2);
+    mapController.setDoubleClicked((mouse) -> {
+      Node result = mouse.getPickResult().getIntersectedNode();
+      if(result instanceof MapLabel) {
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(
+                getClass().getClassLoader().getResource(toServiceRequestProperties));
+        Parent root = null;
+        try {
+          root = loader.load();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+
+        Scene window = new Scene(root);
+        stage.setScene(window);
+        stage.show();
+      }
+    });
 
     prevButton = noneMapButton;
   }
@@ -318,9 +345,20 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     return table;
   }
 
+  public void sortRequests(List<ServiceRequest> requests) {
+    // Sort requests based on time
+    requests.sort(
+        (a, b) -> {
+          LocalDateTime truncA = a.getOpened().truncatedTo(ChronoUnit.HOURS);
+          LocalDateTime truncB = b.getOpened().truncatedTo(ChronoUnit.HOURS);
+          if (truncA.equals(truncB)) return a.getStatus().compareTo(b.getStatus());
+          else return truncA.compareTo(truncB);
+        });
+  }
+
   public void loadServiceRequests(List<ServiceRequest> requests) throws IOException {
     // Sort requests based on time
-    requests.sort(Comparator.comparing(ServiceRequest::getOpened));
+    sortRequests(requests);
 
     // Iterate through list and load in elements
     LocalDateTime base = requests.get(0).getOpened().truncatedTo(ChronoUnit.HOURS);
@@ -357,6 +395,25 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
         serviceLabel.setStyle(
             "-fx-background-radius: 50; -fx-background-color: " + statusColors.get("CLEAN"));
       }
+      ((MFXButton) serviceLabel.lookup("#detailsButton"))
+          .setOnAction(
+              (event) -> {
+                Stage stage = new Stage();
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(
+                    getClass().getClassLoader().getResource(toServiceRequestProperties));
+                Parent root = null;
+                try {
+                  root = loader.load();
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
+
+                Scene window = new Scene(root);
+                stage.setScene(window);
+                stage.show();
+              });
     }
   }
 
