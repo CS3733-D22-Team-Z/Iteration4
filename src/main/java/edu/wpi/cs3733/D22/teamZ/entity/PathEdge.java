@@ -106,9 +106,9 @@ public class PathEdge {
       // get by floor
       List<Location> byFloor = dao.getAllLocationsByFloor(from.getFloor());
       // get by elev
-      List<Location> byElev = dao.getALlLocationsByType("ELEV");
+      List<Location> byElev = dao.getAllLocationsByType("ELEV");
       // get by stai
-      List<Location> byStair = dao.getALlLocationsByType("STAI");
+      List<Location> byStair = dao.getAllLocationsByType("STAI");
 
       Set<Location> elev =
           byElev.stream().distinct().filter(byFloor::contains).collect(Collectors.toSet());
@@ -125,7 +125,7 @@ public class PathEdge {
       // get by floor
       List<Location> floor = dao.getAllLocationsByFloor(from.getFloor());
       // get by elev
-      List<Location> elev = dao.getALlLocationsByType("ELEV");
+      List<Location> elev = dao.getAllLocationsByType("ELEV");
       Set<Location> viable =
           floor.stream().distinct().filter(elev::contains).collect(Collectors.toSet());
 

@@ -1361,8 +1361,8 @@ public class FacadeDAO {
    * @param type type of location
    * @return list of locations of the given type
    */
-  public List<Location> getALlLocationsByType(String type) {
-    return locationDAO.getALlLocationsByType(type);
+  public List<Location> getAllLocationsByType(String type) {
+    return locationDAO.getAllLocationsByType(type);
   }
   /**
    * Get the nodeID of a dirty location on the given floor

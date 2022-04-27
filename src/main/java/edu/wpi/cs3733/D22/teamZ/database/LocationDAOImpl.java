@@ -212,7 +212,7 @@ class LocationDAOImpl implements ILocationDAO {
    * @return list of locations of given type
    */
   @Override
-  public List<Location> getALlLocationsByType(String type) {
+  public List<Location> getAllLocationsByType(String type) {
     updateConnection();
     List<Location> tempList = new ArrayList<>();
     try {
