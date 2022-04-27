@@ -54,5 +54,6 @@
             </padding>
         </MFXButton>
         <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="1364.0" layoutY="19.0" onAction="#toGame" prefHeight="81.0" prefWidth="184.0" styleClass="switch-button" text="Game" />
+      <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="1585.0" layoutY="127.0" onAction="#toSimulation" prefHeight="81.0" prefWidth="314.0" styleClass="switch-button" text="Simulator" />
     </children>
 </AnchorPane>
