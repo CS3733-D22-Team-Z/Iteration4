@@ -40,6 +40,34 @@
     -fx-text-fill: #9D9D9D;
 }
 
+.object-body2 {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 200;
+    -fx-font-size: 23pt;
+    -fx-text-fill: #000000;
+}
+
+.small-body {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 200;
+    -fx-font-size: 16pt;
+    -fx-text-fill: #000000;
+}
+
+.NFT-font {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 600;
+    -fx-font-size: 19pt;
+    -fx-text-fill: #000000;
+
+    -fx-border-width: 5px;
+
+    -fx-background-radius: 5px;
+    -fx-background-color: #FFFFFF;
+
+    -fx-effect: dropshadow(three-pass-box, #0000003F, 4, 0, 0, 4);
+}
+
 .form-header {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 500;

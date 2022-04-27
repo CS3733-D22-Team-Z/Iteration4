@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,45 +14,255 @@
 
 <AnchorPane prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.AboutPageController">
    <children>
+      <ImageView fitHeight="1030.0" fitWidth="960.0" layoutX="960.0" layoutY="-4.0" opacity="0.1" pickOnBounds="true">
+          <image>
+              <Image url="@../images/zebra2.png" />
+          </image>
+      </ImageView>
+      <ImageView fitHeight="1030.0" fitWidth="960.0" opacity="0.1" pickOnBounds="true">
+       <image>
+           <Image url="@../images/zebra.png" />
+       </image>
+      </ImageView>
       <MFXScrollPane hbarPolicy="NEVER" prefHeight="1030.0" prefWidth="1920.0">
          <content>
-            <GridPane prefHeight="2500.0" prefWidth="1920.0">
+            <GridPane prefHeight="5700.0" prefWidth="1920.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="261.0" styleClass="object-header" text="Team Zany Zombified Zebras" translateX="200.0" translateY="20.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="SOMETIMES" />
-                  <ImageView fitHeight="489.0" fitWidth="1028.0" pickOnBounds="true" preserveRatio="true" translateX="450.0" translateY="-15.0" GridPane.rowIndex="2">
+                  <Label minWidth="-Infinity" prefHeight="65.0" prefWidth="737.0" styleClass="object-header" text="Team Zany Zombified Zebras" translateX="-30.0" translateY="20.0" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.vgrow="SOMETIMES" />
+                  <ImageView fitHeight="514.0" fitWidth="1164.0" pickOnBounds="true" preserveRatio="true" translateX="70.0" translateY="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                       <image>
                           <Image url="@../images/groupPhoto.png" />
                       </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </ImageView>
-                  <Label minWidth="-Infinity" prefHeight="75.0" prefWidth="528.0" text="WPI Computer Science Department, CS3733-D22 Software Engingeering, Professor Wilson Wong, Team Coach Roman Wicky Van Doyer" textAlignment="CENTER" translateX="55.0" translateY="-30.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Label minWidth="-Infinity" prefHeight="75.0" prefWidth="528.0" text="WPI Computer Science Department, CS3733-D22 Software Engingeering, Professor Wilson Wong, Team Coach Roman Wicky Van Doyer" textAlignment="CENTER" translateX="55.0" translateY="80.0" wrapText="true" GridPane.columnIndex="2">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <Label styleClass="object-header" text="Meet our Team" translateX="245.0" translateY="55.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label minWidth="-Infinity" prefHeight="65.0" prefWidth="374.0" styleClass="object-header" text="Meet our Team" translateX="140.0" translateY="-120.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="95.0" GridPane.rowIndex="4">
+                      <image>
+                          <Image url="@../images/maya.png" />
+                      </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="95.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                      <image>
+                          <Image url="@../images/nelson.png" />
+                      </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="-225.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                      <image>
+                          <Image url="@../images/jake.png" />
+                      </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="434.0" styleClass="object-body2" text="Maya Angeles - Scrum Master" translateX="105.0" translateY="-20.0" GridPane.rowIndex="5" />
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="534.0" styleClass="object-body2" text="Nelson Diaz - Lead Software Engineer" translateX="60.0" translateY="-20.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="455.0" styleClass="object-body2" text="Jacob Leavitt - Project Manager" translateX="100.0" translateY="-20.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                  <MFXToggleButton fx:id="toggleMaya" onMouseClicked="#showMayaNFT" translateX="290.0" translateY="20.0" GridPane.rowIndex="3" />
+                  <MFXToggleButton fx:id="toggleNelson" onMouseClicked="#showNelsonNFT" translateX="290.0" translateY="20.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <MFXToggleButton fx:id="toggleJake" onMouseClicked="#showJakeNFT" translateX="290.0" translateY="20.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <ImageView fx:id="mayaNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="95.0" GridPane.rowIndex="4">
+                      <image>
+                          <Image url="@../images/mayaNFT.png" />
+                      </image>
+                  </ImageView>
+                  <ImageView fx:id="nelsonNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="95.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                      <image>
+                          <Image url="@../images/nelsonNFT.png" />
+                      </image>
+                  </ImageView>
+                  <ImageView fx:id="jakeNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="95.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                      <image>
+                          <Image url="@../images/jakeNFT.png" />
+                      </image>
+                  </ImageView>
+                  <Label fx:id="mayaLabel" prefHeight="42.0" prefWidth="183.0" styleClass="NFT-font" text=" AKA Lead Dev" translateX="235.0" translateY="185.0" GridPane.rowIndex="4" />
+                  <Label fx:id="nelsonLabel" minWidth="-Infinity" prefHeight="68.0" prefWidth="406.0" styleClass="NFT-font" text=" Beat Wong Mii in boxing 5+ times, &quot;Sleep depression&quot;" textAlignment="CENTER" translateX="120.0" translateY="185.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Label fx:id="jakeLabel" minWidth="-Infinity" prefHeight="84.0" prefWidth="426.0" styleClass="NFT-font" text="Can drink A LOT of Monsters at once, &quot;Don't quote me I'm not funny&quot;" textAlignment="CENTER" translateX="104.0" translateY="170.0" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Label minWidth="-Infinity" prefHeight="233.0" prefWidth="572.0" styleClass="small-body" text="Maya is a junior Robotics major. As Scrum Master, Maya activity lead our daily scrum meetings and our sprint review sessions, as well as managing user stories and tasks on Trello. She has also had an active role in the Dashboard on our application, as well as the Homepage and External Patient Transportation service request. She worked heavily on getting our medicine dispenser robot up and running. " textAlignment="CENTER" translateX="35.0" translateY="105.0" wrapText="true" GridPane.rowIndex="5" />
+                  <Label minWidth="-Infinity" styleClass="small-body" text="Toggle the buttons above each person to see their zombie zebra alias and a fun quote or memory!" translateX="175.0" translateY="-50.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label minWidth="-Infinity" prefHeight="233.0" prefWidth="572.0" styleClass="small-body" text="Nelson is a sophomore Computer Science major. As the Lead Developer, he stayed on top of code review and merge requests on GitHub as well as working diligently on our API. If you were ever having a coding problem, Nelson would be there to help figure out what to do and debug any errors. He has also done a great deal of refactoring of the application, including implementing a DAO and a super class for service requests. " textAlignment="CENTER" translateX="35.0" translateY="115.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Label minWidth="-Infinity" prefHeight="227.0" prefWidth="596.0" styleClass="small-body" text="Jake is a junior Computer Science major. As Project Manager, Jake familiarized himself with Agile methodologies and worked to standardize scrum meetings, sprint planning, and reviews. He actively kept our meetings on track and made sure everything that needed to be done was completed in a timely manner. He also worked on implementing the Laundry Service request, as well as helping out with the API, Dashboard, and Medical Equipment service request. " textAlignment="CENTER" translateX="20.0" translateY="115.0" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="95.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <image>
+                        <Image url="@../images/neha.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="95.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                     <image>
+                        <Image url="@../images/andrew.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fx:id="nehaNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="95.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <image>
+                        <Image url="@../images/nehaNFT.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="andrewNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="95.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                     <image>
+                        <Image url="@../images/andrewNFT.png" />
+                     </image>
+                  </ImageView>
+                  <MFXToggleButton fx:id="toggleNeha" onMouseClicked="#showNehaNFT" translateX="290.0" translateY="20.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <MFXToggleButton fx:id="toggleAndrew" onMouseClicked="#showAndrewNFT" translateX="290.0" translateY="20.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="632.0" styleClass="object-body2" text="Neha Kuchipudi - Assistant Lead (Front-End)" translateX="20.0" translateY="-10.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="652.0" styleClass="object-body2" text="Andrew Hariyanto - Assistant Lead (Back-End)" translateX="20.0" translateY="-10.0" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                  <Label fx:id="andrewLabel" minWidth="-Infinity" prefHeight="74.0" prefWidth="328.0" styleClass="NFT-font" text=" &quot;Two Wongs make a right&quot;, banana milk" textAlignment="CENTER" translateX="160.0" translateY="170.0" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                  <Label fx:id="nehaLabel" minWidth="-Infinity" prefHeight="46.0" prefWidth="422.0" styleClass="NFT-font" text=" Convinced everyone to dance Tetris" textAlignment="CENTER" translateX="110.0" translateY="185.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Label minWidth="-Infinity" prefHeight="233.0" prefWidth="572.0" styleClass="small-body" text="Neha is a sophomore Computer Science major. As Assistant Lead for the Front-End, Neha worked tirelessly on the application’s user interface, creating many UI mockups on Figma and refactoring service request pages, the login page, and the menu. She worked on the map editor, implementing zooming and panning, and showing medical equipment and hospital code alerts on the map. She also implemented the Language Interpreter service request. " textAlignment="CENTER" translateX="35.0" translateY="125.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <Label minWidth="-Infinity" prefHeight="253.0" prefWidth="622.0" styleClass="small-body" text="Andrew is a sophomore double majoring in Interactive Media and Game Development and Computer Science. As Assistant Lead for the Back-End, he implemented a plethora of databases for our application, as well as many Data Access Object classes (DAOs) for service requests and a Façade DAO. He also implemented client and embedded servers and switching between them, and he created a 3D model of the hospital. Andrew was also someone who would always help with any coding questions, and did a lot of pair programming with our junior developers. " textAlignment="CENTER" translateX="10.0" translateY="140.0" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="80.0" translateY="10.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                     <image>
+                        <Image url="@../images/patrick.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="110.0" translateY="10.0" GridPane.columnIndex="3" GridPane.rowIndex="10">
+                     <image>
+                        <Image url="@../images/alex.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fx:id="patrickNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="80.0" translateY="10.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                     <image>
+                        <Image url="@../images/patrickNFT.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="alexNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="110.0" translateY="10.0" GridPane.columnIndex="3" GridPane.rowIndex="10">
+                     <image>
+                        <Image url="@../images/alexNFT.png" />
+                     </image>
+                  </ImageView>
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="654.0" styleClass="object-body2" text="Patrick Hunter - Full Time Front-End Developer" translateX="-20.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="672.0" styleClass="object-body2" text="Alex Brattstrom - Full Time Front-End Developer" translateX="20.0" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+                  <MFXToggleButton fx:id="togglePatrick" onMouseClicked="#showPatrickNFT" translateX="290.0" translateY="30.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <MFXToggleButton fx:id="toggleAlex" onMouseClicked="#showAlexNFT" translateX="290.0" translateY="30.0" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+                  <Label fx:id="patrickLabel" minWidth="-Infinity" prefHeight="76.0" prefWidth="398.0" styleClass="NFT-font" text=" &quot;The program was gaslighting us&quot;, &quot;Intersectionality&quot;" textAlignment="CENTER" translateX="105.0" translateY="180.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                  <Label fx:id="alexLabel" minWidth="-Infinity" prefHeight="46.0" prefWidth="420.0" styleClass="NFT-font" text=" Got him to dance to &quot;Hips Don't Lie&quot;" textAlignment="CENTER" translateX="125.0" translateY="195.0" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+                  <Label minWidth="-Infinity" prefHeight="259.0" prefWidth="572.0" styleClass="small-body" text="Patrick is a junior Electrical Computer Engineer and Computer Science double major. As a Full Time Developer, Patrick has worked extensively with Scenebuilder and JavaFX. He integrated new features into the Dashboard, as well as creating CSS files to standardize styles across the application. He made different pop-up windows throughout the application, and created a static menu. Patrick was a big help in debugging and pair programming, and worked on many refactoring tasks as well. " textAlignment="CENTER" translateX="25.0" translateY="150.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                  <Label minWidth="-Infinity" prefHeight="255.0" prefWidth="572.0" styleClass="small-body" text="Alex is a junior Robotics major. As a Full Time Developer, he worked a lot on service requests in the application. Alex set the standard for implementing service requests with his Meal Service request, creating new options and therefore increasing the adaptability of it. He also has worked on implementing a video camera for a Closed-Circuit Television (CCTV) feature which also displays camera icons on the map for an admin to access the camera in specific locations.  " textAlignment="CENTER" translateX="45.0" translateY="150.0" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="80.0" translateY="50.0" GridPane.columnIndex="1" GridPane.rowIndex="13">
+                     <image>
+                        <Image url="@../images/casey.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="110.0" translateY="50.0" GridPane.columnIndex="3" GridPane.rowIndex="13">
+                     <image>
+                        <Image url="@../images/olivia.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fx:id="caseyNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="80.0" translateY="50.0" GridPane.columnIndex="1" GridPane.rowIndex="13">
+                     <image>
+                        <Image url="@../images/caseyNFT.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="oliviaNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="110.0" translateY="50.0" GridPane.columnIndex="3" GridPane.rowIndex="13">
+                     <image>
+                        <Image url="@../images/oliviaNFT.png" />
+                     </image>
+                  </ImageView>
+                  <MFXToggleButton fx:id="toggleCasey" onMouseClicked="#showCaseyNFT" translateX="290.0" translateY="80.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                  <MFXToggleButton fx:id="toggleOlivia" onMouseClicked="#showOliviaNFT" translateX="290.0" translateY="80.0" GridPane.columnIndex="3" GridPane.rowIndex="12" />
+                  <Label fx:id="caseyLabel" minWidth="-Infinity" prefHeight="46.0" prefWidth="312.0" styleClass="NFT-font" text=" Got him to play Wii boxing" textAlignment="CENTER" translateX="140.0" translateY="220.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                  <Label fx:id="oliviaLabel" minWidth="-Infinity" prefHeight="46.0" prefWidth="344.0" styleClass="NFT-font" text=" Beat everyone at Wii bowling" textAlignment="CENTER" translateX="160.0" translateY="220.0" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="680.0" styleClass="object-body2" text="Casey Wholers - Full Time Back-End Developer" translateX="-40.0" translateY="25.0" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="704.0" styleClass="object-body2" text="Olivia Raisbeck - Full Time Back-End Developer" translateX="10.0" translateY="25.0" GridPane.columnIndex="3" GridPane.rowIndex="14" />
+                  <Label minWidth="-Infinity" prefHeight="239.0" prefWidth="622.0" styleClass="small-body" text="Casey is a sophomore Computer Science major. As a Full Time Developer, Casey has worked a lot on the map editor, including adding a search bar as well as implementing snapping and dragging locations. He does plenty of bug fixes and refactoring tasks. Casey also implemented the Security Service request, helped with the NFC card reader and User Manual. He is another team member who has helped out with coding or debugging whenever needed.  " textAlignment="CENTER" translateX="-15.0" translateY="-115.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                  <Label minWidth="-Infinity" prefHeight="253.0" prefWidth="622.0" styleClass="small-body" text="Olivia is a sophomore Computer Science and Data Science double major. As a Full Time Developer, Olivia has done multiple DAO and database implementations. She has worked on many diagrams, service request pages, list controllers, and CSV files. Olivia has included a fun game to play in our application, as well as a profile page, and the Cleaning Service Request. She has also had a big hand in refactoring tasks during each iteration and bug fixes. " textAlignment="CENTER" translateX="15.0" translateY="-115.0" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="80.0" translateY="50.0" GridPane.columnIndex="1" GridPane.rowIndex="16">
+                     <image>
+                        <Image url="@../images/daniel.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="450.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" translateX="110.0" translateY="50.0" GridPane.columnIndex="3" GridPane.rowIndex="16">
+                     <image>
+                        <Image url="@../images/claire.png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ImageView>
+                  <ImageView fx:id="danielNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="80.0" translateY="50.0" GridPane.columnIndex="1" GridPane.rowIndex="16">
+                     <image>
+                        <Image url="@../images/danielNFT.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="claireNFTImage" fitHeight="450.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" translateX="110.0" translateY="50.0" GridPane.columnIndex="3" GridPane.rowIndex="16">
+                     <image>
+                        <Image url="@../images/claireNFT.png" />
+                     </image>
+                  </ImageView>
+                  <MFXToggleButton fx:id="toggleDaniel" onMouseClicked="#showDanielNFT" translateX="290.0" translateY="70.0" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                  <MFXToggleButton fx:id="toggleClaire" onMouseClicked="#showClaireNFT" translateX="290.0" translateY="70.0" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="440.0" styleClass="object-body2" text="Daniel Correa - Product Owner" translateX="90.0" translateY="20.0" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+                  <Label minWidth="-Infinity" prefHeight="36.0" prefWidth="526.0" styleClass="object-body2" text="Claire Higginson - Document Analyst" translateX="85.0" translateY="20.0" GridPane.columnIndex="3" GridPane.rowIndex="17" />
+                  <Label fx:id="danielLabel" minWidth="-Infinity" prefHeight="82.0" prefWidth="400.0" styleClass="NFT-font" text=" Slayed in &quot;Rich Girl&quot; chair version, Has bird that helps him code" textAlignment="CENTER" translateX="105.0" translateY="215.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+                  <Label fx:id="claireLabel" minWidth="-Infinity" prefHeight="66.0" prefWidth="440.0" styleClass="NFT-font" text=" My cat is the Trello board background, &quot;I MADE A FUNCTION!!!&quot;" textAlignment="CENTER" translateX="115.0" translateY="225.0" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="16" />
+                  <Label minWidth="-Infinity" prefHeight="239.0" prefWidth="622.0" styleClass="small-body" text="Daniel is a junior double majoring in Robotics and Computer Science. As the Product Owner, he has kept track of our sprint and product backlog. Daniel worked tirelessly to implement the NFC card reader feature so that it is possible to login to the application by swiping a card. He also worked on the Medical Equipment request page, added changes to the login page, and worked on scaling of the application. He also created a credits page and help buttons throughout the program. " textAlignment="CENTER" translateX="-10.0" translateY="-125.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+                  <Label minWidth="-Infinity" prefHeight="305.0" prefWidth="622.0" styleClass="small-body" text="Claire is a junior Robotics and Psychology double major. As the Document Analyst, Claire dedicated much of her time to completing the Tracking Documents for each iteration, as well as outlining other needed documents, organizing documents and code, and formatting pages. She helped in displaying medical equipment on the map, created and implemented the Gift Service request, and worked on many charts and diagrams, including the burndown charts and the class diagram. Claire also worked to keep team members on track with user stories, story points and sizing. She is also the creator of this About Page. " textAlignment="CENTER" translateX="40.0" translateY="-100.0" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="18" />
+                  <Label minWidth="-Infinity" prefHeight="138.0" prefWidth="1281.0" styleClass="object-body2" text="Our team would like to thank Brigham &amp; Women’s Hospital and their representative, Andrew Shinn, for their time and input. We have put a lot of time and effort into this application and are proud of the results, so enjoy!" textAlignment="CENTER" translateY="-100.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="19" />
+                  <Label minWidth="-Infinity" text="The Brigham &amp; Women’s Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes. " translateX="-75.0" translateY="10.0" GridPane.columnIndex="2" GridPane.rowIndex="19" />
                </children>
             </GridPane>
          </content>
