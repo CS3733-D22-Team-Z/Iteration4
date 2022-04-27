@@ -27,6 +27,15 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LocationListController">
    <children>
@@ -98,8 +107,15 @@
                   <MFXButton layoutX="15.0" layoutY="193.0" onAction="#exportToCSV" prefHeight="63.0" prefWidth="352.0" style="-fx-background-radius: 4;" styleClass="button-inv" text="Export CSV">
                      <font>
                         <Font size="11.0" />
-                     </font>
-                  </MFXButton>
+                     </font></MFXButton>
+                  <MFXButton layoutX="13.0" layoutY="152.0" onAction="#importFromCSV" prefHeight="25.0" prefWidth="117.0" styleClass="button-inv" text="Import CSV" />
+                  <Line endX="117.66668701171875" endY="7.62939453125E-6" layoutX="14.0" layoutY="69.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" />
+                  <Line endX="117.66668701171875" endY="7.62939453125E-6" layoutX="15.0" layoutY="192.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" />
+                  <Line endX="117.66668701171875" endY="7.62939453125E-6" layoutX="14.0" layoutY="287.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" />
+                  <MFXCheckbox fx:id="fromLock" gap="2.0" layoutX="90.0" layoutY="299.0" onAction="#enableFromLock" text="From" />
+                  <MFXCheckbox fx:id="toLock" gap="2.0" layoutX="90.0" layoutY="322.0" onAction="#enableToLock" text="To" />
+                  <Label fx:id="fromLabel" layoutX="5.0" layoutY="300.0" prefHeight="18.0" prefWidth="86.0" text="Label" visible="false" />
+                  <Label fx:id="toLabel" layoutX="5.0" layoutY="324.0" prefHeight="18.0" prefWidth="86.0" text="Label" visible="false" />
                   <MFXButton layoutX="13.0" layoutY="280.0" onAction="#importFromCSV" prefHeight="63.0" prefWidth="352.0" style="-fx-background-radius: 4;" styleClass="button-inv" text="Import CSV" />
                   <Line endX="350.6666259765625" layoutX="15.0" layoutY="170.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" strokeWidth="3.0" />
                   <Line endX="350.6666259765625" layoutX="14.0" layoutY="456.0" startX="-0.33331298828125" startY="7.62939453125E-6" stroke="#c6c6c6" strokeWidth="3.0" />
