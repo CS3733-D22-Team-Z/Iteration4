@@ -2,22 +2,25 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -32,6 +35,8 @@ public class SimulatorController implements IMenuAccess, Initializable {
   @FXML private MFXButton pauseSim;
   @FXML private MFXButton endSim;
   @FXML private Label clock;
+  @FXML private TableView<String> infoTable;
+  @FXML private TableColumn<String, String> info;
   private MapController mapController;
   private Timeline timeline;
 
@@ -42,6 +47,11 @@ public class SimulatorController implements IMenuAccess, Initializable {
   int timesLoop;
   LocalDateTime simStart;
   LocalDateTime simEnd;
+  List<MedicalEquipment> medEquip;
+  List<MedicalEquipmentDeliveryRequest> processing;
+  List<MedicalEquipmentDeliveryRequest> unassigned;
+  List<Employee> employees;
+  ObservableList<String> updates;
 
   @Override
   public void setMenuController(MenuController menu) {
@@ -61,6 +71,27 @@ public class SimulatorController implements IMenuAccess, Initializable {
     speedBox.getItems().setAll("Real time", "5 min/sec", "10 min/sec", "30 min/sec", "1 hour/sec");
     pauseSim.setDisable(true);
     endSim.setDisable(true);
+
+    medEquip = FacadeDAO.getInstance().getAllMedicalEquipment();
+    employees = FacadeDAO.getInstance().getAllEmployees();
+    List<MedicalEquipmentDeliveryRequest> medEquipReq =
+        FacadeDAO.getInstance().getAllMedicalEquipmentRequest();
+    List<MedicalEquipmentDeliveryRequest> tempProc =
+        new ArrayList<MedicalEquipmentDeliveryRequest>();
+    List<MedicalEquipmentDeliveryRequest> tempUn = new ArrayList<MedicalEquipmentDeliveryRequest>();
+    for (MedicalEquipmentDeliveryRequest req : medEquipReq) {
+      if (req.getStatus().equals(ServiceRequest.RequestStatus.PROCESSING)) {
+        tempProc.add(req);
+      } else if (req.getStatus().equals(ServiceRequest.RequestStatus.UNASSIGNED)) {
+        tempUn.add(req);
+      }
+    }
+    processing = tempProc;
+    unassigned = tempUn;
+    List<String> begin = new ArrayList<String>();
+    begin.add("Begin Simulation");
+    info.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+    updates = FXCollections.observableList(begin);
   }
 
   public void displayMedicalEquipmentIcons(String floor) {
@@ -137,6 +168,20 @@ public class SimulatorController implements IMenuAccess, Initializable {
   private void Simulate(ActionEvent actionevent) {
     simStart = simStart.plusSeconds(speed);
     clock.setText(timeFormatA.format(simStart));
+    updates.add(timeFormatA.format(simStart));
+    if (processing.size() > 0) {
+      moveEquip(processing.get(0));
+    }
+    if (unassigned.size() > 0) {
+      assignReq(unassigned.get(0));
+    }
+    Random rand = new Random();
+    Location randomloc =
+        facadeDAO.getAllLocations().get(rand.nextInt(facadeDAO.getAllLocations().size()));
+    MedicalEquipment equip = medEquip.get(rand.nextInt(medEquip.size()));
+    makeReq(equip.getEquipmentID(), randomloc);
+    infoTable.refresh();
+    infoTable.setItems(updates);
   }
 
   public void pauseSim(ActionEvent actionEvent) {
@@ -155,5 +200,88 @@ public class SimulatorController implements IMenuAccess, Initializable {
     endSim.setDisable(true);
     startSim.setDisable(false);
     clock.setText("00:00 AM");
+  }
+
+  public void moveEquip(MedicalEquipmentDeliveryRequest req) {
+    Location target = req.getTargetLocation();
+    MedicalEquipment equip = facadeDAO.getMedicalEquipmentByID(req.getEquipmentID());
+    updates.add(
+        "Request "
+            + req.getRequestID()
+            + " is completed by "
+            + req.getHandler().getDisplayName()
+            + ", "
+            + equip.getEquipmentID()
+            + " was moved to "
+            + target);
+    for (int i = 0; i < medEquip.size(); i++) {
+      if (equip.equals(medEquip.get(i))) {
+        medEquip.get(i).setCurrentLocation(target);
+      }
+    }
+    processing.remove(req);
+  }
+
+  public void assignReq(MedicalEquipmentDeliveryRequest req) {
+    Random rand = new Random();
+    Employee randomEmp = employees.get(rand.nextInt(employees.size()));
+    // MedicalEquipment equip = facadeDAO.getMedicalEquipmentByID(req.getEquipmentID());
+    unassigned.remove(req);
+    req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+    req.setHandler(randomEmp);
+    processing.add(req);
+    updates.add(
+        "Request " + req.getRequestID() + " is assigned to " + req.getHandler().getDisplayName());
+  }
+
+  public void makeReq(String medEq, Location target) {
+    Random rand = new Random();
+    Employee randomEmp = employees.get(rand.nextInt(employees.size()));
+    String id = generateID();
+    MedicalEquipmentDeliveryRequest medEquipReq =
+        new MedicalEquipmentDeliveryRequest(
+            id,
+            ServiceRequest.RequestStatus.UNASSIGNED,
+            randomEmp,
+            null,
+            medEq,
+            target,
+            simStart,
+            null);
+    unassigned.add(medEquipReq);
+    updates.add(
+        "New request "
+            + medEquipReq.getRequestID()
+            + " was made by "
+            + medEquipReq.getIssuer().getDisplayName()
+            + " for "
+            + medEq
+            + " to move to "
+            + target);
+  }
+
+  public String generateID() {
+    String id = "EQUIP";
+    Random rand = new Random();
+    int int_random = rand.nextInt(9) + 1;
+    id += int_random;
+    boolean notUnique = true;
+    List<MedicalEquipmentDeliveryRequest> all = new ArrayList<MedicalEquipmentDeliveryRequest>();
+    all.addAll(unassigned);
+    all.addAll(processing);
+    while (notUnique) {
+      boolean notfound = true;
+      for (MedicalEquipmentDeliveryRequest unReq : all) {
+        if (unReq.getRequestID().equals(id)) {
+          int_random = rand.nextInt(10);
+          id += int_random;
+          notfound = false;
+        }
+      }
+      if (notfound) {
+        notUnique = false;
+      }
+    }
+    return id;
   }
 }

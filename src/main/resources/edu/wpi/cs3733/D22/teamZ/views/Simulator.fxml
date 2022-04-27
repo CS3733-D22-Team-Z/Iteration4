@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -36,11 +37,6 @@
                         <Font size="36.0" />
                      </font>
                   </MFXButton>
-                  <MFXScrollPane layoutX="18.0" layoutY="330.0" prefHeight="453.0" prefWidth="547.0">
-                     <content>
-                        <Label />
-                     </content>
-                  </MFXScrollPane>
                   <MFXButton fx:id="pauseSim" layoutX="69.0" layoutY="804.0" onAction="#pauseSim" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Pause Simulation" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
@@ -52,6 +48,11 @@
                      </font>
                   </MFXButton>
                   <Label fx:id="clock" layoutX="188.0" layoutY="180.0" styleClass="header" text="00:00 AM" />
+                  <TableView fx:id="infoTable" layoutX="71.0" layoutY="321.0" prefHeight="457.0" prefWidth="446.0">
+                    <columns>
+                      <TableColumn fx:id="info" prefWidth="446.0" text="Updates" />
+                    </columns>
+                  </TableView>
                </children>
             </AnchorPane>
         </items>
