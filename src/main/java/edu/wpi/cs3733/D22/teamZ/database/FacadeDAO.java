@@ -1625,6 +1625,10 @@ public class FacadeDAO {
     laundryServiceRequestDAO.addLaundryServiceRequest(info);
   }
 
+  public void addComputerServiceRequestToDatabase(ComputerServiceRequest info) {
+    computerRequestDAO.addComputerServiceRequest(info);
+  }
+
   // Special methods for medical equipment requests
 
   // Special methods for lab requests

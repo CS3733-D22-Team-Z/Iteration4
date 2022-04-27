@@ -33,7 +33,6 @@ public class ComputerServiceRequestController extends ServiceRequestController
   @FXML private Label successfulSubmitLabel;
   @FXML private MFXButton submitButton;
 
-  protected MenuController menu;
   private String toComputerServiceListURL =
       "edu/wpi/cs3733/D22/teamZ/views/ComputerServiceRequestList.fxml";
 
@@ -86,12 +85,15 @@ public class ComputerServiceRequestController extends ServiceRequestController
     if (FacadeDAO.getInstance().addComputerServiceRequest(temp)) {
       this.clearFields();
       successfulSubmitLabel.setVisible(true);
+      submitButton.setDisable(true);
+    } else {
+      errorSavingLabel.setVisible(true);
     }
   }
 
   @FXML
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
-    osField.setValue(null);
+    osField.getSelectionModel().clearSelection();
     descField.setText("");
     successfulSubmitLabel.setVisible(false);
   }

@@ -222,6 +222,11 @@ public class LandingPageController implements IMenuAccess {
     menu.load(toEquipmentPurchaseServiceURL);
   }
 
+  @FXML
+  private void navSecurity() throws IOException {
+    menu.load(toSecurityServiceURL);
+  }
+
   public void showNameLabels() {
     boolean set = toggleNames.isSelected();
     danLabel.setVisible(set);
