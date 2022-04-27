@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="540.0" prefWidth="960.0" stylesheets="@../../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.subControllers.SingleServiceRequestController">
+   <children>
+      <VBox fx:id="idBox" alignment="CENTER" layoutX="163.0" layoutY="60.0">
+         <children>
+            <Label alignment="CENTER" prefWidth="200.0" style="-fx-text-fill: #000000; -fx-border-width: 1;" styleClass="object-body" text="ID">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="CENTER" prefWidth="200.0" style="-fx-text-fill: #000000; -fx-border-width: 1;" styleClass="object-body" text="Type">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="CENTER" prefWidth="200.0" style="-fx-text-fill: #000000; -fx-border-width: 1;" styleClass="object-body" text="Status">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="CENTER" prefWidth="200.0" style="-fx-text-fill: #000000; -fx-border-width: 1;" styleClass="object-body" text="Issuer">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="CENTER" prefWidth="200.0" style="-fx-text-fill: #000000; -fx-border-width: 1;" styleClass="object-body" text="Handler">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="CENTER" prefWidth="200.0" style="-fx-text-fill: #000000; -fx-border-width: 1;" styleClass="object-body" text="Location">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="CENTER" prefWidth="200.0" style="-fx-text-fill: #000000; -fx-border-width: 1;" styleClass="object-body" text="Time Opened">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="CENTER" prefWidth="200.0" style="-fx-text-fill: #000000; -fx-border-width: 1;" styleClass="object-body" text="Time Closed">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+      <VBox fx:id="valueBox" alignment="CENTER_LEFT" layoutX="363.0" layoutY="60.0" prefHeight="408.0" prefWidth="450.0">
+         <children>
+            <Label alignment="TOP_LEFT" style="-fx-border-width: 1;" styleClass="object-body">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="TOP_LEFT" style="-fx-border-width: 1;" styleClass="object-body">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="TOP_LEFT" style="-fx-border-width: 1;" styleClass="object-body">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="TOP_LEFT" style="-fx-border-width: 1;" styleClass="object-body">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="TOP_LEFT" style="-fx-border-width: 1;" styleClass="object-body">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="TOP_LEFT" style="-fx-border-width: 1;" styleClass="object-body">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="TOP_LEFT" style="-fx-border-width: 1;" styleClass="object-body">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="TOP_LEFT" style="-fx-border-width: 1;" styleClass="object-body">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

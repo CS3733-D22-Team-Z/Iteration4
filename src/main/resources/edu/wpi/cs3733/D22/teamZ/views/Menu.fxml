@@ -55,7 +55,7 @@
       </BorderPane>
       <StackPane alignment="TOP_LEFT" prefHeight="1020.0" prefWidth="1920.0">
          <children>
-            <AnchorPane fx:id="contentPane" prefHeight="1020.0" prefWidth="1920.0" />
+            <AnchorPane fx:id="contentPane" prefHeight="1020.0" prefWidth="1920.0" styleClass="root" />
             <Pane fx:id="menuPane" maxWidth="200.0" styleClass="menu-container">
                <children>
                   <VBox fx:id="iconContainer" alignment="TOP_CENTER" layoutX="24.0" layoutY="54.0" maxHeight="-Infinity" prefHeight="206.0" prefWidth="18.0" spacing="12.0">
