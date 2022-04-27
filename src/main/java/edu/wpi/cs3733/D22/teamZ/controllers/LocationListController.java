@@ -1110,14 +1110,108 @@ public class LocationListController implements IMenuAccess {
     label.setGraphic(icon);
     label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
     label.setContextMenu(contextMenu);
-    contextMenu.getItems().add(menuItem1);
-    menuItem1.setOnAction(
+    String typeString = "Code " + type + " Alert";
+    label.setOnMouseClicked(
         (e) -> {
-          // remove from map
+          showAlertWarning(type, location);
         });
 
     alertLabels.add(new HospitalCode(location, type, label));
     showLocations(location.getFloor());
+  }
+
+  public void showAlertWarning(String code, Location location) {
+    Alert newAlert = new Alert(Alert.AlertType.WARNING);
+    switch (code) {
+      case "Code Red":
+        ImageView redAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/RedAlert.png"));
+        newAlert.setTitle("Code Red Alert");
+        newAlert.setHeaderText("Code Red");
+        newAlert.setGraphic(redAlertIcon);
+        if (location.getFloor().equals("1")) {
+          newAlert.setContentText(
+              "Fire at "
+                  + location.getLongName()
+                  + " on Floor "
+                  + location.getFloor()
+                  + ". The closest exit is "
+                  + findClosestExit(location).getLongName());
+        } else {
+          newAlert.setContentText(
+              "Fire at " + location.getLongName() + " on Floor " + location.getFloor());
+        }
+        findClosestExit(location);
+        break;
+      case "Code Grey":
+        ImageView greyAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreyAlert.png"));
+        newAlert.setTitle("Code Grey Alert");
+        newAlert.setHeaderText("Code Grey");
+        newAlert.setContentText(
+            "Security Personnel Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greyAlertIcon);
+        break;
+      case "Code Green":
+        System.out.println("green label");
+        ImageView greenAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreenAlert.png"));
+        newAlert.setTitle("Code Green Alert");
+        newAlert.setHeaderText("Code Green");
+        newAlert.setContentText(
+            "M.D. or Specialty Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greenAlertIcon);
+        break;
+      case "Code White":
+        ImageView whiteAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/WhiteAlert.png"));
+        newAlert.setTitle("Code White Alert");
+        newAlert.setHeaderText("Code White");
+        newAlert.setContentText(
+            "Bomb Threat at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(whiteAlertIcon);
+        break;
+      case "Code Pink":
+        ImageView pinkAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/PinkAlert.png"));
+        newAlert.setTitle("Code Pink Alert");
+        newAlert.setHeaderText("Code Pink");
+        newAlert.setContentText(
+            "Infant Abduction at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(pinkAlertIcon);
+        break;
+      case "Code Amber":
+        ImageView amberAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/AmberAlert.png"));
+        newAlert.setTitle("Code Amber Alert");
+        newAlert.setHeaderText("Code Amber");
+        newAlert.setContentText("Disaster Plan in Effect");
+        newAlert.setGraphic(amberAlertIcon);
+        break;
+      case "Code Blue":
+        ImageView blueAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/BlueAlert.png"));
+        newAlert.setTitle("Code Blue Alert");
+        newAlert.setHeaderText("Code Blue");
+        newAlert.setContentText(
+            "Immediate Medical Assistance Needed at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(blueAlertIcon);
+        break;
+      default:
+        break;
+    }
+
+    newAlert.show();
+    newAlert.setOnCloseRequest((e) -> {});
   }
 
   public Location findClosestExit(Location location) {
