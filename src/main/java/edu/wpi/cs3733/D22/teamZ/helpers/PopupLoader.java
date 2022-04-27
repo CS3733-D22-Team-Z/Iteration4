@@ -32,8 +32,9 @@ public class PopupLoader {
     parent.getChildren().add(popupWindow);
     /*popupWindow.setLayoutX(x - popupWindow.getPrefWidth() / 2);
     popupWindow.setLayoutY(y - popupWindow.getPrefHeight() / 2);*/
-
-    return List.of(popupWindow, loader.getController());
+    Object controller = loader.getController();
+    if (controller != null) return List.of(popupWindow, loader.getController());
+    return List.of(popupWindow);
   }
 
   public static void delay(long millis, Runnable continuation) {
