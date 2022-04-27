@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExternalPatientDAOImpl implements IExternalPatientDAOImpl {
+public class ExternalPatientDAOImpl implements IExternalPatientDAO {
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   List<ExternalPatientTransportationRequest> requestList = new ArrayList<>();
 

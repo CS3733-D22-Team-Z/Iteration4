@@ -24,17 +24,17 @@
       </MFXButton>
       <Label layoutX="48.0" layoutY="151.0" prefHeight="65.0" prefWidth="616.0" styleClass="object-header" text="Cleaning Service Request" />
       <Label layoutX="47.0" layoutY="234.0" prefHeight="36.0" prefWidth="652.0" styleClass="form-header" text="Enter the fields to request medical equipment." />
-      <Label layoutX="47.0" layoutY="320.0" prefHeight="30.0" prefWidth="202.0" styleClass="form-header" text="Room Number" />
-      <Label layoutX="478.0" layoutY="497.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Cleaning type" />
+      <Label fx:id="roomNumberFormHeader" layoutX="47.0" layoutY="320.0" prefHeight="30.0" prefWidth="202.0" styleClass="form-header" text="Room Number" />
+      <Label fx:id="requestFormHeader" layoutX="478.0" layoutY="497.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Cleaning type" />
       <MFXButton fx:id="submitButton" disable="true" layoutX="51.0" layoutY="683.0" onAction="#onSubmitButtonClicked" prefHeight="71.0" prefWidth="216.0" styleClass="back-button" text="Submit" />
       <MFXButton fx:id="resetButton" layoutX="309.0" layoutY="683.0" onAction="#onResetButtonClicked" prefHeight="71.0" prefWidth="200.0" style="-fx-background-color: #FF4C4C;" styleClass="back-button" text="Reset" />
-      <Label layoutX="478.0" layoutY="320.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Floor Number" />
+      <Label fx:id="floorNumberFormHeader" layoutX="478.0" layoutY="320.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Floor Number" />
       <MFXTextField fx:id="enterFloorNumber" animated="false" floatMode="DISABLED" layoutX="478.0" layoutY="365.0" onKeyReleased="#validateButton" prefHeight="59.0" prefWidth="369.0" promptText="Enter floor number">
          <padding>
             <Insets left="10.0" />
          </padding>
       </MFXTextField>
-      <Label layoutX="47.0" layoutY="497.0" prefHeight="30.0" prefWidth="185.0" styleClass="form-header" text="Location Type" />
+      <Label fx:id="locationTypeFormHeader" layoutX="47.0" layoutY="497.0" prefHeight="30.0" prefWidth="185.0" styleClass="form-header" text="Location Type" />
       <ChoiceBox fx:id="nodeTypeDropDown" layoutX="48.0" layoutY="546.0" onMouseReleased="#validateButton" prefHeight="59.0" prefWidth="369.0">
          <padding>
             <Insets left="10.0" />
@@ -105,5 +105,6 @@
             <Insets />
          </opaqueInsets>
       </Label>
+      <Region fx:id="helpGraphic" layoutX="343.0" layoutY="31.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
    </children>
 </AnchorPane>
