@@ -232,6 +232,17 @@
     -fx-text-fill:  #ff4444;
 }
 
+.mfx-combo-box .combo-popup .virtual-flow .mfx-combo-box-cell{
+    -fx-font-size:17pt;
+}
+
+
+.mfx-list-view .virtual-flow .mfx-list-cell .data-label{
+    -fx-font-size: 17pt;
+    -fx-text-fill: #7B7B7B;
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 400;
+}
 
 /*.mfx-table-view {*/
 

@@ -618,7 +618,6 @@ public class LocationListController implements IMenuAccess {
   private void editLocationButtonClicked() throws IOException {
     locationChangeDarkenPane.setVisible(true);
     editLocationPane.setVisible(true);
-    locationChangeDarkenPane.setDisable(false);
     editLocationPane.setDisable(false);
     selectLocationTextField.setText(activeLabel.getLocation().getNodeID());
   }
