@@ -44,8 +44,8 @@ public class DashboardBedAlertObserver {
             .collect(Collectors.toList());
     // Check if location has 6 or more dirty beds OR 10+ dirty IPumps
     if (dirtyBedList.size() >= 6 || dirtyPumpList.size() >= 10 || cleanPumpList.size() < 5) {
-      // dashboard.updateBedAlert(
-      //    subject.getFloor(), dirtyBedList.size(), dirtyPumpList.size(), cleanPumpList.size());
+      dashboard.updateBedAlert(
+          subject.getFloor(), dirtyBedList.size(), dirtyPumpList.size(), cleanPumpList.size());
       dashboard.floorAlert(subject.getFloor());
     }
   }

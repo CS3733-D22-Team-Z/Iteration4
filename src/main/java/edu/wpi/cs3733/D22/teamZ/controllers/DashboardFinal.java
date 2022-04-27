@@ -1,14 +1,17 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.DashAlert;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -25,6 +28,12 @@ public class DashboardFinal implements IMenuAccess {
   private MenuController menu;
   private String menuName;
   private final double MAXWIDTH = 659;
+
+  private final String dirtyBedMsg = "There are %d dirty beds on this floor.";
+  private final String dirtyPumpMsg = "There are %d dirty pumps on this floor.";
+  private final String cleanPumpMsg = "There are only %d clean pumps on this floor.";
+
+  private HashMap<String, DashAlert> alerts;
 
   @FXML Rectangle bedGreen5;
   @FXML Rectangle bedGreen4;
@@ -82,13 +91,13 @@ public class DashboardFinal implements IMenuAccess {
   @FXML Label dirtyIPumps1Label;
   @FXML Label dirtyIPumpsLL1Label;
   @FXML Label dirtyIPumpsLL2Label;
-  @FXML Region error5Region;
-  @FXML Region error4Region;
-  @FXML Region error3Region;
-  @FXML Region error2Region;
-  @FXML Region error1Region;
-  @FXML Region errorLL1Region;
-  @FXML Region errorLL2Region;
+  @FXML Region errorRegion5;
+  @FXML Region errorRegion4;
+  @FXML Region errorRegion3;
+  @FXML Region errorRegion2;
+  @FXML Region errorRegion1;
+  @FXML Region errorRegionLL1;
+  @FXML Region errorRegionLL2;
   @FXML private VBox floor5Container;
   @FXML private VBox floor4Container;
   @FXML private VBox floor3Container;
@@ -96,9 +105,16 @@ public class DashboardFinal implements IMenuAccess {
   @FXML private VBox floor1Container;
   @FXML private VBox LL1Container;
   @FXML private VBox LL2Container;
+  @FXML private AnchorPane root;
 
   @FXML
   private void initialize() {
+    alerts = new HashMap<>();
+    List<String> floors = List.of("5", "4", "3", "2", "1", "LL1", "LL2");
+    for (String floor : floors) {
+      alerts.put(floor, new DashAlert(floor));
+    }
+
     bedGreen5.setWidth(countCleanBeds("5"));
     bedGreen4.setWidth(countCleanBeds("4"));
     bedGreen3.setWidth(countCleanBeds("3"));
@@ -133,13 +149,13 @@ public class DashboardFinal implements IMenuAccess {
     Icon.setContent(dashboardAlert);
     List<Region> dashRegions =
         List.of(
-            error5Region,
-            error4Region,
-            error3Region,
-            error2Region,
-            error1Region,
-            errorLL1Region,
-            errorLL2Region);
+            errorRegion5,
+            errorRegion4,
+            errorRegion3,
+            errorRegion2,
+            errorRegion1,
+            errorRegionLL1,
+            errorRegionLL2);
     for (Region dashRegion : dashRegions) {
       dashRegion.setShape(Icon);
       dashRegion.setStyle("-fx-background-color: #ff8800;");
@@ -149,7 +165,7 @@ public class DashboardFinal implements IMenuAccess {
     setupDropdown(floor4Container, "4");
     setupDropdown(floor3Container, "3");
     setupDropdown(floor2Container, "2");
-    setupDropdown(floor3Container, "1");
+    setupDropdown(floor1Container, "1");
     setupDropdown(LL1Container, "L1");
     setupDropdown(LL2Container, "L2");
   }
@@ -332,29 +348,29 @@ public class DashboardFinal implements IMenuAccess {
     floorDets.setFloor("L2");
   }
 
-  /*public void updateBedAlert(String floor, int dirtyBeds, int dirtyPumps, int cleanPumps) {
+  public void updateBedAlert(String floor, int dirtyBeds, int dirtyPumps, int cleanPumps) {
     // Get alert for this floor
     DashAlert floorAlert = alerts.get(floor);
     floorAlert.putWarningData(dirtyBedMsg, dirtyBeds, 6, true);
-    floorAlert.putWarningData(dirtyPumpMsg, dirtyPumps, 15, true);
+    floorAlert.putWarningData(dirtyPumpMsg, dirtyPumps, 10, true);
     floorAlert.putWarningData(cleanPumpMsg, cleanPumps, 5, false);
-  }*/
+  }
 
   public void floorAlert(String floor) {
     if (floor.equals("5")) {
-      error5Region.setVisible(true);
+      errorRegion5.setVisible(true);
     } else if (floor.equals("4")) {
-      error4Region.setVisible(true);
+      errorRegion4.setVisible(true);
     } else if (floor.equals("3")) {
-      error3Region.setVisible(true);
+      errorRegion3.setVisible(true);
     } else if (floor.equals("2")) {
-      error2Region.setVisible(true);
+      errorRegion2.setVisible(true);
     } else if (floor.equals("1")) {
-      error1Region.setVisible(true);
+      errorRegion1.setVisible(true);
     } else if (floor.equals("L1")) {
-      errorLL1Region.setVisible(true);
+      errorRegionLL1.setVisible(true);
     } else if (floor.equals("L2")) {
-      errorLL2Region.setVisible(true);
+      errorRegionLL2.setVisible(true);
     }
   }
 
@@ -367,12 +383,33 @@ public class DashboardFinal implements IMenuAccess {
     bottomComponents
         .visibleProperty()
         .addListener(
-            listener -> bottomComponents.setPrefHeight(bottomComponents.isVisible() ? 200 : 0));
-    dropdownbutton.setOnAction(event -> bottomComponents.setVisible(!bottomComponents.isVisible()));
+            listener -> {
+              VBox labelContainer = (VBox) root.lookup("#warningContainer" + floor);
+              labelContainer.setPrefHeight(bottomComponents.isVisible() ? 200 : 0);
+            });
+    dropdownbutton.setOnAction(
+        event -> onClickDropdown(bottomComponents, (Region) dropdownbutton.getGraphic()));
   }
 
-  private void onClickDropdown(){
+  private void onClickDropdown(Pane node, Region alert) {
 
+    node.setVisible(!node.isVisible());
+
+    String floor = alert.getId().substring(11);
+
+    VBox labelContainer = (VBox) root.lookup("#warningContainer" + floor);
+    labelContainer.getChildren().clear();
+
+    // Get floor alert
+    DashAlert floorAlert = alerts.get(floor);
+
+    // Load labels into warning
+    for (String message : floorAlert.getWarnings()) {
+      Label infoLabel = new Label();
+      infoLabel.setText(message);
+      infoLabel.getStyleClass().add("object-body");
+      labelContainer.getChildren().add(infoLabel);
+      infoLabel.setWrapText(true);
+    }
   }
-
 }

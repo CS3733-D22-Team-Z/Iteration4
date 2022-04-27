@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.DashboardFinal">
+<AnchorPane fx:id="root" prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.DashboardFinal">
    <children>
       <Label layoutX="22.0" layoutY="2.0" styleClass="object-header" stylesheets="@../styles/ServiceRequestDefault.css" text="Dashboard">
          <font>
@@ -93,14 +93,18 @@
                                     </Label>
                                     <MFXButton fx:id="error5Button" contentDisplay="GRAPHIC_ONLY" layoutX="1587.0" layoutY="14.0" prefHeight="90.0" prefWidth="90.0" style="-fx-padding: 0; -fx-background-color: #FFFFFF;" stylesheets="@../styles/ServiceRequestDefault.css" text=" ">
                                        <graphic>
-                                          <Region fx:id="error5Region" prefHeight="70.0" prefWidth="84.0" style="-fx-padding: 0;" visible="false" />
+                                          <Region fx:id="errorRegion5" prefHeight="70.0" prefWidth="84.0" style="-fx-padding: 0;" visible="false" />
                                        </graphic>
                                     </MFXButton>
                                  </children>
                               </Pane>
                               <Pane prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;" visible="false">
+                                 <VBox fx:id="warningContainer5" spacing="15" alignment="CENTER" prefWidth="1714.0">
+                                    <children>
 
-                  </Pane>
+                                    </children>
+                                 </VBox>
+                              </Pane>
                            </children>
                         </VBox>
                      </children>
@@ -163,14 +167,18 @@
                                     </Label>
                                     <MFXButton fx:id="error4Button" contentDisplay="GRAPHIC_ONLY" layoutX="1583.0" layoutY="14.0" prefHeight="90.0" prefWidth="90.0" style="-fx-padding: 0; -fx-background-color: #FFFFFF;" stylesheets="@../styles/ServiceRequestDefault.css" text="!">
                                        <graphic>
-                                          <Region fx:id="error4Region" prefHeight="90.0" prefWidth="90.0" visible="false" />
+                                          <Region fx:id="errorRegion4" prefHeight="90.0" prefWidth="90.0" visible="false" />
                                        </graphic>
                                     </MFXButton>
                                  </children>
                               </Pane>
                               <Pane prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;" visible="false">
+                                 <VBox fx:id="warningContainer4" spacing="15" alignment="CENTER" prefWidth="1714.0">
+                                    <children>
 
-                  </Pane>
+                                    </children>
+                                 </VBox>
+                              </Pane>
                            </children>
                         </VBox>
                      </children>
@@ -233,14 +241,18 @@
                                     </Label>
                                     <MFXButton fx:id="error3Button" contentDisplay="GRAPHIC_ONLY" layoutX="1583.0" layoutY="14.0" prefHeight="90.0" prefWidth="90.0" style="-fx-padding: 0; -fx-background-color: #FFFFFF;" stylesheets="@../styles/ServiceRequestDefault.css" text="!">
                                        <graphic>
-                                          <Region fx:id="error3Region" prefHeight="90.0" prefWidth="90.0" visible="false" />
+                                          <Region fx:id="errorRegion3" prefHeight="90.0" prefWidth="90.0" visible="false" />
                                        </graphic>
                                     </MFXButton>
                                  </children>
                               </Pane>
                               <Pane prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;" visible="false">
+                                 <VBox fx:id="warningContainer3" spacing="15" alignment="CENTER" prefWidth="1714.0">
+                                    <children>
 
-                  </Pane>
+                                    </children>
+                                 </VBox>
+                              </Pane>
                            </children>
                         </VBox>
                      </children>
@@ -303,14 +315,18 @@
                                     </Label>
                                     <MFXButton fx:id="error2Button" contentDisplay="GRAPHIC_ONLY" layoutX="1583.0" layoutY="14.0" prefHeight="90.0" prefWidth="90.0" style="-fx-padding: 0; -fx-background-color: #FFFFFF;" stylesheets="@../styles/ServiceRequestDefault.css" text="!">
                                        <graphic>
-                                          <Region fx:id="error2Region" prefHeight="90.0" prefWidth="90.0" visible="false" />
+                                          <Region fx:id="errorRegion2" prefHeight="90.0" prefWidth="90.0" visible="false" />
                                        </graphic>
                                     </MFXButton>
                                  </children>
                               </Pane>
                               <Pane prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;" visible="false">
+                                 <VBox fx:id="warningContainer2" spacing="15" alignment="CENTER" prefWidth="1714.0">
+                                    <children>
 
-                  </Pane>
+                                    </children>
+                                 </VBox>
+                              </Pane>
                            </children>
                         </VBox>
                      </children>
@@ -373,14 +389,18 @@
                                     </Label>
                                     <MFXButton fx:id="error1Button" contentDisplay="GRAPHIC_ONLY" layoutX="1583.0" layoutY="14.0" prefHeight="90.0" prefWidth="90.0" style="-fx-padding: 0; -fx-background-color: #FFFFFF;" stylesheets="@../styles/ServiceRequestDefault.css" text="!">
                                        <graphic>
-                                          <Region fx:id="error1Region" prefHeight="90.0" prefWidth="90.0" visible="false" />
+                                          <Region fx:id="errorRegion1" prefHeight="90.0" prefWidth="90.0" visible="false" />
                                        </graphic>
                                     </MFXButton>
                                  </children>
                               </Pane>
                               <Pane prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;" visible="false">
+                                 <VBox fx:id="warningContainer1" spacing="15" alignment="CENTER" prefWidth="1714.0">
+                                    <children>
 
-                  </Pane>
+                                    </children>
+                                 </VBox>
+                              </Pane>
                            </children>
                         </VBox>
                      </children>
@@ -443,14 +463,18 @@
                                     </Label>
                                     <MFXButton fx:id="errorLL1Button" contentDisplay="GRAPHIC_ONLY" layoutX="1583.0" layoutY="14.0" prefHeight="90.0" prefWidth="90.0" style="-fx-padding: 0; -fx-background-color: #FFFFFF;" stylesheets="@../styles/ServiceRequestDefault.css" text="!">
                                        <graphic>
-                                          <Region fx:id="errorLL1Region" prefHeight="90.0" prefWidth="90.0" visible="false" />
+                                          <Region fx:id="errorRegionLL1" prefHeight="90.0" prefWidth="90.0" visible="false" />
                                        </graphic>
                                     </MFXButton>
                                  </children>
                               </Pane>
                               <Pane prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;" visible="false">
+                                 <VBox fx:id="warningContainerLL1" spacing="15" alignment="CENTER" prefWidth="1714.0">
+                                    <children>
 
-                  </Pane>
+                                    </children>
+                                 </VBox>
+                              </Pane>
                            </children>
                         </VBox>
                      </children>
@@ -512,13 +536,17 @@
                                     </Label>
                                     <MFXButton fx:id="errorLL2Button" contentDisplay="GRAPHIC_ONLY" layoutX="1583.0" layoutY="14.0" prefHeight="90.0" prefWidth="90.0" style="-fx-padding: 0; -fx-background-color: #FFFFFF;" stylesheets="@../styles/ServiceRequestDefault.css" text="!">
                                        <graphic>
-                                          <Region fx:id="errorLL2Region" prefHeight="90.0" prefWidth="90.0" visible="false" />
+                                          <Region fx:id="errorRegionLL2" prefHeight="90.0" prefWidth="90.0" visible="false" />
                                        </graphic>
                                     </MFXButton>
                                  </children>
                               </Pane>
                               <Pane prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;" visible="false">
+                                 <VBox fx:id="warningContainerLL2" spacing="15" alignment="CENTER" prefWidth="1714.0">
+                                    <children>
 
+                                    </children>
+                                 </VBox>
                               </Pane>
                            </children>
                         </VBox>
