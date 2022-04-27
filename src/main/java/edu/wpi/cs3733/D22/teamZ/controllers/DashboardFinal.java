@@ -87,6 +87,13 @@ public class DashboardFinal implements IMenuAccess {
   @FXML Region error1Region;
   @FXML Region errorLL1Region;
   @FXML Region errorLL2Region;
+  @FXML private VBox floor5Container;
+  @FXML private VBox floor4Container;
+  @FXML private VBox floor3Container;
+  @FXML private VBox floor2Container;
+  @FXML private VBox floor1Container;
+  @FXML private VBox LL1Container;
+  @FXML private VBox LL2Container;
 
   @FXML
   private void initialize() {
@@ -135,6 +142,14 @@ public class DashboardFinal implements IMenuAccess {
       dashRegion.setShape(Icon);
       dashRegion.setStyle("-fx-background-color: #ff8800;");
     }
+
+    setupDropdown(floor5Container, "5");
+    setupDropdown(floor4Container, "4");
+    setupDropdown(floor3Container, "3");
+    setupDropdown(floor2Container, "2");
+    setupDropdown(floor3Container, "1");
+    setupDropdown(LL1Container, "L1");
+    setupDropdown(LL2Container, "L2");
   }
 
   @Override
@@ -329,4 +344,9 @@ public class DashboardFinal implements IMenuAccess {
             listener -> bottomComponents.setPrefHeight(bottomComponents.isVisible() ? 200 : 0));
     dropdownbutton.setOnAction(event -> bottomComponents.setVisible(!bottomComponents.isVisible()));
   }
+
+  private void onClickDropdown(){
+
+  }
+
 }

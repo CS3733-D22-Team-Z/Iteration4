@@ -443,7 +443,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     // Get alert for this floor
     DashAlert floorAlert = alerts.get(floor);
     floorAlert.putWarningData(dirtyBedMsg, dirtyBeds, 6, true);
-    floorAlert.putWarningData(dirtyPumpMsg, dirtyPumps, 15, true);
+    floorAlert.putWarningData(dirtyPumpMsg, dirtyPumps, 10, true);
     floorAlert.putWarningData(cleanPumpMsg, cleanPumps, 5, false);
   }
 
