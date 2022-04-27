@@ -278,7 +278,8 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
             MapController.loadImage(locationColorMap.get(equipmentFilter)).call(label);
           }
         };
-    mapController.setLabels(floorLocations, floorLocations, false, colorStuff);
+    mapController.setLabels(
+        floorLocations, floorLocations, false, colorStuff, FXCollections.emptyObservableList());
   }
 
   /**

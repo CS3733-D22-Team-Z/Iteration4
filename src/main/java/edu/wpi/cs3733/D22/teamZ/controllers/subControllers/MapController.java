@@ -248,6 +248,7 @@ public class MapController implements Initializable {
     imageHeight.set(newImage.getHeight());
     imageWidth.set(newImage.getWidth());
   }
+
   public void setAlerts(HospitalCode code) {
     System.out.println("adding label");
     iconContainer.getChildren().add(code.getLabel());

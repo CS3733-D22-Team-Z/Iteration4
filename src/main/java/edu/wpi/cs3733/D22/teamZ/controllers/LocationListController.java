@@ -483,7 +483,11 @@ public class LocationListController implements IMenuAccess {
 
       // Want all floor locations to be displayed + all locations are draggable anywhere.
       mapController.setLabels(
-          allFloorLocations, allFloorLocations, false, MapController.loadImage("location"), alertLabels););
+          allFloorLocations,
+          allFloorLocations,
+          false,
+          MapController.loadImage("location"),
+          alertLabels);
       mapController.setIconShift(0);
       mapController.setDraggable(
           (label) -> {
@@ -501,7 +505,11 @@ public class LocationListController implements IMenuAccess {
                   .filter((loc) -> loc.getEquipmentList().size() > 0)
                   .collect(Collectors.toList()));
       mapController.setLabels(
-          locsWithEquip.get(), allFloorLocations, true, MapController.loadImage("equipment"), alertLabels);
+          locsWithEquip.get(),
+          allFloorLocations,
+          true,
+          MapController.loadImage("equipment"),
+          alertLabels);
       mapController.setIconShift(20);
       mapController.setDraggable(
           (label) -> {
@@ -546,7 +554,8 @@ public class LocationListController implements IMenuAccess {
           locsWithServices.get(),
           locsWithServices.get(),
           false,
-          MapController.loadImage("servicerequest"), alertLabels);
+          MapController.loadImage("servicerequest"),
+          alertLabels);
       mapController.setIconShift(0);
     }
     mapController.getIconContainer().getChildren().removeIf(n -> n instanceof Line);
