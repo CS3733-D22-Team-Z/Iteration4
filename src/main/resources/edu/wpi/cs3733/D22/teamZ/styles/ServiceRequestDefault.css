@@ -50,7 +50,7 @@
 .form-header-help {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 200;
-    -fx-font-size: 10pt;
+    -fx-font-size: 19pt;
     -fx-text-fill: #7B7B7B;
     -fx-background-color: #FFFF00
 }
@@ -236,7 +236,7 @@
 .error-label {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
-    -fx-font-size: 19pt;
+    -fx-font-size: 23pt;
     -fx-text-fill:  #ff4444;
 }
 
