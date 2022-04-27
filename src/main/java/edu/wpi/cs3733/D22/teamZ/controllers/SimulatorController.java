@@ -68,7 +68,6 @@ public class SimulatorController implements IMenuAccess, Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = FacadeDAO.getInstance();
     iconImage = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
-    displayMedicalEquipmentIcons("3");
     speedBox.getItems().setAll("Real time", "5 min/sec", "10 min/sec", "30 min/sec", "1 hour/sec");
     pauseSim.setDisable(true);
     endSim.setDisable(true);
@@ -76,6 +75,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
     imageView.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
 
     medEquip = FacadeDAO.getInstance().getAllMedicalEquipment();
+    displayMedicalEquipmentIcons("3");
     employees = FacadeDAO.getInstance().getAllEmployees();
     List<MedicalEquipmentDeliveryRequest> medEquipReq =
         FacadeDAO.getInstance().getAllMedicalEquipmentRequest();
@@ -105,11 +105,16 @@ public class SimulatorController implements IMenuAccess, Initializable {
 
       // If this location is on the current floor, then proceed.
       if (tempLocation.getFloor().equals(floor)) {
-        List<MedicalEquipment> medicalEquipmentAtLocation =
-            facadeDAO.getAllMedicalEquipmentByLocation(tempLocation);
+        boolean found = false;
+
+        for (MedicalEquipment m : medEquip) {
+          if (m.getCurrentLocation().equals(tempLocation)) {
+            found = true;
+          }
+        }
 
         // If there is medical equipment at the location, then proceed.
-        if (!medicalEquipmentAtLocation.isEmpty()) {
+        if (found) {
 
           // Setup icon image view
           ImageView iconImageView = new ImageView();
@@ -175,7 +180,9 @@ public class SimulatorController implements IMenuAccess, Initializable {
     Random rand = new Random();
     if (processing.size() > 0) {
       if (rand.nextInt(10) <= 5) {
-        moveEquip(processing.get(rand.nextInt(processing.size())));
+        moveEquip(
+            processing.get(
+                rand.nextInt(processing.size()))); // one that cancels all other equipment
       }
     }
     if (unassigned.size() > 0) {
@@ -213,6 +220,10 @@ public class SimulatorController implements IMenuAccess, Initializable {
 
       makeReq(medEquip.get(index).getEquipmentID(), loc);
     }
+    mapContainer.getChildren().clear();
+    imageView.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
+    mapContainer.getChildren().add(imageView);
+    displayMedicalEquipmentIcons("3");
     infoTable.refresh();
     infoTable.setItems(updates);
   }
@@ -273,7 +284,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
             + " and was moved to "
             + target);
     for (int j = 0; j < medEquip.size(); j++) {
-      if (equip.equals(medEquip.get(i))) {
+      if (equip.equals(medEquip.get(j))) {
         medEquip.get(j).setCurrentLocation(target);
       }
     }
