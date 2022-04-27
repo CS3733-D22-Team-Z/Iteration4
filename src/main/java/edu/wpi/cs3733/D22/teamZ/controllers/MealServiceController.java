@@ -267,6 +267,11 @@ public class MealServiceController extends ServiceRequestController {
     initializeHelpGraphic();
   }
 
+  /**
+   * Submit meal service request to DAO
+   * @param event
+   * @throws SQLException
+   */
   @Override
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
     System.out.println("Submit Button Clicked");
@@ -365,6 +370,11 @@ public class MealServiceController extends ServiceRequestController {
     System.out.println("Meal Request Submit button disabled");
   }
 
+  /**
+   * Reset fields to initial conditions.
+   * @param event
+   * @throws IOException
+   */
   @Override
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     System.out.println("Reset Button Clicked");
@@ -395,6 +405,26 @@ public class MealServiceController extends ServiceRequestController {
     validateTime();
   }
 
+  /**
+   * Navigate to table of Meal Service Requests
+   *
+   * @param event
+   * @throws IOException
+   */
+  public void onNavigateToMealRequestList(ActionEvent event) throws IOException {
+    try {
+      menu.load(toMealServiceRequestListURL);
+    } catch (IOException e) {
+      System.out.println("Error: Failed to load Meal Service Request List URL");
+      e.printStackTrace();
+      throw new IOException();
+    }
+  }
+
+  /**
+   * Show tooltips for different headers
+   * @param visible
+   */
   @Override
   protected void highlightRequirements(boolean visible) {
     if (visible) {
@@ -646,15 +676,6 @@ public class MealServiceController extends ServiceRequestController {
   public void updateAllergens() {
     System.out.println("Updating allergens...");
 
-    boolean stateDairy;
-    boolean stateEgg;
-    boolean statePeanut;
-    boolean statetreenut;
-    boolean stateSoy;
-    boolean stateWheat;
-    boolean stateFish;
-    boolean stateShellfish;
-
     if (dairyChoice.isSelected()
         || eggChoice.isSelected()
         || peanutChoice.isSelected()
@@ -668,98 +689,154 @@ public class MealServiceController extends ServiceRequestController {
         patientAllergensList.remove("none");
         System.out.println("Removed \"none\" from Patient Allergen list");
       }
-      // Add/Remove Dairy from patient list of allergens
-      if (dairyChoice.isSelected()) {
-        System.out.println("Dairy selected");
-        if (!patientAllergensList.contains("Dairy")) {
-          patientAllergensList.add("Dairy");
-        }
-      } else {
-        if (patientAllergensList.contains("Dairy")) {
-          patientAllergensList.remove("Dairy");
-        }
-      }
-      // Add/Remove Egg from patient list of allergens
-      if (eggChoice.isSelected()) {
-        System.out.println("Egg selected");
-        if (!patientAllergensList.contains("Egg")) {
-          patientAllergensList.add("Egg");
-        }
-      } else {
-        if (patientAllergensList.contains("Egg")) {
-          patientAllergensList.remove("Egg");
-        }
-      }
-      // Add/Remove Peanut from patient list of allergens
-      if (peanutChoice.isSelected()) {
-        System.out.println("Peanut selected");
-        if (!patientAllergensList.contains("Peanut")) {
-          patientAllergensList.add("Peanut");
-        }
-      } else {
-        if (patientAllergensList.contains("Peanut")) {
-          patientAllergensList.remove("Peanut");
-        }
-      }
-      // Add/Remove Tree Nut from patient list of allergens
-      if (treenutChoice.isSelected()) {
-        System.out.println("Tree Nut selected");
-        if (!patientAllergensList.contains("Tree_Nut")) {
-          patientAllergensList.add("Tree_Nut");
-        }
-      } else {
-        if (patientAllergensList.contains("Tree_Nut")) {
-          patientAllergensList.remove("Tree_Nut");
-        }
-      }
-      // Add/Remove Soy from patient list of allergens
-      if (soyChoice.isSelected()) {
-        System.out.println("Soy selected");
-        if (!patientAllergensList.contains("Soy")) {
-          patientAllergensList.add("Soy");
-        }
-      } else {
-        if (patientAllergensList.contains("Soy")) {
-          patientAllergensList.remove("Soy");
-        }
-      }
-      // Add/Remove Wheat from patient list of allergens
-      if (wheatChoice.isSelected()) {
-        System.out.println("Wheat selected");
-        if (!patientAllergensList.contains("Wheat")) {
-          patientAllergensList.add("Wheat");
-        }
-      } else {
-        if (patientAllergensList.contains("Wheat")) {
-          patientAllergensList.remove("Wheat");
-        }
-      }
-      // Add/Remove Fish from patient list of allergens
-      if (fishChoice.isSelected()) {
-        System.out.println("Fish selected");
-        if (!patientAllergensList.contains("Fish")) {
-          patientAllergensList.add("Fish");
-        }
-      } else {
-        if (patientAllergensList.contains("Fish")) {
-          patientAllergensList.remove("Fish");
-        }
-      }
-      // Add/Remove Shellfish from patient list of allergens
-      if (shellfishChoice.isSelected()) {
-        System.out.println("Shellfish selected");
-        if (!patientAllergensList.contains("Shellfish")) {
-          patientAllergensList.add("Shellfish");
-        }
-      } else {
-        if (patientAllergensList.contains("Shellfish")) {
-          patientAllergensList.remove("Shellfish");
-        }
-      }
+      updateDairyChoice();
+      updateEggChoice();
+      updatePeanutChoice();
+      updateTreenut();
+      updateSoyChoice();
+      updateWheatChoice();
+      updateFishChoice();
+      updateShellfish();
     } else {
       // Re-add none if not present
       if (!patientAllergensList.contains("none")) {
         patientAllergensList.add("none");
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  private void updateDairyChoice() {
+    // Add/Remove Dairy from patient list of allergens
+    if (dairyChoice.isSelected()) {
+      System.out.println("Dairy selected");
+      if (!patientAllergensList.contains("Dairy")) {
+        patientAllergensList.add("Dairy");
+      }
+    } else {
+      if (patientAllergensList.contains("Dairy")) {
+        patientAllergensList.remove("Dairy");
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  private void updateEggChoice() {
+    // Add/Remove Egg from patient list of allergens
+    if (eggChoice.isSelected()) {
+      System.out.println("Egg selected");
+      if (!patientAllergensList.contains("Egg")) {
+        patientAllergensList.add("Egg");
+      }
+    } else {
+      if (patientAllergensList.contains("Egg")) {
+        patientAllergensList.remove("Egg");
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  private void updatePeanutChoice() {
+    // Add/Remove Peanut from patient list of allergens
+    if (peanutChoice.isSelected()) {
+      System.out.println("Peanut selected");
+      if (!patientAllergensList.contains("Peanut")) {
+        patientAllergensList.add("Peanut");
+      }
+    } else {
+      if (patientAllergensList.contains("Peanut")) {
+        patientAllergensList.remove("Peanut");
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  private void updateTreenut() {
+    // Add/Remove Tree Nut from patient list of allergens
+    if (treenutChoice.isSelected()) {
+      System.out.println("Tree Nut selected");
+      if (!patientAllergensList.contains("Tree_Nut")) {
+        patientAllergensList.add("Tree_Nut");
+      }
+    } else {
+      if (patientAllergensList.contains("Tree_Nut")) {
+        patientAllergensList.remove("Tree_Nut");
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  private void updateSoyChoice() {
+    // Add/Remove Soy from patient list of allergens
+    if (soyChoice.isSelected()) {
+      System.out.println("Soy selected");
+      if (!patientAllergensList.contains("Soy")) {
+        patientAllergensList.add("Soy");
+      }
+    } else {
+      if (patientAllergensList.contains("Soy")) {
+        patientAllergensList.remove("Soy");
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  private void updateWheatChoice() {
+    // Add/Remove Wheat from patient list of allergens
+    if (wheatChoice.isSelected()) {
+      System.out.println("Wheat selected");
+      if (!patientAllergensList.contains("Wheat")) {
+        patientAllergensList.add("Wheat");
+      }
+    } else {
+      if (patientAllergensList.contains("Wheat")) {
+        patientAllergensList.remove("Wheat");
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  private void updateFishChoice() {
+    // Add/Remove Fish from patient list of allergens
+    if (fishChoice.isSelected()) {
+      System.out.println("Fish selected");
+      if (!patientAllergensList.contains("Fish")) {
+        patientAllergensList.add("Fish");
+      }
+    } else {
+      if (patientAllergensList.contains("Fish")) {
+        patientAllergensList.remove("Fish");
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  private void updateShellfish() {
+    // Add/Remove Shellfish from patient list of allergens
+    if (shellfishChoice.isSelected()) {
+      System.out.println("Shellfish selected");
+      if (!patientAllergensList.contains("Shellfish")) {
+        patientAllergensList.add("Shellfish");
+      }
+    } else {
+      if (patientAllergensList.contains("Shellfish")) {
+        patientAllergensList.remove("Shellfish");
       }
     }
   }
@@ -786,20 +863,4 @@ public class MealServiceController extends ServiceRequestController {
   //      System.out.println("OrderIndex: " + orderIndex);
   //    }
   //  }
-
-  /**
-   * Navigate to table of Meal Service Requests
-   *
-   * @param event
-   * @throws IOException
-   */
-  public void onNavigateToMealRequestList(ActionEvent event) throws IOException {
-    try {
-      menu.load(toMealServiceRequestListURL);
-    } catch (IOException e) {
-      System.out.println("Error: Failed to load Meal Service Request List URL");
-      e.printStackTrace();
-      throw new IOException();
-    }
-  }
 }
