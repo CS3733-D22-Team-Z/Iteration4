@@ -316,7 +316,7 @@
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
     -fx-font-size: 12pt;
-    -fx-text-fill: #000000;
+    /*-fx-text-fill: #000000;*/
 
     -fx-background-color: #FFFFFF;
 
@@ -335,7 +335,7 @@
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 600;
     -fx-font-size: 7pt;
-    -fx-text-fill: #7B7B7B;
+    /*-fx-text-fill: #7B7B7B;*/
 
     -fx-border-width: 0 1 0 0;
     -fx-border-color: #D2D2D2;
@@ -370,22 +370,24 @@
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
     -fx-font-size: 22pt;
-    -fx-text-fill: #000000;
+    /*-fx-text-fill: #000000;*/
 }
 
 .dropdown-table-view .table-column {
-    -fx-font-family: 'SansSerif';
-    -fx-font-weight: 700;
-    -fx-font-size: 10pt;
-    -fx-text-fill: #7D7D7D;
-
     -fx-background-color: #FFFFFF;
-    -fx-border-width: 0 0 1 0;
-    -fx-border-color: #D2D2D2;
+    -fx-border-width: 0 0 0 0;
+    /*-fx-border-color: #D2D2D2;*/
 }
 
 .dropdown-table-view .table-row-cell {
     -fx-cell-size: 50px;
+}
+
+.dropdown-table-view .table-cell {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 700;
+    -fx-font-size: 14pt;
+    /*-fx-text-fill: #7D7D7D;*/
 }
 
 .dropdown-table-view .filler {
@@ -483,7 +485,7 @@
 
 .chart-legend {
     -fx-background-color:  transparent;
-    -fx-padding: 5px;
+    -fx-padding: 10px;
 }
 
 .chart-legend-item-symbol{
@@ -498,10 +500,7 @@
 }
 
 .axis {
-    -fx-tick-label-font: 'SansSerif';
-    -fx-tick-label-font-weight: 600;
-    -fx-tick-label-font-size: 8pt;
-    -fx-tick-label-fill: #000000;
+    -fx-tick-label-font: bold 10pt 'SansSerif';
 }
 
 .dropdown-table-view .column-header-background .filler {
