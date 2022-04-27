@@ -87,12 +87,15 @@ public class ComputerServiceRequestController extends ServiceRequestController
     if (FacadeDAO.getInstance().addComputerServiceRequest(temp)) {
       this.clearFields();
       successfulSubmitLabel.setVisible(true);
+      submitButton.setDisable(true);
+    } else {
+      errorSavingLabel.setVisible(true);
     }
   }
 
   @FXML
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
-    osField.setValue(null);
+    osField.getSelectionModel().clearSelection();
     descField.setText("");
     successfulSubmitLabel.setVisible(false);
   }
