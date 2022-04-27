@@ -41,12 +41,12 @@
                         <Label />
                      </content>
                   </MFXScrollPane>
-                  <MFXButton fx:id="pauseSim" layoutX="69.0" layoutY="804.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Pause Simulation" textFill="WHITE">
+                  <MFXButton fx:id="pauseSim" layoutX="69.0" layoutY="804.0" onAction="#pauseSim" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Pause Simulation" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton fx:id="endSim" layoutX="69.0" layoutY="916.0" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #ff4343;" text="End Simulation" textFill="WHITE">
+                  <MFXButton fx:id="endSim" layoutX="69.0" layoutY="916.0" onAction="#endSim" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #ff4343;" text="End Simulation" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
