@@ -112,7 +112,7 @@
                         </MFXButton>
                      </children>
                   </VBox>
-                  <MFXButton fx:id="exitButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="11.0" layoutY="894.0" onAction="#toExit" prefHeight="47.0" prefWidth="177.0" styleClass="exit-button" text="Exit">
+                  <MFXButton fx:id="exitButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="11.0" layoutY="894.0" onAction="#toExit" prefHeight="47.0" prefWidth="177.0" rippleAnimateBackground="false" styleClass="exit-button" text="Exit">
                      <graphic>
                         <Region fx:id="exitGraphic" styleClass="region-icon" translateX="-57.0" />
                      </graphic>
@@ -120,7 +120,7 @@
                         <Font size="18.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton fx:id="logoutButton" buttonType="RAISED" layoutX="12.0" layoutY="832.0" onAction="#toLogout" prefHeight="47.0" prefWidth="177.0" style="-fx-text-fill: #FFFFFF;" styleClass="exit-button" text="Logout">
+                  <MFXButton fx:id="logoutButton" buttonType="RAISED" layoutX="12.0" layoutY="832.0" onAction="#toLogout" prefHeight="47.0" prefWidth="177.0" rippleAnimateBackground="false" style="-fx-text-fill: #FFFFFF;" styleClass="exit-button" text="Logout">
                      <graphic>
                         <Region fx:id="logoutGraphic" styleClass="region-icon" translateX="-25.0" />
                      </graphic>

@@ -110,12 +110,22 @@
 
 .button-inv {
     -fx-font-family: 'SansSerif';
-    -fx-font-weight: 500;
+    -fx-font-weight: 700;
     -fx-font-size: 19pt;
     -fx-text-fill: #012d5A;
 
     -fx-background-radius: 2px;
     -fx-background-color: #f6bd38;
+}
+
+.button-inv:hover{
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 700;
+    -fx-font-size: 19pt;
+    -fx-text-fill: #012d5A;
+
+    -fx-background-radius: 2px;
+    -fx-background-color: #FFFFFF;
 }
 
 .selector-button {

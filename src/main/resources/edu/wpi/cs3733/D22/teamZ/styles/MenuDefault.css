@@ -33,6 +33,15 @@ menu-selected {
     -fx-background-color: #0067B1;
 }
 
+.exit-button:hover {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 700;
+    -fx-text-fill: #FFFFFF;
+
+    -fx-background-radius: 2px;
+    -fx-background-color: #0067B1;
+}
+
 
 
 .region-icon {

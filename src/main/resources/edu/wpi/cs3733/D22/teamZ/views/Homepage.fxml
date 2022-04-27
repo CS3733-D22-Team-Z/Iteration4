@@ -6,6 +6,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="1020.0" prefWidth="1920.0" style="-fx-background-color: #F6F6F6;" stylesheets="@../styles/HomePage.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.HomepageController">
@@ -18,11 +20,11 @@
             <font>
                 <Font size="13.0" />
             </font></Label>
-        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="30.0" layoutY="703.0" onAction="#toLocations" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Map Editor">
+        <MFXButton fx:id="mapButton" alignment="CENTER" buttonType="RAISED" layoutX="30.0" layoutY="703.0" onAction="#toLocations" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Map Editor">
             <padding>
                 <Insets right="440.0" />
             </padding></MFXButton>
-        <MFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="30.0" layoutY="808.0" onAction="#toLandingPage" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Services">
+        <MFXButton fx:id="servicesButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="30.0" layoutY="808.0" onAction="#toLandingPage" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Services">
             <padding>
                 <Insets right="465.0" />
             </padding></MFXButton>
@@ -32,11 +34,11 @@
             </image>
         </ImageView>
 
-        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="29.0" layoutY="915.0" onAction="#toCCTV" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="CCTV">
+        <MFXButton fx:id="cctvButton" alignment="CENTER" buttonType="RAISED" layoutX="29.0" layoutY="915.0" onAction="#toCCTV" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="CCTV">
             <padding>
                 <Insets right="510.0" />
             </padding></MFXButton>
-        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="756.0" layoutY="808.0" onAction="#toEmployeePage" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Employees">
+        <MFXButton fx:id="employeesButton" alignment="CENTER" buttonType="RAISED" layoutX="756.0" layoutY="808.0" onAction="#toEmployeePage" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Employees">
             <padding>
                 <Insets right="430.0" />
             </padding></MFXButton>
@@ -48,11 +50,23 @@
             <padding>
                 <Insets right="430.0" />
             </padding></MFXButton>
-        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="756.0" layoutY="915.0" onAction="#toServiceRequests" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Service Requests List">
+        <MFXButton fx:id="listButton" alignment="CENTER" buttonType="RAISED" layoutX="756.0" layoutY="915.0" onAction="#toServiceRequests" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Service Requests List">
             <padding>
                 <Insets right="280.0" />
             </padding>
         </MFXButton>
         <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="1364.0" layoutY="19.0" onAction="#toGame" prefHeight="81.0" prefWidth="184.0" styleClass="switch-button" text="Game" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5bc3800" height="53.0" layoutX="635.0" layoutY="717.0" stroke="#f5bc38" strokeType="INSIDE" strokeWidth="3.5" width="52.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5bc3800" height="53.0" layoutX="635.0" layoutY="823.0" stroke="#f5bc38" strokeType="INSIDE" strokeWidth="3.5" width="52.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5bc3800" height="53.0" layoutX="635.0" layoutY="928.0" stroke="#f5bc38" strokeType="INSIDE" strokeWidth="3.5" width="52.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5bc3800" height="53.0" layoutX="1361.0" layoutY="714.0" stroke="#f5bc38" strokeType="INSIDE" strokeWidth="3.5" width="52.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5bc3800" height="53.0" layoutX="1362.0" layoutY="821.0" stroke="#f5bc38" strokeType="INSIDE" strokeWidth="3.5" width="52.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5bc3800" height="53.0" layoutX="1363.0" layoutY="928.0" stroke="#f5bc38" strokeType="INSIDE" strokeWidth="3.5" width="52.0" />
+      <SVGPath fx:id="mapSVG" content="M18.75 36 16.6 33.85 26.5 23.95 16.6 14.05 18.75 11.9 30.8 23.95Z" fill="WHITE" layoutX="638.0" layoutY="719.0" scaleX="0.8" scaleY="0.8" />
+      <SVGPath fx:id="servicesSVG" content="M18.75 36 16.6 33.85 26.5 23.95 16.6 14.05 18.75 11.9 30.8 23.95Z" fill="WHITE" layoutX="638.0" layoutY="825.0" scaleX="0.8" scaleY="0.8" />
+      <SVGPath fx:id="cctvSVG" content="M18.75 36 16.6 33.85 26.5 23.95 16.6 14.05 18.75 11.9 30.8 23.95Z" fill="WHITE" layoutX="638.0" layoutY="931.0" scaleX="0.8" scaleY="0.8" />
+      <SVGPath fx:id="dashboardSVG" content="M18.75 36 16.6 33.85 26.5 23.95 16.6 14.05 18.75 11.9 30.8 23.95Z" fill="WHITE" layoutX="1365.0" layoutY="717.0" scaleX="0.8" scaleY="0.8" />
+      <SVGPath fx:id="employeesSVG" content="M18.75 36 16.6 33.85 26.5 23.95 16.6 14.05 18.75 11.9 30.8 23.95Z" fill="WHITE" layoutX="1365.0" layoutY="824.0" scaleX="0.8" scaleY="0.8" />
+      <SVGPath fx:id="listSVG" content="M18.75 36 16.6 33.85 26.5 23.95 16.6 14.05 18.75 11.9 30.8 23.95Z" fill="WHITE" layoutX="1365.0" layoutY="931.0" scaleX="0.8" scaleY="0.8" />
     </children>
 </AnchorPane>
