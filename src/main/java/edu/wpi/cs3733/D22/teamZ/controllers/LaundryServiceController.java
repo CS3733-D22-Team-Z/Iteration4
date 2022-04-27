@@ -17,10 +17,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class LaundryServiceController extends ServiceRequestController implements IMenuAccess {
 
+  @FXML public Label patientIDFormHeader;
+  @FXML public Label locationFormHeader;
+  @FXML public Label linenTypeFormHeader;
   private FacadeDAO dao = FacadeDAO.getInstance();
   private final String toHomePageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private final String toListPageURL =
@@ -42,10 +44,6 @@ public class LaundryServiceController extends ServiceRequestController implement
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
 
     menuName = "Laundry Service Request";
     submitButton.setDisable(true);
@@ -53,6 +51,7 @@ public class LaundryServiceController extends ServiceRequestController implement
     seeRequestsLabel.setVisible(true);
     errorLabel.setVisible(false);
     successSubmitLabel.setVisible(false);
+    initializeHelpGraphic();
   }
 
   @Override
@@ -85,7 +84,6 @@ public class LaundryServiceController extends ServiceRequestController implement
         successSubmitLabel.setVisible(false);
       }
     }
-    // Add submitting functionality here!
   }
 
   public void setMenuController(MenuController menu) {
@@ -101,6 +99,37 @@ public class LaundryServiceController extends ServiceRequestController implement
     errorLabel.setVisible(false);
     submitButton.setDisable(true);
     successSubmitLabel.setVisible(false);
+  }
+
+  @Override
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientIDFormHeader, "Enter ID of patient that\nneeds laundry to be done");
+
+      locationFormHeader.getStyleClass().clear();
+      locationFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          locationFormHeader, "Enter room number that\npatient's used laundry is located");
+
+      linenTypeFormHeader.getStyleClass().clear();
+      linenTypeFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(linenTypeFormHeader, "Enter linen type that\nneeds to be washed");
+    } else {
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header");
+      patientIDFormHeader.setTooltip(null);
+
+      locationFormHeader.getStyleClass().clear();
+      locationFormHeader.getStyleClass().add("form-header");
+      locationFormHeader.setTooltip(null);
+
+      linenTypeFormHeader.getStyleClass().clear();
+      linenTypeFormHeader.getStyleClass().add("form-header");
+      linenTypeFormHeader.setTooltip(null);
+    }
   }
 
   public void validateButton(KeyEvent keyEvent) {

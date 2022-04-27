@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers.subControllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.HospitalCode;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.helpers.BiPolygon;
@@ -248,6 +249,11 @@ public class MapController implements Initializable {
     imageWidth.set(newImage.getWidth());
   }
 
+  public void setAlerts(HospitalCode code) {
+    System.out.println("adding label");
+    iconContainer.getChildren().add(code.getLabel());
+  }
+
   /**
    * Given a list of locations, adds labels to the map.
    *
@@ -262,7 +268,8 @@ public class MapController implements Initializable {
       List<Location> visibleLocations,
       List<Location> allLocations,
       boolean genVoronoi,
-      LabelMethod graphicMethod) {
+      LabelMethod graphicMethod,
+      ObservableList<HospitalCode> codes) {
     // Reset everything
     currentLabels.clear();
     iconContainer.getChildren().clear();
@@ -278,9 +285,7 @@ public class MapController implements Initializable {
               .build();
 
       // place label at correct coords
-      label.relocate(
-          label.getLocation().getXcoord(), // * (map.getFitWidth() / 1021),
-          label.getLocation().getYcoord()); // * (map.getFitHeight() / 850));
+      label.relocate((label.getLocation().getXcoord()), (label.getLocation().getYcoord()));
 
       if (genVoronoi) {
         generateVoronoi(allLocations);
@@ -337,6 +342,12 @@ public class MapController implements Initializable {
 
       allLabels.add(label);
       iconContainer.getChildren().add(label);
+    }
+
+    for (HospitalCode code : codes) {
+      if (visibleLocations.contains(code.getLocation())) {
+        setAlerts(code);
+      }
     }
   }
 

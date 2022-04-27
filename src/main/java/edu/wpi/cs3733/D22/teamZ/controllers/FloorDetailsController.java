@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController;
+import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.SingleServiceRequestController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
@@ -9,6 +10,7 @@ import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.helpers.LabelMethod;
 import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -25,7 +27,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -33,6 +34,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -87,6 +89,8 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
   private MapController mapController;
   private String equipmentFilter = "";
   private MFXButton prevButton;
+  private MapLabel lastLabel;
+  private boolean cooling = false;
   private Map<String, String> locationColorMap =
       Map.of(
           "",
@@ -114,6 +118,7 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
 
   // Service Requests
   DateTimeFormatter hourFormat = DateTimeFormatter.ofPattern("hh:mm a");
+  private MFXButton lastActiveButton;
 
   // Colorse
   static List<String> equipmentColors =
@@ -122,7 +127,10 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
       Map.of("DIRTY", "#FF4343", "INUSE", "#E1BD00", "CLEAN", "#00CF15", "CLEANING", "#0075FF");
 
   private String toDashboard = "edu/wpi/cs3733/D22/teamZ/views/DashboardFinal.fxml";
-  private String toServiceRequestProperties = "edu/wpi/cs3733/D22/teamZ/views/DashboardFinal.fxml";
+  private String toServiceRequestProperties =
+      "edu/wpi/cs3733/D22/teamZ/views/popups/SingleServiceRequest.fxml";
+  private final String toLocationProperties =
+      "edu/wpi/cs3733/D22/teamZ/views/LocationProperties.fxml";
 
   public FloorDetailsController() {
     dao = FacadeDAO.getInstance();
@@ -147,14 +155,13 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     mapController.setScale(0.8);
     map.setHvalue(0.4);
     map.setVvalue(0.2);
-    mapController.setDoubleClicked(
-        (mouse) -> {
-          Node result = mouse.getPickResult().getIntersectedNode();
-          if (result instanceof MapLabel) {
+    mapController.setLabelClickedMethod(
+        (label) -> {
+          if (label.equals(lastLabel) && !cooling) {
             Stage stage = new Stage();
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource(toServiceRequestProperties));
+            loader.setLocation(getClass().getClassLoader().getResource(toLocationProperties));
             Parent root = null;
             try {
               root = loader.load();
@@ -165,7 +172,14 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
             Scene window = new Scene(root);
             stage.setScene(window);
             stage.show();
+
+            LocationPropertiesController controller = loader.getController();
+            controller.setLocation(label.getLocation());
+            cooling = true;
+            PopupLoader.delay(3000, () -> cooling = false);
           }
+          lastLabel = label;
+          PopupLoader.delay(1000, () -> lastLabel = null);
         });
 
     prevButton = noneMapButton;
@@ -269,7 +283,8 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
             MapController.loadImage(locationColorMap.get(equipmentFilter)).call(label);
           }
         };
-    mapController.setLabels(floorLocations, floorLocations, false, colorStuff);
+    mapController.setLabels(
+        floorLocations, floorLocations, false, colorStuff, FXCollections.emptyObservableList());
   }
 
   /**
@@ -294,14 +309,21 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     final boolean[] active = {false};
     dropdown.setOnAction(
         (event) -> {
+          if (lastActiveButton != dropdown && lastActiveButton != null) {
+            lastActiveButton.fire();
+          }
           if (active[0]) {
             // Remove table
             container.getChildren().remove(1);
+            contLabel.getGraphic().setRotate(0);
           } else {
             TableView<DropdownRow> thisTable = loadEquipmentTable(thisEquipment);
             container.getChildren().add(thisTable);
+            contLabel.getGraphic().setRotate(180);
           }
           active[0] = !active[0];
+          if (active[0]) lastActiveButton = dropdown;
+          else lastActiveButton = null;
         });
   }
 
@@ -316,6 +338,7 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     TableView<DropdownRow> table = new TableView<>();
     table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     table.getStyleClass().add("dropdown-table-view");
+    table.setPrefHeight(50 * data.size() + 40);
 
     // Create columns
     TableColumn<DropdownRow, String> locCol = new TableColumn<>();
@@ -417,6 +440,9 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
                 Scene window = new Scene(root);
                 stage.setScene(window);
                 stage.show();
+
+                SingleServiceRequestController controller = loader.getController();
+                controller.setValues(request);
               });
     }
   }

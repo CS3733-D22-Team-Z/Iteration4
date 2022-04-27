@@ -14,9 +14,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class CleaningRequestController extends ServiceRequestController {
+  @FXML public Label roomNumberFormHeader;
+  @FXML public Label requestFormHeader;
+  @FXML public Label floorNumberFormHeader;
+  @FXML public Label locationTypeFormHeader;
   @FXML private Label header;
   @FXML private Label objectBodyText;
   @FXML private Label roomNumberLabel;
@@ -45,11 +48,6 @@ public class CleaningRequestController extends ServiceRequestController {
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
 
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
-
     menuName = "Cleaning Request";
 
     locationList = database.getAllLocations();
@@ -72,6 +70,7 @@ public class CleaningRequestController extends ServiceRequestController {
     System.out.println(
         "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -82,6 +81,45 @@ public class CleaningRequestController extends ServiceRequestController {
     submitButton.setDisable(true);
     nodeTypeDropDown.getSelectionModel().select(0);
     validateButton();
+  }
+
+  @Override
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(roomNumberFormHeader, "Enter room number of\nroom that needs cleaning");
+
+      requestFormHeader.getStyleClass().clear();
+      requestFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(requestFormHeader, "Enter kind of cleaning request");
+
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          floorNumberFormHeader, "Enter floor number that\nneeds cleaning request");
+
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          locationTypeFormHeader, "Enter location type that\nneeds cleaning request");
+    } else {
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
+
+      requestFormHeader.getStyleClass().clear();
+      requestFormHeader.getStyleClass().add("form-header");
+      requestFormHeader.setTooltip(null);
+
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header");
+      floorNumberFormHeader.setTooltip(null);
+
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header");
+      locationTypeFormHeader.setTooltip(null);
+    }
   }
 
   @FXML

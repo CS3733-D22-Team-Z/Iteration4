@@ -27,6 +27,11 @@ javafx {
 
 dependencies {
     compile group: 'org.kynosarges', name: 'tektosyne', version: '6.2.0'
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //implementation name: 'ExternalTransportAPI'
+    //implementation name: 'TeamBAPI'
+
     implementation(
             'io.github.palexdev:materialfx:11.13.4',
             'io.github.palexdev:virtualizedfx:11.2.6',
@@ -50,8 +55,6 @@ dependencies {
             'org.slf4j:slf4j-simple:1.7.30',
 
             'com.github.sarxos:webcam-capture:0.3.12',
-
-            name: 'ExternalTransportAPI',
     )
 
     testCompile(

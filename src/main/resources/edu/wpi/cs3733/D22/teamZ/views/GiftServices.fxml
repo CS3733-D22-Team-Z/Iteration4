@@ -5,56 +5,43 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css"
-            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.GiftServicesController">
-   <Label id="FormLabel" layoutX="24.0" layoutY="59.0" prefHeight="25.0" prefWidth="321.0" styleClass="object-header"
-          text="Gift Services Request Form">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.GiftServicesController">
+   <Label id="FormLabel" layoutX="24.0" layoutY="59.0" prefHeight="25.0" prefWidth="321.0" styleClass="object-header" text="Gift Services Request Form">
       <font>
-         <Font name="System Bold" size="18.0"/>
+         <Font name="System Bold" size="18.0" />
       </font>
    </Label>
-   <Label layoutX="25.0" layoutY="86.0" prefHeight="17.0" prefWidth="331.0" styleClass="object-body"
-          text="Enter the fields below to request a gift service."/>
-   <Label layoutX="27.0" layoutY="109.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header"
-          text="Patient Name"/>
-   <MFXTextField fx:id="enterPatientName" floatMode="DISABLED" layoutX="26.0" layoutY="126.0" onAction="#validateButton"
-                 onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="192.0" promptText="Enter patient name"/>
-   <Label layoutX="27.0" layoutY="167.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header"
-          text="Patient ID"/>
-   <MFXTextField fx:id="enterPatientID" floatMode="DISABLED" layoutX="26.0" layoutY="187.0" onAction="#validateButton"
-                 onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="192.0" promptText="Enter patient ID"/>
-   <Label layoutX="27.0" layoutY="228.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header"
-          text="Room Number"/>
-   <ChoiceBox fx:id="nodeTypeDropDown" layoutX="26.0" layoutY="251.0" prefHeight="25.0" prefWidth="192.0"/>
-   <Label layoutX="27.0" layoutY="291.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header"
-          text="Gift Service Option"/>
-   <ChoiceBox fx:id="giftDropDown" layoutX="26.0" layoutY="308.0" prefHeight="25.0" prefWidth="192.0"/>
-   <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="24.0" layoutY="24.0" onAction="#onBackButtonClicked"
-              text=" Back to Landing Page">
+   <Label layoutX="25.0" layoutY="86.0" prefHeight="17.0" prefWidth="331.0" styleClass="object-body" text="Enter the fields below to request a gift service." />
+   <Label fx:id="patientNameFormHeader" layoutX="27.0" layoutY="109.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
+   <MFXTextField fx:id="enterPatientName" floatMode="DISABLED" layoutX="26.0" layoutY="126.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="192.0" promptText="Enter patient name" />
+   <Label fx:id="patientIDFormHeader" layoutX="27.0" layoutY="167.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
+   <MFXTextField fx:id="enterPatientID" floatMode="DISABLED" layoutX="26.0" layoutY="187.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="27.0" prefWidth="192.0" promptText="Enter patient ID" />
+   <Label fx:id="roomNumberFormHeader" layoutX="27.0" layoutY="228.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Room Number" />
+   <ChoiceBox fx:id="nodeTypeDropDown" layoutX="26.0" layoutY="251.0" prefHeight="25.0" prefWidth="192.0" />
+   <Label fx:id="giftServiceOptionFormHeader" layoutX="27.0" layoutY="291.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Gift Service Option" />
+   <ChoiceBox fx:id="giftDropDown" layoutX="26.0" layoutY="308.0" prefHeight="25.0" prefWidth="192.0" />
+   <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="24.0" layoutY="24.0" onAction="#onBackButtonClicked" text=" Back to Landing Page">
       <font>
-         <Font name="System Bold" size="12.0"/>
+         <Font name="System Bold" size="12.0" />
       </font>
    </MFXButton>
-   <MFXButton fx:id="submitButton" layoutX="24.0" layoutY="353.0" onAction="#onSubmitButtonClicked" prefHeight="28.0"
-              prefWidth="74.0" text="Submit">
+   <MFXButton fx:id="submitButton" layoutX="24.0" layoutY="353.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="74.0" text="Submit">
       <font>
-         <Font name="System Bold" size="12.0"/>
+         <Font name="System Bold" size="12.0" />
       </font>
    </MFXButton>
-   <MFXButton fx:id="resetButton" layoutX="112.0" layoutY="353.0" onAction="#onResetButtonClicked" prefHeight="28.0"
-              prefWidth="73.0" style="-fx-background-color: #FF4C4C;" text="Reset">
+   <MFXButton fx:id="resetButton" layoutX="112.0" layoutY="353.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: #FF4C4C;" text="Reset">
       <font>
-         <Font name="System Bold" size="12.0"/>
+         <Font name="System Bold" size="12.0" />
       </font>
    </MFXButton>
-   <Label fx:id="submittedLabel" layoutX="201.0" layoutY="359.0" text="Submitted Successfully!"/>
-   <Line endX="3.0" endY="386.5" layoutX="378.0" startX="3.0" stroke="#a4a4a4"/>
-   <Label alignment="CENTER" layoutX="399.0" layoutY="175.0" prefHeight="25.0" prefWidth="191.0"
-          styleClass="object-header" text="See current requests"/>
-   <MFXButton layoutX="415.0" layoutY="212.0" onAction="#toList" prefHeight="32.0" prefWidth="165.0"
-              text="See Requests"/>
+   <Label fx:id="submittedLabel" layoutX="201.0" layoutY="359.0" text="Submitted Successfully!" />
+   <Line endX="3.0" endY="386.5" layoutX="378.0" startX="3.0" stroke="#a4a4a4" />
+   <Label alignment="CENTER" layoutX="399.0" layoutY="175.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" />
+   <MFXButton layoutX="415.0" layoutY="212.0" onAction="#toList" prefHeight="32.0" prefWidth="165.0" text="See Requests" />
+   <Region fx:id="helpGraphic" layoutX="347.0" layoutY="28.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
 </AnchorPane>

@@ -4,10 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXListView;
-import io.github.palexdev.materialfx.controls.MFXRadioButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.cell.MFXListCell;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +34,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -49,12 +47,19 @@ import org.kynosarges.tektosyne.geometry.VoronoiResults;
 // LocationController controls Location.fxml, loads location data into a tableView on page
 public class LocationListController implements IMenuAccess {
 
+  @FXML private MFXCheckbox fromLock;
+  @FXML private MFXCheckbox toLock;
+  @FXML private Label toLabel;
+  @FXML private Label fromLabel;
+
   // alert
   @FXML private Pane addAlertPane;
   @FXML private Pane deleteAlertPane;
   @FXML private MFXTextField alertLocationFieldAdd;
   @FXML private MFXTextField alertLocationFieldDelete;
   @FXML private MFXButton submitAlert;
+  @FXML private MFXButton deleteAlert;
+
   // @FXML private MFXButton addAlertButton;
   // @FXML private ComboBox<String> alertCodeField;
   // @FXML private MFXButton addLocationButton;
@@ -90,6 +95,7 @@ public class LocationListController implements IMenuAccess {
   @FXML private Pane zoomOutButton;
 
   private static MapLabel activeLabel;
+
   //
 
   // Casey's
@@ -141,7 +147,9 @@ public class LocationListController implements IMenuAccess {
   @Getter
   private final ObservableList<MapLabel> allLabels =
       FXCollections.observableList(new ArrayList<>());
-  // private ObservableList<Label> alertLabels = FXCollections.observableList(new ArrayList<>());
+
+  private ObservableList<HospitalCode> alertLabels =
+      FXCollections.observableList(new ArrayList<>());
 
   VoronoiResults[] accessable = new VoronoiResults[7];
   private ContextMenu rightClickMenu;
@@ -161,7 +169,11 @@ public class LocationListController implements IMenuAccess {
   private String mode;
 
   private int scrollCount;
-  private double curZoom = 1.0;
+  private List<PathEdge> foundPath = new ArrayList<>();
+  private Location source;
+  private Location dest;
+  private boolean allowDrawPath = false;
+  private double curZoom = 1.5;
 
   // initialize location labels to display on map
   @FXML
@@ -203,6 +215,7 @@ public class LocationListController implements IMenuAccess {
 
           // Load default floor
           changeToFloor("3");
+          mapController.setScale(curZoom);
 
           zoomInButton.addEventFilter(
               MouseEvent.MOUSE_CLICKED,
@@ -470,7 +483,11 @@ public class LocationListController implements IMenuAccess {
 
       // Want all floor locations to be displayed + all locations are draggable anywhere.
       mapController.setLabels(
-          allFloorLocations, allFloorLocations, false, MapController.loadImage("location"));
+          allFloorLocations,
+          allFloorLocations,
+          false,
+          MapController.loadImage("location"),
+          alertLabels);
       mapController.setIconShift(0);
       mapController.setDraggable(
           (label) -> {
@@ -488,7 +505,11 @@ public class LocationListController implements IMenuAccess {
                   .filter((loc) -> loc.getEquipmentList().size() > 0)
                   .collect(Collectors.toList()));
       mapController.setLabels(
-          locsWithEquip.get(), allFloorLocations, true, MapController.loadImage("equipment"));
+          locsWithEquip.get(),
+          allFloorLocations,
+          true,
+          MapController.loadImage("equipment"),
+          alertLabels);
       mapController.setIconShift(20);
       mapController.setDraggable(
           (label) -> {
@@ -533,8 +554,26 @@ public class LocationListController implements IMenuAccess {
           locsWithServices.get(),
           locsWithServices.get(),
           false,
-          MapController.loadImage("servicerequest"));
+          MapController.loadImage("servicerequest"),
+          alertLabels);
       mapController.setIconShift(0);
+    }
+    mapController.getIconContainer().getChildren().removeIf(n -> n instanceof Line);
+    if (foundPath.size() > 0) {
+      for (PathEdge edge : foundPath) {
+        if (edge.getFrom().getFloor().equals(floor)
+            && edge.getDest().getFloor().equals(floor)
+            && allowDrawPath) {
+          Location s = edge.getFrom();
+          Location d = edge.getDest();
+          Line l =
+              new Line(
+                  s.getXcoord() - 6, s.getYcoord() - 12, d.getXcoord() - 6, d.getYcoord() - 12);
+          l.setStroke(Color.rgb(0, 75, 255));
+          l.setStrokeWidth(3);
+          mapController.getIconContainer().getChildren().add(l);
+        }
+      }
     }
   }
   // Andrew's Stuff
@@ -617,7 +656,6 @@ public class LocationListController implements IMenuAccess {
   private void editLocationButtonClicked() throws IOException {
     locationChangeDarkenPane.setVisible(true);
     editLocationPane.setVisible(true);
-    locationChangeDarkenPane.setDisable(false);
     editLocationPane.setDisable(false);
     selectLocationTextField.setText(activeLabel.getLocation().getNodeID());
   }
@@ -922,11 +960,6 @@ public class LocationListController implements IMenuAccess {
   }
 
   @Override
-  public void setMenuController(MenuController menu) {
-    this.menu = menu;
-  }
-
-  @Override
   public String getMenuName() {
     return "Location Map";
   }
@@ -956,13 +989,22 @@ public class LocationListController implements IMenuAccess {
     alertLocationFieldDelete.setText(activeLabel.getLocation().getNodeID());
     alertCodeFieldDelete.valueProperty().set(null);
     deleteAlertPane.setDisable(false);
-    submitAlert.setOnAction(
+    deleteAlert.setOnAction(
         (e) -> {
-          createAlert(
+          deleteAlert(
               alertCodeFieldDelete.getSelectionModel().getSelectedItem().toString(),
               activeLabel.getLocation());
-          deleteAlertPane.setVisible(false);
         });
+  }
+
+  public void deleteAlert(String type, Location location) {
+    for (HospitalCode code : alertLabels) {
+      if (code.getLocation().equals(location) && code.getCodeType().equals(type)) {
+        alertLabels.remove(code);
+      }
+    }
+    deleteAlertPane.setVisible(false);
+    showLocations(location.getFloor());
   }
 
   public void createAlert(String code, Location location) {
@@ -974,7 +1016,7 @@ public class LocationListController implements IMenuAccess {
         newAlert.setTitle("Code Red Alert");
         newAlert.setHeaderText("Code Red");
         newAlert.setGraphic(redAlertIcon);
-        createAlertLabel(redAlertIcon, location);
+        createAlertLabel(redAlertIcon, location, code);
         if (location.getFloor().equals("1")) {
           newAlert.setContentText(
               "Fire at "
@@ -1000,7 +1042,7 @@ public class LocationListController implements IMenuAccess {
                 + " on Floor "
                 + location.getFloor());
         newAlert.setGraphic(greyAlertIcon);
-        createAlertLabel(greyAlertIcon, location);
+        createAlertLabel(greyAlertIcon, location, code);
         break;
       case "Code Green":
         System.out.println("green label");
@@ -1014,7 +1056,7 @@ public class LocationListController implements IMenuAccess {
                 + " on Floor "
                 + location.getFloor());
         newAlert.setGraphic(greenAlertIcon);
-        createAlertLabel(greenAlertIcon, location);
+        createAlertLabel(greenAlertIcon, location, code);
         break;
       case "Code White":
         ImageView whiteAlertIcon =
@@ -1024,7 +1066,7 @@ public class LocationListController implements IMenuAccess {
         newAlert.setContentText(
             "Bomb Threat at " + location.getLongName() + " on Floor " + location.getFloor());
         newAlert.setGraphic(whiteAlertIcon);
-        createAlertLabel(whiteAlertIcon, location);
+        createAlertLabel(whiteAlertIcon, location, code);
         break;
       case "Code Pink":
         ImageView pinkAlertIcon =
@@ -1034,7 +1076,7 @@ public class LocationListController implements IMenuAccess {
         newAlert.setContentText(
             "Infant Abduction at " + location.getLongName() + " on Floor " + location.getFloor());
         newAlert.setGraphic(pinkAlertIcon);
-        createAlertLabel(pinkAlertIcon, location);
+        createAlertLabel(pinkAlertIcon, location, code);
         break;
       case "Code Amber":
         ImageView amberAlertIcon =
@@ -1043,7 +1085,7 @@ public class LocationListController implements IMenuAccess {
         newAlert.setHeaderText("Code Amber");
         newAlert.setContentText("Disaster Plan in Effect");
         newAlert.setGraphic(amberAlertIcon);
-        createAlertLabel(amberAlertIcon, location);
+        createAlertLabel(amberAlertIcon, location, code);
         break;
       case "Code Blue":
         ImageView blueAlertIcon =
@@ -1056,7 +1098,7 @@ public class LocationListController implements IMenuAccess {
                 + " on Floor "
                 + location.getFloor());
         newAlert.setGraphic(blueAlertIcon);
-        createAlertLabel(blueAlertIcon, location);
+        createAlertLabel(blueAlertIcon, location, code);
         break;
       default:
         break;
@@ -1066,7 +1108,7 @@ public class LocationListController implements IMenuAccess {
     newAlert.setOnCloseRequest((e) -> {});
   }
 
-  public void createAlertLabel(ImageView icon, Location location) {
+  public void createAlertLabel(ImageView icon, Location location, String type) {
     DropShadow dropShadow = new DropShadow();
     dropShadow.setRadius(5.0);
     dropShadow.setOffsetX(3.0);
@@ -1082,11 +1124,107 @@ public class LocationListController implements IMenuAccess {
     label.setGraphic(icon);
     label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
     label.setContextMenu(contextMenu);
-    contextMenu.getItems().add(menuItem1);
-    menuItem1.setOnAction(
+    String typeString = "Code " + type + " Alert";
+    label.setOnMouseClicked(
         (e) -> {
-          // remove from map
+          showAlertWarning(type, location);
         });
+
+    alertLabels.add(new HospitalCode(location, type, label));
+    showLocations(location.getFloor());
+  }
+
+  public void showAlertWarning(String code, Location location) {
+    Alert newAlert = new Alert(Alert.AlertType.WARNING);
+    switch (code) {
+      case "Code Red":
+        ImageView redAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/RedAlert.png"));
+        newAlert.setTitle("Code Red Alert");
+        newAlert.setHeaderText("Code Red");
+        newAlert.setGraphic(redAlertIcon);
+        if (location.getFloor().equals("1")) {
+          newAlert.setContentText(
+              "Fire at "
+                  + location.getLongName()
+                  + " on Floor "
+                  + location.getFloor()
+                  + ". The closest exit is "
+                  + findClosestExit(location).getLongName());
+        } else {
+          newAlert.setContentText(
+              "Fire at " + location.getLongName() + " on Floor " + location.getFloor());
+        }
+        findClosestExit(location);
+        break;
+      case "Code Grey":
+        ImageView greyAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreyAlert.png"));
+        newAlert.setTitle("Code Grey Alert");
+        newAlert.setHeaderText("Code Grey");
+        newAlert.setContentText(
+            "Security Personnel Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greyAlertIcon);
+        break;
+      case "Code Green":
+        System.out.println("green label");
+        ImageView greenAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/GreenAlert.png"));
+        newAlert.setTitle("Code Green Alert");
+        newAlert.setHeaderText("Code Green");
+        newAlert.setContentText(
+            "M.D. or Specialty Needed Urgently at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(greenAlertIcon);
+        break;
+      case "Code White":
+        ImageView whiteAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/WhiteAlert.png"));
+        newAlert.setTitle("Code White Alert");
+        newAlert.setHeaderText("Code White");
+        newAlert.setContentText(
+            "Bomb Threat at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(whiteAlertIcon);
+        break;
+      case "Code Pink":
+        ImageView pinkAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/PinkAlert.png"));
+        newAlert.setTitle("Code Pink Alert");
+        newAlert.setHeaderText("Code Pink");
+        newAlert.setContentText(
+            "Infant Abduction at " + location.getLongName() + " on Floor " + location.getFloor());
+        newAlert.setGraphic(pinkAlertIcon);
+        break;
+      case "Code Amber":
+        ImageView amberAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/AmberAlert.png"));
+        newAlert.setTitle("Code Amber Alert");
+        newAlert.setHeaderText("Code Amber");
+        newAlert.setContentText("Disaster Plan in Effect");
+        newAlert.setGraphic(amberAlertIcon);
+        break;
+      case "Code Blue":
+        ImageView blueAlertIcon =
+            new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/BlueAlert.png"));
+        newAlert.setTitle("Code Blue Alert");
+        newAlert.setHeaderText("Code Blue");
+        newAlert.setContentText(
+            "Immediate Medical Assistance Needed at "
+                + location.getLongName()
+                + " on Floor "
+                + location.getFloor());
+        newAlert.setGraphic(blueAlertIcon);
+        break;
+      default:
+        break;
+    }
+
+    newAlert.show();
   }
 
   public Location findClosestExit(Location location) {
@@ -1119,5 +1257,54 @@ public class LocationListController implements IMenuAccess {
       }
     }
     return closestExit;
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
+  public void enableFromLock(ActionEvent actionEvent) {
+    mapController.getIconContainer().getChildren().removeIf(n -> n instanceof Line);
+    fromLabel.setVisible(fromLock.isSelected());
+    if (fromLock.isSelected()) {
+      String text;
+      if (activeLabel != null) {
+        text = activeLabel.getLocation().getNodeID();
+        source = activeLabel.getLocation();
+      } else {
+        text = "Not Set";
+        source = null;
+      }
+      fromLabel.setText(text);
+    }
+    setFoundPath();
+  }
+
+  public void enableToLock(ActionEvent actionEvent) {
+    mapController.getIconContainer().getChildren().removeIf(n -> n instanceof Line);
+    toLabel.setVisible(toLock.isSelected());
+    if (toLock.isSelected()) {
+      String text;
+      if (activeLabel != null) {
+        text = activeLabel.getLocation().getNodeID();
+        dest = activeLabel.getLocation();
+      } else {
+        text = "Not Set";
+        dest = null;
+      }
+      toLabel.setText(text);
+    }
+    setFoundPath();
+  }
+
+  private void setFoundPath() {
+    if (source != null && dest != null && toLock.isSelected() && fromLock.isSelected()) {
+      allowDrawPath = true;
+      foundPath = PathEdge.findPath(source, dest).collect(Collectors.toList());
+      showLocations(changeFloor.getSelectionModel().getSelectedItem());
+    } else {
+      allowDrawPath = false;
+    }
   }
 }
