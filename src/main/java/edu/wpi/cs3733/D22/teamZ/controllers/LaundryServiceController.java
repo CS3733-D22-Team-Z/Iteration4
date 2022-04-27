@@ -85,7 +85,6 @@ public class LaundryServiceController extends ServiceRequestController implement
         successSubmitLabel.setVisible(false);
       }
     }
-    // Add submitting functionality here!
   }
 
   public void setMenuController(MenuController menu) {
