@@ -76,6 +76,7 @@ public class SecurityServiceController extends ServiceRequestController {
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     urgencyBox.getSelectionModel().select("Low");
     reasonTextField.setText("");
+    nodeIdField.setText("");
     errorLabel.setVisible(false);
   }
 
