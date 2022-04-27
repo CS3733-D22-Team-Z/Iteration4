@@ -182,8 +182,8 @@
 }
 
 .region-icon {
-    -fx-pref-width: 18;
-    -fx-pref-height: 18;
+    -fx-pref-width: 60;
+    -fx-pref-height: 60;
     -fx-background-color: #000000;
 }
 

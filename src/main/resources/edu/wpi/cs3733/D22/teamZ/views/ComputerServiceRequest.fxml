@@ -23,7 +23,7 @@
         <Label fx:id="descriptionOfProblemFormHeader" layoutX="48.0" layoutY="477.0" prefHeight="30.0" prefWidth="276.0" styleClass="form-header" text="Description of problem" />
       <MFXButton fx:id="submitButton" layoutX="48.0" layoutY="752.0" onAction="#onSubmitButtonClicked" prefHeight="71.0" prefWidth="187.0" style="-fx-background-radius: 5;" styleClass="back-button" text="Submit" />
       <MFXButton fx:id="resetButton" layoutX="293.0" layoutY="750.0" onAction="#onResetButtonClicked" prefHeight="71.0" prefWidth="187.0" style="-fx-background-color: #FF4C4C; -fx-background-radius: 5;" styleClass="back-button" text="Reset" />
-      <MFXButton fx:id="backButton" layoutX="52.0" layoutY="46.0" onAction="#onBackButtonClicked" prefHeight="71.0" prefWidth="369.0" style="-fx-background-radius: 5;" styleClass="back-button" text="Back to Landing Page">
+      <MFXButton fx:id="backButton" layoutX="48.0" layoutY="46.0" onAction="#onBackButtonClicked" prefHeight="71.0" prefWidth="369.0" style="-fx-background-radius: 5;" styleClass="back-button" text="Back to Landing Page">
          <graphic>
             <Region fx:id="backRegion" prefHeight="12.0" prefWidth="6.0" translateX="-4.0" />
          </graphic>

@@ -1,46 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MealServiceController">
+<AnchorPane prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MealServiceController">
     <children>
-      <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="14.0" layoutY="14.0" onAction="#onBackButtonClicked" text=" Back to Landing Page" />
-        <Label id="FormLabel" layoutX="15.0" layoutY="52.0" prefHeight="25.0" prefWidth="321.0" styleClass="object-header" text="Meal Service Request Form" />
-        <Label layoutX="15.0" layoutY="76.0" prefHeight="17.0" prefWidth="437.0" styleClass="object-body" text="Enter the fields below to request a meal service." />
-        <Label fx:id="patientIDFormHeader" layoutX="15.0" layoutY="105.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Choose Patient ID..." />
-        <Label fx:id="patientNameFormHeader" layoutX="16.0" layoutY="162.0" prefHeight="17.0" prefWidth="160.0" styleClass="form-header" text="Choose Patient Name..." />
-        <Label fx:id="roomNumberFormHeader" layoutX="17.0" layoutY="225.0" prefHeight="17.0" prefWidth="160.0" styleClass="form-header" text="Choose Room Number..." />
-        <Label fx:id="mealTimeFormHeader" layoutX="17.0" layoutY="283.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Choose Meal Time..." />
-      <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="356.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="74.0" text="Submit" />
-      <MFXButton fx:id="resetButton" layoutX="101.0" layoutY="356.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
-      <Separator layoutX="16.0" layoutY="99.0" prefHeight="0.0" prefWidth="548.0" />
-      <ComboBox fx:id="drinkOptionDropDown" layoutX="225.0" layoutY="186.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="7" />
-      <ComboBox fx:id="entreeOptionDropDown" layoutX="225.0" layoutY="248.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="5" />
-      <ComboBox fx:id="snackOptionDropDown" layoutX="225.0" layoutY="305.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="4" />
-      <Label fx:id="drinkChoiceFormHeader" layoutX="225.0" layoutY="163.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Drink Choice..." />
-      <Label fx:id="entreeChoiceFormHeader" layoutX="225.0" layoutY="225.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Entrée Choice..." />
-      <Label fx:id="snackChoiceFormHeader" layoutX="225.0" layoutY="282.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Snack Choice..." />
-      <MFXButton id="LanguageBackButton" fx:id="navigateToMealRequestList" layoutX="407.0" layoutY="38.0" onAction="#onNavigateToMealRequestList" text="View Current Requests" />
-      <Label fx:id="allergiesFormHeader" layoutX="411.0" layoutY="105.0" prefHeight="17.0" prefWidth="149.0" styleClass="form-header" text="Select Any Allergies..." />
-      <RadioButton fx:id="dairyChoice" layoutX="424.0" layoutY="132.0" mnemonicParsing="false" onAction="#validateButton" text="Dairy" />
-      <RadioButton fx:id="eggChoice" layoutX="424.0" layoutY="162.0" mnemonicParsing="false" text="Egg" />
-      <RadioButton fx:id="peanutChoice" layoutX="424.0" layoutY="192.0" mnemonicParsing="false" text="Peanut" />
-      <RadioButton fx:id="treenutChoice" layoutX="424.0" layoutY="222.0" mnemonicParsing="false" text="Tree Nut" />
-      <RadioButton fx:id="soyChoice" layoutX="424.0" layoutY="252.0" mnemonicParsing="false" text="Soy" />
-      <RadioButton fx:id="wheatChoice" layoutX="424.0" layoutY="282.0" mnemonicParsing="false" text="Wheat" />
-      <RadioButton fx:id="fishChoice" layoutX="424.0" layoutY="312.0" mnemonicParsing="false" text="Fish" />
-      <RadioButton fx:id="shellfishChoice" layoutX="424.0" layoutY="342.0" mnemonicParsing="false" text="Shellfish" />
-      <Label fx:id="mealRequestIndicator" layoutX="192.0" layoutY="361.0" prefHeight="17.0" prefWidth="218.0" styleClass="form-header" text="Meal Request Submitted Successfully..." />
-      <ComboBox fx:id="roomNumberDropDown" layoutX="16.0" layoutY="248.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="5" />
-      <ComboBox fx:id="mealOptionDropDown" layoutX="16.0" layoutY="305.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="4" />
-      <ComboBox fx:id="patientIDDropDown" layoutX="16.0" layoutY="128.0" prefHeight="26.0" prefWidth="149.0" />
-      <ComboBox fx:id="patientNameDropDown" layoutX="16.0" layoutY="185.0" prefHeight="26.0" prefWidth="149.0" visibleRowCount="7" />
-      <Region fx:id="helpGraphic" layoutX="356.0" layoutY="18.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
+      <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="48.0" layoutY="46.0" onAction="#onBackButtonClicked" prefHeight="71.0" prefWidth="369.0" styleClass="back-button" text=" Back to Landing Page" />
+        <Label id="FormLabel" layoutX="48.0" layoutY="140.0" prefHeight="65.0" prefWidth="637.0" styleClass="object-header" text="Meal Service Request" />
+        <Label layoutX="48.0" layoutY="217.0" prefHeight="30.0" prefWidth="573.0" styleClass="form-header" text="Enter the fields below to request a meal service." />
+        <Label fx:id="patientIDFormHeader" layoutX="48.0" layoutY="271.0" prefHeight="30.0" prefWidth="451.0" styleClass="form-header" text="Patient ID" />
+        <Label fx:id="patientNameFormHeader" layoutX="478.0" layoutY="272.0" prefHeight="30.0" prefWidth="332.0" styleClass="form-header" text="Patient Name" />
+        <Label fx:id="roomNumberFormHeader" layoutX="48.0" layoutY="409.0" prefHeight="17.0" prefWidth="160.0" styleClass="form-header" text="Room" />
+        <Label fx:id="mealTimeFormHeader" layoutX="48.0" layoutY="550.0" prefHeight="30.0" prefWidth="305.0" styleClass="form-header" text="Meal Time" />
+      <MFXButton fx:id="submitButton" layoutX="46.0" layoutY="821.0" onAction="#onSubmitButtonClicked" prefHeight="71.0" prefWidth="187.0" styleClass="back-button" text="Submit" />
+      <MFXButton fx:id="resetButton" layoutX="278.0" layoutY="821.0" onAction="#onResetButtonClicked" prefHeight="71.0" prefWidth="187.0" style="-fx-background-color: #FF4C4C;" styleClass="back-button" text="Reset" />
+      <ComboBox fx:id="drinkOptionDropDown" layoutX="480.0" layoutY="457.0" prefHeight="59.0" prefWidth="369.0" visibleRowCount="7" />
+      <ComboBox fx:id="entreeOptionDropDown" layoutX="480.0" layoutY="596.0" prefHeight="59.0" prefWidth="369.0" visibleRowCount="5" />
+      <ComboBox fx:id="snackOptionDropDown" layoutX="44.0" layoutY="724.0" prefHeight="59.0" prefWidth="369.0" visibleRowCount="4" />
+      <Label fx:id="drinkChoiceFormHeader" layoutX="478.0" layoutY="411.0" prefHeight="30.0" prefWidth="175.0" styleClass="form-header" text="Drink Choice" />
+      <Label fx:id="entreeChoiceFormHeader" layoutX="478.0" layoutY="551.0" prefHeight="30.0" prefWidth="185.0" styleClass="form-header" text="Entrée Choice" />
+      <Label fx:id="snackChoiceFormHeader" layoutX="46.0" layoutY="681.0" prefHeight="30.0" prefWidth="200.0" styleClass="form-header" text="Snack Choice" />
+      <MFXButton id="LanguageBackButton" fx:id="navigateToMealRequestList" layoutX="1384.0" layoutY="481.0" onAction="#onNavigateToMealRequestList" prefHeight="71.0" prefWidth="369.0" styleClass="back-button" text="See requests" />
+      <Label fx:id="allergiesFormHeader" layoutX="914.0" layoutY="279.0" prefHeight="30.0" prefWidth="238.0" styleClass="form-header" text="Select any allergies" />
+      <RadioButton fx:id="dairyChoice" layoutX="920.0" layoutY="327.0" mnemonicParsing="false" onAction="#validateButton" text="Dairy">
+         <font>
+            <Font size="19.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="eggChoice" layoutX="920.0" layoutY="370.0" mnemonicParsing="false" text="Egg">
+         <font>
+            <Font size="19.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="peanutChoice" layoutX="920.0" layoutY="414.0" mnemonicParsing="false" text="Peanut">
+         <font>
+            <Font size="19.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="treenutChoice" layoutX="920.0" layoutY="459.0" mnemonicParsing="false" text="Tree Nut">
+         <font>
+            <Font size="19.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="soyChoice" layoutX="920.0" layoutY="506.0" mnemonicParsing="false" text="Soy">
+         <font>
+            <Font size="19.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="wheatChoice" layoutX="920.0" layoutY="550.0" mnemonicParsing="false" text="Wheat">
+         <font>
+            <Font size="19.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="fishChoice" layoutX="920.0" layoutY="596.0" mnemonicParsing="false" text="Fish">
+         <font>
+            <Font size="19.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="shellfishChoice" layoutX="920.0" layoutY="645.0" mnemonicParsing="false" text="Shellfish">
+         <font>
+            <Font size="19.0" />
+         </font></RadioButton>
+      <ComboBox fx:id="roomNumberDropDown" layoutX="48.0" layoutY="457.0" prefHeight="59.0" prefWidth="369.0" visibleRowCount="5" />
+      <ComboBox fx:id="mealOptionDropDown" layoutX="48.0" layoutY="596.0" prefHeight="59.0" prefWidth="369.0" visibleRowCount="4" />
+      <ComboBox fx:id="patientIDDropDown" layoutX="48.0" layoutY="320.0" prefHeight="59.0" prefWidth="369.0" />
+      <ComboBox fx:id="patientNameDropDown" layoutX="480.0" layoutY="320.0" prefHeight="59.0" prefWidth="369.0" visibleRowCount="7" />
+      <Region fx:id="helpGraphic" layoutX="1132.0" layoutY="48.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
+      <Label fx:id="mealRequestIndicator" alignment="CENTER" layoutX="47.0" layoutY="908.0" prefHeight="100.0" prefWidth="909.0" style="-fx-border-color: #16A709; -fx-background-color: #FFFFFF; -fx-border-radius: 1.2; -fx-border-width: 4; -fx-text-fill: #16A709;" styleClass="error-label" text="Successfully submitted request!" textFill="#1fbc1c" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
+               <image>
+                  <Image url="@../images/successIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <Line endX="3.0" endY="907.0" layoutX="1229.0" layoutY="69.0" startX="3.0" startY="-32.0" stroke="#bfbfbf" strokeWidth="3.0" />
+      <Label alignment="CENTER" layoutX="1295.0" layoutY="387.0" prefHeight="65.0" prefWidth="559.0" styleClass="object-header" text="See current requests" />
     </children>
 </AnchorPane>
