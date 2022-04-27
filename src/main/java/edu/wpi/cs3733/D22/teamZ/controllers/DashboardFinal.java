@@ -1,9 +1,10 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.Location;
+import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import java.io.IOException;
 import java.util.List;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -90,7 +91,15 @@ public class DashboardFinal implements IMenuAccess {
 
     SVGPath Icon = new SVGPath();
     Icon.setContent(dashboardAlert);
-    List<Region> dashRegions = List.of(error5Region, error4Region, error3Region, error2Region, error1Region, errorLL1Region, errorLL2Region);
+    List<Region> dashRegions =
+        List.of(
+            error5Region,
+            error4Region,
+            error3Region,
+            error2Region,
+            error1Region,
+            errorLL1Region,
+            errorLL2Region);
     for (Region dashRegion : dashRegions) {
       dashRegion.setShape(Icon);
       dashRegion.setStyle("-fx-background-color: #ff8800;");
@@ -174,6 +183,42 @@ public class DashboardFinal implements IMenuAccess {
         Integer.toString(FacadeDAO.getInstance().countDirtyIPumpsByFloor("LL1")));
     dirtyIPumpsLL2Label.setText(
         Integer.toString(FacadeDAO.getInstance().countDirtyIPumpsByFloor("LL2")));
+
+    // Create observers for each dirty location
+    List<Location> dirtyTest =
+        List.of(
+            FacadeDAO.getInstance().getLocationByID("zSTOR00305"),
+            FacadeDAO.getInstance().getLocationByID("zSTOR00303"),
+            FacadeDAO.getInstance().getLocationByID("zSTOR00403"),
+            FacadeDAO.getInstance().getLocationByID("zSTOR00304"),
+            FacadeDAO.getInstance().getLocationByID("zSTOR00404"));
+
+    for (Location dirtyLocation : dirtyTest) {
+      new DashboardBedAlertObserver(dirtyLocation, this);
+    }
+
+    List<Location> dirtyPumpLocations =
+        List.of(
+            FacadeDAO.getInstance().getLocationByID("zDIRT00103"),
+            FacadeDAO.getInstance().getLocationByID("zDIRT00104"),
+            FacadeDAO.getInstance().getLocationByID("zDIRT00105"));
+
+    for (Location dirtyLocation : dirtyPumpLocations) {
+      new DashboardBedAlertObserver(dirtyLocation, this);
+    }
+
+    List<Location> cleanPumpLocations =
+        List.of(
+            FacadeDAO.getInstance().getLocationByID("zSTOR00103"),
+            FacadeDAO.getInstance().getLocationByID("zSTOR00203"),
+            FacadeDAO.getInstance().getLocationByID("zSTOR00104"),
+            FacadeDAO.getInstance().getLocationByID("zSTOR00204"),
+            FacadeDAO.getInstance().getLocationByID("zSTOR00105"),
+            FacadeDAO.getInstance().getLocationByID("zSTOR00205"));
+
+    for (Location cleanLocation : cleanPumpLocations) {
+      new DashboardBedAlertObserver(cleanLocation, this);
+    }
   }
 
   @FXML
@@ -201,18 +246,29 @@ public class DashboardFinal implements IMenuAccess {
   @FXML
   public void toLowerLevel2(ActionEvent actionEvent) {}
 
-  // Drop down for warnings
-  static class DropdownRow {
-    // SimpleString Property id;
-    SimpleStringProperty type;
-    SimpleStringProperty status;
-    SimpleStringProperty location;
+  /*public void updateBedAlert(String floor, int dirtyBeds, int dirtyPumps, int cleanPumps) {
+    // Get alert for this floor
+    DashAlert floorAlert = alerts.get(floor);
+    floorAlert.putWarningData(dirtyBedMsg, dirtyBeds, 6, true);
+    floorAlert.putWarningData(dirtyPumpMsg, dirtyPumps, 15, true);
+    floorAlert.putWarningData(cleanPumpMsg, cleanPumps, 5, false);
+  }*/
 
-    public DropdownRow(String type, String status, String location) {
-      // this.id = new SimpleStringProperty(is);
-      this.type = new SimpleStringProperty(type);
-      this.status = new SimpleStringProperty(status);
-      this.location = new SimpleStringProperty(location);
+  public void floorAlert(String floor) {
+    if (floor.equals("5")) {
+      error5Region.setVisible(true);
+    } else if (floor.equals("4")) {
+      error4Region.setVisible(true);
+    } else if (floor.equals("3")) {
+      error3Region.setVisible(true);
+    } else if (floor.equals("2")) {
+      error2Region.setVisible(true);
+    } else if (floor.equals("1")) {
+      error1Region.setVisible(true);
+    } else if (floor.equals("L1")) {
+      errorLL1Region.setVisible(true);
+    } else if (floor.equals("L2")) {
+      errorLL2Region.setVisible(true);
     }
   }
 }
