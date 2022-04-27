@@ -22,16 +22,16 @@
             <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
                <children>
                   <Region fx:id="dashRegion5" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="57.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="846.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle fx:id="ipumpGreen5" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="846.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="537.0" />
-                  <Rectangle fx:id="bedGreen5" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="57.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="397.0" />
+                  <Rectangle fx:id="bedRed5" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpRed5" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpGreen5" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="537.0" />
+                  <Rectangle fx:id="bedGreen5" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="397.0" />
                   <Label alignment="CENTER" layoutX="11.0" prefHeight="46.0" prefWidth="97.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanBeds5Label" alignment="CENTER" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanBeds5Label" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -41,7 +41,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanIPumps5Label" alignment="CENTER" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanIPumps5Label" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -51,7 +51,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyBeds5Label" alignment="CENTER" layoutX="702.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyBeds5Label" alignment="CENTER_RIGHT" layoutX="670.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -61,7 +61,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyIPumps5Label" alignment="CENTER" layoutX="1490.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyIPumps5Label" alignment="CENTER_RIGHT" layoutX="1460.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -71,8 +71,7 @@
                   <MFXButton fx:id="error5Button" contentDisplay="GRAPHIC_ONLY" layoutX="1587.0" layoutY="14.0" prefHeight="90.0" prefWidth="90.0" style="-fx-padding: 0; -fx-background-color: #FFFFFF;" stylesheets="@../styles/ServiceRequestDefault.css" text=" ">
                      <graphic>
                         <Region fx:id="error5Region" prefHeight="70.0" prefWidth="84.0" style="-fx-padding: 0;" visible="false" />
-                     </graphic>
-                  </MFXButton>
+                     </graphic></MFXButton>
                </children>
             </Pane>
          </children>
@@ -87,16 +86,16 @@
             <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
                <children>
                   <Region fx:id="dashRegion4" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="57.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="846.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle fx:id="ipumpGreen4" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="846.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="537.0" />
-                  <Rectangle fx:id="bedGreen4" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="54.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="443.0" />
+                  <Rectangle fx:id="bedRed4" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpRed4" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpGreen4" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="537.0" />
+                  <Rectangle fx:id="bedGreen4" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="443.0" />
                   <Label alignment="CENTER" layoutX="11.0" prefHeight="46.0" prefWidth="99.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanBeds4Label" alignment="CENTER" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanBeds4Label" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -106,7 +105,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanIPumps4Label" alignment="CENTER" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanIPumps4Label" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -116,7 +115,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyBeds4Label" alignment="CENTER" layoutX="702.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyBeds4Label" alignment="CENTER_RIGHT" layoutX="670.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -126,7 +125,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyIPumps4Label" alignment="CENTER" layoutX="1490.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyIPumps4Label" alignment="CENTER_RIGHT" layoutX="1460.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -151,16 +150,16 @@
             <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
                <children>
                   <Region fx:id="dashRegion3" layoutX="456.0" layoutY="5.0" prefHeight="36.0" prefWidth="36.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="57.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="846.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle fx:id="ipumpGreen3" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="846.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="537.0" />
-                  <Rectangle fx:id="bedGreen3" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="57.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="443.0" />
+                  <Rectangle fx:id="bedRed3" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpRed3" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpGreen3" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="537.0" />
+                  <Rectangle fx:id="bedGreen3" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="443.0" />
                   <Label alignment="CENTER" layoutX="11.0" prefHeight="46.0" prefWidth="93.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanBeds3Label" alignment="CENTER" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanBeds3Label" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -170,7 +169,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanIPumps3Label" alignment="CENTER" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanIPumps3Label" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -180,7 +179,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyBeds3Label" alignment="CENTER" layoutX="702.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyBeds3Label" alignment="CENTER_RIGHT" layoutX="670.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -190,7 +189,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyIPumps3Label" alignment="CENTER" layoutX="1490.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyIPumps3Label" alignment="CENTER_RIGHT" layoutX="1460.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -215,16 +214,16 @@
             <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
                <children>
                   <Region fx:id="dashRegion2" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="57.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="846.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle fx:id="ipumpGreen2" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="846.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="537.0" />
-                  <Rectangle fx:id="bedGreen2" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="57.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="443.0" />
+                  <Rectangle fx:id="bedRed2" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpRed2" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpGreen2" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="537.0" />
+                  <Rectangle fx:id="bedGreen2" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="443.0" />
                   <Label alignment="CENTER" layoutX="11.0" prefHeight="46.0" prefWidth="93.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanBeds2Label" alignment="CENTER" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanBeds2Label" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -234,7 +233,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanIPumps2Label" alignment="CENTER" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanIPumps2Label" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -244,7 +243,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyBeds2Label" alignment="CENTER" layoutX="702.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyBeds2Label" alignment="CENTER_RIGHT" layoutX="670.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -254,7 +253,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyIPumps2Label" alignment="CENTER" layoutX="1490.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyIPumps2Label" alignment="CENTER_RIGHT" layoutX="1460.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -279,16 +278,16 @@
             <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
                <children>
                   <Region fx:id="dashRegion1" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="57.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="846.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle fx:id="ipumpGreen1" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="846.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="537.0" />
-                  <Rectangle fx:id="bedGreen1" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="57.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="443.0" />
+                  <Rectangle fx:id="bedRed1" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpRed1" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpGreen1" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="537.0" />
+                  <Rectangle fx:id="bedGreen1" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="443.0" />
                   <Label alignment="CENTER" layoutX="11.0" prefHeight="46.0" prefWidth="95.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanBeds1Label" alignment="CENTER" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanBeds1Label" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -298,7 +297,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanIPumps1Label" alignment="CENTER" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanIPumps1Label" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -308,7 +307,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyBeds1Label" alignment="CENTER" layoutX="702.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyBeds1Label" alignment="CENTER_RIGHT" layoutX="670.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -318,7 +317,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyIPumps1Label" alignment="CENTER" layoutX="1490.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyIPumps1Label" alignment="CENTER_RIGHT" layoutX="1460.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -343,16 +342,16 @@
             <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
                <children>
                   <Region fx:id="dashRegionLL1" layoutX="456.0" layoutY="7.0" prefHeight="36.0" prefWidth="36.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="57.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="846.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle fx:id="ipumpGreenLL1" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="846.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="537.0" />
-                  <Rectangle fx:id="bedGreenLL1" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="57.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="443.0" />
+                  <Rectangle fx:id="bedRedLL1" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpRedLL1" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpGreenLL1" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="537.0" />
+                  <Rectangle fx:id="bedGreenLL1" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="443.0" />
                   <Label alignment="CENTER" layoutX="11.0" prefHeight="46.0" prefWidth="102.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanBedsLL1Label" alignment="CENTER" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanBedsLL1Label" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -362,7 +361,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanIPumpsLL1Label" alignment="CENTER" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanIPumpsLL1Label" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -372,7 +371,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyBedsLL1Label" alignment="CENTER" layoutX="702.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyBedsLL1Label" alignment="CENTER_RIGHT" layoutX="670.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -382,7 +381,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyIPumpsLL1Label" alignment="CENTER" layoutX="1490.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyIPumpsLL1Label" alignment="CENTER_RIGHT" layoutX="1460.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -411,16 +410,16 @@
             </MFXButton>
             <Pane prefHeight="119.0" prefWidth="1714.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 10 10 10;">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="57.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" layoutX="846.0" layoutY="74.0" stroke="RED" strokeType="INSIDE" width="659.0" />
-                  <Rectangle fx:id="ipumpGreenLL2" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="846.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="537.0" />
-                  <Rectangle fx:id="bedGreenLL2" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" layoutX="57.0" layoutY="74.0" stroke="LIME" strokeType="INSIDE" width="443.0" />
+                  <Rectangle fx:id="bedRedLL2" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpRedLL2" arcHeight="5.0" arcWidth="5.0" fill="#ff4444" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#ff4444" strokeType="INSIDE" width="659.0" />
+                  <Rectangle fx:id="ipumpGreenLL2" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="846.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="537.0" />
+                  <Rectangle fx:id="bedGreenLL2" arcHeight="5.0" arcWidth="5.0" fill="#1fbc1c" height="25.0" layoutX="57.0" layoutY="74.0" stroke="#1fbc1c" strokeType="INSIDE" width="443.0" />
                   <Label alignment="CENTER" layoutX="11.0" prefHeight="46.0" prefWidth="102.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="Clean:" textAlignment="CENTER">
                      <font>
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanBedsLL2Label" alignment="CENTER" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanBedsLL2Label" layoutX="48.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -430,7 +429,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="cleanIPumpsLL2Label" alignment="CENTER" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="cleanIPumpsLL2Label" layoutX="840.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -440,7 +439,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyBedsLL2Label" alignment="CENTER" layoutX="702.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyBedsLL2Label" alignment="CENTER_RIGHT" layoutX="670.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -450,7 +449,7 @@
                         <Font size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="dirtyIPumpsLL2Label" alignment="CENTER" layoutX="1490.0" layoutY="32.0" prefHeight="47.0" prefWidth="18.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
+                  <Label fx:id="dirtyIPumpsLL2Label" alignment="CENTER_RIGHT" layoutX="1460.0" layoutY="32.0" prefHeight="47.0" prefWidth="47.0" styleClass="object-body" stylesheets="@../styles/ServiceRequestDefault.css" text="1">
                      <font>
                         <Font size="27.0" />
                      </font>

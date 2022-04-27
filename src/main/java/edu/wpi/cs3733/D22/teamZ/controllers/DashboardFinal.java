@@ -3,10 +3,9 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.util.List;
-
-import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -23,7 +22,7 @@ public class DashboardFinal implements IMenuAccess {
 
   private MenuController menu;
   private String menuName;
-  private final double MAXWIDTH = 749;
+  private final double MAXWIDTH = 659;
 
   @FXML Rectangle bedGreen5;
   @FXML Rectangle bedGreen4;
@@ -32,6 +31,13 @@ public class DashboardFinal implements IMenuAccess {
   @FXML Rectangle bedGreen1;
   @FXML Rectangle bedGreenLL1;
   @FXML Rectangle bedGreenLL2;
+  @FXML Rectangle bedRed5;
+  @FXML Rectangle bedRed4;
+  @FXML Rectangle bedRed3;
+  @FXML Rectangle bedRed2;
+  @FXML Rectangle bedRed1;
+  @FXML Rectangle bedRedLL1;
+  @FXML Rectangle bedRedLL2;
   @FXML Rectangle ipumpGreen5;
   @FXML Rectangle ipumpGreen4;
   @FXML Rectangle ipumpGreen3;
@@ -39,6 +45,13 @@ public class DashboardFinal implements IMenuAccess {
   @FXML Rectangle ipumpGreen1;
   @FXML Rectangle ipumpGreenLL1;
   @FXML Rectangle ipumpGreenLL2;
+  @FXML Rectangle ipumpRed5;
+  @FXML Rectangle ipumpRed4;
+  @FXML Rectangle ipumpRed3;
+  @FXML Rectangle ipumpRed2;
+  @FXML Rectangle ipumpRed1;
+  @FXML Rectangle ipumpRedLL1;
+  @FXML Rectangle ipumpRedLL2;
   @FXML Label cleanBeds5Label;
   @FXML Label cleanBeds4Label;
   @FXML Label cleanBeds3Label;
@@ -92,6 +105,20 @@ public class DashboardFinal implements IMenuAccess {
     ipumpGreenLL1.setWidth(countCleanIPumps("LL1"));
     ipumpGreenLL2.setWidth(countCleanIPumps("LL2"));
     setLabels();
+    noBeds("5", bedRed5);
+    noBeds("4", bedRed4);
+    noBeds("3", bedRed3);
+    noBeds("2", bedRed2);
+    noBeds("1", bedRed1);
+    noBeds("L1", bedRedLL1);
+    noBeds("L2", bedRedLL2);
+    noIPumps("5", ipumpRed5);
+    noIPumps("4", ipumpRed4);
+    noIPumps("3", ipumpRed3);
+    noIPumps("2", ipumpRed2);
+    noIPumps("1", ipumpRed1);
+    noIPumps("L1", ipumpRedLL1);
+    noIPumps("L2", ipumpRedLL2);
 
     SVGPath Icon = new SVGPath();
     Icon.setContent(dashboardAlert);
@@ -134,6 +161,20 @@ public class DashboardFinal implements IMenuAccess {
     double total = clean + dirty;
     double cleanWidth = (clean * MAXWIDTH) / total;
     return cleanWidth;
+  }
+
+  private void noBeds(String floor, Rectangle rec) {
+    if (FacadeDAO.getInstance().countDirtyBedsByFloor(floor) == 0
+        && FacadeDAO.getInstance().countCleanBedsByFloor(floor) == 0) {
+      rec.setStyle("-fx-fill: #7B7B7B; -fx-stroke: #7B7B7B;");
+    }
+  }
+
+  private void noIPumps(String floor, Rectangle rec) {
+    if (FacadeDAO.getInstance().countDirtyIPumpsByFloor(floor) == 0
+        && FacadeDAO.getInstance().countCleanIPumpsByFloor(floor) == 0) {
+      rec.setStyle("-fx-fill: #7B7B7B; -fx-stroke: #7B7B7B;");
+    }
   }
 
   private void setLabels() {
@@ -276,12 +317,16 @@ public class DashboardFinal implements IMenuAccess {
     }
   }
 
-  private void setupDropdown(VBox dropdownBox, String floor){
+  private void setupDropdown(VBox dropdownBox, String floor) {
     Pane topComponents = (Pane) dropdownBox.getChildren().get(0);
     Pane bottomComponents = (Pane) dropdownBox.getChildren().get(1);
 
-    MFXButton dropdownbutton = (MFXButton) topComponents.getChildren().get(topComponents.getChildren().size()-1);
-    bottomComponents.visibleProperty().addListener(listener -> bottomComponents.setPrefHeight(bottomComponents.isVisible() ? 200 : 0));
+    MFXButton dropdownbutton =
+        (MFXButton) topComponents.getChildren().get(topComponents.getChildren().size() - 1);
+    bottomComponents
+        .visibleProperty()
+        .addListener(
+            listener -> bottomComponents.setPrefHeight(bottomComponents.isVisible() ? 200 : 0));
     dropdownbutton.setOnAction(event -> bottomComponents.setVisible(!bottomComponents.isVisible()));
   }
 }
