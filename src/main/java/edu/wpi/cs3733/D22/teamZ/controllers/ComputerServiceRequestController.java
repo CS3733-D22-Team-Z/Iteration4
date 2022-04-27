@@ -6,7 +6,6 @@ import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.UniqueID;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -19,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 
 public class ComputerServiceRequestController extends ServiceRequestController
@@ -28,7 +28,7 @@ public class ComputerServiceRequestController extends ServiceRequestController
   @FXML public Label descriptionOfProblemFormHeader;
   @FXML private Region backRegion;
   @FXML private ChoiceBox osField;
-  @FXML private MFXTextField descField;
+  @FXML private TextArea descArea;
   @FXML private Label errorSavingLabel;
   @FXML private Label successfulSubmitLabel;
   @FXML private MFXButton submitButton;
@@ -51,7 +51,6 @@ public class ComputerServiceRequestController extends ServiceRequestController
     successfulSubmitLabel.setVisible(false);
 
     osField.setOnAction(event -> validateButton());
-    descField.setOnAction(event -> validateButton());
     successfulSubmitLabel.setText("Successfully Submitted Request!");
     initializeHelpGraphic();
   }
@@ -80,7 +79,7 @@ public class ComputerServiceRequestController extends ServiceRequestController
             opened,
             closed,
             osField.getSelectionModel().getSelectedItem().toString(),
-            descField.getText());
+            descArea.getText());
 
     if (FacadeDAO.getInstance().addComputerServiceRequest(temp)) {
       this.clearFields();
@@ -94,7 +93,7 @@ public class ComputerServiceRequestController extends ServiceRequestController
   @FXML
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     osField.getSelectionModel().clearSelection();
-    descField.setText("");
+    descArea.setText("");
     successfulSubmitLabel.setVisible(false);
   }
 
@@ -137,7 +136,7 @@ public class ComputerServiceRequestController extends ServiceRequestController
   @FXML
   public void clearFields() {
     osField.setValue(null);
-    descField.setText("");
+    descArea.setText("");
   }
 
   @Override
