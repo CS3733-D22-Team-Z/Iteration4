@@ -5,10 +5,14 @@ import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import java.io.IOException;
 import java.util.List;
+
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 
@@ -270,5 +274,14 @@ public class DashboardFinal implements IMenuAccess {
     } else if (floor.equals("L2")) {
       errorLL2Region.setVisible(true);
     }
+  }
+
+  private void setupDropdown(VBox dropdownBox, String floor){
+    Pane topComponents = (Pane) dropdownBox.getChildren().get(0);
+    Pane bottomComponents = (Pane) dropdownBox.getChildren().get(1);
+
+    MFXButton dropdownbutton = (MFXButton) topComponents.getChildren().get(topComponents.getChildren().size()-1);
+    bottomComponents.visibleProperty().addListener(listener -> bottomComponents.setPrefHeight(bottomComponents.isVisible() ? 200 : 0));
+    dropdownbutton.setOnAction(event -> bottomComponents.setVisible(!bottomComponents.isVisible()));
   }
 }

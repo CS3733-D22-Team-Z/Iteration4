@@ -117,6 +117,8 @@ public class MedicalEquipmentInfoTabController {
                 }
               }
             });
+
+    equipmentStatusChoice.setItems(listOfStatus);
   }
 
   public void onSelectMedicalEquipment(ActionEvent actionEvent) {
@@ -148,11 +150,13 @@ public class MedicalEquipmentInfoTabController {
     editedMedicalEquipment.setCurrentLocation(
         FacadeDAO.getInstance().getLocationByID(equipmentLocationField.getText()));
 
+    // TODO
+    /*
     if (editedMedicalEquipment.getCurrentLocation().getNodeType().equals("DIRT")) {
       editedMedicalEquipment.setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
     } else if (editedMedicalEquipment.getCurrentLocation().equals("STOR")) {
       editedMedicalEquipment.setStatus(MedicalEquipment.EquipmentStatus.CLEAN);
-    }
+    }*/
 
     if (facadeDAO.updateMedicalEquipment(editedMedicalEquipment)) {
       equipmentLocationField.setDisable(true);
