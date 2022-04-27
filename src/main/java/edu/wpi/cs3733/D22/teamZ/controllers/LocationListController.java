@@ -1211,7 +1211,6 @@ public class LocationListController implements IMenuAccess {
     }
 
     newAlert.show();
-    newAlert.setOnCloseRequest((e) -> {});
   }
 
   public Location findClosestExit(Location location) {

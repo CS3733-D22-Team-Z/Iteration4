@@ -245,6 +245,12 @@ public class MenuController implements Initializable {
     newSlider.setVisible(true);
   }
 
+  public void slideBar(int item) {
+    selectedItem = item;
+    Rectangle newSlider = (Rectangle) sliderContainer.getChildren().get(selectedItem);
+    newSlider.setVisible(true);
+  }
+
   @FXML
   private void toHome() throws IOException {
     selectMenu(0);

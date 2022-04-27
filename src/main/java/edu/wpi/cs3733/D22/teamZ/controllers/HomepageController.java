@@ -60,6 +60,7 @@ public class HomepageController implements IMenuAccess {
   private void toServiceRequests() throws IOException {
     System.out.println("navigating to servReq from landing page");
     menu.load(toServiceRequestURL);
+    menu.selectMenu(3);
   }
 
   @FXML
