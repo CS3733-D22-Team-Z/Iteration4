@@ -84,5 +84,6 @@
       </Label>
       <Line endX="3.0" endY="365.0" layoutX="378.0" layoutY="32.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
       <Label alignment="CENTER" layoutX="400.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
+      <Region fx:id="helpGraphic" layoutX="346.0" layoutY="31.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
     </children>
 </AnchorPane>

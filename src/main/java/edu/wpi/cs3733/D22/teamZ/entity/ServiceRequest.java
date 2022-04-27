@@ -28,7 +28,9 @@ public class ServiceRequest {
     CLEANING("CLEANING"),
     MEALSERV("MEALSERV"),
     SECURITY("SECURE"),
-    BUYEQUIP("BUYEQUIP");
+    BUYEQUIP("BUYEQUIP"),
+    INTERNAL("INTRL"),
+    FACILITY("FACILITY");
 
     private final String typeStr;
 
@@ -80,6 +82,10 @@ public class ServiceRequest {
           return BUYEQUIP;
         case "SECURE":
           return SECURITY;
+        case "INTRL":
+          return INTERNAL;
+        case "FACILITY":
+          return FACILITY;
         default:
           return null;
       }
