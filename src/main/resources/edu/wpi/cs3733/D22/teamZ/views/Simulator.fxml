@@ -6,7 +6,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -17,11 +16,7 @@
         <items>
           <AnchorPane fx:id="mapContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ImageView fitHeight="1040.0" fitWidth="1344.0" layoutX="-7.0" layoutY="-6.0">
-                     <image>
-                        <Image url="@../../../../../../../../../../Iteration2/src/main/resources/edu/wpi/cs3733/D22/teamZ/images/3.png" />
-                     </image>
-                  </ImageView>
+                  <ImageView fx:id="imageView" fitHeight="1030.0" fitWidth="1332.0" layoutX="-2.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1028.0" prefWidth="644.0">

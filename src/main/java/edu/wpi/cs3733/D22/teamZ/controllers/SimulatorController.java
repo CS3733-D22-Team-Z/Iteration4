@@ -37,6 +37,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
   @FXML private Label clock;
   @FXML private TableView<String> infoTable;
   @FXML private TableColumn<String, String> info;
+  @FXML private ImageView imageView;
   private MapController mapController;
   private Timeline timeline;
 
@@ -71,6 +72,8 @@ public class SimulatorController implements IMenuAccess, Initializable {
     speedBox.getItems().setAll("Real time", "5 min/sec", "10 min/sec", "30 min/sec", "1 hour/sec");
     pauseSim.setDisable(true);
     endSim.setDisable(true);
+
+    imageView.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
 
     medEquip = FacadeDAO.getInstance().getAllMedicalEquipment();
     employees = FacadeDAO.getInstance().getAllEmployees();
@@ -121,7 +124,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
           iconButton.setStyle("-fx-background-color: transparent;");
 
           // Add button to iconContainer and relocate to correct spot.
-          double scaleX = 1.25;
+          double scaleX = 1.20;
           double scaleY = 1.15;
           mapContainer.getChildren().add(iconButton);
           iconButton.relocate(tempLocation.getXcoord() * scaleX, tempLocation.getYcoord() * scaleY);
