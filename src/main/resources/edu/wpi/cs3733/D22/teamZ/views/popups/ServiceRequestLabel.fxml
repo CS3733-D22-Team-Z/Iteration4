@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.SVGPath?>
+
+<AnchorPane prefHeight="64.0" prefWidth="350.0" style="-fx-background-radius: 50; -fx-background-color: #0075ff;" stylesheets="@../../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="requestLabel" layoutX="75.0" layoutY="19.0" prefHeight="27.0" prefWidth="200.0" style="-fx-text-fill: #ffffff;" styleClass="tiny-text" text="MEDEQUIP" />
+      <MFXButton fx:id="detailsButton" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="285.0" layoutY="8.0" prefHeight="48.0" prefWidth="48.0" styleClass="graphic-button" text="Button">
+         <graphic>
+            <SVGPath content="M6 12L10 8L6 4" fill="TRANSPARENT" scaleX="3.0" scaleY="3.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="1.5" />
+         </graphic>
+      </MFXButton>
+      <SVGPath fx:id="statusSvg" content="M5.25 1.75L1.75 5.25, M1.75 1.75L5.25 5.25" fill="TRANSPARENT" layoutX="45.0" layoutY="28.0" scaleX="9.0" scaleY="9.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.5" />
+   </children>
+</AnchorPane>

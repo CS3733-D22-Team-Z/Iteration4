@@ -2,32 +2,86 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ComputerServiceRequestController">
+<AnchorPane prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ComputerServiceRequestController">
     <children>
-        <Label layoutX="24.0" layoutY="74.0" prefHeight="25.0" prefWidth="372.0" styleClass="object-header" text="Computer Service Request Page" />
-        <Label layoutX="24.0" layoutY="102.0" prefHeight="17.0" prefWidth="299.0" styleClass="object-body" text="Enter the fields below to request computer service." />
-        <Label fx:id="operatingSystemFormHeader" layoutX="24.0" layoutY="150.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Operating System" />
-        <ChoiceBox fx:id="osField" layoutX="24.0" layoutY="175.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" />
-        <Label fx:id="descriptionOfProblemFormHeader" layoutX="197.0" layoutY="150.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Description of problem" />
-        <MFXTextField fx:id="descField" layoutX="197.0" layoutY="175.0" prefHeight="79.0" prefWidth="149.0" />
-      <MFXButton fx:id="submitButton" layoutX="24.0" layoutY="348.0" onAction="#onSubmitButtonClicked" prefHeight="32.0" prefWidth="111.0" text="Submit" />
-      <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="348.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
-        <Label id="rejected" fx:id="errorSavingLabel" layoutX="23.0" layoutY="321.0" prefHeight="17.0" prefWidth="373.0" styleClass="form-header" text="Error saving request, no equipment available" />
-        <Label id="confirmed" fx:id="successfulSubmitLabel" layoutX="25.0" layoutY="321.0" prefHeight="17.0" prefWidth="359.0" styleClass="form-header" text="Successfully submitted lab request!" />
-      <MFXButton fx:id="backButton" layoutX="24.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
+        <Label layoutX="48.0" layoutY="146.0" prefHeight="65.0" prefWidth="764.0" styleClass="object-header" text="Computer Service Request" />
+        <Label layoutX="48.0" layoutY="233.0" prefHeight="30.0" prefWidth="587.0" styleClass="form-header" text="Enter the fields below to request computer service." />
+        <Label fx:id="operatingSystemFormHeader" layoutX="48.0" layoutY="308.0" prefHeight="30.0" prefWidth="220.0" styleClass="form-header" text="Operating System" />
+        <ChoiceBox fx:id="osField" layoutX="50.0" layoutY="361.0" onKeyReleased="#validateButton" prefHeight="59.0" prefWidth="369.0" />
+        <Label fx:id="descriptionOfProblemFormHeader" layoutX="48.0" layoutY="477.0" prefHeight="30.0" prefWidth="276.0" styleClass="form-header" text="Description of problem" />
+        <MFXTextField fx:id="descField" layoutX="48.0" layoutY="529.0" prefHeight="156.0" prefWidth="659.0" />
+      <MFXButton fx:id="submitButton" layoutX="48.0" layoutY="752.0" onAction="#onSubmitButtonClicked" prefHeight="71.0" prefWidth="187.0" style="-fx-background-radius: 5;" styleClass="back-button" text="Submit" />
+      <MFXButton fx:id="resetButton" layoutX="293.0" layoutY="750.0" onAction="#onResetButtonClicked" prefHeight="71.0" prefWidth="187.0" style="-fx-background-color: #FF4C4C; -fx-background-radius: 5;" styleClass="back-button" text="Reset" />
+      <MFXButton fx:id="backButton" layoutX="52.0" layoutY="46.0" onAction="#onBackButtonClicked" prefHeight="71.0" prefWidth="369.0" style="-fx-background-radius: 5;" styleClass="back-button" text="Back to Landing Page">
          <graphic>
             <Region fx:id="backRegion" prefHeight="12.0" prefWidth="6.0" translateX="-4.0" />
          </graphic>
       </MFXButton>
-      <Line endX="3.0" endY="365.0" layoutX="382.0" layoutY="32.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
-      <Label alignment="CENTER" layoutX="396.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
-      <MFXButton id="backButton" fx:id="computerServiceListButton" layoutX="406.0" layoutY="202.0" onAction="#toComputerServiceListButton" prefHeight="60.0" prefWidth="176.0" text="Computer Service Requests" textAlignment="CENTER" wrapText="true" />
-      <Region fx:id="helpGraphic" layoutX="346.0" layoutY="31.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
+      <Line endX="3.0" endY="907.0" layoutX="1135.0" layoutY="69.0" startX="3.0" startY="-32.0" stroke="#bfbfbf" strokeWidth="3.0" />
+      <Label alignment="CENTER" layoutX="1254.0" layoutY="376.0" prefHeight="65.0" prefWidth="539.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
+      <MFXButton id="backButton" fx:id="computerServiceListButton" layoutX="1343.0" layoutY="476.0" onAction="#toComputerServiceListButton" prefHeight="71.0" prefWidth="356.0" styleClass="back-button" text="See requests" textAlignment="CENTER" wrapText="true" />
+      <Region fx:id="helpGraphic" layoutX="1028.0" layoutY="46.0" onMouseClicked="#onHelpMenu" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #000000;" />
+      <Label fx:id="successfulSubmitLabel" alignment="CENTER" layoutX="48.0" layoutY="881.0" prefHeight="100.0" prefWidth="909.0" style="-fx-border-color: #16A709; -fx-background-color: #FFFFFF; -fx-border-radius: 1.2; -fx-border-width: 4; -fx-text-fill: #16A709;" styleClass="error-label" text="Successfully submitted request!" textFill="#1fbc1c" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
+               <image>
+                  <Image url="@../images/successIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <Label fx:id="errorSavingLabel" alignment="CENTER" layoutX="48.0" layoutY="881.0" prefHeight="100.0" prefWidth="909.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 4; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request, no equipment available." textFill="#ff4444" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
+               <image>
+                  <Image url="@../images/LoginErrorIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
     </children>
 </AnchorPane>

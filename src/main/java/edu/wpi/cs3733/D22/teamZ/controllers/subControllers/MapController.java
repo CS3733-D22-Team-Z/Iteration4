@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers.subControllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.HospitalCode;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.helpers.BiPolygon;
@@ -9,6 +10,7 @@ import edu.wpi.cs3733.D22.teamZ.helpers.MouseMethod;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -47,7 +49,7 @@ public class MapController implements Initializable {
   FacadeDAO database;
 
   // Paths
-  private final String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
+  public static String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
 
   // Specific attributes
   private ClassLoader loader;
@@ -68,14 +70,9 @@ public class MapController implements Initializable {
   private double minY;
   private double maxX;
   private double maxY;
-  private double scale;
-
-  // List of zooms supported by the map.
-  // Integer is the zoom * 100. For example, 50 corresponds to 0.5.
-  // Double is the maximum HBar value supported.
-  // Must have mapping for 100.
-  @Setter private Map<Integer, Double> zooms;
-  int currentScale = 100;
+  private SimpleDoubleProperty scale;
+  private SimpleDoubleProperty imageWidth;
+  private SimpleDoubleProperty imageHeight;
 
   // Frequent variables
   private MapLabel activeLabel;
@@ -85,18 +82,14 @@ public class MapController implements Initializable {
     loader = getClass().getClassLoader();
     database = FacadeDAO.getInstance();
 
+    scale = new SimpleDoubleProperty(1.0);
+    imageHeight = new SimpleDoubleProperty(1.0);
+    imageWidth = new SimpleDoubleProperty(1.0);
+
+    mapContainer.prefWidthProperty().bind(imageWidth.multiply(scale));
+    mapContainer.prefHeightProperty().bind(imageHeight.multiply(scale));
+
     addMouseBehaviors();
-
-    //    scrollPane
-    //        .hvalueProperty()
-    //        .addListener(
-    //            (listener) -> {
-    //              System.out.println(scrollPane.getHvalue());
-    //            });
-
-    // Default
-    zooms = Map.of(100, 1.0);
-    setScale(100);
   }
 
   /** Implements mouse-related behavior in iconContainer */
@@ -219,7 +212,7 @@ public class MapController implements Initializable {
             activeLabel = (MapLabel) clickedNode;
             activeLabel.requestFocus();
           } else {
-            if (clickEvent.getClickCount() > 1) {
+            if (clickEvent.getClickCount() > 1 && doubleClicked != null) {
               doubleClicked.call(clickEvent);
             }
           }
@@ -231,18 +224,16 @@ public class MapController implements Initializable {
   /**
    * Sets scaling of the map
    *
-   * @param scaleKey new scale of map
+   * @param scale new scale of map
    */
-  public void setScale(int scaleKey) {
-    if (zooms.containsKey(scaleKey)) {
-      currentScale = scaleKey;
-      scale = scaleKey / 100.0;
-      Scale transform = new Scale(scale, scale);
-      mapContainer.getTransforms().clear();
-      mapContainer.getTransforms().add(transform);
-      repositionScroller(
-          mapContainer, scrollPane, scale, figureScrollOffset(mapContainer, scrollPane));
-    }
+  public void setScale(double scale) {
+    this.scale.set(scale);
+    Scale transform = new Scale(scale, scale);
+    mapContainer.getTransforms().clear();
+    mapContainer.getTransforms().add(transform);
+
+    // repositionScroller(
+    //    mapContainer, scrollPane, scale, figureScrollOffset(mapContainer, scrollPane));
   }
 
   /**
@@ -254,6 +245,13 @@ public class MapController implements Initializable {
     // Switch image
     Image newImage = new Image(String.format(mapPath, floor));
     mapImage.setImage(newImage);
+    imageHeight.set(newImage.getHeight());
+    imageWidth.set(newImage.getWidth());
+  }
+
+  public void setAlerts(HospitalCode code) {
+    System.out.println("adding label");
+    iconContainer.getChildren().add(code.getLabel());
   }
 
   /**
@@ -264,13 +262,14 @@ public class MapController implements Initializable {
    *     Voronoi algorithm. Also must contain every visible location
    * @param genVoronoi if voronoi regions be generated from allLocations. Automatically enables
    *     snapping
-   * @param img the image that each location will have
+   * @param graphicMethod the method for setting the graphic
    */
   public void setLabels(
       List<Location> visibleLocations,
       List<Location> allLocations,
       boolean genVoronoi,
-      String img) {
+      LabelMethod graphicMethod,
+      ObservableList<HospitalCode> codes) {
     // Reset everything
     currentLabels.clear();
     iconContainer.getChildren().clear();
@@ -286,9 +285,7 @@ public class MapController implements Initializable {
               .build();
 
       // place label at correct coords
-      label.relocate(
-          label.getLocation().getXcoord(), // * (map.getFitWidth() / 1021),
-          label.getLocation().getYcoord()); // * (map.getFitHeight() / 850));
+      label.relocate((label.getLocation().getXcoord()), (label.getLocation().getYcoord()));
 
       if (genVoronoi) {
         generateVoronoi(allLocations);
@@ -336,23 +333,21 @@ public class MapController implements Initializable {
                     label.setScaleX(1.1);
                     label.setScaleY(1.1);
                     if (labelClickedMethod != null) labelClickedMethod.call(label);
-                    // Move to label
-                    panToPoint(label.getLayoutX(), label.getLayoutY());
                   }
                 });
 
         // Add graphic
-        Image locationImg = new Image(String.format(mapPath, img));
-        ImageView locationIcon = new ImageView(locationImg);
-        label.setGraphic(locationIcon);
-
-        // Shift label so the bottom tip is on the exact layout
-        label.setTranslateX(-locationImg.getWidth() / 2);
-        label.setTranslateY(-locationImg.getHeight());
+        graphicMethod.call(label);
       }
 
       allLabels.add(label);
       iconContainer.getChildren().add(label);
+    }
+
+    for (HospitalCode code : codes) {
+      if (visibleLocations.contains(code.getLocation())) {
+        setAlerts(code);
+      }
     }
   }
 
@@ -431,26 +426,26 @@ public class MapController implements Initializable {
     return allLabels;
   }
 
-  /**
-   * Given coordinates, move "camera" to that point.
-   *
-   * @param x the x coordinate
-   * @param y the y coordinate
-   */
-  public void panToPoint(double x, double y) {
-    minX = scrollPane.getWidth() * (1 / (2 * scale));
-    maxX = mapImage.getFitWidth() - minX;
-    minY = scrollPane.getHeight() * (1 / (2 * scale));
-    maxY = mapImage.getFitHeight() - minY;
-
-    x = Math.max(minX, Math.min(x, maxX));
-    y = Math.max(minY, Math.min(y, maxY));
-
-    double scrollMax = zooms.get(currentScale);
-
-    scrollPane.setHvalue(scrollMax * (x - minX) / (maxX - minX));
-    scrollPane.setVvalue(scrollMax * (y - minY) / (maxY - minY));
-  }
+  //  /**
+  //   * Given coordinates, move "camera" to that point.
+  //   *
+  //   * @param x the x coordinate
+  //   * @param y the y coordinate
+  //   */
+  //  public void panToPoint(double x, double y) {
+  //    minX = scrollPane.getWidth() * (1 / (2 * scale));
+  //    maxX = mapImage.getFitWidth() - minX;
+  //    minY = scrollPane.getHeight() * (1 / (2 * scale));
+  //    maxY = mapImage.getFitHeight() - minY;
+  //
+  //    x = Math.max(minX, Math.min(x, maxX));
+  //    y = Math.max(minY, Math.min(y, maxY));
+  //
+  //    double scrollMax = zooms.get(currentScale);
+  //
+  //    scrollPane.setHvalue(scrollMax * (x - minX) / (maxX - minX));
+  //    scrollPane.setVvalue(scrollMax * (y - minY) / (maxY - minY));
+  //  }
 
   // Don't use for now
   //  public List<Double> getCameraPoint() {
@@ -519,5 +514,13 @@ public class MapController implements Initializable {
     } else {
       scroller.setHvalue(scroller.getHmin());
     }
+  }
+
+  public static LabelMethod loadImage(String img) {
+    return loc -> {
+      Image labelGraphic = new Image(String.format(mapPath, img));
+      ImageView imageCont = new ImageView(labelGraphic);
+      loc.setGraphic(imageCont);
+    };
   }
 }
