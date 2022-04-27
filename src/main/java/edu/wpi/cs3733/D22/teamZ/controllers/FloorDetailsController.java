@@ -33,7 +33,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -143,26 +142,26 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     mapController.setScale(0.8);
     map.setHvalue(0.4);
     map.setVvalue(0.2);
-    mapController.setDoubleClicked((mouse) -> {
-      Node result = mouse.getPickResult().getIntersectedNode();
-      if(result instanceof MapLabel) {
-        Stage stage = new Stage();
+    mapController.setDoubleClicked(
+        (mouse) -> {
+          Node result = mouse.getPickResult().getIntersectedNode();
+          if (result instanceof MapLabel) {
+            Stage stage = new Stage();
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(
-                getClass().getClassLoader().getResource(toServiceRequestProperties));
-        Parent root = null;
-        try {
-          root = loader.load();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource(toServiceRequestProperties));
+            Parent root = null;
+            try {
+              root = loader.load();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
 
-        Scene window = new Scene(root);
-        stage.setScene(window);
-        stage.show();
-      }
-    });
+            Scene window = new Scene(root);
+            stage.setScene(window);
+            stage.show();
+          }
+        });
 
     prevButton = noneMapButton;
   }
