@@ -43,6 +43,11 @@ public class InternalTransportFacadeAPI {
     for (edu.wpi.cs3733.D22.teamB.api.Location bLoc : bLocs) {
       apiDatabase.delete(bLoc);
     }
+
+    List<edu.wpi.cs3733.D22.teamB.api.IPTEmployee> bEmps = apiDatabase.listEmployees();
+    for (edu.wpi.cs3733.D22.teamB.api.IPTEmployee bEmp : bEmps) {
+      apiDatabase.delete(bEmp);
+    }
   }
 
   public void run(String cssPath) {

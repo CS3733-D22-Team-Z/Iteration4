@@ -381,9 +381,10 @@ public class FacadeDAO {
    * @return True if successful, false if not
    */
   public boolean addEmployee(Employee employee) {
-    return employeeDAO.addEmployee(employee)
-        && internalTransportAPI.addEmployee(employee)
-        && facilityMaintenanceAPI.addEmployee(employee);
+    boolean val1 = employeeDAO.addEmployee(employee);
+    boolean val2 = internalTransportAPI.addEmployee(employee);
+    boolean val3 = facilityMaintenanceAPI.addEmployee(employee);
+    return val1 && val2 && val3;
   }
   /**
    * Adds a new Meal Service Request to database. Will automatically check if already in database
