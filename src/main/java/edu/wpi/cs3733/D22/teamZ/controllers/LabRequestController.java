@@ -132,17 +132,30 @@ public class LabRequestController extends ServiceRequestController {
     if (visible) {
       patientNameLabel.getStyleClass().clear();
       patientNameLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientNameLabel, "Enter name of patient that\nwill be receiving the lab test");
+
       patientIdLabel.getStyleClass().clear();
       patientIdLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientIdLabel, "Enter ID of patient that\nwill be receiving the lab test");
+
       labTypeLabel.getStyleClass().clear();
       labTypeLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(labTypeLabel, "Select type of lab test\nthat patient will receive");
+
     } else {
       patientNameLabel.getStyleClass().clear();
       patientNameLabel.getStyleClass().add("form-header");
+      patientNameLabel.setTooltip(null);
+
       patientIdLabel.getStyleClass().clear();
       patientIdLabel.getStyleClass().add("form-header");
+      patientIdLabel.setTooltip(null);
+
       labTypeLabel.getStyleClass().clear();
       labTypeLabel.getStyleClass().add("form-header");
+      labTypeLabel.setTooltip(null);
     }
   }
 
