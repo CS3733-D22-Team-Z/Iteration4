@@ -88,6 +88,8 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
     helpIcon.setContent(helpIconSVG);
     helpGraphic.setShape(helpIcon);
     helpGraphic.setStyle(String.format(svgCSSLine, "#0062A9"));
+    enableToolTipOnRegion(
+        helpGraphic, "Hover mouse over highlighted text\nto get more information");
   }
 
   @FXML
@@ -118,5 +120,12 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
     tempTT.setShowDuration(new Duration(1000000));
     tempTT.setHideDelay(new Duration(0));
     label.setTooltip(tempTT);
+  }
+
+  protected void enableToolTipOnRegion(Region region, String text) {
+    Tooltip tempTT = new Tooltip(text);
+    tempTT.setShowDuration(new Duration(1000000));
+    tempTT.setHideDelay(new Duration(0));
+    Tooltip.install(region, tempTT);
   }
 }
