@@ -142,21 +142,36 @@ public class LanguageInterpreterController extends ServiceRequestController {
     if (visible) {
       patientIDFormHeader.getStyleClass().clear();
       patientIDFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(patientIDFormHeader, "Enter ID of patient that\nneeds an interpreter");
+
       languageFormHeader.getStyleClass().clear();
       languageFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(languageFormHeader, "Select language that\npatient speaks");
+
       patientNameFormHeader.getStyleClass().clear();
       patientNameFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientNameFormHeader, "Enter name of patient that\nneeds an interpreter");
+
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(roomNumberFormHeader, "Enter room number that\ninterpreter arrives at");
     } else {
       patientIDFormHeader.getStyleClass().clear();
       patientIDFormHeader.getStyleClass().add("form-header");
+      patientIDFormHeader.setTooltip(null);
+
       languageFormHeader.getStyleClass().clear();
       languageFormHeader.getStyleClass().add("form-header");
+      languageFormHeader.setTooltip(null);
+
       patientNameFormHeader.getStyleClass().clear();
       patientNameFormHeader.getStyleClass().add("form-header");
+      patientNameFormHeader.setTooltip(null);
+
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
     }
   }
 
