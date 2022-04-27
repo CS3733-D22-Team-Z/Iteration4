@@ -85,6 +85,8 @@ public class MealServiceController extends ServiceRequestController {
 
   private final String toMealServiceRequestListURL =
       "edu/wpi/cs3733/D22/teamZ/views/MealServiceRequestList.fxml";
+  private final String toMealServiceFoodOptionsURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MealServiceFoodOptions.fxml";
 
   FacadeDAO instanceDAO = FacadeDAO.getInstance();
 
@@ -197,18 +199,18 @@ public class MealServiceController extends ServiceRequestController {
 
     breakfastDrinksList.addAll(
         Arrays.asList(
-            "none", "Water", "Coffee", "Tea", "Apple_Juice", "Orange_Juice", "Cranberry_Juice"));
-    breakfastEntreesList.addAll(Arrays.asList("none", "Belgium_Waffle", "Omelette", "Pancakes"));
+            "none", "Water", "Coffee", "Tea", "Apple Juice", "Orange Juice", "Cranberry Juice"));
+    breakfastEntreesList.addAll(Arrays.asList("none", "Belgium Waffle", "Omelette", "Pancakes"));
     breakfastSnackList.addAll(
-        Arrays.asList("none", "Apple_Sauce", "Blueberry_Muffin", "Fruit_Bowl"));
+        Arrays.asList("none", "Apple Sauce", "Blueberry Muffin", "Fruit Bowl"));
     lunchDrinksList.addAll(Arrays.asList("none", "Water", "Coffee", "Tea"));
     lunchEntreesList.addAll(
-        Arrays.asList("none", "Caesar_Salad", "Cheeseburger", "Chicken_Sandwich"));
-    lunchSnackList.addAll(Arrays.asList("none", "Corn_Bread", "Fruit_Bowl", "Pretzel"));
-    dinnerDrinksList.addAll(Arrays.asList("none", "Water", "Coffee", "Tea", "Coca_Cola", "Sprite"));
+        Arrays.asList("none", "Caesar Salad", "Cheeseburger", "Chicken Sandwich"));
+    lunchSnackList.addAll(Arrays.asList("none", "Corn Bread", "Fruit Bowl", "Pretzel"));
+    dinnerDrinksList.addAll(Arrays.asList("none", "Water", "Coffee", "Tea", "Coca Cola", "Sprite"));
     dinnerEntreesList.addAll(
-        Arrays.asList("none", "Cheese_Pizza", "Chicken_Parmigiana", "Spaghetti_&_Meatballs"));
-    dinnerSnackList.addAll(Arrays.asList("none", "Brownie", "Chocolate_Chip_Cookie", "Tiramisu"));
+        Arrays.asList("none", "Cheese Pizza", "Chicken Parmigiana", "Spaghetti & Meatballs"));
+    dinnerSnackList.addAll(Arrays.asList("none", "Brownie", "Chocolate hip Cookie", "Tiramisu"));
 
     allServiceRequestList = instanceDAO.getAllServiceRequests();
 
@@ -418,6 +420,21 @@ public class MealServiceController extends ServiceRequestController {
       menu.load(toMealServiceRequestListURL);
     } catch (IOException e) {
       System.out.println("Error: Failed to load Meal Service Request List URL");
+      e.printStackTrace();
+      throw new IOException();
+    }
+  }
+
+  /**
+   * Navigate to add/edit/remove food options. Admin only.
+   *
+   * @param event
+   */
+  public void onNavigateToMealOptions(ActionEvent event) throws IOException {
+    try {
+      menu.load(toMealServiceFoodOptionsURL);
+    } catch (IOException e) {
+      System.out.println("Error: Failed to load Meal Service Food Options URL");
       e.printStackTrace();
       throw new IOException();
     }

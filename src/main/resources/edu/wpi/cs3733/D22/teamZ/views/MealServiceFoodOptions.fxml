@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.MealServiceFoodOptionsController">
+    <children>
+        <Label id="FormLabel" layoutX="17.0" layoutY="52.0" prefHeight="25.0" prefWidth="321.0" styleClass="object-header" text="Item Options" />
+        <Label layoutX="17.0" layoutY="76.0" prefHeight="17.0" prefWidth="437.0" styleClass="object-body" text="View current options below. Select one to edit." />
+        <Label layoutX="118.0" layoutY="205.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Name for Item" />
+        <Label layoutX="15.0" layoutY="332.0" prefHeight="17.0" prefWidth="231.0" styleClass="form-header" text="Error Message" />
+        <MFXButton id="LanguageBackButton" fx:id="backButton" layoutX="15.0" layoutY="14.0" onAction="#onBackButtonClicked" text=" Back to Request Page" />
+        <MFXButton fx:id="submitButton" layoutX="15.0" layoutY="356.0" onAction="#onSubmitButtonClicked" prefHeight="28.0" prefWidth="141.0" text="Submit Changes" />
+        <MFXButton fx:id="resetButton" layoutX="171.0" layoutY="356.0" onAction="#onResetButtonClicked" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
+        <Label layoutX="280.0" layoutY="205.0" prefHeight="17.0" prefWidth="66.0" styleClass="form-header" text="Category" />
+        <Label layoutX="353.0" layoutY="312.0" prefHeight="17.0" prefWidth="65.0" styleClass="form-header" text="Calories" />
+        <Spinner editable="true" layoutX="353.0" layoutY="340.0" prefHeight="25.0" prefWidth="62.0" />
+      <MFXTextField fx:id="foodOptionName" floatMode="DISABLED" layoutX="118.0" layoutY="228.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter Patient ID" text="Enter Name..." />
+      <RadioButton fx:id="veganChoice" layoutX="279.0" layoutY="333.0" mnemonicParsing="false" text="Vegan">
+         <toggleGroup>
+            <ToggleGroup fx:id="ModifierGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <CheckBox fx:id="mondayChoice" layoutX="432.0" layoutY="228.0" mnemonicParsing="false" selected="true" text="Monday" />
+      <CheckBox fx:id="tuesdayChoice" layoutX="432.0" layoutY="249.0" mnemonicParsing="false" selected="true" text="Tuesday" />
+      <CheckBox fx:id="wednesdayChoice" layoutX="432.0" layoutY="270.0" mnemonicParsing="false" selected="true" text="Wednesday" />
+      <CheckBox fx:id="thursdayChoice" layoutX="432.0" layoutY="291.0" mnemonicParsing="false" selected="true" text="Thursday" />
+      <CheckBox fx:id="fridayChoice" layoutX="432.0" layoutY="312.0" mnemonicParsing="false" selected="true" text="Friday" />
+      <CheckBox fx:id="saturdayChoice" layoutX="432.0" layoutY="333.0" mnemonicParsing="false" selected="true" text="Saturday" />
+      <CheckBox fx:id="sundayChoice" layoutX="432.0" layoutY="354.0" mnemonicParsing="false" selected="true" text="Sunday" />
+      <CheckBox fx:id="breakfastCheck" layoutX="353.0" layoutY="228.0" mnemonicParsing="false" selected="true" text="Breakfast" />
+      <CheckBox fx:id="lunchCheck" layoutX="353.0" layoutY="249.0" mnemonicParsing="false" selected="true" text="Lunch" />
+      <CheckBox fx:id="dinnerCheck" layoutX="353.0" layoutY="270.0" mnemonicParsing="false" selected="true" text="Dinner" />
+      <Label layoutX="353.0" layoutY="205.0" prefHeight="17.0" prefWidth="78.0" styleClass="form-header" text="Time of Day" />
+      <Label layoutX="432.0" layoutY="205.0" prefHeight="17.0" prefWidth="91.0" styleClass="form-header" text="Days of Week" />
+      <CheckBox fx:id="dairyChoice" layoutX="524.0" layoutY="228.0" mnemonicParsing="false" text="Dairy" />
+      <CheckBox fx:id="eggChoice" layoutX="524.0" layoutY="249.0" mnemonicParsing="false" text="Egg" />
+      <CheckBox fx:id="peanutChoice" layoutX="524.0" layoutY="270.0" mnemonicParsing="false" text="Peanut" />
+      <CheckBox fx:id="treenutChoice" layoutX="524.0" layoutY="291.0" mnemonicParsing="false" text="Tree Nut" />
+      <CheckBox fx:id="soyChoice" layoutX="524.0" layoutY="312.0" mnemonicParsing="false" text="Soy" />
+      <CheckBox fx:id="wheatChoice" layoutX="524.0" layoutY="333.0" mnemonicParsing="false" text="Wheat" />
+      <CheckBox fx:id="fishChoice" layoutX="524.0" layoutY="354.0" mnemonicParsing="false" text="Fish" />
+      <Label layoutX="524.0" layoutY="205.0" prefHeight="17.0" prefWidth="74.0" styleClass="form-header" text="Allergens" />
+      <CheckBox fx:id="shellfishChoice" layoutX="524.0" layoutY="375.0" mnemonicParsing="false" text="Shellfish" />
+      <Label layoutX="280.0" layoutY="312.0" prefHeight="17.0" prefWidth="66.0" styleClass="form-header" text="Modifiers" />
+      <RadioButton fx:id="drinkChoice" layoutX="280.0" layoutY="228.0" mnemonicParsing="false" text="Drink">
+         <toggleGroup>
+            <ToggleGroup fx:id="CategoryGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="entreeChoice" layoutX="280.0" layoutY="249.0" mnemonicParsing="false" text="Entrée" toggleGroup="$CategoryGroup" />
+      <RadioButton fx:id="snackChoice" layoutX="280.0" layoutY="270.0" mnemonicParsing="false" text="Snack" toggleGroup="$CategoryGroup" />
+      <RadioButton fx:id="noMeatChoice" layoutX="279.0" layoutY="354.0" mnemonicParsing="false" text="No Meat" toggleGroup="$ModifierGroup" />
+      <TableView fx:id="tableContainer" layoutX="17.0" layoutY="99.0" prefHeight="97.0" prefWidth="569.0">
+         <columns>
+            <TableColumn fx:id="idColumn" editable="false" prefWidth="50.0" text="ID" />
+            <TableColumn fx:id="nameColumn" editable="false" prefWidth="170.0" text="Name" />
+            <TableColumn fx:id="categoryColumn" editable="false" prefWidth="69.20001220703125" text="Category" />
+            <TableColumn fx:id="calorieColumn" prefWidth="75.0" text="Calories" />
+            <TableColumn fx:id="modifierColumn" editable="false" prefWidth="62.79998779296875" text="Modifiers" />
+            <TableColumn fx:id="timeofdayColumn" prefWidth="75.0" text="Time of Day" />
+            <TableColumn fx:id="dayofweekColumn" prefWidth="75.0" text="Days of Week" />
+            <TableColumn fx:id="allergenColumn" prefWidth="75.0" text="Allergens" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+    </children>
+</AnchorPane>
