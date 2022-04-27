@@ -165,7 +165,7 @@ public class LocationListController implements IMenuAccess {
   private String mode;
 
   private int scrollCount;
-  private double curZoom = 1.0;
+  private double curZoom = 1.5;
 
   // initialize location labels to display on map
   @FXML
@@ -207,6 +207,7 @@ public class LocationListController implements IMenuAccess {
 
           // Load default floor
           changeToFloor("3");
+          mapController.setScale(curZoom);
 
           zoomInButton.addEventFilter(
               MouseEvent.MOUSE_CLICKED,
