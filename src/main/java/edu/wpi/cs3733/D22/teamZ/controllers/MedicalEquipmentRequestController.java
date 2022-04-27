@@ -31,7 +31,6 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   @FXML private Label errorSavingLabel;
   @FXML private Region backRegion;
   @FXML private Label successfulSubmitLabel;
-  @FXML private Region helpGraphic;
 
   // URLs
   private String toMedicalEquipmentRequestURL =
@@ -75,12 +74,6 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     System.out.println(
         "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
-
-    //    // Initialize help Graphic
-    //    SVGPath helpIcon = new SVGPath();
-    //    helpIcon.setContent(helpIconSVG);
-    //    helpGraphic.setShape(helpIcon);
-    //    helpGraphic.setStyle(String.format(svgCSSLine, "#0062A9"));
     initializeHelpGraphic();
   }
 
@@ -94,8 +87,6 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     nodeTypeDropDown.getSelectionModel().select(0);
     equipmentDropDown.getSelectionModel().select(0);
     errorSavingLabel.setVisible(false);
-    //    nodeTypeDropDown.setValue(null);
-    //    equipmentDropDown.setValue(null);
   }
 
   @FXML
@@ -171,21 +162,39 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     if (visible) {
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          roomNumberFormHeader, "Enter room number that\nequipment is delivered to");
+
       equipmentFormHeader.getStyleClass().clear();
       equipmentFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(equipmentFormHeader, "Select equipment to be delivered");
+
       floorNumberFormHeader.getStyleClass().clear();
       floorNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          floorNumberFormHeader, "Enter floor number that\nequipment is delivered to");
+
       locationTypeFormHeader.getStyleClass().clear();
       locationTypeFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          locationTypeFormHeader,
+          "Select location type of the room\nthe equipment will be delivered to");
     } else {
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
+
       equipmentFormHeader.getStyleClass().clear();
       equipmentFormHeader.getStyleClass().add("form-header");
+      equipmentFormHeader.setTooltip(null);
+
       floorNumberFormHeader.getStyleClass().clear();
       floorNumberFormHeader.getStyleClass().add("form-header");
+      floorNumberFormHeader.setTooltip(null);
+
       locationTypeFormHeader.getStyleClass().clear();
       locationTypeFormHeader.getStyleClass().add("form-header");
+      locationTypeFormHeader.setTooltip(null);
     }
   }
 }

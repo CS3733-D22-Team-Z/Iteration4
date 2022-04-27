@@ -9,9 +9,11 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.SVGPath;
-import javax.swing.*;
+import javafx.util.Duration;
 
 /**
  * A class that all service request controllers will inherit from. Each Service Request will have...
@@ -106,4 +108,11 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
   }
 
   protected abstract void highlightRequirements(boolean visible);
+
+  protected void enableToolTipOnLabel(Label label, String text) {
+    Tooltip tempTT = new Tooltip(text);
+    tempTT.setShowDuration(new Duration(1000000));
+    tempTT.setHideDelay(new Duration(0));
+    label.setTooltip(tempTT);
+  }
 }
