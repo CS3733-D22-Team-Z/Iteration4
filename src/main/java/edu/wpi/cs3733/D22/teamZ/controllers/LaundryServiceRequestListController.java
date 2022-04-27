@@ -7,7 +7,6 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Predicate;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,8 +22,7 @@ import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class LaundryServiceRequestListController extends ServiceRequestController
-    implements Initializable, IMenuAccess {
+public class LaundryServiceRequestListController implements Initializable, IMenuAccess {
 
   // button to go back to laundry request
   @FXML private MFXButton backToLaundry;
@@ -62,6 +60,8 @@ public class LaundryServiceRequestListController extends ServiceRequestControlle
   private final String toHomepageURL = "views/Homepage.fxml";
   private final String toLaundryRequest = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
   //
+
+  private MenuController menu;
 
   // List of identifiers for each
   private final String[] identifiers = {
@@ -159,15 +159,6 @@ public class LaundryServiceRequestListController extends ServiceRequestControlle
     requests = FXCollections.observableArrayList();
     createRRList();
   }
-
-  @Override
-  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {}
-
-  @Override
-  protected void onResetButtonClicked(ActionEvent event) throws IOException {}
-
-  @Override
-  protected void highlightRequirements(boolean visible) {}
 
   // Called whenever one of the filter buttons are clicked.
   public void filterClicked(ActionEvent event) {

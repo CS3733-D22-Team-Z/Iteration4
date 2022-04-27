@@ -7,7 +7,6 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Predicate;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,8 +22,7 @@ import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MedicalEquipmentRequestListController extends ServiceRequestController
-    implements Initializable, IMenuAccess {
+public class MedicalEquipmentRequestListController implements Initializable, IMenuAccess {
   // Back button to go back to medical requests
   @FXML private MFXButton backToMedicalEquipmentRequestButton;
   // Button that re-fetches requests and refreshes table.
@@ -71,6 +69,8 @@ public class MedicalEquipmentRequestListController extends ServiceRequestControl
   private ObservableList<RequestRow> requests;
   private ObservableList<RequestRow> dispRequests;
   private String filter = "";
+
+  private MenuController menu;
 
   // Database object
   private final FacadeDAO facadeDAO;
@@ -159,15 +159,6 @@ public class MedicalEquipmentRequestListController extends ServiceRequestControl
     requests = FXCollections.observableArrayList();
     createRRList();
   }
-
-  @Override
-  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {}
-
-  @Override
-  protected void onResetButtonClicked(ActionEvent event) throws IOException {}
-
-  @Override
-  protected void highlightRequirements(boolean visible) {}
 
   // Called whenever one of the filter buttons are clicked.
   public void filterClicked(ActionEvent event) {

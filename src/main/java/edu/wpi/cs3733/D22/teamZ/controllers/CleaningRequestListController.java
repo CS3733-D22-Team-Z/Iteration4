@@ -23,8 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class CleaningRequestListController extends ServiceRequestController
-    implements Initializable, IMenuAccess {
+public class CleaningRequestListController implements Initializable, IMenuAccess {
   // Main table
   @FXML public TableView<CleaningRequest> tableContainer;
   @FXML private MFXButton backToCleaning;
@@ -39,6 +38,7 @@ public class CleaningRequestListController extends ServiceRequestController
   private final String backToCleaningURL = "edu/wpi/cs3733/D22/teamZ/views/CleaningRequest.fxml";
   // Changes per every implementation
   // The name of the page that will be displayed in the bottom menu bar.
+  private MenuController menu;
   protected String menuName;
 
   private ObservableList<CleaningRequest> requests;
@@ -65,15 +65,6 @@ public class CleaningRequestListController extends ServiceRequestController
       e.printStackTrace();
     }
   }
-
-  @Override
-  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {}
-
-  @Override
-  protected void onResetButtonClicked(ActionEvent event) throws IOException {}
-
-  @Override
-  protected void highlightRequirements(boolean visible) {}
 
   /** creates table of all cleaning requests */
   public void createTable() throws SQLException {
