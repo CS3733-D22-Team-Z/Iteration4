@@ -4,11 +4,16 @@ import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
+import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import edu.wpi.cs3733.D22.teamZ.helpers.LabelMethod;
 import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -25,18 +30,26 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 /** Controller for FloorDetails.fxml, which displays information about each floor. */
 public class FloorDetailsController implements IMenuAccess, Initializable {
-  @FXML private AnchorPane mapContainer;
+  private static String xSvg = "M5.25 1.75L1.75 5.25, M1.75 1.75L5.25 5.25";
+  private static String checkSvg = "M5 1L2.25 4L1 2.63636";
+  private static String timeSvg =
+      "M3 5.5C4.38071 5.5 5.5 4.38071 5.5 3C5.5 1.61929 4.38071 0.5 3 0.5C1.61929 0.5 0.5 1.61929 0.5 3C0.5 4.38071 1.61929 5.5 3 5.5Z M3 1.5V3L4 3.5";
+
+  @FXML private Label floorTitle;
 
   @FXML private CategoryAxis x;
   @FXML private NumberAxis y;
   @FXML private BarChart<?, ?> barChart;
 
+  @FXML private AnchorPane mapContainer;
   @FXML private MFXButton noneMapButton;
   @FXML private MFXButton bedsMapButton;
   @FXML private MFXButton pumpsMapButton;
@@ -48,9 +61,12 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
   @FXML private VBox equipmentListRecliner;
   @FXML private VBox equipmentListXRay;
 
+  @FXML private VBox timeContainer;
+
   private String floor;
   private List<Location> floorLocations;
   private List<MedicalEquipment> floorEquipment;
+  private List<ServiceRequest> floorServices;
 
   private MenuController menu;
   private FacadeDAO dao;
@@ -86,11 +102,16 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
           "XRay",
           "XRay Machines: %d");
 
+  // Service Requests
+  DateTimeFormatter hourFormat = DateTimeFormatter.ofPattern("hh:mm a");
+
   // Colorse
   static List<String> equipmentColors =
-      List.of("#0075FF", "#FF79DA", "#79FFF8", "#FF800B", "#B479FF");
+      List.of("#0075FF", "#FF79DA", "#00ADA4", "#FF800B", "#B479FF");
   static Map<String, String> statusColors =
-      Map.of("DIRTY", "#FF4343", "INUSE", "#FFEF5C", "CLEAN", "#00CF15", "CLEANING", "#0075FF");
+      Map.of("DIRTY", "#FF4343", "INUSE", "#E1BD00", "CLEAN", "#00CF15", "CLEANING", "#0075FF");
+
+  private String toDashboard = "edu/wpi/cs3733/D22/teamZ/views/DashboardFinal.fxml";
 
   public FloorDetailsController() {
     dao = FacadeDAO.getInstance();
@@ -112,6 +133,9 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     map.setPrefWidth(mapContainer.getPrefWidth());
     map.setPrefHeight(mapContainer.getPrefHeight());
     mapContainer.setStyle("-fx-background-color: transparent");
+    mapController.setScale(0.8);
+    map.setHvalue(0.4);
+    map.setVvalue(0.2);
 
     prevButton = noneMapButton;
   }
@@ -170,7 +194,13 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
    */
   public void setFloor(String floor) throws IOException {
     this.floor = floor;
+    floorTitle.setText("Floor " + floor);
     load();
+  }
+
+  @FXML
+  private void backButtonClicked() throws IOException {
+    menu.load(toDashboard);
   }
 
   /**
@@ -180,6 +210,10 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
   public void load() throws IOException {
     floorLocations = dao.getAllLocationsByFloor(floor);
     floorEquipment = dao.getAllMedicalEquipmentByFloor(floor);
+    floorServices =
+        dao.getAllServiceRequests().stream()
+            .filter(req -> req.getTargetLocation().getFloor().equals(floor))
+            .collect(Collectors.toList());
 
     loadMap();
     makeChart();
@@ -187,6 +221,7 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     setupEquipment(equipmentListInfusion, "IPumps");
     setupEquipment(equipmentListRecliner, "Recliner");
     setupEquipment(equipmentListXRay, "XRay");
+    loadServiceRequests(floorServices);
   }
 
   /** Loads the map for the given floor. */
@@ -220,8 +255,8 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
             .collect(Collectors.toList());
 
     // Set label
-    Label contLabel = (Label) container.getChildren().get(0);
-    contLabel.setText(String.format(equipFormatStrings.get(equipmentType), thisEquipment.size()));
+    Label contLabel = (Label) container.lookup("#numLabel");
+    contLabel.setText(Integer.toString(thisEquipment.size()));
 
     // Set dropdown function
     MFXButton dropdown = (MFXButton) contLabel.getGraphic();
@@ -281,6 +316,48 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
 
     // Return
     return table;
+  }
+
+  public void loadServiceRequests(List<ServiceRequest> requests) throws IOException {
+    // Sort requests based on time
+    requests.sort(Comparator.comparing(ServiceRequest::getOpened));
+
+    // Iterate through list and load in elements
+    LocalDateTime base = requests.get(0).getOpened().truncatedTo(ChronoUnit.HOURS);
+    AnchorPane currentTimeCont =
+        (AnchorPane) PopupLoader.loadPopup("TimeStack", timeContainer).get(0);
+    ((Label) (currentTimeCont.lookup("#timeLabel"))).setText(hourFormat.format(base));
+
+    for (ServiceRequest request : requests) {
+      // "Floor" the time
+      LocalDateTime time = request.getOpened().truncatedTo(ChronoUnit.HOURS);
+      // If within same hour
+      if (!time.equals(base)) {
+        base = time;
+        currentTimeCont = (AnchorPane) PopupLoader.loadPopup("TimeStack", timeContainer).get(0);
+        ((Label) (currentTimeCont.lookup("#timeLabel"))).setText(hourFormat.format(base));
+      }
+
+      AnchorPane serviceLabel =
+          (AnchorPane)
+              PopupLoader.loadPopup(
+                      "ServiceRequestLabel", (Pane) currentTimeCont.lookup("#serviceContainer"))
+                  .get(0);
+      ((Label) (serviceLabel.lookup("#requestLabel"))).setText(request.getType().toString());
+      if (request.getStatus().equals(ServiceRequest.RequestStatus.UNASSIGNED)) {
+        ((SVGPath) serviceLabel.lookup("#statusSvg")).setContent(xSvg);
+        serviceLabel.setStyle(
+            "-fx-background-radius: 50; -fx-background-color: " + statusColors.get("DIRTY"));
+      } else if (request.getStatus().equals(ServiceRequest.RequestStatus.PROCESSING)) {
+        ((SVGPath) serviceLabel.lookup("#statusSvg")).setContent(timeSvg);
+        serviceLabel.setStyle(
+            "-fx-background-radius: 50; -fx-background-color: " + statusColors.get("INUSE"));
+      } else {
+        ((SVGPath) serviceLabel.lookup("#statusSvg")).setContent(checkSvg);
+        serviceLabel.setStyle(
+            "-fx-background-radius: 50; -fx-background-color: " + statusColors.get("CLEAN"));
+      }
+    }
   }
 
   @FXML
@@ -358,7 +435,7 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
 
       if (!empty) {
         setText(item);
-        setStyle("-fx-text-fill: #FF00FF;");
+        // setStyle("-fx-background-color: #FF00FF; -fx-text-fill: #00FF00;");
         // if (statusColors.containsKey(item))
         //  this.setStyle(String.format("-fx-text-fill: %s;", statusColors.get(item)));
       }
