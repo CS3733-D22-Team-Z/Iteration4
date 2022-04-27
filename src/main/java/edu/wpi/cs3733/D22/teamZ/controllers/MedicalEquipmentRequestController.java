@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class MedicalEquipmentRequestController extends ServiceRequestController {
   @FXML public Label roomNumberFormHeader;
@@ -47,11 +46,6 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
-
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
 
     menuName = "Medical Equipment Request";
 

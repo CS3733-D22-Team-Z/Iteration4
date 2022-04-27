@@ -20,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class ComputerServiceRequestController extends ServiceRequestController
     implements IMenuAccess, Initializable {
@@ -45,10 +44,6 @@ public class ComputerServiceRequestController extends ServiceRequestController
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
 
     osField.setItems(FXCollections.observableArrayList("Linux", "Windows", "MacOS"));
 

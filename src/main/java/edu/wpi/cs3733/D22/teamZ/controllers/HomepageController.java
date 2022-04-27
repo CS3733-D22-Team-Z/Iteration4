@@ -19,8 +19,7 @@ public class HomepageController implements IMenuAccess {
   private String toLandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/LandingPage.fxml";
   private String toMedicalEquipmentRequestURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml";
-  private String toUpperFloorsDashboardURL =
-      "edu/wpi/cs3733/D22/teamZ/views/UpperFloorsDashboard.fxml";
+  private String toUpperFloorsDashboardURL = "edu/wpi/cs3733/D22/teamZ/views/Dashboard.fxml";
   private String toEmployeeURL = "edu/wpi/cs3733/D22/teamZ/views/Employee.fxml";
   private String toServerSwitchURL = "edu/wpi/cs3733/D22/teamZ/views/ServerSwitcher.fxml";
   private final String toServiceRequestURL = "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
@@ -61,6 +60,7 @@ public class HomepageController implements IMenuAccess {
   private void toServiceRequests() throws IOException {
     System.out.println("navigating to servReq from landing page");
     menu.load(toServiceRequestURL);
+    menu.selectMenu(3);
   }
 
   @FXML

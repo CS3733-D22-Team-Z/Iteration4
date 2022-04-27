@@ -17,7 +17,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class LaundryServiceController extends ServiceRequestController implements IMenuAccess {
 
@@ -45,10 +44,6 @@ public class LaundryServiceController extends ServiceRequestController implement
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
 
     menuName = "Laundry Service Request";
     submitButton.setDisable(true);

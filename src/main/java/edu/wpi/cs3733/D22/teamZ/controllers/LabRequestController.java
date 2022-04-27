@@ -16,7 +16,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class LabRequestController extends ServiceRequestController {
 
@@ -41,10 +40,6 @@ public class LabRequestController extends ServiceRequestController {
 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
 
     menuName = "Lab Request";
 
