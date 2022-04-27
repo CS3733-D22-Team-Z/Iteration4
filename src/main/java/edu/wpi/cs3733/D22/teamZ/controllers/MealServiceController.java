@@ -333,6 +333,17 @@ public class MealServiceController extends ServiceRequestController {
     drinkOptionDropDown.setValue(null);
     entreeOptionDropDown.setValue(null);
     snackOptionDropDown.setValue(null);
+    dairyRadio.setSelected(false);
+    eggRadio.setSelected(false);
+    dairyRadio.setSelected(false);
+    eggRadio.setSelected(false);
+    peanutRadio.setSelected(false);
+    treeNutRadio.setSelected(false);
+    soyRadio.setSelected(false);
+    wheatRadio.setSelected(false);
+    fishRadio.setSelected(false);
+    shellfishRadio.setSelected(false);
+    System.out.println("Clear fields");
     submitButton.setDisable(true);
     System.out.println("Meal Request Submit button disabled");
   }
