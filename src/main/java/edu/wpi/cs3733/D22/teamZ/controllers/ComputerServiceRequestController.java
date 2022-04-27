@@ -106,13 +106,22 @@ public class ComputerServiceRequestController extends ServiceRequestController
     if (visible) {
       operatingSystemFormHeader.getStyleClass().clear();
       operatingSystemFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          operatingSystemFormHeader, "Select operating system\nof computer that is having issues");
+
       descriptionOfProblemFormHeader.getStyleClass().clear();
       descriptionOfProblemFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          descriptionOfProblemFormHeader,
+          "Describe the problems being experienced\non computer with most details as possible");
     } else {
       operatingSystemFormHeader.getStyleClass().clear();
       operatingSystemFormHeader.getStyleClass().add("form-header");
+      operatingSystemFormHeader.setTooltip(null);
+
       descriptionOfProblemFormHeader.getStyleClass().clear();
       descriptionOfProblemFormHeader.getStyleClass().add("form-header");
+      descriptionOfProblemFormHeader.setTooltip(null);
     }
   }
 
