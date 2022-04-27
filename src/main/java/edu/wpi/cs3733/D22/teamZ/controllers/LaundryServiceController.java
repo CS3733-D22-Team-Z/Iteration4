@@ -112,17 +112,29 @@ public class LaundryServiceController extends ServiceRequestController implement
     if (visible) {
       patientIDFormHeader.getStyleClass().clear();
       patientIDFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientIDFormHeader, "Enter ID of patient that\nneeds laundry to be done");
+
       locationFormHeader.getStyleClass().clear();
       locationFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          locationFormHeader, "Enter room number that\npatient's used laundry is located");
+
       linenTypeFormHeader.getStyleClass().clear();
       linenTypeFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(linenTypeFormHeader, "Enter linen type that\nneeds to be washed");
     } else {
       patientIDFormHeader.getStyleClass().clear();
       patientIDFormHeader.getStyleClass().add("form-header");
+      patientIDFormHeader.setTooltip(null);
+
       locationFormHeader.getStyleClass().clear();
       locationFormHeader.getStyleClass().add("form-header");
+      locationFormHeader.setTooltip(null);
+
       linenTypeFormHeader.getStyleClass().clear();
       linenTypeFormHeader.getStyleClass().add("form-header");
+      linenTypeFormHeader.setTooltip(null);
     }
   }
 
