@@ -18,13 +18,13 @@
             <font>
                 <Font size="13.0" />
             </font></Label>
-        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="30.0" layoutY="714.0" onAction="#toLocations" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Locations">
+        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="30.0" layoutY="714.0" onAction="#toLocations" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Map Editor">
             <padding>
-                <Insets right="450.0" />
+                <Insets right="440.0" />
             </padding></MFXButton>
-        <MFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="30.0" layoutY="819.0" onAction="#toLandingPage" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Landing Page">
+        <MFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="30.0" layoutY="819.0" onAction="#toLandingPage" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Services">
             <padding>
-                <Insets right="390.0" />
+                <Insets right="465.0" />
             </padding></MFXButton>
         <ImageView fitHeight="528.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -48,9 +48,9 @@
             <padding>
                 <Insets right="430.0" />
             </padding></MFXButton>
-        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="756.0" layoutY="926.0" onAction="#toServiceRequests" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Service Requests">
+        <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="756.0" layoutY="926.0" onAction="#toServiceRequests" prefHeight="81.0" prefWidth="674.0" styleClass="page-button" text="Service Requests List">
             <padding>
-                <Insets right="340.0" />
+                <Insets right="280.0" />
             </padding>
         </MFXButton>
         <MFXButton alignment="CENTER" buttonType="RAISED" layoutX="1364.0" layoutY="19.0" onAction="#toGame" prefHeight="81.0" prefWidth="184.0" styleClass="switch-button" text="Game" />

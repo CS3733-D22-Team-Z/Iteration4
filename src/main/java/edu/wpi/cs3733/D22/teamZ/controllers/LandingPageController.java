@@ -34,7 +34,6 @@ public class LandingPageController implements IMenuAccess {
 
   @FXML private Region medRegion;
   @FXML private Region labRegion;
-  @FXML private Region externalRegion;
   @FXML private Region languageRegion;
   @FXML private Region computerRegion;
   @FXML private Region laundryRegion;
@@ -46,7 +45,6 @@ public class LandingPageController implements IMenuAccess {
   @FXML private Label danLabel;
   @FXML private Label patrickLabel;
   @FXML private Label claireLabel;
-  @FXML private Label mayaLabel;
   @FXML private Label jacobLabel;
   @FXML private Label nehaLabel;
   @FXML private Label nelsonLabel;
@@ -91,11 +89,6 @@ public class LandingPageController implements IMenuAccess {
     labRegion.setShape(labIcon);
     labRegion.setStyle(String.format(svgCSSLine, grey));
 
-    SVGPath externalIcon = new SVGPath();
-    externalIcon.setContent(icons[2]);
-    externalRegion.setShape(externalIcon);
-    externalRegion.setStyle(String.format(svgCSSLine, grey));
-
     SVGPath languageIcon = new SVGPath();
     languageIcon.setContent(icons[3]);
     languageRegion.setShape(languageIcon);
@@ -139,7 +132,6 @@ public class LandingPageController implements IMenuAccess {
     // Set each name label to center
     danLabel.setAlignment(Pos.CENTER);
     claireLabel.setAlignment(Pos.CENTER);
-    mayaLabel.setAlignment(Pos.CENTER);
     jacobLabel.setAlignment(Pos.CENTER);
     nehaLabel.setAlignment(Pos.CENTER);
     patrickLabel.setAlignment(Pos.CENTER);
@@ -230,11 +222,15 @@ public class LandingPageController implements IMenuAccess {
     menu.load(toEquipmentPurchaseServiceURL);
   }
 
+  @FXML
+  private void navSecurity() throws IOException {
+    menu.load(toSecurityServiceURL);
+  }
+
   public void showNameLabels() {
     boolean set = toggleNames.isSelected();
     danLabel.setVisible(set);
     claireLabel.setVisible(set);
-    mayaLabel.setVisible(set);
     jacobLabel.setVisible(set);
     nehaLabel.setVisible(set);
     patrickLabel.setVisible(set);

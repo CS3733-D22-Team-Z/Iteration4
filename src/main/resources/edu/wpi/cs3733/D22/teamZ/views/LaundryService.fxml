@@ -12,11 +12,11 @@
     <children>
         <Text layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="object-header" text="Laundry Service Request Form" x="24.0" y="74.0" />
         <Label layoutX="24.0" layoutY="102.0" prefHeight="17.0" prefWidth="266.0" styleClass="object-body" text="Enter the fields below to request laundry service." />
-        <Label layoutX="24.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
+        <Label fx:id="patientIDFormHeader" layoutX="24.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
         <MFXTextField fx:id="patientIDField" floatMode="DISABLED" layoutX="24.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter Patient ID" />
-        <Label layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Location" />
+        <Label fx:id="locationFormHeader" layoutX="24.0" layoutY="217.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Location" />
         <MFXTextField fx:id="locationField" floatMode="DISABLED" layoutX="24.0" layoutY="242.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter Location" />
-        <Label layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Linen Type" />
+        <Label fx:id="linenTypeFormHeader" layoutX="197.0" layoutY="136.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Linen Type" />
       <MFXButton fx:id="submitButton" layoutX="235.0" layoutY="324.0" onAction="#onSubmitButtonClicked" prefHeight="32.0" prefWidth="111.0" text="Submit" />
       <MFXButton fx:id="resetButton" layoutX="62.0" layoutY="324.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
       <MFXButton fx:id="backButton" layoutX="24.0" layoutY="24.0" onAction="#onBackButtonClicked" prefHeight="32.0" prefWidth="191.0" text="Back to Landing Page">
@@ -30,5 +30,6 @@
       <MFXTextField fx:id="linenTypeField" floatMode="DISABLED" layoutX="197.0" layoutY="160.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" promptText="Enter Linen Type" />
       <Label fx:id="errorLabel" layoutX="62.0" layoutY="292.0" prefHeight="17.0" prefWidth="282.0" style="-fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request: Invalid location" textFill="#ff4444" />
       <Label fx:id="successSubmitLabel" layoutX="62.0" layoutY="292.0" prefHeight="17.0" prefWidth="282.0" style="-fx-text-fill: #0075ff;" styleClass="error-label" text="Request Successfully Submitted!" />
+      <Region fx:id="helpGraphic" layoutX="346.0" layoutY="31.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
     </children>
 </AnchorPane>

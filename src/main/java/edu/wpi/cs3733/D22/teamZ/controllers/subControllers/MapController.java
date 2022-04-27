@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers.subControllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.HospitalCode;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MapLabel;
 import edu.wpi.cs3733.D22.teamZ.helpers.BiPolygon;
@@ -48,7 +49,7 @@ public class MapController implements Initializable {
   FacadeDAO database;
 
   // Paths
-  private final String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
+  public static String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
 
   // Specific attributes
   private ClassLoader loader;
@@ -211,7 +212,7 @@ public class MapController implements Initializable {
             activeLabel = (MapLabel) clickedNode;
             activeLabel.requestFocus();
           } else {
-            if (clickEvent.getClickCount() > 1) {
+            if (clickEvent.getClickCount() > 1 && doubleClicked != null) {
               doubleClicked.call(clickEvent);
             }
           }
@@ -248,6 +249,11 @@ public class MapController implements Initializable {
     imageWidth.set(newImage.getWidth());
   }
 
+  public void setAlerts(HospitalCode code) {
+    System.out.println("adding label");
+    iconContainer.getChildren().add(code.getLabel());
+  }
+
   /**
    * Given a list of locations, adds labels to the map.
    *
@@ -256,13 +262,14 @@ public class MapController implements Initializable {
    *     Voronoi algorithm. Also must contain every visible location
    * @param genVoronoi if voronoi regions be generated from allLocations. Automatically enables
    *     snapping
-   * @param img the image that each location will have
+   * @param graphicMethod the method for setting the graphic
    */
   public void setLabels(
       List<Location> visibleLocations,
       List<Location> allLocations,
       boolean genVoronoi,
-      String img) {
+      LabelMethod graphicMethod,
+      ObservableList<HospitalCode> codes) {
     // Reset everything
     currentLabels.clear();
     iconContainer.getChildren().clear();
@@ -278,9 +285,7 @@ public class MapController implements Initializable {
               .build();
 
       // place label at correct coords
-      label.relocate(
-          label.getLocation().getXcoord(), // * (map.getFitWidth() / 1021),
-          label.getLocation().getYcoord()); // * (map.getFitHeight() / 850));
+      label.relocate((label.getLocation().getXcoord()), (label.getLocation().getYcoord()));
 
       if (genVoronoi) {
         generateVoronoi(allLocations);
@@ -332,17 +337,17 @@ public class MapController implements Initializable {
                 });
 
         // Add graphic
-        Image locationImg = new Image(String.format(mapPath, img));
-        ImageView locationIcon = new ImageView(locationImg);
-        label.setGraphic(locationIcon);
-
-        // Shift label so the bottom tip is on the exact layout
-        label.setTranslateX(-locationImg.getWidth() / 2);
-        label.setTranslateY(-locationImg.getHeight());
+        graphicMethod.call(label);
       }
 
       allLabels.add(label);
       iconContainer.getChildren().add(label);
+    }
+
+    for (HospitalCode code : codes) {
+      if (visibleLocations.contains(code.getLocation())) {
+        setAlerts(code);
+      }
     }
   }
 
@@ -509,5 +514,13 @@ public class MapController implements Initializable {
     } else {
       scroller.setHvalue(scroller.getHmin());
     }
+  }
+
+  public static LabelMethod loadImage(String img) {
+    return loc -> {
+      Image labelGraphic = new Image(String.format(mapPath, img));
+      ImageView imageCont = new ImageView(labelGraphic);
+      loc.setGraphic(imageCont);
+    };
   }
 }

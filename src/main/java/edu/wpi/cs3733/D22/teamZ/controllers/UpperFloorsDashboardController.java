@@ -3,10 +3,8 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.DashAlert;
 import edu.wpi.cs3733.D22.teamZ.entity.DashboardEquipment;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
 import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
-import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.util.HashMap;
@@ -99,7 +97,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   private HashMap<String, DashAlert> alerts;
 
   // private final String toLowerLevel = "edu/wpi/cs3733/D22/teamZ/views/LowerLevelsDashboard.fxml";
-  private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
+  private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/FloorDetails.fxml";
 
   private final String dirtyBedMsg = "There are %d dirty beds on this floor.";
   private final String dirtyPumpMsg = "There are %d dirty pumps on this floor.";
@@ -154,41 +152,43 @@ public class UpperFloorsDashboardController implements IMenuAccess {
       dashRegion.setStyle("-fx-background-color: #FF4343;");
     }
 
-    // Create observers for each dirty location
-    List<Location> dirtyTest =
-        List.of(
-            dao.getLocationByID("zSTOR00305"),
-            dao.getLocationByID("zSTOR00303"),
-            dao.getLocationByID("zSTOR00403"),
-            dao.getLocationByID("zSTOR00304"),
-            dao.getLocationByID("zSTOR00404"));
+    /*
+     // Create observers for each dirty location
+     List<Location> dirtyTest =
+         List.of(
+             dao.getLocationByID("zSTOR00305"),
+             dao.getLocationByID("zSTOR00303"),
+             dao.getLocationByID("zSTOR00403"),
+             dao.getLocationByID("zSTOR00304"),
+             dao.getLocationByID("zSTOR00404"));
 
-    for (Location dirtyLocation : dirtyTest) {
-      new DashboardBedAlertObserver(dirtyLocation, this);
-    }
+     for (Location dirtyLocation : dirtyTest) {
+       new DashboardBedAlertObserver(dirtyLocation, this);
+     }
 
-    List<Location> dirtyPumpLocations =
-        List.of(
-            dao.getLocationByID("zDIRT00103"),
-            dao.getLocationByID("zDIRT00104"),
-            dao.getLocationByID("zDIRT00105"));
+     List<Location> dirtyPumpLocations =
+         List.of(
+             dao.getLocationByID("zDIRT00103"),
+             dao.getLocationByID("zDIRT00104"),
+             dao.getLocationByID("zDIRT00105"));
 
-    for (Location dirtyLocation : dirtyPumpLocations) {
-      new DashboardBedAlertObserver(dirtyLocation, this);
-    }
+     for (Location dirtyLocation : dirtyPumpLocations) {
+       new DashboardBedAlertObserver(dirtyLocation, this);
+     }
 
-    List<Location> cleanPumpLocations =
-        List.of(
-            dao.getLocationByID("zSTOR00103"),
-            dao.getLocationByID("zSTOR00203"),
-            dao.getLocationByID("zSTOR00104"),
-            dao.getLocationByID("zSTOR00204"),
-            dao.getLocationByID("zSTOR00105"),
-            dao.getLocationByID("zSTOR00205"));
+     List<Location> cleanPumpLocations =
+         List.of(
+             dao.getLocationByID("zSTOR00103"),
+             dao.getLocationByID("zSTOR00203"),
+             dao.getLocationByID("zSTOR00104"),
+             dao.getLocationByID("zSTOR00204"),
+             dao.getLocationByID("zSTOR00105"),
+             dao.getLocationByID("zSTOR00205"));
 
-    for (Location cleanLocation : cleanPumpLocations) {
-      new DashboardBedAlertObserver(cleanLocation, this);
-    }
+     for (Location cleanLocation : cleanPumpLocations) {
+       new DashboardBedAlertObserver(cleanLocation, this);
+     }
+    */
 
     setupDropdown(floor5Container, "5");
     setupDropdown(floor4Container, "4");
@@ -356,6 +356,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     TableView<DropdownRow> table = (TableView) dropdownPane.getChildren().get(1);
     MFXButton dropDownButton =
         (MFXButton) topComponents.getChildren().get(topComponents.getChildren().size() - 1);
+
     table
         .visibleProperty()
         .addListener(listener -> table.setPrefHeight(table.isVisible() ? 200 : 0));
@@ -403,8 +404,9 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   }
 
   public void toFloor5(ActionEvent actionEvent) throws IOException {
-    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
-    mapListController.changeToFloor("5");
+    // LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    FloorDetailsController mapListController = (FloorDetailsController) menu.load(toLocationURL);
+    mapListController.setFloor("5");
   }
 
   public void toFloor4(ActionEvent actionEvent) throws IOException {
@@ -413,8 +415,8 @@ public class UpperFloorsDashboardController implements IMenuAccess {
   }
 
   public void toFloor3(ActionEvent actionEvent) throws IOException {
-    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
-    mapListController.changeToFloor("3");
+    FloorDetailsController mapListController = (FloorDetailsController) menu.load(toLocationURL);
+    mapListController.setFloor("3");
   }
 
   public void toFloor2(ActionEvent actionEvent) throws IOException {
@@ -441,7 +443,7 @@ public class UpperFloorsDashboardController implements IMenuAccess {
     // Get alert for this floor
     DashAlert floorAlert = alerts.get(floor);
     floorAlert.putWarningData(dirtyBedMsg, dirtyBeds, 6, true);
-    floorAlert.putWarningData(dirtyPumpMsg, dirtyPumps, 15, true);
+    floorAlert.putWarningData(dirtyPumpMsg, dirtyPumps, 10, true);
     floorAlert.putWarningData(cleanPumpMsg, cleanPumps, 5, false);
   }
 

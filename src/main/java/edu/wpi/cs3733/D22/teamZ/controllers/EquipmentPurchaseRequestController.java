@@ -18,6 +18,8 @@ import javafx.scene.control.Label;
 public class EquipmentPurchaseRequestController extends ServiceRequestController
     implements IMenuAccess, Initializable {
 
+  @FXML public Label equipmentTypeLabel;
+  @FXML public Label paymentMethodLabel;
   @FXML private MFXButton equipmentPurchaseRequestListButton;
   @FXML private Label currentRequestsLabel;
   @FXML private ChoiceBox equipmentTypeChoiceBox;
@@ -25,8 +27,6 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
   @FXML private Label errorSavingLabel;
   @FXML private Label successfulSubmitLabel;
   @FXML private MFXButton submitButton;
-
-  private MenuController menu;
 
   private String toPurchaseListURL =
       "edu/wpi/cs3733/D22/teamZ/views/EquipmentPurchaseRequestList.fxml";
@@ -48,6 +48,7 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
     equipmentTypeChoiceBox.setOnAction(event -> validateButton());
     paymentMethodChoiceBox.setOnAction(event -> validateButton());
     successfulSubmitLabel.setText("Successfully Submitted Payment!");
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -104,6 +105,27 @@ public class EquipmentPurchaseRequestController extends ServiceRequestController
     equipmentTypeChoiceBox.setValue(null);
     paymentMethodChoiceBox.setValue(null);
     successfulSubmitLabel.setVisible(false);
+  }
+
+  @Override
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      equipmentTypeLabel.getStyleClass().clear();
+      equipmentTypeLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(equipmentTypeLabel, "Select equipment type\nto purchase");
+
+      paymentMethodLabel.getStyleClass().clear();
+      paymentMethodLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(paymentMethodLabel, "Select payment method\nfor use on purchase");
+    } else {
+      equipmentTypeLabel.getStyleClass().clear();
+      equipmentTypeLabel.getStyleClass().add("form-header");
+      equipmentTypeLabel.setTooltip(null);
+
+      paymentMethodLabel.getStyleClass().clear();
+      paymentMethodLabel.getStyleClass().add("form-header");
+      paymentMethodLabel.setTooltip(null);
+    }
   }
 
   @FXML

@@ -5,7 +5,9 @@ import edu.wpi.cs3733.D22.teamZ.entity.CleaningRequest;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -24,6 +26,7 @@ import javafx.stage.Stage;
 public class CleaningRequestListController implements Initializable, IMenuAccess {
   // Main table
   @FXML public TableView<CleaningRequest> tableContainer;
+  @FXML private MFXButton backToCleaning;
   @FXML private TableColumn<CleaningRequest, String> idCol;
   @FXML private TableColumn<CleaningRequest, String> typeCol;
   @FXML private TableColumn<CleaningRequest, Employee> issuerCol;
@@ -32,11 +35,10 @@ public class CleaningRequestListController implements Initializable, IMenuAccess
   @FXML private TableColumn<CleaningRequest, Location> locationCol;
 
   private final String toCleaningRequest = "views/CleaningRequest.fxml";
-
-  protected MenuController menu;
-
+  private final String backToCleaningURL = "edu/wpi/cs3733/D22/teamZ/views/CleaningRequest.fxml";
   // Changes per every implementation
   // The name of the page that will be displayed in the bottom menu bar.
+  private MenuController menu;
   protected String menuName;
 
   private ObservableList<CleaningRequest> requests;
@@ -109,5 +111,9 @@ public class CleaningRequestListController implements Initializable, IMenuAccess
     if (file != null) {
       facadeDAO.exportCleaningReqToCSV(file);
     }
+  }
+
+  public void onBackToCleaningClicked(ActionEvent actionEvent) throws IOException {
+    menu.load(backToCleaningURL);
   }
 }

@@ -14,9 +14,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class CleaningRequestController extends ServiceRequestController {
+  @FXML private Label successfulSubmitLabel;
+  @FXML public Label roomNumberFormHeader;
+  @FXML public Label requestFormHeader;
+  @FXML public Label floorNumberFormHeader;
+  @FXML public Label locationTypeFormHeader;
   @FXML private Label header;
   @FXML private Label objectBodyText;
   @FXML private Label roomNumberLabel;
@@ -45,11 +49,6 @@ public class CleaningRequestController extends ServiceRequestController {
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
 
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
-
     menuName = "Cleaning Request";
 
     locationList = database.getAllLocations();
@@ -59,19 +58,16 @@ public class CleaningRequestController extends ServiceRequestController {
       e.printStackTrace();
     }
 
-    for (Location model : locationList) {
-      System.out.println(model.getNodeID());
-    }
-
     nodeTypeDropDown.setItems(
         FXCollections.observableArrayList(
             "DEPT", "EXIT", "HALL", "INFO", "LABS", "RETL", "SERV", "STAI", "ELEV", "BATH", "STOR",
             "PATI"));
     // //example
     nodeTypeDropDown.getSelectionModel().select(0);
-    System.out.println(
-        "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
+    //System.out.println("ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
+    successfulSubmitLabel.setVisible(false);
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -82,15 +78,56 @@ public class CleaningRequestController extends ServiceRequestController {
     submitButton.setDisable(true);
     nodeTypeDropDown.getSelectionModel().select(0);
     validateButton();
+    errorSavingLabel.setVisible(false);
+    successfulSubmitLabel.setVisible(false);
+  }
+
+  @Override
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(roomNumberFormHeader, "Enter room number of\nroom that needs cleaning");
+
+      requestFormHeader.getStyleClass().clear();
+      requestFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(requestFormHeader, "Enter kind of cleaning request");
+
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          floorNumberFormHeader, "Enter floor number that\nneeds cleaning request");
+
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          locationTypeFormHeader, "Enter location type that\nneeds cleaning request");
+    } else {
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
+
+      requestFormHeader.getStyleClass().clear();
+      requestFormHeader.getStyleClass().add("form-header");
+      requestFormHeader.setTooltip(null);
+
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header");
+      floorNumberFormHeader.setTooltip(null);
+
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header");
+      locationTypeFormHeader.setTooltip(null);
+    }
   }
 
   @FXML
   protected void onSubmitButtonClicked(ActionEvent actionEvent) {
     // Debug
-    System.out.println("Room Number: " + enterRoomNumber.getText());
-    System.out.println("Floor Number: " + enterFloorNumber.getText());
-    System.out.println("nodeType: " + nodeTypeDropDown.getValue());
-    System.out.println("Request: " + enterRequest.getText());
+    //System.out.println("Room Number: " + enterRoomNumber.getText());
+    //System.out.println("Floor Number: " + enterFloorNumber.getText());
+    //System.out.println("nodeType: " + nodeTypeDropDown.getValue());
+    //System.out.println("Request: " + enterRequest.getText());
 
     UniqueID id = new UniqueID();
     String requestID = id.generateID("CLEAN");
@@ -121,6 +158,7 @@ public class CleaningRequestController extends ServiceRequestController {
       database.addCleaningRequest(temp);
 
       errorSavingLabel.setVisible(false);
+      successfulSubmitLabel.setVisible(true);
     }
   }
 
@@ -133,7 +171,6 @@ public class CleaningRequestController extends ServiceRequestController {
       submitButton.setDisable(false);
     } else {
       submitButton.setDisable(true);
-      System.out.println("Cleaning Request Submit Button disabled");
     }
   }
 
