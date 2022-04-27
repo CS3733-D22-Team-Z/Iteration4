@@ -138,21 +138,36 @@ public class GiftServicesController extends ServiceRequestController {
     if (visible) {
       patientNameFormHeader.getStyleClass().clear();
       patientNameFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientNameFormHeader, "Enter name of patient that\ngift is delivered to");
+
       patientIDFormHeader.getStyleClass().clear();
       patientIDFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(patientIDFormHeader, "Enter ID of patient that\ngift is delivered to");
+
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(roomNumberFormHeader, "Select patient room that\ngift is delivered to");
+
       giftServiceOptionFormHeader.getStyleClass().clear();
       giftServiceOptionFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(giftServiceOptionFormHeader, "Select type of gift\nthat is delivered");
     } else {
       patientNameFormHeader.getStyleClass().clear();
       patientNameFormHeader.getStyleClass().add("form-header");
+      patientNameFormHeader.setTooltip(null);
+
       patientIDFormHeader.getStyleClass().clear();
       patientIDFormHeader.getStyleClass().add("form-header");
+      patientIDFormHeader.setTooltip(null);
+
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
+
       giftServiceOptionFormHeader.getStyleClass().clear();
       giftServiceOptionFormHeader.getStyleClass().add("form-header");
+      giftServiceOptionFormHeader.setTooltip(null);
     }
   }
 
