@@ -1122,7 +1122,7 @@ public class LocationListController implements IMenuAccess {
     Label label = new Label();
     label.setEffect(dropShadow);
     label.setGraphic(icon);
-    label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
+    label.relocate(location.getXcoord() + 20, location.getYcoord() + 20);
     label.setContextMenu(contextMenu);
     String typeString = "Code " + type + " Alert";
     label.setOnMouseClicked(
