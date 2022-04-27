@@ -4,10 +4,7 @@ import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import edu.wpi.cs3733.D22.teamZ.helpers.PopupLoader;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXListView;
-import io.github.palexdev.materialfx.controls.MFXRadioButton;
-import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.cell.MFXListCell;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +34,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -48,6 +46,11 @@ import org.kynosarges.tektosyne.geometry.VoronoiResults;
 
 // LocationController controls Location.fxml, loads location data into a tableView on page
 public class LocationListController implements IMenuAccess {
+
+  @FXML private MFXCheckbox fromLock;
+  @FXML private MFXCheckbox toLock;
+  @FXML private Label toLabel;
+  @FXML private Label fromLabel;
 
   // alert
   @FXML private Pane addAlertPane;
@@ -90,6 +93,7 @@ public class LocationListController implements IMenuAccess {
   @FXML private Pane zoomOutButton;
 
   private static MapLabel activeLabel;
+
   //
 
   // Casey's
@@ -162,7 +166,10 @@ public class LocationListController implements IMenuAccess {
 
   private int scrollCount;
   private int curZoom;
-
+  private List<PathEdge> foundPath = new ArrayList<>();
+  private Location source;
+  private Location dest;
+  private boolean allowDrawPath = false;
   // initialize location labels to display on map
   @FXML
   private void initialize() {
@@ -549,6 +556,21 @@ public class LocationListController implements IMenuAccess {
           locsWithServices.get(), locsWithServices.get(), false, "servicerequest");
       mapController.setIconShift(0);
     }
+    mapController.getIconContainer().getChildren().removeIf(n -> n instanceof Line);
+    if (foundPath.size() > 0) {
+      for (PathEdge edge : foundPath) {
+        if (edge.getFrom().getFloor().equals(floor)
+            && edge.getDest().getFloor().equals(floor)
+            && allowDrawPath) {
+          Location s = edge.getFrom();
+          Location d = edge.getDest();
+          Line l = new Line(s.getXcoord(), s.getYcoord(), d.getXcoord(), d.getYcoord());
+          l.setStroke(Color.rgb(0, 75, 255));
+          l.setStrokeWidth(3);
+          mapController.getIconContainer().getChildren().add(l);
+        }
+      }
+    }
   }
   // Andrew's Stuff
 
@@ -934,11 +956,6 @@ public class LocationListController implements IMenuAccess {
   }
 
   @Override
-  public void setMenuController(MenuController menu) {
-    this.menu = menu;
-  }
-
-  @Override
   public String getMenuName() {
     return "Location Map";
   }
@@ -1131,5 +1148,54 @@ public class LocationListController implements IMenuAccess {
       }
     }
     return closestExit;
+  }
+
+  @Override
+  public void setMenuController(MenuController menu) {
+    this.menu = menu;
+  }
+
+  public void enableFromLock(ActionEvent actionEvent) {
+    mapController.getIconContainer().getChildren().removeIf(n -> n instanceof Line);
+    fromLabel.setVisible(fromLock.isSelected());
+    if (fromLock.isSelected()) {
+      String text;
+      if (activeLabel != null) {
+        text = activeLabel.getLocation().getNodeID();
+        source = activeLabel.getLocation();
+      } else {
+        text = "Not Set";
+        source = null;
+      }
+      fromLabel.setText(text);
+    }
+    setFoundPath();
+  }
+
+  public void enableToLock(ActionEvent actionEvent) {
+    mapController.getIconContainer().getChildren().removeIf(n -> n instanceof Line);
+    toLabel.setVisible(toLock.isSelected());
+    if (toLock.isSelected()) {
+      String text;
+      if (activeLabel != null) {
+        text = activeLabel.getLocation().getNodeID();
+        dest = activeLabel.getLocation();
+      } else {
+        text = "Not Set";
+        dest = null;
+      }
+      toLabel.setText(text);
+    }
+    setFoundPath();
+  }
+
+  private void setFoundPath() {
+    if (source != null && dest != null && toLock.isSelected() && fromLock.isSelected()) {
+      allowDrawPath = true;
+      foundPath = PathEdge.findPath(source, dest).collect(Collectors.toList());
+      showLocations(changeFloor.getSelectionModel().getSelectedItem());
+    } else {
+      allowDrawPath = false;
+    }
   }
 }
