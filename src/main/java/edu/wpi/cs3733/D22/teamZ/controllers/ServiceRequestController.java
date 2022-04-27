@@ -99,9 +99,13 @@ public abstract class ServiceRequestController implements Initializable, IMenuAc
   @FXML
   public void onHelpMenu() {
     if (isHelpOn) {
+      helpGraphic.setStyle(null);
+      helpGraphic.setStyle(String.format(svgCSSLine, "#0062A9"));
       highlightRequirements(false);
       isHelpOn = false;
     } else {
+      helpGraphic.setStyle(null);
+      helpGraphic.setStyle(String.format(svgCSSLine, "#f6bd38"));
       highlightRequirements(true);
       isHelpOn = true;
     }
