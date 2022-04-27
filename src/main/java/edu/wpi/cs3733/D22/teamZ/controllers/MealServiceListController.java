@@ -24,6 +24,7 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
   // Button that re-fetches requests and refreshes table.
   @FXML private MFXButton refreshButton;
+  @FXML private MFXButton editButton;
 
   // Buttons to select the sorting/filter parameters.
   @FXML private MFXButton idButton;
@@ -132,6 +133,13 @@ public class MealServiceListController implements Initializable, IMenuAccess {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    Employee.AccessType accessType = MenuController.getLoggedInUser().getAccesstype();
+    if (!accessType.equals(Employee.AccessType.ADMIN)) {
+      editButton.setVisible(false);
+      editButton.setDisable(true);
+    }
+
+
     // Create labels for field values
     for (String identifier : identifiers) {
       if (identifier.equals("Drink")) {
@@ -148,7 +156,8 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     //    filterCBox.getItems().addAll("Test 1", "Test 2", "Test 3");
 
     // Setup details window
-    int sWidth = 176 / 2;
+    //    int sWidth = 176 / 2;
+    int sWidth = (int) statusTable.getPrefWidth() / 2;
     labelsColumn.setCellValueFactory(tRow -> tRow.getValue().label);
     labelsColumn.setPrefWidth(sWidth);
     labelsColumn.setResizable(false);
@@ -372,6 +381,9 @@ public class MealServiceListController implements Initializable, IMenuAccess {
       throw new IOException();
     }
   }
+
+  /** @param event */
+  public void editClicked(ActionEvent event) {}
 
   /** */
   public static class TableColumnItems {

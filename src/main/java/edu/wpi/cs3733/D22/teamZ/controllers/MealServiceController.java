@@ -6,13 +6,13 @@ import static javafx.scene.paint.Color.RED;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,12 +46,15 @@ public class MealServiceController extends ServiceRequestController {
   @FXML private RadioButton shellfishRadio;
   @FXML final ToggleGroup radioGroup = new ToggleGroup();
 
-  // Lists.
+  // Lists
   private List<Location> locationList;
   private List<Patient> patientList;
-  private List<String> patientIDList = new ArrayList<>();
-  private List<String> patientNameList = new ArrayList<>();
-  private List<String> roomNumberList = new ArrayList<>();
+  private List<String> patientIDList = new ArrayList<>(); // Set or Map may be better
+  private List<String> patientNameList = new ArrayList<>(); // Set or Map may be better
+  private List<String> roomNumberList = new ArrayList<>(); // Set or Map may be better
+  private Set<String> patientIDSet = new HashSet<>();
+  private Set<String> patientNameSet = new HashSet<>();
+  private Set<String> roomNumberSet = new HashSet<>();
   private List<MealServiceRequest> mealRequestList = new ArrayList<>();
   private List<ServiceRequest> allServiceRequestList = new ArrayList<>();
   private List<String> patientAllergensList = new ArrayList<>();
@@ -136,6 +139,10 @@ public class MealServiceController extends ServiceRequestController {
                   .substring(patient.getLocation().getShortName().length() - 4));
     }
 
+    // Remove duplicate room numbers
+    // If two or more patients share a room, the first patient in the list will be assigned.
+    //    for ()
+
     patientIDDropDown.setItems(FXCollections.observableArrayList(patientIDList));
     patientNameDropDown.setItems(FXCollections.observableArrayList(patientNameList));
     roomNumberDropDown.setItems(FXCollections.observableArrayList(roomNumberList));
@@ -183,11 +190,12 @@ public class MealServiceController extends ServiceRequestController {
     breakfastDrinksList.addAll(
         Arrays.asList(
             "none", "Water", "Coffee", "Tea", "Apple_Juice", "Orange_Juice", "Cranberry_Juice"));
-    breakfastEntreesList.addAll(Arrays.asList("none", "Belgium_Waffle", "Omlette", "Pancakes"));
+    breakfastEntreesList.addAll(Arrays.asList("none", "Belgium_Waffle", "Omelette", "Pancakes"));
     breakfastSnackList.addAll(
         Arrays.asList("none", "Apple_Sauce", "Blueberry_Muffin", "Fruit_Bowl"));
     lunchDrinksList.addAll(Arrays.asList("none", "Water", "Coffee", "Tea"));
-    lunchEntreesList.addAll(Arrays.asList("none", "Caesar_Salad", "Cheeseburger", "Chicken_Sandw"));
+    lunchEntreesList.addAll(
+        Arrays.asList("none", "Caesar_Salad", "Cheeseburger", "Chicken_Sandwich"));
     lunchSnackList.addAll(Arrays.asList("none", "Corn_Bread", "Fruit_Bowl", "Pretzel"));
     dinnerDrinksList.addAll(Arrays.asList("none", "Water", "Coffee", "Tea", "Coca_Cola", "Sprite"));
     dinnerEntreesList.addAll(
@@ -470,10 +478,22 @@ public class MealServiceController extends ServiceRequestController {
       System.out.println(
           "Patient New Name: "
               + patientNameList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
-      patientNameDropDown.setValue(
-          patientNameList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
-      roomNumberDropDown.setValue(
-          roomNumberList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
+
+      String tempName = instanceDAO.getPatientByID(patientIDDropDown.getValue()).getName();
+      patientNameDropDown.setValue(tempName);
+      System.out.println("TempName: " + tempName);
+
+      String tempShortName =
+          instanceDAO.getPatientByID(patientIDDropDown.getValue()).getLocation().getShortName();
+
+      String tempRoomNumber = tempShortName.substring(tempShortName.length() - 4);
+      roomNumberDropDown.setValue(tempRoomNumber);
+      System.out.println("tempRoomNumber: " + tempRoomNumber);
+
+      //      patientNameDropDown.setValue(
+      //          patientNameList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
+      //      roomNumberDropDown.setValue(
+      //          roomNumberList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
     }
   }
 
@@ -481,10 +501,52 @@ public class MealServiceController extends ServiceRequestController {
   public void updatePatientName() {
     System.out.println("Update 2: Patient Name ComboBox Selected");
     if (patientNameDropDown.getValue() != null) {
-      patientIDDropDown.setValue(
-          patientIDList.get(patientNameList.indexOf(patientNameDropDown.getValue())));
-      roomNumberDropDown.setValue(
-          roomNumberList.get(patientNameList.indexOf(patientNameDropDown.getValue())));
+      List<Patient> l =
+          patientList.stream()
+              .filter(s -> patientNameDropDown.getValue().equals(s))
+              .collect(Collectors.toList());
+
+      String tempShortName = l.get(0).getLocation().getShortName();
+
+      String tempPatientName = l.get(0).getName();
+      String tempPatientID = l.get(0).getPatientID();
+      String tempRoomNumber =
+          l.get(0).getLocation().getShortName().substring(tempShortName.length() - 4);
+
+      System.out.println("Name Chosen: " + patientIDDropDown.getValue());
+      System.out.println("Temp Name: " + tempPatientName);
+      patientIDDropDown.setValue(tempPatientID);
+      System.out.println("tempPatientID: " + tempPatientID);
+      roomNumberDropDown.setValue(tempRoomNumber);
+      System.out.println("tempRoomNumber: " + tempRoomNumber);
+
+      //      String tempPatientID =
+      //          instanceDAO
+      //
+      // .getPatientByID(instanceDAO.getAllPatients().contains(instanceDAO.getAllPatients().get().getName()))
+      //      List<Patient> pat = instanceDAO.getAllPatients();
+
+      //      Stream peters = userList.stream().filter(p -> p.user.name.equals("Peter"))
+
+      //      String tempRoomNumber =
+      //          instanceDAO
+      //              .getPatientByID(patientIDDropDown.getValue())
+      //              .getLocation()
+      //              .getShortName()
+      //              .substring(
+      //                  instanceDAO
+      //                      .getPatientByID(patientIDDropDown.getValue())
+      //                      .getLocation()
+      //                      .getShortName()
+      //                      .length()
+      //                      - 4);
+      //      roomNumberDropDown.setValue(tempRoomNumber);
+      //      System.out.println("tempRoomNumber: " + tempRoomNumber);
+
+      //      patientIDDropDown.setValue(
+      //          patientIDList.get(patientNameList.indexOf(patientNameDropDown.getValue())));
+      //      roomNumberDropDown.setValue(
+      //          roomNumberList.get(patientNameList.indexOf(patientNameDropDown.getValue())));
     }
   }
 
@@ -492,6 +554,9 @@ public class MealServiceController extends ServiceRequestController {
   public void updatePatientRoom() {
     System.out.println("Update 3: Patient Room ComboBox Selected");
     if (roomNumberDropDown.getValue() != null) {
+
+      //      patientNameList.indexOf()
+
       patientIDDropDown.setValue(
           patientIDList.get(roomNumberList.indexOf(roomNumberDropDown.getValue())));
       patientNameDropDown.setValue(
