@@ -17,6 +17,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.SVGPath;
 
 public class CleaningRequestController extends ServiceRequestController {
+  @FXML private Label successfulSubmitLabel;
   @FXML private Label header;
   @FXML private Label objectBodyText;
   @FXML private Label roomNumberLabel;
@@ -72,6 +73,7 @@ public class CleaningRequestController extends ServiceRequestController {
     System.out.println(
         "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
+    successfulSubmitLabel.setVisible(false);
   }
 
   @FXML
@@ -82,6 +84,8 @@ public class CleaningRequestController extends ServiceRequestController {
     submitButton.setDisable(true);
     nodeTypeDropDown.getSelectionModel().select(0);
     validateButton();
+    errorSavingLabel.setVisible(false);
+    successfulSubmitLabel.setVisible(false);
   }
 
   @FXML
@@ -121,6 +125,7 @@ public class CleaningRequestController extends ServiceRequestController {
       database.addCleaningRequest(temp);
 
       errorSavingLabel.setVisible(false);
+      successfulSubmitLabel.setVisible(true);
     }
   }
 

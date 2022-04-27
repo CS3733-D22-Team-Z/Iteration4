@@ -169,14 +169,19 @@ public class Location implements ISearchable {
   }
 
   public static String createNodeID(String nodeType, String roomNumber, String floor) {
-    String newNodeID =
-        "z"
-            + nodeType
-            + "0".repeat(3 - roomNumber.length())
-            + roomNumber
-            + "0".repeat(2 - floor.length())
-            + floor;
-    return newNodeID;
+    try {
+      String newNodeID =
+          "z"
+              + nodeType
+              + "0".repeat(3 - roomNumber.length())
+              + roomNumber
+              + "0".repeat(2 - floor.length())
+              + floor;
+      return newNodeID;
+    } catch (IllegalArgumentException e) {
+      // Not a real place
+      return null;
+    }
   }
 
   @Override
