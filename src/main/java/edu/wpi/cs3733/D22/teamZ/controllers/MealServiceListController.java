@@ -139,7 +139,6 @@ public class MealServiceListController implements Initializable, IMenuAccess {
       editButton.setDisable(true);
     }
 
-
     // Create labels for field values
     for (String identifier : identifiers) {
       if (identifier.equals("Drink")) {

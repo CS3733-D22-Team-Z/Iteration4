@@ -44,14 +44,14 @@ public class MealServiceController extends ServiceRequestController {
   @FXML private ComboBox<String> drinkOptionDropDown;
   @FXML private ComboBox<String> entreeOptionDropDown;
   @FXML private ComboBox<String> snackOptionDropDown;
-  @FXML private RadioButton dairyRadio;
-  @FXML private RadioButton eggRadio;
-  @FXML private RadioButton peanutRadio;
-  @FXML private RadioButton treeNutRadio;
-  @FXML private RadioButton soyRadio;
-  @FXML private RadioButton wheatRadio;
-  @FXML private RadioButton fishRadio;
-  @FXML private RadioButton shellfishRadio;
+  @FXML private RadioButton dairyChoice;
+  @FXML private RadioButton eggChoice;
+  @FXML private RadioButton peanutChoice;
+  @FXML private RadioButton treenutChoice;
+  @FXML private RadioButton soyChoice;
+  @FXML private RadioButton wheatChoice;
+  @FXML private RadioButton fishChoice;
+  @FXML private RadioButton shellfishChoice;
   @FXML final ToggleGroup radioGroup = new ToggleGroup();
 
   // Lists
@@ -234,14 +234,14 @@ public class MealServiceController extends ServiceRequestController {
     roomNumberDropDown.setOnAction(event -> updatePatientRoom());
 
     //
-    dairyRadio.setOnAction(event -> updateAllergens());
-    eggRadio.setOnAction(event -> updateAllergens());
-    peanutRadio.setOnAction(event -> updateAllergens());
-    treeNutRadio.setOnAction(event -> updateAllergens());
-    soyRadio.setOnAction(event -> updateAllergens());
-    wheatRadio.setOnAction(event -> updateAllergens());
-    fishRadio.setOnAction(event -> updateAllergens());
-    shellfishRadio.setOnAction(event -> updateAllergens());
+    dairyChoice.setOnAction(event -> updateAllergens());
+    eggChoice.setOnAction(event -> updateAllergens());
+    peanutChoice.setOnAction(event -> updateAllergens());
+    treenutChoice.setOnAction(event -> updateAllergens());
+    soyChoice.setOnAction(event -> updateAllergens());
+    wheatChoice.setOnAction(event -> updateAllergens());
+    fishChoice.setOnAction(event -> updateAllergens());
+    shellfishChoice.setOnAction(event -> updateAllergens());
 
     //    radioGroup
     //        .selectedToggleProperty()
@@ -350,16 +350,16 @@ public class MealServiceController extends ServiceRequestController {
     drinkOptionDropDown.setValue(null);
     entreeOptionDropDown.setValue(null);
     snackOptionDropDown.setValue(null);
-    dairyRadio.setSelected(false);
-    eggRadio.setSelected(false);
-    dairyRadio.setSelected(false);
-    eggRadio.setSelected(false);
-    peanutRadio.setSelected(false);
-    treeNutRadio.setSelected(false);
-    soyRadio.setSelected(false);
-    wheatRadio.setSelected(false);
-    fishRadio.setSelected(false);
-    shellfishRadio.setSelected(false);
+    dairyChoice.setSelected(false);
+    eggChoice.setSelected(false);
+    dairyChoice.setSelected(false);
+    eggChoice.setSelected(false);
+    peanutChoice.setSelected(false);
+    treenutChoice.setSelected(false);
+    soyChoice.setSelected(false);
+    wheatChoice.setSelected(false);
+    fishChoice.setSelected(false);
+    shellfishChoice.setSelected(false);
     System.out.println("Clear fields");
     submitButton.setDisable(true);
     System.out.println("Meal Request Submit button disabled");
@@ -380,14 +380,14 @@ public class MealServiceController extends ServiceRequestController {
     entreeOptionDropDown.setValue(null);
     snackOptionDropDown.setValue(null);
     // Reset radio buttons
-    dairyRadio.setSelected(false);
-    eggRadio.setSelected(false);
-    peanutRadio.setSelected(false);
-    treeNutRadio.setSelected(false);
-    soyRadio.setSelected(false);
-    wheatRadio.setSelected(false);
-    fishRadio.setSelected(false);
-    shellfishRadio.setSelected(false);
+    dairyChoice.setSelected(false);
+    eggChoice.setSelected(false);
+    peanutChoice.setSelected(false);
+    treenutChoice.setSelected(false);
+    soyChoice.setSelected(false);
+    wheatChoice.setSelected(false);
+    fishChoice.setSelected(false);
+    shellfishChoice.setSelected(false);
     // Remove allergens from meal request
     patientAllergensList.clear();
     System.out.println("Patient Allergen List Emptied");
@@ -649,27 +649,27 @@ public class MealServiceController extends ServiceRequestController {
     boolean stateDairy;
     boolean stateEgg;
     boolean statePeanut;
-    boolean stateTreeNut;
+    boolean statetreenut;
     boolean stateSoy;
     boolean stateWheat;
     boolean stateFish;
     boolean stateShellfish;
 
-    if (dairyRadio.isSelected()
-        || eggRadio.isSelected()
-        || peanutRadio.isSelected()
-        || treeNutRadio.isSelected()
-        || soyRadio.isSelected()
-        || wheatRadio.isSelected()
-        || fishRadio.isSelected()
-        || shellfishRadio.isSelected()) {
+    if (dairyChoice.isSelected()
+        || eggChoice.isSelected()
+        || peanutChoice.isSelected()
+        || treenutChoice.isSelected()
+        || soyChoice.isSelected()
+        || wheatChoice.isSelected()
+        || fishChoice.isSelected()
+        || shellfishChoice.isSelected()) {
       // Remove none if exists
       if (patientAllergensList.contains("none")) {
         patientAllergensList.remove("none");
         System.out.println("Removed \"none\" from Patient Allergen list");
       }
       // Add/Remove Dairy from patient list of allergens
-      if (dairyRadio.isSelected()) {
+      if (dairyChoice.isSelected()) {
         System.out.println("Dairy selected");
         if (!patientAllergensList.contains("Dairy")) {
           patientAllergensList.add("Dairy");
@@ -680,7 +680,7 @@ public class MealServiceController extends ServiceRequestController {
         }
       }
       // Add/Remove Egg from patient list of allergens
-      if (eggRadio.isSelected()) {
+      if (eggChoice.isSelected()) {
         System.out.println("Egg selected");
         if (!patientAllergensList.contains("Egg")) {
           patientAllergensList.add("Egg");
@@ -691,7 +691,7 @@ public class MealServiceController extends ServiceRequestController {
         }
       }
       // Add/Remove Peanut from patient list of allergens
-      if (peanutRadio.isSelected()) {
+      if (peanutChoice.isSelected()) {
         System.out.println("Peanut selected");
         if (!patientAllergensList.contains("Peanut")) {
           patientAllergensList.add("Peanut");
@@ -702,7 +702,7 @@ public class MealServiceController extends ServiceRequestController {
         }
       }
       // Add/Remove Tree Nut from patient list of allergens
-      if (treeNutRadio.isSelected()) {
+      if (treenutChoice.isSelected()) {
         System.out.println("Tree Nut selected");
         if (!patientAllergensList.contains("Tree_Nut")) {
           patientAllergensList.add("Tree_Nut");
@@ -713,7 +713,7 @@ public class MealServiceController extends ServiceRequestController {
         }
       }
       // Add/Remove Soy from patient list of allergens
-      if (soyRadio.isSelected()) {
+      if (soyChoice.isSelected()) {
         System.out.println("Soy selected");
         if (!patientAllergensList.contains("Soy")) {
           patientAllergensList.add("Soy");
@@ -724,7 +724,7 @@ public class MealServiceController extends ServiceRequestController {
         }
       }
       // Add/Remove Wheat from patient list of allergens
-      if (wheatRadio.isSelected()) {
+      if (wheatChoice.isSelected()) {
         System.out.println("Wheat selected");
         if (!patientAllergensList.contains("Wheat")) {
           patientAllergensList.add("Wheat");
@@ -735,7 +735,7 @@ public class MealServiceController extends ServiceRequestController {
         }
       }
       // Add/Remove Fish from patient list of allergens
-      if (fishRadio.isSelected()) {
+      if (fishChoice.isSelected()) {
         System.out.println("Fish selected");
         if (!patientAllergensList.contains("Fish")) {
           patientAllergensList.add("Fish");
@@ -746,7 +746,7 @@ public class MealServiceController extends ServiceRequestController {
         }
       }
       // Add/Remove Shellfish from patient list of allergens
-      if (shellfishRadio.isSelected()) {
+      if (shellfishChoice.isSelected()) {
         System.out.println("Shellfish selected");
         if (!patientAllergensList.contains("Shellfish")) {
           patientAllergensList.add("Shellfish");
