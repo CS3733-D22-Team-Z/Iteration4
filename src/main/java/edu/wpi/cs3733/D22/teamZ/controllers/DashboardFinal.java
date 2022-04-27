@@ -19,6 +19,8 @@ public class DashboardFinal implements IMenuAccess {
 
   private final String dashboardAlert =
       "M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z";
+  private final String FloorDetailsURL =
+      "edu.wpi.cs3733.D22.teamZ.controllers.FloorDetailsController";
 
   private MenuController menu;
   private String menuName;
@@ -267,10 +269,18 @@ public class DashboardFinal implements IMenuAccess {
   }
 
   @FXML
-  public void toFloor5(ActionEvent actionEvent) {}
+  public void toFloor5(ActionEvent actionEvent) throws IOException {
+    FloorDetailsController floorDets =
+        (FloorDetailsController) menu.load("edu/wpi/cs3733/D22/teamZ/views/FloorDetails.fxml");
+    floorDets.setFloor("5");
+  }
 
   @FXML
-  public void toFloor4(ActionEvent actionEvent) {}
+  public void toFloor4(ActionEvent actionEvent) throws IOException {
+    FloorDetailsController floorDets =
+        (FloorDetailsController) menu.load("edu/wpi/cs3733/D22/teamZ/views/FloorDetails.fxml");
+    floorDets.setFloor("4");
+  }
 
   @FXML
   public void toFloor3(ActionEvent actionEvent) throws IOException {
@@ -280,16 +290,32 @@ public class DashboardFinal implements IMenuAccess {
   }
 
   @FXML
-  public void toFloor2(ActionEvent actionEvent) {}
+  public void toFloor2(ActionEvent actionEvent) throws IOException {
+    FloorDetailsController floorDets =
+        (FloorDetailsController) menu.load("edu/wpi/cs3733/D22/teamZ/views/FloorDetails.fxml");
+    floorDets.setFloor("2");
+  }
 
   @FXML
-  public void toFloor1(ActionEvent actionEvent) {}
+  public void toFloor1(ActionEvent actionEvent) throws IOException {
+    FloorDetailsController floorDets =
+        (FloorDetailsController) menu.load("edu/wpi/cs3733/D22/teamZ/views/FloorDetails.fxml");
+    floorDets.setFloor("1");
+  }
 
   @FXML
-  public void toLowerLevel1(ActionEvent actionEvent) {}
+  public void toLowerLevel1(ActionEvent actionEvent) throws IOException {
+    FloorDetailsController floorDets =
+        (FloorDetailsController) menu.load("edu/wpi/cs3733/D22/teamZ/views/FloorDetails.fxml");
+    floorDets.setFloor("L1");
+  }
 
   @FXML
-  public void toLowerLevel2(ActionEvent actionEvent) {}
+  public void toLowerLevel2(ActionEvent actionEvent) throws IOException {
+    FloorDetailsController floorDets =
+        (FloorDetailsController) menu.load("edu/wpi/cs3733/D22/teamZ/views/FloorDetails.fxml");
+    floorDets.setFloor("L2");
+  }
 
   /*public void updateBedAlert(String floor, int dirtyBeds, int dirtyPumps, int cleanPumps) {
     // Get alert for this floor
