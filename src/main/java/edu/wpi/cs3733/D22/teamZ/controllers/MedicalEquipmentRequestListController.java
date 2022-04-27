@@ -5,7 +5,9 @@ import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Predicate;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,7 +23,10 @@ import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MedicalEquipmentRequestListController implements Initializable, IMenuAccess {
+public class MedicalEquipmentRequestListController extends ServiceRequestController
+    implements Initializable, IMenuAccess {
+  // Back button to go back to medical requests
+  @FXML private MFXButton backToMedicalEquipmentRequestButton;
   // Button that re-fetches requests and refreshes table.
   @FXML private MFXButton refreshButton;
 
@@ -51,13 +56,13 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   @FXML private TableColumn<RequestRow, String> statusColumn;
 
   private final String toHomepageURL = "views/Homepage.fxml";
+  private final String medicalEquipmentRequestsURL =
+      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentDelivery.fxml";
 
   // List of identifiers for each
   private final String[] identifiers = {
     "ID", "Device", "Assignee", "Handler", "Status", "Target Location"
   };
-
-  private MenuController menu;
 
   // List of MedEquipReq that represents raw data
   private List<MedicalEquipmentDeliveryRequest> rawRequests;
@@ -154,6 +159,12 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     requests = FXCollections.observableArrayList();
     createRRList();
   }
+
+  @Override
+  protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {}
+
+  @Override
+  protected void onResetButtonClicked(ActionEvent event) throws IOException {}
 
   // Called whenever one of the filter buttons are clicked.
   public void filterClicked(ActionEvent event) {
@@ -255,6 +266,10 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     statusTable
         .getItems()
         .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
+  }
+
+  public void onBackToMedicalEquipmentRequestClicked(ActionEvent actionEvent) throws IOException {
+    menu.load(medicalEquipmentRequestsURL);
   }
 
   public static class TableColumnItems {
