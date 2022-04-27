@@ -12,9 +12,9 @@
     <children>
         <Label layoutX="24.0" layoutY="74.0" prefHeight="25.0" prefWidth="372.0" styleClass="object-header" text="Computer Service Request Page" />
         <Label layoutX="24.0" layoutY="102.0" prefHeight="17.0" prefWidth="299.0" styleClass="object-body" text="Enter the fields below to request computer service." />
-        <Label layoutX="24.0" layoutY="150.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Operating System" />
+        <Label fx:id="operatingSystemFormHeader" layoutX="24.0" layoutY="150.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Operating System" />
         <ChoiceBox fx:id="osField" layoutX="24.0" layoutY="175.0" onKeyReleased="#validateButton" prefHeight="35.0" prefWidth="149.0" />
-        <Label layoutX="197.0" layoutY="150.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Description of problem" />
+        <Label fx:id="descriptionOfProblemFormHeader" layoutX="197.0" layoutY="150.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Description of problem" />
         <MFXTextField fx:id="descField" layoutX="197.0" layoutY="175.0" prefHeight="79.0" prefWidth="149.0" />
       <MFXButton fx:id="submitButton" layoutX="24.0" layoutY="348.0" onAction="#onSubmitButtonClicked" prefHeight="32.0" prefWidth="111.0" text="Submit" />
       <MFXButton fx:id="resetButton" layoutX="150.0" layoutY="348.0" onAction="#onResetButtonClicked" prefHeight="32.0" prefWidth="111.0" style="-fx-background-color: #FF4C4C;" text="Reset" />
@@ -28,5 +28,6 @@
       <Line endX="3.0" endY="365.0" layoutX="382.0" layoutY="32.0" startX="3.0" startY="-32.0" stroke="#a4a4a4" />
       <Label alignment="CENTER" layoutX="396.0" layoutY="165.0" prefHeight="25.0" prefWidth="191.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
       <MFXButton id="backButton" fx:id="computerServiceListButton" layoutX="406.0" layoutY="202.0" onAction="#toComputerServiceListButton" prefHeight="60.0" prefWidth="176.0" text="Computer Service Requests" textAlignment="CENTER" wrapText="true" />
+      <Region fx:id="helpGraphic" layoutX="346.0" layoutY="31.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
     </children>
 </AnchorPane>

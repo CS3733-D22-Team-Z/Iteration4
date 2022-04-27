@@ -23,5 +23,8 @@ public class MedicineRequestController extends ServiceRequestController {
     // Reset fields here!
   }
 
+  @Override
+  protected void highlightRequirements(boolean visible) {}
+
   public void validateButton(KeyEvent keyEvent) {}
 }

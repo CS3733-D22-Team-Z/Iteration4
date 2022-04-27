@@ -25,6 +25,14 @@ import javafx.scene.input.MouseEvent;
 
 public class MealServiceController extends ServiceRequestController {
 
+  @FXML public Label patientIDFormHeader;
+  @FXML public Label patientNameFormHeader;
+  @FXML public Label roomNumberFormHeader;
+  @FXML public Label mealTimeFormHeader;
+  @FXML public Label drinkChoiceFormHeader;
+  @FXML public Label entreeChoiceFormHeader;
+  @FXML public Label snackChoiceFormHeader;
+  @FXML public Label allergiesFormHeader;
   @FXML private MFXTextField enterPatientName;
   @FXML private MFXTextField enterPatientID;
   @FXML private MFXTextField enterStaffAssigned;
@@ -219,6 +227,7 @@ public class MealServiceController extends ServiceRequestController {
     //    updatePatientID();
     //    updatePatientName();
     //    updatePatientRoom();
+    initializeHelpGraphic();
   }
 
   @Override
@@ -319,6 +328,76 @@ public class MealServiceController extends ServiceRequestController {
     entreeOptionDropDown.setValue(null);
     snackOptionDropDown.setValue(null);
     validateTime();
+  }
+
+  @Override
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(roomNumberFormHeader, "Enter room number that\nmeal is delivered to");
+
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(patientIDFormHeader, "Enter ID of patient that\nmeal is requested for");
+
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientNameFormHeader, "Enter name of patient that\nmeal is requested for");
+
+      mealTimeFormHeader.getStyleClass().clear();
+      mealTimeFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(mealTimeFormHeader, "Select meal time that\nmeal is delivered on");
+
+      drinkChoiceFormHeader.getStyleClass().clear();
+      drinkChoiceFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(drinkChoiceFormHeader, "Select drink for meal delivery");
+
+      entreeChoiceFormHeader.getStyleClass().clear();
+      entreeChoiceFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(entreeChoiceFormHeader, "Select entree for meal delivery");
+
+      snackChoiceFormHeader.getStyleClass().clear();
+      snackChoiceFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(snackChoiceFormHeader, "Select snack for meal delivery");
+
+      allergiesFormHeader.getStyleClass().clear();
+      allergiesFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(allergiesFormHeader, "Select all allergies\nthat patient has");
+    } else {
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
+
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header");
+      patientIDFormHeader.setTooltip(null);
+
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header");
+      patientNameFormHeader.setTooltip(null);
+
+      mealTimeFormHeader.getStyleClass().clear();
+      mealTimeFormHeader.getStyleClass().add("form-header");
+      mealTimeFormHeader.setTooltip(null);
+
+      drinkChoiceFormHeader.getStyleClass().clear();
+      drinkChoiceFormHeader.getStyleClass().add("form-header");
+      drinkChoiceFormHeader.setTooltip(null);
+
+      entreeChoiceFormHeader.getStyleClass().clear();
+      entreeChoiceFormHeader.getStyleClass().add("form-header");
+      entreeChoiceFormHeader.setTooltip(null);
+
+      snackChoiceFormHeader.getStyleClass().clear();
+      snackChoiceFormHeader.getStyleClass().add("form-header");
+      snackChoiceFormHeader.setTooltip(null);
+
+      allergiesFormHeader.getStyleClass().clear();
+      allergiesFormHeader.getStyleClass().add("form-header");
+      allergiesFormHeader.setTooltip(null);
+    }
   }
 
   public void enterPatientName(ActionEvent event) {}
