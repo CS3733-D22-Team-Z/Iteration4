@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -43,6 +44,11 @@ import javafx.stage.Stage;
 
 /** Controller for FloorDetails.fxml, which displays information about each floor. */
 public class FloorDetailsController implements IMenuAccess, Initializable {
+
+  private final String toDashboardURL = "edu/wpi/cs3733/D22/teamZ/views/DashboardFinal.fxml";
+  private final String toLocationURL = "edu/wpi/cs3733/D22/teamZ/views/Location.fxml";
+
+  @FXML private AnchorPane mapContainer;
   private static String xSvg = "M5.25 1.75L1.75 5.25, M1.75 1.75L5.25 5.25";
   private static String checkSvg = "M5 1L2.25 4L1 2.63636";
   private static String timeSvg =
@@ -54,7 +60,6 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
   @FXML private NumberAxis y;
   @FXML private BarChart<?, ?> barChart;
 
-  @FXML private AnchorPane mapContainer;
   @FXML private MFXButton noneMapButton;
   @FXML private MFXButton bedsMapButton;
   @FXML private MFXButton pumpsMapButton;
@@ -459,6 +464,22 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
     xRayMapButton.setStyle(String.format(buttonColorSelect, equipmentColors.get(4)));
     prevButton = xRayMapButton;
     loadMap();
+  }
+
+  @FXML
+  public void toDashboard(ActionEvent actionEvent) throws IOException {
+    menu.load(toDashboardURL);
+  }
+
+  public void toMap(ActionEvent actionEvent) throws IOException {
+    // String floorName = floorTitle.getText().substring(6);
+    LocationListController mapListController = (LocationListController) menu.load(toLocationURL);
+    PopupLoader.delay(15, () -> mapListController.changeToFloor(floor));
+    //    if (getFloor(floor).equals("5")) {
+    //      LocationListController mapListController = (LocationListController)
+    // menu.load(toLocationURL);
+    //      mapListController.changeToFloor("5");
+    //    }
   }
 
   static class DropdownRow {

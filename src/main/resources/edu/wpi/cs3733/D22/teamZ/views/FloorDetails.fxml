@@ -40,6 +40,7 @@
                                         <AnchorPane fx:id="mapContainer" maxWidth="-Infinity" prefHeight="310.0" prefWidth="543.0" style="-fx-background-color: #0075ff;" />
                               <VBox alignment="CENTER" spacing="20.0">
                                  <children>
+                                    <MFXButton fx:id="toMapButton" alignment="CENTER" onAction="#toMap" prefWidth="100.0" style="-fx-background-color: #0075ff; -fx-text-fill: #FFFFFF;" styleClass="selector-button" text="To Map" />
                                                 <MFXButton fx:id="noneMapButton" alignment="CENTER" onAction="#noneButtonPressed" prefWidth="100.0" style="-fx-background-color: #0075ff; -fx-text-fill: #FFFFFF;" styleClass="selector-button" text="None" />
                                                 <MFXButton fx:id="bedsMapButton" alignment="CENTER" onAction="#bedsButtonPressed" prefWidth="100.0" styleClass="selector-button" text="Beds" />
                                                 <MFXButton fx:id="pumpsMapButton" alignment="CENTER" onAction="#pumpsButtonPressed" prefWidth="100.0" styleClass="selector-button" text="Pumps" />

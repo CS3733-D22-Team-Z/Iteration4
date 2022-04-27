@@ -689,8 +689,9 @@ public class LocationListController implements IMenuAccess {
   void changeToFloor(String nFloor) {
     // Dashboard button stuff
     changeFloor.getSelectionModel().select(nFloor);
-    mapController.setFloor(nFloor);
     showLocations(nFloor);
+    mapController.setFloor(nFloor);
+    // showLocations(nFloor);
   }
 
   @FXML

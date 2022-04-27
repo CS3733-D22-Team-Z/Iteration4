@@ -106,6 +106,13 @@ public class DashboardFinal implements IMenuAccess {
   @FXML private VBox LL1Container;
   @FXML private VBox LL2Container;
   @FXML private AnchorPane root;
+  @FXML private MFXButton error5Button;
+  @FXML private MFXButton error4Button;
+  @FXML private MFXButton error3Button;
+  @FXML private MFXButton error2Button;
+  @FXML private MFXButton error1Button;
+  @FXML private MFXButton errorLL1Button;
+  @FXML private MFXButton errorLL2Button;
 
   @FXML
   private void initialize() {
@@ -359,18 +366,25 @@ public class DashboardFinal implements IMenuAccess {
   public void floorAlert(String floor) {
     if (floor.equals("5")) {
       errorRegion5.setVisible(true);
+      error5Button.setDisable(false);
     } else if (floor.equals("4")) {
       errorRegion4.setVisible(true);
+      error4Button.setDisable(false);
     } else if (floor.equals("3")) {
       errorRegion3.setVisible(true);
+      error3Button.setDisable(false);
     } else if (floor.equals("2")) {
       errorRegion2.setVisible(true);
+      error2Button.setDisable(false);
     } else if (floor.equals("1")) {
       errorRegion1.setVisible(true);
+      error1Button.setDisable(false);
     } else if (floor.equals("L1")) {
       errorRegionLL1.setVisible(true);
+      errorLL1Button.setDisable(false);
     } else if (floor.equals("L2")) {
       errorRegionLL2.setVisible(true);
+      errorLL2Button.setDisable(false);
     }
   }
 
@@ -386,6 +400,7 @@ public class DashboardFinal implements IMenuAccess {
             listener -> {
               VBox labelContainer = (VBox) root.lookup("#warningContainer" + floor);
               labelContainer.setPrefHeight(bottomComponents.isVisible() ? 200 : 0);
+              bottomComponents.setPrefHeight(bottomComponents.isVisible() ? 200 : 0);
             });
     dropdownbutton.setOnAction(
         event -> onClickDropdown(bottomComponents, (Region) dropdownbutton.getGraphic()));
@@ -402,6 +417,12 @@ public class DashboardFinal implements IMenuAccess {
 
     // Get floor alert
     DashAlert floorAlert = alerts.get(floor);
+
+    Label warningLabel = new Label();
+    warningLabel.setText("WARNING!");
+    warningLabel.getStyleClass().add("object-body");
+    labelContainer.getChildren().add(warningLabel);
+    warningLabel.setWrapText(true);
 
     // Load labels into warning
     for (String message : floorAlert.getWarnings()) {
