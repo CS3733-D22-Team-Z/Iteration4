@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1920.0" style="-fx-background-color: F3F3F3;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.SecurityServiceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1920.0" style="-fx-background-color: F3F3F3;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.SecurityServiceController">
    <children>
       <Label layoutX="48.0" layoutY="146.0" prefHeight="64.0" prefWidth="805.0" styleClass="object-header" text="Security Service Request" />
       <Label layoutX="48.0" layoutY="224.0" prefHeight="30.0" prefWidth="593.0" styleClass="form-header" text="Fill out the fields to request security." />
@@ -29,7 +26,7 @@
       <MFXTextField fx:id="nodeIdField" floatMode="DISABLED" layoutX="480.0" layoutY="361.0" prefHeight="59.0" prefWidth="369.0" />
       <Label layoutX="478.0" layoutY="308.0" styleClass="form-header" text="Room Number" />
       <Line endX="3.0" endY="907.0" layoutX="1135.0" layoutY="69.0" startX="3.0" startY="-32.0" stroke="#bfbfbf" strokeWidth="3.0" />
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="48.0" layoutY="881.0" prefHeight="100.0" prefWidth="909.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 4; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request, no equipment available." textFill="#ff4444" visible="false">
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="48.0" layoutY="881.0" prefHeight="100.0" prefWidth="909.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 4; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request: Location ID invalid." textFill="#ff4444" visible="false">
          <font>
             <Font size="10.0" />
          </font>
