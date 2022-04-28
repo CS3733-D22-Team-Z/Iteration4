@@ -6,10 +6,10 @@ import java.net.URL;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.Cylinder;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
@@ -23,69 +23,40 @@ public class Dashboard3DController extends Application {
   SmartGroup group;
 
   private Scene createNewScene() {
-    /*Group model =
-        loadModel(
+
+    Group modelFloor3 =
+        loadModelFloor3Up(
             getClass()
                 .getClassLoader()
-                .getResource("edu/wpi/cs3733/D22/teamZ/models/Scooter-smgrps.obj"));
+                .getResource("edu/wpi/cs3733/D22/teamZ/models/floor3Up.obj"));
+
+    Group modelFloor4 = modelFloor3;
+    Group modelFloor5 = modelFloor3;
+
+    Group model =
+        loadModelFloor1(
+            getClass().getClassLoader().getResource("edu/wpi/cs3733/D22/teamZ/models/floor1.obj"));
+
     //    PhongMaterial pm = new PhongMaterial();
     //    pm.setDiffuseMap(new Image((new File("models/computer.png").toURI().toString())));
     //    pm.setSpecularColor(Color.WHITE);
     //    mesh.setMaterial(pm);
     // mesh.setMaterial(new PhongMaterial(Color.RED));
     // mesh.setDrawMode(DrawMode.LINE);
-    PerspectiveCamera camera = new PerspectiveCamera(true);
-    camera.getTransforms().addAll(new Rotate(-5, Rotate.Y_AXIS), new Translate(0, 0, -1));
 
     SmartGroup root = new SmartGroup();
-    root.getChildren().add(model);
+    // root.getChildren().add(model);
+    root.getChildren().add(modelFloor3);
     root.setRotationAxis(Rotate.Y_AXIS);
-
-    this.group = root;*/
-
-    /* Use a SubScene */
-    //    SubScene subScene = new SubScene(root, 600, 400);
-    //    subScene.setFill(Color.SILVER);
-    //    subScene.setCamera(camera);
-    //    Group group = new Group();
-    //    group.getChildren().add(subScene);
-
-    SmartGroup root = new SmartGroup();
-    Box base = new Box(50, 50, 10);
-    Box base1 = new Box(50, 50, 10);
-    Cylinder podA = new Cylinder(20, 10);
-    Cylinder podB = new Cylinder(20, 10);
-    Cylinder podC = new Cylinder(20, 10);
-    Cylinder podD = new Cylinder(20, 10);
-    base.setTranslateX(0);
-    base.setTranslateY(0);
-    podA.setTranslateX(-BASEW / 2);
-    podA.setTranslateY(-BASEH / 2);
-    podB.setTranslateX(-BASEW / 2);
-    podB.setTranslateY(BASEH / 2);
-    podC.setTranslateX(BASEW / 2);
-    podC.setTranslateY(-BASEH / 2);
-    podD.setTranslateX(BASEW / 2);
-    podD.setTranslateY(BASEH / 2);
-
-    podA.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
-    podB.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
-    podC.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
-    podD.getTransforms().add(new Rotate(90, Rotate.X_AXIS));
-
-    root.getChildren().add(base);
-    root.getChildren().add(podA);
-    root.getChildren().add(podB);
-    root.getChildren().add(podC);
-    root.getChildren().add(podD);
-    root.getChildren().add(base1);
 
     this.group = root;
 
-    PerspectiveCamera camera = new PerspectiveCamera(true);
-    camera.setTranslateZ(-10);
+    this.group = root;
 
-    Scene scene = new Scene(root, 600, 400);
+    PerspectiveCamera camera = new PerspectiveCamera();
+    camera.setTranslateZ(-50);
+
+    Scene scene = new Scene(root, 600, 400, true);
     scene.setFill(Color.SILVER);
     scene.setCamera(camera);
     return scene;
@@ -109,16 +80,74 @@ public class Dashboard3DController extends Application {
     //        return scene;
   }
 
-  private Group loadModel(URL url) {
+  private Group loadModelFloor1(URL url) {
+    Group modelRoot = new Group();
+
+    /*StlMeshImporter importer = new StlMeshImporter();
+    importer.read(url);
+    TriangleMesh result = importer.getImport();
+    MeshView mesh = new MeshView(result);
+    PhongMaterial material = new PhongMaterial();
+    material.setDiffuseMap(
+        new Image(
+            getClass()
+                .getClassLoader()
+                .getResourceAsStream("edu/wpi/cs3733/D22/teamZ/images/floor1Base.png")));
+    mesh.setMaterial(material);
+    modelRoot.getChildren().add(mesh);*/
+
+    ObjModelImporter importer = new ObjModelImporter();
+    importer.read(url);
+
+    String[] arrayURL = {
+      "edu/wpi/cs3733/D22/teamZ/images/floor1Base.png",
+      "edu/wpi/cs3733/D22/teamZ/images/towerMaterial.png",
+      "edu/wpi/cs3733/D22/teamZ/images/towerMaterial.png",
+      "edu/wpi/cs3733/D22/teamZ/images/towerMaterial.png",
+      "edu/wpi/cs3733/D22/teamZ/images/towerMaterial.png",
+      "edu/wpi/cs3733/D22/teamZ/images/towerBaseMaterial.png",
+      "edu/wpi/cs3733/D22/teamZ/images/doorMaterial.png"
+    };
+
+    int i = 0;
+    for (MeshView view : importer.getImport()) {
+      PhongMaterial material = new PhongMaterial();
+      material.setDiffuseMap(
+          new Image(getClass().getClassLoader().getResourceAsStream(arrayURL[i])));
+      view.setMaterial(material);
+      modelRoot.getChildren().add(view);
+      i++;
+    }
+
+    importer.close();
+
+    return modelRoot;
+  }
+
+  private Group loadModelFloor3Up(URL url) {
     Group modelRoot = new Group();
 
     ObjModelImporter importer = new ObjModelImporter();
     importer.read(url);
 
-    for (MeshView view : importer.getImport()) {
-      modelRoot.getChildren().add(view);
-    }
+    String[] arrayURL = {
+      "edu/wpi/cs3733/D22/teamZ/images/baseTowerMaterial.png",
+      "edu/wpi/cs3733/D22/teamZ/images/WingMatTower.png",
+      "edu/wpi/cs3733/D22/teamZ/images/WingMatTower.png",
+      "edu/wpi/cs3733/D22/teamZ/images/WingMatTower.png",
+      "edu/wpi/cs3733/D22/teamZ/images/WingMatTower.png"
+    };
 
+    int i = 0;
+    for (MeshView view : importer.getImport()) {
+      PhongMaterial material = new PhongMaterial();
+      material.setDiffuseMap(
+          new Image(getClass().getClassLoader().getResourceAsStream(arrayURL[i])));
+      view.setMaterial(material);
+      modelRoot.getChildren().add(view);
+      i++;
+    }
+    importer.close();
     return modelRoot;
   }
 

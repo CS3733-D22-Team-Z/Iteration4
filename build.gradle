@@ -6,7 +6,7 @@ plugins {
     id "io.freefair.lombok" version "5.0.0-rc6"
     id 'org.openjfx.javafxplugin' version '0.0.11'
 }
-mainClassName = 'edu.wpi.cs3733.D22.teamZ.controllers.ThreeDModelController'
+mainClassName = 'edu.wpi.cs3733.D22.teamZ.controllers.Dashboard3DController'
 
 repositories {
     mavenCentral()

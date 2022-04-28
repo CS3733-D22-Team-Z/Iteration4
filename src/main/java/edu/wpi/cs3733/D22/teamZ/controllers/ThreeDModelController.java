@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import java.io.IOException;
+import java.net.URL;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -12,8 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 public class ThreeDModelController extends Application {
@@ -75,8 +79,8 @@ public class ThreeDModelController extends Application {
 
   @FXML
   private void initialize() {
-
-    setColor();
+    prepareAnimation();
+    /*setColor();
 
     //    box.getTransforms().add(new Rotate(30, Rotate.Y_AXIS));
     //    box.getTransforms().add(new Rotate(300, Rotate.X_AXIS));
@@ -108,7 +112,7 @@ public class ThreeDModelController extends Application {
     lightLeft.setTranslateX(WIDTH / 2 - 200);
     lightLeft.getTransforms().add(new Rotate(-90, Rotate.Z_AXIS));
 
-    prepareAnimation();
+    prepareAnimation();*/
 
     /*camera.getTransforms().add(new Rotate(-35, Rotate.X_AXIS));
     camera.getTransforms().add(new Translate(0, 0, 10));*/
@@ -338,11 +342,26 @@ public class ThreeDModelController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Parent root =
-        FXMLLoader.load(
+
+    Group model =
+        loadModel(
             getClass()
                 .getClassLoader()
-                .getResource("edu/wpi/cs3733/D22/teamZ/views/ThreeDModel.fxml"));
+                .getResource("edu/wpi/cs3733/D22/teamZ/models/Scooter-smgrps.obj"));
+
+    PerspectiveCamera camera = new PerspectiveCamera(true);
+    camera.getTransforms().addAll(new Rotate(-5, Rotate.Y_AXIS), new Translate(0, 0, -1));
+
+    SmartGroup root = new SmartGroup();
+    root.getChildren().add(model);
+    root.setRotationAxis(Rotate.Y_AXIS);
+
+    this.group = root;
+
+    /*FXMLLoader.load(
+    getClass()
+        .getClassLoader()
+        .getResource("edu/wpi/cs3733/D22/teamZ/views/ThreeDModel.fxml"));*/
 
     /*
     SmartGroup group = new SmartGroup();
@@ -375,7 +394,7 @@ public class ThreeDModelController extends Application {
 
     root.getChildrenUnmodifiable().add(camera);*/
 
-    Scene scene = new Scene(root);
+    Scene scene = new Scene(root, WIDTH, HEIGHT, true);
     scene.setFill(Color.SILVER);
     scene.setOnKeyPressed(
         new EventHandler<KeyEvent>() {
@@ -412,19 +431,64 @@ public class ThreeDModelController extends Application {
         new AnimationTimer() {
           @Override
           public void handle(long l) {
-            if (group.getRotate() >= 30) {
+            /*if (group.getRotate() >= 30) {
               speed *= -1;
             } else if (group.getRotate() <= -30) {
               speed *= -1;
-            }
+            }*/
             group.rotateProperty().set(group.getRotate() + speed);
           }
         };
     timer.start();
   }
 
+  private Group loadModel(URL url) {
+    Group modelRoot = new Group();
+
+    ObjModelImporter importer = new ObjModelImporter();
+    importer.read(url);
+
+    for (MeshView view : importer.getImport()) {
+      modelRoot.getChildren().add(view);
+    }
+
+    return modelRoot;
+  }
+
   @FXML
   public void toFloor3Clicked() throws IOException {
     FXMLLoader.load(getClass().getClassLoader().getResource(to3DFloor3URL));
+  }
+
+  class SmartGroup extends Group {
+    Rotate r;
+    Transform t = new Rotate();
+
+    public SmartGroup() {}
+
+    public SmartGroup(Group group) {
+      super(group);
+    }
+
+    void rotateByX(int ang) {
+      r = new Rotate(ang, Rotate.X_AXIS);
+      t = t.createConcatenation(r);
+      this.getTransforms().clear();
+      this.getTransforms().addAll(t);
+    }
+
+    void rotateByY(int ang) {
+      r = new Rotate(ang, Rotate.Y_AXIS);
+      t = t.createConcatenation(r);
+      this.getTransforms().clear();
+      this.getTransforms().addAll(t);
+    }
+
+    void rotateByZ(int ang) {
+      r = new Rotate(ang, Rotate.Z_AXIS);
+      t = t.createConcatenation(r);
+      this.getTransforms().clear();
+      this.getTransforms().addAll(t);
+    }
   }
 }
