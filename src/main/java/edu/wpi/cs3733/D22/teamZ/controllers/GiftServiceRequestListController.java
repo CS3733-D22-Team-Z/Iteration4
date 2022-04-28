@@ -159,8 +159,10 @@ public class GiftServiceRequestListController implements Initializable, IMenuAcc
         .getSelectionModel()
         .selectedItemProperty()
         .addListener(
-            (obs, oldVal, newVal) ->
-                loadRow(tableContainer.getSelectionModel().getSelectedItem().id.get()));
+            (obs, oldVal, newVal) -> {
+              if (tableContainer.getSelectionModel().getSelectedItem() != null)
+                loadRow(tableContainer.getSelectionModel().getSelectedItem().id.get());
+            });
 
     // Initialize requests
     requests = FXCollections.observableArrayList();

@@ -153,8 +153,10 @@ public class ComputerServiceRequestListController implements Initializable, IMen
         .getSelectionModel()
         .selectedItemProperty()
         .addListener(
-            (obs, oldVal, newVal) ->
-                loadRow(tableContainer.getSelectionModel().getSelectedItem().id.get()));
+            (obs, oldVal, newVal) -> {
+              if (tableContainer.getSelectionModel().getSelectedItem() != null)
+                loadRow(tableContainer.getSelectionModel().getSelectedItem().id.get());
+            });
 
     // Initialize requests
     requests = FXCollections.observableArrayList();
@@ -216,8 +218,6 @@ public class ComputerServiceRequestListController implements Initializable, IMen
         requests.filtered(
             requestRow -> {
               if (filterOption == null || filterOption.equals("None")) return true;
-              if (filterOption.equals("OS")) // Hot Fix
-              return requestRow.retrievePropertyFromType(filter).equals("Operating System");
               return requestRow.retrievePropertyFromType(filter).equals(filterOption);
             });
 

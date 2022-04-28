@@ -51,7 +51,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   private final String toHomepageURL = "views/Homepage.fxml";
   private final String requestPageURL =
-      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentRequestList.fxml"; // change
+      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentDelivery.fxml"; // change
 
   // List of identifiers for each
   private final String[] identifiers = {
@@ -153,8 +153,10 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
         .getSelectionModel()
         .selectedItemProperty()
         .addListener(
-            (obs, oldVal, newVal) ->
-                loadRow(tableContainer.getSelectionModel().getSelectedItem().id.get()));
+            (obs, oldVal, newVal) -> {
+              if (tableContainer.getSelectionModel().getSelectedItem() != null)
+                loadRow(tableContainer.getSelectionModel().getSelectedItem().id.get());
+            });
 
     // Initialize requests
     requests = FXCollections.observableArrayList();
