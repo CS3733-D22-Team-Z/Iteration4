@@ -39,7 +39,7 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
   // Selector button stuff
   private MFXButton lastButtonPressed;
-  private Map<String, String> prevCSS;
+  private List<String> prevCSS;
   @FXML private HBox sortingButtons;
 
   // Drop-down box that selects which data type to filter by.
@@ -113,16 +113,10 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
     // Setup CSS map
     prevCSS =
-        Map.of(
-            "ID",
+        List.of(
             "-fx-background-radius: 5 0 0 5; ",
-            "Status",
             "-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2; ",
-            "Location",
             "-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2; ",
-            "Meal",
-            "-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2; ",
-            "Allergen",
             "-fx-background-radius: 0 5 5 0; ");
   }
 
