@@ -433,4 +433,8 @@ public class DashboardFinal implements IMenuAccess {
       infoLabel.setWrapText(true);
     }
   }
+
+  public void to3DDashboard() throws IOException {
+    menu.load("edu/wpi/cs3733/D22/teamZ/views/Dashboard3D.fxml");
+  }
 }

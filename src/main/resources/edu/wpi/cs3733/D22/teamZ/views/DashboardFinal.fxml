@@ -556,5 +556,6 @@
             </VBox>
          </content>
       </ScrollPane>
+      <MFXButton layoutX="920.0" layoutY="20.0" onAction="#to3DDashboard" text="3D" />
    </children>
 </AnchorPane>

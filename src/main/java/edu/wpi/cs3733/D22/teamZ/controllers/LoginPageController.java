@@ -112,7 +112,7 @@ public class LoginPageController implements Initializable {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getClassLoader().getResource(toHomepageURL));
     Parent root = loader.load();
-    Scene scene = new Scene(root);
+    Scene scene = new Scene(root, 1920, 1080, true);
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     primaryStage.setScene(scene);
     //    primaryStage.heightProperty().unbind();
