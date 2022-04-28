@@ -134,8 +134,8 @@
     -fx-font-size: 12pt;
     -fx-text-fill: #4d4d4d;
 
-    -fx-background-radius: 10px;
-    -fx-background-color: #B5B5B5;
+    -fx-background-radius: 2px;
+    -fx-background-color: #c9c9c9;
 }
 
 .graphic-button {
@@ -578,7 +578,7 @@
 .ui-equipment-divider {
     -fx-padding: 15px;
     -fx-border-width: 0 0 2 0;
-    -fx-border-color: #818181;
+    -fx-border-color: #c9c9c9;
 }
 
 .bar-chart .chart-plot-background{

@@ -412,15 +412,15 @@ public class FloorDetailsController implements IMenuAccess, Initializable {
       if (request.getStatus().equals(ServiceRequest.RequestStatus.UNASSIGNED)) {
         ((SVGPath) serviceLabel.lookup("#statusSvg")).setContent(xSvg);
         serviceLabel.setStyle(
-            "-fx-background-radius: 50; -fx-background-color: " + statusColors.get("DIRTY"));
+            "-fx-background-radius: 5; -fx-background-color: " + statusColors.get("DIRTY"));
       } else if (request.getStatus().equals(ServiceRequest.RequestStatus.PROCESSING)) {
         ((SVGPath) serviceLabel.lookup("#statusSvg")).setContent(timeSvg);
         serviceLabel.setStyle(
-            "-fx-background-radius: 50; -fx-background-color: " + statusColors.get("INUSE"));
+            "-fx-background-radius: 5; -fx-background-color: " + statusColors.get("INUSE"));
       } else {
         ((SVGPath) serviceLabel.lookup("#statusSvg")).setContent(checkSvg);
         serviceLabel.setStyle(
-            "-fx-background-radius: 50; -fx-background-color: " + statusColors.get("CLEAN"));
+            "-fx-background-radius: 5; -fx-background-color: " + statusColors.get("CLEAN"));
       }
       ((MFXButton) serviceLabel.lookup("#detailsButton"))
           .setOnAction(
