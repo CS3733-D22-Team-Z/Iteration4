@@ -156,7 +156,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="purchaseRegion" layoutX="15.0" layoutY="20.0" prefHeight="46.0" prefWidth="40.0" />
-                              <Label fx:id="andrewLabel" layoutX="-13.0" layoutY="108.0" prefHeight="25.0" prefWidth="122.0" text="Andrew Hariyanto" textAlignment="CENTER" translateX="-8.0" visible="false">
+                              <Label fx:id="andrewLabel" layoutX="-13.0" layoutY="108.0" prefHeight="25.0" prefWidth="119.0" text="Andrew Hariyanto" textAlignment="CENTER" translateX="-8.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -195,7 +195,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="mealRegion" layoutX="15.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="alexLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="117.0" text="Alex Brattstrom" textAlignment="CENTER" translateX="-9.0" visible="false">
+                              <Label fx:id="alexLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Alex Brattstrom" textAlignment="CENTER" translateX="-9.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -234,7 +234,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="giftRegion" layoutX="16.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="claireLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="121.0" text="Claire Higginson" textAlignment="CENTER" translateX="-8.0" visible="false">
+                              <Label fx:id="claireLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Claire Higginson" textAlignment="CENTER" translateX="-8.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
