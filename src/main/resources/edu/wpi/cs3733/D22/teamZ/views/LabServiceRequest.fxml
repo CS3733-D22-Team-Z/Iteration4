@@ -20,7 +20,7 @@
         <Label fx:id="patientNameLabel" layoutX="48.0" layoutY="308.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient Name" />
         <MFXTextField fx:id="patientNameField" floatMode="DISABLED" layoutX="48.0" layoutY="361.0" onKeyReleased="#validateButton" prefHeight="59.0" prefWidth="369.0" promptText="Enter patient name" />
         <Label fx:id="patientIdLabel" layoutX="478.0" layoutY="308.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Patient ID" />
-        <MFXTextField fx:id="patientIdField" floatMode="DISABLED" layoutX="480.0" layoutY="361.0" onKeyReleased="#validateButton" prefHeight="79.0" prefWidth="369.0" promptText="Enter patient ID" />
+        <MFXTextField fx:id="patientIdField" floatMode="DISABLED" layoutX="480.0" layoutY="358.0" onKeyReleased="#validateButton" prefHeight="65.0" prefWidth="369.0" promptText="Enter patient ID" />
         <Label fx:id="labTypeLabel" layoutX="48.0" layoutY="477.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Lab Type" />
         <ChoiceBox fx:id="labTypeChoiceBox" layoutX="48.0" layoutY="539.0" onKeyReleased="#validateButton" onMouseExited="#validateButton" prefHeight="59.0" prefWidth="369.0" />
         <MFXButton fx:id="submitButton" disable="true" layoutX="48.0" layoutY="654.0" onAction="#onSubmitButtonClicked" prefHeight="71.0" prefWidth="187.0" styleClass="back-button" text="Submit" />

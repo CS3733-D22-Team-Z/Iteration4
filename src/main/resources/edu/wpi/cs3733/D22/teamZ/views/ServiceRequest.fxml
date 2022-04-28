@@ -14,55 +14,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1030.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ServiceRequestPageController">
+<AnchorPane prefHeight="1030.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ServiceRequestPageController">
     <children>
-        <Label layoutX="19.0" layoutY="15.0" style="-fx-text-fill: #012d5a;" styleClass="object-header" text="List of Service Requests">
+        <Label layoutX="33.0" layoutY="34.0" style="-fx-font-size: 40;" styleClass="object-header" text="List of Service Requests" textFill="#012d5a">
             <font>
-                <Font name="System Bold" size="18.0" />
+                <Font name="Palatino Linotype Bold" size="38.0" />
             </font>
         </Label>
-        <VBox alignment="CENTER" layoutX="1494.0" layoutY="168.0" prefHeight="212.0" prefWidth="196.0" scaleX="2.0" scaleY="2.0" spacing="10.0">
-            <children>
-                <MFXButton fx:id="exportCSVButton" mnemonicParsing="false" onAction="#exportToCSV" prefHeight="35.0" prefWidth="418.0" style="-fx-background-color: #f6bd38; -fx-text-fill: #012d5a;" text="Export to CSV" textFill="#012d5a" />
-                <MFXButton fx:id="refresh" onAction="#refreshClicked" prefHeight="35.0" prefWidth="144.0" style="-fx-background-color: #0067B1;" text="Refresh" textFill="WHITE" />
-                <Label text="Filter By" translateY="10.0">
-                    <font>
-                        <Font name="Palatino Linotype Bold" size="12.0" />
-                    </font>
-                </Label>
-                <HBox alignment="CENTER">
-                    <children>
-                  <MFXRectangleToggleNode fx:id="issuerSelect" onAction="#issuerFilter" text="Issuer" translateY="10.0">
-                     <HBox.margin>
-                        <Insets right="7.0" />
-                     </HBox.margin></MFXRectangleToggleNode>
-                  <MFXRectangleToggleNode fx:id="handlerSelect" onAction="#handlerFilter" text="Handler" translateY="10.0" />
-                    </children>
-                </HBox>
-                <ChoiceBox fx:id="filterBox" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;" translateY="10.0">
-               <effect>
-                  <DropShadow>
-                     <color>
-                        <Color opacity="0.3125" />
-                     </color>
-                  </DropShadow>
-               </effect></ChoiceBox>
-            </children>
-        </VBox>
-      <MFXButton fx:id="setEmpButton" layoutX="1513.0" layoutY="700.0" mnemonicParsing="false" onAction="#setEmployee" prefHeight="35.0" prefWidth="145.0" scaleX="2.0" scaleY="2.0" style="-fx-background-color: #0067B1;" text="Set Employee" textFill="WHITE" />
-      <ChoiceBox fx:id="employeeBox" layoutX="1498.0" layoutY="616.0" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" scaleX="2.0" scaleY="2.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;">
-         <effect>
-            <DropShadow>
-               <color>
-                  <Color opacity="0.278253436088562" />
-               </color>
-            </DropShadow>
-         </effect></ChoiceBox>
         <Label fx:id="errorLabel" alignment="CENTER" layoutX="40.0" layoutY="13.0" prefHeight="36.0" prefWidth="341.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 1.2;" text="Select both a service and employee" textFill="#ff4444" visible="false">
             <font>
                 <Font size="10.0" />
@@ -85,7 +48,7 @@
                 </DropShadow>
             </effect>
         </Label>
-      <TabPane fx:id="tabs" layoutX="18.0" layoutY="49.0" prefHeight="948.0" prefWidth="1189.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabs" layoutX="29.0" layoutY="118.0" prefHeight="841.0" prefWidth="1190.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="all" text="All Service Requests">
             <content>
@@ -110,7 +73,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="outstandingTable" prefHeight="301.0" prefWidth="372.0">
+                        <TableView fx:id="outstandingTable" prefHeight="815.0" prefWidth="1198.0">
                           <columns>
                             <TableColumn fx:id="idColO" prefWidth="93.0" text="ID" />
                             <TableColumn fx:id="typeColO" prefWidth="93.0" text="Type" />
@@ -124,12 +87,106 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Label fx:id="textEmp" layoutX="1513.0" layoutY="550.0" scaleX="2.0" scaleY="2.0" text="Add Employee to Request">
-         <font>
-            <Font name="Palatino Linotype Bold" size="12.0" />
-         </font>
-      </Label>
       <Line endX="-51.0" endY="925.3333129882812" layoutX="1304.0" layoutY="68.0" startX="-51.0" startY="-41.333335876464844" stroke="#d3d3d3" strokeWidth="3.0" />
-      <MFXButton fx:id="finishRequestButton" layoutX="1514.0" layoutY="797.0" mnemonicParsing="false" onAction="#finishRequest" prefHeight="35.0" prefWidth="145.0" scaleX="2.0" scaleY="2.0" style="-fx-background-color: #ff4343;" text="Finished Request" textFill="WHITE" />
+      <Pane layoutX="1290.0" layoutY="45.0" prefHeight="71.0" prefWidth="588.0" style="-fx-background-color: #0067B1; -fx-border-radius: 20 20 0 0; -fx-border-width: 20; -fx-background-color: #012d5a; -fx-background-radius: 15 15 0 0;">
+         <children>
+            <Label layoutX="170.0" layoutY="16.0" styleClass="container-header" text="List Functions" textFill="WHITE">
+               <font>
+                  <Font name="Palatino Linotype Bold" size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="1291.0" layoutY="117.0" prefHeight="376.0" prefWidth="588.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 0 0 20 20; -fx-border-width: 20; -fx-background-radius: 0 0 20 20;">
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.380952388048172" />
+               </color>
+            </DropShadow>
+         </effect>
+         <children>
+                <MFXButton fx:id="exportCSVButton" layoutX="61.0" layoutY="25.0" mnemonicParsing="false" onAction="#exportToCSV" prefHeight="66.0" prefWidth="207.0" style="-fx-background-color: #f6bd38; -fx-text-fill: #012d5a;" styleClass="back-button" text="Export to CSV" textFill="#012d5a">
+               <font>
+                  <Font name="Serif Bold" size="23.0" />
+               </font>
+            </MFXButton>
+                <MFXButton fx:id="refresh" layoutX="305.0" layoutY="24.0" onAction="#refreshClicked" prefHeight="66.0" prefWidth="207.0" style="-fx-background-color: #0067B1;" styleClass="back-button" text="Refresh" textFill="WHITE">
+               <font>
+                  <Font name="Serif Bold" size="23.0" />
+               </font>
+            </MFXButton>
+                <Label layoutX="228.0" layoutY="135.0" prefHeight="39.0" prefWidth="131.0" styleClass="filter-header" text="Filter By" translateY="10.0">
+                    <font>
+                        <Font name="Palatino Linotype Bold" size="30.0" />
+                    </font>
+                </Label>
+            <MFXRectangleToggleNode fx:id="issuerSelect" layoutX="154.0" layoutY="191.0" onAction="#issuerFilter" prefHeight="57.0" prefWidth="130.0" text="Issuer" translateY="10.0">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </MFXRectangleToggleNode>
+            <MFXRectangleToggleNode fx:id="handlerSelect" layoutX="307.0" layoutY="191.0" onAction="#handlerFilter" prefHeight="57.0" prefWidth="130.0" text="Handler" translateY="10.0">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </MFXRectangleToggleNode>
+                <ChoiceBox fx:id="filterBox" layoutX="70.0" layoutY="266.0" onAction="#filterList" prefHeight="66.0" prefWidth="462.0" style="-fx-background-radius: 4; -fx-background-color: FFFFFF;" translateY="10.0">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.3125" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </ChoiceBox>
+            <Line endX="389.3333740234375" layoutX="169.0" layoutY="126.0" startX="-142.6666259765625" stroke="#bfbfbf" strokeWidth="2.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="1292.0" layoutY="528.0" prefHeight="71.0" prefWidth="588.0" style="-fx-background-color: #0067B1; -fx-border-radius: 20 20 0 0; -fx-border-width: 20; -fx-background-color: #012d5a; -fx-background-radius: 15 15 0 0;">
+         <children>
+            <Label layoutX="148.0" layoutY="14.0" styleClass="container-header" text="Request Functions" textFill="WHITE">
+               <font>
+                  <Font name="Palatino Linotype Bold" size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="1293.0" layoutY="600.0" prefHeight="376.0" prefWidth="588.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 0 0 20 20; -fx-border-width: 20; -fx-background-radius: 0 0 20 20;">
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.380952388048172" />
+               </color>
+            </DropShadow>
+         </effect>
+         <children>
+            <HBox alignment="CENTER" layoutX="100.0" layoutY="197.0" />
+            <Label fx:id="textEmp" layoutX="107.0" layoutY="19.0" styleClass="filter-header" text="Add Employee to Request">
+               <font>
+                  <Font name="Palatino Linotype Bold" size="30.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="employeeBox" layoutX="48.0" layoutY="88.0" onAction="#filterList" prefHeight="71.0" prefWidth="493.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;">
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color opacity="0.278253436088562" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </ChoiceBox>
+            <MFXButton fx:id="setEmpButton" layoutX="167.0" layoutY="191.0" mnemonicParsing="false" onAction="#setEmployee" prefHeight="69.0" prefWidth="256.0" style="-fx-background-color: #0067B1;" styleClass="back-button" text="Set Employee" textFill="WHITE">
+               <font>
+                  <Font name="Serif Bold" size="23.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="finishRequestButton" layoutX="169.0" layoutY="281.0" mnemonicParsing="false" onAction="#finishRequest" prefHeight="69.0" prefWidth="256.0" style="-fx-background-color: #ff4343;" styleClass="back-button" text="Finish Request" textFill="WHITE">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </MFXButton>
+         </children>
+      </Pane>
     </children>
 </AnchorPane>
