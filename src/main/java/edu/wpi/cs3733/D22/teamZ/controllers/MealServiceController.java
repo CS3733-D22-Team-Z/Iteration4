@@ -73,6 +73,7 @@ public class MealServiceController extends ServiceRequestController {
 
   private final String toMealServiceRequestListURL =
       "edu/wpi/cs3733/D22/teamZ/views/MealServiceRequestList.fxml";
+  private String toMealStatsURL = "edu/wpi/cs3733/D22/teamZ/views/MealChart.fxml";
 
   FacadeDAO instanceDAO = FacadeDAO.getInstance();
 
@@ -752,5 +753,9 @@ public class MealServiceController extends ServiceRequestController {
 
     updateMealOptions(entrees, snacks, drinks);
     updateAllergens();
+  }
+
+  public void onNavigateToStats() throws IOException {
+    menu.load(toMealStatsURL);
   }
 }

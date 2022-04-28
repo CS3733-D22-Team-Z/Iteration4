@@ -97,5 +97,6 @@
       </Label>
       <Line endX="3.0" endY="907.0" layoutX="1229.0" layoutY="69.0" startX="3.0" startY="-32.0" stroke="#bfbfbf" strokeWidth="3.0" />
       <Label alignment="CENTER" layoutX="1295.0" layoutY="387.0" prefHeight="65.0" prefWidth="559.0" styleClass="object-header" text="See current requests" />
+      <MFXButton layoutX="1383.0" layoutY="573.0" onAction="#onNavigateToStats" prefHeight="71.0" prefWidth="369.0" styleClass="back-button" text="See statistics" />
     </children>
 </AnchorPane>
