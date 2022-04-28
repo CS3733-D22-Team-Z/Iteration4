@@ -52,10 +52,6 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     locationList = database.getAllLocations();
     equipmentRequestList = database.getAllMedicalEquipmentRequest();
 
-    for (Location model : locationList) {
-      System.out.println(model.getNodeID());
-    }
-
     equipmentDropDown.setItems(
         FXCollections.observableArrayList("Bed", "Recliner", "X-Ray", "Infusion Pump"));
     nodeTypeDropDown.setItems(
@@ -65,8 +61,8 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     // //example
     nodeTypeDropDown.getSelectionModel().select(0);
     equipmentDropDown.getSelectionModel().select(0);
-    System.out.println(
-        "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
+    // System.out.println("ChoiceBox 1 value" +
+    // nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
     initializeHelpGraphic();
   }
@@ -86,10 +82,10 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   @FXML
   protected void onSubmitButtonClicked(ActionEvent actionEvent) {
     // Debug
-    System.out.println("Room Number: " + enterRoomNumber.getText());
-    System.out.println("Floor Number: " + enterFloorNumber.getText());
-    System.out.println("nodeType: " + nodeTypeDropDown.getValue());
-    System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
+    // System.out.println("Room Number: " + enterRoomNumber.getText());
+    // System.out.println("Floor Number: " + enterFloorNumber.getText());
+    // System.out.println("nodeType: " + nodeTypeDropDown.getValue());
+    // System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
     UniqueID id = new UniqueID();
     String requestID = id.generateID("EQUIP");

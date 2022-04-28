@@ -53,7 +53,7 @@ public class SecurityServiceController extends ServiceRequestController {
     LocalDateTime opened = LocalDateTime.now();
     LocalDateTime closed = null;
 
-    if (!tryGet.getNodeID().equals("")) {
+    if (tryGet != null && tryGet.getNodeID() != null) {
       SecurityServiceRequest req =
           new SecurityServiceRequest(
               requestID,
@@ -64,8 +64,13 @@ public class SecurityServiceController extends ServiceRequestController {
               opened,
               closed,
               urgencyBox.getSelectionModel().getSelectedItem(),
-              reasonTextField.getText().substring(0, 39));
+              reasonTextField
+                  .getText()
+                  .substring(0, Math.min(39, reasonTextField.getText().length())));
       facadeDAO.addSecurityServiceRequest(req);
+      reasonTextField.setText("");
+      nodeIdField.setText("");
+      urgencyBox.getSelectionModel().select("Low");
       errorLabel.setVisible(false);
     } else {
       errorLabel.setVisible(true);
@@ -76,6 +81,7 @@ public class SecurityServiceController extends ServiceRequestController {
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     urgencyBox.getSelectionModel().select("Low");
     reasonTextField.setText("");
+    nodeIdField.setText("");
     errorLabel.setVisible(false);
   }
 
