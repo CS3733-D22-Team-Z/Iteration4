@@ -42,6 +42,7 @@ public class HomepageController implements IMenuAccess {
   private String toGameURL = "edu/wpi/cs3733/D22/teamZ/views/Game.fxml";
   private String toSimulatorURL = "edu/wpi/cs3733/D22/teamZ/views/Simulator.fxml";
   private final String toCCTV = "edu/wpi/cs3733/D22/teamZ/views/CCTVPreview.fxml";
+  private final String toCredits = "edu/wpi/cs3733/D22/teamZ/views/CreditsPage.fxml";
 
   public void setMenuController(MenuController menu) {
     this.menu = menu;
@@ -161,6 +162,10 @@ public class HomepageController implements IMenuAccess {
    */
   public void toCCTV(ActionEvent event) throws IOException {
     menu.load(toCCTV);
+  }
+
+  public void toCredits(ActionEvent event) throws IOException {
+    menu.load(toCredits);
   }
 }
 // Link to location, Landing, & Medical Equipment Page
