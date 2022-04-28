@@ -2,6 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -165,5 +166,6 @@
             </GridPane>
          </content>
       </MFXScrollPane>
+      <MFXToggleButton fx:id="toggleNames" layoutX="1286.0" layoutY="55.0" length="55.0" onMouseClicked="#showNameLabels" radius="15.0" />
    </children>
 </AnchorPane>
