@@ -30,6 +30,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
   FacadeDAO facadeDAO;
   @FXML private AnchorPane mapContainer;
   @FXML private ChoiceBox speedBox;
+  @FXML private ChoiceBox floorChange;
   @FXML private MFXButton startSim;
   @FXML private MFXButton pauseSim;
   @FXML private MFXButton endSim;
@@ -45,6 +46,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
   int loopsRemaining;
   int timesLoop;
   int times24;
+  int floor;
   LocalDateTime simStart;
   LocalDateTime simEnd;
   List<MedicalEquipment> medEquip;
@@ -70,16 +72,25 @@ public class SimulatorController implements IMenuAccess, Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = FacadeDAO.getInstance();
     iconImage = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
+    imageView.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
     speedBox.getItems().setAll("5 min/sec", "10 min/sec", "30 min/sec", "1 hour/sec");
+    floorChange
+        .getItems()
+        .setAll(
+            "Floor 5",
+            "Floor 4",
+            "Floor 3",
+            "Floor 2",
+            "Floor 1",
+            "Lower Level 1",
+            "Lower Level 2");
     pauseSim.setDisable(true);
     endSim.setDisable(true);
-
-    imageView.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
 
     patients = FacadeDAO.getInstance().getAllPatients();
 
     medEquip = FacadeDAO.getInstance().getAllMedicalEquipment();
-    displayMedicalEquipmentIcons("3");
+    displayMedicalEquipmentIcons(getFloor());
     employees = FacadeDAO.getInstance().getAllEmployees();
     List<MedicalEquipmentDeliveryRequest> medEquipReq =
         FacadeDAO.getInstance().getAllMedicalEquipmentRequest();
@@ -102,6 +113,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
   }
 
   public void displayMedicalEquipmentIcons(String floor) {
+
     // Iterate through all locations
     List<Location> locations = facadeDAO.getAllLocations();
     for (int i = 0; i < locations.size(); i++) {
@@ -246,9 +258,11 @@ public class SimulatorController implements IMenuAccess, Initializable {
         makeReq(medEquip.get(index).getEquipmentID(), loc);
       }
       mapContainer.getChildren().clear();
-      imageView.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
+      ImageView imageView = new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
+      imageView.setFitWidth(1237);
+      imageView.setFitHeight(1027);
       mapContainer.getChildren().add(imageView);
-      displayMedicalEquipmentIcons("3");
+      displayMedicalEquipmentIcons(getFloor());
       infoTable.refresh();
       infoTable.setItems(updates);
       loopsRemaining--;
@@ -489,5 +503,29 @@ public class SimulatorController implements IMenuAccess, Initializable {
       }
     }
     return id;
+  }
+
+  private String getFloor() {
+    if (floorChange.getSelectionModel().getSelectedItem() == null) {
+      return "3";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 5")) {
+      return "5";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 4")) {
+      return "4";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 3")) {
+      return "3";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 2")) {
+      return "2";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 1")) {
+      return "1";
+    }
+    return "LL1";
+    // "Lower Level 1",
+    // "Lower Level 2"
   }
 }

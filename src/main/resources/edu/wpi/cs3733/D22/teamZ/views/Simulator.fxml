@@ -17,6 +17,7 @@
           <AnchorPane fx:id="mapContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <ImageView fx:id="imageView" fitHeight="1030.0" fitWidth="1332.0" layoutX="-2.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
+                  <ChoiceBox fx:id="floorChange" layoutX="60.0" layoutY="59.0" prefHeight="76.0" prefWidth="129.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1028.0" prefWidth="644.0">
