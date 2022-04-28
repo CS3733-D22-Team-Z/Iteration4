@@ -4,7 +4,6 @@ import static javafx.scene.paint.Color.*;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -18,7 +17,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 public class MealServiceController extends ServiceRequestController {
 
@@ -60,7 +58,6 @@ public class MealServiceController extends ServiceRequestController {
   private List<MealServiceRequest> mealRequestList = new ArrayList<>();
   private List<ServiceRequest> allServiceRequestList = new ArrayList<>();
   private List<String> patientAllergensList = new ArrayList<>();
-
 
   List<MealItem> allMenuItems = new ArrayList<>();
 
@@ -613,7 +610,6 @@ public class MealServiceController extends ServiceRequestController {
       }
     }
   }
-
 
   @FXML
   private void validateButton() {

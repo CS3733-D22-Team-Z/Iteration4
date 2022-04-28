@@ -2,7 +2,9 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.MealServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +19,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -41,7 +42,6 @@ public class MealServiceListController implements Initializable, IMenuAccess {
   private Map<String, String> prevCSS;
   @FXML private HBox sortingButtons;
 
-
   // Drop-down box that selects which data type to filter by.
   @FXML private ComboBox<String> filterCBox;
 
@@ -58,37 +58,38 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
   // List of identifiers for each
   private final String[] identifiers = {
-    "ID",
-    "PatientID",
-    "Assignee",
-    "Handler",
-    "Status",
-    "Location",
-    "Drink",
-    "Entree",
-    "Snack",
-    "Allergen"
+    "ID", "PatientID", "Location", "Assignee", "Handler", "Status", "Meal", "Allergen"
   };
 
   // Columns to be represented by the table
   private final List<String> visibleColumns =
-      List.of("ID", "Meal Type", "Status", "Issuer"); // change
+      List.of("ID", "Location", "Status", "Issuer", "Meal", "Allergen"); // change
 
   // Retriever functions. Correspond to visible columns.
   private final List<RequestRowFunc> retrievers =
-      List.of(row -> row.id, row -> row.mealType, row -> row.status, row -> row.issuer);
+      List.of(
+          row -> row.id,
+          row -> row.location,
+          row -> row.status,
+          row -> row.issuer,
+          row -> row.meal,
+          row -> row.allergen);
 
   private final List<RequestFunc> detailRetrievers =
       List.of(
-          request -> request.getRequestID(),
-          request -> request.getEntree(),
+          ServiceRequest::getRequestID,
+          MealServiceRequest::getEntree,
           request -> request.getIssuer().getDisplayName(),
           request -> {
             if (request.getHandler() != null) return request.getHandler().getDisplayName();
             else return "";
           },
           request -> request.getStatus().toString(),
-          request -> request.getTargetLocation().getLongName());
+          request -> request.getTargetLocation().getShortName(),
+          request ->
+              (request.getDrink() + "\n" + request.getEntree() + "\n" + request.getSnack())
+                  .replace('_', ' '),
+          request -> request.getAllergen().replace(',', '\n').replace("[", "").replace("]", ""));
 
   // List of requests that represents raw data
   private List<MealServiceRequest> rawRequests; // change
@@ -256,18 +257,6 @@ public class MealServiceListController implements Initializable, IMenuAccess {
             });
 
     tableContainer.setItems(fList);
-    String filterOption = filterCBox.getSelectionModel().getSelectedItem();
-    FilteredList<RequestRow> fList =
-        requests.filtered(
-            new Predicate<RequestRow>() {
-              @Override
-              public boolean test(RequestRow requestRow) {
-                if (filterOption == null || filterOption.equals("None")) return true;
-                return requestRow.retrievePropertyFromType(filter).equals(filterOption);
-              }
-            });
-
-    tableContainer.setItems(fList);
   }
 
   public void createRRList() {
@@ -282,7 +271,10 @@ public class MealServiceListController implements Initializable, IMenuAccess {
               detailRetrievers.get(0).call(request),
               detailRetrievers.get(1).call(request),
               detailRetrievers.get(2).call(request),
-              detailRetrievers.get(4).call(request)));
+              detailRetrievers.get(4).call(request),
+              detailRetrievers.get(5).call(request),
+              detailRetrievers.get(6).call(request),
+              detailRetrievers.get(7).call(request)));
     }
 
     tableContainer.setItems(requests);
@@ -365,19 +357,15 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     SimpleStringProperty issuer;
     SimpleStringProperty status;
     SimpleStringProperty location;
-    SimpleStringProperty drink;
-    SimpleStringProperty entree;
-    SimpleStringProperty snack;
     SimpleStringProperty meal; // = drink + entree + snack;
     SimpleStringProperty allergen;
 
     public RequestRow(
         String newId,
+        String newType,
+        String newIssuer,
         String newStatus,
         String newLocation,
-        //        String newDrink,
-        //        String newEntree,
-        //        String newSnack
         String newMeal,
         String newAllergen) {
       id = new SimpleStringProperty(newId);
@@ -385,13 +373,9 @@ public class MealServiceListController implements Initializable, IMenuAccess {
       issuer = new SimpleStringProperty(newIssuer);
       status = new SimpleStringProperty(newStatus);
       location = new SimpleStringProperty(newLocation);
-      //      drink = new SimpleStringProperty(newDrink);
-      //      entree = new SimpleStringProperty(newEntree);
-      //      snack = new SimpleStringProperty(newSnack);
       meal = new SimpleStringProperty(newMeal);
       allergen = new SimpleStringProperty(newAllergen);
     }
-
 
     /**
      * Gets the property from the String identifier
@@ -409,6 +393,12 @@ public class MealServiceListController implements Initializable, IMenuAccess {
           return issuer.get();
         case "Status":
           return status.get();
+        case "Meal":
+          return meal.get();
+        case "Allergen":
+          return allergen.get();
+        case "Location":
+          return location.get();
         default:
           return "";
       }
