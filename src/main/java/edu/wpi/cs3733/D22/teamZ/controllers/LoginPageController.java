@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import javax.smartcardio.CardException;
 
 public class LoginPageController implements Initializable {
+  @FXML public MFXButton loginIDButton;
   @FXML private TextField usernameField;
   @FXML private TextField passwordField;
   @FXML private Label errorLabel;
@@ -51,6 +52,11 @@ public class LoginPageController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = FacadeDAO.getInstance();
+    try {
+      checkReader();
+    } catch (CardException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -187,6 +193,15 @@ public class LoginPageController implements Initializable {
         errorLabel.setText("Invalid password for this username. Try again.");
         enterErrorState();
       }
+    }
+  }
+
+  private void checkReader() throws CardException {
+    NFCCardReaderController obj = new NFCCardReaderController();
+    obj.initialize();
+    if (obj.getUid() == null) {
+      System.out.println("no card reader");
+      loginIDButton.setDisable(true);
     }
   }
 }
