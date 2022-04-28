@@ -10,7 +10,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="CreditsPage" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f1f1f1;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.CreditsPageController">
+<AnchorPane fx:id="CreditsPage" prefHeight="1030.0" prefWidth="1920.0" style="-fx-background-color: #f1f1f1;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.CreditsPageController">
    <children>
       <Label layoutX="32.0" layoutY="38.0" prefHeight="25.0" prefWidth="340.0" styleClass="object-header" text="Credits" />
       <Label layoutX="32.0" layoutY="63.0" prefHeight="17.0" prefWidth="340.0" styleClass="object-body" text="API from other teams implemented in this software" />

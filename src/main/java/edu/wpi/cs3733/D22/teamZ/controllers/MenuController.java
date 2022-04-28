@@ -110,6 +110,7 @@ public class MenuController implements Initializable {
   private String toServiceURL = "edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml";
   private String toAboutPageURL = "edu/wpi/cs3733/D22/teamZ/views/AboutPage.fxml";
   private String toProfileURL = "edu/wpi/cs3733/D22/teamZ/views/ProfilePage.fxml";
+  private String toCreditsPageURL = "edu/wpi/cs3733/D22/teamZ/views/CreditsPage.fxml";
 
   public MenuController() {
     currentPage = new SimpleStringProperty();
@@ -260,6 +261,12 @@ public class MenuController implements Initializable {
   private void toAbout() throws IOException {
     selectMenu(4);
     load(toAboutPageURL);
+  }
+
+  @FXML
+  private void toCredits() throws IOException {
+    selectMenu(5);
+    load(toCreditsPageURL);
   }
 
   @FXML
