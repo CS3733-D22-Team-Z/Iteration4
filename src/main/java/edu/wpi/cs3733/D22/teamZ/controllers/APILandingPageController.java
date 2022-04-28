@@ -3,14 +3,12 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 import edu.wpi.cs3733.D22.teamZ.apiFacades.ExternalTransportFacadeAPI;
 import edu.wpi.cs3733.D22.teamZ.apiFacades.FacilityMaintenanceFacadeAPI;
 import edu.wpi.cs3733.D22.teamZ.apiFacades.InternalTransportFacadeAPI;
-import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
 public class APILandingPageController implements IMenuAccess {
@@ -18,7 +16,6 @@ public class APILandingPageController implements IMenuAccess {
   @FXML private Label teamCLabel;
   @FXML private Region externalRegionIPT;
   @FXML private Label teamBLabel;
-  @FXML private MFXToggleButton toggleNames;
   @FXML private ScrollPane scrollPane;
   @FXML private Region externalRegion;
   @FXML private Label teamZLabel;
@@ -38,7 +35,6 @@ public class APILandingPageController implements IMenuAccess {
   private final String svgCSSLine = "-fx-background-color: %s";
 
   public void initialize() {
-    toggleNames.setMainColor(Color.rgb(0, 103, 177));
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
     SVGPath externalIcon = new SVGPath();
@@ -94,13 +90,5 @@ public class APILandingPageController implements IMenuAccess {
   private void toFacilityMaintenanceRequest() {
     System.out.println("navigating to security from api landing page");
     FacilityMaintenanceFacadeAPI.getInstance().run(apiCSSPath);
-  }
-
-  @FXML
-  private void showNameLabels() {
-    boolean set = toggleNames.isSelected();
-    teamZLabel.setVisible(set);
-    teamBLabel.setVisible(set);
-    teamCLabel.setVisible(set);
   }
 }
