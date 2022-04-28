@@ -154,18 +154,24 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "UPDATE SERVICEREQUEST SET status =?, HANDLERID =? WHERE RequestID =?");
+              "UPDATE SERVICEREQUEST SET status =?, handlerID =?, closed =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
       stmt.setString(2, request.getHandler().getEmployeeID());
-      stmt.setString(3, request.getRequestID());
+      if (request.getClosed() == null) {
+        stmt.setString(3, null);
+      } else {
+        stmt.setString(3, request.getClosed().toString());
+      }
+      stmt.setString(4, request.getRequestID());
 
       stmt.executeUpdate();
       connection.commit();
       // cannot simply delete then edit
       for (ServiceRequest req : serviceRequestList) {
         if (req.equals(request)) {
-          req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+          req.setStatus(request.getStatus());
           req.setHandler(request.getHandler());
+          req.setClosed(request.getClosed());
           return true;
         }
       }
@@ -310,8 +316,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
       PreparedStatement stmt =
           connection.prepareStatement(
               "INSERT INTO SERVICEREQUEST"
-                  + "(requestID, type, status, issuerID, handlerID, targetLocationID)"
-                  + "values (?, ?, ?, ?, ?, ?)");
+                  + "(requestID, type, status, issuerID, handlerID, targetLocationID, opened, closed)"
+                  + "values (?, ?, ?, ?, ?, ?, ?, ?)");
       stmt.setString(1, request.getRequestID());
       stmt.setString(2, request.getType().toString());
       stmt.setString(3, request.getStatus().toString());
@@ -322,11 +328,22 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
         stmt.setString(5, request.getHandler().getEmployeeID());
       }
       stmt.setString(6, request.getTargetLocation().getNodeID());
+      if (request.getOpened() == null) { // TODO delete since should always have start
+        stmt.setString(7, null);
+      } else {
+        stmt.setString(7, request.getOpened().toString());
+      }
+      if (request.getClosed() == null) {
+        stmt.setString(8, null);
+      } else {
+        stmt.setString(8, request.getClosed().toString());
+      }
 
       stmt.executeUpdate();
       connection.commit();
     } catch (SQLException e) {
       System.out.println("Failed to add service request");
+      e.printStackTrace();
       return false;
     }
     return true;
@@ -354,6 +371,8 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
         String issuerID = rset.getString("issuerID");
         String handlerID = rset.getString("handlerID");
         String targetLocationID = rset.getString("targetLocationID");
+        String opened = rset.getString("opened");
+        String closed = rset.getString("closed");
 
         listServiceRequest.add(
             new ServiceRequest(
@@ -362,7 +381,9 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
                 ServiceRequest.RequestStatus.getRequestStatusByString(statusStr),
                 issuerID,
                 handlerID,
-                targetLocationID));
+                targetLocationID,
+                opened,
+                closed));
       }
     } catch (SQLException e) {
       System.out.println("Failed to get ServiceRequest by status");

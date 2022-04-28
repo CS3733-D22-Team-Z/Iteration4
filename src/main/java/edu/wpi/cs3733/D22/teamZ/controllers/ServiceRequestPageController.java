@@ -7,6 +7,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode;
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,6 +32,7 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
 
   // Buttons to select the sorting/filter parameters.
   @FXML private MFXButton setEmpButton;
+  @FXML private MFXButton finishRequestButton;
 
   // Labels
   @FXML private Label errorLabel;
@@ -54,6 +56,8 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
   @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestType> typeColO;
   @FXML private TableColumn<ServiceRequest, Employee> assignedColO;
   @FXML private TableColumn<ServiceRequest, ServiceRequest.RequestStatus> statusColO;
+
+  @FXML private Label textEmp;
 
   private final String toHomepageURL = "views/Homepage.fxml";
 
@@ -85,15 +89,25 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
     facadeDAO = FacadeDAO.getInstance();
     // Create labels for field values
 
+    Employee.AccessType accessType = MenuController.getLoggedInUser().getAccesstype();
+    if (!accessType.equals(Employee.AccessType.ADMIN)) {
+      textEmp.setVisible(false);
+      setEmpButton.setVisible(false);
+      employeeBox.setVisible(false);
+    }
+
     // Fill the filter box with test data
     List<Employee> employees = facadeDAO.getAllEmployees();
+    filterBox.getItems().add(MenuController.getLoggedInUser().getEmployeeID() + ": (you)");
     for (int i = 0; i < employees.size(); i++) {
       employeeBox
           .getItems()
           .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
-      filterBox
-          .getItems()
-          .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
+      if (employees.get(i) != MenuController.getLoggedInUser()) {
+        filterBox
+            .getItems()
+            .add(employees.get(i).getEmployeeID() + ": " + employees.get(i).getName());
+      }
     }
     errorLabel.setVisible(false);
     createTable();
@@ -259,6 +273,27 @@ public class ServiceRequestPageController implements Initializable, IMenuAccess 
       facadeDAO.updateServiceRequest(handler);
       createTable();
       errorLabel.setVisible(false);
+      createOutstandingTable();
+      issuerSelect.setSelected(false);
+      handlerSelect.setSelected(false);
+      filterBox.getSelectionModel().clearSelection();
+      employeeBox.getSelectionModel().clearSelection();
+    } else {
+      errorLabel.setVisible(true);
+    }
+  }
+
+  /** when set employee button is clicked sets employee to service request */
+  public void finishRequest(ActionEvent actionEvent) {
+    if (!(tableContainer.getSelectionModel().getSelectedItem() == null)) {
+      ServiceRequest req = tableContainer.getSelectionModel().getSelectedItem();
+      if (!req.getStatus().equals(ServiceRequest.RequestStatus.PROCESSING)) {
+        return;
+      }
+      req.setStatus(ServiceRequest.RequestStatus.getRequestStatusByString("DONE"));
+      req.setClosed(LocalDateTime.now());
+      facadeDAO.updateServiceRequest(req);
+      createTable();
       createOutstandingTable();
       issuerSelect.setSelected(false);
       handlerSelect.setSelected(false);

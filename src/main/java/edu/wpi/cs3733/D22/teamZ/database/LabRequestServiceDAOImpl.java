@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.database;
 
 import edu.wpi.cs3733.D22.teamZ.entity.LabServiceRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
@@ -16,6 +15,18 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
   // DatabaseConnection.getConnection();
   private final List<LabServiceRequest> labRequests = new ArrayList<>();
   private LabRequestControlCSV reqCSV;
+
+  public LabRequestServiceDAOImpl() {
+    updateConnection();
+    // medicalEquipmentRequests = new HashMap<>();
+
+    File reqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "LabServiceRequest.csv");
+    this.reqCSV = new LabRequestControlCSV(reqData);
+  }
 
   /**
    * Gets all lab service requests
@@ -73,17 +84,23 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
     try {
       PreparedStatement stmt =
           connection.prepareStatement(
-              "UPDATE SERVICEREQUEST SET status =?, handlerID =? WHERE RequestID =?");
+              "UPDATE SERVICEREQUEST SET status =?, handlerID =?, closed =? WHERE RequestID =?");
       stmt.setString(1, request.getStatus().toString());
       stmt.setString(2, request.getHandler().getEmployeeID());
-      stmt.setString(3, request.getRequestID());
+      if (request.getClosed() == null) {
+        stmt.setString(3, null);
+      } else {
+        stmt.setString(3, request.getClosed().toString());
+      }
+      stmt.setString(4, request.getRequestID());
 
       stmt.executeUpdate();
       connection.commit();
       for (LabServiceRequest req : labRequests) {
         if (req.equals(request)) {
+          req.setStatus(request.getStatus());
           req.setHandler(request.getHandler());
-          req.setStatus(ServiceRequest.RequestStatus.PROCESSING);
+          req.setClosed(request.getClosed());
           return true;
         }
       }
@@ -225,5 +242,14 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
       return false;
     }
     return true;
+  }
+
+  /**
+   * Returns the default path that medical equipment delivery request csv files are printed to
+   *
+   * @return The default path that medical equipment delivery request csv files are printed to
+   */
+  File getDefaultLabRequestServiceRequestCSVPath() {
+    return reqCSV.getDefaultPath();
   }
 }

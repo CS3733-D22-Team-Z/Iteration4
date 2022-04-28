@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<AnchorPane fx:id="root" prefHeight="1020.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.FloorDetailsController">
+      <children>
+      <HBox layoutX="20.0" layoutY="100.0" spacing="40.0">
+         <children>
+            <VBox fx:id="leftSideContainer" prefHeight="900.0" prefWidth="750.0" spacing="40.0">
+               <children>
+                          <VBox fx:id="overviewContainer" prefHeight="500.0" spacing="10.0" styleClass="ui-window">
+                              <children>
+                                  <Label styleClass="header-sub" text="Overview" />
+                        <BarChart fx:id="barChart">
+                          <xAxis>
+                            <CategoryAxis label="Equipment Type" side="BOTTOM" fx:id="x" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis fx:id="y" label="Quantity" minorTickCount="1" side="LEFT" tickLabelGap="0.0" />
+                          </yAxis>
+                        </BarChart>
+                              </children>
+                          </VBox>
+                  <AnchorPane styleClass="ui-window">
+                     <children>
+                                  <Label layoutX="14.0" layoutY="14.0" styleClass="header-sub" text="Map" />
+                        <HBox layoutX="12.0" layoutY="68.0" spacing="20.0">
+                           <children>
+                                        <AnchorPane fx:id="mapContainer" maxWidth="-Infinity" prefHeight="310.0" prefWidth="543.0" style="-fx-background-color: #0075ff;" />
+                              <VBox alignment="CENTER" spacing="20.0">
+                                 <children>
+                                    <MFXButton fx:id="toMapButton" alignment="CENTER" onAction="#toMap" prefWidth="100.0" style="-fx-background-color: #0262a8; -fx-text-fill: #FFFFFF;" styleClass="selector-button" text="To Map" />
+                                                <MFXButton fx:id="noneMapButton" alignment="CENTER" onAction="#noneButtonPressed" prefWidth="100.0" style="-fx-background-color: #0262a8; -fx-text-fill: #FFFFFF;" styleClass="selector-button" text="None" />
+                                                <MFXButton fx:id="bedsMapButton" alignment="CENTER" onAction="#bedsButtonPressed" prefWidth="100.0" rippleColor="#c9c9c9" styleClass="selector-button" text="Beds" />
+                                                <MFXButton fx:id="pumpsMapButton" alignment="CENTER" onAction="#pumpsButtonPressed" prefWidth="100.0" styleClass="selector-button" text="Pumps" />
+                                    <MFXButton fx:id="reclinerMapButton" alignment="CENTER" onAction="#reclinerButtonPressed" prefWidth="100.0" styleClass="selector-button" text="Recliners" />
+                                    <MFXButton alignment="CENTER" onAction="#xrayButtonPressed" prefWidth="100.0" styleClass="selector-button" text="X-Rays" fx:id="xRayMapButton" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+                    <VBox fx:id="overviewContainer12" prefHeight="900.0" prefWidth="450.0" spacing="10.0" styleClass="ui-window">
+                        <children>
+                            <Label styleClass="header-sub" text="Service Requests" />
+                            <ScrollPane hbarPolicy="NEVER">
+                                <content>
+                                    <VBox fx:id="timeContainer" spacing="20.0" />
+                                </content>
+                            </ScrollPane>
+                        </children>
+                    </VBox>
+                    <VBox fx:id="overviewContainer11" prefHeight="900.0" prefWidth="600.0" spacing="10.0" styleClass="ui-window">
+                        <children>
+                            <Label styleClass="header-sub" text="Medical Equipment" />
+                  <VBox fx:id="equipmentListBed" spacing="15.0" styleClass="ui-equipment-divider">
+                     <children>
+                        <BorderPane>
+                           <left>
+                              <Label contentDisplay="RIGHT" graphicTextGap="40.0" style="-fx-text-fill: #FF79DA;" styleClass="header-sub" text="Beds" BorderPane.alignment="CENTER" />
+                           </left>
+                           <right>
+                              <Label fx:id="numLabel" contentDisplay="RIGHT" graphicTextGap="40.0" style="-fx-text-fill: #FF79DA;" styleClass="header-sub" text="13" BorderPane.alignment="CENTER">
+                                 <graphic>
+                                    <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="32.0" prefWidth="32.0" styleClass="graphic-button" text="Button">
+                                       <graphic>
+                                          <SVGPath content="M9.75 4.125L6.5 6.875L3.25 4.125" fill="TRANSPARENT" scaleX="3.0" scaleY="3.0" stroke="#898989" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="1.5" />
+                                       </graphic>
+                                    </MFXButton>
+                                 </graphic>
+                              </Label>
+                           </right>
+                        </BorderPane>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="equipmentListInfusion" spacing="15.0" styleClass="ui-equipment-divider">
+                     <children>
+                        <BorderPane>
+                           <left>
+                              <Label contentDisplay="RIGHT" graphicTextGap="40.0" style="-fx-text-fill: #00ADA4;" styleClass="header-sub" text="Infusion Pumps" BorderPane.alignment="CENTER" />
+                           </left>
+                           <right>
+                              <Label fx:id="numLabel" contentDisplay="RIGHT" graphicTextGap="40.0" style="-fx-text-fill: #00ADA4;" styleClass="header-sub" text="13" BorderPane.alignment="CENTER">
+                                 <graphic>
+                                    <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="32.0" prefWidth="32.0" styleClass="graphic-button" text="Button">
+                                       <graphic>
+                                          <SVGPath content="M9.75 4.125L6.5 6.875L3.25 4.125" fill="TRANSPARENT" scaleX="3.0" scaleY="3.0" stroke="#898989" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="1.5" />
+                                       </graphic>
+                                    </MFXButton>
+                                 </graphic>
+                              </Label>
+                           </right>
+                        </BorderPane>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="equipmentListRecliner" spacing="15.0" styleClass="ui-equipment-divider">
+                     <children>
+                        <BorderPane>
+                           <left>
+                              <Label contentDisplay="RIGHT" graphicTextGap="40.0" style="-fx-text-fill: #ff800b;" styleClass="header-sub" text="Recliner" BorderPane.alignment="CENTER" />
+                           </left>
+                           <right>
+                              <Label fx:id="numLabel" contentDisplay="RIGHT" graphicTextGap="40.0" style="-fx-text-fill: #ff800b;" styleClass="header-sub" text="13" BorderPane.alignment="CENTER">
+                                 <graphic>
+                                    <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="32.0" prefWidth="32.0" styleClass="graphic-button" text="Button">
+                                       <graphic>
+                                          <SVGPath content="M9.75 4.125L6.5 6.875L3.25 4.125" fill="TRANSPARENT" scaleX="3.0" scaleY="3.0" stroke="#898989" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="1.5" />
+                                       </graphic>
+                                    </MFXButton>
+                                 </graphic>
+                              </Label>
+                           </right>
+                        </BorderPane>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="equipmentListXRay" spacing="15.0" styleClass="ui-equipment-divider">
+                     <children>
+                        <BorderPane>
+                           <left>
+                              <Label contentDisplay="RIGHT" graphicTextGap="40.0" style="-fx-text-fill: #B479FF;" styleClass="header-sub" text="XRay Machine" BorderPane.alignment="CENTER" />
+                           </left>
+                           <right>
+                              <Label fx:id="numLabel" contentDisplay="RIGHT" graphicTextGap="40.0" style="-fx-text-fill: #B479FF;" styleClass="header-sub" text="13" BorderPane.alignment="CENTER">
+                                 <graphic>
+                                    <MFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="32.0" prefWidth="32.0" styleClass="graphic-button" text="Button">
+                                       <graphic>
+                                          <SVGPath content="M9.75 4.125L6.5 6.875L3.25 4.125" fill="TRANSPARENT" scaleX="3.0" scaleY="3.0" stroke="#898989" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="1.5" />
+                                       </graphic>
+                                    </MFXButton>
+                                 </graphic>
+                              </Label>
+                           </right>
+                        </BorderPane>
+                     </children>
+                  </VBox>
+                        </children>
+                    </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="20.0" layoutY="25.0" spacing="20.0">
+         <children>
+            <MFXButton onAction="#backButtonClicked" styleClass="back-button" text="Back" />
+            <Label fx:id="floorTitle" styleClass="header" text="Floor" />
+         </children>
+      </HBox>
+      </children>
+  </AnchorPane>

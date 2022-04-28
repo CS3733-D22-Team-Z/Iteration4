@@ -7,11 +7,6 @@
 }
 
 .login-button:hover {
-    -fx-font-family: 'SansSerif';
-    -fx-font-weight: 700;
-    -fx-font-size: 10pt;
-    -fx-text-fill: #012d5a;
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #012d5a;
-    -fx-border-width: 3pt;
+    -fx-background-color: #0067b1;
+
 }

@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import javax.smartcardio.CardException;
 
 public class LoginPageController implements Initializable {
+  @FXML public MFXButton loginIDButton;
   @FXML private TextField usernameField;
   @FXML private TextField passwordField;
   @FXML private Label errorLabel;
@@ -51,6 +52,7 @@ public class LoginPageController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = FacadeDAO.getInstance();
+    checkReader();
   }
 
   /**
@@ -115,19 +117,22 @@ public class LoginPageController implements Initializable {
     Scene scene = new Scene(root);
     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     primaryStage.setScene(scene);
-    primaryStage.minHeightProperty().unbind();
-    primaryStage.maxHeightProperty().unbind();
-    primaryStage.setMinHeight(475); // initial size. doesnt work if less so ignore lol.
-    // TODO was 292^
-    primaryStage.setMinWidth(745);
+    //    primaryStage.heightProperty().unbind();
+    //    primaryStage.widthProperty().unbind();
+    // primaryStage.setWidth(1920);
+    // primaryStage.setHeight(1080);
+    initialHeight = 1129;
+    // TODO was 392^
+    initialWidth = 1940;
+    // TODO was 745^
     // TODO fix scaling on other login pages after logout
+    // primaryStage.setMinHeight(initialHeight); // initial size. doesnt work if less so ignore lol.
+    // primaryStage.setMinWidth(initialWidth);
 
-    initialHeight = primaryStage.getHeight();
-    initialWidth = primaryStage.getWidth();
     initialRatio = initialHeight / initialWidth;
-
-    primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
-    primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
+    // This breaks stuff at higher resolutions so we shouldn't use it
+    // primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
+    // primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(initialRatio));
 
     sizeChangeListener =
         (ChangeListener<Number>)
@@ -138,18 +143,17 @@ public class LoginPageController implements Initializable {
     primaryStage.heightProperty().addListener(sizeChangeListener);
     primaryStage.widthProperty().addListener(sizeChangeListener);
   }
-  // thisController.setWelcomeMessage(username);
 
   public void onSizeChange(Parent root, Stage primaryStage) {
-    // System.out.println("old:" + oldValue + " new:" + newValue);
+    System.out.println("old:" + primaryStage.getWidth());
     float scaleY = (float) (primaryStage.getHeight() / initialHeight);
     float scaleX = (float) (primaryStage.getWidth() / initialWidth);
     if (initialStates == null) {
       initialStates = root.getTransforms();
     }
-    root.getTransforms().setAll(initialStates);
+    root.getTransforms().clear();
 
-    root.getTransforms().add(new Scale(scaleY, scaleY, 0, 0));
+    root.getTransforms().add(new Scale(scaleX, scaleY, 0, 0));
   }
 
   @FXML
@@ -185,6 +189,20 @@ public class LoginPageController implements Initializable {
         errorLabel.setText("Invalid password for this username. Try again.");
         enterErrorState();
       }
+    }
+  }
+
+  private void checkReader() {
+    NFCCardReaderController obj = new NFCCardReaderController();
+    try {
+      obj.initialize();
+      if (obj.getUid() == null) {
+        System.out.println("no card reader");
+        loginIDButton.setDisable(true);
+      }
+    } catch (CardException e) {
+      System.out.println("error getting card reader");
+      loginIDButton.setDisable(true);
     }
   }
 }

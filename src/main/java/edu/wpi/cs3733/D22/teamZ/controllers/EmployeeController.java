@@ -2,12 +2,12 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Employee;
+import edu.wpi.cs3733.D22.teamZ.entity.UniqueID;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,12 +16,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -42,8 +42,8 @@ public class EmployeeController implements IMenuAccess, Initializable {
   @FXML private MFXTextField addEmployeeName;
   @FXML private MFXTextField addEmployeeUsername;
   @FXML private ChoiceBox addEmployeeAccessType;
-  @FXML private Text fillFields;
-  @FXML private Text editFields;
+  @FXML private Label fillFields;
+  @FXML private Label editFields;
 
   private MenuController menu;
   private FacadeDAO facadeDAO;
@@ -178,7 +178,9 @@ public class EmployeeController implements IMenuAccess, Initializable {
         && !addEmployeeUsername.getText().equals("")
         && !(addEmployeeAccessType.getValue() == null)) {
       if (editFields.getText().equals("Add Employee")) {
-        newID(addEmployeeAccessType.getValue().toString());
+        UniqueID id = new UniqueID();
+        String empID = id.generateEmpID(addEmployeeAccessType.getValue().toString());
+        submitEmployee(empID);
       } else {
         String employeeID = employeeTable.getSelectionModel().getSelectedItem().getEmployeeID();
         facadeDAO.deleteEmployee(employeeTable.getSelectionModel().getSelectedItem());
@@ -221,22 +223,6 @@ public class EmployeeController implements IMenuAccess, Initializable {
   }
 
   /**
-   * New employee ID that doesn't already exist
-   *
-   * @param accessType the access type for the employee that will eventually be created
-   */
-  public void newID(String accessType) {
-    String ID = accessType.toLowerCase();
-    Random rand = new Random();
-    int int_random = rand.nextInt(10);
-    ID += int_random;
-    while (!submitEmployee(ID)) {
-      int_random = rand.nextInt(10);
-      ID += int_random;
-    }
-  }
-
-  /**
    * clear fields
    *
    * @param actionEvent The event that triggers this method
@@ -253,7 +239,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
    * @param actionEvent The button event that triggers this method
    */
   public void editEmployee(ActionEvent actionEvent) {
-    editFields.setText("Edit Location");
+    editFields.setText("Edit Employee");
     Employee temp = employeeTable.getSelectionModel().getSelectedItem();
     addEmployeeName.setText(temp.getName());
     addEmployeeUsername.setText(temp.getUsername());

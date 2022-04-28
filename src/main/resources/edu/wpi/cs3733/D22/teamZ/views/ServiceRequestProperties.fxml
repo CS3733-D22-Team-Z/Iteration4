@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ServiceRequestPropertiesController">
    <children>
-      <TableView fx:id="tableContainer" layoutX="50.0" layoutY="50.0" prefHeight="300.0" prefWidth="500.0">
+      <TableView fx:id="tableContainer" layoutX="50.0" layoutY="50.0" prefHeight="300.0" prefWidth="500.0" styleClass="table-hot-fix">
         <columns>
           <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
             <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Type" />

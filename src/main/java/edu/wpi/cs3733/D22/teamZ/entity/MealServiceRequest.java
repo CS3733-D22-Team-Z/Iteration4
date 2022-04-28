@@ -1,12 +1,14 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import java.time.LocalDateTime;
 
 public class MealServiceRequest extends ServiceRequest {
   private Patient patient;
   private String drink;
   private String entree;
-  private String side;
+  private String snack;
+  private String allergen;
 
   private FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
@@ -16,16 +18,44 @@ public class MealServiceRequest extends ServiceRequest {
       Employee issuer,
       Employee handler,
       Location targetLocation,
+      LocalDateTime opened,
+      LocalDateTime closed,
       Patient patient,
       String drink,
       String entree,
-      String side) {
-    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation);
+      String snack,
+      String allergen) {
+    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation, opened, closed);
     this.patient = patient;
     this.drink = drink;
     this.entree = entree;
-    this.side = side;
+    this.snack = snack;
+    this.allergen = allergen;
   }
+
+  //  public MealServiceRequest(
+  //      String requestID,
+  //      ServiceRequest.RequestStatus status,
+  //      Employee issuer,
+  //      Employee handler,
+  //      Location targetLocation,
+  //      LocalDateTime opened,
+  //      LocalDateTime closed,
+  //      Patient patient,
+  //      String drink,
+  //      String entree,
+  //      String snack,
+  //      String meal,
+  //      String allergen) {
+  //    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation, opened,
+  // closed);
+  //    this.patient = patient;
+  //    this.drink = drink;
+  //    this.entree = entree;
+  //    this.snack = snack;
+  //    this.meal = drink+entree+snack;
+  //    this.allergen = allergen;
+  //  }
 
   public MealServiceRequest(
       String requestID,
@@ -33,18 +63,22 @@ public class MealServiceRequest extends ServiceRequest {
       String issuer,
       String handler,
       String targetLocation,
+      String opened,
+      String closed,
       String patient,
       String drink,
       String entree,
-      String side) {
-    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation);
+      String snack,
+      String allergen) {
+    super(requestID, RequestType.MEALSERV, status, issuer, handler, targetLocation, opened, closed);
     this.patient = facadeDAO.getPatientByID(patient);
     this.drink = drink;
     this.entree = entree;
-    this.side = side;
+    this.snack = snack;
+    this.allergen = allergen;
   }
 
-  // GetterFunctions
+  // Getter Functions
   public Patient getPatient() {
     return this.patient;
   }
@@ -57,11 +91,15 @@ public class MealServiceRequest extends ServiceRequest {
     return entree;
   }
 
-  public String getSide() {
-    return side;
+  public String getSnack() {
+    return snack;
   }
 
-  // SetterFunction
+  public String getAllergen() {
+    return allergen;
+  }
+
+  // Setter Functions
   public void setPatient(Patient patient) {
     this.patient = patient;
   }
@@ -74,7 +112,11 @@ public class MealServiceRequest extends ServiceRequest {
     this.entree = entree;
   }
 
-  public void setSide(String side) {
-    this.side = side;
+  public void setSnack(String side) {
+    this.snack = snack;
+  }
+
+  public void setAllergen(String allergen) {
+    this.allergen = allergen;
   }
 }

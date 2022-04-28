@@ -80,7 +80,7 @@ public interface ILocationDAO {
    * @param type type of location
    * @return list of locations of the given type
    */
-  List<Location> getALlLocationsByType(String type);
+  List<Location> getAllLocationsByType(String type);
 
   /**
    * Imports data from CSV into location database

@@ -6,6 +6,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -15,7 +16,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class LabRequestController extends ServiceRequestController {
 
@@ -25,6 +25,7 @@ public class LabRequestController extends ServiceRequestController {
   @FXML private TextField patientIdField;
   @FXML private Label patientNameLabel;
   @FXML private Label patientIdLabel;
+  @FXML private Label labTypeLabel;
   @FXML private Label errorSavingLabel;
   @FXML private Label successfulSubmitLabel;
   @FXML private Region backRegion;
@@ -39,10 +40,6 @@ public class LabRequestController extends ServiceRequestController {
 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
 
     menuName = "Lab Request";
 
@@ -53,6 +50,7 @@ public class LabRequestController extends ServiceRequestController {
     errorSavingLabel.setVisible(false);
     submitButton.setDisable(true);
     successfulSubmitLabel.setVisible(false);
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -77,28 +75,17 @@ public class LabRequestController extends ServiceRequestController {
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
     // IServiceRequestDAO serviceRequestDAO = new ServiceRequestDAOImpl();
     List<ServiceRequest> serviceRequestList = database.getAllServiceRequests();
-    int id;
-    // Check for empty db and set first request (will appear as REQ1 in the db)
 
-    if (serviceRequestList.isEmpty()) {
-      System.out.println("There are no service requests");
-      id = 0;
-    } else {
-      ServiceRequest tempService = serviceRequestList.get(serviceRequestList.size() - 1);
-      id =
-          Integer.parseInt(
-              tempService
-                  .getRequestID()
-                  .substring(tempService.getRequestID().lastIndexOf("Q") + 1));
-    }
-    // Create new REQID
-    String requestID = "REQ" + ++id;
+    UniqueID id = new UniqueID();
+    String requestID = id.generateID("LAB");
 
     // Create entities for submission
 
     ServiceRequest.RequestStatus status = ServiceRequest.RequestStatus.UNASSIGNED;
     Employee issuer = MenuController.getLoggedInUser();
     Employee handler = null;
+    LocalDateTime opened = LocalDateTime.now();
+    LocalDateTime closed = null;
 
     LabServiceRequest temp =
         new LabServiceRequest(
@@ -107,7 +94,9 @@ public class LabRequestController extends ServiceRequestController {
             issuer,
             handler,
             FacadeDAO.getInstance().getLocationByID("zLABS00101"),
-            labTypeChoiceBox.getSelectionModel().getSelectedItem());
+            labTypeChoiceBox.getSelectionModel().getSelectedItem(),
+            opened,
+            closed);
 
     database.addLabServiceRequest(temp);
     this.clearFields();
@@ -131,6 +120,38 @@ public class LabRequestController extends ServiceRequestController {
     patientNameField.clear();
     labTypeChoiceBox.setValue(null);
     successfulSubmitLabel.setVisible(false);
+  }
+
+  @Override
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      patientNameLabel.getStyleClass().clear();
+      patientNameLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientNameLabel, "Enter name of patient that\nwill be receiving the lab test");
+
+      patientIdLabel.getStyleClass().clear();
+      patientIdLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientIdLabel, "Enter ID of patient that\nwill be receiving the lab test");
+
+      labTypeLabel.getStyleClass().clear();
+      labTypeLabel.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(labTypeLabel, "Select type of lab test\nthat patient will receive");
+
+    } else {
+      patientNameLabel.getStyleClass().clear();
+      patientNameLabel.getStyleClass().add("form-header");
+      patientNameLabel.setTooltip(null);
+
+      patientIdLabel.getStyleClass().clear();
+      patientIdLabel.getStyleClass().add("form-header");
+      patientIdLabel.setTooltip(null);
+
+      labTypeLabel.getStyleClass().clear();
+      labTypeLabel.getStyleClass().add("form-header");
+      labTypeLabel.setTooltip(null);
+    }
   }
 
   @FXML

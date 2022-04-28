@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
+import java.awt.*;
 import java.util.List;
+import javafx.scene.image.Image;
 
 public class Employee implements ISearchable {
   private String employeeID;
@@ -9,6 +11,7 @@ public class Employee implements ISearchable {
   private AccessType accesstype;
   private String username;
   private String password;
+  private Image profilePic;
 
   @Override
   public List<String> toSearchTerms() {
@@ -108,6 +111,14 @@ public class Employee implements ISearchable {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public Image getImage() {
+    return profilePic;
+  }
+
+  public void setImage(Image profilePic) {
+    this.profilePic = profilePic;
   }
 
   @Override

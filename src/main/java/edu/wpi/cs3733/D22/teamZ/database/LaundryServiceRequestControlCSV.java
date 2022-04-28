@@ -39,6 +39,8 @@ public class LaundryServiceRequestControlCSV extends ControlCSV {
               request.getIssuer(),
               request.getHandler(),
               request.getTargetLocation(),
+              request.getOpened(),
+              request.getClosed(),
               LaundryServiceRequest.LaundryStatus.getRequestStatusByString(laundryStatus),
               linenType));
     }
@@ -54,8 +56,8 @@ public class LaundryServiceRequestControlCSV extends ControlCSV {
               List.of(
                   new String[] {
                     request.getRequestID(),
-                    request.getLaundryType(),
-                    String.valueOf(request.getLaundryStatus())
+                    String.valueOf(request.getLaundryType()),
+                    request.getLaundryType()
                   }));
 
       data.add(entry);

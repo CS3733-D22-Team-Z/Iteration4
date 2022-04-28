@@ -16,6 +16,7 @@ public class Location implements ISearchable {
   private String nodeType;
   private String longName;
   private String shortName;
+  private List<PathEdge> connections;
   private List<MedicalEquipment> equipmentList;
   private List<DirtyBedObserver> bedObservers;
   private List<DashboardBedAlertObserver> alertObserver;
@@ -40,6 +41,7 @@ public class Location implements ISearchable {
     this.nodeType = nodeType;
     this.longName = longName;
     this.shortName = shortName;
+    connections = new ArrayList<>();
     this.equipmentList = new ArrayList<>();
     this.bedObservers = new ArrayList<>();
     this.alertObserver = new ArrayList<>();
@@ -114,6 +116,22 @@ public class Location implements ISearchable {
     this.shortName = shortName;
   }
 
+  public void addConnections(List<PathEdge> more) {
+    connections.addAll(more);
+  }
+
+  public void setConnections(List<PathEdge> connections) {
+    this.connections = connections;
+  }
+
+  public List<PathEdge> getConnections() {
+    return connections;
+  }
+
+  public void addConnection(PathEdge conn) {
+    connections.add(conn);
+  }
+
   public List<MedicalEquipment> getEquipmentList() {
     return equipmentList;
   }
@@ -151,14 +169,19 @@ public class Location implements ISearchable {
   }
 
   public static String createNodeID(String nodeType, String roomNumber, String floor) {
-    String newNodeID =
-        "z"
-            + nodeType
-            + "0".repeat(3 - roomNumber.length())
-            + roomNumber
-            + "0".repeat(2 - floor.length())
-            + floor;
-    return newNodeID;
+    try {
+      String newNodeID =
+          "z"
+              + nodeType
+              + "0".repeat(3 - roomNumber.length())
+              + roomNumber
+              + "0".repeat(2 - floor.length())
+              + floor;
+      return newNodeID;
+    } catch (IllegalArgumentException e) {
+      // Not a real place
+      return null;
+    }
   }
 
   @Override

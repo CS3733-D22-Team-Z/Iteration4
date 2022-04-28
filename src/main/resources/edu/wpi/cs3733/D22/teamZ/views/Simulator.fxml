@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.SimulatorController">
+   <children>
+      <SplitPane dividerPositions="0.6942127215849844" prefHeight="1030.0" prefWidth="1920.0">
+        <items>
+          <AnchorPane fx:id="mapContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ImageView fx:id="imageView" fitHeight="1030.0" fitWidth="1332.0" layoutX="-2.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
+                  <ChoiceBox fx:id="floorChange" layoutX="60.0" layoutY="59.0" prefHeight="76.0" prefWidth="129.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1028.0" prefWidth="644.0">
+               <children>
+                  <Label layoutX="126.0" layoutY="32.0" styleClass="header" text="Choose Speed">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="speedBox" layoutX="69.0" layoutY="98.0" prefHeight="76.0" prefWidth="446.0" />
+                  <MFXButton fx:id="startSim" layoutX="69.0" layoutY="235.0" onAction="#startSimulation" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Start Simulation" textFill="WHITE">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton fx:id="pauseSim" layoutX="69.0" layoutY="804.0" onAction="#pauseSim" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #0067B1#0067B1;" text="Pause Simulation" textFill="WHITE">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton fx:id="endSim" layoutX="69.0" layoutY="916.0" onAction="#endSim" prefHeight="63.0" prefWidth="446.0" style="-fx-background-color: #ff4343;" text="End Simulation" textFill="WHITE">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </MFXButton>
+                  <Label fx:id="clock" layoutX="188.0" layoutY="180.0" styleClass="header" text="00:00 AM" />
+                  <TableView fx:id="infoTable" layoutX="12.0" layoutY="321.0" prefHeight="457.0" prefWidth="567.0" styleClass="table-hot-fix">
+                    <columns>
+                      <TableColumn fx:id="info" prefWidth="566.0" text="Updates" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

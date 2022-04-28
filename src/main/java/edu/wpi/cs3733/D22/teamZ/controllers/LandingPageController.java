@@ -4,6 +4,7 @@ import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
@@ -12,6 +13,7 @@ import javafx.scene.shape.SVGPath;
 
 public class LandingPageController implements IMenuAccess {
 
+  private final String toAPILandingPageURL = "edu/wpi/cs3733/D22/teamZ/views/APILandingPage.fxml";
   private final String toMedicalEquipmentDeliveryURL =
       "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentDelivery.fxml";
   private final String toLabRequestURL = "edu/wpi/cs3733/D22/teamZ/views/LabServiceRequest.fxml";
@@ -30,18 +32,9 @@ public class LandingPageController implements IMenuAccess {
       "edu/wpi/cs3733/D22/teamZ/views/EquipmentPurchaseRequest.fxml";
   private final String toSecurityServiceURL = "edu/wpi/cs3733/D22/teamZ/views/SecurityRequest.fxml";
 
-  // @FXML VBox iconContainer;
-  // @FXML MFXToggleButton toggle;
-  // @FXML private Label Daniel;
-  // @FXML private Label Patrick;
-  // @FXML private Label Maya;
-  // @FXML private Label Neha;
-  // @FXML private Label Alex;
-  // @FXML private Label Jake;
-  // @FXML private Label Nelson;
+  @FXML private Label CaseyLabel;
   @FXML private Region medRegion;
   @FXML private Region labRegion;
-  @FXML private Region externalRegion;
   @FXML private Region languageRegion;
   @FXML private Region computerRegion;
   @FXML private Region laundryRegion;
@@ -49,10 +42,10 @@ public class LandingPageController implements IMenuAccess {
   @FXML private Region giftRegion;
   @FXML private Region cleaningRegion;
   @FXML private Region purchaseRegion;
+  @FXML private Region securityRegion;
   @FXML private Label danLabel;
   @FXML private Label patrickLabel;
   @FXML private Label claireLabel;
-  @FXML private Label mayaLabel;
   @FXML private Label jacobLabel;
   @FXML private Label nehaLabel;
   @FXML private Label nelsonLabel;
@@ -62,7 +55,7 @@ public class LandingPageController implements IMenuAccess {
   @FXML private MFXToggleButton toggleNames;
   @FXML private ScrollPane scrollPane;
 
-  private String[] icons = {
+  private final String[] icons = {
     "M20,6h-4V4c0-1.1-0.9-2-2-2h-4C8.9,2,8,2.9,8,4v2H4C2.9,6,2,6.9,2,8v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V8 C22,6.9,21.1,6,20,6z M10,4h4v2h-4V4z M20,20H4V8h16V20z",
     "M9.91667 9.16663L15.3699 17.8896C15.3971 17.9335 15.4122 17.9839 15.4134 18.0356C15.4147 18.0872 15.4022 18.1383 15.3771 18.1835C15.3521 18.2287 15.3155 18.2664 15.271 18.2927C15.2266 18.3191 15.1759 18.3331 15.1243 18.3333H2.87575C2.82382 18.333 2.77291 18.3189 2.72831 18.2923C2.68371 18.2657 2.64706 18.2276 2.62216 18.182C2.59727 18.1364 2.58504 18.085 2.58676 18.0331C2.58847 17.9812 2.60407 17.9307 2.63192 17.8869L8.08334 9.16663V2.74996H9.91667V9.16663ZM4.41667 0.916626V2.74996H6.25V8.67163L1.07909 16.9125C0.877471 17.2338 0.765551 17.6032 0.75495 17.9824C0.744349 18.3616 0.835453 18.7367 1.0188 19.0688C1.20215 19.4009 1.47106 19.6778 1.7976 19.8709C2.12415 20.0639 2.49641 20.1661 2.87575 20.1666H15.1243C15.5036 20.1661 15.8759 20.0639 16.2024 19.8709C16.5289 19.6778 16.7979 19.4009 16.9812 19.0688C17.1646 18.7367 17.2557 18.3616 17.2451 17.9824C17.2345 17.6032 17.1225 17.2338 16.9209 16.9125L11.7509 8.67163L11.75 2.74996H13.5833V0.916626H4.41667Z",
     "M8 16C8.26522 16 8.51957 15.8946 8.70711 15.7071C8.89464 15.5196 9 15.2652 9 15C9 14.7348 8.89464 14.4804 8.70711 14.2929C8.51957 14.1054 8.26522 14 8 14C7.73478 14 7.48043 14.1054 7.29289 14.2929C7.10536 14.4804 7 14.7348 7 15C7 15.2652 7.10536 15.5196 7.29289 15.7071C7.48043 15.8946 7.73478 16 8 16ZM17 15C17 15.2652 16.8946 15.5196 16.7071 15.7071C16.5196 15.8946 16.2652 16 16 16C15.7348 16 15.4804 15.8946 15.2929 15.7071C15.1054 15.5196 15 15.2652 15 15C15 14.7348 15.1054 14.4804 15.2929 14.2929C15.4804 14.1054 15.7348 14 16 14C16.2652 14 16.5196 14.1054 16.7071 14.2929C16.8946 14.4804 17 14.7348 17 15V15ZM10.75 5C10.5511 5 10.3603 5.07902 10.2197 5.21967C10.079 5.36032 10 5.55109 10 5.75C10 5.94891 10.079 6.13968 10.2197 6.28033C10.3603 6.42098 10.5511 6.5 10.75 6.5H13.25C13.4489 6.5 13.6397 6.42098 13.7803 6.28033C13.921 6.13968 14 5.94891 14 5.75C14 5.55109 13.921 5.36032 13.7803 5.21967C13.6397 5.07902 13.4489 5 13.25 5H10.75ZM7.75 2C6.75544 2 5.80161 2.39509 5.09835 3.09835C4.39509 3.80161 4 4.75544 4 5.75V9.5H2.75C2.55109 9.5 2.36032 9.57902 2.21967 9.71967C2.07902 9.86032 2 10.0511 2 10.25C2 10.4489 2.07902 10.6397 2.21967 10.7803C2.36032 10.921 2.55109 11 2.75 11H4V19.75C4 20.716 4.783 21.5 5.75 21.5H7.25C7.71413 21.5 8.15925 21.3156 8.48744 20.9874C8.81563 20.6592 9 20.2141 9 19.75V18.5H15V19.75C15 20.716 15.784 21.5 16.75 21.5H18.25C18.7141 21.5 19.1592 21.3156 19.4874 20.9874C19.8156 20.6592 20 20.2141 20 19.75V11H21.227C21.4259 11 21.6167 10.921 21.7573 10.7803C21.898 10.6397 21.977 10.4489 21.977 10.25C21.977 10.0511 21.898 9.86032 21.7573 9.71967C21.6167 9.57902 21.4259 9.5 21.227 9.5H20V5.75C20 4.75544 19.6049 3.80161 18.9017 3.09835C18.1984 2.39509 17.2446 2 16.25 2H7.75ZM18.5 18.5V19.75C18.5 19.8163 18.4737 19.8799 18.4268 19.9268C18.3799 19.9737 18.3163 20 18.25 20H16.75C16.6837 20 16.6201 19.9737 16.5732 19.9268C16.5263 19.8799 16.5 19.8163 16.5 19.75V18.5H18.5ZM18.5 17H5.5V13H18.5V17ZM5.5 19.75V18.5H7.5V19.75C7.5 19.8163 7.47366 19.8799 7.42678 19.9268C7.37989 19.9737 7.3163 20 7.25 20H5.75C5.6837 20 5.62011 19.9737 5.57322 19.9268C5.52634 19.8799 5.5 19.8163 5.5 19.75ZM5.5 5.75C5.5 5.15326 5.73705 4.58097 6.15901 4.15901C6.58097 3.73705 7.15326 3.5 7.75 3.5H16.25C16.8467 3.5 17.419 3.73705 17.841 4.15901C18.2629 4.58097 18.5 5.15326 18.5 5.75V11.5H5.5V5.75Z",
@@ -75,7 +68,8 @@ public class LandingPageController implements IMenuAccess {
     "M503.714 549.375C503.505 526.197 496.838 503.463 484.359 483.379C471.881 463.295 454.015 446.542 432.495 434.748L651.75 82.4062L600.499 54.9375L376.03 415.492C348.482 409.786 319.83 410.575 292.696 417.788C265.561 425 240.81 438.405 220.706 456.778C109.79 555.967 118.382 787.859 118.796 797.693C119.103 804.786 122.358 811.493 127.881 816.409C133.404 821.325 140.765 824.068 148.421 824.062H592.53C598.747 824.063 604.808 822.249 609.852 818.878C614.896 815.507 618.668 810.749 620.634 805.28C622.601 799.811 622.661 793.906 620.807 788.403C618.953 782.9 615.279 778.078 610.305 774.619C505.432 701.662 503.714 550.858 503.714 549.375ZM353.426 466.886C377.137 467.128 399.835 475.837 416.797 491.201C433.759 506.565 443.679 527.401 444.493 549.375C444.493 550.419 444.553 555.088 444.997 562.258L270.21 490.18C281.723 481.377 295.009 474.784 309.295 470.785C323.582 466.786 338.583 465.461 353.426 466.886ZM457.706 769.125C434.027 746.769 418.933 717.813 414.75 686.719H355.5C357.622 715.953 367.47 744.254 384.177 769.125H318.321C306.137 733.477 298.725 696.575 296.25 659.25H237C238.91 696.463 245.523 733.34 256.701 769.125H177.75C178.668 718.692 186.341 607.279 231.164 534.185L454.329 626.205C465.051 677.827 487.911 726.624 521.282 769.125H457.706Z",
     "M22.062 25.602L11.33 5.41597C11.2684 5.30002 11.2301 5.17305 11.2176 5.04232C11.205 4.9116 11.2183 4.77967 11.2566 4.65408C11.3342 4.40044 11.5093 4.18799 11.7435 4.06347C11.9777 3.93895 12.2518 3.91256 12.5054 3.99011C12.631 4.02851 12.7478 4.09127 12.8491 4.1748C12.9505 4.25834 13.0344 4.36102 13.096 4.47697L23.829 24.663L25.351 23.853C25.8149 23.6064 26.3228 23.4535 26.8458 23.4032C27.3687 23.3529 27.8964 23.4062 28.3988 23.5598C28.9012 23.7135 29.3684 23.9647 29.7737 24.2989C30.179 24.6332 30.5145 25.044 30.761 25.508L31.409 26.726L38.278 36.781L24.029 44.357L19.534 33.039L18.887 31.821C18.6404 31.3571 18.4875 30.8493 18.4371 30.3264C18.3868 29.8035 18.4399 29.2758 18.5935 28.7734C18.7471 28.271 18.9981 27.8038 19.3323 27.3985C19.6664 26.9931 20.0772 26.6576 20.541 26.411L22.063 25.602H22.062ZM21.479 28.177L26.289 25.62C26.5209 25.4966 26.7749 25.4202 27.0363 25.395C27.2978 25.3698 27.5616 25.3964 27.8128 25.4732C28.064 25.55 28.2976 25.6755 28.5003 25.8426C28.7029 26.0097 28.8707 26.215 28.994 26.447L29.642 27.664L21.299 32.1L20.652 30.882C20.5287 30.6501 20.4522 30.3961 20.4271 30.1347C20.4019 29.8732 20.4284 29.6094 20.5052 29.3582C20.582 29.107 20.7076 28.8734 20.8746 28.6707C21.0417 28.468 21.2471 28.3003 21.479 28.177V28.177ZM22.309 34.609L25.062 41.542L26.896 40.567L24.731 36.352L26.511 35.438L28.663 39.628L35.365 36.064L31.157 29.904L22.309 34.609V34.609Z",
     "M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4l-3.87 7H8.53L4.27 2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2z",
-    "M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4l-3.87 7H8.53L4.27 2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2z"
+    "M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4l-3.87 7H8.53L4.27 2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2z",
+    "M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z"
   };
 
   private MenuController menu;
@@ -95,11 +89,6 @@ public class LandingPageController implements IMenuAccess {
     labIcon.setContent(icons[1]);
     labRegion.setShape(labIcon);
     labRegion.setStyle(String.format(svgCSSLine, grey));
-
-    SVGPath externalIcon = new SVGPath();
-    externalIcon.setContent(icons[2]);
-    externalRegion.setShape(externalIcon);
-    externalRegion.setStyle(String.format(svgCSSLine, grey));
 
     SVGPath languageIcon = new SVGPath();
     languageIcon.setContent(icons[3]);
@@ -135,6 +124,23 @@ public class LandingPageController implements IMenuAccess {
     purchaseIcon.setContent(icons[11]);
     purchaseRegion.setShape(purchaseIcon);
     purchaseRegion.setStyle(String.format(svgCSSLine, grey));
+
+    SVGPath securityIcon = new SVGPath();
+    securityIcon.setContent(icons[12]);
+    securityRegion.setShape(securityIcon);
+    securityRegion.setStyle(String.format(svgCSSLine, grey));
+
+    // Set each name label to center
+    danLabel.setAlignment(Pos.CENTER);
+    claireLabel.setAlignment(Pos.CENTER);
+    jacobLabel.setAlignment(Pos.CENTER);
+    nehaLabel.setAlignment(Pos.CENTER);
+    patrickLabel.setAlignment(Pos.CENTER);
+    nelsonLabel.setAlignment(Pos.CENTER);
+    alexLabel.setAlignment(Pos.CENTER);
+    oliviaLabel.setAlignment(Pos.CENTER);
+    andrewLabel.setAlignment(Pos.CENTER);
+    CaseyLabel.setAlignment(Pos.CENTER);
   }
 
   /**
@@ -150,6 +156,12 @@ public class LandingPageController implements IMenuAccess {
   @Override
   public String getMenuName() {
     return "Service Request Landing";
+  }
+
+  @FXML
+  private void navAPILandingPage() throws IOException {
+    System.out.println("navigating to api landing page from landing page");
+    menu.load(toAPILandingPageURL);
   }
 
   @FXML
@@ -212,11 +224,15 @@ public class LandingPageController implements IMenuAccess {
     menu.load(toEquipmentPurchaseServiceURL);
   }
 
+  @FXML
+  private void navSecurity() throws IOException {
+    menu.load(toSecurityServiceURL);
+  }
+
   public void showNameLabels() {
     boolean set = toggleNames.isSelected();
     danLabel.setVisible(set);
     claireLabel.setVisible(set);
-    mayaLabel.setVisible(set);
     jacobLabel.setVisible(set);
     nehaLabel.setVisible(set);
     patrickLabel.setVisible(set);
@@ -224,5 +240,6 @@ public class LandingPageController implements IMenuAccess {
     alexLabel.setVisible(set);
     oliviaLabel.setVisible(set);
     andrewLabel.setVisible(set);
+    CaseyLabel.setVisible(set);
   }
 }

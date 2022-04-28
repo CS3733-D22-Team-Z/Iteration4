@@ -1,10 +1,8 @@
 package edu.wpi.cs3733.D22.teamZ.observers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.Location;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
-import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +12,7 @@ import java.util.stream.Collectors;
  */
 public class DirtyPumpObserver {
   Location subject;
+  UniqueID idMaker = new UniqueID();
 
   public DirtyPumpObserver(Location subject) {
     this.subject = subject;
@@ -36,18 +35,7 @@ public class DirtyPumpObserver {
       for (MedicalEquipment dirtyEquip : dirtyList) {
         String id;
         // Check for empty db and set first request (will appear as REQ1 in the db)
-
-        if (equipmentRequestList.isEmpty()) {
-          System.out.println("Equipment is empty");
-          id = "REQ0";
-        } else {
-          List<ServiceRequest> currentList = dao.getAllServiceRequests();
-          ServiceRequest lastestReq = currentList.get(currentList.size() - 1);
-          id = lastestReq.getRequestID();
-        }
-        // Create new REQID
-        int num = 1 + Integer.parseInt(id.substring(id.lastIndexOf("Q") + 1));
-        String requestID = "REQ" + num;
+        String requestID = idMaker.generateID("EQUIP");
 
         // Create a delivery request to zSTOR00101 for dirty equipment
         MedicalEquipmentDeliveryRequest newReq =
@@ -57,7 +45,9 @@ public class DirtyPumpObserver {
                 "admin1",
                 null,
                 dirtyEquip.getEquipmentID(),
-                "zSTOR00101");
+                "zSTOR00101",
+                LocalDateTime.now().toString(),
+                null);
         dao.addMedicalEquipmentRequest(newReq);
       }
     }

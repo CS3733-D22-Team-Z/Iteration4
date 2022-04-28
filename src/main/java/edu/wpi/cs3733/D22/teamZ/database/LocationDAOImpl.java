@@ -11,6 +11,7 @@ class LocationDAOImpl implements ILocationDAO {
 
   private final List<Location> locationsList;
   private final LocationControlCSV locCSV;
+  private final EdgesControlCSV edgeCSV;
 
   private static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
 
@@ -19,7 +20,10 @@ class LocationDAOImpl implements ILocationDAO {
     locationsList = new ArrayList<>();
 
     File locData = new File(System.getProperty("user.dir") + "\\TowerLocations.csv");
+    File edgeData = new File(System.getProperty("user.dir") + "\\PathEdges.csv");
+
     locCSV = new LocationControlCSV(locData);
+    edgeCSV = new EdgesControlCSV(edgeData);
   }
 
   /**
@@ -208,7 +212,7 @@ class LocationDAOImpl implements ILocationDAO {
    * @return list of locations of given type
    */
   @Override
-  public List<Location> getALlLocationsByType(String type) {
+  public List<Location> getAllLocationsByType(String type) {
     updateConnection();
     List<Location> tempList = new ArrayList<>();
     try {
