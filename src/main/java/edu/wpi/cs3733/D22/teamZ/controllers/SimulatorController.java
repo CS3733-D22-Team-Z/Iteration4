@@ -84,6 +84,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
             "Floor 1",
             "Lower Level 1",
             "Lower Level 2");
+    floorChange.setDisable(true);
     pauseSim.setDisable(true);
     endSim.setDisable(true);
 
@@ -162,6 +163,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
       pauseSim.setDisable(false);
       endSim.setDisable(false);
       speedBox.setDisable(true);
+      floorChange.setDisable(false);
 
       if (speedBox.getSelectionModel().getSelectedItem().equals("5 min/sec")) {
         timesLoop = 1;
@@ -258,10 +260,12 @@ public class SimulatorController implements IMenuAccess, Initializable {
         makeReq(medEquip.get(index).getEquipmentID(), loc);
       }
       mapContainer.getChildren().clear();
-      ImageView imageView = new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
+      ImageView imageView =
+          new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/" + getFloor() + ".png"));
       imageView.setFitWidth(1237);
       imageView.setFitHeight(1027);
       mapContainer.getChildren().add(imageView);
+      mapContainer.getChildren().add(floorChange);
       displayMedicalEquipmentIcons(getFloor());
       infoTable.refresh();
       infoTable.setItems(updates);
@@ -287,6 +291,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
     startSim.setDisable(false);
     speedBox.setDisable(false);
     dashboardAlert = false;
+    floorChange.setDisable(false);
     updates.clear();
     infoTable.setItems(updates);
     clock.setText("00:00 AM");
@@ -524,8 +529,10 @@ public class SimulatorController implements IMenuAccess, Initializable {
     if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 1")) {
       return "1";
     }
-    return "LL1";
-    // "Lower Level 1",
-    // "Lower Level 2"
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Lower Level 1")) {
+      return "L1";
+    } else {
+      return "L2";
+    }
   }
 }
