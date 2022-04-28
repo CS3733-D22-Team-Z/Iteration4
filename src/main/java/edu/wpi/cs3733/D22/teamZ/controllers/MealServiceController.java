@@ -72,22 +72,15 @@ public class MealServiceController extends ServiceRequestController {
   private List<String> snackOptionList = new ArrayList<>();
 
   List<MealItem> allMenuItems = new ArrayList<>();
+
   List<MealItem> breakfastItemsList = new ArrayList<>();
   List<MealItem> lunchItemsList = new ArrayList<>();
   List<MealItem> dinnerItemsList = new ArrayList<>();
+
   List<MealItem> drinkItemsList = new ArrayList<>();
   List<MealItem> entreeItemsList = new ArrayList<>();
   List<MealItem> snackItemsList = new ArrayList<>();
 
-//  private List<String> breakfastDrinksList = new ArrayList<>();
-//  private List<String> breakfastEntreesList = new ArrayList<>();
-//  private List<String> breakfastSnackList = new ArrayList<>();
-//  private List<String> lunchDrinksList = new ArrayList<>();
-//  private List<String> lunchEntreesList = new ArrayList<>();
-//  private List<String> lunchSnackList = new ArrayList<>();
-//  private List<String> dinnerDrinksList = new ArrayList<>();
-//  private List<String> dinnerEntreesList = new ArrayList<>();
-//  private List<String> dinnerSnackList = new ArrayList<>();
 
   private ObservableList<String> currReq = FXCollections.observableList(new ArrayList<>());
 
@@ -240,7 +233,7 @@ public class MealServiceController extends ServiceRequestController {
      * Spaghetti & Meatballs .... Egg, Dairy, Wheat -Side: Brownie .................. Egg,Soy
      * Chocolate Chip Cookie .... none Tiramisu ................. Egg,Dairy,Wheat
      */
-    resetMealTimeLists(); // clear and add "none" to time-category lists
+    //resetMealTimeLists(); // clear and add "none" to time-category lists
     loadFoodItems(); // add food items to time-category lists
 
     // Before MealItem was an object:
@@ -559,7 +552,7 @@ public class MealServiceController extends ServiceRequestController {
   }
 
   /** Clear and add "none" to time-category MenuItem lists */
-  protected void resetMealTimeLists() {
+ /* protected void resetMealTimeLists() {
     breakfastDrinksList.clear();
     breakfastEntreesList.clear();
     breakfastSnackList.clear();
@@ -579,7 +572,7 @@ public class MealServiceController extends ServiceRequestController {
     dinnerDrinksList.add("none");
     dinnerEntreesList.add("none");
     dinnerSnackList.add("none");
-  }
+  }*/
 
   /**
    * Add pre-items to appropriate lists for use in the meal service controller. Call once. TODO: Add
@@ -635,12 +628,7 @@ public class MealServiceController extends ServiceRequestController {
 
     // All Day
 
-    MealItem Water = new MealItem();
-    Water.setName("Water");
-    Water.setCategory("Drink");
-    Water.setTimeOfDayList(allDayTimeList);
-    Water.setAllergensList(noneAllergyList);
-    allMenuItems.add(Water);
+    allMenuItems.add(new MealItem("Water", "Drink", allDayTimeList, noneAllergyList));
 
     MealItem Coffee = new MealItem();
     Coffee.setName("Coffee");
@@ -679,12 +667,7 @@ public class MealServiceController extends ServiceRequestController {
     CranberryJuice.setAllergensList(noneAllergyList);
     allMenuItems.add(CranberryJuice);
 
-    MealItem BelgiumWaffle = new MealItem();
-    BelgiumWaffle.setName("Belgium Waffle");
-    BelgiumWaffle.setCategory("Entree");
-    BelgiumWaffle.setTimeOfDayList(breakfastTimeList);
-    BelgiumWaffle.setAllergensList(dairyEggWheatAllergenList);
-    allMenuItems.add(BelgiumWaffle);
+    allMenuItems.add(new MealItem("Belgian Waffle", "Entree", breakfastTimeList, dairyEggWheatAllergenList));
 
     MealItem Omelette = new MealItem();
     Omelette.setName("Omelette");
@@ -932,26 +915,21 @@ public class MealServiceController extends ServiceRequestController {
       isDay = false;
       isNight = false;
       mealOptionDropDown.setValue("BREAKFAST");
-      drinkOptionList = breakfastDrinksList;
-      entreeOptionList = breakfastEntreesList;
-      snackOptionList = breakfastSnackList;
     } else if (localHour > 11 && localHour <= 17) {
       isMorning = false;
       isDay = true;
       isNight = false;
       mealOptionDropDown.setValue("LUNCH");
-      drinkOptionList = lunchDrinksList;
-      entreeOptionList = lunchEntreesList;
-      snackOptionList = lunchSnackList;
     } else {
       isMorning = false;
       isDay = false;
       isNight = true;
       mealOptionDropDown.setValue("DINNER");
-      drinkOptionList = dinnerDrinksList;
-      entreeOptionList = dinnerEntreesList;
-      snackOptionList = dinnerSnackList;
     }
+
+    drinkOptionList = allMenuItems.stream().filter(item -> item.getCategory().equals("Drink") && item.getTimeOfDayList().contains(mealOptionDropDown.getValue())).map(MealItem::toString).collect(Collectors.toList());
+    entreeOptionList = allMenuItems.stream().filter(item -> item.getCategory().equals("Entree") && item.getTimeOfDayList().contains(mealOptionDropDown.getValue())).map(MealItem::toString).collect(Collectors.toList());
+    snackOptionList = allMenuItems.stream().filter(item -> item.getCategory().equals("Snack") && item.getTimeOfDayList().contains(mealOptionDropDown.getValue())).map(MealItem::toString).collect(Collectors.toList());
 
     drinkOptionDropDown.setItems(FXCollections.observableArrayList(drinkOptionList));
     entreeOptionDropDown.setItems(FXCollections.observableArrayList(entreeOptionList));
@@ -1331,18 +1309,12 @@ public class MealServiceController extends ServiceRequestController {
   protected void updateAllergenChoice(String filter) {
     List<List<MealItem>> allItems = new ArrayList<>();
 
-    allItems.addAll(breakfastDrinksList,breakfastEntreesList,breakfastSnackList);
+    allItems.add(breakfastItemsList);
     allItems.add(lunchItemsList);
     allItems.add(dinnerItemsList);
 
     for (List<MealItem> list : allItems) {
-      for (MealItem item : list) {
-        if (item.getAllergensList().contains(filter)) {
-          if (list.contains(item.getName())) {
-            list.remove(item.getName());
-          }
-        }
-      }
+      list.removeIf(item -> item.getAllergensList().contains(filter));
     }
   }
 }
