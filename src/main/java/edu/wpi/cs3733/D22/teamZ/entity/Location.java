@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.entity;
 
 import edu.wpi.cs3733.D22.teamZ.controllers.ISearchable;
+import edu.wpi.cs3733.D22.teamZ.observers.Dashboard3DAlertObserver;
 import edu.wpi.cs3733.D22.teamZ.observers.DashboardBedAlertObserver;
 import edu.wpi.cs3733.D22.teamZ.observers.DirtyBedObserver;
 import edu.wpi.cs3733.D22.teamZ.observers.DirtyPumpObserver;
@@ -20,6 +21,7 @@ public class Location implements ISearchable {
   private List<MedicalEquipment> equipmentList;
   private List<DirtyBedObserver> bedObservers;
   private List<DashboardBedAlertObserver> alertObserver;
+  private List<Dashboard3DAlertObserver> alertObserver3D;
   private List<DirtyPumpObserver> dirtyPumpObservers;
 
   public Location() {}
@@ -45,6 +47,7 @@ public class Location implements ISearchable {
     this.equipmentList = new ArrayList<>();
     this.bedObservers = new ArrayList<>();
     this.alertObserver = new ArrayList<>();
+    this.alertObserver3D = new ArrayList<>();
     this.dirtyPumpObservers = new ArrayList<>();
   }
 
@@ -222,12 +225,21 @@ public class Location implements ISearchable {
     alertObserver.remove(observer);
   }
 
+  public void detachAlertObs3D(Dashboard3DAlertObserver observer) {
+    alertObserver3D.remove(observer);
+  }
+
   public void detachDirtyPumpObservers(DirtyPumpObserver observer) {
     dirtyPumpObservers.remove(observer);
   }
 
   public void attachAlertObs(DashboardBedAlertObserver observer) {
     alertObserver.add(observer);
+    observer.update();
+  }
+
+  public void attachAlert3DObs(Dashboard3DAlertObserver observer) {
+    alertObserver3D.add(observer);
     observer.update();
   }
 }
