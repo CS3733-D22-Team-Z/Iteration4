@@ -71,11 +71,16 @@
                            </VBox.margin></Region>
                         <Region minHeight="-Infinity" styleClass="region-icon">
                            <VBox.margin>
-                              <Insets top="10.0" />
+                              <Insets top="20.0" />
                            </VBox.margin></Region>
                         <Region minHeight="-Infinity" styleClass="region-icon">
                            <VBox.margin>
-                              <Insets top="50.0" />
+                              <Insets top="45.0" />
+                           </VBox.margin>
+                        </Region>
+                        <Region minHeight="-Infinity" styleClass="region-icon">
+                           <VBox.margin>
+                              <Insets top="15.0" />
                            </VBox.margin>
                         </Region>
                         <Region minHeight="-Infinity" styleClass="region-icon" translateY="9.0" />
@@ -103,7 +108,12 @@
                         </MFXButton>
                         <MFXButton alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" onAction="#toMedicalEquipmentRequest" prefHeight="70.0" prefWidth="97.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Service Requests List" translateY="10.0" wrapText="true">
                            <VBox.margin>
-                              <Insets bottom="2.0" left="60.0" />
+                              <Insets bottom="20.0" left="60.0" />
+                           </VBox.margin>
+                        </MFXButton>
+                        <MFXButton alignment="CENTER" onAction="#toEmployeePage" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Employees">
+                           <VBox.margin>
+                              <Insets left="52.0" />
                            </VBox.margin>
                         </MFXButton>
                         <MFXButton alignment="CENTER" onAction="#toAbout" prefHeight="38.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="About" translateY="13.0">
@@ -153,16 +163,21 @@
                         </Rectangle>
                         <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" translateY="10.0" visible="false" width="8.0">
                            <VBox.margin>
-                              <Insets top="15.0" />
+                              <Insets top="25.0" />
                            </VBox.margin></Rectangle>
                         <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" translateY="23.0" visible="false" width="8.0">
+                           <VBox.margin>
+                              <Insets top="46.0" />
+                           </VBox.margin>
+                        </Rectangle>
+                        <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" width="8.0">
                            <VBox.margin>
                               <Insets top="50.0" />
                            </VBox.margin>
                         </Rectangle>
                         <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" width="8.0">
                            <VBox.margin>
-                              <Insets top="45.0" />
+                              <Insets top="20.0" />
                            </VBox.margin>
                         </Rectangle>
                      </children>
