@@ -1,8 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import static javafx.scene.paint.Color.GREEN;
-import static javafx.scene.paint.Color.RED;
-
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -20,6 +17,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+
+import static javafx.scene.paint.Color.*;
 
 public class MealServiceController extends ServiceRequestController {
 
@@ -629,178 +628,43 @@ public class MealServiceController extends ServiceRequestController {
     // All Day
 
     allMenuItems.add(new MealItem("Water", "Drink", allDayTimeList, noneAllergyList));
-
-    MealItem Coffee = new MealItem();
-    Coffee.setName("Coffee");
-    Coffee.setCategory("Drink");
-    Coffee.setTimeOfDayList(allDayTimeList);
-    Coffee.setAllergensList(noneAllergyList);
-    allMenuItems.add(Coffee);
-
-    MealItem Tea = new MealItem();
-    Tea.setName("Tea");
-    Tea.setCategory("Drink");
-    Tea.setTimeOfDayList(allDayTimeList);
-    Tea.setAllergensList(noneAllergyList);
-    allMenuItems.add(Tea);
+    allMenuItems.add(new MealItem("Coffee", "Drink", allDayTimeList, noneAllergyList));
+    allMenuItems.add(new MealItem("Tee", "Drink", allDayTimeList, noneAllergyList));
 
     // Breakfast
 
-    MealItem AppleJuice = new MealItem();
-    AppleJuice.setName("Apple Juice");
-    AppleJuice.setCategory("Drink");
-    AppleJuice.setTimeOfDayList(allDayTimeList);
-    AppleJuice.setAllergensList(noneAllergyList);
-    allMenuItems.add(AppleJuice);
-
-    MealItem OrangeJuice = new MealItem();
-    OrangeJuice.setName("Orange Juice");
-    OrangeJuice.setCategory("Drink");
-    OrangeJuice.setTimeOfDayList(breakfastTimeList);
-    OrangeJuice.setAllergensList(noneAllergyList);
-    allMenuItems.add(OrangeJuice);
-
-    MealItem CranberryJuice = new MealItem();
-    CranberryJuice.setName("Cranberry Juice");
-    CranberryJuice.setCategory("Drink");
-    CranberryJuice.setTimeOfDayList(breakfastTimeList);
-    CranberryJuice.setAllergensList(noneAllergyList);
-    allMenuItems.add(CranberryJuice);
-
+    allMenuItems.add(new MealItem("Apple Juice", "Drink", breakfastTimeList, noneAllergyList));
+    allMenuItems.add(new MealItem("Orange Juice", "Drink", breakfastTimeList, noneAllergyList));
+    allMenuItems.add(new MealItem("Cranberry Juice", "Drink", breakfastTimeList, noneAllergyList));
     allMenuItems.add(new MealItem("Belgian Waffle", "Entree", breakfastTimeList, dairyEggWheatAllergenList));
-
-    MealItem Omelette = new MealItem();
-    Omelette.setName("Omelette");
-    Omelette.setCategory("Entree");
-    Omelette.setTimeOfDayList(breakfastTimeList);
-    Omelette.setAllergensList(dairyEggAllergenList);
-    allMenuItems.add(Omelette);
-
-    MealItem Pancakes = new MealItem();
-    Pancakes.setName("Pancakes");
-    Pancakes.setCategory("Entree");
-    Pancakes.setTimeOfDayList(breakfastTimeList);
-    Pancakes.setAllergensList(dairyEggPeanutTreenutWheatAllergenList);
-    allMenuItems.add(Pancakes);
-
-    MealItem AppleSauce = new MealItem();
-    AppleSauce.setName("Apple Sauce");
-    AppleSauce.setCategory("Snack");
-    AppleSauce.setTimeOfDayList(breakfastTimeList);
-    AppleSauce.setAllergensList(noneAllergyList);
-    allMenuItems.add(AppleSauce);
-
-    MealItem BlueberryMuffin = new MealItem();
-    BlueberryMuffin.setName("Blueberry Muffin");
-    BlueberryMuffin.setCategory("Snack");
-    BlueberryMuffin.setTimeOfDayList(breakfastTimeList);
-    BlueberryMuffin.setAllergensList(dairyEggWheatAllergenList);
-    allMenuItems.add(BlueberryMuffin);
-
-    MealItem FruitBowl = new MealItem();
-    FruitBowl.setName("Fruit Bowl");
-    FruitBowl.setCategory("Snack");
+    allMenuItems.add(new MealItem("Omelette", "Entree", breakfastTimeList, dairyEggAllergenList));
+    allMenuItems.add(new MealItem("Pancakes", "Entree", breakfastTimeList, dairyEggPeanutTreenutWheatAllergenList));
+    allMenuItems.add(new MealItem("Apple Sauce", "Snack", breakfastTimeList, noneAllergyList));
+    allMenuItems.add(new MealItem("Blueberry Muffin", "Snack", breakfastTimeList, dairyEggWheatAllergenList));
     List<String> fruitBowlCategoryList = new ArrayList<>();
     fruitBowlCategoryList.add("Breakfast");
     fruitBowlCategoryList.add("Lunch");
-    FruitBowl.setTimeOfDayList(fruitBowlCategoryList);
-    FruitBowl.setAllergensList(noneAllergyList);
-    allMenuItems.add(FruitBowl);
+    allMenuItems.add(new MealItem("Blueberry Muffin", "Snack", fruitBowlCategoryList, dairyEggWheatAllergenList));
 
     // Lunch
 
-    MealItem CaesarSalad = new MealItem();
-    CaesarSalad.setName("Caesar Salad");
-    CaesarSalad.setCategory("Snack");
-    CaesarSalad.setTimeOfDayList(lunchTimeList);
-    CaesarSalad.setAllergensList(noneAllergyList);
-    allMenuItems.add(CaesarSalad);
-
-    MealItem Cheeseburger = new MealItem();
-    Cheeseburger.setName("Cheeseburger");
-    Cheeseburger.setCategory("Entree");
-    Cheeseburger.setTimeOfDayList(lunchTimeList);
-    Cheeseburger.setAllergensList(dairySoyWheatAllergenList);
-    allMenuItems.add(Cheeseburger);
-
-    MealItem ChickenSandwich = new MealItem();
-    ChickenSandwich.setName("Chicken Sandwich");
-    ChickenSandwich.setCategory("Entree");
-    ChickenSandwich.setTimeOfDayList(lunchTimeList);
-    ChickenSandwich.setAllergensList(peanutTreenutSoyShellfishAllergenList);
-    allMenuItems.add(ChickenSandwich);
-
-    MealItem CornBread = new MealItem();
-    CornBread.setName("Corn Bread");
-    CornBread.setCategory("Snack");
-    CornBread.setTimeOfDayList(lunchTimeList);
-    CornBread.setAllergensList(soyWheatAllergenList);
-    allMenuItems.add(CornBread);
-
+    allMenuItems.add(new MealItem("Caesar Salad", "Entree", lunchTimeList, noneAllergyList));
+    allMenuItems.add(new MealItem("Cheeseburger", "Entree", lunchTimeList, dairySoyWheatAllergenList));
+    allMenuItems.add(new MealItem("Chicken Sandwich", "Entree", lunchTimeList, peanutTreenutSoyShellfishAllergenList));
+    allMenuItems.add(new MealItem("Corn Bread", "Snack", lunchTimeList, soyWheatAllergenList));
     // Fruit bowl added
+    allMenuItems.add(new MealItem("Pretzel", "Snack", lunchTimeList, wheatAllergenList));
 
-    MealItem Pretzel = new MealItem();
-    Pretzel.setName("Pretzel");
-    Pretzel.setCategory("Snack");
-    Pretzel.setTimeOfDayList(lunchTimeList);
-    Pretzel.setAllergensList(wheatAllergenList);
-    allMenuItems.add(Pretzel);
+    // Dinner
 
-    MealItem CocaCola = new MealItem();
-    CocaCola.setName("Coca Cola");
-    CocaCola.setCategory("Drink");
-    CocaCola.setTimeOfDayList(dinnerTimeList);
-    CocaCola.setAllergensList(noneAllergyList);
-    allMenuItems.add(CocaCola);
-
-    MealItem Sprite = new MealItem();
-    Sprite.setName("Sprite");
-    Sprite.setCategory("Drink");
-    Sprite.setTimeOfDayList(dinnerTimeList);
-    Sprite.setAllergensList(noneAllergyList);
-    allMenuItems.add(Sprite);
-
-    MealItem CheesePizza = new MealItem();
-    CheesePizza.setName("Cheese Pizza");
-    CheesePizza.setCategory("Entree");
-    CheesePizza.setTimeOfDayList(dinnerTimeList);
-    CheesePizza.setAllergensList(dairyWheatAllergenList);
-    allMenuItems.add(CheesePizza);
-
-    MealItem ChickenParm = new MealItem();
-    ChickenParm.setName("Chicken Parm");
-    ChickenParm.setCategory("Entree");
-    ChickenParm.setTimeOfDayList(dinnerTimeList);
-    ChickenParm.setAllergensList(dairySoyWheatAllergenList);
-    allMenuItems.add(ChickenParm);
-
-    MealItem SpaghettiAndMeatballs = new MealItem();
-    SpaghettiAndMeatballs.setName("Spaghetti and Meatballs");
-    SpaghettiAndMeatballs.setCategory("Entree");
-    SpaghettiAndMeatballs.setTimeOfDayList(dinnerTimeList);
-    SpaghettiAndMeatballs.setAllergensList(dairyEggWheatAllergenList);
-    allMenuItems.add(SpaghettiAndMeatballs);
-
-    MealItem Brownie = new MealItem();
-    Brownie.setName("Brownie");
-    Brownie.setCategory("Snack");
-    Brownie.setTimeOfDayList(dinnerTimeList);
-    Brownie.setAllergensList(eggSoyAllergenList);
-    allMenuItems.add(Brownie);
-
-    MealItem ChocolateChipCookie = new MealItem();
-    ChocolateChipCookie.setName("Chocolate Chip Cookie");
-    ChocolateChipCookie.setCategory("Snack");
-    ChocolateChipCookie.setTimeOfDayList(dinnerTimeList);
-    ChocolateChipCookie.setAllergensList(noneAllergyList);
-    allMenuItems.add(ChocolateChipCookie);
-
-    MealItem Tiramisu = new MealItem();
-    Tiramisu.setName("Tiramisu");
-    Tiramisu.setCategory("Snack");
-    Tiramisu.setTimeOfDayList(dinnerTimeList);
-    Tiramisu.setAllergensList(dairyEggWheatAllergenList);
-    allMenuItems.add(Tiramisu);
+    allMenuItems.add(new MealItem("Coca Cola", "Drink", dinnerTimeList, noneAllergyList));
+    allMenuItems.add(new MealItem("Sprite", "Drink", dinnerTimeList, noneAllergyList));
+    allMenuItems.add(new MealItem("Cheese Pizza", "Entree", dinnerTimeList, dairyWheatAllergenList));
+    allMenuItems.add(new MealItem("Chicken Parm", "Entree", dinnerTimeList, dairySoyWheatAllergenList));
+    allMenuItems.add(new MealItem("Spaghetti and Meatballs", "Entree", dinnerTimeList, dairyEggWheatAllergenList));
+    allMenuItems.add(new MealItem("Brownie", "Snack", dinnerTimeList, eggSoyAllergenList));
+    allMenuItems.add(new MealItem("Chocolate Chip Cookie", "Snack", dinnerTimeList, noneAllergyList));
+    allMenuItems.add(new MealItem("Tiramisu", "Snack", dinnerTimeList, noneAllergyList));
 
     populateFoodLists();
   }
