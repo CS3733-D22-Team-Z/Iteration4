@@ -4,6 +4,8 @@ import edu.wpi.cs3733.D22.teamZ.apiFacades.ExternalTransportFacadeAPI;
 import edu.wpi.cs3733.D22.teamZ.apiFacades.FacilityMaintenanceFacadeAPI;
 import edu.wpi.cs3733.D22.teamZ.apiFacades.InternalTransportFacadeAPI;
 import java.io.IOException;
+
+import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -12,6 +14,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.SVGPath;
 
 public class APILandingPageController implements IMenuAccess {
+  @FXML private MFXToggleButton toggleNames;
   @FXML private Region externalRegionFM;
   @FXML private Label teamCLabel;
   @FXML private Region externalRegionIPT;
@@ -90,5 +93,12 @@ public class APILandingPageController implements IMenuAccess {
   private void toFacilityMaintenanceRequest() {
     System.out.println("navigating to security from api landing page");
     FacilityMaintenanceFacadeAPI.getInstance().run(apiCSSPath);
+  }
+
+  public void showNameLabels() {
+    boolean set = toggleNames.isSelected();
+    teamZLabel.setVisible(set);
+    teamBLabel.setVisible(set);
+    teamCLabel.setVisible(set);
   }
 }
