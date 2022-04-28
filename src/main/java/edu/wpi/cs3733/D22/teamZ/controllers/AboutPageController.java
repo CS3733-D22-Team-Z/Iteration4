@@ -64,6 +64,7 @@ public class AboutPageController implements IMenuAccess {
     toggleNeha.setMainColor(Color.rgb(0, 103, 177));
     toggleOlivia.setMainColor(Color.rgb(0, 103, 177));
     togglePatrick.setMainColor(Color.rgb(0, 103, 177));
+    toggleNelson.setMainColor(Color.rgb(0, 103, 177));
 
     mayaNFTImage.setVisible(false);
     mayaLabel.setVisible(false);
