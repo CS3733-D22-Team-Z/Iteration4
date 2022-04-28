@@ -2,7 +2,9 @@ package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
+import edu.wpi.cs3733.D22.teamZ.entity.Employee;
 import edu.wpi.cs3733.D22.teamZ.entity.MealServiceRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.ServiceRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.io.IOException;
@@ -28,13 +30,17 @@ public class MealServiceListController implements Initializable, IMenuAccess {
   @FXML private MFXButton backToRequestPage;
   // Button that re-fetches requests and refreshes table.
   @FXML private MFXButton refreshButton;
+  @FXML private MFXButton editButton;
 
   // Buttons to select the sorting/filter parameters.
-  @FXML private HBox sortingButtons;
+  @FXML private MFXButton idButton;
+  @FXML private MFXButton statusButton;
+  @FXML private MFXButton locationButton;
 
   // Selector button stuff
   private MFXButton lastButtonPressed;
   private List<String> prevCSS;
+  @FXML private HBox sortingButtons;
 
   // Drop-down box that selects which data type to filter by.
   @FXML private ComboBox<String> filterCBox;
@@ -52,28 +58,38 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
   // List of identifiers for each
   private final String[] identifiers = {
-    "ID", "Meal Type", "Issuer", "Handler", "Status", "Target Location" // change
+    "ID", "PatientID", "Location", "Assignee", "Handler", "Status", "Meal", "Allergen"
   };
 
   // Columns to be represented by the table
   private final List<String> visibleColumns =
-      List.of("ID", "Meal Type", "Status", "Issuer"); // change
+      List.of("ID", "Location", "Status", "Issuer", "Meal", "Allergen"); // change
 
   // Retriever functions. Correspond to visible columns.
   private final List<RequestRowFunc> retrievers =
-      List.of(row -> row.id, row -> row.mealType, row -> row.status, row -> row.issuer);
+      List.of(
+          row -> row.id,
+          row -> row.location,
+          row -> row.status,
+          row -> row.issuer,
+          row -> row.meal,
+          row -> row.allergen);
 
   private final List<RequestFunc> detailRetrievers =
       List.of(
-          request -> request.getRequestID(),
-          request -> request.getEntree(),
+          ServiceRequest::getRequestID,
+          MealServiceRequest::getEntree,
           request -> request.getIssuer().getDisplayName(),
           request -> {
             if (request.getHandler() != null) return request.getHandler().getDisplayName();
             else return "";
           },
           request -> request.getStatus().toString(),
-          request -> request.getTargetLocation().getLongName());
+          request -> request.getTargetLocation().getShortName(),
+          request ->
+              (request.getDrink() + "\n" + request.getEntree() + "\n" + request.getSnack())
+                  .replace('_', ' '),
+          request -> request.getAllergen().replace(',', '\n').replace("[", "").replace("]", ""));
 
   // List of requests that represents raw data
   private List<MealServiceRequest> rawRequests; // change
@@ -116,13 +132,27 @@ public class MealServiceListController implements Initializable, IMenuAccess {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    Employee.AccessType accessType = MenuController.getLoggedInUser().getAccesstype();
+    if (!accessType.equals(Employee.AccessType.ADMIN)) {
+      editButton.setVisible(false);
+      editButton.setDisable(true);
+    }
+
     // Create labels for field values
     for (String identifier : identifiers) {
-      Label ID = new Label();
-      ID.setText(identifier);
+      if (identifier.equals("Drink")) {
+        Label ID = new Label();
+        ID.setText("Meal");
+      } else if (identifier.equals("Entree") || identifier.equals("Snack")) {
+      } else {
+        Label ID = new Label();
+        ID.setText(identifier);
+      }
     }
 
     // Setup details window
+    //    int sWidth = 176 / 2;
+    int sWidth = (int) statusTable.getPrefWidth() / 2;
     // double width = statusTable.getPrefWidth() / 2;
     statusTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -235,7 +265,10 @@ public class MealServiceListController implements Initializable, IMenuAccess {
               detailRetrievers.get(0).call(request),
               detailRetrievers.get(1).call(request),
               detailRetrievers.get(2).call(request),
-              detailRetrievers.get(4).call(request)));
+              detailRetrievers.get(4).call(request),
+              detailRetrievers.get(5).call(request),
+              detailRetrievers.get(6).call(request),
+              detailRetrievers.get(7).call(request)));
     }
 
     tableContainer.setItems(requests);
@@ -317,12 +350,25 @@ public class MealServiceListController implements Initializable, IMenuAccess {
     SimpleStringProperty mealType;
     SimpleStringProperty issuer;
     SimpleStringProperty status;
+    SimpleStringProperty location;
+    SimpleStringProperty meal; // = drink + entree + snack;
+    SimpleStringProperty allergen;
 
-    public RequestRow(String newId, String newType, String newIssuer, String newStatus) {
+    public RequestRow(
+        String newId,
+        String newType,
+        String newIssuer,
+        String newStatus,
+        String newLocation,
+        String newMeal,
+        String newAllergen) {
       id = new SimpleStringProperty(newId);
       mealType = new SimpleStringProperty(newType);
       issuer = new SimpleStringProperty(newIssuer);
       status = new SimpleStringProperty(newStatus);
+      location = new SimpleStringProperty(newLocation);
+      meal = new SimpleStringProperty(newMeal);
+      allergen = new SimpleStringProperty(newAllergen);
     }
 
     /**
@@ -341,6 +387,12 @@ public class MealServiceListController implements Initializable, IMenuAccess {
           return issuer.get();
         case "Status":
           return status.get();
+        case "Meal":
+          return meal.get();
+        case "Allergen":
+          return allergen.get();
+        case "Location":
+          return location.get();
         default:
           return "";
       }

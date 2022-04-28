@@ -43,7 +43,7 @@ public class GiftServicesController extends ServiceRequestController {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     menuName = "Gift Services";
-    roomList = database.getALlLocationsByType("PATI");
+    roomList = database.getAllLocationsByType("PATI");
     roomNumbers = roomList.stream().map(Location::getLongName).collect(Collectors.toList());
     roomNumberNames = FXCollections.observableList(roomNumbers);
     roomNumberNames.add(0, "");

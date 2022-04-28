@@ -47,7 +47,7 @@ public class LanguageInterpreterController extends ServiceRequestController {
 
     menuName = "Language Interpreter Request";
 
-    roomList = database.getALlLocationsByType("PATI");
+    roomList = database.getAllLocationsByType("PATI");
     roomNumbers = roomList.stream().map(loc -> loc.getLongName()).collect(Collectors.toList());
     roomNumberNames = FXCollections.observableList(roomNumbers);
     roomNumberNames.add(0, "");
