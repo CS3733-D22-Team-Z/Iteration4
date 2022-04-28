@@ -4,6 +4,7 @@ import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 public class AboutPageController implements IMenuAccess {
   private MenuController menu;
@@ -53,6 +54,17 @@ public class AboutPageController implements IMenuAccess {
   }
 
   public void initialize() {
+    toggleMaya.setMainColor(Color.rgb(0, 103, 177));
+    toggleAlex.setMainColor(Color.rgb(0, 103, 177));
+    toggleAndrew.setMainColor(Color.rgb(0, 103, 177));
+    toggleCasey.setMainColor(Color.rgb(0, 103, 177));
+    toggleClaire.setMainColor(Color.rgb(0, 103, 177));
+    toggleDaniel.setMainColor(Color.rgb(0, 103, 177));
+    toggleJake.setMainColor(Color.rgb(0, 103, 177));
+    toggleNeha.setMainColor(Color.rgb(0, 103, 177));
+    toggleOlivia.setMainColor(Color.rgb(0, 103, 177));
+    togglePatrick.setMainColor(Color.rgb(0, 103, 177));
+
     mayaNFTImage.setVisible(false);
     mayaLabel.setVisible(false);
     nelsonNFTImage.setVisible(false);

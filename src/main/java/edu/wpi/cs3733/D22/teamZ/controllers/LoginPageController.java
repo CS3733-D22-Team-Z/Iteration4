@@ -52,11 +52,7 @@ public class LoginPageController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = FacadeDAO.getInstance();
-    try {
-      checkReader();
-    } catch (CardException e) {
-      e.printStackTrace();
-    }
+    checkReader();
   }
 
   /**
@@ -196,11 +192,16 @@ public class LoginPageController implements Initializable {
     }
   }
 
-  private void checkReader() throws CardException {
+  private void checkReader() {
     NFCCardReaderController obj = new NFCCardReaderController();
-    obj.initialize();
-    if (obj.getUid() == null) {
-      System.out.println("no card reader");
+    try {
+      obj.initialize();
+      if (obj.getUid() == null) {
+        System.out.println("no card reader");
+        loginIDButton.setDisable(true);
+      }
+    } catch (CardException e) {
+      System.out.println("error getting card reader");
       loginIDButton.setDisable(true);
     }
   }
