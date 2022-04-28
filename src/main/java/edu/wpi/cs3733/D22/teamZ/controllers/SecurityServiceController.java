@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
@@ -23,6 +24,9 @@ public class SecurityServiceController extends ServiceRequestController {
   public MFXTextField nodeIdField;
   public Label errorLabel;
   public MFXButton submitButton;
+  @FXML public Label urgencyFormHeader;
+  @FXML public Label securityReasonFormHeader;
+  @FXML public Label roomNumberFormHeader;
   FacadeDAO facadeDAO = FacadeDAO.getInstance();
 
   @Override
@@ -32,6 +36,7 @@ public class SecurityServiceController extends ServiceRequestController {
     errorLabel.setVisible(false);
 
     menuName = "Security Request";
+    initializeHelpGraphic();
   }
 
   @Override
@@ -81,7 +86,35 @@ public class SecurityServiceController extends ServiceRequestController {
   }
 
   @Override
-  protected void highlightRequirements(boolean visible) {}
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      urgencyFormHeader.getStyleClass().clear();
+      urgencyFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(urgencyFormHeader, "Select the level\nof urgency of issue");
+
+      securityReasonFormHeader.getStyleClass().clear();
+      securityReasonFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(securityReasonFormHeader, "Describe reason for\nsecurity request");
+
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          roomNumberFormHeader, "Enter room number that\nsecurity is needed");
+
+    } else {
+      urgencyFormHeader.getStyleClass().clear();
+      urgencyFormHeader.getStyleClass().add("form-header");
+      urgencyFormHeader.setTooltip(null);
+
+      securityReasonFormHeader.getStyleClass().clear();
+      securityReasonFormHeader.getStyleClass().add("form-header");
+      securityReasonFormHeader.setTooltip(null);
+
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
+    }
+  }
 
   public void onNavigateToRequestList(ActionEvent actionEvent) throws IOException {
     menu.selectMenu(1);
