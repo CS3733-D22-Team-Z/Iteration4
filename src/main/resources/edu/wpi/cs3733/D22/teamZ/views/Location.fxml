@@ -84,7 +84,7 @@
                      </font>
                   </Label>
                   <ChoiceBox fx:id="changeFloor" layoutX="18.0" layoutY="75.0" prefHeight="60.0" prefWidth="347.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 4;" styleClass="mfx-combo-box" />
-                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="421.0" onAction="#addLocationButtonClicked" prefHeight="63.0" prefWidth="352.0" rippleColor="#0c4ee7" style="-fx-font-size: 29; -fx-background-radius: 5;" text="Add Location">
+                  <MFXButton fx:id="addLocationButton" alignment="CENTER" layoutX="13.0" layoutY="421.0" onAction="#addLocationButtonClicked" prefHeight="63.0" prefWidth="352.0" rippleColor="#0c4ee7" style="-fx-font-size: 26; -fx-background-radius: 5; -fx-font-family: sansSerif; -fx-font-weight: 700;" text="Add Location">
                      <graphic>
                         <ImageView fitHeight="31.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
                            <image>
@@ -101,7 +101,7 @@
                         <Font size="11.0" />
                      </font></MFXButton>
                   <MFXCheckbox fx:id="fromLock" gap="20.0" layoutX="20.0" layoutY="935.0" onAction="#enableFromLock" style="-fx-font-size: 22;" text="From" textFill="#727272" />
-                  <MFXCheckbox fx:id="toLock" gap="20.0" layoutX="20.0" layoutY="883.0" onAction="#enableToLock" style="-fx-font-size: 22;" text="To" textFill="#727272" />
+                  <MFXCheckbox fx:id="toLock" gap="20.0" layoutX="20.0" layoutY="883.0" onAction="#enableToLock" style="-fx-font-size: 22;" styleClass="mfx-checkbox" text="To" textFill="#727272" />
                   <Label fx:id="fromLabel" layoutX="124.0" layoutY="935.0" prefHeight="32.0" prefWidth="249.0" style="-fx-font-size: 22;" text="Label" textFill="#727272" visible="false" />
                   <Label fx:id="toLabel" layoutX="93.0" layoutY="884.0" prefHeight="32.0" prefWidth="243.0" style="-fx-font-size: 22;" text="Label" textFill="#727272" visible="false" />
                   <MFXButton layoutX="13.0" layoutY="335.0" onAction="#importFromCSV" prefHeight="63.0" prefWidth="352.0" style="-fx-background-radius: 4;" styleClass="button-inv" text="Import CSV" />

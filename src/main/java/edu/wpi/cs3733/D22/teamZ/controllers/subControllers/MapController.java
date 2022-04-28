@@ -49,7 +49,7 @@ public class MapController implements Initializable {
   FacadeDAO database;
 
   // Paths
-  private final String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
+  public static String mapPath = "edu/wpi/cs3733/D22/teamZ/images/%s.png";
 
   // Specific attributes
   private ClassLoader loader;
@@ -212,7 +212,7 @@ public class MapController implements Initializable {
             activeLabel = (MapLabel) clickedNode;
             activeLabel.requestFocus();
           } else {
-            if (clickEvent.getClickCount() > 1) {
+            if (clickEvent.getClickCount() > 1 && doubleClicked != null) {
               doubleClicked.call(clickEvent);
             }
           }
@@ -254,11 +254,21 @@ public class MapController implements Initializable {
     iconContainer.getChildren().add(code.getLabel());
   }
 
+  /**
+   * Given a list of locations, adds labels to the map.
+   *
+   * @param visibleLocations the locations that will appear on the map
+   * @param allLocations the locations that should be present, but aren't displayed. Used for
+   *     Voronoi algorithm. Also must contain every visible location
+   * @param genVoronoi if voronoi regions be generated from allLocations. Automatically enables
+   *     snapping
+   * @param graphicMethod the method for setting the graphic
+   */
   public void setLabels(
       List<Location> visibleLocations,
       List<Location> allLocations,
       boolean genVoronoi,
-      String img,
+      LabelMethod graphicMethod,
       ObservableList<HospitalCode> codes) {
     // Reset everything
     currentLabels.clear();
@@ -327,13 +337,7 @@ public class MapController implements Initializable {
                 });
 
         // Add graphic
-        Image locationImg = new Image(String.format(mapPath, img));
-        ImageView locationIcon = new ImageView(locationImg);
-        label.setGraphic(locationIcon);
-
-        // Shift label so the bottom tip is on the exact layout
-        label.setTranslateX(-locationImg.getWidth() / 2);
-        label.setTranslateY(-locationImg.getHeight());
+        graphicMethod.call(label);
       }
 
       allLabels.add(label);
@@ -510,5 +514,13 @@ public class MapController implements Initializable {
     } else {
       scroller.setHvalue(scroller.getHmin());
     }
+  }
+
+  public static LabelMethod loadImage(String img) {
+    return loc -> {
+      Image labelGraphic = new Image(String.format(mapPath, img));
+      ImageView imageCont = new ImageView(labelGraphic);
+      loc.setGraphic(imageCont);
+    };
   }
 }

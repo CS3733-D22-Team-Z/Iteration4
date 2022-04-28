@@ -76,7 +76,7 @@ public class LaundryServiceController extends ServiceRequestController implement
               LaundryServiceRequest.LaundryStatus.DIRTY,
               linenTypeField.getText());
 
-      if (dao.addServiceRequest(temp) && dao.addLaundryServiceRequest(temp)) {
+      if (dao.addLaundryServiceRequest(temp)) {
         successSubmitLabel.setVisible(true);
         errorLabel.setVisible(false);
       } else {

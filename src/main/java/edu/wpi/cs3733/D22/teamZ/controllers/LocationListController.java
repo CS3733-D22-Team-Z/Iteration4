@@ -482,7 +482,12 @@ public class LocationListController implements IMenuAccess {
     if (mode.equals("Locations")) {
 
       // Want all floor locations to be displayed + all locations are draggable anywhere.
-      mapController.setLabels(allFloorLocations, allFloorLocations, false, "location", alertLabels);
+      mapController.setLabels(
+          allFloorLocations,
+          allFloorLocations,
+          false,
+          MapController.loadImage("location"),
+          alertLabels);
       mapController.setIconShift(0);
       mapController.setDraggable(
           (label) -> {
@@ -500,7 +505,11 @@ public class LocationListController implements IMenuAccess {
                   .filter((loc) -> loc.getEquipmentList().size() > 0)
                   .collect(Collectors.toList()));
       mapController.setLabels(
-          locsWithEquip.get(), allFloorLocations, true, "equipment", alertLabels);
+          locsWithEquip.get(),
+          allFloorLocations,
+          true,
+          MapController.loadImage("equipment"),
+          alertLabels);
       mapController.setIconShift(20);
       mapController.setDraggable(
           (label) -> {
@@ -542,7 +551,11 @@ public class LocationListController implements IMenuAccess {
                   .filter((loc) -> facadeDAO.getServiceRequestsByLocation(loc).size() > 0)
                   .collect(Collectors.toList()));
       mapController.setLabels(
-          locsWithServices.get(), locsWithServices.get(), false, "servicerequest", alertLabels);
+          locsWithServices.get(),
+          locsWithServices.get(),
+          false,
+          MapController.loadImage("servicerequest"),
+          alertLabels);
       mapController.setIconShift(0);
     }
     mapController.getIconContainer().getChildren().removeIf(n -> n instanceof Line);
@@ -714,8 +727,9 @@ public class LocationListController implements IMenuAccess {
   void changeToFloor(String nFloor) {
     // Dashboard button stuff
     changeFloor.getSelectionModel().select(nFloor);
-    mapController.setFloor(nFloor);
     showLocations(nFloor);
+    mapController.setFloor(nFloor);
+    // showLocations(nFloor);
   }
 
   @FXML
@@ -1108,7 +1122,7 @@ public class LocationListController implements IMenuAccess {
     Label label = new Label();
     label.setEffect(dropShadow);
     label.setGraphic(icon);
-    label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
+    label.relocate(location.getXcoord() + 20, location.getYcoord() + 20);
     label.setContextMenu(contextMenu);
     String typeString = "Code " + type + " Alert";
     label.setOnMouseClicked(

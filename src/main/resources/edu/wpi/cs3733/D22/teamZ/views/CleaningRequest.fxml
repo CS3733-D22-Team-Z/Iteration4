@@ -42,7 +42,7 @@
       </ChoiceBox>
       <Label layoutX="579.0" layoutY="566.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Current Requests" visible="false" />
       <MFXButton layoutX="1296.0" layoutY="420.0" onAction="#toList" prefHeight="71.0" prefWidth="302.0" styleClass="back-button" text="See Requests" />
-      <MFXTextField fx:id="enterRoomNumber" animated="false" floatMode="DISABLED" layoutX="46.0" layoutY="365.0" onKeyReleased="#validateButton" prefHeight="59.0" prefWidth="369.0" promptText="Enter floor number" styleClass="mfx-text-field">
+      <MFXTextField fx:id="enterRoomNumber" animated="false" floatMode="DISABLED" layoutX="46.0" layoutY="365.0" onKeyReleased="#validateButton" prefHeight="59.0" prefWidth="369.0" promptText="Enter room number" styleClass="mfx-text-field">
          <padding>
             <Insets left="10.0" />
          </padding>
@@ -105,6 +105,6 @@
             <Insets />
          </opaqueInsets>
       </Label>
-      <Region fx:id="helpGraphic" layoutX="343.0" layoutY="31.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
+      <Region fx:id="helpGraphic" layoutX="906.0" layoutY="42.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
    </children>
 </AnchorPane>

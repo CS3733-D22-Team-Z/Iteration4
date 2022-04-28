@@ -191,10 +191,6 @@ public class MenuController implements Initializable {
             toggleMenu();
           }
         });
-
-    menuBar
-        .widthProperty()
-        .addListener(listener -> System.out.println("This shouldn't be doing anything wtF?"));
   }
 
   /**

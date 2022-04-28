@@ -399,7 +399,7 @@
                         </Pane>
                      </graphic>
                   </MFXButton>
-                  <MFXButton prefHeight="130.0" prefWidth="119.0" scaleX="3.0" scaleY="3.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <MFXButton onAction="#navSecurity" prefHeight="130.0" prefWidth="119.0" scaleX="3.0" scaleY="3.0" style="-fx-background-radius: 5; -fx-background-color: #FFFFFF;" styleClass="button-pane" text="hello" textFill="#511313" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                      <effect>
                         <DropShadow>
                            <color>

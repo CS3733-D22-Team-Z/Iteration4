@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
 public class CleaningRequestController extends ServiceRequestController {
+  @FXML private Label successfulSubmitLabel;
   @FXML public Label roomNumberFormHeader;
   @FXML public Label requestFormHeader;
   @FXML public Label floorNumberFormHeader;
@@ -57,19 +58,16 @@ public class CleaningRequestController extends ServiceRequestController {
       e.printStackTrace();
     }
 
-    for (Location model : locationList) {
-      System.out.println(model.getNodeID());
-    }
-
     nodeTypeDropDown.setItems(
         FXCollections.observableArrayList(
             "DEPT", "EXIT", "HALL", "INFO", "LABS", "RETL", "SERV", "STAI", "ELEV", "BATH", "STOR",
             "PATI"));
     // //example
     nodeTypeDropDown.getSelectionModel().select(0);
-    System.out.println(
-        "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
+    // System.out.println("ChoiceBox 1 value" +
+    // nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
+    successfulSubmitLabel.setVisible(false);
     initializeHelpGraphic();
   }
 
@@ -81,6 +79,8 @@ public class CleaningRequestController extends ServiceRequestController {
     submitButton.setDisable(true);
     nodeTypeDropDown.getSelectionModel().select(0);
     validateButton();
+    errorSavingLabel.setVisible(false);
+    successfulSubmitLabel.setVisible(false);
   }
 
   @Override
@@ -125,10 +125,10 @@ public class CleaningRequestController extends ServiceRequestController {
   @FXML
   protected void onSubmitButtonClicked(ActionEvent actionEvent) {
     // Debug
-    System.out.println("Room Number: " + enterRoomNumber.getText());
-    System.out.println("Floor Number: " + enterFloorNumber.getText());
-    System.out.println("nodeType: " + nodeTypeDropDown.getValue());
-    System.out.println("Request: " + enterRequest.getText());
+    // System.out.println("Room Number: " + enterRoomNumber.getText());
+    // System.out.println("Floor Number: " + enterFloorNumber.getText());
+    // System.out.println("nodeType: " + nodeTypeDropDown.getValue());
+    // System.out.println("Request: " + enterRequest.getText());
 
     UniqueID id = new UniqueID();
     String requestID = id.generateID("CLEAN");
@@ -159,6 +159,7 @@ public class CleaningRequestController extends ServiceRequestController {
       database.addCleaningRequest(temp);
 
       errorSavingLabel.setVisible(false);
+      successfulSubmitLabel.setVisible(true);
     }
   }
 
@@ -171,7 +172,6 @@ public class CleaningRequestController extends ServiceRequestController {
       submitButton.setDisable(false);
     } else {
       submitButton.setDisable(true);
-      System.out.println("Cleaning Request Submit Button disabled");
     }
   }
 

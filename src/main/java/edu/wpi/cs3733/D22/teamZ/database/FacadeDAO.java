@@ -1441,6 +1441,126 @@ public class FacadeDAO {
     return medicalEquipmentDAO.countCleanEquipmentByFloor(floor);
   }
 
+  /**
+   * Get the number of dirty beds for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty beds
+   */
+  public int countDirtyBedsByFloor(String floor) {
+    return medicalEquipmentDAO.countDirtyBedsByFloor(floor);
+  }
+
+  /**
+   * Get the number of clean beds for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of clean beds
+   */
+  public int countCleanBedsByFloor(String floor) {
+    return medicalEquipmentDAO.countCleanBedsByFloor(floor);
+  }
+
+  /**
+   * Get the number of in use beds for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of in use beds
+   */
+  public int countInUseBedsByFloor(String floor) {
+    return medicalEquipmentDAO.countInUseBedsByFloor(floor);
+  }
+
+  /**
+   * Get the number of dirty IPumps for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty IPumps
+   */
+  public int countDirtyIPumpsByFloor(String floor) {
+    return medicalEquipmentDAO.countDirtyIPumpsByFloor(floor);
+  }
+
+  /**
+   * Get the number of clean IPumps for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of clean IPumps
+   */
+  public int countCleanIPumpsByFloor(String floor) {
+    return medicalEquipmentDAO.countCleanIPumpsByFloor(floor);
+  }
+
+  /**
+   * Get the number of in use IPumps for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of in use IPumps
+   */
+  public int countInUseIPumpsByFloor(String floor) {
+    return medicalEquipmentDAO.countInUseIPumpsByFloor(floor);
+  }
+
+  /**
+   * Get the number of dirty Recliners for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty Recliners
+   */
+  public int countDirtyReclinersByFloor(String floor) {
+    return medicalEquipmentDAO.countDirtyReclinersByFloor(floor);
+  }
+
+  /**
+   * Get the number of clean Recliners for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of clean Recliners
+   */
+  public int countCleanReclinersByFloor(String floor) {
+    return medicalEquipmentDAO.countCleanReclinersByFloor(floor);
+  }
+
+  /**
+   * Get the number of in use Recliners for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of in use Recliners
+   */
+  public int countInUseReclinersByFloor(String floor) {
+    return medicalEquipmentDAO.countInUseReclinersByFloor(floor);
+  }
+
+  /**
+   * Get the number of dirty XRays for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of dirty XRays
+   */
+  public int countDirtyXRaysByFloor(String floor) {
+    return medicalEquipmentDAO.countDirtyXRaysByFloor(floor);
+  }
+
+  /**
+   * Get the number of clean RXays for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of clean XRays
+   */
+  public int countCleanXRaysByFloor(String floor) {
+    return medicalEquipmentDAO.countCleanXRaysByFloor(floor);
+  }
+
+  /**
+   * Get the number of in use RXays for the specified floor
+   *
+   * @param floor floor to be searched
+   * @return number of clean XRays
+   */
+  public int countInUseXRaysByFloor(String floor) {
+    return medicalEquipmentDAO.countInUseXRaysByFloor(floor);
+  }
+
   // Special methods for employee
   /**
    * Gets ONE Employee from the database based on the provided Username
@@ -1503,6 +1623,10 @@ public class FacadeDAO {
 
   public void addLaundryServiceRequestToDatabase(LaundryServiceRequest info) {
     laundryServiceRequestDAO.addLaundryServiceRequest(info);
+  }
+
+  public void addComputerServiceRequestToDatabase(ComputerServiceRequest info) {
+    computerRequestDAO.addComputerServiceRequest(info);
   }
 
   // Special methods for medical equipment requests
