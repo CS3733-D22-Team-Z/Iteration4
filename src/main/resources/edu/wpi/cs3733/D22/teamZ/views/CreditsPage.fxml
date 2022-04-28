@@ -22,7 +22,9 @@
       <Label layoutX="1039.0" layoutY="320.0" prefHeight="101.0" prefWidth="401.0" styleClass="object-body2" text="SLF4J" />
       <Label layoutX="1479.0" layoutY="320.0" prefHeight="101.0" prefWidth="401.0" styleClass="object-body" text="1.7.30" />
       <Line endY="310.0" layoutX="1439.0" layoutY="404.0" startX="1.1427001953125" startY="-224.1470947265625" />
-      <Label layoutX="1039.0" layoutY="458.0" prefHeight="101.0" prefWidth="401.0" styleClass="object-body2" text="Kynosarges Tektosyne" />
-      <Label layoutX="1479.0" layoutY="455.0" prefHeight="101.0" prefWidth="401.0" styleClass="object-body" text="6.2.0" />
+      <Label layoutX="1039.0" layoutY="470.0" prefHeight="101.0" prefWidth="401.0" styleClass="object-body2" text="Kynosarges Tektosyne" />
+      <Label layoutX="1479.0" layoutY="470.0" prefHeight="101.0" prefWidth="401.0" styleClass="object-body" text="6.2.0" />
+      <Label layoutX="1039.0" layoutY="620.0" prefHeight="101.0" prefWidth="401.0" styleClass="object-body2" text="Obj ModelImporter JFX" />
+      <Label layoutX="1479.0" layoutY="620.0" prefHeight="101.0" prefWidth="401.0" styleClass="object-body" text="0.8" />
    </children>
 </AnchorPane>
