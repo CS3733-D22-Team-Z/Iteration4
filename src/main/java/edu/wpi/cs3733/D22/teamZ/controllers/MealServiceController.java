@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import static javafx.scene.paint.Color.*;
+
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -17,8 +19,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-
-import static javafx.scene.paint.Color.*;
 
 public class MealServiceController extends ServiceRequestController {
 
@@ -80,7 +80,6 @@ public class MealServiceController extends ServiceRequestController {
   List<MealItem> entreeItemsList = new ArrayList<>();
   List<MealItem> snackItemsList = new ArrayList<>();
 
-
   private ObservableList<String> currReq = FXCollections.observableList(new ArrayList<>());
 
   private final String toMealServiceRequestListURL =
@@ -123,8 +122,6 @@ public class MealServiceController extends ServiceRequestController {
     roomNumberFormHeader.setText("Room Number");
 
     mealRequestIndicator.setText(""); // Clear base error message label
-
-    validateTime(); // Check the time and update meal options based on the hour
 
     //    locationList =
     //        instanceDAO.getAllLocations().stream()
@@ -195,11 +192,14 @@ public class MealServiceController extends ServiceRequestController {
       roomList.add(model.getShortName().substring(model.getShortName().length() - 4));
     }
     //    roomNumberDropDown.setItems(FXCollections.observableArrayList(roomList));
-    mealOptionDropDown.setItems(FXCollections.observableArrayList("BREAKFAST", "LUNCH", "DINNER"));
+    mealOptionDropDown.setItems(
+        FXCollections.observableList(List.of("Breakfast", "Lunch", "Dinner")));
     //    orderStatusDropDown.setItems(
     //        FXCollections.observableArrayList("IN PROGRESS", "PROCESSING", "COMPLETED"));
     //    orderStatusDropDown.setValue("IN PROGRESS");
     //    currReqLabel.setText("");
+
+    validateTime(); // Check the time and update meal options based on the hour
 
     /**
      * Food Item Reference for Allergens TODO: Make food items as objects with attributes. Either
@@ -232,7 +232,7 @@ public class MealServiceController extends ServiceRequestController {
      * Spaghetti & Meatballs .... Egg, Dairy, Wheat -Side: Brownie .................. Egg,Soy
      * Chocolate Chip Cookie .... none Tiramisu ................. Egg,Dairy,Wheat
      */
-    //resetMealTimeLists(); // clear and add "none" to time-category lists
+    // resetMealTimeLists(); // clear and add "none" to time-category lists
     loadFoodItems(); // add food items to time-category lists
 
     // Before MealItem was an object:
@@ -265,7 +265,7 @@ public class MealServiceController extends ServiceRequestController {
     patientIDDropDown.setValue(null);
     patientNameDropDown.setValue(null);
     roomNumberDropDown.setValue(null);
-    mealOptionDropDown.setValue(null);
+    // mealOptionDropDown.setValue(null);
     drinkOptionDropDown.setValue(null);
     entreeOptionDropDown.setValue(null);
     snackOptionDropDown.setValue(null);
@@ -274,7 +274,7 @@ public class MealServiceController extends ServiceRequestController {
     //    patientIDDropDown.setOnAction(event -> validateButton());
     //    patientNameDropDown.setOnAction(event -> validateButton());
     //    roomNumberDropDown.setOnAction(event -> validateButton());
-    mealOptionDropDown.setOnAction(event -> validateButton());
+    // mealOptionDropDown.setOnAction(event -> validateButton());
     drinkOptionDropDown.setOnAction(event -> validateButton());
     entreeOptionDropDown.setOnAction(event -> validateButton());
     snackOptionDropDown.setOnAction(event -> validateButton());
@@ -282,36 +282,93 @@ public class MealServiceController extends ServiceRequestController {
     // TODO: Fix recursion
     // Handle event when a drop-down selection changes
     patientIDDropDown.setOnAction(event -> updatePatientID());
-    patientNameDropDown.setOnAction(event -> updatePatientName());
-    roomNumberDropDown.setOnAction(event -> updatePatientRoom());
+    // patientNameDropDown.setOnAction(event -> updatePatientName());
+    // roomNumberDropDown.setOnAction(event -> updatePatientRoom());
 
     // Handle event when an allergy choice is changed
-    dairyChoice.setOnAction(event -> updateDairyChoice());
-    eggChoice.setOnAction(event -> updateEggChoice());
-    peanutChoice.setOnAction(event -> updatePeanutChoice());
-    treenutChoice.setOnAction(event -> updateTreenutChoice());
-    soyChoice.setOnAction(event -> updateSoyChoice());
-    wheatChoice.setOnAction(event -> updateWheatChoice());
-    fishChoice.setOnAction(event -> updateFishChoice());
-    shellfishChoice.setOnAction(event -> updateShellfishChoice());
+    dairyChoice.setOnAction(
+        evt -> {
+          if (dairyChoice.isSelected()) {
+            patientAllergensList.add("Dairy");
+          } else {
+            patientAllergensList.remove("Dairy");
+          }
+          updateAllergenChoice();
+        });
+    wheatChoice.setOnAction(
+        evt -> {
+          if (wheatChoice.isSelected()) {
+            patientAllergensList.add("Wheat");
+          }
+          else{
+            patientAllergensList.remove("Wheat");
+          }
+          updateAllergenChoice();
+        });
+    eggChoice.setOnAction(
+        evt -> {
+          if (eggChoice.isSelected()) {
+            patientAllergensList.add("Egg");
+          }
+          else{
+            patientAllergensList.remove("Egg");
+          }
+          updateAllergenChoice();
+        });
+    peanutChoice.setOnAction(
+        evt -> {
+          if (peanutChoice.isSelected()) {
+            patientAllergensList.add("Peanut");
+          }
+          else {
+            patientAllergensList.remove("Peanut");
+          }
+          updateAllergenChoice();
+        });
+    treenutChoice.setOnAction(
+        evt -> {
+          if (treenutChoice.isSelected()) {
+            patientAllergensList.add("Tree Nut");
+          } else {
+            patientAllergensList.remove("Tree Nut");
+          }
+          updateAllergenChoice();
+        });
+    soyChoice.setOnAction(
+        evt -> {
+          if (soyChoice.isSelected()) {
+            patientAllergensList.add("Soy");
 
-    //    radioGroup
-    //        .selectedToggleProperty()
-    //        .addListener(
-    //            (observable, oldValue, newValue) -> {
-    //              RadioButton selectedButton = (RadioButton) newValue;
-    //              updateAllergens();
-    //              //              mode = selectedButton.getText();
-    //              //
-    // changeToFloor(changeFloor.getSelectionModel().getSelectedItem());
-    //            });
+          }
+          else{
+            patientAllergensList.remove("Soy");
+          }
+          updateAllergenChoice();
+        });
+    fishChoice.setOnAction(
+        evt -> {
+          if (fishChoice.isSelected()) {
+            patientAllergensList.add("Fish");
+          }
+          else {
+            patientAllergensList.remove("Fish");
+          }
+          updateAllergenChoice();
+        });
+    shellfishChoice.setOnAction(
+        evt -> {
+          if (shellfishChoice.isSelected()) {
+            patientAllergensList.add("Shellfish");
+          }
+          else {
+            patientAllergensList.remove("Shellfish");
+          }
+          updateAllergenChoice();
+        });
 
-    //    orderStatusDropDown.setOnAction(event -> validateButton());
+    // updateMealOptions(); // update drink, entrée, snack/dessert options based on hour
 
-    //    updateCurrentMealRequestList();
-
-    updateMealOptions(); // update drink, entrée, snack/dessert options based on hour
-
+    updateAllergenChoice();
     //    updatePatientID();   // Commented out to stop recursion
     //    updatePatientName();
     //    updatePatientRoom();
@@ -407,17 +464,6 @@ public class MealServiceController extends ServiceRequestController {
     drinkOptionDropDown.setValue(null);
     entreeOptionDropDown.setValue(null);
     snackOptionDropDown.setValue(null);
-    dairyChoice.setSelected(false);
-    eggChoice.setSelected(false);
-    dairyChoice.setSelected(false);
-    eggChoice.setSelected(false);
-    peanutChoice.setSelected(false);
-    treenutChoice.setSelected(false);
-    soyChoice.setSelected(false);
-    wheatChoice.setSelected(false);
-    fishChoice.setSelected(false);
-    shellfishChoice.setSelected(false);
-    System.out.println("Clear fields");
     submitButton.setDisable(true);
     System.out.println("Meal Request Submit button disabled");
   }
@@ -551,7 +597,7 @@ public class MealServiceController extends ServiceRequestController {
   }
 
   /** Clear and add "none" to time-category MenuItem lists */
- /* protected void resetMealTimeLists() {
+  /* protected void resetMealTimeLists() {
     breakfastDrinksList.clear();
     breakfastEntreesList.clear();
     breakfastSnackList.clear();
@@ -589,7 +635,6 @@ public class MealServiceController extends ServiceRequestController {
     List<String> dinnerTimeList = new ArrayList<>();
     dinnerTimeList.add("Dinner");
     List<String> noneAllergyList = new ArrayList<>();
-    noneAllergyList.add("none");
 
     List<String> dairyEggWheatAllergenList = new ArrayList<>();
     dairyEggWheatAllergenList.add("Dairy");
@@ -636,34 +681,47 @@ public class MealServiceController extends ServiceRequestController {
     allMenuItems.add(new MealItem("Apple Juice", "Drink", breakfastTimeList, noneAllergyList));
     allMenuItems.add(new MealItem("Orange Juice", "Drink", breakfastTimeList, noneAllergyList));
     allMenuItems.add(new MealItem("Cranberry Juice", "Drink", breakfastTimeList, noneAllergyList));
-    allMenuItems.add(new MealItem("Belgian Waffle", "Entree", breakfastTimeList, dairyEggWheatAllergenList));
+    allMenuItems.add(
+        new MealItem("Belgian Waffle", "Entree", breakfastTimeList, dairyEggWheatAllergenList));
     allMenuItems.add(new MealItem("Omelette", "Entree", breakfastTimeList, dairyEggAllergenList));
-    allMenuItems.add(new MealItem("Pancakes", "Entree", breakfastTimeList, dairyEggPeanutTreenutWheatAllergenList));
+    allMenuItems.add(
+        new MealItem(
+            "Pancakes", "Entree", breakfastTimeList, dairyEggPeanutTreenutWheatAllergenList));
     allMenuItems.add(new MealItem("Apple Sauce", "Snack", breakfastTimeList, noneAllergyList));
-    allMenuItems.add(new MealItem("Blueberry Muffin", "Snack", breakfastTimeList, dairyEggWheatAllergenList));
+    allMenuItems.add(
+        new MealItem("Blueberry Muffin", "Snack", breakfastTimeList, dairyEggWheatAllergenList));
     List<String> fruitBowlCategoryList = new ArrayList<>();
     fruitBowlCategoryList.add("Breakfast");
     fruitBowlCategoryList.add("Lunch");
-    allMenuItems.add(new MealItem("Blueberry Muffin", "Snack", fruitBowlCategoryList, dairyEggWheatAllergenList));
+    allMenuItems.add(
+        new MealItem("Fruit Bowl", "Snack", fruitBowlCategoryList, dairyEggWheatAllergenList));
 
     // Lunch
 
     allMenuItems.add(new MealItem("Caesar Salad", "Entree", lunchTimeList, noneAllergyList));
-    allMenuItems.add(new MealItem("Cheeseburger", "Entree", lunchTimeList, dairySoyWheatAllergenList));
-    allMenuItems.add(new MealItem("Chicken Sandwich", "Entree", lunchTimeList, peanutTreenutSoyShellfishAllergenList));
+    allMenuItems.add(
+        new MealItem("Cheeseburger", "Entree", lunchTimeList, dairySoyWheatAllergenList));
+    allMenuItems.add(
+        new MealItem(
+            "Chicken Sandwich", "Entree", lunchTimeList, peanutTreenutSoyShellfishAllergenList));
     allMenuItems.add(new MealItem("Corn Bread", "Snack", lunchTimeList, soyWheatAllergenList));
-    // Fruit bowl added
+
     allMenuItems.add(new MealItem("Pretzel", "Snack", lunchTimeList, wheatAllergenList));
 
     // Dinner
 
     allMenuItems.add(new MealItem("Coca Cola", "Drink", dinnerTimeList, noneAllergyList));
     allMenuItems.add(new MealItem("Sprite", "Drink", dinnerTimeList, noneAllergyList));
-    allMenuItems.add(new MealItem("Cheese Pizza", "Entree", dinnerTimeList, dairyWheatAllergenList));
-    allMenuItems.add(new MealItem("Chicken Parm", "Entree", dinnerTimeList, dairySoyWheatAllergenList));
-    allMenuItems.add(new MealItem("Spaghetti and Meatballs", "Entree", dinnerTimeList, dairyEggWheatAllergenList));
+    allMenuItems.add(
+        new MealItem("Cheese Pizza", "Entree", dinnerTimeList, dairyWheatAllergenList));
+    allMenuItems.add(
+        new MealItem("Chicken Parm", "Entree", dinnerTimeList, dairySoyWheatAllergenList));
+    allMenuItems.add(
+        new MealItem(
+            "Spaghetti and Meatballs", "Entree", dinnerTimeList, dairyEggWheatAllergenList));
     allMenuItems.add(new MealItem("Brownie", "Snack", dinnerTimeList, eggSoyAllergenList));
-    allMenuItems.add(new MealItem("Chocolate Chip Cookie", "Snack", dinnerTimeList, noneAllergyList));
+    allMenuItems.add(
+        new MealItem("Chocolate Chip Cookie", "Snack", dinnerTimeList, noneAllergyList));
     allMenuItems.add(new MealItem("Tiramisu", "Snack", dinnerTimeList, noneAllergyList));
 
     populateFoodLists();
@@ -689,40 +747,6 @@ public class MealServiceController extends ServiceRequestController {
       }
       if (item.getTimeOfDayList().contains("Dinner")) {
         dinnerItemsList.add(item);
-      }
-    }
-
-    for (MealItem item : breakfastItemsList) {
-      if (item.getCategory().equals("Drink")) {
-        breakfastDrinksList.add(item.getName());
-      }
-      if (item.getCategory().equals("Entree")) {
-        breakfastEntreesList.add(item.getName());
-      }
-      if (item.getCategory().equals("Snack")) {
-        breakfastSnackList.add(item.getName());
-      }
-    }
-    for (MealItem item : lunchItemsList) {
-      if (item.getCategory().equals("Drink")) {
-        lunchDrinksList.add(item.getName());
-      }
-      if (item.getCategory().equals("Entree")) {
-        lunchEntreesList.add(item.getName());
-      }
-      if (item.getCategory().equals("Snack")) {
-        lunchSnackList.add(item.getName());
-      }
-    }
-    for (MealItem item : dinnerItemsList) {
-      if (item.getCategory().equals("Drink")) {
-        dinnerDrinksList.add(item.getName());
-      }
-      if (item.getCategory().equals("Entree")) {
-        dinnerEntreesList.add(item.getName());
-      }
-      if (item.getCategory().equals("Snack")) {
-        dinnerSnackList.add(item.getName());
       }
     }
   }
@@ -774,35 +798,38 @@ public class MealServiceController extends ServiceRequestController {
     int localHour = date.getHour();
     System.out.println("Local Hour: " + localHour);
 
-    if (localHour >= 0 && localHour <= 11) {
+    if (localHour <= 11) {
       isMorning = true;
       isDay = false;
       isNight = false;
-      mealOptionDropDown.setValue("BREAKFAST");
-    } else if (localHour > 11 && localHour <= 17) {
+      mealOptionDropDown.setValue("Breakfast");
+    } else if (localHour <= 17) {
       isMorning = false;
       isDay = true;
       isNight = false;
-      mealOptionDropDown.setValue("LUNCH");
+      mealOptionDropDown.setValue("Lunch");
     } else {
       isMorning = false;
       isDay = false;
       isNight = true;
-      mealOptionDropDown.setValue("DINNER");
+      mealOptionDropDown.setValue("Dinner");
     }
 
-    drinkOptionList = allMenuItems.stream().filter(item -> item.getCategory().equals("Drink") && item.getTimeOfDayList().contains(mealOptionDropDown.getValue())).map(MealItem::toString).collect(Collectors.toList());
-    entreeOptionList = allMenuItems.stream().filter(item -> item.getCategory().equals("Entree") && item.getTimeOfDayList().contains(mealOptionDropDown.getValue())).map(MealItem::toString).collect(Collectors.toList());
-    snackOptionList = allMenuItems.stream().filter(item -> item.getCategory().equals("Snack") && item.getTimeOfDayList().contains(mealOptionDropDown.getValue())).map(MealItem::toString).collect(Collectors.toList());
-
-    drinkOptionDropDown.setItems(FXCollections.observableArrayList(drinkOptionList));
-    entreeOptionDropDown.setItems(FXCollections.observableArrayList(entreeOptionList));
-    snackOptionDropDown.setItems(FXCollections.observableArrayList(snackOptionList));
+    updateAllergenChoice();
   }
 
   /** */
-  protected void updateMealOptions() {
-    validateTime();
+  protected void updateMealOptions(
+      List<MealItem> entrees, List<MealItem> snacks, List<MealItem> drinks) {
+    drinkOptionDropDown.setItems(
+        FXCollections.observableArrayList(
+            drinks.stream().map(MealItem::toString).collect(Collectors.toList())));
+    entreeOptionDropDown.setItems(
+        FXCollections.observableArrayList(
+            entrees.stream().map(MealItem::toString).collect(Collectors.toList())));
+    snackOptionDropDown.setItems(
+        FXCollections.observableArrayList(
+            snacks.stream().map(MealItem::toString).collect(Collectors.toList())));
   }
 
   /** */
@@ -856,34 +883,6 @@ public class MealServiceController extends ServiceRequestController {
       System.out.println("tempPatientID: " + tempPatientID);
       roomNumberDropDown.setValue(tempRoomNumber);
       System.out.println("tempRoomNumber: " + tempRoomNumber);
-
-      //      String tempPatientID =
-      //          instanceDAO
-      //
-      // .getPatientByID(instanceDAO.getAllPatients().contains(instanceDAO.getAllPatients().get().getName()))
-      //      List<Patient> pat = instanceDAO.getAllPatients();
-
-      //      Stream peters = userList.stream().filter(p -> p.user.name.equals("Peter"))
-
-      //      String tempRoomNumber =
-      //          instanceDAO
-      //              .getPatientByID(patientIDDropDown.getValue())
-      //              .getLocation()
-      //              .getShortName()
-      //              .substring(
-      //                  instanceDAO
-      //                      .getPatientByID(patientIDDropDown.getValue())
-      //                      .getLocation()
-      //                      .getShortName()
-      //                      .length()
-      //                      - 4);
-      //      roomNumberDropDown.setValue(tempRoomNumber);
-      //      System.out.println("tempRoomNumber: " + tempRoomNumber);
-
-      //      patientIDDropDown.setValue(
-      //          patientIDList.get(patientNameList.indexOf(patientNameDropDown.getValue())));
-      //      roomNumberDropDown.setValue(
-      //          roomNumberList.get(patientNameList.indexOf(patientNameDropDown.getValue())));
     }
   }
 
@@ -927,258 +926,38 @@ public class MealServiceController extends ServiceRequestController {
   }
 
   /** */
-  private void updateDairyChoice() {
-    // Add/Remove Dairy from patient list of allergens
-    String filter = "Dairy";
-    if (dairyChoice.isSelected()) {
-      System.out.println(filter + " selected");
-      if (!patientAllergensList.contains(filter)) {
-        patientAllergensList.add(filter);
-      }
-      for (MealItem item : breakfastItemsList) {
-        if (item.getAllergensList().contains(filter)) {
-          if (breakfastDrinksList.contains(item.getName())) {
-            breakfastDrinksList.remove(item.getName());
-          }
-          if (breakfastEntreesList.contains(item.getName())) {
-            breakfastEntreesList.remove(item.getName());
-          }
-          if (breakfastSnackList.contains(item.getName())) {
-            breakfastSnackList.remove(item.getName());
-          }
-        }
-      }
-      for (MealItem item : lunchItemsList) {
-        if (item.getAllergensList().contains(filter)) {
-          if (lunchDrinksList.contains(item.getName())) {
-            lunchDrinksList.remove(item.getName());
-          }
-          if (lunchEntreesList.contains(item.getName())) {
-            lunchEntreesList.remove(item.getName());
-          }
-          if (lunchSnackList.contains(item.getName())) {
-            lunchSnackList.remove(item.getName());
-          }
-        }
-      }
-      for (MealItem item : dinnerItemsList) {
-        if (item.getAllergensList().contains(filter)) {
-          if (dinnerDrinksList.contains(item.getName())) {
-            dinnerDrinksList.remove(item.getName());
-          }
-          if (dinnerEntreesList.contains(item.getName())) {
-            dinnerEntreesList.remove(item.getName());
-          }
-          if (dinnerSnackList.contains(item.getName())) {
-            dinnerSnackList.remove(item.getName());
-          }
-        }
-      }
-    } else {
-      System.out.println(filter + " unselected");
-      if (patientAllergensList.contains(filter)) {
-        patientAllergensList.remove(filter);
-      }
-      for (MealItem item : breakfastItemsList) {
-        if (item.getAllergensList().contains(filter)) {
-          if (!breakfastDrinksList.contains(item.getName())) {
-            breakfastDrinksList.add(item.getName());
-          }
-          if (!breakfastEntreesList.contains(item.getName())) {
-            breakfastEntreesList.add(item.getName());
-          }
-          if (!breakfastSnackList.contains(item.getName())) {
-            breakfastSnackList.add(item.getName());
-          }
-        }
-      }
-      for (MealItem item : lunchItemsList) {
-        if (item.getAllergensList().contains(filter)) {
-          if (!lunchDrinksList.contains(item.getName())) {
-            lunchDrinksList.add(item.getName());
-          }
-          if (!lunchEntreesList.contains(item.getName())) {
-            lunchEntreesList.add(item.getName());
-          }
-          if (!lunchSnackList.contains(item.getName())) {
-            lunchSnackList.add(item.getName());
-          }
-        }
-      }
-      for (MealItem item : dinnerItemsList) {
-        if (item.getAllergensList().contains(filter)) {
-          if (!dinnerDrinksList.contains(item.getName())) {
-            dinnerDrinksList.add(item.getName());
-          }
-          if (!dinnerEntreesList.contains(item.getName())) {
-            dinnerEntreesList.add(item.getName());
-          }
-          if (!dinnerSnackList.contains(item.getName())) {
-            dinnerSnackList.add(item.getName());
-          }
-        }
-      }
-    }
+  protected void updateAllergenChoice() {
 
-    updateAllergens();
-  }
+    List<MealItem> drinks =
+        allMenuItems.stream()
+            .filter(
+                item ->
+                    item.getCategory().equals("Drink")
+                        && item.getTimeOfDayList().contains(mealOptionDropDown.getValue()))
+            .collect(Collectors.toList());
+    List<MealItem> entrees =
+        allMenuItems.stream()
+            .filter(
+                item ->
+                    item.getCategory().equals("Entree")
+                        && item.getTimeOfDayList().contains(mealOptionDropDown.getValue()))
+            .collect(Collectors.toList());
+    List<MealItem> snacks =
+        allMenuItems.stream()
+            .filter(
+                item ->
+                    item.getCategory().equals("Snack")
+                        && item.getTimeOfDayList().contains(mealOptionDropDown.getValue()))
+            .collect(Collectors.toList());
 
-  /** */
-  private void updateEggChoice() {
-    // Add/Remove Egg from patient list of allergens
-    if (eggChoice.isSelected()) {
-      System.out.println("Egg selected");
-      if (!patientAllergensList.contains("Egg")) {
-        patientAllergensList.add("Egg");
-      }
-    } else {
-      System.out.println("Egg unselected");
-      if (patientAllergensList.contains("Egg")) {
-        patientAllergensList.remove("Egg");
-      }
-    }
-
-    updateAllergens();
-  }
-
-  /** */
-  private void updatePeanutChoice() {
-    // Add/Remove Peanut from patient list of allergens
-    if (peanutChoice.isSelected()) {
-      System.out.println("Peanut selected");
-      if (!patientAllergensList.contains("Peanut")) {
-        patientAllergensList.add("Peanut");
-      }
-    } else {
-      System.out.println("Peanut selected");
-      if (patientAllergensList.contains("Peanut")) {
-        patientAllergensList.remove("Peanut");
-      }
-    }
-
-    updateAllergens();
-  }
-
-  /** */
-  private void updateTreenutChoice() {
-    // Add/Remove Tree Nut from patient list of allergens
-    if (treenutChoice.isSelected()) {
-      System.out.println("Tree Nut selected");
-      if (!patientAllergensList.contains("Tree_Nut")) {
-        patientAllergensList.add("Tree_Nut");
-      }
-    } else {
-      if (patientAllergensList.contains("Tree_Nut")) {
-        patientAllergensList.remove("Tree_Nut");
-      }
-    }
-
-    updateAllergens();
-  }
-
-  /** */
-  private void updateSoyChoice() {
-    // Add/Remove Soy from patient list of allergens
-    if (soyChoice.isSelected()) {
-      System.out.println("Soy selected");
-      if (!patientAllergensList.contains("Soy")) {
-        patientAllergensList.add("Soy");
-      }
-    } else {
-      if (patientAllergensList.contains("Soy")) {
-        patientAllergensList.remove("Soy");
-      }
-    }
-
-    updateAllergens();
-  }
-
-  /** */
-  private void updateWheatChoice() {
-    // Add/Remove Wheat from patient list of allergens
-    if (wheatChoice.isSelected()) {
-      System.out.println("Wheat selected");
-      if (!patientAllergensList.contains("Wheat")) {
-        patientAllergensList.add("Wheat");
-      }
-    } else {
-      if (patientAllergensList.contains("Wheat")) {
-        patientAllergensList.remove("Wheat");
-      }
-    }
-
-    updateAllergens();
-  }
-
-  /** */
-  private void updateFishChoice() {
-    // Add/Remove Fish from patient list of allergens
-    if (fishChoice.isSelected()) {
-      System.out.println("Fish selected");
-      if (!patientAllergensList.contains("Fish")) {
-        patientAllergensList.add("Fish");
-      }
-    } else {
-      if (patientAllergensList.contains("Fish")) {
-        patientAllergensList.remove("Fish");
-      }
-    }
-
-    updateAllergens();
-  }
-
-  /** */
-  private void updateShellfishChoice() {
-    // Add/Remove Shellfish from patient list of allergens
-    if (shellfishChoice.isSelected()) {
-      System.out.println("Shellfish selected");
-      if (!patientAllergensList.contains("Shellfish")) {
-        patientAllergensList.add("Shellfish");
-      }
-
-    } else {
-      if (patientAllergensList.contains("Shellfish")) {
-        patientAllergensList.remove("Shellfish");
-      }
-    }
-
-    updateAllergens();
-  }
-
-  //  public void onMouseClick(MouseEvent mouseEvent) {
-  //    System.out.println("TESTING MOUSE CLICK");
-  //    System.out.println(currentRequests.getFocusModel().getFocusedIndex()); // number starting at
-  // 0
-  //    System.out.println(currentRequests.getFocusModel().getFocusedItem()); // string of selected
-  //    int orderIndex = currentRequests.getFocusModel().getFocusedIndex();
-  //
-  //    if (orderIndex > -1) {
-  //      ServiceRequest temp = mealRequestList.get(orderIndex);
-  //
-  //      //    enterPatientName.setText();
-  //      //    enterPatientID.setText();
-  //      //    enterStaffAssigned.setText();
-  //      roomNumberDropDown.setValue(temp.getTargetLocation().getShortName().substring(0, 4));
-  //      //    mealOptionDropDown.setValue()
-  //      orderStatusDropDown.setValue(temp.getStatus().toString());
-  //      submitButton.setDisable(
-  //          true); // TODO: Eventually set to false once all other fields are retrieved
-  //    } else {
-  //      System.out.println("OrderIndex: " + orderIndex);
-  //    }
-  //  }
-
-
-
-  protected void updateAllergenChoice(String filter) {
-    List<List<MealItem>> allItems = new ArrayList<>();
-
-    allItems.add(breakfastItemsList);
-    allItems.add(lunchItemsList);
-    allItems.add(dinnerItemsList);
-
+    List<List<MealItem>> allItems = new ArrayList<>(List.of(drinks, snacks, entrees));
     for (List<MealItem> list : allItems) {
-      list.removeIf(item -> item.getAllergensList().contains(filter));
+      for (String allergen : patientAllergensList) {
+        list.removeIf(item -> item.getAllergensList().contains(allergen));
+      }
     }
+
+    updateMealOptions(entrees, snacks, drinks);
+    updateAllergens();
   }
 }

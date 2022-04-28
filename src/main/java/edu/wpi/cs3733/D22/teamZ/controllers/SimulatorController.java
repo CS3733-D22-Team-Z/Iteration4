@@ -193,8 +193,8 @@ public class SimulatorController implements IMenuAccess, Initializable {
       } else if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) {
         loc =
             facadeDAO
-                .getALlLocationsByType("PATI")
-                .get(rand.nextInt(facadeDAO.getALlLocationsByType("PATI").size()));
+                .getAllLocationsByType("PATI")
+                .get(rand.nextInt(facadeDAO.getAllLocationsByType("PATI").size()));
         medEquip.get(index).setStatus(MedicalEquipment.EquipmentStatus.INUSE);
       } else if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) {
         loc = facadeDAO.getLocationByID("zSTOR00304");
