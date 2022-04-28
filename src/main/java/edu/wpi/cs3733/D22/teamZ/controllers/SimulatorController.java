@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import edu.wpi.cs3733.D22.teamZ.controllers.subControllers.MapController;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -31,6 +30,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
   FacadeDAO facadeDAO;
   @FXML private AnchorPane mapContainer;
   @FXML private ChoiceBox speedBox;
+  @FXML private ChoiceBox floorChange;
   @FXML private MFXButton startSim;
   @FXML private MFXButton pauseSim;
   @FXML private MFXButton endSim;
@@ -38,14 +38,15 @@ public class SimulatorController implements IMenuAccess, Initializable {
   @FXML private TableView<String> infoTable;
   @FXML private TableColumn<String, String> info;
   @FXML private ImageView imageView;
-  private MapController mapController;
   private Timeline timeline;
 
   private Image iconImage;
 
   DateTimeFormatter timeFormatA = DateTimeFormatter.ofPattern("hh:mm a");
-  long speed;
+  int loopsRemaining;
   int timesLoop;
+  int times24;
+  int floor;
   LocalDateTime simStart;
   LocalDateTime simEnd;
   List<MedicalEquipment> medEquip;
@@ -53,6 +54,9 @@ public class SimulatorController implements IMenuAccess, Initializable {
   List<MedicalEquipmentDeliveryRequest> unassigned;
   List<Employee> employees;
   ObservableList<String> updates;
+  List<Patient> patients;
+
+  boolean dashboardAlert = false;
 
   @Override
   public void setMenuController(MenuController menu) {
@@ -68,14 +72,25 @@ public class SimulatorController implements IMenuAccess, Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = FacadeDAO.getInstance();
     iconImage = new Image("edu/wpi/cs3733/D22/teamZ/images/equipment.png");
-    displayMedicalEquipmentIcons("3");
-    speedBox.getItems().setAll("Real time", "5 min/sec", "10 min/sec", "30 min/sec", "1 hour/sec");
+    imageView.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
+    speedBox.getItems().setAll("5 min/sec", "10 min/sec", "30 min/sec", "1 hour/sec");
+    floorChange
+        .getItems()
+        .setAll(
+            "Floor 5",
+            "Floor 4",
+            "Floor 3",
+            "Floor 2",
+            "Floor 1",
+            "Lower Level 1",
+            "Lower Level 2");
     pauseSim.setDisable(true);
     endSim.setDisable(true);
 
-    imageView.setImage(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
+    patients = FacadeDAO.getInstance().getAllPatients();
 
     medEquip = FacadeDAO.getInstance().getAllMedicalEquipment();
+    displayMedicalEquipmentIcons(getFloor());
     employees = FacadeDAO.getInstance().getAllEmployees();
     List<MedicalEquipmentDeliveryRequest> medEquipReq =
         FacadeDAO.getInstance().getAllMedicalEquipmentRequest();
@@ -98,6 +113,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
   }
 
   public void displayMedicalEquipmentIcons(String floor) {
+
     // Iterate through all locations
     List<Location> locations = facadeDAO.getAllLocations();
     for (int i = 0; i < locations.size(); i++) {
@@ -105,11 +121,16 @@ public class SimulatorController implements IMenuAccess, Initializable {
 
       // If this location is on the current floor, then proceed.
       if (tempLocation.getFloor().equals(floor)) {
-        List<MedicalEquipment> medicalEquipmentAtLocation =
-            facadeDAO.getAllMedicalEquipmentByLocation(tempLocation);
+        boolean found = false;
+
+        for (MedicalEquipment m : medEquip) {
+          if (m.getCurrentLocation().equals(tempLocation)) {
+            found = true;
+          }
+        }
 
         // If there is medical equipment at the location, then proceed.
-        if (!medicalEquipmentAtLocation.isEmpty()) {
+        if (found) {
 
           // Setup icon image view
           ImageView iconImageView = new ImageView();
@@ -140,81 +161,112 @@ public class SimulatorController implements IMenuAccess, Initializable {
       startSim.setDisable(true);
       pauseSim.setDisable(false);
       endSim.setDisable(false);
+      speedBox.setDisable(true);
 
-      if (speedBox.getSelectionModel().getSelectedItem().equals("Real time")) {
-        speed = 1;
-        timesLoop = 86400;
-      } else if (speedBox.getSelectionModel().getSelectedItem().equals("5 min/sec")) {
-        speed = 300;
-        timesLoop = 288;
+      if (speedBox.getSelectionModel().getSelectedItem().equals("5 min/sec")) {
+        timesLoop = 1;
+        times24 = 288;
       } else if (speedBox.getSelectionModel().getSelectedItem().equals("10 min/sec")) {
-        speed = 600;
-        timesLoop = 144;
+        timesLoop = 2;
+        times24 = 144;
       } else if (speedBox.getSelectionModel().getSelectedItem().equals("30 min/sec")) {
-        speed = 1800;
-        timesLoop = 48;
+        timesLoop = 6;
+        times24 = 48;
       } else if (speedBox.getSelectionModel().getSelectedItem().equals("1 hour/sec")) {
-        speed = 3600;
-        timesLoop = 24;
+        timesLoop = 12;
+        times24 = 24;
       }
 
+      loopsRemaining = 288;
       simStart = LocalDateTime.now();
       simEnd = simStart.plusHours(20);
 
       clock.setText(timeFormatA.format(simStart));
       this.timeline = new Timeline(new KeyFrame(Duration.millis(1000), this::Simulate));
-      this.timeline.setCycleCount(timesLoop);
+      this.timeline.setCycleCount(times24);
       this.timeline.play();
     }
   }
 
   private void Simulate(ActionEvent actionevent) {
-    simStart = simStart.plusSeconds(speed);
-    clock.setText(timeFormatA.format(simStart));
-    updates.add(timeFormatA.format(simStart));
-    Random rand = new Random();
-    if (processing.size() > 0) {
-      if (rand.nextInt(10) <= 5) {
-        moveEquip(processing.get(rand.nextInt(processing.size())));
-      }
-    }
-    if (unassigned.size() > 0) {
-      if (rand.nextInt(10) <= 5) {
-        assignReq(unassigned.get(rand.nextInt(unassigned.size())));
-      }
-    }
-    if (rand.nextInt(10) <= 5) {
-      int index = (rand.nextInt(medEquip.size()));
-      Location loc;
-      MedicalEquipment.EquipmentStatus stat;
-      if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.INUSE)) {
-        loc = facadeDAO.getLocationByID("zDIRT00103");
-        medEquip.get(index).setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
-      } else if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) {
-        loc =
-            facadeDAO
-                .getAllLocationsByType("PATI")
-                .get(rand.nextInt(facadeDAO.getAllLocationsByType("PATI").size()));
-        medEquip.get(index).setStatus(MedicalEquipment.EquipmentStatus.INUSE);
-      } else if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.DIRTY)) {
-        loc = facadeDAO.getLocationByID("zSTOR00304");
-        medEquip.get(index).setStatus(MedicalEquipment.EquipmentStatus.CLEANING);
-      } else {
-        if (medEquip.get(index).getType().equals("Bed")
-            || medEquip.get(index).getType().equals("Recliner")) {
-          loc = facadeDAO.getLocationByID("zSTOR00303");
-        } else if (medEquip.get(index).getType().equals("IPump")) {
-          loc = facadeDAO.getLocationByID("zSTOR00101");
-        } else {
-          loc = facadeDAO.getAllLocations().get(rand.nextInt(facadeDAO.getAllLocations().size()));
+    for (int i = 0; i < timesLoop; i++) {
+      simStart = simStart.plusMinutes(5);
+      clock.setText(timeFormatA.format(simStart));
+      updates.add(timeFormatA.format(simStart));
+      Random rand = new Random();
+      if (processing.size() > 0) {
+        if (rand.nextInt(10) <= 3) {
+          moveEquip(processing.get(rand.nextInt(processing.size())));
         }
-        medEquip.get(index).setStatus(MedicalEquipment.EquipmentStatus.CLEAN);
       }
-
-      makeReq(medEquip.get(index).getEquipmentID(), loc);
+      if (unassigned.size() > 0) {
+        if (rand.nextInt(10) <= 4) {
+          assignReq(unassigned.get(rand.nextInt(unassigned.size())));
+        }
+      }
+      if (!dashboardAlert) {
+        autoAlerts();
+      }
+      if (rand.nextInt(10) <= 2) {
+        patientBedRequests();
+      }
+      if (rand.nextInt(10) <= 2) {
+        int index = (rand.nextInt(medEquip.size()));
+        Location loc;
+        if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.INUSE)) {
+          loc =
+              facadeDAO
+                  .getAllLocationsByType("DIRT")
+                  .get(rand.nextInt(facadeDAO.getAllLocationsByType("DIRT").size()));
+        } else if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) {
+          loc =
+              facadeDAO
+                  .getAllLocationsByType("PATI")
+                  .get(rand.nextInt(facadeDAO.getAllLocationsByType("PATI").size())); // to in use
+        } else if (medEquip
+            .get(index)
+            .getStatus()
+            .equals(MedicalEquipment.EquipmentStatus.DIRTY)) { // TO CLEANING
+          if (medEquip.get(index).getType().equals("Bed")
+              || medEquip.get(index).getType().equals("Recliner")) {
+            loc = facadeDAO.getLocationByID("zSTOR001L1");
+          } else if (medEquip.get(index).getType().equals("IPump")) {
+            loc = facadeDAO.getLocationByID("zSTOR00101");
+          } else {
+            loc =
+                facadeDAO
+                    .getAllLocationsByType("PATI")
+                    .get(rand.nextInt(facadeDAO.getAllLocationsByType("PATI").size()));
+          }
+        } else {
+          loc =
+              facadeDAO
+                  .getAllLocationsByType("STOR")
+                  .get(rand.nextInt(facadeDAO.getAllLocationsByType("STOR").size()));
+          boolean validStor = false;
+          while (!validStor) {
+            loc =
+                facadeDAO
+                    .getAllLocationsByType("STOR")
+                    .get(rand.nextInt(facadeDAO.getAllLocationsByType("STOR").size()));
+            if (!(loc.getNodeID().equals("zSTOR001L1"))
+                && !(loc.getNodeID().equals("zSTOR00101"))) {
+              validStor = true;
+            }
+          }
+        }
+        makeReq(medEquip.get(index).getEquipmentID(), loc);
+      }
+      mapContainer.getChildren().clear();
+      ImageView imageView = new ImageView(new Image("edu/wpi/cs3733/D22/teamZ/images/3.png"));
+      imageView.setFitWidth(1237);
+      imageView.setFitHeight(1027);
+      mapContainer.getChildren().add(imageView);
+      displayMedicalEquipmentIcons(getFloor());
+      infoTable.refresh();
+      infoTable.setItems(updates);
+      loopsRemaining--;
     }
-    infoTable.refresh();
-    infoTable.setItems(updates);
   }
 
   public void pauseSim(ActionEvent actionEvent) {
@@ -233,6 +285,8 @@ public class SimulatorController implements IMenuAccess, Initializable {
     pauseSim.setDisable(true);
     endSim.setDisable(true);
     startSim.setDisable(false);
+    speedBox.setDisable(false);
+    dashboardAlert = false;
     updates.clear();
     infoTable.setItems(updates);
     clock.setText("00:00 AM");
@@ -257,6 +311,10 @@ public class SimulatorController implements IMenuAccess, Initializable {
     } else if (target.getNodeType().equals("DIRT")) {
       medEquip.get(i).setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
       equip.setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
+    } else if (target.getNodeID().equals("zSTOR001L1")
+        || target.getNodeType().equals("zSTOR00101")) {
+      medEquip.get(i).setStatus(MedicalEquipment.EquipmentStatus.CLEANING);
+      equip.setStatus(MedicalEquipment.EquipmentStatus.CLEANING);
     } else if (target.getNodeType().equals("STOR")) {
       medEquip.get(i).setStatus(MedicalEquipment.EquipmentStatus.CLEAN);
       equip.setStatus(MedicalEquipment.EquipmentStatus.CLEAN);
@@ -273,7 +331,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
             + " and was moved to "
             + target);
     for (int j = 0; j < medEquip.size(); j++) {
-      if (equip.equals(medEquip.get(i))) {
+      if (equip.equals(medEquip.get(j))) {
         medEquip.get(j).setCurrentLocation(target);
       }
     }
@@ -290,6 +348,50 @@ public class SimulatorController implements IMenuAccess, Initializable {
     processing.add(req);
     updates.add(
         "Request " + req.getRequestID() + " is assigned to " + req.getHandler().getDisplayName());
+  }
+
+  public void autoAlerts() {
+    int dirtyBeds = 0;
+    int dirtyIpump = 0;
+
+    List<MedicalEquipment> ipumps = new ArrayList<MedicalEquipment>();
+    List<MedicalEquipment> bed = new ArrayList<MedicalEquipment>();
+
+    List<Location> locations = new ArrayList<Location>();
+    locations.addAll(facadeDAO.getAllLocationsByType("DIRT"));
+
+    for (int i = 0; i < locations.size(); i++) {
+      Location tempLocation = locations.get(i);
+      for (MedicalEquipment m : medEquip) {
+        if (m.getCurrentLocation().equals(tempLocation)) {
+          if (m.getType().equals("IPumps")) {
+            ipumps.add(m);
+            dirtyIpump++;
+          } else if (m.getType().equals("Bed")) {
+            dirtyBeds++;
+            bed.add(m);
+          }
+        }
+      }
+      if (dirtyIpump >= 10) {
+        updates.add("DASHBOARD ALERT: more than 10 dirty Ipumps in dirty area");
+        for (MedicalEquipment m : ipumps) {
+          makeReq(m.getEquipmentID(), tempLocation);
+        }
+        dashboardAlert = true;
+      }
+      if (dirtyBeds >= 6) {
+        updates.add("DASHBOARD ALERT: more than 6 dirty beds in dirty area");
+        for (MedicalEquipment m : bed) {
+          makeReq(m.getEquipmentID(), tempLocation);
+        }
+        dashboardAlert = true;
+      }
+      dirtyIpump = 0;
+      dirtyBeds = 0;
+      ipumps.clear();
+      bed.clear();
+    }
   }
 
   public void makeReq(String medEq, Location target) {
@@ -318,6 +420,66 @@ public class SimulatorController implements IMenuAccess, Initializable {
             + target);
   }
 
+  public void patientBedRequests() {
+    Integer i = null;
+    if (patients.size() == 0) {
+      return;
+    }
+    for (int j = 0; j < medEquip.size(); j++) {
+      if (medEquip.get(j).getType().equals("Bed")
+          && medEquip.get(j).getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) {
+        i = j;
+      }
+    }
+    if (i == null) {
+      return;
+    }
+    String id = generateID("EQUIP");
+
+    Random rand = new Random();
+    Location dirty =
+        facadeDAO
+            .getAllLocationsByType("DIRT")
+            .get(rand.nextInt(facadeDAO.getAllLocationsByType("DIRT").size()));
+    Employee randomEmp = employees.get(rand.nextInt(employees.size()));
+
+    Location curr = patients.get(0).getLocation();
+    int MEindex = -1;
+    for (MedicalEquipment me : patients.get(0).getLocation().getEquipmentList()) {
+      if (me.getType().equals("Bed")) {
+        MEindex = medEquip.indexOf(me);
+      }
+    }
+    if (MEindex == -1) {
+      return;
+    }
+
+    medEquip.get(i).setStatus(MedicalEquipment.EquipmentStatus.INUSE);
+    medEquip.get(i).setCurrentLocation(curr);
+    medEquip.get(MEindex).setCurrentLocation(dirty);
+    medEquip.get(MEindex).setStatus(MedicalEquipment.EquipmentStatus.DIRTY);
+
+    updates.add(
+        "Request "
+            + id
+            + " change beds is completed by "
+            + randomEmp.getDisplayName()
+            + ", "
+            + medEquip.get(i).getEquipmentID()
+            + " has status "
+            + medEquip.get(i).getStatus().toString()
+            + " and was moved to "
+            + medEquip.get(i).getCurrentLocation());
+
+    updates.add(
+        "and "
+            + medEquip.get(MEindex).getEquipmentID()
+            + " has status "
+            + medEquip.get(MEindex).getStatus().toString()
+            + " and was moved to "
+            + medEquip.get(MEindex).getCurrentLocation());
+  }
+
   public String generateID(String type) {
     String id = type;
     Random rand = new Random();
@@ -341,5 +503,29 @@ public class SimulatorController implements IMenuAccess, Initializable {
       }
     }
     return id;
+  }
+
+  private String getFloor() {
+    if (floorChange.getSelectionModel().getSelectedItem() == null) {
+      return "3";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 5")) {
+      return "5";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 4")) {
+      return "4";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 3")) {
+      return "3";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 2")) {
+      return "2";
+    }
+    if (floorChange.getSelectionModel().getSelectedItem().equals("Floor 1")) {
+      return "1";
+    }
+    return "LL1";
+    // "Lower Level 1",
+    // "Lower Level 2"
   }
 }
