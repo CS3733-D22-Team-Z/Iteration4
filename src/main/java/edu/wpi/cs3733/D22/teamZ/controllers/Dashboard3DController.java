@@ -42,7 +42,6 @@ public class Dashboard3DController implements IMenuAccess, Initializable {
   @FXML private PointLight lightUp;
   @FXML private PointLight lightRight;
   @FXML private PointLight lightLeft;
-  @FXML private SubScene subScene;
   @FXML Region errorRegion5;
   @FXML Region errorRegion4;
   @FXML Region errorRegion3;
@@ -217,10 +216,10 @@ public class Dashboard3DController implements IMenuAccess, Initializable {
 
     int i = 0;
     for (MeshView view : importer.getImport()) {
-      PhongMaterial material = new PhongMaterial();
+      /*PhongMaterial material = new PhongMaterial();
       material.setDiffuseMap(
           new Image(getClass().getClassLoader().getResourceAsStream(arrayURL[i])));
-      view.setMaterial(material);
+      view.setMaterial(material);*/
       view.setScaleX(10);
       view.setScaleY(10);
       view.setScaleZ(10);
