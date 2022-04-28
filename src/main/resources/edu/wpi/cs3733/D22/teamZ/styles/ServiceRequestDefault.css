@@ -33,6 +33,23 @@
     -fx-text-fill: #000000;
 }
 
+.container-header {
+    -fx-font-family: 'Palatino Linotype';
+    -fx-font-weight: 700;
+    -fx-font-size: 26pt;
+    -fx-text-fill: #FFFFFF;
+}
+
+
+.filter-header {
+    -fx-font-family: 'Palatino Linotype';
+    -fx-font-weight: 700;
+    -fx-font-size: 24pt;
+    -fx-text-fill: #000000;
+}
+
+
+
 .tiny-text {
     -fx-font-family: 'SansSerif';
     -fx-font-weight: 700;
