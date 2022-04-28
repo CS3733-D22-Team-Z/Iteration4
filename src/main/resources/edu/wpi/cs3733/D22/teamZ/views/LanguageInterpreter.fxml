@@ -29,7 +29,7 @@
          </graphic>
       </MFXButton>
       <Label alignment="CENTER" layoutX="1254.0" layoutY="328.0" prefHeight="65.0" prefWidth="597.0" styleClass="object-header" text="See current requests" textAlignment="CENTER" />
-      <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="1372.0" layoutY="428.0" prefHeight="71.0" prefWidth="356.0" styleClass="back-button" text="See requests" textAlignment="CENTER" wrapText="true" />
+      <MFXButton id="backButton" fx:id="labServiceRequestListButton" layoutX="1372.0" layoutY="428.0" onAction="#viewRequestList" prefHeight="71.0" prefWidth="356.0" styleClass="back-button" text="See requests" textAlignment="CENTER" wrapText="true" />
       <ChoiceBox fx:id="nodeTypeDropDown" layoutX="48.0" layoutY="529.0" onKeyReleased="#validateButton" prefHeight="59.0" prefWidth="369.0" />
       <Region fx:id="helpGraphic" layoutX="1028.0" layoutY="46.0" onMouseClicked="#onHelpMenu" prefHeight="71.0" prefWidth="369.0" styleClass="region-icon" />
       <Line endX="3.0" endY="907.0" layoutX="1135.0" layoutY="69.0" startX="3.0" startY="-32.0" stroke="#bfbfbf" strokeWidth="3.0" />

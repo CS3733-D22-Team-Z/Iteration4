@@ -83,7 +83,7 @@ public class MealServiceController extends ServiceRequestController {
   public void initialize(URL location, ResourceBundle resources) {
     menuName = "Meal Request";
     submitButton.setDisable(true);
-    System.out.println("Meal Request Submit button disabled");
+    // System.out.println("Meal Request Submit button disabled");
 
     mealOptionDropDown.setDisable(true); // leave for time dependant -temp
     patientNameDropDown.setDisable(true); // dropdown for only unique names
@@ -106,14 +106,14 @@ public class MealServiceController extends ServiceRequestController {
               .getShortName()
               .substring(patient.getLocation().getShortName().length() - 4));
 
-      System.out.println("Patient ID: " + patient.getPatientID());
-      System.out.println("Patient Name: " + patient.getName());
-      System.out.println(
-          "Patient Room: "
-              + patient
-                  .getLocation()
-                  .getShortName()
-                  .substring(patient.getLocation().getShortName().length() - 4));
+      //      System.out.println("Patient ID: " + patient.getPatientID());
+      //      System.out.println("Patient Name: " + patient.getName());
+      //      System.out.println(
+      //          "Patient Room: "
+      //              + patient
+      //                  .getLocation()
+      //                  .getShortName()
+      //                  .substring(patient.getLocation().getShortName().length() - 4));
     }
 
     // TODO: Remove duplicate room numbers
@@ -143,7 +143,7 @@ public class MealServiceController extends ServiceRequestController {
               + model.getLongName()
               + " "
               + model.getShortName();
-      System.out.println(temp);
+      // System.out.println(temp);
     }
 
     List<String> roomList = new ArrayList<>();
@@ -270,12 +270,12 @@ public class MealServiceController extends ServiceRequestController {
    */
   @Override
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
-    System.out.println("Submit Button Clicked");
-    System.out.println("Patient ID: " + patientIDDropDown.getSelectionModel().getSelectedItem());
-    System.out.println("Patient Name: " + patientNameDropDown.getValue());
-    System.out.println("Room Number: " + roomNumberDropDown.getValue());
-    System.out.println("Meal Type " + mealOptionDropDown.getValue());
-    System.out.println("Drink Option: " + drinkOptionDropDown.getValue());
+    // System.out.println("Submit Button Clicked");
+    // System.out.println("Patient ID: " + patientIDDropDown.getSelectionModel().getSelectedItem());
+    // System.out.println("Patient Name: " + patientNameDropDown.getValue());
+    // System.out.println("Room Number: " + roomNumberDropDown.getValue());
+    // System.out.println("Meal Type " + mealOptionDropDown.getValue());
+    // System.out.println("Drink Option: " + drinkOptionDropDown.getValue());
     System.out.println("Patient Allergens: " + patientAllergensList);
 
     allServiceRequestList = instanceDAO.getAllServiceRequests();
@@ -352,7 +352,7 @@ public class MealServiceController extends ServiceRequestController {
     entreeOptionDropDown.setValue(null);
     snackOptionDropDown.setValue(null);
     submitButton.setDisable(true);
-    System.out.println("Meal Request Submit button disabled");
+    // System.out.println("Meal Request Submit button disabled");
   }
 
   /**
@@ -365,7 +365,7 @@ public class MealServiceController extends ServiceRequestController {
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     System.out.println("Reset Button Clicked");
     submitButton.setDisable(true);
-    System.out.println("Meal Request Submit button disabled");
+    // System.out.println("Meal Request Submit button disabled");
     mealRequestIndicator.setText("Form Reset");
     mealRequestIndicator.setStyle("-fx-text-fill: #7B7B7B");
     // Clear dropdown values
@@ -624,10 +624,10 @@ public class MealServiceController extends ServiceRequestController {
         && !(entreeOptionDropDown.getSelectionModel().getSelectedItem() == null)
         && !(snackOptionDropDown.getSelectionModel().getSelectedItem() == null)) {
       submitButton.setDisable(false);
-      System.out.println("Meal Request Submit button enabled");
+      // System.out.println("Meal Request Submit button enabled");
     } else {
       submitButton.setDisable(true);
-      System.out.println("Meal Request Submit button disabled");
+      // System.out.println("Meal Request Submit button disabled");
     }
 
     //    validateTime();
@@ -645,7 +645,7 @@ public class MealServiceController extends ServiceRequestController {
     // Local Time
     LocalDateTime date = LocalDateTime.now();
     int localHour = date.getHour();
-    System.out.println("Local Hour: " + localHour);
+    // System.out.println("Local Hour: " + localHour);
 
     if (localHour <= 11) {
       mealOptionDropDown.setValue("Breakfast");
@@ -674,14 +674,15 @@ public class MealServiceController extends ServiceRequestController {
 
   /** */
   private void updatePatientID() {
-    System.out.println("Update 1: Patient ID ComboBox Selected");
+    // System.out.println("Update 1: Patient ID ComboBox Selected");
 
     if (patientIDDropDown.getValue() != null) {
-      System.out.println("Patient ID Value: " + patientIDDropDown.getValue());
-      System.out.println("Patient Name: " + patientNameList.indexOf(patientIDDropDown.getValue()));
-      System.out.println(
-          "Patient New Name: "
-              + patientNameList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
+      //      System.out.println("Patient ID Value: " + patientIDDropDown.getValue());
+      //      System.out.println("Patient Name: " +
+      // patientNameList.indexOf(patientIDDropDown.getValue()));
+      //      System.out.println(
+      //          "Patient New Name: "
+      //              + patientNameList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
 
       String tempName = instanceDAO.getPatientByID(patientIDDropDown.getValue()).getName();
       patientNameDropDown.setValue(tempName);

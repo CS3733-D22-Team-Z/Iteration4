@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SecurityRequestDAOImpl implements ISecurityRequestDAO {
-  private List<SecurityServiceRequest> requestList;
+  private List<SecurityServiceRequest> requestList = new ArrayList<>();
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
   private SecurityRequestControlCSV reqCSV;
 

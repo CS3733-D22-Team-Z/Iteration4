@@ -39,6 +39,9 @@ public class LanguageInterpreterController extends ServiceRequestController {
   private String white = "FFFFFF";
   private String svgCSSLine = "-fx-background-color: %s";
 
+  private final String toListURL =
+      "edu/wpi/cs3733/D22/teamZ/views/LanguageInterpreterRequestList.fxml";
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
 
@@ -179,5 +182,10 @@ public class LanguageInterpreterController extends ServiceRequestController {
     } else {
       submitButton.setDisable(true);
     }
+  }
+
+  @FXML
+  private void viewRequestList() throws IOException {
+    menu.load(toListURL);
   }
 }
