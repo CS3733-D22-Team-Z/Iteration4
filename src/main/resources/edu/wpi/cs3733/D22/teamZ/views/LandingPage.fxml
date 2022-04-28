@@ -78,7 +78,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="computerRegion" layoutX="14.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="nelsonLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="120.0" text="Nelson Diaz" textAlignment="CENTER" visible="false">
+                              <Label fx:id="nelsonLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="120.0" text="Nelson Diaz" textAlignment="CENTER" translateX="-8.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -117,7 +117,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="laundryRegion" layoutX="8.0" layoutY="25.0" prefHeight="40.0" prefWidth="50.0" />
-                              <Label fx:id="jacobLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Jacob Leavitt" textAlignment="CENTER" visible="false">
+                              <Label fx:id="jacobLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Jacob Leavitt" textAlignment="CENTER" translateX="-10.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -156,7 +156,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="purchaseRegion" layoutX="15.0" layoutY="20.0" prefHeight="46.0" prefWidth="40.0" />
-                              <Label fx:id="andrewLabel" layoutX="-13.0" layoutY="108.0" prefHeight="25.0" prefWidth="122.0" text="Andrew Hariyanto" textAlignment="CENTER" visible="false">
+                              <Label fx:id="andrewLabel" layoutX="-13.0" layoutY="108.0" prefHeight="25.0" prefWidth="119.0" text="Andrew Hariyanto" textAlignment="CENTER" translateX="-8.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -195,7 +195,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="mealRegion" layoutX="15.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="alexLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="117.0" text="Alex Brattstrom" textAlignment="CENTER" visible="false">
+                              <Label fx:id="alexLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Alex Brattstrom" textAlignment="CENTER" translateX="-9.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -234,7 +234,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="giftRegion" layoutX="16.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="claireLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="121.0" text="Claire Higginson" textAlignment="CENTER" visible="false">
+                              <Label fx:id="claireLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Claire Higginson" textAlignment="CENTER" translateX="-8.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -273,7 +273,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="medRegion" layoutX="13.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="danLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Daniel Correa" textAlignment="CENTER" visible="false">
+                              <Label fx:id="danLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Daniel Correa" textAlignment="CENTER" translateX="-10.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -312,7 +312,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="cleaningRegion" layoutX="16.0" layoutY="20.0" prefHeight="46.0" prefWidth="40.0" />
-                              <Label fx:id="oliviaLabel" alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="120.0" text="Olivia Raisbeck" textAlignment="CENTER" visible="false">
+                              <Label fx:id="oliviaLabel" alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="120.0" text="Olivia Raisbeck" textAlignment="CENTER" translateX="-8.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -351,7 +351,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="labRegion" layoutX="15.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="patrickLabel" layoutX="-14.0" layoutY="109.0" prefHeight="25.0" prefWidth="120.0" text="Patrick Hunter" textAlignment="CENTER" visible="false">
+                              <Label fx:id="patrickLabel" layoutX="-14.0" layoutY="109.0" prefHeight="25.0" prefWidth="120.0" text="Patrick Hunter" textAlignment="CENTER" translateX="-9.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -390,7 +390,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="languageRegion" layoutX="15.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="nehaLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="118.0" text="Neha Kuchipudi" textAlignment="CENTER" visible="false">
+                              <Label fx:id="nehaLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="118.0" text="Neha Kuchipudi" textAlignment="CENTER" translateX="-10.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -429,7 +429,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="securityRegion" layoutX="18.0" layoutY="25.0" prefHeight="40.0" prefWidth="34.0" />
-                              <Label fx:id="jacobLabel1" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Jacob Leavitt" textAlignment="CENTER" visible="false">
+                              <Label fx:id="CaseyLabel" layoutX="-22.0" layoutY="106.0" prefHeight="25.0" prefWidth="119.0" text="Casey Wholers" textAlignment="CENTER" translateX="-1.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>

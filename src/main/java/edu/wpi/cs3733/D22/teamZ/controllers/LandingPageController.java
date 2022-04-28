@@ -32,6 +32,7 @@ public class LandingPageController implements IMenuAccess {
       "edu/wpi/cs3733/D22/teamZ/views/EquipmentPurchaseRequest.fxml";
   private final String toSecurityServiceURL = "edu/wpi/cs3733/D22/teamZ/views/SecurityRequest.fxml";
 
+  @FXML private Label CaseyLabel;
   @FXML private Region medRegion;
   @FXML private Region labRegion;
   @FXML private Region languageRegion;
@@ -139,6 +140,7 @@ public class LandingPageController implements IMenuAccess {
     alexLabel.setAlignment(Pos.CENTER);
     oliviaLabel.setAlignment(Pos.CENTER);
     andrewLabel.setAlignment(Pos.CENTER);
+    CaseyLabel.setAlignment(Pos.CENTER);
   }
 
   /**
@@ -238,5 +240,6 @@ public class LandingPageController implements IMenuAccess {
     alexLabel.setVisible(set);
     oliviaLabel.setVisible(set);
     andrewLabel.setVisible(set);
+    CaseyLabel.setVisible(set);
   }
 }
