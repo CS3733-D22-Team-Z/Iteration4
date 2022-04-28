@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.LanguageInterpreterRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MedicalEquipmentRequestListController implements Initializable, IMenuAccess {
+public class LanguageInterpreterRequestListController implements Initializable, IMenuAccess {
   // Back button to go back to request page
   @FXML private MFXButton backToRequestPage;
   // Button that re-fetches requests and refreshes table.
@@ -51,35 +51,41 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   private final String toHomepageURL = "views/Homepage.fxml";
   private final String requestPageURL =
-      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentDelivery.fxml"; // change
+      "edu/wpi/cs3733/D22/teamZ/views/LanguageInterpreter.fxml"; // change
 
   // List of identifiers for each
   private final String[] identifiers = {
-    "ID", "Device", "Issuer", "Handler", "Status", "Target Location" // change
+    "ID", "Language", "Issuer", "Handler", "Status", "Target Location", "Patient" // change
   };
 
   // Columns to be represented by the table
-  private final List<String> visibleColumns = List.of("ID", "Device", "Status", "Issuer"); // change
+  private final List<String> visibleColumns =
+      List.of("ID", "Language", "Status", "Issuer", "Patient"); // change
 
   // Retriever functions. Correspond to visible columns.
   private final List<RequestRowFunc> retrievers =
-      List.of(row -> row.id, row -> row.device, row -> row.status, row -> row.issuer);
+      List.of(
+          row -> row.id,
+          row -> row.language,
+          row -> row.status,
+          row -> row.issuer,
+          row -> row.patient);
 
   private final List<RequestFunc> detailRetrievers =
       List.of(
           request -> request.getRequestID(),
-          request ->
-              FacadeDAO.getInstance().getMedicalEquipmentByID(request.getEquipmentID()).getType(),
+          request -> request.getLanguage(),
           request -> request.getIssuer().getDisplayName(),
           request -> {
             if (request.getHandler() != null) return request.getHandler().getDisplayName();
             else return "";
           },
           request -> request.getStatus().toString(),
-          request -> request.getTargetLocation().getLongName());
+          request -> request.getTargetLocation().getLongName(),
+          request -> request.getPatientName());
 
   // List of requests that represents raw data
-  private List<MedicalEquipmentDeliveryRequest> rawRequests; // change
+  private List<LanguageInterpreterRequest> rawRequests; // change
 
   // List of RequestRows currently being displayed on the table
   private ObservableList<RequestRow> requests;
@@ -90,7 +96,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   // Database object
   private final FacadeDAO facadeDAO;
 
-  public MedicalEquipmentRequestListController() throws SQLException { // change
+  public LanguageInterpreterRequestListController() throws SQLException { // change
     // Create new database object
     facadeDAO = FacadeDAO.getInstance();
 
@@ -113,7 +119,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   @Override
   public String getMenuName() {
-    return "Medical Equipment Request List";
+    return "Language Interpreter Request List";
   } // change
 
   @Override
@@ -229,14 +235,15 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     requests.clear();
 
     // Iterate through each request entity and create RequestRow for each
-    for (MedicalEquipmentDeliveryRequest request : rawRequests) { // change
+    for (LanguageInterpreterRequest request : rawRequests) { // change
 
       requests.add(
           new RequestRow(
               detailRetrievers.get(0).call(request),
               detailRetrievers.get(1).call(request),
               detailRetrievers.get(2).call(request),
-              detailRetrievers.get(4).call(request)));
+              detailRetrievers.get(4).call(request),
+              detailRetrievers.get(6).call(request)));
     }
 
     tableContainer.setItems(requests);
@@ -248,7 +255,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     statusTable.getItems().clear();
 
     // Retrieve the request with the given ID.
-    MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(reqID); // change
+    LanguageInterpreterRequest selectedReq = getRequestFromID(reqID); // change
 
     for (int i = 0; i < identifiers.length; i++) {
       statusTable
@@ -263,11 +270,11 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   }
 
   public void loadRequests() throws SQLException {
-    rawRequests = FacadeDAO.getInstance().getAllMedicalEquipmentRequest(); // change
+    rawRequests = FacadeDAO.getInstance().getAllLanguageInterpreterRequests(); // change
   }
 
-  public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) { // change
-    return FacadeDAO.getInstance().getMedicalEquipmentRequestByID(MeqID); // change
+  public LanguageInterpreterRequest getRequestFromID(String MeqID) { // change
+    return FacadeDAO.getInstance().getLanguageInterpreterRequestByID(MeqID); // change
   }
 
   public void exportToCSV(ActionEvent actionEvent) {
@@ -279,7 +286,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
-    File defaultFile = facadeDAO.getDefaultMedEquipReqCSVPath(); // change
+    File defaultFile = facadeDAO.getDefaultCleaningReqCSVPath(); // change
     if (defaultFile.isDirectory()) {
       fileChooser.setInitialDirectory(defaultFile);
     } else {
@@ -288,7 +295,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     }
 
     File file = fileChooser.showSaveDialog(stage);
-    facadeDAO.exportMedicalEquipmentRequestsToCSV(file); // change
+    facadeDAO.exportLanguageInterpreterRequestsToCSV(file); // change
   }
 
   public static class TableColumnItems {
@@ -304,15 +311,18 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   // Data structure to represent a row in the request list.
   private static class RequestRow {
     SimpleStringProperty id; // change depending on what you want displayed
-    SimpleStringProperty device;
+    SimpleStringProperty language;
     SimpleStringProperty issuer;
     SimpleStringProperty status;
+    SimpleStringProperty patient;
 
-    public RequestRow(String newId, String newType, String newIssuer, String newStatus) {
+    public RequestRow(
+        String newId, String newType, String newIssuer, String newStatus, String newPatient) {
       id = new SimpleStringProperty(newId);
-      device = new SimpleStringProperty(newType);
+      language = new SimpleStringProperty(newType);
       issuer = new SimpleStringProperty(newIssuer);
       status = new SimpleStringProperty(newStatus);
+      patient = new SimpleStringProperty(newPatient);
     }
 
     /**
@@ -325,12 +335,14 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
       switch (type) { // change
         case "ID":
           return id.get();
-        case "Device":
-          return device.get();
+        case "Language":
+          return language.get();
         case "Issuer":
           return issuer.get();
         case "Status":
           return status.get();
+        case "Patient":
+          return patient.get();
         default:
           return "";
       }
@@ -342,6 +354,6 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   }
 
   private interface RequestFunc {
-    String call(MedicalEquipmentDeliveryRequest request); // change
+    String call(LanguageInterpreterRequest request); // change
   }
 }

@@ -16,12 +16,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -42,8 +42,8 @@ public class EmployeeController implements IMenuAccess, Initializable {
   @FXML private MFXTextField addEmployeeName;
   @FXML private MFXTextField addEmployeeUsername;
   @FXML private ChoiceBox addEmployeeAccessType;
-  @FXML private Text fillFields;
-  @FXML private Text editFields;
+  @FXML private Label fillFields;
+  @FXML private Label editFields;
 
   private MenuController menu;
   private FacadeDAO facadeDAO;
@@ -239,7 +239,7 @@ public class EmployeeController implements IMenuAccess, Initializable {
    * @param actionEvent The button event that triggers this method
    */
   public void editEmployee(ActionEvent actionEvent) {
-    editFields.setText("Edit Location");
+    editFields.setText("Edit Employee");
     Employee temp = employeeTable.getSelectionModel().getSelectedItem();
     addEmployeeName.setText(temp.getName());
     addEmployeeUsername.setText(temp.getUsername());
