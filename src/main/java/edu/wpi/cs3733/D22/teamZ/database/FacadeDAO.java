@@ -485,6 +485,7 @@ public class FacadeDAO {
   public boolean addSecurityServiceRequestToDatabase(SecurityServiceRequest request) {
     return securityRequestDAO.addSecurityServiceRequest(request);
   }
+
   /**
    * Adds a LabServiceRequest to the database
    *
@@ -497,6 +498,18 @@ public class FacadeDAO {
             && labRequestServiceDAO.addLabRequest(labServiceRequest);
     return val;
   }
+
+  /**
+   * Adds a LabServiceRequest to the database
+   *
+   * @param labServiceRequest LabServiceRequest to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addLabServiceRequestToDatabase(LabServiceRequest labServiceRequest) {
+    boolean val = labRequestServiceDAO.addLabRequest(labServiceRequest);
+    return val;
+  }
+
   /**
    * Adds a LabServiceRequest to the database
    *
@@ -1616,6 +1629,10 @@ public class FacadeDAO {
     return laundryServiceRequestDAO.getDefaultLaundryServiceRequestCSVPath();
   }
 
+  public File getDefaultLabServiceRequestCSVPath() {
+    return labRequestServiceDAO.getDefaultLabRequestServiceRequestCSVPath();
+  }
+
   public boolean exportLaundryRequestsToCSV(File laundryData) {
     if (laundryServiceRequestDAO.exportToLaundryServiceRequestCSV(laundryData)) return true;
     return false;
@@ -1623,6 +1640,14 @@ public class FacadeDAO {
 
   public void addLaundryServiceRequestToDatabase(LaundryServiceRequest info) {
     laundryServiceRequestDAO.addLaundryServiceRequest(info);
+  }
+
+  public void addGiftServiceRequestToDatabase(GiftServiceRequest info) {
+    giftRequestDAO.addGiftRequest(info);
+  }
+
+  public void addLanguageInterpreterRequestToDatabase(LanguageInterpreterRequest info) {
+    languageInterpreterRequestDAO.addLanguageInterpreterRequest(info);
   }
 
   public void addComputerServiceRequestToDatabase(ComputerServiceRequest info) {
