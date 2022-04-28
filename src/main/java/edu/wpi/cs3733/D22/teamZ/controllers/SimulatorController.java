@@ -216,13 +216,13 @@ public class SimulatorController implements IMenuAccess, Initializable {
         if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.INUSE)) {
           loc =
               facadeDAO
-                  .getALlLocationsByType("DIRT")
-                  .get(rand.nextInt(facadeDAO.getALlLocationsByType("DIRT").size()));
+                  .getAllLocationsByType("DIRT")
+                  .get(rand.nextInt(facadeDAO.getAllLocationsByType("DIRT").size()));
         } else if (medEquip.get(index).getStatus().equals(MedicalEquipment.EquipmentStatus.CLEAN)) {
           loc =
               facadeDAO
-                  .getALlLocationsByType("PATI")
-                  .get(rand.nextInt(facadeDAO.getALlLocationsByType("PATI").size())); // to in use
+                  .getAllLocationsByType("PATI")
+                  .get(rand.nextInt(facadeDAO.getAllLocationsByType("PATI").size())); // to in use
         } else if (medEquip
             .get(index)
             .getStatus()
@@ -235,20 +235,20 @@ public class SimulatorController implements IMenuAccess, Initializable {
           } else {
             loc =
                 facadeDAO
-                    .getALlLocationsByType("PATI")
-                    .get(rand.nextInt(facadeDAO.getALlLocationsByType("PATI").size()));
+                    .getAllLocationsByType("PATI")
+                    .get(rand.nextInt(facadeDAO.getAllLocationsByType("PATI").size()));
           }
         } else {
           loc =
               facadeDAO
-                  .getALlLocationsByType("STOR")
-                  .get(rand.nextInt(facadeDAO.getALlLocationsByType("STOR").size()));
+                  .getAllLocationsByType("STOR")
+                  .get(rand.nextInt(facadeDAO.getAllLocationsByType("STOR").size()));
           boolean validStor = false;
           while (!validStor) {
             loc =
                 facadeDAO
-                    .getALlLocationsByType("STOR")
-                    .get(rand.nextInt(facadeDAO.getALlLocationsByType("STOR").size()));
+                    .getAllLocationsByType("STOR")
+                    .get(rand.nextInt(facadeDAO.getAllLocationsByType("STOR").size()));
             if (!(loc.getNodeID().equals("zSTOR001L1"))
                 && !(loc.getNodeID().equals("zSTOR00101"))) {
               validStor = true;
@@ -358,7 +358,7 @@ public class SimulatorController implements IMenuAccess, Initializable {
     List<MedicalEquipment> bed = new ArrayList<MedicalEquipment>();
 
     List<Location> locations = new ArrayList<Location>();
-    locations.addAll(facadeDAO.getALlLocationsByType("DIRT"));
+    locations.addAll(facadeDAO.getAllLocationsByType("DIRT"));
 
     for (int i = 0; i < locations.size(); i++) {
       Location tempLocation = locations.get(i);
@@ -439,8 +439,8 @@ public class SimulatorController implements IMenuAccess, Initializable {
     Random rand = new Random();
     Location dirty =
         facadeDAO
-            .getALlLocationsByType("DIRT")
-            .get(rand.nextInt(facadeDAO.getALlLocationsByType("DIRT").size()));
+            .getAllLocationsByType("DIRT")
+            .get(rand.nextInt(facadeDAO.getAllLocationsByType("DIRT").size()));
     Employee randomEmp = employees.get(rand.nextInt(employees.size()));
 
     Location curr = patients.get(0).getLocation();
