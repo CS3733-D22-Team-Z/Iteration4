@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
 public class APILandingPageController implements IMenuAccess {
@@ -37,6 +38,7 @@ public class APILandingPageController implements IMenuAccess {
   private final String svgCSSLine = "-fx-background-color: %s";
 
   public void initialize() {
+    toggleNames.setMainColor(Color.rgb(0, 103, 177));
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
     SVGPath externalIcon = new SVGPath();
