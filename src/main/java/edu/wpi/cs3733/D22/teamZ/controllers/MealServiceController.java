@@ -83,8 +83,7 @@ public class MealServiceController extends ServiceRequestController {
     currReq.clear();
     currentRequests.getItems().removeAll();
     for (ServiceRequest model : mealRequestList) {
-      System.out.println(model.getRequestID());
-
+      // System.out.println(model.getRequestID());
       requestCon =
           model.getRequestID()
               + " "
@@ -103,7 +102,7 @@ public class MealServiceController extends ServiceRequestController {
   public void initialize(URL location, ResourceBundle resources) {
     menuName = "Meal Request";
     submitButton.setDisable(true);
-    System.out.println("Meal Request Submit button disabled");
+    // System.out.println("Meal Request Submit button disabled");
 
     mealRequestIndicator.setText("");
 
@@ -126,14 +125,14 @@ public class MealServiceController extends ServiceRequestController {
               .getShortName()
               .substring(patient.getLocation().getShortName().length() - 4));
 
-      System.out.println("Patient ID: " + patient.getPatientID());
-      System.out.println("Patient Name: " + patient.getName());
-      System.out.println(
-          "Patient Room: "
-              + patient
-                  .getLocation()
-                  .getShortName()
-                  .substring(patient.getLocation().getShortName().length() - 4));
+      //      System.out.println("Patient ID: " + patient.getPatientID());
+      //      System.out.println("Patient Name: " + patient.getName());
+      //      System.out.println(
+      //          "Patient Room: "
+      //              + patient
+      //                  .getLocation()
+      //                  .getShortName()
+      //                  .substring(patient.getLocation().getShortName().length() - 4));
     }
 
     patientIDDropDown.setItems(FXCollections.observableArrayList(patientIDList));
@@ -166,7 +165,7 @@ public class MealServiceController extends ServiceRequestController {
               + model.getLongName()
               + " "
               + model.getShortName();
-      System.out.println(temp);
+      // System.out.println(temp);
     }
 
     List<String> roomList = new ArrayList<>();
@@ -232,12 +231,12 @@ public class MealServiceController extends ServiceRequestController {
 
   @Override
   protected void onSubmitButtonClicked(ActionEvent event) throws SQLException {
-    System.out.println("Submit Button Clicked");
-    System.out.println("Patient ID: " + patientIDDropDown.getSelectionModel().getSelectedItem());
-    System.out.println("Patient Name: " + patientNameDropDown.getValue());
-    System.out.println("Room Number: " + roomNumberDropDown.getValue());
-    System.out.println("Meal Type " + mealOptionDropDown.getValue());
-    System.out.println("Drink Option: " + drinkOptionDropDown.getValue());
+    // System.out.println("Submit Button Clicked");
+    // System.out.println("Patient ID: " + patientIDDropDown.getSelectionModel().getSelectedItem());
+    // System.out.println("Patient Name: " + patientNameDropDown.getValue());
+    // System.out.println("Room Number: " + roomNumberDropDown.getValue());
+    // System.out.println("Meal Type " + mealOptionDropDown.getValue());
+    // System.out.println("Drink Option: " + drinkOptionDropDown.getValue());
 
     allServiceRequestList = instanceDAO.getAllServiceRequests();
 
@@ -311,14 +310,14 @@ public class MealServiceController extends ServiceRequestController {
     entreeOptionDropDown.setValue(null);
     snackOptionDropDown.setValue(null);
     submitButton.setDisable(true);
-    System.out.println("Meal Request Submit button disabled");
+    // System.out.println("Meal Request Submit button disabled");
   }
 
   @Override
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
     System.out.println("Reset Button Clicked");
     submitButton.setDisable(true);
-    System.out.println("Meal Request Submit button disabled");
+    // System.out.println("Meal Request Submit button disabled");
     mealRequestIndicator.setText("Form Reset");
     mealRequestIndicator.setStyle("-fx-text-fill: #7B7B7B");
     patientIDDropDown.setValue(null);
@@ -420,10 +419,10 @@ public class MealServiceController extends ServiceRequestController {
         && !(entreeOptionDropDown.getSelectionModel().getSelectedItem() == null)
         && !(snackOptionDropDown.getSelectionModel().getSelectedItem() == null)) {
       submitButton.setDisable(false);
-      System.out.println("Meal Request Submit button enabled");
+      // System.out.println("Meal Request Submit button enabled");
     } else {
       submitButton.setDisable(true);
-      System.out.println("Meal Request Submit button disabled");
+      // System.out.println("Meal Request Submit button disabled");
     }
 
     //    validateTime();
@@ -444,7 +443,7 @@ public class MealServiceController extends ServiceRequestController {
     // Local Time
     LocalDateTime date = LocalDateTime.now();
     int localHour = date.getHour();
-    System.out.println("Local Hour: " + localHour);
+    // System.out.println("Local Hour: " + localHour);
 
     if (localHour >= 0 && localHour <= 11) {
       isMorning = true;
@@ -484,14 +483,15 @@ public class MealServiceController extends ServiceRequestController {
 
   /** */
   public void updatePatientID() {
-    System.out.println("Update 1: Patient ID ComboBox Selected");
+    // System.out.println("Update 1: Patient ID ComboBox Selected");
 
     if (patientIDDropDown.getValue() != null) {
-      System.out.println("Patient ID Value: " + patientIDDropDown.getValue());
-      System.out.println("Patient Name: " + patientNameList.indexOf(patientIDDropDown.getValue()));
-      System.out.println(
-          "Patient New Name: "
-              + patientNameList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
+      //      System.out.println("Patient ID Value: " + patientIDDropDown.getValue());
+      //      System.out.println("Patient Name: " +
+      // patientNameList.indexOf(patientIDDropDown.getValue()));
+      //      System.out.println(
+      //          "Patient New Name: "
+      //              + patientNameList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
       patientNameDropDown.setValue(
           patientNameList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
       roomNumberDropDown.setValue(
@@ -501,7 +501,7 @@ public class MealServiceController extends ServiceRequestController {
 
   /** */
   public void updatePatientName() {
-    System.out.println("Update 2: Patient Name ComboBox Selected");
+    // System.out.println("Update 2: Patient Name ComboBox Selected");
     if (patientNameDropDown.getValue() != null) {
       patientIDDropDown.setValue(
           patientIDList.get(patientNameList.indexOf(patientNameDropDown.getValue())));
@@ -512,7 +512,7 @@ public class MealServiceController extends ServiceRequestController {
 
   /** */
   public void updatePatientRoom() {
-    System.out.println("Update 3: Patient Room ComboBox Selected");
+    // System.out.println("Update 3: Patient Room ComboBox Selected");
     if (roomNumberDropDown.getValue() != null) {
       patientIDDropDown.setValue(
           patientIDList.get(roomNumberList.indexOf(roomNumberDropDown.getValue())));
