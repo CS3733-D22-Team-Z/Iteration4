@@ -288,8 +288,7 @@ public class LabRequestListController implements Initializable, IMenuAccess {
     FileChooser.ExtensionFilter extFilter =
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
-
-    File defaultFile = facadeDAO.getDefaultMealServReqCSVPath(); // change
+    File defaultFile = facadeDAO.getDefaultLabServiceRequestCSVPath(); // change
     if (defaultFile.isDirectory()) {
       fileChooser.setInitialDirectory(defaultFile);
     } else {

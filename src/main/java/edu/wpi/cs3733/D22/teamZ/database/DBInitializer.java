@@ -22,6 +22,7 @@ public class DBInitializer {
   private final LanguageInterpreterRequestControlCSV languageInterpreterRequestControlCSV;
   private final ComputerRequestControlCSV computerRequestControlCSV;
   private final GiftServiceRequestControlCSV giftServiceRequestControlCSV;
+  private final LabRequestControlCSV labServiceRequestControlCSV;
   private final FacadeDAO dao = FacadeDAO.getInstance();
 
   static Connection connection = EnumDatabaseConnection.CONNECTION.getConnection();
@@ -91,7 +92,7 @@ public class DBInitializer {
         new File(
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
-                + "LanguageReq.csv");
+                + "LanguageInterpreter.csv");
     File computerReqData =
         new File(
             System.getProperty("user.dir")
@@ -101,7 +102,12 @@ public class DBInitializer {
         new File(
             System.getProperty("user.dir")
                 + System.getProperty("file.separator")
-                + "giftRequest.csv");
+                + "GiftServiceRequest.csv");
+    File labRequestData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "LabServiceRequest.csv");
 
     locCSV = new LocationControlCSV(locData);
     employeeCSV = new EmployeeControlCSV(employeeData);
@@ -119,6 +125,7 @@ public class DBInitializer {
         new LanguageInterpreterRequestControlCSV(languageReqData);
     computerRequestControlCSV = new ComputerRequestControlCSV(computerReqData);
     giftServiceRequestControlCSV = new GiftServiceRequestControlCSV(giftRequestData);
+    labServiceRequestControlCSV = new LabRequestControlCSV(labRequestData);
   }
 
   public boolean createTables() {
@@ -628,13 +635,28 @@ public class DBInitializer {
     return true;
   }
 
+  public boolean populateLabServiceRequestTable() {
+    try {
+      List<LabServiceRequest> requestList = labServiceRequestControlCSV.readLabRequestCSV();
+
+      for (LabServiceRequest labRequest : requestList) {
+        dao.addLabServiceRequestToDatabase(labRequest);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read LabServiceRequest.csv");
+      return false;
+    }
+    return true;
+  }
+
   public boolean populateLanguageInterpreterTable() {
     try {
       List<LanguageInterpreterRequest> requestList =
           languageInterpreterRequestControlCSV.readLanguageIntepreterRequestCSV();
 
       for (LanguageInterpreterRequest languageInterpreterRequest : requestList) {
-        dao.addLanguageInterpreterRequest(languageInterpreterRequest);
+        dao.addLanguageInterpreterRequestToDatabase(languageInterpreterRequest);
       }
 
     } catch (IOException e) {
@@ -693,6 +715,21 @@ public class DBInitializer {
 
       for (LaundryServiceRequest info : laundryList) {
         dao.addLaundryServiceRequestToDatabase(info);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Failed to read Laundry CSV");
+      return false;
+    }
+    return true;
+  }
+
+  public boolean populateGiftServiceRequests() {
+    try {
+      List<GiftServiceRequest> giftList = giftServiceRequestControlCSV.readGiftServiceRequestCSV();
+
+      for (GiftServiceRequest info : giftList) {
+        dao.addGiftServiceRequestToDatabase(info);
       }
 
     } catch (IOException e) {
