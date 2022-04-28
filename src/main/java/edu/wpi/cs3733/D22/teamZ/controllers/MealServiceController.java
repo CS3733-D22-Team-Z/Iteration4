@@ -30,11 +30,6 @@ public class MealServiceController extends ServiceRequestController {
   @FXML public Label entreeChoiceFormHeader;
   @FXML public Label snackChoiceFormHeader;
   @FXML public Label allergiesFormHeader;
-  @FXML private MFXTextField enterPatientName;
-  @FXML private MFXTextField enterPatientID;
-  @FXML private MFXTextField enterStaffAssigned;
-  @FXML private ChoiceBox<String> orderStatusDropDown;
-  @FXML private ListView<String> currentRequests;
   @FXML private Label mealRequestIndicator;
   @FXML private ComboBox<String> patientIDDropDown;
   @FXML private ComboBox<String> patientNameDropDown;
@@ -66,9 +61,6 @@ public class MealServiceController extends ServiceRequestController {
   private List<ServiceRequest> allServiceRequestList = new ArrayList<>();
   private List<String> patientAllergensList = new ArrayList<>();
 
-  private List<String> drinkOptionList = new ArrayList<>();
-  private List<String> entreeOptionList = new ArrayList<>();
-  private List<String> snackOptionList = new ArrayList<>();
 
   List<MealItem> allMenuItems = new ArrayList<>();
 
@@ -87,28 +79,6 @@ public class MealServiceController extends ServiceRequestController {
 
   FacadeDAO instanceDAO = FacadeDAO.getInstance();
 
-  /** Updates the CurrentRequests ListView table in FXML */
-  private void updateCurrentMealRequestList() {
-    String requestCon = null;
-    currReq.clear();
-    currentRequests.getItems().removeAll();
-    for (ServiceRequest model : mealRequestList) {
-      System.out.println(model.getRequestID());
-
-      requestCon =
-          model.getRequestID()
-              + " "
-              + model.getStatus()
-              + " "
-              + model.getTargetLocation().getNodeID();
-      currReq.add(requestCon);
-    }
-    currentRequests.setItems(currReq);
-    //    currentRequests.get
-    currentRequests.refresh();
-    allServiceRequestList = instanceDAO.getAllServiceRequests();
-  }
-
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     menuName = "Meal Request";
@@ -123,10 +93,6 @@ public class MealServiceController extends ServiceRequestController {
 
     mealRequestIndicator.setText(""); // Clear base error message label
 
-    //    locationList =
-    //        instanceDAO.getAllLocations().stream()
-    //            .filter(Location -> Location.getNodeType() == "PATI")
-    //            .collect(Collectors.toList());
     locationList = instanceDAO.getAllLocationsByType("PATI");
     mealRequestList = instanceDAO.getAllMealServiceRequests();
     patientList = instanceDAO.getAllPatients();
@@ -157,13 +123,6 @@ public class MealServiceController extends ServiceRequestController {
     patientIDDropDown.setItems(FXCollections.observableArrayList(patientIDList));
     patientNameDropDown.setItems(FXCollections.observableArrayList(patientNameList));
     roomNumberDropDown.setItems(FXCollections.observableArrayList(roomNumberList));
-    //    patientNameList = instanceDAO.getAllPatients().stream().filter(PAT -> PAT.getPatientID()
-    // == );
-
-    //        instanceDAO.getAllServiceRequests().stream()
-    //            .filter(REQ -> REQ.getType() == ServiceRequest.RequestType.MEAL)
-    //            .collect(Collectors.toList());
-    //    allServiceRequestList = instanceDAO.
 
     String temp = null;
     for (Location model : locationList) {
@@ -203,7 +162,6 @@ public class MealServiceController extends ServiceRequestController {
 
     loadFoodItems(); // add food items to time-category lists
 
-
     // Get all service requests.
     // Used later for correct ID numbering in order. TODO: Notice: Numbers randomized
     allServiceRequestList = instanceDAO.getAllServiceRequests();
@@ -213,25 +171,17 @@ public class MealServiceController extends ServiceRequestController {
     patientIDDropDown.setValue(null);
     patientNameDropDown.setValue(null);
     roomNumberDropDown.setValue(null);
-    // mealOptionDropDown.setValue(null);
     drinkOptionDropDown.setValue(null);
     entreeOptionDropDown.setValue(null);
     snackOptionDropDown.setValue(null);
 
     // Handle a food item chosen
-    //    patientIDDropDown.setOnAction(event -> validateButton());
-    //    patientNameDropDown.setOnAction(event -> validateButton());
-    //    roomNumberDropDown.setOnAction(event -> validateButton());
-    // mealOptionDropDown.setOnAction(event -> validateButton());
     drinkOptionDropDown.setOnAction(event -> validateButton());
     entreeOptionDropDown.setOnAction(event -> validateButton());
     snackOptionDropDown.setOnAction(event -> validateButton());
 
-    // TODO: Fix recursion
     // Handle event when a drop-down selection changes
     patientIDDropDown.setOnAction(event -> updatePatientID());
-    // patientNameDropDown.setOnAction(event -> updatePatientName());
-    // roomNumberDropDown.setOnAction(event -> updatePatientRoom());
 
     // Handle event when an allergy choice is changed
     dairyChoice.setOnAction(
@@ -241,37 +191,34 @@ public class MealServiceController extends ServiceRequestController {
           } else {
             patientAllergensList.remove("Dairy");
           }
-          updateAllergenChoice();
+          refreshOptionDropDowns();
         });
     wheatChoice.setOnAction(
         evt -> {
           if (wheatChoice.isSelected()) {
             patientAllergensList.add("Wheat");
-          }
-          else{
+          } else {
             patientAllergensList.remove("Wheat");
           }
-          updateAllergenChoice();
+          refreshOptionDropDowns();
         });
     eggChoice.setOnAction(
         evt -> {
           if (eggChoice.isSelected()) {
             patientAllergensList.add("Egg");
-          }
-          else{
+          } else {
             patientAllergensList.remove("Egg");
           }
-          updateAllergenChoice();
+          refreshOptionDropDowns();
         });
     peanutChoice.setOnAction(
         evt -> {
           if (peanutChoice.isSelected()) {
             patientAllergensList.add("Peanut");
-          }
-          else {
+          } else {
             patientAllergensList.remove("Peanut");
           }
-          updateAllergenChoice();
+          refreshOptionDropDowns();
         });
     treenutChoice.setOnAction(
         evt -> {
@@ -280,46 +227,38 @@ public class MealServiceController extends ServiceRequestController {
           } else {
             patientAllergensList.remove("Tree Nut");
           }
-          updateAllergenChoice();
+          refreshOptionDropDowns();
         });
     soyChoice.setOnAction(
         evt -> {
           if (soyChoice.isSelected()) {
             patientAllergensList.add("Soy");
 
-          }
-          else{
+          } else {
             patientAllergensList.remove("Soy");
           }
-          updateAllergenChoice();
+          refreshOptionDropDowns();
         });
     fishChoice.setOnAction(
         evt -> {
           if (fishChoice.isSelected()) {
             patientAllergensList.add("Fish");
-          }
-          else {
+          } else {
             patientAllergensList.remove("Fish");
           }
-          updateAllergenChoice();
+          refreshOptionDropDowns();
         });
     shellfishChoice.setOnAction(
         evt -> {
           if (shellfishChoice.isSelected()) {
             patientAllergensList.add("Shellfish");
-          }
-          else {
+          } else {
             patientAllergensList.remove("Shellfish");
           }
-          updateAllergenChoice();
+          refreshOptionDropDowns();
         });
 
-    // updateMealOptions(); // update drink, entrée, snack/dessert options based on hour
-
-    updateAllergenChoice();
-    //    updatePatientID();   // Commented out to stop recursion
-    //    updatePatientName();
-    //    updatePatientRoom();
+    refreshOptionDropDowns();
     initializeHelpGraphic();
   }
 
@@ -472,7 +411,7 @@ public class MealServiceController extends ServiceRequestController {
   /**
    * Show tooltips for different headers
    *
-   * @param visible
+   * @param visible If the help button has been pressed.
    */
   @Override
   protected void highlightRequirements(boolean visible) {
@@ -599,7 +538,7 @@ public class MealServiceController extends ServiceRequestController {
 
     allMenuItems.add(new MealItem("Water", "Drink", allDayTimeList, noneAllergyList));
     allMenuItems.add(new MealItem("Coffee", "Drink", allDayTimeList, noneAllergyList));
-    allMenuItems.add(new MealItem("Tee", "Drink", allDayTimeList, noneAllergyList));
+    allMenuItems.add(new MealItem("Tea", "Drink", allDayTimeList, noneAllergyList));
 
     // Breakfast
 
@@ -615,9 +554,8 @@ public class MealServiceController extends ServiceRequestController {
     allMenuItems.add(new MealItem("Apple Sauce", "Snack", breakfastTimeList, noneAllergyList));
     allMenuItems.add(
         new MealItem("Blueberry Muffin", "Snack", breakfastTimeList, dairyEggWheatAllergenList));
-    List<String> fruitBowlCategoryList = new ArrayList<>();
-    fruitBowlCategoryList.add("Breakfast");
-    fruitBowlCategoryList.add("Lunch");
+
+    List<String> fruitBowlCategoryList = new ArrayList<>(List.of("Breakfast", "Lunch"));
     allMenuItems.add(
         new MealItem("Fruit Bowl", "Snack", fruitBowlCategoryList, dairyEggWheatAllergenList));
 
@@ -629,7 +567,7 @@ public class MealServiceController extends ServiceRequestController {
     allMenuItems.add(
         new MealItem(
             "Chicken Sandwich", "Entree", lunchTimeList, peanutTreenutSoyShellfishAllergenList));
-    allMenuItems.add(new MealItem("Corn Bread", "Snack", lunchTimeList, soyWheatAllergenList));
+    allMenuItems.add(new MealItem("Cornbread", "Snack", lunchTimeList, soyWheatAllergenList));
 
     allMenuItems.add(new MealItem("Pretzel", "Snack", lunchTimeList, wheatAllergenList));
 
@@ -676,17 +614,6 @@ public class MealServiceController extends ServiceRequestController {
     }
   }
 
-  public void enterPatientName(ActionEvent event) {}
-
-  public void enterPatientID(ActionEvent event) {}
-
-  public void enterRoomNumber(ActionEvent event) {}
-
-  public void chooseMealOption(MouseEvent mouseEvent) {}
-
-  public void chooseOrderStatus(MouseEvent mouseEvent) {}
-
-  public void enterStaffAssigned(ActionEvent event) {}
 
   @FXML
   private void validateButton() {
@@ -708,9 +635,6 @@ public class MealServiceController extends ServiceRequestController {
 
   /** Base meal options on the time of day by hour. */
   protected void validateTime() {
-    boolean isMorning = false;
-    boolean isDay = false;
-    boolean isNight = false;
 
     // Time base on time zone
     //    TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
@@ -724,23 +648,14 @@ public class MealServiceController extends ServiceRequestController {
     System.out.println("Local Hour: " + localHour);
 
     if (localHour <= 11) {
-      isMorning = true;
-      isDay = false;
-      isNight = false;
       mealOptionDropDown.setValue("Breakfast");
     } else if (localHour <= 17) {
-      isMorning = false;
-      isDay = true;
-      isNight = false;
       mealOptionDropDown.setValue("Lunch");
     } else {
-      isMorning = false;
-      isDay = false;
-      isNight = true;
       mealOptionDropDown.setValue("Dinner");
     }
 
-    updateAllergenChoice();
+    refreshOptionDropDowns();
   }
 
   /** */
@@ -778,50 +693,6 @@ public class MealServiceController extends ServiceRequestController {
       String tempRoomNumber = tempShortName.substring(tempShortName.length() - 4);
       roomNumberDropDown.setValue(tempRoomNumber);
       System.out.println("tempRoomNumber: " + tempRoomNumber);
-
-      //      patientNameDropDown.setValue(
-      //          patientNameList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
-      //      roomNumberDropDown.setValue(
-      //          roomNumberList.get(patientIDList.indexOf(patientIDDropDown.getValue())));
-    }
-  }
-
-  /** */
-  private void updatePatientName() {
-    System.out.println("Update 2: Patient Name ComboBox Selected");
-    if (patientNameDropDown.getValue() != null) {
-      List<Patient> l =
-          patientList.stream()
-              .filter(s -> patientNameDropDown.getValue().equals(s))
-              .collect(Collectors.toList());
-
-      String tempShortName = l.get(0).getLocation().getShortName();
-
-      String tempPatientName = l.get(0).getName();
-      String tempPatientID = l.get(0).getPatientID();
-      String tempRoomNumber =
-          l.get(0).getLocation().getShortName().substring(tempShortName.length() - 4);
-
-      System.out.println("Name Chosen: " + patientIDDropDown.getValue());
-      System.out.println("Temp Name: " + tempPatientName);
-      patientIDDropDown.setValue(tempPatientID);
-      System.out.println("tempPatientID: " + tempPatientID);
-      roomNumberDropDown.setValue(tempRoomNumber);
-      System.out.println("tempRoomNumber: " + tempRoomNumber);
-    }
-  }
-
-  /** */
-  private void updatePatientRoom() {
-    System.out.println("Update 3: Patient Room ComboBox Selected");
-    if (roomNumberDropDown.getValue() != null) {
-
-      // Works based on index. Breaks if the three drop-downs don't match in length
-      // TODO: Decide to remove, disable, or refactor to work with Set. Reconsider
-      patientIDDropDown.setValue(
-          patientIDList.get(roomNumberList.indexOf(roomNumberDropDown.getValue())));
-      patientNameDropDown.setValue(
-          patientNameList.get(roomNumberList.indexOf(roomNumberDropDown.getValue())));
     }
   }
 
@@ -851,7 +722,7 @@ public class MealServiceController extends ServiceRequestController {
   }
 
   /** */
-  protected void updateAllergenChoice() {
+  protected void refreshOptionDropDowns() {
 
     List<MealItem> drinks =
         allMenuItems.stream()
