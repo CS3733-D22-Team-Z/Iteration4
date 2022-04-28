@@ -23,10 +23,10 @@
                                   <Label styleClass="header-sub" text="Overview" />
                         <BarChart fx:id="barChart">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" tickLabelsVisible="false" fx:id="x" />
+                            <CategoryAxis label="Equipment Type" side="BOTTOM" fx:id="x" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis fx:id="y" minorTickCount="1" side="LEFT" tickLabelGap="0.0" />
+                            <NumberAxis fx:id="y" label="Quantity" minorTickCount="1" side="LEFT" tickLabelGap="0.0" />
                           </yAxis>
                         </BarChart>
                               </children>
