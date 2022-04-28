@@ -613,8 +613,19 @@
     -fx-text-fill: #7B7B7B;
 }
 
+.line-chart chart-legend-item{
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 200;
+    -fx-font-size: 18pt;
+    -fx-text-fill: #7B7B7B;
+}
+
 .axis {
     -fx-tick-label-font: bold 10pt 'SansSerif';
+}
+
+.axis-lineChart {
+    -fx-tick-label-font: bold 18pt 'SansSerif';
 }
 
 .dropdown-table-view .column-header-background .filler {
