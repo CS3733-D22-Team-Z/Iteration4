@@ -17,6 +17,7 @@
           <AnchorPane fx:id="mapContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <ImageView fx:id="imageView" fitHeight="1030.0" fitWidth="1332.0" layoutX="-2.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
+                  <ChoiceBox fx:id="floorChange" layoutX="60.0" layoutY="59.0" prefHeight="76.0" prefWidth="129.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1028.0" prefWidth="644.0">
@@ -43,7 +44,7 @@
                      </font>
                   </MFXButton>
                   <Label fx:id="clock" layoutX="188.0" layoutY="180.0" styleClass="header" text="00:00 AM" />
-                  <TableView fx:id="infoTable" layoutX="12.0" layoutY="321.0" prefHeight="457.0" prefWidth="567.0">
+                  <TableView fx:id="infoTable" layoutX="12.0" layoutY="321.0" prefHeight="457.0" prefWidth="567.0" styleClass="table-hot-fix">
                     <columns>
                       <TableColumn fx:id="info" prefWidth="566.0" text="Updates" />
                     </columns>

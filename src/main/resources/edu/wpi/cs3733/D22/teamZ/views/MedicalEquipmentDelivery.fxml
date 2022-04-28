@@ -25,7 +25,7 @@
         <Label layoutX="48.0" layoutY="224.0" prefHeight="36.0" prefWidth="692.0" styleClass="form-header" text="Enter the fields to request medical equipment." />
         <Label fx:id="roomNumberFormHeader" layoutX="48.0" layoutY="308.0" prefHeight="30.0" prefWidth="178.0" styleClass="form-header" text="Room number" />
         <Label fx:id="equipmentFormHeader" layoutX="48.0" layoutY="477.0" prefHeight="17.0" prefWidth="158.0" styleClass="form-header" text="Equipment" />
-        <ChoiceBox fx:id="equipmentDropDown" layoutX="480.0" layoutY="529.0" onMouseReleased="#validateButton" prefHeight="59.0" prefWidth="369.0">
+        <ChoiceBox fx:id="nodeTypeDropDown" layoutX="480.0" layoutY="529.0" onMouseReleased="#validateButton" prefHeight="59.0" prefWidth="369.0">
          <padding>
             <Insets left="10.0" />
          </padding></ChoiceBox>
@@ -37,7 +37,7 @@
             <Insets left="10.0" />
          </padding></MFXTextField>
         <Label fx:id="locationTypeFormHeader" layoutX="478.0" layoutY="477.0" prefHeight="30.0" prefWidth="214.0" styleClass="form-header" text="Location Type" />
-        <ChoiceBox fx:id="nodeTypeDropDown" layoutX="48.0" layoutY="529.0" onMouseReleased="#validateButton" prefHeight="59.0" prefWidth="369.0">
+        <ChoiceBox fx:id="equipmentDropDown" layoutX="48.0" layoutY="529.0" onMouseReleased="#validateButton" prefHeight="59.0" prefWidth="369.0">
          <padding>
             <Insets left="10.0" />
          </padding></ChoiceBox>

@@ -6,9 +6,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ChartController">
+<AnchorPane prefHeight="1030.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ChartController">
    <children>
-      <LineChart fx:id="medChart" layoutX="64.0" prefHeight="400.0" prefWidth="485.0" title="Time to Answer Medical Equipment Requests">
+      <LineChart fx:id="medChart" layoutX="144.0" layoutY="53.0" prefHeight="952.0" prefWidth="1641.0" title="Time to Answer Medical Equipment Requests">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="x" />
         </xAxis>
@@ -16,6 +16,6 @@
           <NumberAxis fx:id="y" side="LEFT" />
         </yAxis>
       </LineChart>
-      <Label layoutX="31.0" layoutY="192.0" text="Hours" />
+      <Label layoutX="36.0" layoutY="510.0" styleClass="choice-header-floor" stylesheets="@../styles/ServiceRequestDefault.css" text="Hours" />
    </children>
 </AnchorPane>

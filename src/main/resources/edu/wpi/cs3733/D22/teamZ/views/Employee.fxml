@@ -26,6 +26,9 @@
             <TableColumn fx:id="accessColumn" prefWidth="100.0" text="Access Type" />
             <TableColumn fx:id="usernameColumn" prefWidth="100.0" text="Username" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
       <Line endX="-51.0" endY="925.3333129882812" layoutX="1314.0" layoutY="78.0" startX="-51.0" startY="-41.333335876464844" stroke="#d3d3d3" strokeWidth="3.0" />
       <Label layoutX="33.0" layoutY="34.0" style="-fx-font-size: 40;" styleClass="object-header" text="List of Employees" textFill="#012d5a">

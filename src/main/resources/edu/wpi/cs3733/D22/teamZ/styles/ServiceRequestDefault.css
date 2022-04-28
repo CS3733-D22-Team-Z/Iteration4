@@ -457,6 +457,32 @@
     -fx-alignment: center;
 }
 
+.table-hot-fix .column-header .label {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 700;
+    -fx-font-size: 9.5pt;
+    -fx-text-fill: #000000;
+
+    -fx-padding: 10px;
+}
+
+.table-hot-fix .table-cell{
+    -fx-background-color: #FFFFFF;
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 600;
+    -fx-font-size: 7.5pt;
+    -fx-text-fill: #7B7B7B;
+
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: #D2D2D2;
+
+    -fx-alignment: center;
+}
+
+.table-hot-fix .table-row-cell {
+    -fx-cell-size: 20px;
+}
+
 .table-row-cell:selected .table-cell {
     -fx-text-fill: #0067B1;
 }
@@ -613,8 +639,28 @@
     -fx-text-fill: #7B7B7B;
 }
 
+.line-chart {}
+
+.line-chart .chart-title {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 700;
+    -fx-font-size: 36pt;
+    -fx-text-fill: #000000;
+}
+
+.line-chart .chart-legend-item {
+    -fx-font-family: 'SansSerif';
+    -fx-font-weight: 200;
+    -fx-font-size: 24pt;
+    -fx-text-fill: #7B7B7B;
+}
+
 .axis {
     -fx-tick-label-font: bold 10pt 'SansSerif';
+}
+
+.axis-lineChart {
+    -fx-tick-label-font: bold 18pt 'SansSerif';
 }
 
 .dropdown-table-view .column-header-background .filler {

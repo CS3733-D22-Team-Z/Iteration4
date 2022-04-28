@@ -343,6 +343,7 @@ class ServiceRequestDAOImpl implements IServiceRequestDAO {
       connection.commit();
     } catch (SQLException e) {
       System.out.println("Failed to add service request");
+      e.printStackTrace();
       return false;
     }
     return true;
