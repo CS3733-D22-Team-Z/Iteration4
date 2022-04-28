@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f1f1f1;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.APILandingPageController">
+<AnchorPane prefHeight="1030.0" prefWidth="1920.0" style="-fx-background-color: #f1f1f1;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.APILandingPageController">
    <children>
       <Label layoutX="24.0" layoutY="13.0" prefHeight="25.0" prefWidth="300.0" styleClass="object-header" text="API Service Request Systems">
          <font>
