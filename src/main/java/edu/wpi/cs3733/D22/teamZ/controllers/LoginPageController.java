@@ -51,6 +51,7 @@ public class LoginPageController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     facadeDAO = FacadeDAO.getInstance();
+    checkReader();
   }
 
   /**
@@ -187,6 +188,16 @@ public class LoginPageController implements Initializable {
         errorLabel.setText("Invalid password for this username. Try again.");
         enterErrorState();
       }
+    }
+  }
+
+  private void checkReader() {
+    NFCCardReaderController obj = new NFCCardReaderController();
+    try {
+      obj.initialize();
+    } catch (CardException e) {
+      e.printStackTrace();
+      System.out.println("No reader Detected");
     }
   }
 }
