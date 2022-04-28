@@ -1,15 +1,15 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
-import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.LaundryServiceRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
-import java.util.function.Predicate;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -17,30 +17,26 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class LaundryServiceRequestListController implements Initializable, IMenuAccess {
-
-  // button to go back to laundry request
-  @FXML private MFXButton backToLaundry;
-  // Button to export to CSV
-  @FXML private MFXButton exportCSVButton;
-
+  // Back button to go back to request page
+  @FXML private MFXButton backToRequestPage;
   // Button that re-fetches requests and refreshes table.
   @FXML private MFXButton refreshButton;
 
   // Buttons to select the sorting/filter parameters.
-  @FXML private MFXButton assigneeButton;
-  @FXML private MFXButton idButton;
-  @FXML private MFXButton deviceButton;
-  @FXML private MFXButton statusButton;
+  @FXML private HBox sortingButtons;
 
   // Selector button stuff
   private MFXButton lastButtonPressed;
-  private Map<String, String> prevCSS;
+  private List<String> prevCSS;
 
   // Drop-down box that selects which data type to filter by.
   @FXML private ComboBox<String> filterCBox;
@@ -52,32 +48,64 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
 
   // Main table
   @FXML public TableView<RequestRow> tableContainer;
-  @FXML private TableColumn<RequestRow, String> idColumn;
-  @FXML private TableColumn<RequestRow, String> deviceColumn;
-  @FXML private TableColumn<RequestRow, String> assigneeColumn;
-  @FXML private TableColumn<RequestRow, String> statusColumn;
 
   private final String toHomepageURL = "views/Homepage.fxml";
-  private final String toLaundryRequest = "edu/wpi/cs3733/D22/teamZ/views/LaundryService.fxml";
-  //
-
-  private MenuController menu;
+  private final String requestPageURL =
+      "edu/wpi/cs3733/D22/teamZ/views/CleaningRequest.fxml"; // change
 
   // List of identifiers for each
   private final String[] identifiers = {
-    "ID", "Laundry", "Assignee", "Handler", "Status", "Target Location"
+    "ID", "Linen Type", "Issuer", "Handler", "Status", "Target Location", "Laundry Status" // change
   };
 
-  // List of MedEquipReq that represents raw data
-  private List<LaundryServiceRequest> rawRequests;
+  // Columns to be represented by the table
+  private final List<String> visibleColumns =
+      List.of("ID", "Linen Type", "Status", "Issuer"); // change
+
+  // Retriever functions. Correspond to visible columns.
+  private final List<RequestRowFunc> retrievers =
+      List.of(row -> row.id, row -> row.linenType, row -> row.status, row -> row.issuer);
+
+  private final List<RequestFunc> detailRetrievers =
+      List.of(
+          request -> request.getRequestID(),
+          request -> request.getLaundryType(),
+          request -> request.getIssuer().getDisplayName(),
+          request -> {
+            if (request.getHandler() != null) return request.getHandler().getDisplayName();
+            else return "";
+          },
+          request -> request.getStatus().toString(),
+          request -> request.getTargetLocation().getLongName(),
+          request -> request.getLaundryStatus().toString());
+
+  // List of requests that represents raw data
+  private List<LaundryServiceRequest> rawRequests; // change
 
   // List of RequestRows currently being displayed on the table
   private ObservableList<RequestRow> requests;
-  private ObservableList<RequestRow> dispRequests;
   private String filter = "";
 
+  private MenuController menu;
+
   // Database object
-  private final FacadeDAO facadeDAO = FacadeDAO.getInstance();
+  private final FacadeDAO facadeDAO;
+
+  public LaundryServiceRequestListController() throws SQLException { // change
+    // Create new database object
+    facadeDAO = FacadeDAO.getInstance();
+
+    // Grab data
+    loadRequests();
+
+    // Setup CSS map
+    prevCSS =
+        List.of(
+            "-fx-background-radius: 5 0 0 5; ",
+            "-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2; ",
+            "-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2; ",
+            "-fx-background-radius: 0 5 5 0; ");
+  }
 
   @Override
   public void setMenuController(MenuController menu) {
@@ -87,26 +115,10 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
   @Override
   public String getMenuName() {
     return "Laundry Service Request List";
-  }
+  } // change
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-
-    // Grab data
-    loadRequests();
-
-    // Setup CSS map
-    prevCSS =
-        Map.of(
-            "ID",
-            "-fx-background-radius: 5 0 0 5; ",
-            "Device",
-            "-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2; ",
-            "Status",
-            "-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2; ",
-            "Handler",
-            "-fx-background-radius: 0 5 5 0; ");
-
     // Create labels for field values
     for (String identifier : identifiers) {
       Label ID = new Label();
@@ -114,39 +126,29 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
     }
 
     // Setup details window
-    int sWidth = 186 / 2;
+    statusTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
     labelsColumn.setCellValueFactory(tRow -> tRow.getValue().label);
-    labelsColumn.setPrefWidth(sWidth);
-    labelsColumn.setResizable(false);
+    labelsColumn.setSortable(false);
     labelsColumn.setReorderable(false);
 
     detailsColumn.setCellValueFactory(tRow -> tRow.getValue().detail);
-    detailsColumn.setPrefWidth(sWidth);
-    detailsColumn.setResizable(false);
+    detailsColumn.setSortable(false);
     detailsColumn.setReorderable(false);
 
-    // Setup main list
-    int width = 380 / 4;
+    List<TableColumn<RequestRow, String>> columns = new ArrayList<>();
+    for (int i = 0; i < visibleColumns.size(); i++) {
+      TableColumn<RequestRow, String> column = new TableColumn<>();
+      column.setText(visibleColumns.get(i));
+      column.setReorderable(false);
+      column.setSortable(false);
+      int finalI = i;
+      column.setCellValueFactory(rRow -> retrievers.get(finalI).call(rRow.getValue()));
+      columns.add(column);
+    }
 
-    idColumn.setCellValueFactory(rRow -> rRow.getValue().id);
-    idColumn.setPrefWidth(width);
-    idColumn.setResizable(false);
-    idColumn.setReorderable(false);
-
-    deviceColumn.setCellValueFactory(rRow -> rRow.getValue().device);
-    deviceColumn.setPrefWidth(width);
-    deviceColumn.setResizable(false);
-    deviceColumn.setReorderable(false);
-
-    assigneeColumn.setCellValueFactory(rRow -> rRow.getValue().assignee);
-    assigneeColumn.setPrefWidth(width);
-    assigneeColumn.setResizable(false);
-    assigneeColumn.setReorderable(false);
-
-    statusColumn.setCellValueFactory(rRow -> rRow.getValue().status);
-    statusColumn.setPrefWidth(width);
-    statusColumn.setResizable(false);
-    statusColumn.setReorderable(false);
+    tableContainer.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    tableContainer.getColumns().addAll(columns);
 
     tableContainer
         .getSelectionModel()
@@ -162,15 +164,21 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
 
   // Called whenever one of the filter buttons are clicked.
   public void filterClicked(ActionEvent event) {
-    if (lastButtonPressed != null)
-      lastButtonPressed.setStyle(prevCSS.get(lastButtonPressed.getText()));
+    // Get CSS idx
+    int cssIdx = sortingButtons.getChildren().indexOf(event.getTarget());
+    if (cssIdx > 1)
+      if (cssIdx == (sortingButtons.getChildren().size() - 1)) cssIdx = 3;
+      else cssIdx = 2;
+
+    // Revert previous button
+    if (lastButtonPressed != null) lastButtonPressed.setStyle(prevCSS.get(cssIdx));
+
     filterCBox.getItems().clear();
     if (lastButtonPressed == null || !lastButtonPressed.equals(event.getTarget())) {
       lastButtonPressed = (MFXButton) event.getTarget();
       filter = lastButtonPressed.getText();
       lastButtonPressed.setStyle(
-          prevCSS.get(lastButtonPressed.getText())
-              + "-fx-background-color: #0075ff; -fx-text-fill: #FFFFFF");
+          prevCSS.get(cssIdx) + "-fx-background-color: #0075ff; -fx-text-fill: #FFFFFF");
 
       // Filter buttons
       Comparator<RequestRow> comparator =
@@ -192,7 +200,7 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
   }
 
   // Called whenever the refresh button is clicked.
-  public void refreshClicked(ActionEvent event) {
+  public void refreshClicked(ActionEvent event) throws SQLException {
     System.out.println(refreshButton.getText());
 
     // Reload requests
@@ -207,12 +215,9 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
     String filterOption = filterCBox.getSelectionModel().getSelectedItem();
     FilteredList<RequestRow> fList =
         requests.filtered(
-            new Predicate<RequestRow>() {
-              @Override
-              public boolean test(RequestRow requestRow) {
-                if (filterOption == null || filterOption.equals("None")) return true;
-                return requestRow.retrievePropertyFromType(filter).equals(filterOption);
-              }
+            requestRow -> {
+              if (filterOption == null || filterOption.equals("None")) return true;
+              return requestRow.retrievePropertyFromType(filter).equals(filterOption);
             });
 
     tableContainer.setItems(fList);
@@ -222,52 +227,67 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
     // Clear old requests
     requests.clear();
 
-    // Iterate through each MedEquipReq in entity and create RequestRow for each
-    for (LaundryServiceRequest laundryServiceRequest : rawRequests) {
-      String handlerName =
-          (laundryServiceRequest.getHandler() != null)
-              ? laundryServiceRequest.getHandler().getName()
-              : "null";
+    // Iterate through each request entity and create RequestRow for each
+    for (LaundryServiceRequest request : rawRequests) { // change
+
       requests.add(
           new RequestRow(
-              laundryServiceRequest.getRequestID(),
-              laundryServiceRequest.getLaundryType(),
-              handlerName,
-              laundryServiceRequest.getStatus().toString()));
+              detailRetrievers.get(0).call(request),
+              detailRetrievers.get(1).call(request),
+              detailRetrievers.get(2).call(request),
+              detailRetrievers.get(4).call(request)));
     }
 
     tableContainer.setItems(requests);
   }
 
-  // Load a MedEquipReq into the Details row.
-  public void loadRow(String MeqID) {
+  // Load a request into the Details row.
+  public void loadRow(String reqID) {
     // Clear out current details data
     statusTable.getItems().clear();
 
-    // Retrieve the MedEquipReq with the given ID.
-    LaundryServiceRequest selectedReq = getRequestFromID(MeqID);
+    // Retrieve the request with the given ID.
+    LaundryServiceRequest selectedReq = getRequestFromID(reqID); // change
 
-    // statusTable.getColumns().add(labelsColumn);
-    // statusTable.getColumns().add(detailsColumn);
-    String handlerName =
-        (selectedReq.getHandler() != null) ? selectedReq.getHandler().getName() : "null";
-
-    statusTable.getItems().add(new TableColumnItems("ID", selectedReq.getRequestID()));
-    statusTable.getItems().add(new TableColumnItems("Type", selectedReq.getType().toString()));
-    statusTable.getItems().add(new TableColumnItems("Status", selectedReq.getStatus().toString()));
-    statusTable.getItems().add(new TableColumnItems("Issuer", selectedReq.getIssuer().getName()));
-    statusTable.getItems().add(new TableColumnItems("Handler", handlerName));
-    statusTable
-        .getItems()
-        .add(new TableColumnItems("Destination", selectedReq.getTargetLocation().getLongName()));
+    for (int i = 0; i < identifiers.length; i++) {
+      statusTable
+          .getItems()
+          .add(new TableColumnItems(identifiers[i], detailRetrievers.get(i).call(selectedReq)));
+    }
   }
 
-  public void onBackToLaundryClicked(ActionEvent actionEvent) {
-    try {
-      menu.load(toLaundryRequest);
-    } catch (IOException e) {
-      System.out.println("failed to go back to gift request");
+  @FXML
+  private void onBackToRequestClicked(ActionEvent actionEvent) throws IOException {
+    menu.load(requestPageURL);
+  }
+
+  public void loadRequests() throws SQLException {
+    rawRequests = FacadeDAO.getInstance().getAllLaundryServiceRequests(); // change
+  }
+
+  public LaundryServiceRequest getRequestFromID(String MeqID) { // change
+    return FacadeDAO.getInstance().getLaundryRequestByID(MeqID); // change
+  }
+
+  public void exportToCSV(ActionEvent actionEvent) {
+
+    FileChooser fileChooser = new FileChooser();
+    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    fileChooser.setTitle("Enter a .csv file...");
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    File defaultFile = facadeDAO.getDefaultLaundryServiceRequestCSVPath(); // change
+    if (defaultFile.isDirectory()) {
+      fileChooser.setInitialDirectory(defaultFile);
+    } else {
+      fileChooser.setInitialDirectory(defaultFile.getParentFile());
+      fileChooser.setInitialFileName(defaultFile.getName());
     }
+
+    File file = fileChooser.showSaveDialog(stage);
+    facadeDAO.exportLaundryRequestsToCSV(file); // change
   }
 
   public static class TableColumnItems {
@@ -280,47 +300,17 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
     }
   }
 
-  public void loadRequests() {
-    rawRequests = FacadeDAO.getInstance().getAllLaundryServiceRequests();
-  }
-
-  public LaundryServiceRequest getRequestFromID(String laundryID) {
-    return FacadeDAO.getInstance().getLaundryRequestByID(laundryID);
-  }
-
-  public void exportToCSV(ActionEvent actionEvent) {
-
-    FileChooser fileChooser = new FileChooser();
-    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-    fileChooser.setTitle("Enter a .csv file...");
-    FileChooser.ExtensionFilter extFilter =
-        new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
-    fileChooser.getExtensionFilters().add(extFilter);
-
-    File defaultFile = facadeDAO.getDefaultLaundryServiceRequestCSVPath();
-    if (defaultFile.isDirectory()) {
-      fileChooser.setInitialDirectory(defaultFile);
-    } else {
-      fileChooser.setInitialDirectory(defaultFile.getParentFile());
-      fileChooser.setInitialFileName(defaultFile.getName());
-    }
-
-    File file = fileChooser.showSaveDialog(stage);
-    facadeDAO.exportMedicalEquipmentRequestsToCSV(file);
-  }
-
   // Data structure to represent a row in the request list.
-  // Does this belong here or in an entity?
-  static class RequestRow {
-    SimpleStringProperty id;
-    SimpleStringProperty device;
-    SimpleStringProperty assignee;
+  private static class RequestRow {
+    SimpleStringProperty id; // change depending on what you want displayed
+    SimpleStringProperty linenType;
+    SimpleStringProperty issuer;
     SimpleStringProperty status;
 
-    public RequestRow(String newId, String newDevice, String newAssignee, String newStatus) {
+    public RequestRow(String newId, String newType, String newIssuer, String newStatus) {
       id = new SimpleStringProperty(newId);
-      device = new SimpleStringProperty(newDevice);
-      assignee = new SimpleStringProperty(newAssignee);
+      linenType = new SimpleStringProperty(newType);
+      issuer = new SimpleStringProperty(newIssuer);
       status = new SimpleStringProperty(newStatus);
     }
 
@@ -331,18 +321,26 @@ public class LaundryServiceRequestListController implements Initializable, IMenu
      * @return the value of the property
      */
     public String retrievePropertyFromType(String type) {
-      switch (type) {
+      switch (type) { // change
         case "ID":
           return id.get();
-        case "Laundry":
-          return device.get();
-        case "Handler":
-          return assignee.get();
+        case "Linen Type":
+          return linenType.get();
+        case "Issuer":
+          return issuer.get();
         case "Status":
           return status.get();
         default:
           return "";
       }
     }
+  }
+
+  private interface RequestRowFunc {
+    ObservableStringValue call(RequestRow row);
+  }
+
+  private interface RequestFunc {
+    String call(LaundryServiceRequest request); // change
   }
 }

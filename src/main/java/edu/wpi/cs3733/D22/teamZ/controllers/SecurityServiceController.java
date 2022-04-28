@@ -79,6 +79,6 @@ public class SecurityServiceController extends ServiceRequestController {
 
   public void onNavigateToRequestList(ActionEvent actionEvent) throws IOException {
     menu.selectMenu(1);
-    menu.load("edu/wpi/cs3733/D22/teamZ/views/ServiceRequest.fxml");
+    menu.load("edu/wpi/cs3733/D22/teamZ/views/SecurityServiceRequestList.fxml");
   }
 }
