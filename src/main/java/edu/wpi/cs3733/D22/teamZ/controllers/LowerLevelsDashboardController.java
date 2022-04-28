@@ -23,8 +23,7 @@ public class LowerLevelsDashboardController implements IMenuAccess {
   @FXML private TableColumn idColumnLL2;
   @FXML private TableColumn locationColumnLL2;
 
-  private final String toUpperFloorsURL =
-      "edu/wpi/cs3733/D22/teamZ/views/UpperFloorsDashboard.fxml";
+  private final String toUpperFloorsURL = "edu/wpi/cs3733/D22/teamZ/views/Dashboard.fxml";
 
   @FXML
   public void initialize() {

@@ -13,9 +13,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class MedicalEquipmentRequestController extends ServiceRequestController {
+  @FXML public Label roomNumberFormHeader;
+  @FXML public Label equipmentFormHeader;
+  @FXML public Label floorNumberFormHeader;
+  @FXML public Label locationTypeFormHeader;
   @FXML private Label header;
   @FXML private Label objectBodyText;
   @FXML private Label roomNumberLabel;
@@ -44,19 +47,10 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
   @FXML
   public void initialize(URL location, ResourceBundle resources) {
 
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
-
     menuName = "Medical Equipment Request";
 
     locationList = database.getAllLocations();
     equipmentRequestList = database.getAllMedicalEquipmentRequest();
-
-    for (Location model : locationList) {
-      System.out.println(model.getNodeID());
-    }
 
     equipmentDropDown.setItems(
         FXCollections.observableArrayList("Bed", "Recliner", "X-Ray", "Infusion Pump"));
@@ -67,9 +61,10 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     // //example
     nodeTypeDropDown.getSelectionModel().select(0);
     equipmentDropDown.getSelectionModel().select(0);
-    System.out.println(
-        "ChoiceBox 1 value" + nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
+    // System.out.println("ChoiceBox 1 value" +
+    // nodeTypeDropDown.getSelectionModel().getSelectedItem().isEmpty());
     errorSavingLabel.setVisible(false);
+    initializeHelpGraphic();
   }
 
   @FXML
@@ -82,17 +77,15 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
     nodeTypeDropDown.getSelectionModel().select(0);
     equipmentDropDown.getSelectionModel().select(0);
     errorSavingLabel.setVisible(false);
-    //    nodeTypeDropDown.setValue(null);
-    //    equipmentDropDown.setValue(null);
   }
 
   @FXML
   protected void onSubmitButtonClicked(ActionEvent actionEvent) {
     // Debug
-    System.out.println("Room Number: " + enterRoomNumber.getText());
-    System.out.println("Floor Number: " + enterFloorNumber.getText());
-    System.out.println("nodeType: " + nodeTypeDropDown.getValue());
-    System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
+    // System.out.println("Room Number: " + enterRoomNumber.getText());
+    // System.out.println("Floor Number: " + enterFloorNumber.getText());
+    // System.out.println("nodeType: " + nodeTypeDropDown.getValue());
+    // System.out.println("Equipment Selected: " + equipmentDropDown.getValue());
 
     UniqueID id = new UniqueID();
     String requestID = id.generateID("EQUIP");
@@ -153,5 +146,45 @@ public class MedicalEquipmentRequestController extends ServiceRequestController 
 
   public void onNavigateToMedicalRequestStats() throws IOException {
     menu.load(toMedicalEquipmentStatsURL);
+  }
+
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          roomNumberFormHeader, "Enter room number that\nequipment is delivered to");
+
+      equipmentFormHeader.getStyleClass().clear();
+      equipmentFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(equipmentFormHeader, "Select equipment to be delivered");
+
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          floorNumberFormHeader, "Enter floor number that\nequipment is delivered to");
+
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          locationTypeFormHeader,
+          "Select location type of the room\nthe equipment will be delivered to");
+    } else {
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
+
+      equipmentFormHeader.getStyleClass().clear();
+      equipmentFormHeader.getStyleClass().add("form-header");
+      equipmentFormHeader.setTooltip(null);
+
+      floorNumberFormHeader.getStyleClass().clear();
+      floorNumberFormHeader.getStyleClass().add("form-header");
+      floorNumberFormHeader.setTooltip(null);
+
+      locationTypeFormHeader.getStyleClass().clear();
+      locationTypeFormHeader.getStyleClass().add("form-header");
+      locationTypeFormHeader.setTooltip(null);
+    }
   }
 }

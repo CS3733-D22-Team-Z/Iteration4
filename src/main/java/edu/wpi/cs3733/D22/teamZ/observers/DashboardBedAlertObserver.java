@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.D22.teamZ.observers;
 
-import edu.wpi.cs3733.D22.teamZ.controllers.UpperFloorsDashboardController;
+import edu.wpi.cs3733.D22.teamZ.controllers.DashboardFinal;
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
 import edu.wpi.cs3733.D22.teamZ.entity.Location;
 import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipment;
@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 public class DashboardBedAlertObserver {
   Location subject;
-  UpperFloorsDashboardController dashboard;
+  DashboardFinal dashboard;
 
-  public DashboardBedAlertObserver(Location subject, UpperFloorsDashboardController dashboard) {
+  public DashboardBedAlertObserver(Location subject, DashboardFinal dashboard) {
     this.subject = subject;
     this.dashboard = dashboard;
     subject.attachAlertObs(this);

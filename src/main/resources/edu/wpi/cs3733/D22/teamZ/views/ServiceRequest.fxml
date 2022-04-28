@@ -19,16 +19,16 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ServiceRequestPageController">
+<AnchorPane prefHeight="1030.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.ServiceRequestPageController">
     <children>
         <Label layoutX="19.0" layoutY="15.0" style="-fx-text-fill: #012d5a;" styleClass="object-header" text="List of Service Requests">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <VBox alignment="CENTER" layoutX="405.0" layoutY="16.0" prefHeight="212.0" prefWidth="196.0" spacing="10.0">
+        <VBox alignment="CENTER" layoutX="1494.0" layoutY="168.0" prefHeight="212.0" prefWidth="196.0" scaleX="2.0" scaleY="2.0" spacing="10.0">
             <children>
-                <MFXButton fx:id="exportCSVButton" mnemonicParsing="false" onAction="#exportToCSV" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #f6bd38; -fx-text-fill: #012d5a;" text="Export to CSV" textFill="#012d5a" />
+                <MFXButton fx:id="exportCSVButton" mnemonicParsing="false" onAction="#exportToCSV" prefHeight="35.0" prefWidth="418.0" style="-fx-background-color: #f6bd38; -fx-text-fill: #012d5a;" text="Export to CSV" textFill="#012d5a" />
                 <MFXButton fx:id="refresh" onAction="#refreshClicked" prefHeight="35.0" prefWidth="144.0" style="-fx-background-color: #0067B1;" text="Refresh" textFill="WHITE" />
                 <Label text="Filter By" translateY="10.0">
                     <font>
@@ -54,8 +54,8 @@
                </effect></ChoiceBox>
             </children>
         </VBox>
-      <MFXButton fx:id="setEmpButton" layoutX="430.0" layoutY="297.0" mnemonicParsing="false" onAction="#setEmployee" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #0067B1;" text="Set Employee" textFill="WHITE" />
-      <ChoiceBox fx:id="employeeBox" layoutX="415.0" layoutY="264.0" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;">
+      <MFXButton fx:id="setEmpButton" layoutX="1513.0" layoutY="700.0" mnemonicParsing="false" onAction="#setEmployee" prefHeight="35.0" prefWidth="145.0" scaleX="2.0" scaleY="2.0" style="-fx-background-color: #0067B1;" text="Set Employee" textFill="WHITE" />
+      <ChoiceBox fx:id="employeeBox" layoutX="1498.0" layoutY="616.0" onAction="#filterList" prefHeight="25.0" prefWidth="175.0" scaleX="2.0" scaleY="2.0" style="-fx-background-radius: 2; -fx-background-color: FFFFFF;">
          <effect>
             <DropShadow>
                <color>
@@ -85,13 +85,13 @@
                 </DropShadow>
             </effect>
         </Label>
-      <TabPane fx:id="tabs" layoutX="18.0" layoutY="49.0" prefHeight="352.0" prefWidth="372.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabs" layoutX="18.0" layoutY="49.0" prefHeight="948.0" prefWidth="1189.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="all" text="All Service Requests">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                          <TableView fx:id="tableContainer" prefHeight="301.0" prefWidth="374.0">
+                          <TableView fx:id="tableContainer" prefHeight="924.0" prefWidth="1191.0">
                               <columns>
                                   <TableColumn fx:id="idCol" editable="false" prefWidth="93.5" text="ID" />
                                   <TableColumn fx:id="typeCol" editable="false" prefWidth="93.5" text="Type" />
@@ -124,12 +124,12 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Label fx:id="textEmp" layoutX="430.0" layoutY="240.0" text="Add Employee to Request">
+      <Label fx:id="textEmp" layoutX="1513.0" layoutY="550.0" scaleX="2.0" scaleY="2.0" text="Add Employee to Request">
          <font>
             <Font name="Palatino Linotype Bold" size="12.0" />
          </font>
       </Label>
-      <Line endX="-51.0" endY="365.0" layoutX="455.0" layoutY="20.0" startX="-51.0" startY="-4.0" stroke="#a1a1a1" />
-      <MFXButton fx:id="finishRequestButton" layoutX="431.0" layoutY="351.0" mnemonicParsing="false" onAction="#finishRequest" prefHeight="35.0" prefWidth="145.0" style="-fx-background-color: #ff4343;" text="Finished Request" textFill="WHITE" />
+      <Line endX="-51.0" endY="925.3333129882812" layoutX="1304.0" layoutY="68.0" startX="-51.0" startY="-41.333335876464844" stroke="#d3d3d3" strokeWidth="3.0" />
+      <MFXButton fx:id="finishRequestButton" layoutX="1514.0" layoutY="797.0" mnemonicParsing="false" onAction="#finishRequest" prefHeight="35.0" prefWidth="145.0" scaleX="2.0" scaleY="2.0" style="-fx-background-color: #ff4343;" text="Finished Request" textFill="WHITE" />
     </children>
 </AnchorPane>

@@ -94,6 +94,9 @@ public class ExternalPatientTransportationRequestController extends ServiceReque
     warningBackground.setVisible(false);
   }
 
+  @Override
+  protected void highlightRequirements(boolean visible) {}
+
   @FXML
   protected void validateButton() {
     if (!patientNameField.getText().trim().isEmpty()

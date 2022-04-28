@@ -15,11 +15,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import javafx.scene.shape.SVGPath;
 
 public class LanguageInterpreterController extends ServiceRequestController {
 
+  @FXML public Label patientIDFormHeader;
+  @FXML public Label languageFormHeader;
+  @FXML public Label patientNameFormHeader;
+  @FXML public Label roomNumberFormHeader;
   @FXML private Region backRegion;
   @FXML private MFXTextField enterPatientName;
   @FXML private MFXTextField enterPatientID;
@@ -37,10 +41,6 @@ public class LanguageInterpreterController extends ServiceRequestController {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    SVGPath icon = new SVGPath();
-    icon.setContent(backSVG);
-    backRegion.setShape(icon);
-    backRegion.setStyle(String.format(svgCSSLine, white));
 
     menuName = "Language Interpreter Request";
 
@@ -67,6 +67,7 @@ public class LanguageInterpreterController extends ServiceRequestController {
 
     nodeTypeDropDown.setOnAction(event -> validateButton());
     languageDropDown.setOnAction(event -> validateButton());
+    initializeHelpGraphic();
   }
 
   @Override
@@ -129,6 +130,44 @@ public class LanguageInterpreterController extends ServiceRequestController {
     nodeTypeDropDown.getSelectionModel().select(0);
     languageDropDown.getSelectionModel().select(0);
     validateButton();
+  }
+
+  @Override
+  protected void highlightRequirements(boolean visible) {
+    if (visible) {
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(patientIDFormHeader, "Enter ID of patient that\nneeds an interpreter");
+
+      languageFormHeader.getStyleClass().clear();
+      languageFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(languageFormHeader, "Select language that\npatient speaks");
+
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(
+          patientNameFormHeader, "Enter name of patient that\nneeds an interpreter");
+
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header-help");
+      enableToolTipOnLabel(roomNumberFormHeader, "Enter room number that\ninterpreter arrives at");
+    } else {
+      patientIDFormHeader.getStyleClass().clear();
+      patientIDFormHeader.getStyleClass().add("form-header");
+      patientIDFormHeader.setTooltip(null);
+
+      languageFormHeader.getStyleClass().clear();
+      languageFormHeader.getStyleClass().add("form-header");
+      languageFormHeader.setTooltip(null);
+
+      patientNameFormHeader.getStyleClass().clear();
+      patientNameFormHeader.getStyleClass().add("form-header");
+      patientNameFormHeader.setTooltip(null);
+
+      roomNumberFormHeader.getStyleClass().clear();
+      roomNumberFormHeader.getStyleClass().add("form-header");
+      roomNumberFormHeader.setTooltip(null);
+    }
   }
 
   public void validateButton() {

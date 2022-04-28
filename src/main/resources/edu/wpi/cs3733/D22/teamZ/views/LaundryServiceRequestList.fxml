@@ -62,5 +62,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <MFXButton fx:id="backToLaundry" layoutX="28.0" layoutY="12.0" mnemonicParsing="false" onAction="#onBackToLaundryClicked" text="Back to Laundry Request" />
     </children>
 </AnchorPane>
