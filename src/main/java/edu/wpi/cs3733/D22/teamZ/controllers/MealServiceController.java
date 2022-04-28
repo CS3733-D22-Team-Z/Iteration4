@@ -84,9 +84,9 @@ public class MealServiceController extends ServiceRequestController {
 
     mealOptionDropDown.setDisable(true); // leave for time dependant -temp
     patientNameDropDown.setDisable(true); // dropdown for only unique names
-    patientNameFormHeader.setText("Patient Name");
+    // patientNameFormHeader.setText("Patient Name");
     roomNumberDropDown.setDisable(true); // what about more than one patient per room? -disabled
-    roomNumberFormHeader.setText("Room Number");
+    // roomNumberFormHeader.setText("Room Number");
 
     mealRequestIndicator.setText(""); // Clear base error message label
 
@@ -273,7 +273,7 @@ public class MealServiceController extends ServiceRequestController {
     // System.out.println("Room Number: " + roomNumberDropDown.getValue());
     // System.out.println("Meal Type " + mealOptionDropDown.getValue());
     // System.out.println("Drink Option: " + drinkOptionDropDown.getValue());
-    System.out.println("Patient Allergens: " + patientAllergensList);
+    // System.out.println("Patient Allergens: " + patientAllergensList);
 
     allServiceRequestList = instanceDAO.getAllServiceRequests();
 
@@ -327,9 +327,9 @@ public class MealServiceController extends ServiceRequestController {
       instanceDAO.addMealServiceRequest(temp);
       mealRequestIndicator.setText("Submitted Successfully");
       mealRequestIndicator.setTextFill(GREEN);
-      System.out.println("Meal Service Request: Submitted Successfully");
+      // System.out.println("Meal Service Request: Submitted Successfully");
     } catch (Exception e) {
-      System.out.println("Meal Service Request: Submission failed");
+      // System.out.println("Meal Service Request: Submission failed");
       mealRequestIndicator.setText("Submission Failed");
       mealRequestIndicator.setTextFill(RED);
       e.printStackTrace();
@@ -360,7 +360,7 @@ public class MealServiceController extends ServiceRequestController {
    */
   @Override
   protected void onResetButtonClicked(ActionEvent event) throws IOException {
-    System.out.println("Reset Button Clicked");
+    // System.out.println("Reset Button Clicked");
     submitButton.setDisable(true);
     // System.out.println("Meal Request Submit button disabled");
     mealRequestIndicator.setText("Form Reset");
@@ -383,7 +383,7 @@ public class MealServiceController extends ServiceRequestController {
     shellfishChoice.setSelected(false);
     // Remove allergens from meal request
     patientAllergensList.clear();
-    System.out.println("Patient Allergen List Emptied");
+    // System.out.println("Patient Allergen List Emptied");
 
     loadFoodItems(); // reset food lists
     validateTime();
@@ -399,7 +399,7 @@ public class MealServiceController extends ServiceRequestController {
     try {
       menu.load(toMealServiceRequestListURL);
     } catch (IOException e) {
-      System.out.println("Error: Failed to load Meal Service Request List URL");
+      // System.out.println("Error: Failed to load Meal Service Request List URL");
       e.printStackTrace();
       throw new IOException();
     }
@@ -682,19 +682,19 @@ public class MealServiceController extends ServiceRequestController {
 
       String tempName = instanceDAO.getPatientByID(patientIDDropDown.getValue()).getName();
       patientNameDropDown.setValue(tempName);
-      System.out.println("TempName: " + tempName);
+      // System.out.println("TempName: " + tempName);
 
       String tempShortName =
           instanceDAO.getPatientByID(patientIDDropDown.getValue()).getLocation().getShortName();
 
       String tempRoomNumber = tempShortName.substring(tempShortName.length() - 4);
       roomNumberDropDown.setValue(tempRoomNumber);
-      System.out.println("tempRoomNumber: " + tempRoomNumber);
+      // System.out.println("tempRoomNumber: " + tempRoomNumber);
     }
   }
 
   private void updateAllergens() {
-    System.out.println("Updating allergens...");
+    // System.out.println("Updating allergens...");
 
     if (dairyChoice.isSelected()
         || eggChoice.isSelected()
@@ -707,7 +707,7 @@ public class MealServiceController extends ServiceRequestController {
       // Remove none if exists
       if (patientAllergensList.contains("none")) {
         patientAllergensList.remove("none");
-        System.out.println("Removed \"none\" from Patient Allergen list");
+        // System.out.println("Removed \"none\" from Patient Allergen list");
       }
 
     } else {
