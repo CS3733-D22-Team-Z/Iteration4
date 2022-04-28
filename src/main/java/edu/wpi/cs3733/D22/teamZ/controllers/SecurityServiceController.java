@@ -98,8 +98,7 @@ public class SecurityServiceController extends ServiceRequestController {
 
       roomNumberFormHeader.getStyleClass().clear();
       roomNumberFormHeader.getStyleClass().add("form-header-help");
-      enableToolTipOnLabel(
-          roomNumberFormHeader, "Enter room number that\nsecurity is needed");
+      enableToolTipOnLabel(roomNumberFormHeader, "Enter room number that\nsecurity is needed");
 
     } else {
       urgencyFormHeader.getStyleClass().clear();
