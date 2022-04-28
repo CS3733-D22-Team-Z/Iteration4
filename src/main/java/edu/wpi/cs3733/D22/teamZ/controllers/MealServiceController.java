@@ -201,60 +201,8 @@ public class MealServiceController extends ServiceRequestController {
 
     validateTime(); // Check the time and update meal options based on the hour
 
-    /**
-     * Food Item Reference for Allergens TODO: Make food items as objects with attributes. Either
-     * here or new Class and/or new CSV /w DAO/Impl. TODO: Food Item Attributes: ID, Name, Category
-     * (Drink/Entree/Snack), Time of Day (Breakfast/Lunch/Dinner), TODO: Food Item Att. Cont.: Day
-     * of Week, Any Modifiers (Vegan/No Meat), Calories, Allergens
-     *
-     * <p>TODO: Refine food items to be more inclusive for allergen-free
-     *
-     * <p>Item | Allergens (Out of Dairy/Egg/Peanut/Tree Nut/Soy/Wheat/Fish/Shellfish)
-     *
-     * <p>Sample Items:
-     *
-     * <p>--Breakfast: -Drink: Water .................... none Coffee ................... none Tea
-     * ...................... none Apple Juice .............. none Orange Juice ............. none
-     * Cranberry Juice .......... none -Entree: Belgium Waffle ........... Egg,Dairy,Wheat Omelette
-     * .................. Egg,Dairy Pancakes ................. Egg,Dairy,Peanut,Tree Nut,Wheat
-     * -Side: Apple Sauce .............. none Blueberry Muffin ......... Egg,Dairy,Wheat,Gluten
-     * Fruit Bowl ............... none
-     *
-     * <p>--Lunch: -Drink: Water .................... none Coffee ................... none Tea
-     * ...................... none -Entree: Caesar Salad ............. none Cheeseburger
-     * ............. Dairy,Soy,Wheat Chicken Sandwich ......... Peanuts,Shellfish,Soy,Tree Nut
-     * -Side: Corn Bread ............... Soy,Wheat Fruit Bowl ............... none Pretzel
-     * .................. Wheat
-     *
-     * <p>--Dinner: -Drink: Water .................... none Coffee ................... none Tea
-     * ...................... none Coca Cola ................ none Sprite ................... none
-     * -Entree: Cheese Pizza ............. Dairy, Wheat Chicken Parmigiana ....... Dairy, Soy, Wheat
-     * Spaghetti & Meatballs .... Egg, Dairy, Wheat -Side: Brownie .................. Egg,Soy
-     * Chocolate Chip Cookie .... none Tiramisu ................. Egg,Dairy,Wheat
-     */
-    // resetMealTimeLists(); // clear and add "none" to time-category lists
     loadFoodItems(); // add food items to time-category lists
 
-    // Before MealItem was an object:
-
-    //    breakfastDrinksList.addAll(
-    //        Arrays.asList(
-    //            "none", "Water", "Coffee", "Tea", "Apple_Juice", "Orange_Juice",
-    // "Cranberry_Juice"));
-    //    breakfastEntreesList.addAll(Arrays.asList("none", "Belgium_Waffle", "Omelette",
-    // "Pancakes"));
-    //    breakfastSnackList.addAll(
-    //        Arrays.asList("none", "Apple_Sauce", "Blueberry_Muffin", "Fruit_Bowl"));
-    //    lunchDrinksList.addAll(Arrays.asList("none", "Water", "Coffee", "Tea"));
-    //    lunchEntreesList.addAll(
-    //        Arrays.asList("none", "Caesar_Salad", "Cheeseburger", "Chicken_Sandwich"));
-    //    lunchSnackList.addAll(Arrays.asList("none", "Corn_Bread", "Fruit_Bowl", "Pretzel"));
-    //    dinnerDrinksList.addAll(Arrays.asList("none", "Water", "Coffee", "Tea", "Coca_Cola",
-    // "Sprite"));
-    //    dinnerEntreesList.addAll(
-    //        Arrays.asList("none", "Cheese_Pizza", "Chicken_Parmigiana", "Spaghetti_&_Meatballs"));
-    //    dinnerSnackList.addAll(Arrays.asList("none", "Brownie", "Chocolate_Chip_Cookie",
-    // "Tiramisu"));
 
     // Get all service requests.
     // Used later for correct ID numbering in order. TODO: Notice: Numbers randomized
@@ -595,29 +543,6 @@ public class MealServiceController extends ServiceRequestController {
       allergiesFormHeader.setTooltip(null);
     }
   }
-
-  /** Clear and add "none" to time-category MenuItem lists */
-  /* protected void resetMealTimeLists() {
-    breakfastDrinksList.clear();
-    breakfastEntreesList.clear();
-    breakfastSnackList.clear();
-    lunchDrinksList.clear();
-    lunchEntreesList.clear();
-    lunchSnackList.clear();
-    dinnerDrinksList.clear();
-    dinnerEntreesList.clear();
-    dinnerSnackList.clear();
-
-    breakfastDrinksList.add("none");
-    breakfastEntreesList.add("none");
-    breakfastSnackList.add("none");
-    lunchDrinksList.add("none");
-    lunchEntreesList.add("none");
-    lunchSnackList.add("none");
-    dinnerDrinksList.add("none");
-    dinnerEntreesList.add("none");
-    dinnerSnackList.add("none");
-  }*/
 
   /**
    * Add pre-items to appropriate lists for use in the meal service controller. Call once. TODO: Add
