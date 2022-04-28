@@ -94,7 +94,7 @@ public class MenuController implements Initializable {
   private int selectedItem = 0;
 
   // Whether or not menu is currently enabled
-  boolean menuEnabled = true;
+  boolean menuEnabled = false;
 
   // Animations
   TranslateTransition menuSlide;
@@ -126,7 +126,7 @@ public class MenuController implements Initializable {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    contentPane.setTranslateX(200);
+    contentPane.setTranslateX(0);
 
     // Initialize exit menu
     SVGPath MenuIcon = new SVGPath();
@@ -186,6 +186,7 @@ public class MenuController implements Initializable {
     menuSlide = new TranslateTransition();
     menuSlide.setNode(menuPane);
     menuSlide.setInterpolator(Interpolator.EASE_BOTH);
+    menuPane.setTranslateX(-200);
 
     // Auto-hide menu
     contentPane.addEventFilter(
