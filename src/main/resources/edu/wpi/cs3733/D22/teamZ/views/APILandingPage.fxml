@@ -74,7 +74,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="externalRegion" layoutX="14.0" layoutY="25.0" prefHeight="40.0" prefWidth="40.0" />
-                              <Label fx:id="teamZLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="120.0" text="Nelson Diaz" textAlignment="CENTER" visible="false">
+                              <Label fx:id="teamZLabel" layoutX="-15.0" layoutY="109.0" prefHeight="25.0" prefWidth="120.0" text="Nelson Diaz" textAlignment="CENTER" translateX="-8.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -113,7 +113,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="externalRegionIPT" layoutX="8.0" layoutY="25.0" prefHeight="40.0" prefWidth="50.0" />
-                              <Label fx:id="teamBLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Team B" textAlignment="CENTER" visible="false">
+                              <Label fx:id="teamBLabel" layoutX="-13.0" layoutY="109.0" prefHeight="25.0" prefWidth="119.0" text="Team B" textAlignment="CENTER" translateX="-10.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -152,7 +152,7 @@
                                  </textFill>
                               </Label>
                               <Region fx:id="externalRegionFM" layoutX="15.0" layoutY="20.0" prefHeight="46.0" prefWidth="40.0" />
-                              <Label fx:id="teamCLabel" layoutX="-13.0" layoutY="108.0" prefHeight="25.0" prefWidth="122.0" text="Team C" textAlignment="CENTER" visible="false">
+                              <Label fx:id="teamCLabel" layoutX="-13.0" layoutY="108.0" prefHeight="25.0" prefWidth="122.0" text="Team C" textAlignment="CENTER" translateX="-8.0" visible="false">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
