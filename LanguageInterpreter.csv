@@ -1,1 +1,2 @@
-requestID,status,issuer,handler,targetLocation,patientName,patientID,language
+requestID,patientName,patientID,language
+LANG21,Olivia,PAT2,Elbonian

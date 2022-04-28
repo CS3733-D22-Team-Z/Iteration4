@@ -1,26 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 <?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: F3F3F3;" styleClass="..\styles\ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.SecurityServiceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1920.0" style="-fx-background-color: F3F3F3;" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.SecurityServiceController">
    <children>
-      <Label layoutX="50.0" layoutY="58.0" text="Security Service Request" />
-      <Label layoutX="50.0" layoutY="82.0" text="Fill out the fields to request security" />
-      <ChoiceBox fx:id="urgencyBox" layoutX="50.0" layoutY="156.0" prefWidth="150.0" />
-      <MFXTextField fx:id="reasonTextField" floatMode="DISABLED" layoutX="50.0" layoutY="225.0" prefHeight="30.0" prefWidth="150.0" />
-      <Label layoutX="50.0" layoutY="138.0" text="Urgency" />
-      <Label layoutX="50.0" layoutY="208.0" text="Call reason" />
-      <Line endX="-1.79998779296875" endY="270.0" layoutX="363.0" layoutY="130.0" startX="-1.79998779296875" startY="-130.0" />
-      <MFXButton fx:id="submitButton" layoutX="50.0" layoutY="301.0" onAction="#onSubmitButtonClicked" text="Submit" />
-      <MFXButton layoutX="177.0" layoutY="301.0" onAction="#onResetButtonClicked" text="Clear" />
-      <MFXButton layoutX="434.0" layoutY="230.0" onAction="#onNavigateToRequestList" text="See Requests" />
-      <Label layoutX="426.0" layoutY="192.0" text="See current requests" />
-      <MFXButton layoutX="43.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Back To Landing Page" />
-      <MFXTextField fx:id="nodeIdField" floatMode="DISABLED" layoutX="233.0" layoutY="153.0" />
-      <Label layoutX="233.0" layoutY="138.0" text="Node ID" />
-      <Label fx:id="errorLabel" layoutX="80.0" layoutY="355.0" text="Node ID invalid" />
+      <Label layoutX="48.0" layoutY="146.0" prefHeight="64.0" prefWidth="805.0" styleClass="object-header" text="Security Service Request" />
+      <Label layoutX="48.0" layoutY="224.0" prefHeight="30.0" prefWidth="593.0" styleClass="form-header" text="Fill out the fields to request security." />
+      <ChoiceBox fx:id="urgencyBox" layoutX="48.0" layoutY="361.0" prefHeight="59.0" prefWidth="369.0" />
+      <MFXTextField fx:id="reasonTextField" floatMode="DISABLED" layoutX="48.0" layoutY="529.0" prefHeight="59.0" prefWidth="369.0" />
+      <Label fx:id="urgencyFormHeader" layoutX="48.0" layoutY="308.0" styleClass="form-header" text="Urgency" />
+      <Label fx:id="securityReasonFormHeader" layoutX="48.0" layoutY="477.0" styleClass="form-header" text="Security Reason" />
+      <MFXButton fx:id="submitButton" layoutX="48.0" layoutY="654.0" onAction="#onSubmitButtonClicked" prefHeight="71.0" prefWidth="187.0" styleClass="back-button" text="Submit" />
+      <MFXButton layoutX="274.0" layoutY="654.0" onAction="#onResetButtonClicked" prefHeight="71.0" prefWidth="187.0" style="-fx-background-color: #FF4C4C;" styleClass="back-button" text="Reset" />
+      <MFXButton layoutX="1343.0" layoutY="428.0" onAction="#onNavigateToRequestList" prefHeight="71.0" prefWidth="356.0" styleClass="back-button" text="See Requests" />
+      <Label layoutX="1254.0" layoutY="328.0" styleClass="object-header" text="See current requests" />
+      <MFXButton layoutX="48.0" layoutY="46.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="71.0" prefWidth="369.0" styleClass="back-button" text="Back To Landing Page" />
+      <MFXTextField fx:id="nodeIdField" floatMode="DISABLED" layoutX="480.0" layoutY="361.0" prefHeight="59.0" prefWidth="369.0" />
+      <Label fx:id="roomNumberFormHeader" layoutX="478.0" layoutY="308.0" styleClass="form-header" text="Room Number" />
+      <Line endX="3.0" endY="907.0" layoutX="1135.0" layoutY="69.0" startX="3.0" startY="-32.0" stroke="#bfbfbf" strokeWidth="3.0" />
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="48.0" layoutY="881.0" prefHeight="100.0" prefWidth="909.0" style="-fx-border-color: #ff4444; -fx-background-color: #FFFFFF; -fx-border-radius: 3; -fx-border-width: 4; -fx-text-fill: #ff4444;" styleClass="error-label" text="Error saving request: Location ID invalid." textFill="#ff4444" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <padding>
+            <Insets bottom="4.0" right="3.0" top="4.0" />
+         </padding>
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
+               <image>
+                  <Image url="@../images/LoginErrorIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow>
+               <color>
+                  <Color opacity="0.31168830394744873" />
+               </color>
+            </DropShadow>
+         </effect>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <Region fx:id="helpGraphic" layoutX="1038.0" layoutY="52.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
    </children>
 </AnchorPane>

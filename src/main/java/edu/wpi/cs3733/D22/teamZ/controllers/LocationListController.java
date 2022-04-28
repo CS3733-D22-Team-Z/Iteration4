@@ -566,9 +566,7 @@ public class LocationListController implements IMenuAccess {
             && allowDrawPath) {
           Location s = edge.getFrom();
           Location d = edge.getDest();
-          Line l =
-              new Line(
-                  s.getXcoord() - 6, s.getYcoord() - 12, d.getXcoord() - 6, d.getYcoord() - 12);
+          Line l = new Line(s.getXcoord(), s.getYcoord(), d.getXcoord(), d.getYcoord());
           l.setStroke(Color.rgb(0, 75, 255));
           l.setStrokeWidth(3);
           mapController.getIconContainer().getChildren().add(l);
@@ -1122,7 +1120,7 @@ public class LocationListController implements IMenuAccess {
     Label label = new Label();
     label.setEffect(dropShadow);
     label.setGraphic(icon);
-    label.relocate(location.getXcoord() + 2, location.getYcoord() + 2);
+    label.relocate(location.getXcoord() + 20, location.getYcoord() + 20);
     label.setContextMenu(contextMenu);
     String typeString = "Code " + type + " Alert";
     label.setOnMouseClicked(

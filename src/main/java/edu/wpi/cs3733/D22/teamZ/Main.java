@@ -20,6 +20,10 @@ public class Main {
     init.populateEquipmentPurchaseTable();
     init.populateLaundryServiceRequests();
     init.populateComputerRequestTable();
+    init.populateLabServiceRequestTable();
+    init.populateSecurityRequestTable();
+    init.populateGiftServiceRequests();
+    init.populateLanguageInterpreterTable();
 
     /*FacadeDAO dao = FacadeDAO.getInstance();
     for (ServiceRequest test :

@@ -1,6 +1,9 @@
-requestID,patientID,drink,entree,side
-MEAL8,PAT1,Water,Chicken_Sandwich,Pretzel
-MEAL9,PAT2,Sprite,Cheeseburger,Fruit_Bowl
-MEAL10,PAT3,Tea,Chicken_Sandwich,Pretzel
-MEAL11,PAT4,Coffee,Chicken_Sandwich,Pretzel
-MEAL12,PAT5,Orange_Juice,Belgium_Waffle,Fruit_Bowl
+requestID,patientID,drink,entree,side,allergen
+MEAL8,PAT1,Water,Chicken_Sandwich,Pretzel,none
+MEAL9,PAT2,Sprite,Cheeseburger,Fruit_Bowl,none
+MEAL10,PAT3,Tea,Chicken_Sandwich,Pretzel,none
+MEAL11,PAT4,Coffee,Chicken_Sandwich,Pretzel,none
+MEAL12,PAT5,Orange_Juice,Belgium_Waffle,Fruit_Bowl,none
+MEAL13,PAT2,Water,Chicken_Sandwich,Pretzel,none
+MEAL14,PAT2,Water,Chicken_Sandwich,Pretzel,none
+MEAL15,PAT2,Water,Chicken_Sandwich,Pretzel,none

@@ -16,6 +16,18 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
   private final List<LabServiceRequest> labRequests = new ArrayList<>();
   private LabRequestControlCSV reqCSV;
 
+  public LabRequestServiceDAOImpl() {
+    updateConnection();
+    // medicalEquipmentRequests = new HashMap<>();
+
+    File reqData =
+        new File(
+            System.getProperty("user.dir")
+                + System.getProperty("file.separator")
+                + "LabServiceRequest.csv");
+    this.reqCSV = new LabRequestControlCSV(reqData);
+  }
+
   /**
    * Gets all lab service requests
    *
@@ -230,5 +242,14 @@ class LabRequestServiceDAOImpl implements ILabRequestServiceDAO {
       return false;
     }
     return true;
+  }
+
+  /**
+   * Returns the default path that medical equipment delivery request csv files are printed to
+   *
+   * @return The default path that medical equipment delivery request csv files are printed to
+   */
+  File getDefaultLabRequestServiceRequestCSVPath() {
+    return reqCSV.getDefaultPath();
   }
 }

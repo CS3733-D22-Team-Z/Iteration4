@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
 import edu.wpi.cs3733.D22.teamZ.database.FacadeDAO;
-import edu.wpi.cs3733.D22.teamZ.entity.MedicalEquipmentDeliveryRequest;
+import edu.wpi.cs3733.D22.teamZ.entity.SecurityServiceRequest;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +25,10 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MedicalEquipmentRequestListController implements Initializable, IMenuAccess {
+public class SecurityRequestListController implements Initializable, IMenuAccess {
   // Back button to go back to request page
   @FXML private MFXButton backToRequestPage;
+
   // Button that re-fetches requests and refreshes table.
   @FXML private MFXButton refreshButton;
 
@@ -51,35 +52,36 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   private final String toHomepageURL = "views/Homepage.fxml";
   private final String requestPageURL =
-      "edu/wpi/cs3733/D22/teamZ/views/MedicalEquipmentDelivery.fxml"; // change
+      "edu/wpi/cs3733/D22/teamZ/views/SecurityRequest.fxml"; // change
 
   // List of identifiers for each
   private final String[] identifiers = {
-    "ID", "Device", "Issuer", "Handler", "Status", "Target Location" // change
+    "ID", "Urgency", "Issuer", "Handler", "Status", "Target Location", "Reason" // change
   };
 
   // Columns to be represented by the table
-  private final List<String> visibleColumns = List.of("ID", "Device", "Status", "Issuer"); // change
+  private final List<String> visibleColumns =
+      List.of("ID", "Urgency", "Status", "Issuer"); // change
 
   // Retriever functions. Correspond to visible columns.
   private final List<RequestRowFunc> retrievers =
-      List.of(row -> row.id, row -> row.device, row -> row.status, row -> row.issuer);
+      List.of(row -> row.id, row -> row.urgency, row -> row.status, row -> row.issuer);
 
   private final List<RequestFunc> detailRetrievers =
       List.of(
           request -> request.getRequestID(),
-          request ->
-              FacadeDAO.getInstance().getMedicalEquipmentByID(request.getEquipmentID()).getType(),
+          request -> request.getUrgency(),
           request -> request.getIssuer().getDisplayName(),
           request -> {
             if (request.getHandler() != null) return request.getHandler().getDisplayName();
             else return "";
           },
           request -> request.getStatus().toString(),
-          request -> request.getTargetLocation().getLongName());
+          request -> request.getTargetLocation().getLongName(),
+          request -> request.getReason());
 
   // List of requests that represents raw data
-  private List<MedicalEquipmentDeliveryRequest> rawRequests; // change
+  private List<SecurityServiceRequest> rawRequests; // change
 
   // List of RequestRows currently being displayed on the table
   private ObservableList<RequestRow> requests;
@@ -90,7 +92,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   // Database object
   private final FacadeDAO facadeDAO;
 
-  public MedicalEquipmentRequestListController() throws SQLException { // change
+  public SecurityRequestListController() throws SQLException { // change
     // Create new database object
     facadeDAO = FacadeDAO.getInstance();
 
@@ -113,7 +115,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
 
   @Override
   public String getMenuName() {
-    return "Medical Equipment Request List";
+    return "Security Service Request List";
   } // change
 
   @Override
@@ -229,7 +231,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     requests.clear();
 
     // Iterate through each request entity and create RequestRow for each
-    for (MedicalEquipmentDeliveryRequest request : rawRequests) { // change
+    for (SecurityServiceRequest request : rawRequests) { // change
 
       requests.add(
           new RequestRow(
@@ -248,7 +250,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     statusTable.getItems().clear();
 
     // Retrieve the request with the given ID.
-    MedicalEquipmentDeliveryRequest selectedReq = getRequestFromID(reqID); // change
+    SecurityServiceRequest selectedReq = getRequestFromID(reqID); // change
 
     for (int i = 0; i < identifiers.length; i++) {
       statusTable
@@ -263,11 +265,11 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   }
 
   public void loadRequests() throws SQLException {
-    rawRequests = FacadeDAO.getInstance().getAllMedicalEquipmentRequest(); // change
+    rawRequests = FacadeDAO.getInstance().getAllSecurityServiceRequests(); // change
   }
 
-  public MedicalEquipmentDeliveryRequest getRequestFromID(String MeqID) { // change
-    return FacadeDAO.getInstance().getMedicalEquipmentRequestByID(MeqID); // change
+  public SecurityServiceRequest getRequestFromID(String MeqID) { // change
+    return FacadeDAO.getInstance().getSecurityServiceRequestByID(MeqID); // change
   }
 
   public void exportToCSV(ActionEvent actionEvent) {
@@ -279,7 +281,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
         new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     fileChooser.getExtensionFilters().add(extFilter);
 
-    File defaultFile = facadeDAO.getDefaultMedEquipReqCSVPath(); // change
+    File defaultFile = facadeDAO.getDefaultServiceRequestCSVPath(); // change
     if (defaultFile.isDirectory()) {
       fileChooser.setInitialDirectory(defaultFile);
     } else {
@@ -288,7 +290,7 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
     }
 
     File file = fileChooser.showSaveDialog(stage);
-    facadeDAO.exportMedicalEquipmentRequestsToCSV(file); // change
+    facadeDAO.exportToSecurityServiceRequestCSV(file); // change
   }
 
   public static class TableColumnItems {
@@ -304,13 +306,13 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   // Data structure to represent a row in the request list.
   private static class RequestRow {
     SimpleStringProperty id; // change depending on what you want displayed
-    SimpleStringProperty device;
+    SimpleStringProperty urgency;
     SimpleStringProperty issuer;
     SimpleStringProperty status;
 
     public RequestRow(String newId, String newType, String newIssuer, String newStatus) {
       id = new SimpleStringProperty(newId);
-      device = new SimpleStringProperty(newType);
+      urgency = new SimpleStringProperty(newType);
       issuer = new SimpleStringProperty(newIssuer);
       status = new SimpleStringProperty(newStatus);
     }
@@ -325,8 +327,8 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
       switch (type) { // change
         case "ID":
           return id.get();
-        case "Device":
-          return device.get();
+        case "Urgency":
+          return urgency.get();
         case "Issuer":
           return issuer.get();
         case "Status":
@@ -342,6 +344,6 @@ public class MedicalEquipmentRequestListController implements Initializable, IMe
   }
 
   private interface RequestFunc {
-    String call(MedicalEquipmentDeliveryRequest request); // change
+    String call(SecurityServiceRequest request); // change
   }
 }

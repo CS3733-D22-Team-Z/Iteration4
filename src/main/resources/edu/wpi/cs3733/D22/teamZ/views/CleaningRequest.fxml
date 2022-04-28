@@ -105,6 +105,6 @@
             <Insets />
          </opaqueInsets>
       </Label>
-      <Region fx:id="helpGraphic" layoutX="343.0" layoutY="31.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
+      <Region fx:id="helpGraphic" layoutX="906.0" layoutY="42.0" onMouseClicked="#onHelpMenu" styleClass="region-icon" />
    </children>
 </AnchorPane>

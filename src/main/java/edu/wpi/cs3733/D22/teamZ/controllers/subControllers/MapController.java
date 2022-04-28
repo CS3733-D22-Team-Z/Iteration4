@@ -137,7 +137,7 @@ public class MapController implements Initializable {
                   dragEvent.getY()
                       - activeLabel.getMouseHomeY()
                       + iconShift
-                      - locationImg.getHeight());
+                      - locationImg.getHeight() / 2);
 
               // If voroni regions are present
               if (snapLocations != null) {
@@ -178,7 +178,7 @@ public class MapController implements Initializable {
                   activeLabel.getLayoutY()
                       + activeLabel.getTranslateY()
                       - iconShift
-                      + locationImg.getHeight());
+                      + locationImg.getHeight() / 2);
             } else {
               if (prevBounds != null && activeLabel.isDragging()) {
                 activeLabel.setLayoutX(prevBounds.getParentLocation().getXcoord());
@@ -191,7 +191,7 @@ public class MapController implements Initializable {
             // Reset translation
             Image locationImg = ((ImageView) activeLabel.getGraphic()).getImage();
             activeLabel.setTranslateX(-locationImg.getWidth() / 2);
-            activeLabel.setTranslateY(-locationImg.getHeight());
+            activeLabel.setTranslateY(-locationImg.getHeight() / 2);
 
             // Run dragExit
             if (draggable && activeLabel.isDragging()) dragExitMethod.call(activeLabel);
@@ -338,6 +338,11 @@ public class MapController implements Initializable {
 
         // Add graphic
         graphicMethod.call(label);
+
+        // Reset translation
+        Image locationImg = ((ImageView) label.getGraphic()).getImage();
+        label.setTranslateX(-locationImg.getWidth() / 2);
+        label.setTranslateY(-locationImg.getHeight() / 2);
       }
 
       allLabels.add(label);

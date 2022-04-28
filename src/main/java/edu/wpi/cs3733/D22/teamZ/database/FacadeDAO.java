@@ -485,6 +485,7 @@ public class FacadeDAO {
   public boolean addSecurityServiceRequestToDatabase(SecurityServiceRequest request) {
     return securityRequestDAO.addSecurityServiceRequest(request);
   }
+
   /**
    * Adds a LabServiceRequest to the database
    *
@@ -497,6 +498,18 @@ public class FacadeDAO {
             && labRequestServiceDAO.addLabRequest(labServiceRequest);
     return val;
   }
+
+  /**
+   * Adds a LabServiceRequest to the database
+   *
+   * @param labServiceRequest LabServiceRequest to be added
+   * @return True if successful, false otherwise
+   */
+  public boolean addLabServiceRequestToDatabase(LabServiceRequest labServiceRequest) {
+    boolean val = labRequestServiceDAO.addLabRequest(labServiceRequest);
+    return val;
+  }
+
   /**
    * Adds a LabServiceRequest to the database
    *
@@ -1361,8 +1374,8 @@ public class FacadeDAO {
    * @param type type of location
    * @return list of locations of the given type
    */
-  public List<Location> getALlLocationsByType(String type) {
-    return locationDAO.getALlLocationsByType(type);
+  public List<Location> getAllLocationsByType(String type) {
+    return locationDAO.getAllLocationsByType(type);
   }
   /**
    * Get the nodeID of a dirty location on the given floor
@@ -1616,6 +1629,10 @@ public class FacadeDAO {
     return laundryServiceRequestDAO.getDefaultLaundryServiceRequestCSVPath();
   }
 
+  public File getDefaultLabServiceRequestCSVPath() {
+    return labRequestServiceDAO.getDefaultLabRequestServiceRequestCSVPath();
+  }
+
   public boolean exportLaundryRequestsToCSV(File laundryData) {
     if (laundryServiceRequestDAO.exportToLaundryServiceRequestCSV(laundryData)) return true;
     return false;
@@ -1623,6 +1640,14 @@ public class FacadeDAO {
 
   public void addLaundryServiceRequestToDatabase(LaundryServiceRequest info) {
     laundryServiceRequestDAO.addLaundryServiceRequest(info);
+  }
+
+  public void addGiftServiceRequestToDatabase(GiftServiceRequest info) {
+    giftRequestDAO.addGiftRequest(info);
+  }
+
+  public void addLanguageInterpreterRequestToDatabase(LanguageInterpreterRequest info) {
+    languageInterpreterRequestDAO.addLanguageInterpreterRequest(info);
   }
 
   public void addComputerServiceRequestToDatabase(ComputerServiceRequest info) {

@@ -23,10 +23,10 @@
                                   <Label styleClass="header-sub" text="Overview" />
                         <BarChart fx:id="barChart">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" tickLabelsVisible="false" fx:id="x" />
+                            <CategoryAxis label="Equipment Type" side="BOTTOM" fx:id="x" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis fx:id="y" minorTickCount="1" side="LEFT" tickLabelGap="0.0" />
+                            <NumberAxis fx:id="y" label="Quantity" minorTickCount="1" side="LEFT" tickLabelGap="0.0" />
                           </yAxis>
                         </BarChart>
                               </children>
@@ -39,9 +39,9 @@
                                         <AnchorPane fx:id="mapContainer" maxWidth="-Infinity" prefHeight="310.0" prefWidth="543.0" style="-fx-background-color: #0075ff;" />
                               <VBox alignment="CENTER" spacing="20.0">
                                  <children>
-                                    <MFXButton fx:id="toMapButton" alignment="CENTER" onAction="#toMap" prefWidth="100.0" style="-fx-background-color: #0075ff; -fx-text-fill: #FFFFFF;" styleClass="selector-button" text="To Map" />
-                                                <MFXButton fx:id="noneMapButton" alignment="CENTER" onAction="#noneButtonPressed" prefWidth="100.0" style="-fx-background-color: #0075ff; -fx-text-fill: #FFFFFF;" styleClass="selector-button" text="None" />
-                                                <MFXButton fx:id="bedsMapButton" alignment="CENTER" onAction="#bedsButtonPressed" prefWidth="100.0" styleClass="selector-button" text="Beds" />
+                                    <MFXButton fx:id="toMapButton" alignment="CENTER" onAction="#toMap" prefWidth="100.0" style="-fx-background-color: #0262a8; -fx-text-fill: #FFFFFF;" styleClass="selector-button" text="To Map" />
+                                                <MFXButton fx:id="noneMapButton" alignment="CENTER" onAction="#noneButtonPressed" prefWidth="100.0" style="-fx-background-color: #0262a8; -fx-text-fill: #FFFFFF;" styleClass="selector-button" text="None" />
+                                                <MFXButton fx:id="bedsMapButton" alignment="CENTER" onAction="#bedsButtonPressed" prefWidth="100.0" rippleColor="#c9c9c9" styleClass="selector-button" text="Beds" />
                                                 <MFXButton fx:id="pumpsMapButton" alignment="CENTER" onAction="#pumpsButtonPressed" prefWidth="100.0" styleClass="selector-button" text="Pumps" />
                                     <MFXButton fx:id="reclinerMapButton" alignment="CENTER" onAction="#reclinerButtonPressed" prefWidth="100.0" styleClass="selector-button" text="Recliners" />
                                     <MFXButton alignment="CENTER" onAction="#xrayButtonPressed" prefWidth="100.0" styleClass="selector-button" text="X-Rays" fx:id="xRayMapButton" />

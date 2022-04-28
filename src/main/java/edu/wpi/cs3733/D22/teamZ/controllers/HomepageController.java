@@ -1,17 +1,33 @@
 package edu.wpi.cs3733.D22.teamZ.controllers;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.util.Locale;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 
 public class HomepageController implements IMenuAccess {
   @FXML private Label label;
   @FXML private Button exitButton;
   @FXML private Label welcomeMessage;
-  @FXML private Button upperFloorsDashboardButton;
+  @FXML private MFXButton upperFloorsDashboardButton;
+
+  @FXML private MFXButton mapButton;
+  @FXML private MFXButton servicesButton;
+  @FXML private MFXButton cctvButton;
+  @FXML private MFXButton employeesButton;
+  @FXML private MFXButton listButton;
+
+  @FXML private SVGPath dashboardSVG;
+  @FXML private SVGPath mapSVG;
+  @FXML private SVGPath servicesSVG;
+  @FXML private SVGPath cctvSVG;
+  @FXML private SVGPath employeesSVG;
+  @FXML private SVGPath listSVG;
 
   private MenuController menu;
 
@@ -26,6 +42,7 @@ public class HomepageController implements IMenuAccess {
   private String toGameURL = "edu/wpi/cs3733/D22/teamZ/views/Game.fxml";
   private String toSimulatorURL = "edu/wpi/cs3733/D22/teamZ/views/Simulator.fxml";
   private final String toCCTV = "edu/wpi/cs3733/D22/teamZ/views/CCTVPreview.fxml";
+  private final String toCredits = "edu/wpi/cs3733/D22/teamZ/views/CreditsPage.fxml";
 
   public void setMenuController(MenuController menu) {
     this.menu = menu;
@@ -41,6 +58,29 @@ public class HomepageController implements IMenuAccess {
     String name = MenuController.getLoggedInUser().getName();
     name = name.substring(0, 1).toUpperCase(Locale.ROOT) + name.substring(1);
     setWelcomeMessage(name);
+
+    mapButton.setOnMouseEntered((e) -> changeColor(mapSVG));
+    mapButton.setOnMouseExited((e) -> mapSVG.setFill(Color.WHITE));
+
+    servicesButton.setOnMouseEntered((e) -> changeColor(servicesSVG));
+    servicesButton.setOnMouseExited((e) -> servicesSVG.setFill(Color.WHITE));
+
+    cctvButton.setOnMouseEntered((e) -> changeColor(cctvSVG));
+    cctvButton.setOnMouseExited((e) -> cctvSVG.setFill(Color.WHITE));
+
+    employeesButton.setOnMouseEntered((e) -> changeColor(employeesSVG));
+    employeesButton.setOnMouseExited((e) -> employeesSVG.setFill(Color.WHITE));
+
+    listButton.setOnMouseEntered((e) -> changeColor(listSVG));
+    listButton.setOnMouseExited((e) -> listSVG.setFill(Color.WHITE));
+
+    upperFloorsDashboardButton.setOnMouseEntered((e) -> changeColor(dashboardSVG));
+    upperFloorsDashboardButton.setOnMouseExited((e) -> dashboardSVG.setFill(Color.WHITE));
+  }
+
+  public void changeColor(SVGPath svg) {
+    Color color = Color.web("0067B1");
+    svg.setFill(color);
   }
 
   @FXML
@@ -122,6 +162,10 @@ public class HomepageController implements IMenuAccess {
    */
   public void toCCTV(ActionEvent event) throws IOException {
     menu.load(toCCTV);
+  }
+
+  public void toCredits(ActionEvent event) throws IOException {
+    menu.load(toCredits);
   }
 }
 // Link to location, Landing, & Medical Equipment Page

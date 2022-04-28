@@ -58,33 +58,42 @@
             <AnchorPane fx:id="contentPane" prefHeight="1020.0" prefWidth="1920.0" styleClass="root" />
             <Pane fx:id="menuPane" maxWidth="200.0" styleClass="menu-container">
                <children>
-                  <VBox fx:id="iconContainer" alignment="TOP_CENTER" layoutX="24.0" layoutY="54.0" maxHeight="-Infinity" prefHeight="206.0" prefWidth="18.0" spacing="12.0">
+                  <VBox fx:id="iconContainer" alignment="TOP_CENTER" layoutX="24.0" layoutY="54.0" maxHeight="-Infinity" prefHeight="269.0" prefWidth="18.0" spacing="12.0">
                      <children>
                         <Region minHeight="-Infinity" prefWidth="73.0" styleClass="region-icon" />
-                        <Region minHeight="-Infinity" styleClass="region-icon" />
                         <Region minHeight="-Infinity" styleClass="region-icon">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin></Region>
                         <Region minHeight="-Infinity" styleClass="region-icon">
                            <VBox.margin>
-                              <Insets top="7.0" />
+                              <Insets top="10.0" />
                            </VBox.margin></Region>
                         <Region minHeight="-Infinity" styleClass="region-icon">
                            <VBox.margin>
-                              <Insets top="50.0" />
+                              <Insets top="20.0" />
+                           </VBox.margin></Region>
+                        <Region minHeight="-Infinity" styleClass="region-icon">
+                           <VBox.margin>
+                              <Insets top="45.0" />
                            </VBox.margin>
                         </Region>
+                        <Region minHeight="-Infinity" styleClass="region-icon">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </Region>
+                        <Region minHeight="-Infinity" styleClass="region-icon" translateY="9.0" />
                      </children>
                   </VBox>
-                  <VBox fx:id="menuContainer" alignment="CENTER_LEFT" layoutX="22.0" layoutY="53.0" prefHeight="182.0" prefWidth="157.0" spacing="10.0">
+                  <VBox fx:id="menuContainer" alignment="CENTER_LEFT" layoutX="22.0" layoutY="53.0" prefHeight="207.0" prefWidth="157.0" spacing="10.0">
                      <children>
-                        <MFXButton alignment="CENTER" onAction="#toHome" prefHeight="38.0" prefWidth="100.0" style="-fx-text-fill: #FFFFFF;" styleClass="menu-button" text="Home">
+                        <MFXButton alignment="CENTER" onAction="#toHome" prefHeight="38.0" prefWidth="100.0" style="-fx-text-fill: #FFFFFF;" styleClass="menu-button" text="Home" translateX="-4.0">
                            <VBox.margin>
                               <Insets bottom="1.0" left="35.0" />
                            </VBox.margin>
                         </MFXButton>
-                        <MFXButton alignment="CENTER" onAction="#toLocations" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Map Editor">
+                        <MFXButton alignment="CENTER" onAction="#toLocations" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Map Editor" translateY="9.0">
                            <VBox.margin>
                               <Insets left="50.0" />
                            </VBox.margin>
@@ -92,24 +101,34 @@
                               <Insets bottom="7.0" />
                            </padding>
                         </MFXButton>
-                        <MFXButton alignment="CENTER" onAction="#toLandingPage" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Services">
+                        <MFXButton alignment="CENTER" onAction="#toLandingPage" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Services" translateY="9.0">
                            <VBox.margin>
                               <Insets bottom="6.0" left="42.0" />
                            </VBox.margin>
                         </MFXButton>
-                        <MFXButton alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" onAction="#toMedicalEquipmentRequest" prefHeight="70.0" prefWidth="97.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Service Requests List" translateY="-2.0" wrapText="true">
+                        <MFXButton alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" onAction="#toMedicalEquipmentRequest" prefHeight="70.0" prefWidth="97.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Service Requests List" translateY="10.0" wrapText="true">
                            <VBox.margin>
-                              <Insets bottom="2.0" left="60.0" />
+                              <Insets bottom="20.0" left="60.0" />
                            </VBox.margin>
                         </MFXButton>
-                        <MFXButton alignment="CENTER" onAction="#toAbout" prefHeight="38.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="About">
+                        <MFXButton alignment="CENTER" onAction="#toEmployeePage" prefHeight="25.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Employees">
+                           <VBox.margin>
+                              <Insets left="52.0" />
+                           </VBox.margin>
+                        </MFXButton>
+                        <MFXButton alignment="CENTER" onAction="#toAbout" prefHeight="38.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="About" translateY="13.0">
                            <VBox.margin>
                               <Insets left="33.0" />
                            </VBox.margin>
                         </MFXButton>
+                        <MFXButton alignment="CENTER" onAction="#toCredits" prefHeight="38.0" prefWidth="100.0" style="-fx-text-fill: #C4C4C4;" styleClass="menu-button" text="Credits">
+                           <VBox.margin>
+                              <Insets left="35.0" top="23.0" />
+                           </VBox.margin>
+                        </MFXButton>
                      </children>
                   </VBox>
-                  <MFXButton fx:id="exitButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="11.0" layoutY="894.0" onAction="#toExit" prefHeight="47.0" prefWidth="177.0" styleClass="exit-button" text="Exit">
+                  <MFXButton fx:id="exitButton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="11.0" layoutY="950.0" onAction="#toExit" prefHeight="47.0" prefWidth="177.0" rippleAnimateBackground="false" styleClass="exit-button" text="Exit">
                      <graphic>
                         <Region fx:id="exitGraphic" styleClass="region-icon" translateX="-57.0" />
                      </graphic>
@@ -117,7 +136,7 @@
                         <Font size="18.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton fx:id="logoutButton" buttonType="RAISED" layoutX="12.0" layoutY="832.0" onAction="#toLogout" prefHeight="47.0" prefWidth="177.0" style="-fx-text-fill: #FFFFFF;" styleClass="exit-button" text="Logout">
+                  <MFXButton fx:id="logoutButton" buttonType="RAISED" layoutX="12.0" layoutY="888.0" onAction="#toLogout" prefHeight="47.0" prefWidth="177.0" rippleAnimateBackground="false" style="-fx-text-fill: #FFFFFF;" styleClass="exit-button" text="Logout">
                      <graphic>
                         <Region fx:id="logoutGraphic" styleClass="region-icon" translateX="-25.0" />
                      </graphic>
@@ -132,23 +151,33 @@
                               <Insets bottom="8.0" />
                            </VBox.margin>
                         </Rectangle>
-                        <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" width="8.0">
+                        <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" translateY="11.0" visible="false" width="8.0">
                            <VBox.margin>
                               <Insets bottom="8.0" top="2.0" />
                            </VBox.margin>
                         </Rectangle>
-                        <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" width="8.0">
+                        <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" translateY="11.0" visible="false" width="8.0">
                            <VBox.margin>
                               <Insets bottom="8.0" top="15.0" />
                            </VBox.margin>
                         </Rectangle>
-                        <Rectangle fill="#f6bd38" height="29.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" width="8.0">
+                        <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" translateY="10.0" visible="false" width="8.0">
                            <VBox.margin>
-                              <Insets top="15.0" />
+                              <Insets top="25.0" />
                            </VBox.margin></Rectangle>
+                        <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" translateY="23.0" visible="false" width="8.0">
+                           <VBox.margin>
+                              <Insets top="46.0" />
+                           </VBox.margin>
+                        </Rectangle>
                         <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" width="8.0">
                            <VBox.margin>
                               <Insets top="50.0" />
+                           </VBox.margin>
+                        </Rectangle>
+                        <Rectangle fill="#f6bd38" height="18.0" stroke="#ffffff00" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" width="8.0">
+                           <VBox.margin>
+                              <Insets top="20.0" />
                            </VBox.margin>
                         </Rectangle>
                      </children>

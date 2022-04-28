@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1020.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.GiftServiceRequestListController">
+<AnchorPane prefHeight="1020.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.LanguageInterpreterRequestListController">
    <children>
-      <Label layoutX="323.0" layoutY="17.0" styleClass="object-header" text="List of Gift Service Requests">
+      <Label layoutX="323.0" layoutY="17.0" styleClass="object-header" text="List of Language Interpreter Requests">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -31,9 +31,9 @@
                   <HBox fx:id="sortingButtons" alignment="CENTER" prefWidth="169.0">
                      <children>
                         <MFXButton fx:id="idButton" onAction="#filterClicked" prefHeight="60.0" style="-fx-background-radius: 5 0 0 5;" styleClass="filter-button" text="ID" />
-                        <MFXButton fx:id="deviceButton" onAction="#filterClicked" prefHeight="60.0" style="-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Gift Type" />
+                        <MFXButton fx:id="deviceButton" onAction="#filterClicked" prefHeight="60.0" style="-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Language" />
                         <MFXButton fx:id="statusButton" onAction="#filterClicked" prefHeight="60.0" style="-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Status" />
-                        <MFXButton fx:id="statusButton1" onAction="#filterClicked" prefHeight="60.0" style="-fx-border-width: 0 1 0 0; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Patient" />
+                        <MFXButton fx:id="deviceButton1" onAction="#filterClicked" prefHeight="60.0" style="-fx-border-width: 0 1 0 1; -fx-border-color: #D2D2D2;" styleClass="filter-button" text="Patient" />
                         <MFXButton fx:id="assigneeButton" onAction="#filterClicked" prefHeight="60.0" style="-fx-background-radius: 0 5 5 0;" styleClass="filter-button" text="Issuer" />
                      </children>
                   </HBox>

@@ -39,27 +39,6 @@ class MealServiceRequestDAOImpl implements IMealServiceRequestDAO {
   @Override
   public List<MealServiceRequest> getAllMealServiceReq() {
     updateConnection();
-    /*try {
-      PreparedStatement pstmt = connection.prepareStatement("Select * From MEDICALEQUIPMENT");
-      ResultSet rset = pstmt.executeQuery();
-
-      medicalEquipmentsList.clear();
-
-      while (rset.next()) {
-        String itemID = rset.getString("equipmentID");
-        String type = rset.getString("type");
-        String status = rset.getString("status");
-        String locationNodeID = rset.getString("currentLocation");
-        MedicalEquipment medicalEquipment =
-            new MedicalEquipment(
-                itemID, type, status, FacadeDAO.getInstance().getLocationByID(locationNodeID));
-        if (!medicalEquipmentsList.contains(medicalEquipment)) {
-          medicalEquipmentsList.add(medicalEquipment);
-        }
-      }
-    } catch (SQLException e) {
-      System.out.println("Failed to get all Medical Equipment");
-    }*/
     return mealServiceRequestsList;
   }
 
@@ -72,25 +51,7 @@ class MealServiceRequestDAOImpl implements IMealServiceRequestDAO {
   @Override
   public MealServiceRequest getMealServReqByID(String itemID) {
     updateConnection();
-    /*MedicalEquipment medicalEquipment = new MedicalEquipment(itemID);
-    try {
-      PreparedStatement pstmt =
-          connection.prepareStatement("Select * From MEDICALEQUIPMENT WHERE EQUIPMENTID = ?");
-      pstmt.setString(1, itemID);
-      ResultSet rset = pstmt.executeQuery();
 
-      while (rset.next()) {
-        String type = rset.getString("type");
-        String status = rset.getString("status");
-        String locationNodeID = rset.getString("currentLocation");
-        medicalEquipment.setStatus(status);
-        medicalEquipment.setType(type);
-        medicalEquipment.setCurrentLocation(
-            FacadeDAO.getInstance().getLocationByID(locationNodeID));
-      }
-    } catch (SQLException e) {
-      System.out.println("Failed to get the Medical Equipment");
-    }*/
     for (MealServiceRequest mealServiceReq : mealServiceRequestsList) {
       if (mealServiceReq.getRequestID().equals(itemID)) {
         return mealServiceReq;
@@ -98,73 +59,6 @@ class MealServiceRequestDAOImpl implements IMealServiceRequestDAO {
     }
     return null;
   }
-
-  /**
-   * Get the first available equipment with the given equipment type
-   *
-   * @param equipment type of equipment
-   * @return equipmentID of the first available equipment of the given type
-   */
-  //  @Override
-  //  public String getFirstAvailableEquipmentByType(String equipment) {
-  //    updateConnection();
-  //
-  //    try {
-  //      PreparedStatement pstmt =
-  //          connection.prepareStatement(
-  //              "Select * From MEDICALEQUIPMENT WHERE TYPE = ? AND STATUS = 'Available'");
-  //      pstmt.setString(1, equipment);
-  //      ResultSet rset = pstmt.executeQuery();
-  //
-  //      rset.next();
-  //      String temp = rset.getString("EQUIPMENTID");
-  //      rset.close();
-  //      if (temp != null) {
-  //        pstmt =
-  //            connection.prepareStatement(
-  //                "UPDATE MEDICALEQUIPMENT SET STATUS = 'In-Use' WHERE EQUIPMENTID = ?");
-  //        pstmt.setString(1, temp);
-  //        pstmt.executeUpdate();
-  //        return temp;
-  //      }
-  //
-  //    } catch (SQLException e) {
-  //      System.out.println("Failed to get the Medical Equipment");
-  //    }
-  //    // Only returns if no equipments of type are available
-  //    return null;
-  //  }
-  //
-  //  /**
-  //   * Gets all MedicalEquipment in a given location
-  //   *
-  //   * @param location Location to extract MedicalEquipment inside
-  //   * @return list of MedicalEquipment in the given location
-  //   */
-  //  @Override
-  //  public List<MedicalEquipment> getAllMedicalEquipmentByLocation(Location location) {
-  //    updateConnection();
-  //    List<MedicalEquipment> medicalEquipmentLocationList = new ArrayList<>();
-  //    try {
-  //      PreparedStatement pstnt =
-  //          connection.prepareStatement("select * from MEDICALEQUIPMENT where currentLocation =
-  // ?");
-  //      pstnt.setString(1, location.getNodeID());
-  //      ResultSet rset = pstnt.executeQuery();
-  //      while (rset.next()) {
-  //        String tempItemID = rset.getString("EQUIPMENTID");
-  //        for (MedicalEquipment medicalEquipment : medicalEquipmentsList) {
-  //          if (medicalEquipment.getEquipmentID().equals(tempItemID)) {
-  //            medicalEquipmentLocationList.add(medicalEquipment);
-  //          }
-  //        }
-  //      }
-  //    } catch (SQLException e) {
-  //      System.out.println("failed to get medical equipment by location");
-  //      medicalEquipmentLocationList.clear();
-  //    }
-  //    return medicalEquipmentLocationList;
-  //  }
 
   /**
    * Adds MealServiceRequest to the database
@@ -340,13 +234,14 @@ class MealServiceRequestDAOImpl implements IMealServiceRequestDAO {
       PreparedStatement pstmt =
           connection.prepareStatement(
               ""
-                  + "INSERT INTO MEALSERVICEREQUEST (REQUESTID, PATIENTID, DRINK, ENTREE, SIDE)"
-                  + "values (?, ?, ?, ?, ?)");
+                  + "INSERT INTO MEALSERVICEREQUEST (REQUESTID, PATIENTID, DRINK, ENTREE, SNACK, ALLERGEN)"
+                  + "values (?, ?, ?, ?, ?, ?)");
       pstmt.setString(1, request.getRequestID());
       pstmt.setString(2, request.getPatient().getPatientID());
       pstmt.setString(3, request.getDrink());
       pstmt.setString(4, request.getEntree());
-      pstmt.setString(5, request.getSide());
+      pstmt.setString(5, request.getSnack());
+      pstmt.setString(6, request.getAllergen());
 
       pstmt.executeUpdate();
     } catch (SQLException e) {
