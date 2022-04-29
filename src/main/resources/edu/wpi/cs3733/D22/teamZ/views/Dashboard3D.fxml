@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.PerspectiveCamera?>
+<?import javafx.scene.PointLight?>
+<?import javafx.scene.SubScene?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="root" prefHeight="1020.0" prefWidth="1920.0" stylesheets="@../styles/ServiceRequestDefault.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamZ.controllers.Dashboard3DController">
+    <children>
+      <SubScene fx:id="subScene" depthBuffer="true" height="1020.0" layoutX="-14.0" width="1920.0">
+        <root>
+            <Group fx:id="model" layoutX="0" layoutY="0">
+                <Group fx:id="lowerLevel2" layoutX="0" layoutY="0">
+
+                </Group>
+                <Group fx:id="lowerLevel1" layoutX="0" layoutY="0">
+                    
+                </Group>
+                <Group fx:id="floor1" layoutX="0" layoutY="0">
+
+                </Group>
+                <Group fx:id="floor2" layoutX="0" layoutY="0">
+
+                </Group>
+                <Group fx:id="floor3" layoutX="0" layoutY="0">
+
+                </Group>
+                <Group fx:id="floor4" layoutX="0" layoutY="0">
+
+                </Group>
+                <Group fx:id="floor5" layoutX="0" layoutY="0">
+
+                </Group>
+            </Group>
+            <Group>
+                <PointLight fx:id="lightUp" color="azure" layoutX="0" layoutY="0" />
+                <PointLight fx:id="lightRight" color="azure" layoutX="0" layoutY="0" />
+                <PointLight fx:id="lightLeft" color="azure" layoutX="0" layoutY="0" />
+                <PerspectiveCamera fx:id="camera" farClip="500.0" fieldOfView="35.0" layoutX="0" layoutY="0" nearClip="0.5" />
+            </Group>
+        </root>
+      </SubScene>
+        <VBox layoutX="218.0" layoutY="214.0" spacing="30.0">
+         <children>
+            <MFXButton onAction="#toFloor5" prefHeight="58.0" prefWidth="241.0" styleClass="button-pane" text="Floor 5" />
+            <MFXButton onAction="#toFloor4" prefHeight="58.0" prefWidth="239.0" styleClass="button-pane" text="Floor 4" />
+            <MFXButton onAction="#toFloor3" prefHeight="58.0" prefWidth="239.0" styleClass="button-pane" text="Floor 3" />
+            <MFXButton onAction="#toFloor2" prefHeight="58.0" prefWidth="238.0" styleClass="button-pane" text="Floor 2" />
+            <MFXButton onAction="#toFloor1" prefHeight="58.0" prefWidth="239.0" styleClass="button-pane" text="Floor 1" />
+            <MFXButton onAction="#toLowerLevel1" styleClass="button-pane" text="Lower Level 1" />
+            <MFXButton onAction="#toLowerLevel2" styleClass="button-pane" text="Lower Level 2" />
+         </children>
+      </VBox>
+      <HBox fx:id="errorHolder" layoutX="1326.0" layoutY="195.0" spacing="30.0">
+         <children>
+            <VBox spacing="30.0">
+               <children>
+                  <MFXButton fx:id="errorButton5" disable="true" onAction="#openPane5" prefHeight="58.0" prefWidth="58.0" rippleAnimateBackground="false" rippleColor="#bdbdbd00" style="-fx-padding: 0;" styleClass="graphic-button" text=" ">
+                     <graphic>
+                        <Region fx:id="errorRegion5" prefHeight="58.0" prefWidth="58.0" visible="false" />
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton fx:id="errorButton4" disable="true" onAction="#openPane4" prefHeight="58.0" prefWidth="58.0" rippleAnimateBackground="false" rippleColor="#bdbdbd00" styleClass="graphic-button" text=" ">
+                     <graphic>
+                        <Region fx:id="errorRegion4" prefHeight="58.0" prefWidth="58.0" visible="false" />
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton fx:id="errorButton3" disable="true" onAction="#openPane3" prefHeight="58.0" prefWidth="58.0" rippleAnimateBackground="false" rippleColor="#bdbdbd00" styleClass="graphic-button" text=" ">
+                     <graphic>
+                        <Region fx:id="errorRegion3" prefHeight="58.0" prefWidth="58.0" visible="false" />
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton fx:id="errorButton2" disable="true" onAction="#openPane2" prefHeight="58.0" prefWidth="58.0" rippleAnimateBackground="false" rippleColor="#bdbdbd00" styleClass="graphic-button" text=" ">
+                     <graphic>
+                        <Region fx:id="errorRegion2" prefHeight="58.0" prefWidth="58.0" visible="false" />
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton fx:id="errorButton1" disable="true" onAction="#openPane1" prefHeight="58.0" prefWidth="58.0" rippleAnimateBackground="false" rippleColor="#bdbdbd00" styleClass="graphic-button" text=" ">
+                     <graphic>
+                        <Region fx:id="errorRegion1" prefHeight="58.0" prefWidth="58.0" visible="false" />
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton fx:id="errorButtonLL1" disable="true" onAction="#openPaneLL1" prefHeight="58.0" prefWidth="58.0" rippleAnimateBackground="false" rippleColor="#bdbdbd00" styleClass="graphic-button" text=" ">
+                     <graphic>
+                        <Region fx:id="errorRegionLL1" prefHeight="58.0" prefWidth="58.0" visible="false" />
+                     </graphic>
+                  </MFXButton>
+                  <MFXButton fx:id="errorButtonLL2" disable="true" onAction="#openPaneLL2" prefHeight="58.0" prefWidth="58.0" rippleAnimateBackground="false" rippleColor="#bdbdbd00" styleClass="graphic-button" text=" ">
+                     <graphic>
+                        <Region fx:id="errorRegionLL2" prefHeight="58.0" prefWidth="58.0" visible="false" />
+                     </graphic>
+                  </MFXButton>
+               </children>
+            </VBox>
+            <VBox spacing="30.0">
+               <children>
+                  <Pane fx:id="errorPane5" prefHeight="58.0" prefWidth="475.0">
+                      <VBox fx:id="warningContainer5" alignment="CENTER" prefWidth="475.0" spacing="5">
+                      <children>
+
+                      </children>
+                      </VBox>
+                  </Pane>
+                  <Pane fx:id="errorPane4" prefHeight="58.0" prefWidth="475.0">
+                      <VBox fx:id="warningContainer4" alignment="CENTER" prefWidth="475.0" spacing="5">
+                          <children>
+
+                          </children>
+                      </VBox>
+                  </Pane>
+                  <Pane fx:id="errorPane3" prefHeight="58.0" prefWidth="475.0">
+                      <VBox fx:id="warningContainer3" alignment="CENTER" prefWidth="475.0" spacing="5">
+                          <children>
+
+                          </children>
+                      </VBox>
+                  </Pane>
+                  <Pane fx:id="errorPane2" prefHeight="58.0" prefWidth="475.0">
+                      <VBox fx:id="warningContainer2" alignment="CENTER" prefWidth="475.0" spacing="5">
+                          <children>
+
+                          </children>
+                      </VBox>
+                  </Pane>
+                  <Pane fx:id="errorPane1" prefHeight="58.0" prefWidth="475.0">
+                      <VBox fx:id="warningContainer1" alignment="CENTER" prefWidth="475.0" spacing="5">
+                          <children>
+
+                          </children>
+                      </VBox>
+                  </Pane>
+                  <Pane fx:id="errorPaneLL1" prefHeight="58.0" prefWidth="475.0">
+                      <VBox fx:id="warningContainerL1" alignment="CENTER" prefWidth="475.0" spacing="5">
+                          <children>
+
+                          </children>
+                      </VBox>
+                  </Pane>
+                  <Pane fx:id="errorPaneLL2" prefHeight="58.0" prefWidth="475.0">
+                      <VBox fx:id="warningContainerL2" alignment="CENTER" prefWidth="475.0" spacing="5">
+                          <children>
+
+                          </children>
+                      </VBox>
+                  </Pane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <MFXButton layoutX="1803.0" layoutY="23.0" onAction="#to2DDashboard" text="2D" />
+    </children>
+</AnchorPane>
